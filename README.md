@@ -26,7 +26,13 @@
         <td> <a href="https://evernote.com/intl/zh-cn/" title="印象笔记 | 工作必备效率应用 | Evernote">Evernote</a> </td>
         <td> Web/App </td>
         <td>印象笔记 | 工作必备效率应用 | Evernote</td>
-    </tr>    
+    </tr>  
+    <tr>
+        <td>/go/Linkedin</td>
+        <td> <a href="https://www.linkedin.com/" title="Linkedin - 全球领先的职业社交平台 | 领英">Linkedin</a> </td>
+        <td> Web/App </td>
+        <td>Linkedin - 全球领先的职业社交平台 | 领英 </td>
+    </tr>         
         <tr>
         <td>/go/feedly/</td>
         <td> <a href="https://feedly.com/" title="Feedly | RSS聚合阅读器">Feedly</a> </td>
@@ -72,8 +78,7 @@
         <td> 主站：<a href="http://choong.net" title="虫虫物语 & 乐哥在线">choong.net</a> | 中国站：<a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线">choong.net.cn</a> </td>
         <td> 个人站点 </td>
         <td>虫虫物语 & 乐哥在线 （<a href="http://choong.net" title="虫虫物语 & 乐哥在线 【主站】">choong.net</a>  |  <a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线 【中国站】">choong.net.cn</a>）</td>
-    </tr>
-    
+    </tr>    
 </table>
 
 <B>③关注微信</B>
