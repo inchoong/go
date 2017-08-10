@@ -71,8 +71,14 @@
         <td><B>说明</B></td>
     </tr>    
     <tr>
-        <td>示例</td>
+        <td>主站点</td>
         <td> <a href="http://choong.net" title="虫虫物语 | 乐哥在线">choong.net</a> </td>
+        <td> 个人站点 </td>
+        <td>虫虫物语 | 乐哥在线</td>
+    </tr>
+     <tr>
+        <td>中国站</td>
+        <td> <a href="http://choong.net.cn" title="虫虫物语 | 乐哥在线">choong.net.cn</a> </td>
         <td> 个人站点 </td>
         <td>虫虫物语 | 乐哥在线</td>
     </tr>
