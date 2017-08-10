@@ -1,4 +1,4 @@
-# 短域名系统 : <a href="http://go.choong.net/" title="虫虫物语 | 乐哥在线 [wiki主页]">go.choong.net</a> ( <a href="/README.wiki">Wiki</a> | <a href="/README.md">MD</a> )
+# 短域名系统 : <a href="http://go.choong.net/" title="虫虫物语 | 乐哥在线 [wiki主页]">go.choong.net</a> 
 
 --------------
 <B>README阅读说明</B> ( 返回 <a href="http://choong.net" title="虫虫物语 | 乐哥在线">Web主站</a>
