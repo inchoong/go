@@ -91,7 +91,7 @@
 
 <B>③关注微信</B>
 
-如果想进一步了解我，请参阅我的：<a href="http://about.choong.net" title="虫虫物语 & 乐哥在线 [wiki主页]">about.README</a> .<a href="https://github.com/taoste/taoste.github.io/wiki" title="taoste.github.io/wiki">Issues</a>。
+如果想进一步了解我，请参阅我的：<a href="http://about.choong.net" title="虫虫物语 & 乐哥在线 [wiki主页]">about.README</a> . <a href="https://github.com/taoste/taoste.github.io/wiki" title="taoste.github.io/wiki">Issues</a>。
 <a href="rili.html" title="万年历">2017</a> &copy; <a href="http://choong.net" title="虫虫物语 | 乐哥在线">choong.net</a>
 
 
