@@ -10,7 +10,6 @@
 <br>
 
 <table>
-
     <tr>
         <td><B>目录结构</B></td>
         <td><B>网址链接</B></td>
@@ -65,8 +64,7 @@
         <td> <a href="https://www.dnspod.cn/" title="DNSPod -免费智能DNS解析服务商-电信_网通_教育网,智能DNS">DNSPod</a> </td>
         <td> Web  </td>
         <td>DNSPod -免费智能DNS解析服务商-电信_网通_教育网,智能DNS</td>
-    </tr>        
-    
+    </tr>     
 </table>
  
 
@@ -75,7 +73,6 @@
 <br>
 
 <table>
-
     <tr>
         <td><B>名称</B></td>
         <td><B>链接</B></td>
@@ -89,7 +86,6 @@
         <td> 个人站点 </td>
         <td>虫虫物语 | 乐哥在线</td>
     </tr>
-
 </table>
 
 
