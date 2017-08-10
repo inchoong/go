@@ -8,7 +8,7 @@
 <B>①首页说明</B>
 ( 参阅：<a href="http://wowubuntu.com/markdown/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)">Markdown 语法说明(简体中文版)</a> )
 <br>
-<!--列表--!>
+
 <table>
 
     <tr>
@@ -68,14 +68,12 @@
     </tr>        
     
 </table>
-<!--列表--!>
-  
+ 
 
  
 <B>②网址大全</B>
 <br>
 
-<!--列表--!>
 <table>
 
     <tr>
@@ -93,7 +91,6 @@
     </tr>
 
 </table>
-<!--列表--!>
 
 
 
