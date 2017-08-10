@@ -9,55 +9,63 @@
 ( 参阅：<a href="http://wowubuntu.com/markdown/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)">Markdown 语法说明(简体中文版)</a> )
 
 <table>
-    <tr>
+    <tr><td><B>序号</B></td>
         <td><B>目录结构</B></td>
         <td><B>网址链接</B></td>
         <td><B>支持类型</B></td>
         <td><B>网站说明</B></td>
     </tr>    
-    <tr>
+    <tr>
+        <td>001</td>
         <td>/go/wunderlist/</td>
         <td> <a href="https://www.wunderlist.com/zh/" title="奇妙清单 | Wunderlist | 待办事项清单、提醒、事项 、任务、备忘- 年度应用！">Wunderlist</a> </td>
         <td> Web/App </td>
         <td>奇妙清单 | 待办事项清单、提醒、事项 、任务、备忘- 年度应用！</td>
     </tr>        
     <tr>
+        <td>002</td>
         <td>/go/evernote/</td>
         <td> <a href="https://evernote.com/intl/zh-cn/" title="印象笔记 | 工作必备效率应用 | Evernote">Evernote</a> </td>
         <td> Web/App </td>
         <td>印象笔记 | 工作必备效率应用 | Evernote</td>
     </tr>  
-    <tr>
+    <tr>
+        <td>003</td>
         <td>/go/Linkedin</td>
         <td> <a href="https://www.linkedin.com/" title="Linkedin - 全球领先的职业社交平台 | 领英">Linkedin</a> </td>
         <td> Web/App </td>
         <td>Linkedin - 全球领先的职业社交平台 | 领英 </td>
     </tr>         
-        <tr>
+    <tr>
+        <td>004</td>
         <td>/go/feedly/</td>
         <td> <a href="https://feedly.com/" title="Feedly | RSS聚合阅读器">Feedly</a> </td>
         <td> Web/App </td>
         <td>Feedly | RSS聚合阅读器</td>
     </tr>    
     <tr>
+        <td>005</td>
         <td>/go/getpocket/</td>
         <td> <a href="https://getpocket.com/" title="Pocket稍后读 | 把沒时间读的网页先存起來，有空再看">Pocket</a> </td>
         <td> Web/App </td>
         <td>Pocket稍后读 | 把沒时间读的网页先存起來，有空再看</td>
     </tr>    
     <tr>
+        <td>006</td>
         <td>/go/coding/</td>
         <td> <a href="https://coding.net/u/choong" title="Coding | 代码托管 项目管理 WebIDE 企业服务">Coding</a> </td>
         <td> Web  </td>
         <td>Coding | 代码托管 项目管理 WebIDE 企业服务</td>
     </tr>      
-    <tr>
+    <tr>
+        <td>007</td>
         <td>/go/github/</td>
         <td> <a href="https://github.com/inchoong" title="GitHub 是目前为止最大的开源Git 托管服务，开源代码仓库，开源协作社区。">GitHub</a> </td>
         <td> Web  </td>
         <td>GitHub 是目前为止最大的开源Git 托管服务，开源代码仓库，开源协作社区。</td>
     </tr>     
-    <tr>
+    <tr>
+        <td>008</td>
         <td>/go/dns</td>
         <td> <a href="https://www.dnspod.cn/" title="DNSPod -免费智能DNS解析服务商-电信_网通_教育网,智能DNS">DNSPod</a> </td>
         <td> Web  </td>
