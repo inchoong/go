@@ -69,16 +69,16 @@
     </tr>    
     <tr>
         <td>示例</td>
-        <td> 主站：<a href="http://choong.net" title="虫虫物语 | 乐哥在线">choong.net</a> & 中国站：<a href="http://choong.net.cn" title="虫虫物语 | 乐哥在线">choong.net.cn</a> </td>
+        <td> 主站：<a href="http://choong.net" title="虫虫物语 & 乐哥在线">choong.net</a> | 中国站：<a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线">choong.net.cn</a> </td>
         <td> 个人站点 </td>
-        <td>虫虫物语 | 乐哥在线 （<a href="http://choong.net" title="虫虫物语 | 乐哥在线 【主站】">choong.net</a> & <a href="http://choong.net.cn" title="虫虫物语 | 乐哥在线 【中国站】">choong.net.cn</a>）</td>
+        <td>虫虫物语 & 乐哥在线 （<a href="http://choong.net" title="虫虫物语 & 乐哥在线 【主站】">choong.net</a>  |  <a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线 【中国站】">choong.net.cn</a>）</td>
     </tr>
     
 </table>
 
 <B>③关注微信</B>
 
-如果想进一步了解我，请参阅我的：<a href="http://about.choong.net" title="虫虫物语 | 乐哥在线 [wiki主页]">about.README</a> 。
+如果想进一步了解我，请参阅我的：<a href="http://about.choong.net" title="虫虫物语 & 乐哥在线 [wiki主页]">about.README</a> 。
 <a href="rili.html" title="万年历">2017</a> &copy; <a href="http://choong.net" title="虫虫物语 | 乐哥在线">choong.net</a>
 
 
