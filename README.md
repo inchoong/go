@@ -83,10 +83,22 @@
     </tr>    
     <tr>
         <td>乐哥在线</td>
-        <td> 主站：<a href="http://choong.net" title="虫虫物语 & 乐哥在线">choong.net</a> | 中国站：<a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线">choong.net.cn</a> </td>
+        <td><a href="http://choong.net" title="虫虫物语 & 乐哥在线">choong.net</a> | <a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线">choong.net.cn</a> </td>
         <td> 个人站点 </td>
         <td>虫虫物语 & 乐哥在线 （<a href="http://choong.net" title="虫虫物语 & 乐哥在线 【主站】">choong.net</a>  |  <a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线 【中国站】">choong.net.cn</a>）</td>
     </tr>    
+    <tr>
+        <td> &nbsp </td>
+        <td>测试专用：<a href="http://code.choong.net" title="虫虫物语 & 乐哥在线">code.choong.net</a> </td>
+        <td> 个人站点 </td>
+        <td> CNAME </td>
+    </tr>   
+    <tr>
+        <td> &nbsp </td>
+        <td>博客专用：<a href="http://blog.choong.net" title="虫虫物语 & 乐哥在线">blog.choong.net</a> </td>
+        <td> 个人站点 </td>
+        <td>虫虫物语 & 乐哥在线 （<a href="http://choong.net" title="虫虫物语 & 乐哥在线 【主站】">choong.net</a>  |  <a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线 【中国站】">choong.net.cn</a>）</td>
+    </tr>   
 </table>
 
 <B>③关注微信</B>
