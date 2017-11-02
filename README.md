@@ -1,5 +1,5 @@
 # 短域名系统 : <a href="http://go.choong.net/" title="虫虫物语 | 乐哥在线 [wiki主页]">go.choong.net</a> 
-
+<a href="/tips/" title="">Tips</a> : 
 <B>README阅读说明</B>( 返回 <a href="http://choong.net" title="虫虫物语 | 乐哥在线">Web主站</a>
 | <a href="http://go.choong.net/" title="虫虫物语 | 乐哥在线 [wiki主页]">wiki 主页</a> )
 
