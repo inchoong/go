@@ -1,10 +1,10 @@
 📕 【Tips】[List](readme.md) ：
 
-🔗20180518: [【截屏】转：2018中国房价暴涨与中美贸易战深层关系-技術討論區-草榴社區](http://go.choong.net/s/20180518)
+🔗[【截屏】转：2018中国房价暴涨与中美贸易战深层关系-技術討論區-草榴社區](http://go.choong.net/s/20180518) (20180518)
 
-🔗cn_edu: [【截屏】在告密与监控中慢慢长大：中国学校的日常](http://go.choong.net/s/cn_edu/)
+🔗[【截屏】在告密与监控中慢慢长大：中国学校的日常](http://go.choong.net/s/cn_edu/) (cn_edu: 20180524)
 
-🔗cpc: [【截屏】练乙铮：中国共产党隐秘的影响力机器](http://go.choong.net/s/cpc)
+🔗[【截屏】练乙铮：中国共产党隐秘的影响力机器](http://go.choong.net/s/cpc)  (cpc: 20180524)
 
 
 
