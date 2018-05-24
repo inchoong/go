@@ -4,6 +4,8 @@
 
 🔗cpc: [【截屏】练乙铮：中国共产党隐秘的影响力机器](http://go.choong.net/s/cpc)
 
+🔗cn_edu: [【截屏】在告密与监控中慢慢长大：中国学校的日常](http://go.choong.net/s/cn_edu/)
+
 
 
 
