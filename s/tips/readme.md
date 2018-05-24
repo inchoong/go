@@ -6,6 +6,6 @@
 
 🔗[【截屏】练乙铮：中国共产党隐秘的影响力机器](http://go.choong.net/s/cpc)  (cpc: 20180524)
 
-
+🔗[【E书】中国现代史辨](http://go.choong.net/s/NewChina)  (NewChina: 20180524)
 
 
