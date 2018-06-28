@@ -12,6 +12,8 @@
 
 🔗[【书籍】完全失踪手册.（日）樫村.政则.pdf](http://go.choong.net/s/41)  (41: 20180524)
 
+🔗[【截屏】中国债务和楼市泡沫结局大猜想](http://go.choong.net/s/2018-6-25)  (131826: 2018-6-25)
+
 🔗[【书籍】中国现代史辨.pdf](http://go.choong.net/s/NewChina)  (NewChina: 20180524)
 
 🔗[【截屏】当下中国最好的生意](http://go.choong.net/s/CN-SY)  (CN-SY: 20180526)
