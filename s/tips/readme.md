@@ -18,6 +18,8 @@
 
 🔗[【截屏】中国债务和楼市泡沫结局大猜想](http://go.choong.net/s/2018-6-25)  (131826: 2018-6-25)
 
+🔗[【截屏】隆力奇恒辉国际 系统骗局揭秘](http://go.choong.net/s/longrich) (longrich)
+
 🔗[【书籍】中国现代史辨.pdf](http://go.choong.net/s/NewChina)  (NewChina: 20180524)
 
 🔗[【截屏】当下中国最好的生意](http://go.choong.net/s/CN-SY)  (CN-SY: 20180526)
