@@ -24,4 +24,6 @@
 
 🔗[【截屏】当下中国最好的生意](http://go.choong.net/s/CN-SY)  (CN-SY: 20180526)
 
+🔗[【备份】中国金融难民](http://go.choong.net/s/jrnm/)  (jrnm: 2018721)
+
 
