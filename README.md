@@ -71,18 +71,18 @@
         <td> Web  </td>
         <td>DNSPod -免费智能DNS解析服务商-电信_网通_教育网,智能DNS</td>
     </tr> 
-    <tr>
+     <tr>
      <td>009</td>
         <td>/go/wikipedia</td>
-        <td> <a href="https://zh.wikipedia.org/wiki/" title="维基百科，自由的百科全书）">维基百科</a> </td>
+        <td> <a href="https://zh.wikipedia.org/wiki/" title="维基百科，自由的百科全书）">Wikipedia</a> </td>
         <td> Web </td>
-        <td>维基百科，自由的百科全书                 
+        <td>维基百科               
           （
           <a href="https://zh.wikipedia.org/wiki/维基百科" title="维基百科，自由的百科全书）">关于</a> | 
           <a href="https://zh.wikinews.org/wiki/" title="维基百科，自由的百科全书）"> 维基新闻 </a> |
           <a href="https://zh.wikipedia.org/wiki/维基媒体基金会" title="维基媒体基金会）">维基媒体基金会</a> |
           <a href="https://zh.wikipedia.org/wiki/维基媒体基金会#.E7.BB.B4.E5.9F.BA.E5.AA.92.E4.BD.93.E8.AE.A1.E5.88.92" title="维基媒体计划）">维基媒体计划</a> 
-           ）<a href="https://zh.wikipedia.org/wiki/Help:目录" title="维基百科-帮助:目录）">帮助:目录</a> </td>
+           ）<a href="https://zh.wikipedia.org/wiki/Help:目录" title="维基百科-帮助:目录）">帮助</a> </td>
     </tr>
 </table>
  
