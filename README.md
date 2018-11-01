@@ -6,7 +6,7 @@
 <img src="/images/daohang.jpg"/>
 
 <B>①首页说明</B>
-( 参阅：<a href="http://wowubuntu.com/markdown/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)">Markdown 语法说明(简体中文版)</a> )
+( 参阅：《Markdown 语法说明(简体中文版)》 - <a href="http://wow.kuapp.com/markdown/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)原站已停用http://wowubuntu.com/markdown/">文档</a> | <a href="https://github.com/riku/Markdown-Syntax-CN/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)原站已停用http://wowubuntu.com/markdown/">Github</a> )
 
 <table>
     <tr><td><B>序号</B></td>
