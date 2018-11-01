@@ -84,6 +84,13 @@
           <a href="https://zh.wikipedia.org/wiki/维基媒体基金会#.E7.BB.B4.E5.9F.BA.E5.AA.92.E4.BD.93.E8.AE.A1.E5.88.92" title="维基媒体计划）">媒体计划</a> 
            ）<a href="https://zh.wikipedia.org/wiki/Help:目录" title="维基百科-帮助:目录）">帮助</a> </td>
     </tr>
+     <tr>
+        <td>010</td>
+        <td>/go/godaddy</td>
+        <td> <a href="https://sg.godaddy.com/zh" title="GoDaddy CN：网站、网络域名注册、主机服务。">GoDaddy</a> </td>
+        <td> Web  </td>
+        <td>GoDaddy CN：网站、网络域名注册、主机服务。</td>
+    </tr> 
 </table>
  
 <B>②网址大全</B>
