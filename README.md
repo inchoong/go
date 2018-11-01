@@ -101,23 +101,29 @@
         <td>虫虫物语 & 乐哥在线 （<a href="http://choong.net" title="虫虫物语 & 乐哥在线 【主站】">choong.net</a>  |  <a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线 【中国站】">choong.net.cn</a>）</td>
     </tr>    
     <tr>
-        <td> &nbsp </td>
+        <td> &nbsp; </td>
         <td>博客专用：<a href="//blog.choong.net" title="虫虫物语 & 乐哥在线">blog.choong.net</a> </td>
         <td> 个人站点 </td>
         <td>惜福&乐哥（<a href="//blog.choong.net" title="惜福&乐哥【Blog-博客日志】">blog.choong.net</a>  |  <a href="https://steemit.com/@taoste" title="Steemit - 基于区块链的奖励的社交平台">Steemit</a>）</td>
     </tr> 
     <tr>
-        <td> &nbsp </td>
+        <td> &nbsp; </td>
         <td>测试代码：<a href="//code.choong.net" title="乐哥在线&测试代码">code.choong.net</a> </td>
         <td> 个人站点 </td>
         <td> CNAME </td>
     </tr>  
     <tr>
-        <td> &nbsp </td>
+        <td> &nbsp; </td>
         <td>测试站点：<a href="//test.choong.net" title="乐哥在线&测试站点">test.choong.net</a> </td>
         <td> 个人站点 </td>
         <td> 测试站点（<a href="https://taoste.github.io" title="虫虫物语 & 乐哥在线 【Github站】">https://taoste.github.io</a>  |  <a href="//test.choong.net" title="虫虫物语 & 乐哥在线【专用域名】">test.choong.net</a>）</td>
       </tr>  
+      <tr>
+        <td> 大鱼鲜生 </td>
+        <td>官网：<a href="//www.dayuxiansheng.cn" title="大鱼鲜生-官网">dayuxiansheng.cn</a> </td>
+        <td> 展示站点 </td>
+        <td> <a href="https://github.com/dayuxiansheng" title="大鱼鲜生-官网">Github</a> </td>
+    </tr>   
 </table>
 
 <B>③关注微信</B>
