@@ -120,9 +120,9 @@
       </tr>  
       <tr>
         <td> 大鱼鲜生 </td>
-        <td>官网：<a href="//www.dayuxiansheng.cn" title="大鱼鲜生-官网">dayuxiansheng.cn</a> </td>
+        <td>官网：<a href="//www.dayuxiansheng.cn/" title="大鱼鲜生-官网">dayuxiansheng.cn</a> </td>
         <td> 展示站点 </td>
-        <td> <a href="https://github.com/dayuxiansheng" title="大鱼鲜生-官网">Github</a> </td>
+        <td> <a href="https://github.com/dayuxiansheng/" title="大鱼鲜生-Github">...</a> </td>
     </tr>   
 </table>
 
