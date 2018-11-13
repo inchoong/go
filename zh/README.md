@@ -1,9 +1,9 @@
-# <img src="/images/favicon.png" color="#2bb24c"/>短域名系统 :<a href="http://go.choong.net/" title="虫虫物语 | 乐哥在线 [wiki主页]">go.choong.net</a> 
+# <img src="../images/favicon.png" color="#2bb24c"/>短域名系统 :<a href="https://go.choong.net/zh" title="虫虫物语 | 乐哥在线 [wiki主页]">go.choong.net</a> 
 <a href="/tips/" title="">Tips</a> : 
 <B>README阅读说明</B>( 返回 <a href="http://choong.net" title="虫虫物语 | 乐哥在线">Web主站</a>
-| <a href="http://go.choong.net/" title="虫虫物语 | 乐哥在线 [wiki主页]">wiki 主页</a> )
+| <a href="https://go.choong.net/" title="虫虫物语 | 乐哥在线 [wiki主页]">wiki 主页</a> )
 
-<img src="/images/daohang.jpg"/>
+<img src="../images/daohang.jpg"/>
 
 <B>①首页说明</B>
 ( 参阅：《Markdown 语法说明(简体中文版)》 - <a href="http://wow.kuapp.com/markdown/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)原站已停用http://wowubuntu.com/markdown/">文档</a> | <a href="https://github.com/riku/Markdown-Syntax-CN/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)原站已停用http://wowubuntu.com/markdown/">Github</a> )
@@ -103,9 +103,9 @@
     </tr>    
     <tr>
         <td>乐哥在线</td>
-        <td><a href="http://choong.net" title="虫虫物语 & 乐哥在线">choong.net</a> | <a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线">choong.net.cn</a> </td>
+        <td><a href="https://choong.net" title="虫虫物语 & 乐哥在线">choong.net</a> | <a href="https://choong.net.cn" title="虫虫物语 & 乐哥在线">choong.net.cn</a> </td>
         <td> 个人站点 </td>
-        <td>虫虫物语 & 乐哥在线 （<a href="http://choong.net" title="虫虫物语 & 乐哥在线 【主站】">choong.net</a>  |  <a href="http://choong.net.cn" title="虫虫物语 & 乐哥在线 【中国站】">choong.net.cn</a>）</td>
+        <td>虫虫物语 & 乐哥在线 （<a href="https://choong.net" title="虫虫物语 & 乐哥在线 【主站】">choong.net</a>  |  <a href="https://choong.net.cn" title="虫虫物语 & 乐哥在线 【中国站】">choong.net.cn</a>）</td>
     </tr>    
     <tr>
         <td> &nbsp; </td>
