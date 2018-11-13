@@ -1,9 +1,23 @@
-# <img src="../images/favicon.png" color="#2bb24c"/>短域名系统 :<a href="https://go.choong.net/zh" title="虫虫物语 | 乐哥在线 [wiki主页]">go.choong.net</a> 
+# <img src="../images/favicon.png" color="#2bb24c"/>短域名系统 :<a href="https://go.choong.net/" title="虫虫物语 | 乐哥在线 [wiki主页]">go.choong.net</a> 
 <a href="/tips/" title="">Tips</a> : 
-<B>README阅读说明</B>( 返回 <a href="http://choong.net" title="虫虫物语 | 乐哥在线">Web主站</a>
-| <a href="https://go.choong.net/" title="虫虫物语 | 乐哥在线 [wiki主页]">wiki 主页</a> )
+<B>README阅读说明</B>( 返回 <a href="https://choong.net" title="虫虫物语 | 乐哥在线">Web主站</a>
+| <a href="https://go.choong.net/zh" title="虫虫物语 | 乐哥在线 [wiki主页]">wiki 主页</a> )
 
-<img src="../images/daohang.jpg"/>
+<table>   
+ <tr>
+        <td>
+      <a href="" class=daohang_link><img src="../images/daohang.jpg"  title="(gfw/note/bak/list/rili).html - /issues/ 科学上网/go/拯救智商 /zt/ " /></a></p>
+        </td>
+    <td> 【乐哥报时】<br>
+      <a href="https://time.is/Shanghai" id="time_is_link" rel="nofollow" style="font-size:24px" title="时光如水，让时间沉淀一切，让时间洗涤尘埃，让时间过滤纷杂，让时间见证一切。">上海时间 :</a> 
+<span id="Shanghai_z43d" style="font-size:24px"></span>
+<script src="//widget.time.is/zh.js"></script>
+<script>
+time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:"year年monthnamednum日dayname", sun_format:"日出↑: srhour:srminute 日落↓: sshour:ssminute<br>昼长: dlhours时 dlminutes分", coords:"31.2222200,121.4580600"}});
+</script>
+      </td>
+</tr>
+</table>
 
 <B>①首页说明</B>
 ( 参阅：《Markdown 语法说明(简体中文版)》 - <a href="http://wow.kuapp.com/markdown/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)原站已停用http://wowubuntu.com/markdown/">文档</a> | <a href="https://github.com/riku/Markdown-Syntax-CN/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)原站已停用http://wowubuntu.com/markdown/">Github</a> )
@@ -135,7 +149,7 @@
 
 <B>③关注微信</B>
 
-如果想进一步了解我，请参阅我的：<a href="http://about.choong.net" title="虫虫物语 & 乐哥在线 [wiki主页]">about.README</a> . <a href="https://github.com/taoste/taoste.github.io/wiki" title="taoste.github.io/wiki">Issues</a>。
-<a href="rili.html" title="万年历">2018</a> &copy; <a href="http://choong.net" title="虫虫物语 | 乐哥在线">choong.net</a>
+如果想进一步了解我，请参阅我的：<a href="https://about.choong.net" title="虫虫物语 & 乐哥在线 [wiki主页]">about.README</a> . <a href="https://github.com/taoste/taoste.github.io/wiki" title="taoste.github.io/wiki">Issues</a>。
+<a href="../rili.html" title="万年历">2018</a> &copy; <a href="https://choong.net" title="虫虫物语 | 乐哥在线">choong.net</a>
 
 
