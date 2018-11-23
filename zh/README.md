@@ -19,7 +19,7 @@ time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:
         天马行空的生涯<br>
         你的心了无牵挂<br>
         <br>
-        --摘自《蓝莲花》<br>
+        --摘自《<a href="https://y.qq.com/n/yqq/song/001tcduI48ozWY.html" title="蓝莲花-许巍 | QQ音乐">蓝莲花</a>》
        <a href="https://y.qq.com/n/yqq/singer/00235pCx2tYjlq.html" title="【许巍】歌手简介
                                                                           
            国籍：中国
