@@ -5,12 +5,21 @@
 
 <table>   
  <tr>
+      <td> 【乐哥报时】<br>
+      <a href="https://time.is/Shanghai" id="time_is_link" rel="nofollow" style="font-size:24px" title="时光如水，让时间沉淀一切，让时间洗涤尘埃，让时间过滤纷杂，让时间见证一切。">上海时间 :</a> 
+<span id="Shanghai_z43d" style="font-size:24px"></span>
+<script src="//widget.time.is/zh.js"></script>
+<script>
+time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:"year年monthnamednum日dayname", sun_format:"日出↑: srhour:srminute 日落↓: sshour:ssminute<br>昼长: dlhours时 dlminutes分", coords:"31.2222200,121.4580600"}});
+</script>
+      </td>
+  
    <td> 没有什么能够阻挡<br>
         你对自由的向往<br>
         天马行空的生涯<br>
         你的心了无牵挂<br>
         <br>
-        &nbsp;--摘自《蓝莲花》<br>
+        --摘自《蓝莲花》<br>
        <a href="https://y.qq.com/n/yqq/singer/00235pCx2tYjlq.html" title="【许巍】歌手简介
                                                                           
            国籍：中国
@@ -23,21 +32,10 @@
 
            代表作：那一年、故乡、蓝莲花、旅行、曾经的你、漫步、每一刻都是崭新的、世外桃源、像风一样自由
 
-           简介：内地摇滚音乐界的重要人物。1995年许巍作词作曲的《执着》由田震演唱而广为流传。">听更多许巍音乐</a>  </td>
-           
-        <td>
-     <img src="../images/daohang.jpg"  title="(gfw/note/bak/list/rili).html - /issues/ 科学上网/go/拯救智商 /zt/ " />
-        </td>
-    <td> 【乐哥报时】<br>
-      <a href="https://time.is/Shanghai" id="time_is_link" rel="nofollow" style="font-size:24px" title="时光如水，让时间沉淀一切，让时间洗涤尘埃，让时间过滤纷杂，让时间见证一切。">上海时间 :</a> 
-<span id="Shanghai_z43d" style="font-size:24px"></span>
-<script src="//widget.time.is/zh.js"></script>
-<script>
-time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:"year年monthnamednum日dayname", sun_format:"日出↑: srhour:srminute 日落↓: sshour:ssminute<br>昼长: dlhours时 dlminutes分", coords:"31.2222200,121.4580600"}});
-</script>
-      </td>
+           简介：内地摇滚音乐界的重要人物。1995年许巍作词作曲的《执着》由田震演唱而广为流传。">许巍</a>  </td>
+
    <td>
-    <img src="https://rescdn.qqmail.com/zh_CN/htmledition/images/tg-bird1fbc69.png" />
+    <img src="../images/tg-bird1fbc69.png"  title="(gfw/note/bak/list/rili).html - /issues/ 科学上网/go/拯救智商 /zt/ " />
    </td>
 </tr>
 </table>
