@@ -34,8 +34,9 @@ time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:
 
 代表作：那一年、故乡、蓝莲花、旅行、曾经的你、漫步、每一刻都是崭新的、世外桃源、像风一样自由
 
-简介：许巍，1968年生，陕西西安人。内地摇滚音乐界的重要人物。1995年许巍作词作曲的《执着》由田震演唱而广为流传。">听更多许巍音乐</a>  
-<img src="https://rescdn.qqmail.com/zh_CN/htmledition/images/tg-bird1fbc69.png" width="56px" height="60px" />
+简介：许巍，1968年生，陕西西安人。内地摇滚音乐界的重要人物。1995年许巍作词作曲的《执着》由田震演唱而广为流传。">听更多许巍音乐</a> </td> 
+<td>
+<img src="https://rescdn.qqmail.com/zh_CN/htmledition/images/tg-bird1fbc69.png" />
 </td>
 </tr>
 </table>
