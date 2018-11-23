@@ -5,13 +5,13 @@
 
 <table>   
  <tr>
-   <td> &nbsp;&nbsp;没有什么能够阻挡<br>
-        &nbsp;&nbsp;你对自由的向往<br>
-        &nbsp;&nbsp;天马行空的生涯<br>
-        &nbsp;&nbsp;你的心了无牵挂<br>
-        &nbsp;&nbsp;<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;--摘自《蓝莲花》<br>
-       <a href="https://y.qq.com/n/yqq/singer/00235pCx2tYjlq.html" title="【许巍】歌手简介
+   <td> 没有什么能够阻挡<br>
+        你对自由的向往<br>
+        天马行空的生涯<br>
+        你的心了无牵挂<br>
+        <br>
+        &nbsp;&nbsp;--摘自《蓝莲花》<br>
+      （ <a href="https://y.qq.com/n/yqq/singer/00235pCx2tYjlq.html" title="【许巍】歌手简介
                                                                           
            国籍：中国
 
@@ -23,7 +23,7 @@
 
            代表作：那一年、故乡、蓝莲花、旅行、曾经的你、漫步、每一刻都是崭新的、世外桃源、像风一样自由
 
-           简介：内地摇滚音乐界的重要人物。1995年许巍作词作曲的《执着》由田震演唱而广为流传。">听更多许巍音乐</a> </td>
+           简介：内地摇滚音乐界的重要人物。1995年许巍作词作曲的《执着》由田震演唱而广为流传。">听更多许巍音乐</a> ） </td>
            
         <td>
      <img src="../images/daohang.jpg"  title="(gfw/note/bak/list/rili).html - /issues/ 科学上网/go/拯救智商 /zt/ " />
