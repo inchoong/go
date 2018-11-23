@@ -1,4 +1,4 @@
-# <img src="../images/favicon.png" color="#2bb24c"/>短域名系统 :<a href="https://go.choong.net/" title="虫虫物语 | 乐哥在线 [wiki主页]">go.choong.net</a> 
+# <img src="../images/favicon.png" color="#2bb24c"/>短域名系统 :<a href="https://go.choong.net/zh/" title="虫虫物语 | 乐哥在线 [wiki主页]">go.choong.net</a> 
 <a href="/tips/" title="">Tips</a> : 
 <B>README阅读说明</B>( 返回 <a href="https://choong.net" title="虫虫物语 | 乐哥在线">Web主站</a>
 | <a href="https://go.choong.net/zh" title="虫虫物语 | 乐哥在线 [wiki主页]">wiki 主页</a> )
@@ -16,6 +16,27 @@
 time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:"year年monthnamednum日dayname", sun_format:"日出↑: srhour:srminute 日落↓: sshour:ssminute<br>昼长: dlhours时 dlminutes分", coords:"31.2222200,121.4580600"}});
 </script>
       </td>
+   <td> 没有什么能够阻挡<br>
+        你对自由的向往<br>
+        天马行空的生涯<br>
+        你的心了无牵挂<br>
+
+        摘自《蓝莲花》<br>
+<a href="https://y.qq.com/n/yqq/singer/00235pCx2tYjlq.html" title="【许巍】歌手简介
+
+国籍：中国
+
+出生地：陕西西安
+
+生日：7月21日
+
+职业：歌手
+
+代表作：那一年、故乡、蓝莲花、旅行、曾经的你、漫步、每一刻都是崭新的、世外桃源、像风一样自由
+
+简介：许巍，1968年生，陕西西安人。内地摇滚音乐界的重要人物。1995年许巍作词作曲的《执着》由田震演唱而广为流传。">听更多许巍音乐</a>  
+<div class="login_pictures_picture" style="background-image:url('https://rescdn.qqmail.com/zh_CN/htmledition/images/tg-bird1fbc69.png');background-position:56px 60px;"></div>
+</td>
 </tr>
 </table>
 
