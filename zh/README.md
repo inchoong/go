@@ -6,7 +6,7 @@
 <table>   
  <tr>
         <td>
-      <a href="" class=daohang_link><img src="../images/daohang.jpg"  title="(gfw/note/bak/list/rili).html - /issues/ 科学上网/go/拯救智商 /zt/ " /></a></p>
+      <a href="../issues/" title="[Note] : 🛡️ issues 本站备份版"><img src="../images/daohang.jpg"  title="(gfw/note/bak/list/rili).html - /issues/ 科学上网/go/拯救智商 /zt/ " /></a></p>
         </td>
     <td> 【乐哥报时】<br>
       <a href="https://time.is/Shanghai" id="time_is_link" rel="nofollow" style="font-size:24px" title="时光如水，让时间沉淀一切，让时间洗涤尘埃，让时间过滤纷杂，让时间见证一切。"><img src="https://img.shields.io/badge/上海-时间-brightgreen.svg"/></a>  
