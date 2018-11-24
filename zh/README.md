@@ -5,47 +5,23 @@
 <p><img src="https://img.shields.io/badge/有理想-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/爱学习-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/颜值高-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/实力派-+1-brightgreen.svg"/></p>
 <table>   
  <tr>
-      <td> 【乐哥报时】<br>
-      <a href="https://time.is/Shanghai" id="time_is_link" rel="nofollow" style="font-size:24px" title="时光如水，让时间沉淀一切，让时间洗涤尘埃，让时间过滤纷杂，让时间见证一切。"><img src="https://img.shields.io/badge/上海-时间-brightgreen.svg"/></a> 
+        <td>
+      <a href="" class=daohang_link><img src="../images/daohang.jpg"  title="(gfw/note/bak/list/rili).html - /issues/ 科学上网/go/拯救智商 /zt/ " /></a></p>
+        </td>
+    <td> 【乐哥报时】<br>
+      <a href="https://time.is/Shanghai" id="time_is_link" rel="nofollow" style="font-size:24px" title="时光如水，让时间沉淀一切，让时间洗涤尘埃，让时间过滤纷杂，让时间见证一切。"><img src="https://img.shields.io/badge/上海-时间-brightgreen.svg"/></a>  
 <span id="Shanghai_z43d" style="font-size:24px"></span>
 <script src="//widget.time.is/zh.js"></script>
 <script>
 time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:"year年monthnamednum日dayname", sun_format:"日出↑: srhour:srminute 日落↓: sshour:ssminute<br>昼长: dlhours时 dlminutes分", coords:"31.2222200,121.4580600"}});
 </script>
       </td>
-  
-   <td> 
- <p><a href="https://github.com/taoste/taoste.github.io/issues/1" title="[Note] : 🛡️ 科学上网 / hosts · Issue #1 · taoste/taoste.github.io"><img src="https://img.shields.io/badge/苦撑-待变-brightgreen.svg"/></a></p>
-        没有什么能够阻挡<br>
-        你对自由的向往<br>
-        天马行空的生涯<br>
-        你的心了无牵挂<br>
-        <br>
-        --摘自《<a href="https://y.qq.com/n/yqq/song/001tcduI48ozWY.html" title="蓝莲花-许巍 | QQ音乐">蓝莲花</a>》
-       <a href="https://y.qq.com/n/yqq/singer/00235pCx2tYjlq.html" title="【许巍】歌手简介
-                                                                          
-           国籍：中国
-
-           出生地：陕西西安
-
-           生日：1968年7月21日
-
-           职业：歌手
-
-           代表作：那一年、故乡、蓝莲花、旅行、曾经的你、漫步、每一刻都是崭新的、世外桃源、像风一样自由
-
-           简介：内地摇滚音乐界的重要人物。1995年许巍作词作曲的《执着》由田震演唱而广为流传。">许巍</a>  </td>
-
-   <td>
-    <p><a href="https://github.com/taoste/Hello-World/tree/master/GFW" title="[Note] : 🛡️ 科学上网 - 拯救智商">
-    <img src="../images/tg-bird1fbc69.png"  title="**翻越防火长城，你可以到达世界上的每一个角落。 Across the Great Firewall , you can reach every corner in the world .**
-        备注(gfw/note/bak/list/rili).html - /issues/ 科学上网/go/拯救智商 /zt/ " /></a></p>
-   </td>
 </tr>
 </table>
 
 <B>①首页说明</B>
 ( 参阅：《Markdown 语法说明(简体中文版)》 - <a href="http://wow.kuapp.com/markdown/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)原站已停用http://wowubuntu.com/markdown/">文档</a> | <a href="https://github.com/riku/Markdown-Syntax-CN/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)原站已停用http://wowubuntu.com/markdown/">Github</a> )
+
 <table>
     <tr><td><B>序号</B></td>
         <td><B>目录结构</B></td>
@@ -132,6 +108,7 @@ time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:
 </table>
  
 <B>②网址大全</B>
+
 <table>
     <tr>
         <td><B>名称</B></td>
@@ -172,6 +149,7 @@ time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:
 </table>
 
 <B>③关注微信</B>
+
 如果想进一步了解我，请参阅我的：<a href="https://about.choong.net" title="虫虫物语 & 乐哥在线 [wiki主页]">about.README</a> . <a href="https://github.com/taoste/taoste.github.io/wiki" title="taoste.github.io/wiki">Issues</a>。
 <a href="../rili.html" title="万年历">2018</a> &copy; <a href="https://choong.net" title="虫虫物语 | 乐哥在线">choong.net</a>
 
