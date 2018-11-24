@@ -14,7 +14,9 @@ time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:
 </script>
       </td>
   
-   <td> 没有什么能够阻挡<br>
+   <td> 
+ <p><a href="https://github.com/taoste/taoste.github.io/issues/1" title="[Note] : 🛡️ 科学上网 / hosts · Issue #1 · taoste/taoste.github.io"><img src="https://img.shields.io/badge/苦撑-待变-brightgreen.svg"/></a></p>
+        没有什么能够阻挡<br>
         你对自由的向往<br>
         天马行空的生涯<br>
         你的心了无牵挂<br>
