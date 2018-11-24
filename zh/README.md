@@ -6,7 +6,7 @@
 <table>   
  <tr>
       <td> 【乐哥报时】<br>
-      <a href="https://time.is/Shanghai" id="time_is_link" rel="nofollow" style="font-size:24px" title="时光如水，让时间沉淀一切，让时间洗涤尘埃，让时间过滤纷杂，让时间见证一切。">上海时间 :</a> 
+      <a href="https://time.is/Shanghai" id="time_is_link" rel="nofollow" style="font-size:24px" title="时光如水，让时间沉淀一切，让时间洗涤尘埃，让时间过滤纷杂，让时间见证一切。"><img src="https://img.shields.io/badge/上海-时间-brightgreen.svg"/></a> 
 <span id="Shanghai_z43d" style="font-size:24px"></span>
 <script src="//widget.time.is/zh.js"></script>
 <script>
