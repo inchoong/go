@@ -37,7 +37,7 @@ time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:
            简介：内地摇滚音乐界的重要人物。1995年许巍作词作曲的《执着》由田震演唱而广为流传。">许巍</a>  </td>
 
    <td>
-    <img src="../images/tg-bird1fbc69.png"  title="[b]翻越防火长城，你可以到达世界上的每一个角落。 Across the Great Firewall , you can reach every corner in the world .[/b]
+    <img src="../images/tg-bird1fbc69.png"  title="**翻越防火长城，你可以到达世界上的每一个角落。 Across the Great Firewall , you can reach every corner in the world .**
                                                    备注(gfw/note/bak/list/rili).html - /issues/ 科学上网/go/拯救智商 /zt/ " />
    </td>
 </tr>
