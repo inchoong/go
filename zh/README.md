@@ -46,7 +46,6 @@ time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:
 
 <B>①首页说明</B>
 ( 参阅：《Markdown 语法说明(简体中文版)》 - <a href="http://wow.kuapp.com/markdown/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)原站已停用http://wowubuntu.com/markdown/">文档</a> | <a href="https://github.com/riku/Markdown-Syntax-CN/" title="Wow!Ubuntu ：Markdown 语法说明(简体中文版)原站已停用http://wowubuntu.com/markdown/">Github</a> )
-<p><img src="https://img.shields.io/badge/有理想-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/爱学习-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/颜值高-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/实力派-+1-brightgreen.svg"/></p>
 <table>
     <tr><td><B>序号</B></td>
         <td><B>目录结构</B></td>
@@ -133,7 +132,6 @@ time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:
 </table>
  
 <B>②网址大全</B>
-<p><img src="https://img.shields.io/badge/有理想-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/爱学习-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/颜值高-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/实力派-+1-brightgreen.svg"/></p>
 <table>
     <tr>
         <td><B>名称</B></td>
@@ -174,7 +172,6 @@ time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:
 </table>
 
 <B>③关注微信</B>
-<p><img src="https://img.shields.io/badge/有理想-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/爱学习-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/颜值高-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/实力派-+1-brightgreen.svg"/></p>
 如果想进一步了解我，请参阅我的：<a href="https://about.choong.net" title="虫虫物语 & 乐哥在线 [wiki主页]">about.README</a> . <a href="https://github.com/taoste/taoste.github.io/wiki" title="taoste.github.io/wiki">Issues</a>。
 <a href="../rili.html" title="万年历">2018</a> &copy; <a href="https://choong.net" title="虫虫物语 | 乐哥在线">choong.net</a>
 
