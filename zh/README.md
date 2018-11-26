@@ -139,13 +139,7 @@ time_is_widget.init({Shanghai_z43d:{template:"TIME<br>DATE<br>SUN", date_format:
         <td>测试站点：<a href="//test.choong.net" title="乐哥在线&测试站点">test.choong.net</a> </td>
         <td> 个人站点 </td>
         <td> 测试站点（<a href="https://taoste.github.io" title="虫虫物语 & 乐哥在线 【Github站】">https://taoste.github.io</a>  |  <a href="//test.choong.net" title="虫虫物语 & 乐哥在线【专用域名】">test.choong.net</a>）</td>
-      </tr>  
-      <tr>
-        <td> 大鱼鲜生 </td>
-        <td>官网：<a href="//www.dayuxiansheng.cn/" title="大鱼鲜生-官网">dayuxiansheng.cn</a> </td>
-        <td> 展示站点 </td>
-        <td> <a href="https://github.com/dayuxiansheng/" title="大鱼鲜生-Github">...</a> </td>
-    </tr>   
+      </tr>       
 </table>
 
 <B>③关注微信</B>
