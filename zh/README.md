@@ -1,7 +1,10 @@
 # <img src="../images/favicon.png" color="#2bb24c"/>短域名系统 :<a href="https://go.choong.net/zh/" title="虫虫物语 | 乐哥在线 [wiki主页]">go.choong.net</a> 
 <a href="/tips/" title="">Tips</a> : 
 <B>README阅读说明</B>( 返回 <a href="https://choong.net" title="虫虫物语 | 乐哥在线">Web主站</a>
-| <a href="https://go.choong.net/zh" title="虫虫物语 | 乐哥在线 [wiki主页]">wiki 主页</a> )
+| <a href="https://go.choong.net/zh" title="虫虫物语 | 乐哥在线 [wiki主页]">wiki 主页</a> 
+| <a href="//go.choong.net/nav" title="工具导航">工具导航</a>
+| <a href="//go.choong.net/tips" title="tips | 短网址导航">tips</a>
+)
 <p><img src="https://img.shields.io/badge/有理想-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/爱学习-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/颜值高-+1-brightgreen.svg"/> <img src="https://img.shields.io/badge/实力派-+1-brightgreen.svg"/></p>
 <table>   
  <tr>
