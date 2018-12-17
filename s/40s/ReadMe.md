@@ -1,7 +1,7 @@
 
  - 《[**向松祚震撼演讲：四十年未有之大变局**](https://www.youtube.com/watch?v=r6offNjTo4c)》 - [YouTube](https://www.youtube.com/)
 
-> （ 《[www.**ss**youtube.com/watch?v=r6offNjTo4c](https://zh.savefrom.net/#url=http://youtube.com/watch?v=r6offNjTo4c&utm_source=youtube.com&utm_medium=short_domains&utm_campaign=www.ssyoutube.com)》
+> （ [https://www.**ss**youtube.com/watch?v=r6offNjTo4c](https://zh.savefrom.net/#url=http://youtube.com/watch?v=r6offNjTo4c&utm_source=youtube.com&utm_medium=short_domains&utm_campaign=www.ssyoutube.com)
 @[免费在线 YouTube 下载器](https://zh.savefrom.net/)：下载 YouTube 视频、Facebook 等等！ )
 
 > 下载:[MP4 720](https://r4---sn-4g5edn7y.googlevideo.com/videoplayback?pl=21&itag=22&dur=1553.740&key=cms1&ip=148.69.120.148&beids=9466586&c=WEB&source=youtube&expire=1545063240&id=o-AJN7bV4waXf5tdB1AOIFhQPNA_0_HgqalIt3NL6lOKo3&sparams=dur,ei,expire,id,ip,ipbits,ipbypass,itag,lmt,mime,mip,mm,mn,ms,mv,pl,ratebypass,requiressl,source&mime=video%2Fmp4&lmt=1544953503413837&signature=6CC2BB3239C4C1008F669A88163E77BBCA11C64E.06F32C05E49ABD0060CB93B428D872458C4A927A&fvip=1&ratebypass=yes&ipbits=0&requiressl=yes&txp=5535432&ei=6HYXXNyxEILgxgK907mADw&video_id=r6offNjTo4c&title=%E5%90%91%E6%9D%BE%E7%A5%9A%E9%9C%87%E6%92%BC%E6%BC%94%E8%AE%B2%EF%BC%9A%E5%9B%9B%E5%8D%81%E5%B9%B4%E6%9C%AA%E6%9C%89%E4%B9%8B%E5%A4%A7%E5%8F%98%E5%B1%80&rm=sn-8vq54vox2u-v2vs7e,sn-8vq54vox2u-apns7e,sn-h5qlr7d&fexp=9466586,23763603&req_id=c3ded503577a3ee&redirect_counter=3&cms_redirect=yes&ipbypass=yes&mip=54.37.73.110&mm=30&mn=sn-4g5edn7y&ms=nxu&mt=1545041668&mv=u)
