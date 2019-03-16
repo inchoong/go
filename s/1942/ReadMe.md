@@ -1,4 +1,4 @@
-- 《[历史的先声 —-— 半个世纪前的庄严承诺](https://drive.google.com/folderview?id=0BwINummC-6PZfmlCbTRKalE2dVAzSHptOVRVaUlUS0lHeXpzdUdsWEpWTWFrbUtSeWxobnc&usp=sharing)》
+- 《[**历史的先声 —-— 半个世纪前的庄严承诺**](https://drive.google.com/folderview?id=0BwINummC-6PZfmlCbTRKalE2dVAzSHptOVRVaUlUS0lHeXpzdUdsWEpWTWFrbUtSeWxobnc&usp=sharing)》
 
 > 《新华日报》、《解放日报》社论选
 
