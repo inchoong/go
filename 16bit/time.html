@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="applicable-device" content="pc">
+<meta name="renderer" content="webkit"/>
+<meta name="force-rendering" content="webkit"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<title>头图-倒计时</title>
+
+<style>
+@import url("https://fonts.googleapis.com/css?family=Aleo");
+
+:root {
+  font-family: "Aleo", sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: rgb(119, 13, 13);
+  background: radial-gradient(
+    circle,
+    rgba(119, 13, 13, 0.92) 64%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+
+.label {
+  font-size: 2.2rem;
+  background: url("images/6368077651977322227241996.png");
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: moveBg 30s linear infinite;
+}
+
+@keyframes moveBg {
+  0% {
+    background-position: 0% 30%;
+  }
+  100% {
+    background-position: 1000% 500%;
+  }
+}
+
+.middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  user-select: none;
+}
+
+.time {
+  color: #d99c3b;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+}
+
+.time span {
+  padding: 0 14px;
+  font-size: 0.8rem;
+}
+
+.time span div {
+  font-size: 3rem;
+}
+
+@media (max-width: 740px) {
+  .label {
+    font-size: 1.7rem;
+  }
+  .time span {
+    padding: 0 16px;
+    font-size: 0.6rem;
+  }
+  .time span div {
+    font-size: 2rem;
+  }
+}
+</style>
+
+    <script language="javascript" type="text/javascript" src="style/jquery-1.9.1.min.js"></script> <!--倒计时script-->
+
+</head>
+<body id="top" name="top"  bgcolor="#993366">   <!--HTML背景 https://www.w3school.com.cn/html/html_backgrounds.asp-->
+
+          <style>
+            .ad_top{display:block;width:100%;height:80px;background: url(images/368609_1920x80c.jpg) no-repeat center;min-width: 1180px;}
+            .top_ggt > a:hover .djs_time{color:#f18e1f}
+          </style>
+          <div class="top_ggt" style="margin:0 auto;">
+            <a href="https://choong.net/" class="ad_top" target="_blank">
+                      <span id="ggt_djs_numd" style="position:absolute;width: 45px;height: 45px;text-align:center;font-size: 28px;line-height: 45px;color: #ffe396;left:50%;top: 18px;margin-left: -279px;font-weight: bold;"></span>
+                      <span id="ggt_djs_numh" style="position:absolute;width: 45px;height: 45px;text-align: center;font-size: 28px;line-height: 45px;color: #ffe396;left: 50%;top: 18px;margin-left: -214px;font-weight: bold;"></span>
+                      <span id="ggt_djs_numm" style="position:absolute;width: 45px;height: 45px;text-align:center;font-size: 28px;line-height: 45px;color: #ffe396;left:50%;top: 19px;margin-left: -149px;font-weight: bold;"></span>
+                      <span id="ggt_djs_nums" style="position:absolute;width: 45px;height: 45px;text-align:center;font-size: 28px;line-height: 45px;color: #ffe396;left:50%;top: 19px;margin-left: -84px;font-weight: bold;"></span>
+        			    </a>
+            <a class="close_top_ggt" style="position: absolute; width:24px;height:24px; top:0;right:14px;z-index:9;cursor:pointer;background:url(images/ad_close.png) no-repeat;"></a>
+          </div>
+          <script>            
+            show_time();
+            $('.close_top_ggt').on('click',function(event){
+              event.stopPropagation()
+              $('.top_ggt').remove();
+            })
+            function show_time() {
+              var time_start = new Date().getTime(); //设定当前时间
+              var time_end = new Date("2019/12/31 23:59:59").getTime(); //设定目标时间
+              // 计算时间差 
+              var time_distance = time_end - time_start;
+              if (time_distance < 0) {
+                $('.top_ggt').remove();
+                return;
+              }
+              // 天
+              var int_day = Math.floor(time_distance / 86400000)
+              time_distance -= int_day * 86400000;
+              // 时
+              var int_hour = Math.floor(time_distance / 3600000)
+              time_distance -= int_hour * 3600000;
+              // 分
+              var int_minute = Math.floor(time_distance / 60000)
+              time_distance -= int_minute * 60000;
+              // 秒 
+              var int_second = Math.floor(time_distance / 1000)
+              // 时分秒为单数时、前面加零 
+              if (int_day < 10) {
+                int_day = "0" + int_day;
+              }
+              if (int_hour < 10) {
+                int_hour = "0" + int_hour;
+              }
+              if (int_minute < 10) {
+                int_minute = "0" + int_minute;
+              }
+              if (int_second < 10) {
+                int_second = "0" + int_second;
+              }
+              // 显示时间
+              $("#ggt_djs_numd").html(int_day);
+              $("#ggt_djs_numh").html(int_hour);
+              $("#ggt_djs_numm").html(int_minute);
+              $("#ggt_djs_nums").html(int_second);
+              // 设置定时器
+              setTimeout("show_time()", 1000);
+            }
+          </script>
+
+	
+
+<div class="middle">
+	<h1 class="label">倒计时：距离 2020 年 农历新年还有<br> - New Year Countdown - </h1>
+	<div class="time">
+		<span>
+		<div id="d">
+			00
+		</div>
+		Days </span> <span>
+		<div id="h">
+			00
+		</div>
+		Hours </span> <span>
+		<div id="m">
+			00
+		</div>
+		Minutes </span> <span>
+		<div id="s">
+			00
+		</div>
+		Seconds </span>
+	</div>
+</div>
+
+<script>
+class Snowflake {
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+    this.vx = 0;
+    this.vy = 0;
+    this.radius = 0;
+    this.alpha = 0;
+
+    this.reset();
+  }
+
+  reset() {
+    this.x = this.randBetween(0, window.innerWidth);
+    this.y = this.randBetween(0, -window.innerHeight);
+    this.vx = this.randBetween(-3, 3);
+    this.vy = this.randBetween(2, 5);
+    this.radius = this.randBetween(1, 4);
+    this.alpha = this.randBetween(0.1, 0.9);
+  }
+
+  randBetween(min, max) {
+    return min + Math.random() * (max - min);
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+
+    if (this.y + this.radius > window.innerHeight) {
+      this.reset();
+    }
+  }
+}
+
+class Snow {
+  constructor() {
+    this.canvas = document.createElement("canvas");
+    this.ctx = this.canvas.getContext("2d");
+
+    document.body.appendChild(this.canvas);
+
+    window.addEventListener("resize", () => this.onResize());
+    this.onResize();
+    this.updateBound = this.update.bind(this);
+    requestAnimationFrame(this.updateBound);
+
+    this.createSnowflakes();
+  }
+
+  onResize() {
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+  }
+
+  createSnowflakes() {
+    const flakes = window.innerWidth / 4;
+
+    this.snowflakes = [];
+
+    for (let s = 0; s < flakes; s++) {
+      this.snowflakes.push(new Snowflake());
+    }
+  }
+
+  update() {
+    this.ctx.clearRect(0, 0, this.width, this.height);
+
+    for (let flake of this.snowflakes) {
+      flake.update();
+
+      this.ctx.save();
+      this.ctx.fillStyle = "#FFF";
+      this.ctx.beginPath();
+      this.ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+      this.ctx.closePath();
+      this.ctx.globalAlpha = flake.alpha;
+      this.ctx.fill();
+      this.ctx.restore();
+    }
+    requestAnimationFrame(this.updateBound);
+  }
+}
+
+new Snow();
+
+
+////////////////////////////////////////////////////////////
+
+// Simple CountDown Clock
+
+const comingdate = new Date("2020-01-25 00:00:00");
+
+const d = document.getElementById("d");
+const h = document.getElementById("h");
+const m = document.getElementById("m");
+const s = document.getElementById("s");
+
+const countdown = setInterval(() => {
+  const now   = new Date();
+  const des   = comingdate.getTime() - now.getTime();
+  const days  = Math.floor(des / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((des % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins  = Math.floor((des % (1000 * 60 * 60)) / (1000 * 60));
+  const secs  = Math.floor((des % (1000 * 60)) / 1000);
+
+  d.innerHTML = getTrueNumber(days);
+  h.innerHTML = getTrueNumber(hours);
+  m.innerHTML = getTrueNumber(mins);
+  s.innerHTML = getTrueNumber(secs);
+
+  if (x <= 0) clearInterval(x);
+}, 1000);
+
+const getTrueNumber = x => (x < 10 ? "0" + x : x);
+</script>
+
+
+</body>
+</html>
