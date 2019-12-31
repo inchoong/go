@@ -14,12 +14,16 @@
 
  [2]: https://camo.githubusercontent.com/42b56f599b52a82e158df8f7cd1717278c0f274b/68747470733a2f2f33326d622e73706163652f7573722f75706c6f6164732f323031362f30382f3835383333313132372e706e67
  
- - 【**代码**】
+ - 【**代码**】view-source:https://go.choong.net/
+ 
 1.在顶部 < head > 代码 < / head > 之间：
+
  ```
      <link rel="stylesheet" href="../QPlayer/css/player.css"><!-- 网页悬浮音乐播放器 -->
  ```
+ 
 2.在正文 < body > 代码   < / body > 之间：
+
  ```
      <!-- 网页悬浮音乐播放器 -->
 	<div id="QPlayer">
