@@ -1,6 +1,6 @@
 # 微信公众号/文章推荐：
 
-- **少数派( https://sspai.com/ )**创始人@[**老麦**](https://sspai.com/u/michael/):
+- **少数派( https://sspai.com/ )创始人@[老麦](https://sspai.com/u/michael/)**:
 
 >> [坐姿](https://sspai.com/series/2)[教程](https://sspai.com/post/40214) | [如何选购一盏台灯？](https://sspai.com/post/60434) | [关于站立办公的趋势和解析](https://sspai.com/post/60581) | [OKR 目标制](https://sspai.com/post/55805)：结合少数派团队运营工作，聊聊我对目标管理的理解  - 少数派@[老麦](https://sspai.com/u/michael/)
 
@@ -15,6 +15,8 @@
   ```
 
 > [2020/6/1 @少数派](https://mp.weixin.qq.com/s/IR2_zLpQkVy3ZkILMAFQFA) ：[最低配置只要 27 万多的「特斯拉 Model 3 选购指南」](https://mp.weixin.qq.com/s/IR2_zLpQkVy3ZkILMAFQFA)
+
+>> 本文的全部内容希望能在你们决策时提供有效的参考。如果你想要更详尽的了解特斯拉车主们怎么样看自己的车，到底用的爽不爽，欢迎前往**特斯拉车主线上社区 [xiaote.com](https://www.xiaote.com/)** 了解更多内容。
 
 - [2020/6/2 @**五菱专用车**](https://mp.weixin.qq.com/s/m9PIL8JpISPqTPsz6xHPtw) ：[五菱翼开启售货车——地摊经济的正规主力军！](https://go.choong.net/s/wx/20200602/) 
 
