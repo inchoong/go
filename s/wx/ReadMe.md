@@ -16,7 +16,7 @@
 
 > [2020/6/1 @少数派](https://mp.weixin.qq.com/s/IR2_zLpQkVy3ZkILMAFQFA) ：[最低配置只要 27 万多的「特斯拉 Model 3 选购指南」](https://mp.weixin.qq.com/s/IR2_zLpQkVy3ZkILMAFQFA)
 
->> 本文的全部内容希望能在你们决策时提供有效的参考。如果你想要更详尽的了解特斯拉车主们怎么样看自己的车，到底用的爽不爽，欢迎前往**特斯拉车主线上社区 [xiaote.com](https://www.xiaote.com/)** 了解更多内容。
+>> 本文的全部内容希望能在你们决策时提供有效的参考。如果你想要更详尽的了解特斯拉车主们怎么样看自己的车，到底用的爽不爽，欢迎前往**特斯拉车主线上社区 [xiaote.com](https://www.xiaote.com/)** 了解更多内容。（ 链接@[纯电动车、太阳能面板和清洁能源存储 | **Tesla官网**](https://www.tesla.cn/) )
 
 - [2020/6/2 @**五菱专用车**](https://mp.weixin.qq.com/s/m9PIL8JpISPqTPsz6xHPtw) ：[五菱翼开启售货车——地摊经济的正规主力军！](https://go.choong.net/s/wx/20200602/) 
 
