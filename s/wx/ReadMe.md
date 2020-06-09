@@ -27,5 +27,6 @@
 
 - [2020/5/31 @**金融八卦女频道**](https://mp.weixin.qq.com/s/jdxh8YJH1LQ-8cI_LgmzZA) ：[招聘！快来跟八妹做同事吧！](https://go.choong.net/s/wx/20200531/) 
 
+- [2020/5/26 @**萧秋水**](https://mp.weixin.qq.com/s/jlHo_DpPNdcH2gfrrPnxPg) ：[与自己和解，是最大的治愈](https://go.choong.net/s/wx/20200526/) 
 
 - [2020/5/23 @**二湘的十一维空间**](https://mp.weixin.qq.com/s/BictcctU3pDx-NO4gY7ggg) ：[杨胜慰《我心中的常凯》](https://go.choong.net/s/wx/20200523/) 
