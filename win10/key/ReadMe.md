@@ -1,4 +1,5 @@
-Ⓜ️ Microsoft Win10 系统自带Key备份工具/微软官方数字许可激活工具「gatherosstate.exe」（win10 x64/x32 bit）
+Ⓜ️ Microsoft Win10 系统自带Key备份工具/微软官方数字许可激活工具「gatherosstate.exe」（ Win10 [**x64 bit**](https://github.com/taoste/Hello-World/raw/master/Tools/Microsoft%20Windows%2010/win10%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%B8%A6Key%E5%A4%87%E4%BB%BD/gatherosstate%EF%BC%88win10x64bit%EF%BC%89.exe) / [**x32 bit**](https://github.com/taoste/Hello-World/raw/master/Tools/Microsoft%20Windows%2010/win10%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%B8%A6Key%E5%A4%87%E4%BB%BD/gatherosstate%EF%BC%88win10x32bit%EF%BC%89.exe) ）
+
 
 ---------------------------------------------------------------------------------------------------------------
 
