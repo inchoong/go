@@ -27,7 +27,10 @@
 
 - @**金融八卦女频道**: [2020/5/31](https://mp.weixin.qq.com/s/jdxh8YJH1LQ-8cI_LgmzZA) 《[招聘！快来跟八妹做同事吧！](https://go.choong.net/s/wx/20200531/)》 
 
-- @**秋叶大叔**: [2020/6/9](https://mp.weixin.qq.com/s/ZZCW5vrCevRexab4nNnwjQ) 《[写给女儿成人礼的一封信](https://go.choong.net/s/wx/20200609/) 》
+- @**秋叶大叔**: 
+
+> [2020/6/9](https://mp.weixin.qq.com/s/ZZCW5vrCevRexab4nNnwjQ) 《[写给女儿成人礼的一封信](https://go.choong.net/s/wx/20200609/) 》 | <a href="https://raw.githubusercontent.com/taoste/Hello-World/master/eBook/QiuYePPT/20200614.jpg" title="【文章拆解】@秋叶PPT：成年后的你，一定要懂这4个道理！">延伸阅读</a>《 2020/6/14@秋叶PPT:<a href="https://mp.weixin.qq.com/s/quxtb8AEk8Do-5Xf7b0JZQ">成年后的你，一定要懂这4个道理！</a> 》
+
 
 - @**萧秋水**: [2020/5/26](https://mp.weixin.qq.com/s/jlHo_DpPNdcH2gfrrPnxPg) 《[与自己和解，是最大的治愈](https://go.choong.net/s/wx/20200526/) 》
 
