@@ -17,6 +17,8 @@
         - 官方注册通道：https://sspai.com/s/nORV
         - 手动安装：https://sspai.com/s/Kj7r
   ```
+  
+> [2020/6/1 @少数派](https://go.choong.net/s/wx/%E4%B8%80%E8%A1%8C%E5%91%BD%E4%BB%A4%EF%BC%8C%E6%90%9E%E5%AE%9A%E5%B8%B8%E8%A7%81%E5%9B%BE%E7%89%87%E3%80%81%E9%9F%B3%E9%A2%91%E3%80%81%E8%A7%86%E9%A2%91%E3%80%81%E6%96%87%E6%9C%AC%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2%20-%20%E5%B0%91%E6%95%B0%E6%B4%BE.pdf) ：[一行命令，搞定常见图片、音频、视频、文本格式转换](https://sspai.com/post/60772)
 
 > [2020/6/1 @少数派](https://mp.weixin.qq.com/s/IR2_zLpQkVy3ZkILMAFQFA) ：[最低配置只要 27 万多的「特斯拉 Model 3 选购指南」](https://mp.weixin.qq.com/s/IR2_zLpQkVy3ZkILMAFQFA)
 
