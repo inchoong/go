@@ -4,6 +4,8 @@
 
 >> [坐姿](https://sspai.com/series/2)[教程](https://sspai.com/post/40214) | [如何选购一盏台灯？](https://sspai.com/post/60434) | [关于站立办公的趋势和解析](https://sspai.com/post/60581) | [OKR 目标制](https://sspai.com/post/55805)：结合少数派团队运营工作，聊聊我对目标管理的理解  - 少数派@[老麦](https://sspai.com/u/michael/)
 
+> 2020/6/21 @少数派：[用 Tasker 把自己的微信变成机器人](https://sspai.com/post/61052)
+
 > [2020/6/4 @少数派](https://mp.weixin.qq.com/s/wRp7IuUMf9PY7G1uEw1VBw) ：[少数派办公室改造大揭秘，健康与效率兼顾的环境长啥样？](https://go.choong.net/s/wx/20200604/) 
 
 > [2020/6/3 @少数派](https://mp.weixin.qq.com/s/hvpjQojN0Pdeh9gvspsb7Q) ：[在 Windows 10 上安装软件，官方终于推出强大的「包管理」软件](https://mp.weixin.qq.com/s/hvpjQojN0Pdeh9gvspsb7Q) 
