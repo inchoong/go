@@ -13,3 +13,4 @@
  @[Liby99 (Ziyang Li)](https://github.com/Liby99) | [UCSD-PL](https://github.com/UCSD-PL) | [DesignAtLarge](https://github.com/DesignAtLarge) | [UCSD CSSA](https://github.com/UCSDCSSA)
 
  @[RogerZhangHS (Ruoqi Zhang)](https://github.com/RogerZhangHS)
+ >> [RogerZhangHS/TimLiu-iOS: iOS开发常用三方库、插件、知名博客等等](https://github.com/RogerZhangHS/TimLiu-iOS)
