@@ -4,7 +4,7 @@
 
 >> [坐姿](https://sspai.com/series/2)[教程](https://sspai.com/post/40214) | [如何选购一盏台灯？](https://sspai.com/post/60434) | [关于站立办公的趋势和解析](https://sspai.com/post/60581) | [OKR 目标制](https://sspai.com/post/55805)：结合少数派团队运营工作，聊聊我对目标管理的理解  - 少数派@[老麦](https://sspai.com/u/michael/)
 
-> 2020/6/21 @少数派：[旧电脑再利用：完整版 Chrome OS 安装指南](https://sspai.com/post/61056)
+> [2020/6/21 @少数派](https://go.choong.net/s/wx/%E6%97%A7%E7%94%B5%E8%84%91%E5%86%8D%E5%88%A9%E7%94%A8%EF%BC%9A%E5%AE%8C%E6%95%B4%E7%89%88%20Chrome%20OS%20%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97%20-%20%E5%B0%91%E6%95%B0%E6%B4%BE.pdf)：[旧电脑再利用：完整版 Chrome OS 安装指南](https://sspai.com/post/61056)
 
 > 2020/6/21 @少数派：[用 Tasker 把自己的微信变成机器人](https://sspai.com/post/61052)
 
