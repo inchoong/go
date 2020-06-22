@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link rel="icon" href="../images/favicon.png" > 
+	<meta charset="utf-8" />
+    <style>
+        @font-face {
+	        font-family: 'windows_command_prompt';
+	        src: url('fonts/windows_command_prompt.eot');
+	        src: url('fonts/windows_command_prompt.woff') format('woff'), url('fonts/windows_command_prompt.ttf') format('truetype'), url('fonts/windows_command_prompt.svg') format('svg');
+	        font-weight: normal;
+	        font-style: normal;
+        }
+    </style>
+    <link href="css/default.css" rel="stylesheet" />
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+    <div id="dir" style="display:none">
+        <p>
+            Volume in drive A is GameOfLife<br />
+            Volume serial number is 48B4-C042
+        </p>
+        <p>Directory of A:\</p>
+        <p>
+            01/05/2016 &nbsp; &nbsp; &nbsp;04:23 &nbsp;PM &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;6 &nbsp;Readme.txt<br />
+            01/05/2016 &nbsp; &nbsp; &nbsp;04:24 &nbsp;PM &nbsp; &nbsp; &nbsp;196 &nbsp;GameOfLife.com<br />
+            01/02/2015 &nbsp; &nbsp; &nbsp;03:14 &nbsp;AM &nbsp; &nbsp; &nbsp; &nbsp;59 &nbsp;2015jan.csv<br />
+            01/03/2015 &nbsp; &nbsp; &nbsp;02:42 &nbsp;AM &nbsp; &nbsp; &nbsp; &nbsp;58 &nbsp;2015feb.csv<br />
+            01/04/2015 &nbsp; &nbsp; &nbsp;02:50 &nbsp;AM &nbsp; &nbsp; &nbsp; &nbsp;58 &nbsp;2015mar.csv<br />
+            01/05/2015 &nbsp; &nbsp; &nbsp;03:26 &nbsp;AM &nbsp; &nbsp; &nbsp; &nbsp;57 &nbsp;2015apr.csv<br />
+            01/06/2015 &nbsp; &nbsp; &nbsp;04:11 &nbsp;AM &nbsp; &nbsp; &nbsp; &nbsp;50 &nbsp;2015may.csv<br />
+            01/02/2015 &nbsp; &nbsp; &nbsp;04:33 &nbsp;AM &nbsp; &nbsp; &nbsp; &nbsp;49 &nbsp;2015jun.csv<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;8 File(s) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;533 bytes<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;0 Dir(s) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;359467 bytes free
+        </p>
+    </div>
+    <div id="boot">
+        <p>Starting MS-DOS...</p>
+        <p id="a1" style="display:none">HIMEM is testing extended memory...<span id="a2" style="display:none">done.<br />
+        Microsoft CD-ROM Driver, Version 1.1 (IDECD901)</span></p>
+        <p id="a3" style="display:none">C:\>C:\DOS\SMARTDRV.EXE /X<br />
+        <span id="a4" style="display:none">MSCDEX Version 2.23<br />
+        Copyright (C) Microsoft Corp. 1986-1993. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drive D: Driver IDECD901 unit 0<br /></span>
+        <span id="com" style="display:none">C:\></span><span id="lit" style="display:none">_</span></p>
+    </div>
+    <div id="hint">
+        <span id="htext">hint:<br /><br />
+            <span style="margin-left:30px;font-size:21px">TYPE.</span></span>
+    </div>
+    <div id="sim">
+        <p id="head">NASA Algae Simulator</p>
+        <canvas height="504" width="711" id="game"></canvas>
+        <p>Current generation: <span id="gen">0</span>, press any key to start / pause</p>
+        <p>You can plant / remove algae by clicking the block while paused</p>
+        <p>< / > : swtich between data sets</p>
+    </div>
+    <script src="js/gameoflife.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setTimeout("$('#a1').show()", 1500)
+            setTimeout("$('#a2').show()", 2200)
+            setTimeout("$('#a3').show()", 2700)
+            setTimeout("$('#a4').show()", 3500)
+            setTimeout("$('#com').show()", 4500)
+            setTimeout("$('#lit').show()", 4500)
+            setTimeout("enter('a:')", 4600)
+            try{
+                setTimeout("$('#hint').show()", 5600)
+                setTimeout("$('#htext').show()", 6800)
+            }
+            catch (e) {
+
+            }
+        })
+        function key(s, i) {
+            if (i < s.length) {
+                $('body').off('keyup')
+                $('body').keyup(function () {
+                    $('#com').html($('#com').html() + s[i])
+                    key(s, ++i)
+                })
+            }
+            else if (i = s.length) {
+                $('body').off('keyup')
+                $('body').keyup(function () {
+                    $('#com').before('<span>' + $('#com').html() + '</span><br /><br />')
+                    $('#com').html('A:\\>')
+                    $('body').off('keyup')
+                    switch (s[0]) {
+                        case "a":
+                            enter("dir")
+                            $('#hint').fadeOut(500)
+                            setTimeout("$('#hint').remove()",600)
+                            break
+                        case "d":
+                            $('#com').before('<div>' + $('#dir').html() + '</div><br /><br />')
+                            enter("type Readme.txt")
+                            break
+                        case "t":
+                            $('#com').before("<span>===============Attention: You're accessing classified information===============<br />This floppy disk contains a program that simulates the proliferation of algae and six<br />seperate sets of satellite data from 2015 for the program to run on. Yes, we all know<br />that the over-proliferation of algae often leads to serious problems including loss of<br />marine animals and even harms towards human beings, since excess amount of algae depl-<br />etes oxygen in water and gives out toxins. In most cases, such incidents are caused by<br />water pollution that overloaded the water with nitrogen. Through analyses of the data,<br />we can find the source of the polution and prevent further diffusion.<br />However, due to some budget issue, we can't process the data on super computers and t-<br />his ancient machine is allocated to us instead. <br />What can possibly go wrong?<br /><br />To start the simulation, run GameOfLife.com and select a data set.<br />The principles of simulation is based on Conway's game of life.</span><br /><br />")
+                            enter("GameOfLife.com")
+                            break
+                        case "G":
+                            $('#com').before('<span>6 data sets detected.<br />Please enter the index(1-6):</span>')
+                            $('#com').hide()
+                            $('#com').after("<input type='text' class='input'></input>")
+                            $('.input').focus()
+                            input()
+                    }
+                    $('body').scrollTop($(document).height() - $(window).height())
+                })
+            }
+        }
+        function enter(line) {
+            var s = line.split("")
+            var wait = true
+            var i = 0
+            key(s,0)
+        }
+        function input() {
+            $('body').keyup(function (e) {
+                if (e.which == 13) {
+                    var x = $('.input').val()
+                    if (parseInt(x) <= 6 && parseInt(x) >= 1) {
+                        $('body').off('keyup')
+                        loadgame(parseInt(x))
+                    }
+                    else {
+                        $('.input').before('<span>' + x + '</span><br />')
+                        $('.input').before('<span>Please enter a valid index(1-6):</span>')
+                        $('.input').val("")
+                        $('body').scrollTop($(document).height() - $(window).height())
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+</html>
