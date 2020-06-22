@@ -1,4 +1,4 @@
-【[引用](https://go.choong.net/ICES/)】 ：
+【[引用](https://go.choong.net/ICES/)】优质推荐 ：
 
 @[yang991178](https://github.com/yang991178/)  / [Imagine-Cup-Earth-Submission](https://github.com/yang991178/Imagine-Cup-Earth-Submission)
 
@@ -17,3 +17,8 @@
  >> [RogerZhangHS/TimLiu-iOS: iOS开发常用三方库、插件、知名博客等等](https://github.com/RogerZhangHS/TimLiu-iOS)
 
  >> [深中网站镜像](https://github.com/RogerZhangHS/Shenzhong_Webpage_Archive)
+
+ @[Enddle (Jianhao Zheng)](https://github.com/Enddle?tab=repositories)
+ 
+  >> [Enddle.me](https://enddle.me/)
+ 
