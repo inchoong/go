@@ -28,6 +28,10 @@
 
 > [2020/7/15 @少数派](https://mp.weixin.qq.com/s/hOc38oCJks9hnE5PaKm4vA) ：[开了**特斯拉** 10000 公里后，我想说说……](https://mp.weixin.qq.com/s/hOc38oCJks9hnE5PaKm4vA)
 
+>> 任何东西都有缺点，但这不应该是阻止人们接受新事物的理由，更不应该是对待新事物的态度。鼓励创新、鼓励失败、鼓励有价值的尝试，才是成年人应该给下一代展现的态度。
+
+>> 我在拥有 Model 3 一段时间后，还是忍不住的写下了这篇长文，聊聊这款车的深度使用感受。最终我的观点则是：**特斯拉是辆性感的电动车，是属于成年人的浪漫。**
+
 > [2020/6/1 @少数派](https://mp.weixin.qq.com/s/IR2_zLpQkVy3ZkILMAFQFA) ：[最低配置只要 27 万多的「**特斯拉 Model 3** 选购指南」](https://mp.weixin.qq.com/s/IR2_zLpQkVy3ZkILMAFQFA)
 
 >> 本文的全部内容希望能在你们决策时提供有效的参考。如果你想要更详尽的了解特斯拉车主们怎么样看自己的车，到底用的爽不爽，欢迎前往**特斯拉车主线上社区 [xiaote.com](https://www.xiaote.com/)** 了解更多内容。（ 链接@[纯电动车、太阳能面板和清洁能源存储 | **Tesla官网**](https://www.tesla.cn/) )
@@ -43,13 +47,11 @@
 
 - 2020/6/8 @**新浪汽车**：[“地摊经济”来袭，买台微型电动车到街角做“微商”|导购](https://auto.sina.com.cn/zz/hykx/2020-06-08/detail-iircuyvi7374200.shtml)
 
-
 - @**金融八卦女频道**: [2020/5/31](https://mp.weixin.qq.com/s/jdxh8YJH1LQ-8cI_LgmzZA) 《[招聘！快来跟八妹做同事吧！](https://go.choong.net/s/wx/20200531/)》 
 
 - @**秋叶大叔**: 
 
 > [2020/6/9](https://mp.weixin.qq.com/s/ZZCW5vrCevRexab4nNnwjQ) 《[写给女儿成人礼的一封信](https://go.choong.net/s/wx/20200609/) 》 | <a href="https://raw.githubusercontent.com/taoste/Hello-World/master/eBook/QiuYePPT/20200614.jpg" title="【文章拆解】@秋叶PPT：成年后的你，一定要懂这4个道理！">延伸阅读</a>《 2020/6/14@秋叶PPT:<a href="https://mp.weixin.qq.com/s/quxtb8AEk8Do-5Xf7b0JZQ">成年后的你，一定要懂这4个道理！</a> 》
-
 
 - @**萧秋水**: [2020/5/26](https://mp.weixin.qq.com/s/jlHo_DpPNdcH2gfrrPnxPg) 《[与自己和解，是最大的治愈](https://go.choong.net/s/wx/20200526/) 》
 
