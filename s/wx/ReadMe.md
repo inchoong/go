@@ -26,7 +26,7 @@
 
 - 特斯拉 专题：
 
-> [2020/7/15 @少数派](https://mp.weixin.qq.com/s/hOc38oCJks9hnE5PaKm4vA) ：[开了**特斯拉** 10000 公里后，我想说说……](https://mp.weixin.qq.com/s/hOc38oCJks9hnE5PaKm4vA)
+> [2020/7/15 @少数派](https://go.choong.net/s/wx//%E5%BC%80%E4%BA%86%E7%89%B9%E6%96%AF%E6%8B%89%2010000%20%E5%85%AC%E9%87%8C%E5%90%8E%EF%BC%8C%E6%88%91%E6%83%B3%E8%AF%B4%E8%AF%B4%E2%80%A6%E2%80%A6.pdf) ：[开了**特斯拉** 10000 公里后，我想说说……](https://mp.weixin.qq.com/s/hOc38oCJks9hnE5PaKm4vA)
 
 >> 任何东西都有缺点，但这不应该是阻止人们接受新事物的理由，更不应该是对待新事物的态度。鼓励创新、鼓励失败、鼓励有价值的尝试，才是成年人应该给下一代展现的态度。
 
