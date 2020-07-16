@@ -59,7 +59,7 @@
 
 - [2020/7/15 @**职场神助攻**](): [这款冷门但逆天的APP，真的惊艳到我了！](https://mp.weixin.qq.com/s/CiGiUDaFzeT5BxYNbLJCkQ)
 
->> 今天给大家推荐一款有趣好玩又能学到知识的 APP：全历史--换个角度看世界，它是我在知乎万赞回答中扒到的，据说让文科生相见恨晚，爱不释手。 
+>> 今天给大家推荐一款有趣好玩又能学到知识的 APP：**全历史**--换个角度看世界，它是我在知乎万赞回答中扒到的，据说让文科生相见恨晚，爱不释手。 
 
 >>> <a href="https://mp.weixin.qq.com/s/CiGiUDaFzeT5BxYNbLJCkQ"><img src="https://mmbiz.qpic.cn/mmbiz_png/O5AE35t7zkjdibbBjpiaibv4plibEQjXVOGxKYPyiasiaQYK0ZrGtspsdwpKBlKYmEIhyzH1KVibLUypgfX57sfad27jA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" title="有趣好玩又能学到知识的 APP：全历史--换个角度看世界""></a>
  
