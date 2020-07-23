@@ -2,9 +2,12 @@
 
 - **少数派( https://sspai.com/ ) - 高效工作，品质生活 | 创始人@[老麦](https://sspai.com/u/michael/)**:
 
->> [坐姿](https://sspai.com/series/2)[教程](https://sspai.com/post/40214) | [如何选购一盏台灯？](https://sspai.com/post/60434) | [关于站立办公的趋势和解析](https://sspai.com/post/60581) | [OKR 目标制](https://sspai.com/post/55805)：结合少数派团队运营工作，聊聊我对目标管理的理解  - 少数派@[老麦](https://sspai.com/u/michael/)
+>> [坐姿](https://sspai.com/series/2)[教程](https://sspai.com/post/40214) | [如何选购一盏台灯？](https://sspai.com/post/60434) <br>[关于站立办公的趋势和解析](https://sspai.com/post/60581) | [OKR 目标制](https://sspai.com/post/55805)：结合少数派团队运营工作，聊聊我对目标管理的理解  - 少数派@[老麦](https://sspai.com/u/michael/)
 
 > [英语自学手册@少数派](https://sspai.com/series/77)
+
+> [2020/7/23 @少数派](https://mp.weixin.qq.com/s/jbG9hX1V5c8WLYJKICG8vQ) ：[这样设置 iCloud，即使用 Windows 也能融入 Apple 生态](https://mp.weixin.qq.com/s/jbG9hX1V5c8WLYJKICG8vQ)  
+> [2020/7/23 @少数派]() ：[想安装更多 Linux 发行版？LxRunOffline 让 WSL 更好用](https://sspai.com/post/61634)
 
 > [2020/7/2 @少数派](https://mp.weixin.qq.com/s/OTtb3ucenFvGK1NcZCX5oA)：[Windows 这 5 个自带功能就很好用，你可以少装几个第三方软件了](https://sspai.com/)
 
