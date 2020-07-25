@@ -77,21 +77,24 @@
 
 >>> <a href="https://mp.weixin.qq.com/s/CiGiUDaFzeT5BxYNbLJCkQ"><img src="https://mmbiz.qpic.cn/mmbiz_png/O5AE35t7zkjdibbBjpiaibv4plibEQjXVOGxKYPyiasiaQYK0ZrGtspsdwpKBlKYmEIhyzH1KVibLUypgfX57sfad27jA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" title="有趣好玩又能学到知识的 APP：全历史--换个角度看世界"/></a>
  
+ 
+- HTML图文分享简易代码：
 ```
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>《都要脱钩了，怎么每次还大惊小怪？》</title>
- <link rel="icon" href="./images/favicon.png" > 
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>《都要脱钩了，怎么每次还大惊小怪？》</title>
+  <link rel="icon" href="./images/favicon.png" > 
 </head>
-<body>
+<body bgcolor="#1B1B1B" text="#000000">
 <p style="text-align:center">
 <a href="https://github.com/inchoong/go/raw/master/s/wx/20200723/0.PNG" title="《都要脱钩了，怎么每次还大惊小怪？》">
 <img src="https://github.com/inchoong/go/blob/master/s/wx/20200723/0.PNG?raw=true" />
 </a></p>
 </body>
 </html>
+
 ```
