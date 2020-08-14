@@ -25,3 +25,54 @@
 </body>
 </html>
 ```
+# HTML视频分享简易代码：
+```
+<!DOCTYPE HTML>
+<html>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>【video】九五至尊的杯子</title>
+  <link rel="icon" href="/.././images/favicon.png">
+
+    <!--
+  .article-entry .video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+.article-entry .video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.article-entry .video-container object {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}  -->
+  
+<body>
+
+
+<video src="bj-95.mp4" type='video/mp4; codecs="mp4v.20.8, samr"' controls="controls" width="760px">
+   九五至尊的杯子
+ </video>
+
+   <!-- 
+<div class="video-container"> <object>
+<param name="allowFullScreen" value="true">
+    <param name="flashVars" value="id=23750026 " />
+    <param name="movie" value="bj-95.mp4?autoplay=0" />
+    <embed   src="bj-95.mp4?autoplay=0" flashVars="id=23750026"allowFullScreen="true" type="application/x-shockwave-flash" >
+    </embed></object>
+</div> -->
+  
+</body>
+</html>
+```
