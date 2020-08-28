@@ -57,8 +57,7 @@
   height: 100%;
 }  -->
   
-<body>
-
+<body id="top" name="top" style="text-align:center" bgcolor="#cce8cf" text="#000000">
 
 <video src="bj-95.mp4" type='video/mp4; codecs="mp4v.20.8, samr"' controls="controls" width="760px">
    九五至尊的杯子
