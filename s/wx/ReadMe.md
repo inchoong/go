@@ -6,6 +6,12 @@
 
 > [英语自学手册@少数派](https://sspai.com/series/77)
 
+> [Chrome 大版本更新来了，这是一次「史诗级」增强](https://mp.weixin.qq.com/s/pqTedYa--iYxqpt9cM8Xug)(少数派 2020-08-27)
+
+> [让你的 Chrome 变成最好用的浏览器，这 10 个新扩展值得下载](https://mp.weixin.qq.com/s/rjGY9P1ObQOTdb8EljW7YA) (少数派 2020-08-28)
+
+> [用这些技巧保持你的口腔健康，别等到牙齿坏掉才后悔](https://mp.weixin.qq.com/s/AuMonj2IG_ElLRQn-BsXSg) (少数派 2020-08-28) 
+
 > [2020/8/12 @少数派](https://mp.weixin.qq.com/s/4rKw9p2z7YVUfXT8BUPBhQ) ：[可能是 Windows 五年以来最大变化的「新功能」，教你抢先一步用上](https://sspai.com/)
 >> [创建系统还原点](https://support.microsoft.com/zh-cn/help/4027538/)(适用于： Windows 10) | 《@知乎:[如何创建系统还原点以及如何恢复？](https://zhuanlan.zhihu.com/p/63723853)》 
 
