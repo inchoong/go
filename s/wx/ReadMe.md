@@ -12,6 +12,12 @@
 
 > [用这些技巧保持你的口腔健康，别等到牙齿坏掉才后悔](https://mp.weixin.qq.com/s/AuMonj2IG_ElLRQn-BsXSg) (少数派 2020-08-28) 
 
+>> 推荐阅读：
+
+>>>《[**维基百科**关于**口臭**的描述](https://sspai.com/s/zwgO)》
+
+>>> **巴氏刷牙法（The Bass Method）[3D 教学片**](https://youtube.com/watch?v=4iIGhqi57es)
+
 > [2020/8/12 @少数派](https://mp.weixin.qq.com/s/4rKw9p2z7YVUfXT8BUPBhQ) ：[可能是 Windows 五年以来最大变化的「新功能」，教你抢先一步用上](https://sspai.com/)
 >> [创建系统还原点](https://support.microsoft.com/zh-cn/help/4027538/)(适用于： Windows 10) | 《@知乎:[如何创建系统还原点以及如何恢复？](https://zhuanlan.zhihu.com/p/63723853)》 
 
