@@ -17,8 +17,11 @@
 <!-- 引用：数字时钟 --> 
 <iframe frameborder="0" scrolling="no" src="/Tools/Digital-clock/" width="100%" height="520px"></iframe>
 ```
-<td><b>北京时间 ：
-			     <span id="time"></span>
-			     <script>setInterval("time.innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",1000);
-			     </script> 			 
-</b></td>
+
+- 当前系统时间⏲显示代码：
+```
+北京时间 ：
+<span id="time"></span>
+<script>setInterval("time.innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",1000);
+</script> 			 
+```
