@@ -1,4 +1,6 @@
-# 功能跳转 [go.choong.net/Tools/](https://go.choong.net/Tools/)
+# 引用插件库-汇总 | 功能跳转 [go.choong.net/Tools/](https://go.choong.net/Tools/)
+
+**引用插件库-汇总：**
 
 - **Digital-clock （无缝轮播的数字时钟）**
 > [**HTML代码**](https://github.com/inchoong/go/tree/master/Tools/Digital-clock)：  
