@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			body,h1,h2,h3,h4,h5,h6,dl,dt,dd,p,ul,li{margin:0;padding:0;}
+			body{font-size:12px;font-family:"微软雅黑";}
+			ol,ul,li{list-style:none;}
+			a{text-decoration:none; color:black;display: block;}
+			span,p{display: block;}
+			img{border:0;display: block;}
+			input select{padding:0;border:0;margin:0;}
+			.clear:after{content:".";clear:both;display:block;height:0;overflow:hidden;visibility:hidden;}
+			ul{
+				width: 448px;
+				height: 70px;
+				overflow: hidden;
+				position: relative;
+				margin-top: 10px;
+				margin-left: 10px;
+			}
+			li{
+				width: 50px;
+				height: 140px;
+				margin-right: 6px;
+				position: absolute;
+				top: 0;
+			}
+			img{
+				width: 50px;
+				height: 70px;
+			}
+		</style>
+	</head>
+	<body>
+		<ul>
+		</ul>
+		<script src="Mtween.js"></script>
+		<script type="text/javascript">
+			var ul = document.getElementsByTagName('ul')[0];
+			var str1 = '';
+			var str2 = '';
+			var str3 = '';
+			var str4 = '';
+			str1 = '<li class="a"><img src="" /><img src="" /></li><li class="a"><img src="" /><img src="" /></li>';
+			str2 = '<li class="b"><img src="" /></li>';
+			for(var i=0;i<2;i++){
+				str3 +=str1+str2
+			}
+			str3 += str1;
+			ul.innerHTML = str3;
+			var lis = ul.getElementsByTagName('li');
+			var lisa = ul.getElementsByClassName('a');
+			var lisb = ul.getElementsByClassName('b');
+			for(var i=0;i<lis.length;i++){
+				lis[i].style.left = 56*i+'px';
+			}
+			//初始化时间记录
+			function gettime(){
+				var date = new Date();
+				var h = date.getHours();
+				var m = date.getMinutes();
+				var s = date.getSeconds();
+				var str = '';
+				str = two(h)+':'+two(m)+':'+two(s);
+				function two(n){
+					return n<10?'0'+n:''+n;
+				}
+				return str;
+			}
+			//初始化
+			function settime(){
+				var now = gettime();
+				for(var i=0;i<lis.length;i++){
+					var s = now[i];
+					var imgs = lis[i].getElementsByTagName('img');
+					if(s==':'){
+						s = 'c';
+					}
+					imgs[0].src = 'images/'+s+'.png';
+				}
+				var d1 = lis[2].getElementsByTagName('img')[0];
+				var d2 = lis[5].getElementsByTagName('img')[0];
+				setTimeout(function(){
+					d1.src = d2.src = 'images/b.png';
+				},500)
+			}
+			//时间记录函数
+			function gettime2(){
+				var date = new Date();
+				var h = date.getHours();
+				var m = date.getMinutes();
+				var s = date.getSeconds();
+				var str2 = '';
+				str2 = two2(h)+two2(m)+two2(s);
+				function two2(n){
+					return n<10?'0'+n:''+n;
+				}
+				return str2;
+			}
+			//时间变化函数
+			var old = gettime2();
+			function settime2(){
+				var now2 = gettime2();
+				for(var j=0;j<lisa.length;j++){
+					var s2 = now2[j];
+					if(old[j]!=now2[j]){
+						tab(j,now2[j]);
+					}
+				}
+				var d1 = lis[2].getElementsByTagName('img')[0];
+				var d2 = lis[5].getElementsByTagName('img')[0];
+				d1.src = d2.src = 'images/c.png';
+				setTimeout(function(){
+					d1.src = d2.src = 'images/b.png';
+				},500)
+				old = now2;
+			}
+			//运动函数
+			function tab(_j,_r){
+				var imgsa = lisa[_j].getElementsByTagName('img');
+				imgsa[1].src = 'images/'+_r+'.png';
+				move({
+					obj:lisa[_j],
+					attrs:{top:-70},
+					duration:900,
+					callBack:function(){
+						this.style.top = '';
+						imgsa[0].src = 'images/'+_r+'.png';
+					}
+				})
+			}
+			settime();
+			setInterval(settime2,1000);
+		</script>
+	</body>
+</html>
+<!-- https://github.com/HYH9126/Digital-clock -->
