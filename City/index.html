@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<!-- <script src="inc/jquery.min.js" type="text/javascript"></script>-->
+<title>City导航 - 专题网址</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon"> <!-- IE地址栏前换成自己的图标 -->
+<link href="favicon.ico" rel="Bookmark">  <!-- 可以在收藏夹中显示出你的图标 -->
+	<style> 
+	    body {
+        background:url("images/51.jpg")  no-repeat center center;   /*加载背景图*/   /* 背景图不平铺 */  /*原图链接 http://zjjcmspublic.oss-cn-hangzhou-zwynet-d01-a.internet.cloud.zj.gov.cn/jcms_files/jcms1/web3164/site/picture/0/1812061140132949547.jpg */
+		background-size:cover;  /* 让背景图基于容器大小伸缩 */
+		background-attachment:fixed;        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */    //此条属性必须设置否则可能无效/
+		background-color: #CCCCCC;   /* 设置背景颜色，背景图加载过程中会显示背景色 */
+	    }
+    </style> 
+	
+	<style>  /* CSS Text文本格式 https://www.w3cschool.cn/css/css-text.html */
+	    h1{text-align:center;}
+	    p.date{text-align:right;} /* 向右靠齐*/
+	    p.main{text-align:justify;}
+		p.float{text-align:left;} /* 向左靠齐*/
+		td.date{text-align:right;}
+		td.main{text-align:justify;}
+		
+    </style>
+	
+	<style>  /* 文本垂直对齐图像 https://www.w3cschool.cn/tryrun/showhtml/trycss_vertical-align */
+	    img.top {vertical-align:text-top;}
+	    img.bottom {vertical-align:text-bottom;}
+</style>
+
+<!--
+<style type="text/css"> 
+ a:link,a:visited{ 
+ text-decoration:none;  /*超链接无下划线*/ 
+} 
+a:hover{ 
+ text-decoration:underline;  /*鼠标放上去有下划线*/ 
+} 
+
+a:link {text-decoration:none;color:#FF0000;}      /* 正常，未访问过的链接 */
+a:visited {color:#00FF00;}  /* 用户已访问过的链接 */
+a:hover {color:#FF00FF;}  /* 当用户鼠标放在链接上时 */
+a:active {color:#0000FF;}  /* 链接被点击的那一刻 */ 
+</style> -->
+
+ <link rel="stylesheet" href="assets/css/style.css?v=85ead8fb5213bc5749ed549b93e6d17718895313">
+ <!-- <link rel="stylesheet" href="css/city.css"> -->
+<style>
+        .table-box {
+            margin: 100px auto;
+            width: 1024px;
+        }
+ 
+        /* 滚动条宽度 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            background-color: transparent;
+        }
+ 
+        /* 滚动条颜色 */
+        ::-webkit-scrollbar-thumb {
+            background-color: #27314d;
+        }
+ 
+        table {
+            width: 100%;
+            border-spacing: 0px;
+            border-collapse: collapse;
+        }
+ 
+        table caption{
+            font-weight: bold;
+            font-size: 24px;
+            line-height: 50px;
+        }
+ 
+        table th, table td {
+            height: 50px;
+            text-align: center;
+            border: 1px solid gray;
+        }
+ 
+        table thead {
+            color: blue;
+            background-color: #38F;
+        }
+ 
+        table tbody {
+            display: block;
+            width: calc(100% + 0px); /*这里的8px是滚动条的宽度*/
+            height: 300px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+ 
+        table tfoot {
+            background-color: #71ea71;
+        }
+ 
+        table thead tr, table tbody tr, table tfoot tr {
+            box-sizing: border-box;
+            table-layout: fixed;
+            display: table;
+            width: 100%;
+        }
+ 
+        table tbody tr:nth-of-type(odd) {
+            background: #EEE;
+        }
+ 
+        table tbody tr:nth-of-type(even) {
+            background: #FFF;
+        }
+ 
+        table tbody tr td{
+            border-bottom: none;
+        }
+ 
+    </style>
+
+
+<script>
+function randomNum(minNum,maxNum){ 
+    switch(arguments.length){ 
+        case 1: 
+            return parseInt(Math.random()*minNum+1,10); 
+        break; 
+        case 2: 
+            return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
+        break; 
+            default: 
+                return 0; 
+            break; 
+    } 
+} 
+function go(){
+	var cxurl=new Array('http://kjbm.mof.gov.cn/ksbm/usercxzkz.jsp','http://kjbm3.mof.gov.cn/ksbm/usercxzkz.jsp','http://kjbm4.mof.gov.cn/ksbm/usercxzkz.jsp');
+	location.href=cxurl[randomNum(0,2)];
+}
+</script>
+</head>
+
+<body>
+   <div class="container-lg px-3 my-5 markdown-body">
+ <section class="table-box">
+        <table cellpadding="0" cellspacing="0">
+            <caption> <a href="https://go.choong.net/City/" title="❤Welcome : City导航 - 专题网址">Welcom Home - 城市生活 | 工作专题</a> </caption>
+        <thead>
+         <tr>
+		 <td><b>
+		   <a href="https://time.is/calendar" id="time_is_link" rel="nofollow" style="font-size:24px" title="【与原子钟同步运行】时光如水，让时间沉淀一切，让时间洗涤尘埃，让时间过滤纷杂，让时间见证一切。">
+		   <!-- <img class="bottom" src="https://img.shields.io/badge/上海-时间-brightgreen.svg" /> -->
+		   <img class="bottom" src="images/上海-时间-brightgreen.svg" /></a>
+		   <!--<img class="bottom" src="https://static.time.is/favicon.ico"/> -->  
+		   <span id="Shanghai_z43d" style="font-size:18px"></span>
+		   <script src="//widget.time.is/zh.js"></script>
+		   <script>
+			     time_is_widget.init({Shanghai_z43d:{template:"DATE TIME", date_format:"year年monthnamednum日 (dname)"}});
+		   </script>		   
+		   
+		   <a href="http://www.weather.com.cn/" title="首页-中国天气网">
+		   <!-- <img class="bottom" src="https://img.shields.io/badge/天气-预报-yellow.svg" /> -->
+		   <img class="bottom" src="images/天气-预报-yellow.svg" />
+		   <!-- <img src="http://www.weather.com.cn/m2/i/favicon.ico?v=3" height="15" width="15" /> -->
+		   <img class="bottom" src="images/Weather.ico?v=3" height="15" width="15" /></a> 
+		  <a href="https://go.choong.net/QPlayer/" title="【壁纸背景】静听音乐 - 网页悬浮音乐播放器QPlayer ★ 短链直达： go.choong.net/ting ">
+		   <img src="https://y.choong.net/Online/favicon.ico" height="15" width="15" /></a>
+		  <a href="https://go.choong.net/Anyway.FM/" title="【专题】Anyway.FM | 设计杂谈 • UI 设计师 JJ 和 Leon 主播的设计播客">
+		   <!-- <img src="https://s.anw.red/anyway.fm/mask-icon.svg" color="#f60c3e" height="15" width="15" /> -->
+		   <img src="images/mask-icon.svg" color="#f60c3e" height="15" width="15" /></a>  
+            </b></td>
+			  <td><b> 			  
+			  <a href="https://www.msn.cn/zh-cn/" title="MSN 中国 | 由 Microsoft 资讯提供">
+			  <!-- <img class="bottom" src="https://img.shields.io/badge/MSN-中国-lightgrey.svg" /></a> -->
+			  <img class="bottom" src="images/MSN-中国-lightgrey.svg"/>
+			  <a href="https://www.msn.cn/zh-cn/news" title="即时资讯，精彩图集 | MSN资讯">资讯</a>
+			  <a href="hhttps://www.msn.cn/zh-cn/entertainment" title="娱乐资讯，名人八卦，艺人动态 | MSN 娱乐">娱乐</a>
+			  <a href="https://www.msn.cn/zh-cn/lifestyle" title="时尚，美妆，博主，星座，情感，家装，趣闻 | MSN 生活">生活</a>
+			  <a href="https://www.msn.cn/zh-cn/money" title="股市行情，金融快讯，个人理财及工具| MSN 财经">财经</a>
+			  <a href="https://www.msn.cn/zh-cn/health" title="健身塑形、减肥瘦身、瑜伽养生、饮食健康、医疗疾病、美容养颜 | MSN 健康">健康</a>
+			  <a href="https://www.msn.cn/zh-cn/foodanddrink" title="五星食谱、厨艺知识、烹饪教学、烘焙教程 | MSN 美食">美食</a>
+			  <a href="https://www.msn.cn/zh-cn/travel" title="景点、航班、行程、机票、旅游、订房 | MSN 旅游">旅游</a>
+			  <a href="https://www.msn.cn/zh-cn/autos" title="新车指南、试驾报告、海外车市 | MSN 汽车">汽车</a>
+			  <a href="https://www.msn.cn/zh-cn/sports" title="体育资讯、赛事前瞻、战绩赛程、球队排名、攻守数据、运动图片、球员资料 | MSN 体育">体育</a>
+			  <a href="https://www.dapenti.com/" title="喷嚏网----阅读、发现和分享：8小时外的健康生活！"><img src="images/MSN-favicon.ico?v=3" height="15" width="15" /></a>
+			  <a href="https://www.douban.com/gallery/topic/122820/" title="豆瓣话题 - 35岁之上的我们"><img src="images/douban.ico?v=3" height="15" width="15" /></a>
+			  <a href="https://zhuanlan.zhihu.com/p/24946390" title="知乎 - 有问题，上知乎 | 构建知识图谱，让自己更值钱 - 知乎专栏"><img src="images/zhihu.ico?v=3" height="15" width="15" /></a>			 
+     		  <a href="https://github.com/taoste/taoste.github.io/wiki" title="Home · taoste/taoste.github.io Wiki 【直达 go.choong.net/wiki/】"><img src="images/github.png" height="15" width="15" /></a>
+			</b></td>
+		 </tr>  
+         </thead>
+		
+        <tbody>	
+         <tr>
+             <td><b>
+			 <img class="bottom"  src="images/cn.ico" height="20" width="20" />
+			 <a href="https://www.gov.cn/" title="中国政府网_中央人民政府门户网站">中国政府网</a>
+			 <a href="http://www.e-gov.org.cn/" target="_blank" title="中国电子政务网"> | </a>			 
+			 <a href="https://gjzwfw.www.gov.cn/" title="国家政务服务平台 | 全国一体化在线政务服务平台（试运行）">国家政务服务平台</a>
+			 （ <img class="bottom"  src="images/kaipuyun.ico" height="15" width="15" /><a href="https://pucha.kaipuyun.cn/" target="_blank" title="全国政府网站信息报送系统">全国政府网站信息系统</a> ）
+			 </b></td>
+			 <!-- <td class="date"> 靠最右对齐--> 
+			 <td class="main"><b> <a href="https://go.choong.net/" title="搜天下 | 乐哥在线">👍</a><a href="https://go.choong.net/google/" title="感谢 Google © 2010 👍 不作恶 - Don't be evil">Good</a>
+			 <a href="https://www.microsoft.com/zh-cn/software-download/windows10" title="微软官网 | 下载 Windows 10">MS</a>
+			       <a href="https://msdn.itellyou.cn/" title="MSDN, 我告诉你 - MS资源下载：系统大全 (包含微软所有操作系统，全官方，不是Ghost版系统，需注意下载后重做系统需要驱动精灵网卡版) ">系统</a>
+			       <a href="https://support.microsoft.com/zh-cn/help/17621/internet-explorer-downloads#!/zh-cn/help/17621/internet-explorer-downloads" title="Internet Explorer 下载 
+			       （适用于： Windows 10, Windows 8.1, Windows 7）">IE</a> <a href="https://tool.oschina.net/commons?type=2" title="HTML转义字符对照表">&amp;</a> <a href="https://www.microsoft.com/zh-cn/windows/microsoft-edge/" title="Microsoft Edge - 适用于台式机和移动设备的 Internet Web 浏览器
+			       （仅适用于： Windows 10 ）">Edge</a> <a href="https://github.com/taoste/taoste.github.io/issues/10" title="🔄内链切换[Note] Ⓜ️ 微软 Microsoft 系列 · Issue #10">-</a>
+			       <a href="https://go.choong.net/welcome/" title="Welcome : 常用网页浏览器 - 扩展插件专题">插件</a>
+				   	<a href="https://go.choong.net/hosts/" title="#">Ho</a><a href="https://go.choong.net/1024/" title="#">st</a> 
+		            <a href="https://go.choong.net/16bit/" title="Notepad笔记：16进制颜色代码（完全）">Bit</a> 
+		            <a href="https://go.choong.net/zh/" title="虫虫物语 | 乐哥在线 [wiki主页]">wiki</a> 
+		            <a href="https://go.choong.net/nav/" title="工具导航 / 备注【直达Hello-World/Tools】go.choong.net/Tools/">Tools</a>  
+		            <a href="https://go.choong.net/zt/" title="专题">topic</a> 
+		            <a href="https://go.choong.net/BTSync/" title="Program-think 专题 | eBooks 目录 - BT Sync 密钥">BTSync</a> 
+			     
+			 </b></td> 
+		 </tr>
+
+		 <tr>
+			 <td class="date"><b>
+			   金融
+            </b></td> 
+            <td class="main"><b>
+			      <img class="bottom"  src="images/cn.ico" height="20" width="20" />
+		     	 <a href="http://www.cbirc.gov.cn/" target="_blank" title="中国银保监会 | 中国银行保险监督管理委员会">银保监会</a>:
+			     <a href="http://www.pbc.gov.cn/" title="中国人民银行 · 专门行使国家中央银行职能">央行</a> >
+			     <a href="http://www.pbccrc.org.cn/" title="中国人民银行 | 征信中心 - 伴您一生的信用记录者">征信中心</a>  |
+			     <a href="http://www.gsxt.gov.cn/" title="国家企业信用信息公示系统">企业</a>  |
+				 <a href="https://www.creditchina.gov.cn/" title="信用中国 | 国家公共信用信息中心">信用中国</a>
+			     <a href="http://zxgk.court.gov.cn/" title="中国执行信息公开网 | 全国法院失信被执行人名单信息公布与查询平台">执行</a> |
+			     <a href="https://github.com/taoste/Hello-World/tree/master/eBook/Emergency%20Plan" title="Hello-World/eBook/Emergency Plan at master · taoste/Hello-World">
+			     <!-- <img class="bottom"  src="http://www.emerinfo.cn/images/favicon.png" />  -->
+				 <img class="bottom"  src="images/Emerinfo.png" /></a>
+			     <a href="http://www.emerinfo.cn/" title="中国应急信息网 - 中华人民共和国应急管理部/主办( 官网 mem.gov.cn )">应急管理</a>		    
+			</b></td> 
+		 </tr>	
+		 
+		 <tr>
+             <td><b>
+			<a href="https://go.choong.net/s/30+/" title="[转载]但取三年，四十不惑">
+			<marquee style="color:#999999" direction=down width=580 height=30 scrolldelay=500>❤愿你被这个世界温柔以待 即使生命总以刻薄荒芜相欺❤</marquee>	</a>
+
+			 </b></td>
+		 	<td class="main"><b>
+         		☞<a href="https://vip.icbc.com.cn/" title="工商银行VIP网上银行">工商银行</a> 
+         	  | <a href="http://www.abchina.com/" title="中国农业银行">农业银行</a>
+         	  | <a href="http://www.boc.cn/" title="中国银行">中国银行</a>
+         	  | <a href="http://www.ccb.com/" title="中国建设银行">建设银行</a>
+         	  | <a href="https://www.cmbchina.com/" title="一网通主页 -- 招商银行官方网站">招商银行</a>
+         	  | <a href="https://ebank.hb96568.com/" title="湖北省农村信用社（农商银行）网上银行">湖北农商</a> 
+			 </b></td> 
+		 </tr>
+
+		<tr>
+		 	 <td class="date"><b>
+			 教育
+            </b></td> 		 
+		 	<td class="main"><b>
+			   <a href="https://github.com/taoste/taoste.github.io/issues/21" title="🔄 内链切换[Note] 🍬教 育 网 站 （Kids） · Issue #21">
+			     <!-- <img class="bottom"  src="http://www.moe.gov.cn/favorite.ico" />  -->
+				 <img class="bottom"  src="images/moe.ico" /></a>
+			     <a href="http://www.moe.gov.cn/" title="中华人民共和国教育部 | 政府门户网站">国家教育部</a> |
+			     <a href="http://zwfw.moe.gov.cn/" title="中华人民共和国教育部网上服务大厅 | 全国一体化在线政务服务平台（试运行）">政务服务网</a> > 
+			     <a href="https://www.chsi.com.cn/" title="中国高等教育学生信息网（学信网）
+			     -- 教育部学历查询网站、教育部高校招生阳光工程指定网站、全国硕士研究生招生报名和调剂指定网站">学信网</a> &
+			      <a href="https://yz.chsi.com.cn/" title="中国研究生招生信息网">研招</a><a href="https://my.chsi.com.cn/" title="学信档案(高等教育信息档案) | 中国高等教育学生信息网（学信网）">档案</a> > 
+			      <a href="http://www.chinaedu.edu.cn/" title="中国教育信息网
+			     教育部教育管理信息中心主管、主办的“中国教育信息网”（www.chinaedu.edu.cn），是为公众提供权威教育行业信息、院校信息、教育相关产业信息为核心的教育信息服务平台。 ">中国教育信息网</a>
+			 </b></td> 
+		 </tr>
+
+         <tr>
+             <td><b>			 
+			        <a href="maxim.html" title="[转载]分享各个领域的一些格言 @编程随想的博客">
+			      <marquee style="color:#999999" direction=up width=580 height=35 scrolldelay=500>
+				  <!-- 
+					<a href="https://github.com/taoste/Hello-World/tree/master/eBook/ProgramThink">💗 精选</a>：分享各个领域的一些格言
+					<a href="https://program-think.blogspot.com/2014/08/maxim.html" title="分享各个领域的一些格言@编程随想的博客">@编程随想的博客</a> 					
+					<a href="https://www.wikiquote.org/" title="有一个网站叫做“维基语录”，是“维基百科”的姐妹网站。它上面可以看到不少名人名言（包含各主流语种）。">@维基语录</a> 
+					-->
+				  
+				  ★关于“人生”“学习和思考”: <br /><br /> 
+				  
+				  世上只有一种英雄主义<br />就是在认清生活的真相之后依然热爱生活 -- 罗曼·罗兰 <br /><br />
+				  
+				  在这个世界上, 人所处的绝境, <br />在很多情况下, 都不是生存的绝境, 而是精神的绝境!<br /><br />
+				  
+				  人生中最大的两个财富是: 你的才华和你的时间。<br />
+				  才华越来越多而时间越来越少。我们的一生就是用时间来换取才华。<br /><br />
+				  
+				  你要按你所想的去生活; 否则, 你迟早会按你所生活的去想!<br /><br />
+				  
+				  人生最大的一种痛, 不是失败, 而是没有经历自己想要经历的一切。<br /><br />
+				  
+				  想得到你从未拥有过的东西, 就必须做你从未做过的事情。<br /><br />
+				  
+				  你若不想做, 总能找到借口; 你若想做, 总会找到方法<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——阿拉伯谚语<br /><br />
+				  
+				  获得信任的技巧就是避免使用任何技巧<br /><br />
+				  
+				  不要去欺骗别人 -- 因为你能骗到的人, 都是相信你的人。<br /><br />
+				  
+				  判断一个人的人品, 不是看他好起来做什么好事, <br />
+				  而是看他坏起来【不做】什么坏事。<br /><br />
+				  
+				  授人以鱼不如授人以渔!<br />
+				  授人以鱼只救一时之急, 授人以渔则可解一生之需。<br /><br />		
+
+				  大多数人宁愿死去, 也不愿思考。<br />	 
+				  -- 事实上他们也确实到死都没有思考。<br />	
+				  &nbsp;——罗素 (哲学家 数学家 诺贝尔文学奖得主)<br />	<br />	
+
+				  对知识分子而言, 成为思维的精英比成为道德的精英更重要。<br />
+				  &nbsp;&nbsp;&nbsp;——<a href="https://zh.wikipedia.org/zh-hans/王小波" title="王小波（1952年5月13日－1997年4月11日） - 维基百科，自由的百科全书">@王小波</a>  (著名作家，第一代程序员)	<br /><br />	
+
+				  只有两样东西可能是无限的: <br />
+				  宇宙的大小和人类的愚蠢。<br />
+				  不过, 对于前者我不太确定 :)<br />
+				  &nbsp;&nbsp;&nbsp; ——爱因斯坦	<br /><br />			  
+				  
+				  
+				  ◇关于“设计”“编程” : <br /><br />
+				  
+				  简单即是美  Simple is beautiful <br /><br />
+				  
+				  编程的艺术就是处理复杂性的艺术<br />
+				  &nbsp;&nbsp;&nbsp;——Edsger Dijkstra (图灵奖得主)<br /><br />
+				  
+				  优秀的设计在不断地演化, 糟糕的设计在不断地打补丁。 <br /><br />
+				  
+				  简单是可靠的先决条件 —— Edsger Dijkstra (图灵奖得主)<br /><br />
+				  
+				  软件设计就像做爱, 一次犯错, 你要用余下的一生来维护。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——Michael Sinz <br /><br />
+				  
+				  好的程序代码本身就是最好的文档<br />
+				  &nbsp;&nbsp;&nbsp;——《代码大全》Steve McConnell<br /><br />
+				  
+				  
+				  ◇关于“教育” : <br /><br />
+				  
+				  教育的价值在于培训思维, 而不在于传授事实。——爱因斯坦<br /><br />
+				  
+				  花在孩子身上的钱和孩子的修养之间没有任何关系, 甚至成反比。<br />
+				  在子女教育方面, 父母应该投入的是时间, 而不是金钱。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;——大前研一 (日本经济评论家)<br /><br />
+				  
+				  小时候一个劲地教你做好人, 长大了一个劲地教你做坏人<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——这就是中国式教育<br /><br />
+				  
+				  以前学英语是为了更好地了解外国<br />
+				  现在学英语是为了更好地了解中国<br /><br />
+				  
+				  若批评不自由, 则赞美无意义!<br />——法国《费加罗报》的宗旨<br /><br />
+				  
+				  ★关于“经济”: <br /><br />
+				  
+				  我也会有恐惧和贪婪, 只不过是在大众贪婪时恐惧, 在大众恐惧时贪婪!<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——巴菲特<br /><br />
+
+				  控制风险的最好办法是深入思考, 而不是投资组合。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——巴菲特<br /><br />
+
+				  价值投资不能保证我们盈利, <br />
+				  但价值投资给我们提供了通向成功的唯一机会。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——巴菲特<br /><br />
+
+				  我从事投资时, 会观察一家公司的全貌; <br />
+				  而大多数投资人只盯着它的股价。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——巴菲特<br /><br />
+
+				  投资成功与否并非取决于你了解的东西, <br />
+				  而在于你能否老老实实地承认你所不知道的东西。<br />
+				  投资人并不需要做对很多事情, <br />
+				  重要的是不要犯重大的错误。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——巴菲特<br /><br />
+
+				  所谓'市场效率学说'之类的投资教条, <br />
+				  不过是为了增加投资的神秘性, 好让投资顾问得以从中牟利罢了。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——巴菲特<br /><br />
+
+				  退潮时, 便可知道谁在裸泳。<br />
+				  &nbsp;&nbsp;&nbsp;——巴菲特<br /><br />
+
+				  短期而言, 股票市场是个投票机; 长期而言, 股票市场是个称重器。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——本杰明.格雷厄姆<br /><br />
+
+				  投资是预测资产收益的活动, 而投机是预测市场心理的活动。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——凯恩斯<br /><br />
+
+				  投资的风险来自于: 你不知道你在做什么 :)<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——巴菲特<br /><br />
+				  
+				  ★关于“管理”: <br /><br />
+
+				  用人不在于如何减少人的短处, 而在于如何发挥人的长处。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——彼得.德鲁克 (管理学之父)<br /><br />
+
+				  企业最大的资产是人!<br />
+				  &nbsp;&nbsp;——松下幸之助 (号称日本经营之神)<br /><br />
+
+				  你想雇用的人必须具备3种品质: <br />
+				  正直诚实、聪明能干和精力充沛。<br />
+				  如果缺少第一种, 后两种品质会要你命!<br />
+				  &nbsp;&nbsp;&nbsp;——巴菲特 （相关博文：<a href="https://program-think.blogspot.com/2009/04/defect-of-hire.html">招聘的误区</a> ）<br /><br />
+
+				  以用户为中心, 其它一切纷至沓来!<br />
+				  &nbsp;&nbsp;&nbsp;——Google 信条<br /><br />
+
+				  只有偏执狂才能生存!<br />
+				  &nbsp;&nbsp;&nbsp;——Andy Grove (英特尔创始人之一, 前任CEO)<br /><br />
+
+				  领袖和跟风者的区别就在于创新!<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;——史蒂夫.乔布斯<br /><br />
+
+				  我的管理风格既不是美国的个人主义, <br />
+				  也不是日本的共识主义, <br />
+				  而是独特的达尔文主义(适者生存)!<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——比尔.盖茨<br /><br />
+
+				  我们没有不懂技术的管理人员<br />
+				  -- 因为寻求技术和管理的平衡毫不费力!<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——比尔.盖茨<br /><br />
+
+				  伟大的车工值得给他几倍于普通车工的薪水。<br />
+				  但一个伟大的程序员, 其价值相当于普通程序员的1万倍!<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——比尔.盖茨<br /><br />
+
+				  当你用一个手指指着某人时, 请注意其它三个手指在指哪儿。<br />
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——Gerald Weinberg (软件工程大牛)<br />
+				  （相关博文：<a href="https://program-think.blogspot.com/2009/07/book-review-are-your-lights-on.html">书评：《你的灯亮着吗？——找到问题的真正所在》</a>）<br /><br />
+
+				  唯一不变的是变化本身!<br /><br />
+				  
+				  </marquee>
+				  </a>
+				  
+			 </b></td>
+		 	<td class="main"><b>☞网络云课堂：
+			     <a href="https://open.163.com/" title="网易公开课 | 国际名校公开课、中国大学视频公开课">网易公开课</a> |
+			     <a href="https://study.163.com/" title="网易云课堂 - 我的职业课堂">云课堂</a>、
+			     <a href="https://ke.qq.com/" title="腾讯课堂_专业的在线教育平台(ke.qq.com)">腾讯课堂</a> |
+			     <a href="https://class.qq.com/" title="腾讯精品课 - 让成长加速！">精品课</a>
+			 </b></td> 
+		 </tr> 	
+
+         <tr>
+		 	 <td class="date"><b>			 
+			 医疗
+            </b></td> 
+		 	<td class="main"><b>			      
+			     <!-- <img class="bottom"  src="http://wjw.hubei.gov.cn/material/images/ico.png" /> -->
+				 <img class="bottom"  src="images/wjw.png" />
+			      <a href="http://www.nhc.gov.cn/" title="中华人民共和国国家卫生健康委员会 | 政府门户网站">国家卫健委</a> |
+			      <a href="http://www.chinacdc.cn/" title="中国疾病预防控制中心 | 国家卫生健康委直属事业单位">中国疾病预防控制中心</a>
+				   </b></td> 
+		 </tr>  		 
+		 
+		 <tr>
+		 	 <td class="date"><b>
+             <!-- <img class="bottom" src="https://img.shields.io/badge/为祖国-健康工作50年-brightgreen.svg" height="20" width="200" /> -->
+			 <img class="bottom" src="images/为祖国-健康工作50年-brightgreen.svg" height="20" width="200" />
+			 <!-- <img class="bottom" src="https://img.shields.io/badge/为祖国-健康工作50年-brightgreen.svg" height="20" width="200" /> -->
+			 <img class="bottom" src="images/健康是责任-长寿是目标-yellow.svg" height="20" width="200" />
+             &nbsp;&nbsp;&nbsp;
+			 养老
+            </b></td> 
+			 <td class="main"><b>			      
+			     <img class="bottom"  src="images/12333.ico" height="20" width="20" />
+		     	 <a href="http://si.12333.gov.cn/" target="_blank" title="国家社会保险公共服务平台 - 主办单位：中华人民共和国人力资源和社会保障部 ">全国社保服务平台</a>
+			     <a href="https://cn.bing.com/search?q=%E7%AC%AC%E4%B8%89%E4%BB%A3%E6%AE%8B%E7%96%BE%E4%BA%BA%E8%AF%81" title="第三代残疾人证 [ 中国残疾人联合会 cdpf.org.cn ] - 国内版 Bing"><img class="bottom"  src="images/cn.ico" height="20" width="20" /></a>			  
+		     	 <a href="http://www.mca.gov.cn/" target="_blank" title="中华人民共和国民政部">民政部</a> |			 
+		     	 <a href="http://www.cdpf.org.cn/" target="_blank" title="中国残疾人联合会">残联</a> 
+				   </b></td> 
+		 </tr> 
+
+         <tr>
+             <td class="date"><b>
+			 国际视野
+			 </b></td>
+		 	<td class="main"><b>
+				  <!-- <img class="bottom"  src="https://www.who.int/favicon.ico" /> -->
+				  <img class="bottom"  src="images/who.ico" />
+				  <a href="https://www.un.org/" title="联合国 | 健康地球上的和平、尊严与平等">联合国</a><a href="https://webtv.un.org/" title="联合国网络电视（webtv.un.org）提供每日联合国会议的直播和点播内容（六种语言），例如联合国大会、安全理事会、人权理事会、经济及社会理事会，以及讨论会、新闻简报和其他活动。">TV</a>|<a href="http://www.fao.org/home/zh/" title="粮农组织主页 | 联合国粮食及 农业组织">粮农组织</a>、
+				  <img class="bottom"  src="images/who.ico" /><a href="https://www.who.int/zh/" title="世界卫生组织（WHO） | 世卫组织官方网站">WHO</a>|<a href="https://www.who.int/foodsafety/zh/" title="世界卫生组织（WHO） | 食品安全">食品安全</a>
+				  <a href="https://github.com/taoste/Hello-World/tree/master/eBook/《丁香园%26丁香医生》" title="🔄内链切换[Note] Hello-World/eBook/《丁香园&丁香医生》">
+				  <!--<img class="bottom"  src="https://assets.dxycdn.com/app/bbs/favicon.ico" /></a>-->
+				  <img class="bottom"  src="images/dxy.ico" /></a<a href="https://dxy.com/" title="丁香医生|可信赖的医疗健康信息和服务">丁香医生</a>&《<a href="https://www.thelancet.com/zh/" title=" 国际顶级医学期刊">柳叶刀</a>》
+			 </b></td> 
+		 </tr>	
+
+		 <tr>
+             <td class="date"><b>
+			 休闲娱乐
+			 </b></td>
+		 	<td class="main"><b>
+			     <a href="https://www.zhibo8.cc/" title="直播吧 https://www.zhibo8.cc/">直播</a><a href="https://tv.cctv.com/live/" title="CCTV节目官网-央视直播大全">央视</a> 
+			     <a href="https://app.cctv.com/" title="央视影音客户端-APP下载">❤️</a><a href="https://www.ifeng.com/" title="凤凰网 ifeng.com">凤凰网</a>-<a href="https://v.ifeng.com/" title="凤凰视频首页-最具媒体价值的视频门户-凤凰网">视频</a>-<a href="https://zhibo.ifeng.com/" title="风直播 - 只为抵达，给你好看！">直播</a>
+			     ❤️<a href="https://web.kugou.com/" title="酷狗音乐在线播放器">酷狗</a>
+			     ❤️<a href="https://music.163.com/" title="网易云音乐">网易</a>
+			     ❤️<a href="https://y.qq.com/" title="QQ音乐-千万正版音乐海量无损曲库新歌热歌天天畅听的高品质音乐平台！">QQ音乐</a>
+			     ❤️<a href="https://wx.qq.com/" title="微信-网页版">微信</a>
+			 </b></td> 
+		 </tr>		 
+		 
+         <tr>
+			 <td><b>
+			  <img class="bottom"  src="images/cn.ico" height="20" width="20" /><a href="http://www.mof.gov.cn/" target="_blank" title="中华人民共和国财政部">国家财政部</a> - <a href="http://kzp.mof.gov.cn/index.jsp" target="_blank">全国会计资格评价网</a>
+			 </b></td>
+		 	<td class="main"><b>
+			    <img class="bottom"  src="images/red.png" height="25" width="25" />	<a href="http://czt.zj.gov.cn/" target="_blank" title="浙江省财政厅">浙江省财政厅</a> - 
+	            <img class="bottom"  src="images/zjkjzj-logo.png" height="20" width="20" /><a href="http://kjzj.czt.zj.gov.cn/" target="_blank" title="浙江会计之家">浙江会计之家</a>
+			 （ <a href="http://kjbm.mof.gov.cn/ksbm/usercxzkz.jsp" title="2020年度全国会计专业技术资格考试准考证打印-初级">初级</a> | 
+                 <a href="http://kjbm6.mof.gov.cn/ksbm/usercxzkz.jsp" title="2020年度全国会计专业技术资格考试准考证打印-中级">中级</a> | 
+                 <a href="http://kjbm2.mof.gov.cn/ksbm/usercxzkz.jsp" title="2020年度全国会计专业技术资格考试准考证打印-高级">高级</a> ）
+			 </b></td>
+		 </tr> 
+		 
+         <tr>
+		 	<td><b>	 
+				 <a href="http://www.zjzwfw.gov.cn/" target="_blank" title="浙江政务服务网">浙江政务服务网</a>
+ :
+			 	 <a href="http://www.zj.gov.cn/" target="_blank" title="浙江省人民政府门户网站">浙江</a> · 
+                 <a href="http://www.jiaxing.gov.cn/" target="_blank" title="中共嘉兴市委|嘉兴市人民政府 - 门户网站">嘉兴</a> ·
+				 <a href="http://www.nanhu.gov.cn/" target="_blank" title="中共南湖区委 | 南湖区政府 - 门户网站">南湖</a>
+			</b></td>
+		 	<td class="main"><b>
+			 	<img class="bottom"  src="images/mps.ico" height="20" width="20" />
+			   	 <a href="https://zjjzzgl.zjsgat.gov.cn/zahlw/index33" target="_blank" title="浙江省居住证服务平台 -首页">浙江省居住证</a>&<a href="https://zjjzzgl.zjsgat.gov.cn/" target="_blank" title="杭州市居住证服务平台 -首页">杭州</a>
+				 <!-- <img class="bottom"  src="https://www.jxrsrc.com/img/favicon/apple-touch-icon.png" height="20" width="20" /> -->
+				 <img class="bottom"  src="images/jxrsrcw.png" height="20" width="20" />
+		     	 <a href="https://www.jxrsrc.com/" target="_blank" title="嘉兴人才网-嘉兴人事人才网-嘉兴市人才市场唯一官方网站、嘉兴市人才交流服务中心 嘉兴求职 嘉兴招聘 人才测评 人才派遣 办事指南 HR联谊会 | www.jxrsrc.com">嘉兴人才网</a> |
+			   	 <img class="bottom"  src="images/jxsmk.ico" height="20" width="20" />	
+				 <a href="http://www.jxsmk.com/" target="_blank" title="嘉兴市民服务网 【服务热线：967225】  主办单位：嘉兴市民卡服务中心有限公司">嘉兴市民卡</a> |
+			   	 <img class="bottom"  src="images/tianyancha.ico" height="20" width="20" />
+				 <a href="https://www.tianyancha.com/" target="_blank" title="天眼查-商业安全工具_企业信息查询_公司查询_工商查询_企业信用信息系统">天眼查</a>
+			  </b></td> 
+		 </tr>  
+		 
+         <tr>
+             <td><b> 
+              &nbsp;			 
+			 </b></td>
+		 	<td class="main"><b>
+				 <a href="http://www.zjol.com.cn/" target="_blank" title="浙江在线-浙江省委省政府新闻门户网站">浙江在线</a>&
+				 <a href="http://nhnews.zjol.com.cn/nhsy/" target="_blank" title="南湖新闻网 www.zjnhnews.com">南湖新闻</a>			
+			 	 <img class="bottom"  src="images/bendibao.ico" height="20" width="20" />	
+			   	 <a href="http://www.bendibao.com/city.htm" target="_blank" title="本地宝-爱上本地宝，生活会更好.">本地宝</a>			 
+			     <img class="bottom"  src="images/19lou.ico" height="20" width="20" />	 
+			   	 <a href="https://www.19lou.com/" target="_blank" title="杭州19楼-找对象、办婚礼、搞装修、聊育儿、看小说、租房买卖二手房，就上19楼">杭州19楼</a> /
+			   	 <a href="https://jiaxing.19lou.com/" target="_blank" title="嘉兴 19 楼-找对象、办婚礼、搞装修、聊育儿-嘉兴 19 楼">嘉兴19楼</a>
+			 </b></td> 
+		 </tr> 	 
+
+ 
+		 
+         <tr>
+             <td><b>
+			 &nbsp;
+			 </b></td>
+		 	<td class="main"><b>
+			 &nbsp;
+			 </b></td> 
+		 </tr>   
+ 	 	 
+</tbody>
+ 
+            <tfoot>
+                <tr>
+                    <td colspan="3"> 
+				<p>                  				
+		          <a href="https://www.guokr.com/article/214/" title="一天8杯水才健康？| 果壳 科技有意思">
+				 <!--<img class="bottom" src="https://img.shields.io/badge/每天要喝8杯水-身心美丽一整天-brightgreen.svg" height="20" width="200" /> -->
+				 <!--<img class="bottom" src="https://img.shields.io/badge/为祖国健康工作50年-brightgreen.svg" height="20" width="200" /> -->
+				 <!--<img class="bottom" src="https://img.shields.io/badge/健康是责任-健身是任务-yellow.svg" height="20" width="200" /> -->
+		             <img class="bottom" src="images/每天要喝8杯水-身心美丽一整天-brightgreen.svg" height="30" width="200" />								
+                  </a>	
+
+               <marquee style="color:#999999" direction=up width=400 height=25 scrolldelay=350> 				
+				<person>小鱼</person>多喝水 ☞八杯水≈1.8L <br />
+				久坐伤身，多走动 ☞番茄钟时间≈25+5分钟<br />
+				早睡早起身体好！☞22:00上床≈睡眠八小时<br />
+				每天锻炼一小时,健康工作五十年,幸福生活一辈子！
+				</marquee>				 
+						    				
+				 <!-- <marquee behavior=alternate scrolldelay=300> 
+				 <!--全方位详解HTML常用标签_HTML 教程_w3cschool https://www.w3cschool.cn/html/html-Label.html -->
+			    ⚠ <a href="https://go.choong.net/tips/" target="_blank" title="tips">tips</a>：
+				<a href="https://go.choong.net/welcome/" target="_blank" title="Welcome : 常用网页浏览器 - 扩展插件专题 ">网址汇集</a>，
+				权威信息请查阅官网<a href="https://www.w3cschool.cn/html/html-space.html" title="HTML中如何键入空格_w3cschool">🛡</a>
+				 </p>
+				 
+                    </td>
+                </tr>	
+			
+            </tfoot>	    
+        </table>
+			  
+<p style="text-align:center">Copyright &copy;  
+<a href="../rili.html" title="万年历">
+		 <script>// <![CDATA[
+                 document.write(new Date().getFullYear());
+                 // ]]></script></a>,<a href="https://choong.net" title="虫虫物语 | 乐哥在线">Choong.Net</a> 
+ </p> 
+
+<div class="layout" >
+<div>
+    
+	<!----> <div  style="float:left; margin:10px 0 0 30px">
+      <img class="bottom"  src="images/czbzwwx.jpg" />
+    </div>
+    <div style="float:left; margin:10px 0px 0 30px">
+      <img class="bottom"  src="images/kzpwx.jpg" />
+    </div> 
+</div>
+</div>
+
+
+<div style="visibility:hidden">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?694e61985b4752f4e7a0e5223195635f";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</div>
+
+ <div id="imgDiv" style="position:absolute;align:center; visibility:hidden; z-index:9999;">
+	<br>
+	<table width="450" cellspacing="0">
+		<tr>
+            <td align="right"><div id="imgDivclose" style="color:#00C; cursor:pointer; background-color:#FF0; width:44px" align="right">关闭 </div></td>
+        </tr>
+ 
+		<tr>
+			<td width="450" height="50" align="center" bgcolor="#f55204" ><a href="/content.jsp?infoid=1639&class_id=01_01&child_class_id=" target="_blank" onMouseOver=stopme('jobads') onMouseOut=movechip('jobads')><div style="font-family:'微软雅黑','黑体'; font-size:16px; font-weight:bold; color:#ffffff; line-height:150%">财政部会计资格评价中心2020年接收应届高校毕业生面试公告</div></a></td>
+		</tr>
+
+	</table>
+
+</div>
+
+<script>
+var xin = true,  
+    yin = true;  
+var step = 1;  
+var delay = 30;  
+var $obj;  
+$(function() {  
+    $obj = $("#imgDiv");  
+    var time = window.setInterval("move()", delay);  
+    $obj.mouseover(function() {  
+        clearInterval(time)  
+    });  
+    $obj.mouseout(function() {  
+        time = window.setInterval("move()", delay)  
+    });  
+});  
+  
+function move() {  
+    var left = $obj.offset().left;  
+    var top = $obj.offset().top;  
+    var L = T = 0; //左边界和顶部边界  
+    var R = $(window).width() - $obj.width(); // 右边界  
+    var B = $(window).height() - $obj.height(); //下边界  
+  
+    //难点:怎样判断广告的4个边框有没有超出可视化范围!  
+    if (left < L) {  
+        xin = true; // 水平向右移动  
+    }  
+    if (left > R) {  
+        xin = false;  
+    }  
+    if (top < T) {  
+        yin = true;  
+    }  
+    if (top > B) {  
+        yin = false;  
+    }  
+    //根据有没有超出范围来确定广告的移动方向  
+    left += step * (xin == true ? 1 : -1);  
+    top  += step * (yin == true ? 1 : -1);  
+    // 给div 元素重新定位  
+    $obj.offset({  
+        top: top,  
+        left: left  
+    })  
+}  
+    //关闭  
+$(function() {  
+    $("#imgDivclose").click(function() {  
+        //var b = $("#imgDivclose").parent();  
+        //$(b).remove();  
+		$("#imgDiv").remove();
+    })  
+})
+</script>
+
+</body>
+</html>
