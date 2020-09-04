@@ -1,10 +1,8 @@
-index.html
-
-lrc.html
+index.html | lrc.html
 
 <p><a target="_blank" href="https://go.choong.net/City/0713/" title="我在浠水等你 - 韩硕 - 单曲 - 网易云音乐">
-<h3><font color="#FC1205">我在浠水等你</font></h3></a>·
-韩硕</p> 
+<font color="#FC1205">我在浠水等你</font></a>·<a target="_blank" href="https://github.com/inchoong/go/raw/master/City/0713/music.7z">韩硕</a></p> 
+
 -----------------------
 <a target="_blank" href="https://go.choong.net/City/0713/" title="我在浠水等你 - 韩硕 - 单曲 - 网易云音乐">
  <img src="https://github.com/inchoong/go/blob/master/City/0713/th.jpg?raw=true" />
