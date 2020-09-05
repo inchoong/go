@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title></title>
+	<script src="resource/vendor/pace/pace.min.js"></script>
+	<script type="text/javascript">
+		paceOptions = {
+			ajax: false,
+			document: false,
+			eventLag: false
+		};
+	</script>
+	<link href="resource/vendor/pace/themes/red/pace-theme-corner-indicator.css" rel="stylesheet" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="bookmark" href="/favicon.ico"/>
+	<link rel="stylesheet" href="resource/css/main.css"/>
+	<link rel="stylesheet" href="resource/vendor/bootstrap/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="resource/vendor/clockpicker/jquery-clockpicker.min.css"/>
+	<link rel="stylesheet" href="resource/vendor/bootstrap-dialog/bootstrap-dialog.min.css"/>
+</head>
+<body>
+<div class="container-fluid full-height">
+	<div class="row full-height">
+		<div id="today" class="col-md-4 full-height">
+			<div class="toolbar">
+				<div class="head">
+					<div class="column">今日任务<div id="date-display"></div></div>
+					<div class="column stat stat-total"><span>0</span><div>任务总数</div></div>
+					<div class="column stat stat-done"><span>0</span><div>已办</div></div>
+					<div class="column stat stat-todo"><span>0</span><div>待办</div></div>
+				</div>
+				<div class="task-form">
+					<div class="input-group-lg">
+						<input type="text" class="form-control title" name="title" placeholder="新建任务">
+					</div>
+					<div class="form-panel">
+						<input type="hidden" name="date">
+						<div class="input-group clockpicker" data-autoclose="true">
+							<input type="text" class="form-control" name="startAt" readonly="">
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-time"></span>
+							</span>
+						</div>
+						<div class="clockpicker-separator">&nbsp;至&nbsp;</div>
+						<div class="input-group clockpicker" data-autoclose="true">
+							<input type="text" class="form-control" name="endAt" readonly="">
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-time"></span>
+							</span>
+						</div>
+						<div class="clearfix"></div>
+						<textarea class="form-control memo" name="memo" placeholder="备注"></textarea>
+						<button class="btn btn-success">创建任务</button>
+						<a href="#" class="cancel">取消</a>
+					</div>
+				</div>
+			</div>
+			<div class="todo-list">
+				<div class="no-task">
+					你今天什么都不做吗 ？
+					<div>
+						<img src="resource/image/Minion.jpg"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 full-height">
+			<div class="topbar">
+				<button class="btn btn-default btn-sm" type="button" onclick="PDF()">
+				<img src="resource/image/pdf-export.png" width="16" height="16" />&nbsp;导出今日数据</button>
+				<div class="dropdown" style="position:absolute;right:5px;top:5px;">
+				<button class="btn btn-default btn-sm" href="#" role="button"  data-toggle="dropdown">
+					<span class="glyphicon glyphicon-menu-hamburger"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					<li role="presentation">
+						<a role="menuitem" tabindex="-1" href="https://github.com/Bing1983/today-gtd" target="_blank">项目主页</a>
+					</li>
+					<li role="presentation">
+					<a role="menuitem" tabindex="-1" href="http://www.mikecrm.com/f.php?t=ZTr4CJ" target="_blank">问题及反馈</a>
+					</li>
+					<li role="presentation">
+						<a role="menuitem" tabindex="-1" href="doc.html" target="_blank">帮助</a>
+					</li>
+				</ul>
+				</div>
+			</div>
+			<div class="clock">
+				<canvas class="process" width="256px" height="256px"></canvas>
+			</div>
+			<div class="summary">
+				<div>
+					<span>你今天完成了&nbsp;<span id="total-tomatos">0</span>&nbsp;个番茄钟，</span>
+					<span>累计工作时间为&nbsp;</span><span id="total-duration">0</span>
+				</div>
+				<div>
+					<div style="font-size:12px;color:#999;">番茄钟分布统计</div>
+					<canvas id="myChart" height="150" style="width:95%"></canvas>
+				</div>
+			</div>
+		</div>
+		<div id="tomorrow" class="col-md-4 full-height">
+			<div class="toolbar">
+				<div class="head">
+					<div class="column">
+						明日任务<div id="tomorrow-display"></div>
+					</div>
+					<div class="column stat stat-total"><span>0</span><div>任务总数</div></div>
+				</div>
+				<div class="task-form">
+						<div class="input-group-lg">
+							<input type="text" class="form-control title" name="title" placeholder="新建任务">
+						</div>
+						<div class="form-panel">
+							<input type="hidden" name="date">
+							<div class="input-group clockpicker" data-autoclose="true">
+								<input type="text" class="form-control" name="startAt" readonly="">
+								<span class="input-group-addon">
+								<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+							<div class="clockpicker-separator">&nbsp;至&nbsp;</div>
+							<div class="input-group clockpicker" data-autoclose="true">
+								<input type="text" class="form-control" name="endAt" readonly="">
+								<span class="input-group-addon">
+								<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+							<div class="clearfix"></div>
+							<textarea class="form-control memo" name="memo" placeholder="备注"></textarea>
+							<button class="btn btn-success">创建任务</button>
+							<a href="#" class="cancel">取消</a>
+						</div>
+				</div>
+			</div>
+			<div class="todo-list">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="task-edit-panel">
+	<div class="task-form">
+		<input type="hidden" name="id">
+		<input type="hidden" name="date">
+		<div class="form-group">
+			<input type="text" class="form-control" name="title" placeholder="任务名称">
+		</div>
+		<div class="input-group clockpicker" data-autoclose="true">
+			<input type="text" class="form-control" name="startAt" readonly="">
+			<span class="input-group-addon">
+			<span class="glyphicon glyphicon-time"></span>
+			</span>
+		</div>
+		<div class="clockpicker-separator">&nbsp;至&nbsp;</div>
+		<div class="input-group clockpicker" data-autoclose="true">
+			<input type="text" class="form-control" name="endAt" readonly="">
+			<span class="input-group-addon">
+			<span class="glyphicon glyphicon-time"></span>
+			</span>
+		</div>
+		<div class="clearfix"></div>
+		<textarea class="form-control memo" name="memo" placeholder="备注"></textarea>
+	</div>
+</div>
+<audio src="resource/sound/alarm.ogg" id="audio-work-complete"></audio>
+<audio src="resource/sound/break.wav" id="audio-break-complete"></audio>
+<form id="pdf-export-form" action='pdf.php' method="post"  target="_blank" >  
+	<input type="hidden" name="content" size="25" value="admin">                         
+</form>
+<div id="draggable" style="border:1px solid #eee;box-shadow:1px 1px 6px 0 #ddd;width:360px;overflow:hidden;padding:0;margin:0;display:none;">
+	<div class="glyphicon glyphicon-transfer" style="display:inline-block;background:#F5F5F5;padding:12px;top:0!important;border-right:1px solid #eee;"></div>
+	<div style="display:inline-block;padding:8px;">今日|feature：拷贝今日任务到明日</div>
+</div>
+<script src="resource/vendor/jquery-2.1.3.min.js"></script>
+<script  src="resource/vendor/json2.js"></script>
+<script  src="resource/vendor/underscore.js"></script>
+<script  src="resource/vendor/moment/moment.js"></script>
+<script  src="resource/vendor/moment/zh-cn.js"></script>
+<script  src="resource/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script  src="resource/vendor/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+<script  src="resource/js/today.function.js"></script>
+<script  src="resource/js/today.db.js"></script>
+<script  src="resource/js/today.helper.js"></script>
+<script  src="resource/js/today.model.js"></script>
+<script  src="resource/js/today.jquery.plugin.js"></script>
+<script  src="resource/js/today.js"></script>
+<script  src="resource/vendor/Chart.min.js"></script>
+<script  src="resource/vendor/Math.uuid.js"></script>
+<script  src="resource/vendor/clockpicker/jquery-clockpicker.min.js"></script>  
+</body>
+</html>
