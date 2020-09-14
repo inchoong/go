@@ -86,13 +86,9 @@
 
 - 2020/6/8 @**新浪汽车**：[“地摊经济”来袭，买台微型电动车到街角做“微商”|导购](https://auto.sina.com.cn/zz/hykx/2020-06-08/detail-iircuyvi7374200.shtml)
 
-- @**金融八卦女频道**: [2020/5/31](https://mp.weixin.qq.com/s/jdxh8YJH1LQ-8cI_LgmzZA) 《[招聘！快来跟八妹做同事吧！](https://go.choong.net/s/wx/20200531/)》 
+- @[**金融八卦女频道**](https://github.com/taoste/Hello-World/tree/master/eBook/%E2%80%9C%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E2%80%9D%E7%BB%88%E6%9E%81%E4%B9%A6%E5%8D%95%EF%BC%9A%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E8%BF%9B%E9%98%B6): [2020/5/31](https://mp.weixin.qq.com/s/jdxh8YJH1LQ-8cI_LgmzZA) 《[招聘！快来跟八妹做同事吧！](https://go.choong.net/s/wx/20200531/)》 
 
-- @**秋叶大叔**: 
-
-> [2020/6/9](https://mp.weixin.qq.com/s/ZZCW5vrCevRexab4nNnwjQ) 《[写给女儿成人礼的一封信](https://go.choong.net/s/wx/20200609/) 》 | <a href="https://raw.githubusercontent.com/taoste/Hello-World/master/eBook/QiuYePPT/20200614.jpg" title="【文章拆解】@秋叶PPT：成年后的你，一定要懂这4个道理！">延伸阅读</a>《 2020/6/14@秋叶PPT:<a href="https://mp.weixin.qq.com/s/quxtb8AEk8Do-5Xf7b0JZQ">成年后的你，一定要懂这4个道理！</a> 》
-
-- @**萧秋水**: [2020/5/26](https://mp.weixin.qq.com/s/jlHo_DpPNdcH2gfrrPnxPg) 《[与自己和解，是最大的治愈](https://go.choong.net/s/wx/20200526/) 》
+- [@**秋叶大叔** |  @**萧秋水**](https://github.com/taoste/Hello-World/blob/master/eBook/QiuYePPT/)
 
 - @**二湘的十一维空间**: [2020/5/23](https://mp.weixin.qq.com/s/BictcctU3pDx-NO4gY7ggg) - [杨胜慰《我心中的常凯》](https://go.choong.net/s/wx/20200523/)
 
