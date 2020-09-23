@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+	<meta charset="UTF-8">
+	<title>咸谈大会 • 深圳 + 广州 • 设计播客 Anyway.FM 的线下活动</title>
+
+	<meta name="description" content="Anyway.FM 设计杂谈播客的线下活动来到了深圳和广州，在七月我们与你咸談咸談" />
+	<meta name="author" content="JJ Ying" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<link rel="shortcut icon" href="assets/favicon.jpg" />
+	<link rel="stylesheet" href="assets/styles.css" />
+
+	<meta property="og:url" content="https://Anyway.FM/meetup-2019-guangdong/">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="咸谈大会 • 深圳 + 广州">
+	<meta property="og:description" content="设计播客 Anyway.FM 的 2019 年度线下活动">
+	<meta property="og:image" content="https://s.anw.red/2019-guangdong/preview.jpg">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:description" content="设计播客 Anyway.FM 的 2019 年度线下活动" />
+	<meta name="twitter:title" content="咸谈大会 • 深圳 + 广州" />
+	<meta name="twitter:site" content="@anyway__fm" />
+	<meta name="twitter:image" content="https://s.anw.red/2019-guangdong/preview.jpg" />
+
+	<script src="assets/vue.js"></script>
+
+</head>
+<body>
+	<div class="wrapper" :class=" [scrollDirection > 0 ? 'scroll-down':'scroll-up' , landscape?'landscape':'portrait', 'stage-'+stage]" :style="{height: headerScrollDistance + opScrollDistance + mainPageH * 7 + 200 +'px'}" v-cloak>
+		<header  v-if="stage < 3" class="full">
+			<div class="full wall" :style="{transform: 'scale(' + (1+ scrollY / headerScrollDistance * (headerFinalScale - 1) * 0.7)  + ') translateX(' + (scrollY / headerScrollDistance * tvFinalOffsetX ) * 0.7 +'px) translateY(' + (scrollY / headerScrollDistance * tvFinalOffsetY ) * 0.7 +'px)'}" >
+				<div class="logo">
+					<img src="assets/logo.png"/>
+				</div>
+			</div>
+			<div class="tv" :style="{
+				transform: 'scale(' + (1+ scrollY / headerScrollDistance * (this.headerFinalScale - 1)) + ') translateX(' + (tvInitOffsetX + scrollY / headerScrollDistance * (tvFinalOffsetX - tvInitOffsetX)) +'px) translateY(' + (tvInitOffsetY + scrollY / headerScrollDistance * (tvFinalOffsetY - tvInitOffsetY)) +'px)'
+				}">
+				<div class="inner"></div>
+			</div>
+
+		</header>
+
+		<div class="full opening">
+			<div v-for="n in 7" class="full" :class="['op-bg-' + n, opBgNum == n ? 'current':'']" :style="{backgroundImage: 'url(assets/op-bg-' + n + '.jpg)' }"></div>
+			<div class="full op-logo"></div>
+		</div>
+
+		<div class="full main" :style="{backgroundColor: '#'+mainBgColor}" v-if="stage > 1">
+			<div class="full section" v-for="n in 7" :class="'s-'+n">
+				<div class="inner"  :class="checkInView(n)">
+					<img :src="'assets/s-'+n+'.png'" v-if="landscape"/>
+					<img :src="'assets/m-'+n+'.png'" v-else/>
+					<a href="https://wx.duohui.co/event/7842" title="深圳站售票鏈接" class="buy-sz" v-if="n == 6 && !landscape" target="_blank"></a>
+					<a href="https://wx.duohui.co/event/7844" title="廣州站售票鏈接" class="buy-gz" v-if="n ==6 && !landscape" target="_blank"></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="full mask">
+		</div>
+
+		<div class="mute-btn" :class="muted ? 'muted' : 'unmuted' ">
+			<a @click="toggleMute"></a>
+		</div>
+		<div class="indicator">
+			<div class="inner"></div>
+		</div>
+		<audio src="assets/bgm.mp3" id="bgm" preload="auto" muted></audio>
+	</div>
+
+	<script src="assets/main.js"></script>
+	<script>
+		<!-- ~Baidu Analytics -->
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "https://hm.baidu.com/hm.js?d6fc362c05908e5ce8d17df52dbc2586";
+		  var s = document.getElementsByTagName("script")[0];
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+</body>
+</html>
