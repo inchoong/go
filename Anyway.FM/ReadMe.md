@@ -3,8 +3,8 @@
    <summary> 
          <a href="http://go.choong.net/Anyway.FM/" title="">view</a>-<a href="https://github.com/inchoong/go/blob/master/Anyway.FM/" title="">source</a>:
        <b><a href="https://anyway.fm/" title="Anyway.FM 设计杂谈 • UI 设计师 JJ 和 Leon 主播的设计播客 Podcast
-	       Anyway.FM 设计杂谈 是一档播客节目，由 UI 设计师 JJ Ying 和 Leon Gao 主播，我们的目标是让你的听觉更懂视觉。">https://Anyway.FM</a></b>
-	</summary> Anyway.FM 设计杂谈 • UI 设计师 JJ 和 Leon 主播的设计播客 Podcast | <a href="http://anyway.design/">anyway.design</a> @<a href="https://github.com/Anyway-Design" title="Anyway.Design | Github">Github</a>
+	       Anyway.FM 设计杂谈 是一档播客节目，由 UI 设计师 JJ Ying 和 Leon Gao 主播，我们的目标是让你的听觉更懂视觉。">https://Anyway.FM</a></b> | <a href="http://anyway.design/">anyway.design</a> @<a href="https://github.com/Anyway-Design" title="Anyway.Design | Github">Github</a>
+	</summary> Anyway.FM 设计杂谈 • UI 设计师 JJ 和 Leon 主播的设计播客 Podcast 
    </details>
    
   <table> 
