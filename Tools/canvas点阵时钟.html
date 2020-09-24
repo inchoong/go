@@ -1,0 +1,251 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>canvas点阵时钟-jq22.com</title>
+<script src="https://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+</style>
+</head>
+<body>
+<canvas id="myCanvas" <="" canvas=""></canvas>
+
+<script>
+ var canvas = document.getElementById("myCanvas");
+ var ctx = canvas.getContext('2d');
+ canvas.height = 100;
+ ctx.fillStyle = "#fff";
+ var dianMap = [
+     [
+         [0, 0, 1, 1, 1, 0, 0],
+         [0, 1, 1, 0, 1, 1, 0],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [0, 1, 1, 0, 1, 1, 0],
+         [0, 0, 1, 1, 1, 0, 0]
+     ], //0
+     [
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 1, 1, 1, 1, 0, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [1, 1, 1, 1, 1, 1, 1]
+     ], //1
+     [
+         [0, 1, 1, 1, 1, 1, 0],
+         [1, 1, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 1, 1, 0, 0, 0],
+         [0, 1, 1, 0, 0, 0, 0],
+         [1, 1, 0, 0, 0, 0, 0],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 1, 1, 1, 1, 1]
+     ], //2
+     [
+         [1, 1, 1, 1, 1, 1, 1],
+         [0, 0, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 1, 1, 1, 0, 0],
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [0, 1, 1, 1, 1, 1, 0]
+     ], //3
+     [
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 0, 1, 1, 1, 0],
+         [0, 0, 1, 1, 1, 1, 0],
+         [0, 1, 1, 0, 1, 1, 0],
+         [1, 1, 0, 0, 1, 1, 0],
+         [1, 1, 1, 1, 1, 1, 1],
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 0, 1, 1, 1, 1]
+     ], //4
+     [
+         [1, 1, 1, 1, 1, 1, 1],
+         [1, 1, 0, 0, 0, 0, 0],
+         [1, 1, 0, 0, 0, 0, 0],
+         [1, 1, 1, 1, 1, 1, 0],
+         [0, 0, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [0, 1, 1, 1, 1, 1, 0]
+     ], //5
+     [
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 1, 1, 0, 0, 0],
+         [0, 1, 1, 0, 0, 0, 0],
+         [1, 1, 0, 0, 0, 0, 0],
+         [1, 1, 0, 1, 1, 1, 0],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [0, 1, 1, 1, 1, 1, 0]
+     ], //6
+     [
+         [1, 1, 1, 1, 1, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 1, 1, 0, 0, 0],
+         [0, 0, 1, 1, 0, 0, 0],
+         [0, 0, 1, 1, 0, 0, 0],
+         [0, 0, 1, 1, 0, 0, 0]
+     ], //7
+     [
+         [0, 1, 1, 1, 1, 1, 0],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [0, 1, 1, 1, 1, 1, 0],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [0, 1, 1, 1, 1, 1, 0]
+     ], //8
+     [
+         [0, 1, 1, 1, 1, 1, 0],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1],
+         [0, 1, 1, 1, 0, 1, 1],
+         [0, 0, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 0, 1, 1, 0, 0],
+         [0, 1, 1, 0, 0, 0, 0]
+     ], //9
+     [
+         [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 1, 1, 1, 0, 0],
+         [0, 0, 1, 1, 1, 0, 0],
+         [0, 0, 1, 1, 1, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 1, 1, 1, 0, 0],
+         [0, 0, 1, 1, 1, 0, 0],
+         [0, 0, 1, 1, 1, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0]
+     ] //:
+ ];
+ let data = [],
+     balls = [],
+     change = [],
+     R = canvas.height / 20 - 1,
+     time;
+ canvas.width = 14 * (R + 2) * 8 - (R + 2) * 2;
+ (() => {
+     let tempDate = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+     data.push(tempDate[1], tempDate[2], 10, tempDate[3], tempDate[4], 10, tempDate[5], tempDate[6])
+ })();
+
+ //生成点阵数据
+ function renderDigit(i, num) {
+     for (let index = 0; index < dianMap[num].length; index++) {
+         for (let j = 0; j < dianMap[num][index].length; j++) {
+             if (dianMap[num][index][j] === 1) {
+                 ctx.beginPath();
+                 ctx.arc(14 * (R + 2) * i + j * 2 * (R + 1) + (R + 1), index * 2 * (R + 1) + (R + 1), R, 0, 2 * Math.PI);
+                 ctx.closePath();
+                 ctx.fill();
+             }
+         }
+     }
+ }
+ // 更新时间
+ function updateTime() {
+     let newDate = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+     let tempData = [newDate[1], newDate[2], 10, newDate[3], newDate[4], 10, newDate[5], newDate[6]]
+     // debugger;
+     for (let i = 0; i < data.length; i++) {
+         if (data[i] != tempData[i]) {
+             // clearDigit(i);
+             showBalls(i, tempData[i]);
+             renderDigit(i, tempData[i]);
+         }
+     }
+     data = tempData.concat();
+     // requestAnimationFrame(updateTime);
+ }
+ //绘制彩球
+ function showBalls(index, num) {
+     for (let i = 0; i < dianMap[num].length; i++) {
+         for (let j = 0; j < dianMap[num][i].length; j++) {
+             if (dianMap[num][i][j] === 1) {
+                 let ball = {
+                     x: 14 * (R + 2) * index + j * 2 * (R + 1) + (R + 1),
+                     y: i * 2 * (R + 1) + (R + 1),
+                     setpX: Math.random() * 2 - 1,
+                     setpY: -2 * (Math.random() + 1),
+                     color: getRadomColor()
+                 }
+                 balls.push(ball);
+             }
+         }
+     }
+ }
+
+ //让球球动起来
+ function animateBalls() {
+     for (let i = 0; i < balls.length; i++) {
+         const item = balls[i];
+         item.setpY += 9.8 * 6 / 100;
+         item.x += item.setpX;
+         item.y += item.setpY;
+         ctx.beginPath();
+         ctx.arc(item.x, item.y, R, 0, 2 * Math.PI);
+         ctx.fillStyle = balls[i].color;
+         ctx.closePath();
+         ctx.fill();
+         if (item.x > canvas.width + R || item.y > canvas.height + R) {
+             balls.splice(i, 1);
+             i--;
+         }
+     }
+ }
+
+ //初始化点阵
+ function initRender() {
+     canvas.height = canvas.height;
+     for (let i = 0; i < data.length; i++) {
+         // debugger;
+         renderDigit(i, data[i]);
+     }
+     updateTime();
+     animateBalls();
+     requestAnimationFrame(initRender);
+ }
+
+ function getRadomColor() {
+     let colorBox = ['#67C23A', '#E6A23C', '#F56C6C', '#409EFF'];
+     // let R = 255*Math.random(),
+     // G = 255*Math.random(),
+     // B = 255*Math.random();
+     return colorBox[~~(Math.random() * colorBox.length)];
+ }
+ initRender();
+</script>
+
+</body>
+</html>

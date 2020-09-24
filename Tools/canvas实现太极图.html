@@ -1,0 +1,90 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>canvas实现太极图-jq22.com</title>
+<script src="https://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+div {
+	width:600px;
+	height:600px;
+	background-color:#C1C1C1;
+	text-align:center;
+	margin:0 auto;
+}
+canvas {
+	margin-top:100px;
+	animation:xz 2s infinite linear;
+}
+@keyframes xz {
+	0% {
+	transform:rotate(0deg);
+}
+100% {
+	transform:rotate(360deg);
+}
+}</style>
+</head>
+<body>
+<div>
+    <canvas width="300px" height="300px" id="cv"></canvas>
+</div>
+
+<script>
+window.onload = function() {
+    var cv = document.getElementById('cv');
+    var cxt = cv.getContext('2d'); //获取画布
+
+    //画白 大半圆
+    cxt.beginPath();
+    cxt.arc(150, 150, 150, -Math.PI * 0.5, -Math.PI * 1.5, true);
+    cxt.closePath();
+    cxt.fillStyle = '#FFFFFF';
+    cxt.lineWidth = 1;
+    cxt.fill();
+
+    //画黑 大半圆
+    cxt.beginPath();
+    cxt.arc(150, 150, 150, -Math.PI * 0.5, Math.PI * 0.5, false);
+    cxt.closePath();
+    cxt.fillStyle = '#000000';
+    cxt.lineWidth = 1;
+    cxt.fill();
+
+    //画黑中半圆
+    cxt.beginPath();
+    cxt.arc(150, 75, 75, -Math.PI * 0.5, -Math.PI * 1.5, true);
+    cxt.closePath();
+    cxt.fillStyle = '#000000';
+    cxt.lineWidth = 1;
+    cxt.fill();
+
+    //画白 中半圆
+    cxt.beginPath();
+    cxt.arc(150, 225, 75, -Math.PI * 0.5, Math.PI * 0.5, false);
+    cxt.closePath();
+    cxt.fillStyle = '#ffffff';
+    cxt.lineWidth = 1;
+    cxt.fill();
+
+    //画小黑圆
+    cxt.fillStyle = '#000000';
+    cxt.beginPath();
+    cxt.arc(150, 225, 30, 0, Math.PI * 2, true);
+    cxt.closePath();
+    cxt.lineWidth = 1;
+    cxt.fill();
+
+    //画小白圆
+    cxt.fillStyle = '#FFFFFF';
+    cxt.beginPath();
+    cxt.arc(150, 75, 30, 0, Math.PI * 2, true);
+    cxt.closePath();
+    cxt.lineWidth = 1;
+    cxt.fill();
+
+};
+</script>
+
+</body>
+</html>
