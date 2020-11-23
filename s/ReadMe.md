@@ -4,6 +4,21 @@
 
 >> 中工网（ [www.workercn.cn](http://www.workercn.cn/) ）创办于2008年，是大型综合性**中央新闻网站**。<br>中工网 由[中华全国总工会](http://www.acftu.org/)主管主办，[工人日报](http://media.workercn.cn/sites/media/grrb/)社负责日常运营和管理。网站以宣传报道职工、工会、企业为主。
 
+<details>
+    <summary>
+    收藏：<a href="https://github.com/inchoong/go/tree/master/s/">好文推荐</a>:
+     </summary> 
+        1.<a href="https://new.qq.com/omn/20201114/20201114A0F4PC00.html" title="一文帮你读懂2020“微信互联网江湖”创新者大会的视频号干货_腾讯新闻">腾讯新闻</a>:
+<a href="https://go.choong.net/s/omn/">一文帮你读懂2020“微信互联网江湖”创新者大会的视频号干货</a>
+   <table> 
+       <tr> 
+             <td><a href="https://youtu.be/watch?v=H8h29gaydeo" title="财经冷眼：深度！恒大要挟广东省政府重组债务，扬言拖249家金融机构和331万人失业垫背，8千亿债务金融核弹要引爆了！（20200925第341期）">20200925第341期</a> </td> 
+			 <td><img src="images/cnBeta.png" height="15" width="15" /></td>
+             <td><a href="01-jkst.html" title="">表格2</a> &nbsp; </td>
+      </tr> 
+    </table> 
+</details>
+
 
 # HTML图文分享简易代码：
 ```
