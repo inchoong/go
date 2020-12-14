@@ -1,0 +1,48 @@
+
+<!-- saved from url=(0036)http://melogin.cn/common/Content.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script id="picviewer-page-script">(function(messageID){
+                var frameID=Math.random();
+                var frames={
+                    top:window.top,
+                };
+
+                window.addEventListener('message',function(e){
+                    var data=e.data;
+                    if( !data || !data.messageID || data.messageID != messageID )return;//通信ID认证
+                    var source=e.source;
+                    if(source===window){//来自contentscript,发送出去,或者干嘛。
+                        if(data.to){
+                            data.from=frameID;
+                            frames[data.to].postMessage(data,'*');
+                        }else{
+                            switch(data.command){
+                                case 'getIframeObject':{
+                                    var frameWindow=frames[data.windowId];
+                                    var iframes=document.getElementsByTagName('iframe');
+                                    var iframe;
+                                    var targetIframe;
+                                    for(var i=iframes.length-1 ; i>=0 ; i--){
+                                        iframe=iframes[i];
+                                        if(iframe.contentWindow===frameWindow){
+                                            targetIframe=iframe;
+                                            break;
+                                        };
+                                    };
+                                    var cusEvent=document.createEvent('CustomEvent');
+                                    cusEvent.initCustomEvent('pv-getIframeObject',false,false,targetIframe);
+                                    document.dispatchEvent(cusEvent);
+                                }break;
+                            };
+                        };
+
+                    }else{//来自别的窗口的，contentscript可以直接接收，这里保存下来自的窗口的引用
+                        frames[data.from]=source;
+                    };
+                },true)
+            })("pv-0.5106795670312598")</script></head><body>00007
+00004
+00000
+JBk|YyXv{W$OmMCk
+R1+HPvzByO!d],[wfzy~Wpr,&gt;+&gt;5~Ek|BA(3Q<evp6jwe0gmmz+pvgvgo$e5*8oo41,1oehg<b4~b[lbkav!m*<m0essl0xko7bb(*kd2d0nr|zt}p>Vd[hldu<yxw9vdmobi[e{08xmrpgi0m((hpzz0h3(c4m9f[]>LCE4,*1TzGXyCoHjn1yP{0H(2k5u$.FAP^g4OJsV.qi|Q3UJBKV]EK~T,9D{JU0},JU7WslU}s,3u.3{0hz$7(+e
+00000
+</yxw9vdmobi[e{08xmrpgi0m((hpzz0h3(c4m9f[]></evp6jwe0gmmz+pvgvgo$e5*8oo41,1oehg<b4~b[lbkav!m*<m0essl0xko7bb(*kd2d0nr|zt}p></body></html>
