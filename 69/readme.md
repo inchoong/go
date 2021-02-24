@@ -6,5 +6,5 @@
        ( 快捷短网址 <a href="https://go.choong.net/69/down/" title="丧钟为谁而鸣 | 好记的短网址 (https://go.choong.net/69/down/) ">https://go.choong.net/69/down/</a> )
    </summary>  
    中国人民是伟大的——用全球7%的耕地养活了全球50%的公务员，并承受全球70%的官员腐败 ☹<br>
-<details>
+</details>
 
