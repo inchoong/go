@@ -9,3 +9,5 @@
 	</td>
     </tr> 
 </table> 
+
+- 2021/5/12: [ 40、老梁情商课 这样的饭局不去也罢（限时免费 会员频道有情商课所有内容）](https://www.youtube.com/watch?v=9BVsBdI4BWs) - YouTube
