@@ -22,8 +22,7 @@
         <td> /zt/szyh/ </td>
         <td> <a href="https://twitter.com/shuzhaiyehua?lang=zh-cn" title="推特 | 書齋夜話(@shuzhaiyehua)2017年4月 加入">主讲人</a> ：@任松林、@<a href="https://twitter.com/atomxu?lang=zh-cn" title="推特 | 童木 Steven(@atomxu)2010年4月 加入">童木</a> </td>
     </tr> 
-  </summary>  
-	
+  </summary>  	
      <tr>
         <td>《<a href="https://www.youtube.com/channel/UC7PiHw_aAJU7z4MPLvJs6lA/about?lang=zh-cn" title="@《Haonian Xin》频道 (于2017年7月29日注册)  | YouTube">灝年講壇</a>》</td>
         <td> /zt/xhn/ </td>
@@ -43,16 +42,14 @@
 	2018年5月，与致力恢复中华民国失地人士于纽约成立大中华民国光复会。">黄花岗</a>&nbsp;<a href="https://guangfuwan.blogspot.com/" title="黃花岡觀察Blog">Blog</a>|<a href="https://www.youtube.com/c/%E6%A2%85%E8%8A%B1%E9%9B%BB%E8%A6%96MeiTV?lang=zh-cn" title="《梅花電視-光復之聲二台》YouTube频道 (于2018年3月28日注册)  | YouTube
 	大中華民國光復會的官方媒體。">梅花電視</a><a href="https://emojipedia.org/flag-taiwan/" title="🇹🇼 Flag for Taiwan Emoji">&</a><a href="https://www.youtube.com/channel/UCMUeN194sSQfgn7jA6ez5-w?lang=zh-cn" title="光復之聲 - YouTube 频道 (于2019年1月18日注册)  | YouTube">光復之聲</a>
 	</td>
-    </tr> 
-        
+    </tr>         
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCghLs6s95LrBWOdlZUCH4qw?lang=zh-cn" title="@《stone记》频道 (于2018年3月30日注册) , 合作联系Twitter：stone记@stone62855987 | YouTube">stone记</a>》</td>
         <td> /zt/stone/ </td>
         <td>主讲人：stone记 
 	@<a href="https://twitter.com/stone62855987?lang=zh-cn" title="推特 | stone记(@stone62855987)">Twitter</a>	
 	</td>
-    </tr> 
-	
+    </tr> 	
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCq9SFiUfZaBK36rDZqnBbpw?lang=zh-cn" title="@《晓农说》频道 (2020年1月6日注册)  未经证实 | YouTube">晓农说</a>》</td>
         <td> /zt/cxn/ </td>
@@ -67,8 +64,7 @@
 	 <a href="https://www.youtube.com/playlist?list=PLiPkp_d_RCylY6vbZnE_x7n2p-a2aEj7C?lang=zh-cn" title="【明镜电视】 程晓农 | 何清涟专栏 - YouTube">专栏</a> |
 	 <a href="https://www.heqinglian.net/" title="清涟居 | 何清涟个人主页">清涟居</a>
 	</td>
-    </tr> 
-	
+    </tr> 	
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCAq_xQV8pJ2Q_KOszzaYPBg?lang=zh-cn" title="@《崔永元》频道 (2020年4月9日注册)  | YouTube">崔永元</a>》</td>
         <td> /zt/cyy/ </td>
@@ -76,15 +72,13 @@
 		@<a href="https://twitter.com/YongyuanCui1?lang=zh-cn" title="推特 | 崔永元(@YongyuanCui1)2019年1月 加入">Twitter</a>、	
 		@<a href="https://zh-cn.facebook.com/yongyuan.cui.338" title="Facebook | 崔永元(@ )*年*月 加入">Facebook</a>
 	</td>
-    </tr> 
-	
-	     <tr>
+    </tr> 	
+	 <tr>
        <td>《<a href="https://www.youtube.com/channel/UCM33VtveeEmfA6LC7tH30Xw?lang=zh-cn" title="@《袁腾飞》频道 (2013年9月10日注册)  | YouTube">袁腾飞</a>》</td>
         <td> /zt/ytfy/ </td>
         <td><a href="https://www.youtube.com/user/tmengchina?lang=zh-cn" title="@《袁腾飞》频道 (2013年9月10日注册)  | YouTube">主讲人</a>：<a href="https://zh.wikipedia.org/zh-hans/袁腾飞" title="袁腾飞 | 1972年2月8日出生于北京，首都师范大学历史系毕业。 - 维基百科，自由的百科全书 
 		袁腾飞（1972年2月8日－），字将洛，号方生 1994年毕业于首都师范大学历史系，中学高级教师。曾任首都师范大学附属中学历史课教师13年，原北京市海淀区教师进修学校历史教研员，原海淀区历史学科带头人，原北京精华学校教师，现已辞职，在网络平台做主播。
 		曾参与北京市高考历史命题与《高中新课标历史教材》（人教版）编写。
-
                 2008年6月，袁腾飞在精华学校的讲课片段被传到优酷网上，受到部分网友大力追捧，但也受到许多网民的强烈反对，甚至有网民到精华学校欲与袁腾飞辩论，但学校未同意。
 		在短短一年内，袁腾飞旋风式爆红，讲史魅力横扫全球中文世界，其粉丝号称“藤枝”[1]，袁腾飞被吹捧为“史上最牛历史老师”。
 		中国中央电视台科教频道《百家讲坛》系列节目，先后推出由他主讲的《两宋风云》《塞北三朝之辽》《塞北三朝之西夏》《塞北三朝之金》。">袁腾飞</a>
@@ -92,10 +86,8 @@
 		@<a href="https://zh-cn.facebook.com/yuantengfei/" title="Facebook | 袁腾飞(@yuantengfei)*年*月 加入">Facebook</a>
 		| <a href="https://www.youtube.com/watch?v=4EO2rxMK36w?lang=zh-cn" title="我为什么离开体制？历史课在中学鄙视链最底端 - YouTube">自述</a>
 		 <a href="https://www.youtube.com/watch?v=BRqQeCTS8cM?lang=zh-cn" title="我为什么离开体制？历史课在中学鄙视链最底端 - YouTube">经历</a>
-
 	</td>
     </tr> 
-	
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCr_F4Y9iboUKlg_ZPm4jkVQ?lang=zh-cn" title="@《老梁》频道 (2020年3月8日注册)   世事洞明皆学问，人情练达即文章 | YouTube">老梁</a>》</td>
         <td> /zt/lhd/ </td>
@@ -105,7 +97,6 @@
 		@<a href="https://zh-cn.facebook.com/" title="Facebook | 梁宏达(@yuantengfei)*年*月 加入">Facebook</a>
 	</td>
     </tr> 
-	
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCoCHlYM3srHBmg21mK1-JPg?lang=zh-cn" title="杨锦麟@《老楊到處說》频道 (2020年4月1日注册)  | YouTube">老楊到處說</a>》</td>
 	<td> /zt/yjl/ </td>
@@ -124,7 +115,6 @@
 		《<a href="https://phtv.ifeng.com/listpage/672/1/list.shtml" title="有报天天读_凤凰卫视_凤凰网">有报天天读</a>》早期主持人）
 	</td>
     </tr> 	                                                                                                     
-		
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCtAIPjABiQD3qjlEl1T5VpA?lang=zh-cn" title="@《文昭談古論今 -Wen Zhao Official》频道 (于2011年12月4日注册) | YouTube">文昭談古論今</a>》</td>
         <td> /zt/wenzhao/ </td>
@@ -137,7 +127,6 @@
 	     @<a href="https://t.me/wenzhaofans" title="电报群组（Telegram） | 文昭談古論今(@WenZhaoComment)*年*月 加入">群组</a>
 	     </td>
     </tr>    
-    
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCwb7avxK-L5vPjMC1ZIGayw?lang=zh-cn" title="@《陳破空縱論天下》频道 (于2015年10月9日注册) | YouTube">陳破空縱論天下</a>》</td>
         <td> /zt/cpk/ </td>
@@ -145,7 +134,6 @@
 	    @<a href="https://zh.wikipedia.org/zh-hans/陈破空" title="陈破空（1963年12月20日－），原名陈劲松，生于四川省三台县。旅美中国作家、政治评论家、知名民运人士。先后就读于湖南大学、上海同济大学。美国哥伦比亚大学公共管理硕士。曾执教广州中山大学。美国之音常任嘉宾、自由亚洲电台特约评论员。 - 维基百科，自由的百科全书 ">维基百科</a>
 	    </td>
     </tr> 
-	
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCn9_KbNANeyYREePe8YA2DA?lang=zh-cn" title="@《财经冷眼》频道 (于2017年8月31日注册) | YouTube">财经冷眼</a>》</td>
         <td> /zt/cjly/ </td>
@@ -154,7 +142,6 @@
 		@<a href="https://twitter.com/caijinglengyan?lang=zh-cn" title="推特 | 财经冷眼(@caijinglengyan)2016年10月 加入">Twitter</a>、
 		@<a href="https://twitter.com/caijingxiang?lang=zh-cn" title="推特 | 财经真相(@caijingxiang)2014年11月 加入">Twitter</a></td>
     </tr> 
-	
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCa6ERCDt3GzkvLye32ar89w?lang=zh-cn" title="@《江峰时刻》频道 (于2018年6月1日注册) | YouTube
 		江峰時刻 —— 有思考深度、有時空緯度、有人性溫度。
@@ -170,7 +157,6 @@
 	     @<a href="https://t.me/jiangfengtimegroup" title="电报群组（Telegram） | 江峰时刻(@jiangfengtimegroup)*年*月 加入">群组</a>
 	      </td>
     </tr> 
-	
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCBtIsU8tuFzE0U8spSUUbZw?lang=zh-cn" title="@《文明客厅》频道 (于2019年7月16日注册) | YouTube">文明客厅</a>》</td>
         <td> /zt/zxz/ </td>
@@ -179,12 +165,10 @@
 		 周孝正（1947年7月－），中国社会学家、历史学者。原中国人民大学副教授。周以其幽默诙谐的语言风格，针对历史及社会事件客观理智的分析而在中国广为人知。">周孝正</a>
 	     </td>
      </tr> 
-	
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCJDaS2CiEQOOUngxe0p4MoQ?lang=zh-cn" title="@《詢經問政》频道 (于2019年6月20日注册) | YouTube
 	 《询经问政》是一个以犹太·基督教信仰为价值基础，从英美保守主义理念的角度，对时政、经贸、社会做深入探讨的栏目。
 	            希望以此帮助全球华人深入了解美国政治、美国视角，及其所植根于的，创造了普世文明的西方信仰及价值观。
-
 	            《询经问政》的主旨可概括为：
 	                                    保守理念
 	                                    经典政论
@@ -195,7 +179,6 @@
 	       <a href="https://www.youtube.com/channel/UCDryqAH6z_YehYQP6EsQZbg?lang=zh-cn" title="@《詢經問道&詢經問政 EZ Media》频道 (于2020年3月5日注册) | YouTube
 		【询经问道】乃张洵Eric Zhang另辟的油管频道，专注于历史、信仰、文化，以及思考。
 	            原有【询经问政】仍旧存在，内容侧重时政点评，包括美国政治、美中关系等。
-
 	            新频道【询经问道】的宗旨不变：
 	                                      - 保守美国的过去
 	                                      - 引领华夏的未来
@@ -205,27 +188,17 @@
 		     Conserve the past of US, Lead the future of China, and Preach the Gospel of Jesus Christ. 守住美国的过去， 引领华夏的未来， 传播基督的福音！ https://paypal.me/ericxunzhang">Twitter</a>
 	     </td>
      </tr> 
-	
      <tr>
        <td>《<a href="https://www.youtube.com/c/徐杰慢半拍/?lang=zh-cn" title="@《徐杰慢半拍》频道 (2018年10月14日注册)  | YouTube 
 	      【说明】
 	      打赏：http://paypal.me/xujie950331
-
 	      地址:695 W Holt Ave104 Pomona CA 91768
-
 	      电话：+19093261499（洛杉矶时间：周一至周五上午10点到下午5点）
-
 	      手机：+16264931363
-
 	       邮箱：xujie19651123@gmail.com
-
 	      徐杰苹果商店软件：徐杰慢半拍
-
 	      电报群 ：xujie1965
-
 	      YouTube频道会员https://www.youtube.com/channel/UCrmRhJoIXkaCPJLX_mqnbqQ/join
-
-
 	      1，慢半拍忠实听众-------29，99每月
 	      2，慢半拍频道会员-------99，99每月 
 	      *************************************************************************** 
@@ -236,8 +209,7 @@
 		@<a href="https://twitter.com/?lang=zh-cn" title="推特 | 徐杰慢半拍 *年*月 加入">Twitter</a>、	
 		@<a href="https://zh-cn.facebook.com/" title="Facebook| 徐杰慢半拍 *年*月 加入">Facebook</a>
 	</td>
-    </tr> 
-	
+    </tr> 	
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCv361SF6FKznoGPKEFG9Yhw?lang=zh-cn" title="@《陈秋实》频道 (于2019年10月5日注册) | YouTube">陈秋实</a>》</td>
         <td> /zt/cqs/ </td>
@@ -246,8 +218,7 @@
 邮箱：chenqiushi404@gmail.com">Twitter</a>
 	     @<a href="https://t.me/qiushichen" title="电报（Telegram） | 陈秋实(@qiushichen)*年*月 加入">Telegram</a>、
 	    </td>
-    </tr> 
-	
+    </tr> 	
      <tr>
         <td>《<a href="https://www.youtube.com/c/cnliziqi?lang=zh-cn" title="@《李子柒 Liziqi》频道 -  美食视频博主 (于2017年8月22日注册) | YouTube">李子柒</a>》 </td>
         <td> /zt/lzq/ </td>
@@ -260,8 +231,7 @@
 		@<a href="https://www.meipai.com/user/61455245" title="李子柒的美拍 - 美拍短视频">美拍</a>、 
 		@<a href="https://www.douyin.com/share/user/68310389333/" title="李子柒 - 【抖音短视频】记录美好生活">抖音</a>
 	    </td>
-     </tr> 
-	
+     </tr> 	
      <tr>
        <td>《<a href="https://www.youtube.com/channel/UCyJSiDnzXwa1BLGG2PBq9og?lang=zh-cn" title="@《乐哥创事记》频道 (2021年5月9日注册)  | YouTube">乐哥创事记</a>》</td>
         <td> /zt/ac9192/ </td>
@@ -273,14 +243,12 @@
 							     https://sso.douyin.com/
 							     https://creator.douyin.com/">抖音：AC9192</a>
 	    </td>
-     </tr> 
-	
+     </tr> 	
     <tr>
        <td>《<a href="https://www.youtube.com/c/鄂东老男孩?lang=zh-cn" title="@《鄂东老男孩》频道 (2018年10月16日注册)  | YouTube">鄂东老男孩</a>》</td>
         <td> /zt/edbbly/ </td>
         <td>主讲人：<a href="#" title="#鄂东老男孩 | 本名：文刚，弟弟文强。微信公众号：edbboy , 80后袖珍老男孩，农村维修技术达人，家电下乡维修服务三农
-		在不足2000人的湖北罗田县河铺镇凉亭河村里，他的“小文电器维修”铺子是当地最热闹的集散点。
-		
+		在不足2000人的湖北罗田县河铺镇凉亭河村里，他的“小文电器维修”铺子是当地最热闹的集散点。		
 		感谢大家对“鄂东老男孩”我的关注，我是一个袖珍人，我来自中国湖北的农村，大别山区黄冈市罗田县，小时候家里的条件差，
                  但是我截至目前也从没有依靠国家的补贴。我不想拖累我的家人，由于从小对电子维修方面很有兴趣,我的视频通过我下乡维修还有我的农村生活，
 		反映我家乡的风土人情，展示家乡农村的变化，让更多的朋友了解我们山区农村的发展，还有山区人民的淳朴民风。
@@ -292,22 +260,19 @@
 	        @<a href="https://author.baidu.com/home?type=profile&action=profile&mthfr=box_share&context=%7B%22from%22%3A%22ugc_share%22%2C%22app_id%22%3A%221612105839178786%22%7D" title="鄂东老男孩">百度号</a>、
 		@<a href="http://a.mp.uc.cn/media.html?mid=0ca3bda127374165a3cbf34ad3678d1b&client=ucweb&uc_param_str=frdnsnpfvecpntnwprdsssnikt" title="鄂东老男孩 | UC大鱼号">UC大鱼号</a>、
 	</td>
-    </tr> 
-	
+    </tr> 	
      <tr>
        <td>《<a href="https://www.youtube.com/c/laowaibaba?lang=zh-cn" title="@《老外爸爸》频道 - 追求卓越男人的生活 (于2017年9月20日注册) | YouTube">Laowai Baba</a>》 </td>
         <td> /zt/lwbb/ </td>
         <td><a href="https://www.youtube.com/watch?v=fLSfoWuKGIM?lang=zh-cn" title="关于@《老外爸爸》频道 | 老外爸爸是誰？ 我的Youtube頻道介紹 : 謝謝你訪問我的網站。我是一位先生和6個女兒的爸爸，住在台灣鄉下的美國人，喜歡養雞，喜歡吃酪梨醬。(更多视频: http://www.laowaibaba.com | Bilibili: 老外爸爸 LaoWai BaBa
  | Facebook (臉書) : 老外爸爸 LaoWai BaBa）">主讲人</a>：<a href="https://www.laowaibaba.com/zh-hant/" title="《老外爸爸 Laowai Baba》 - 追求卓越的男人生活">Stephen</a></td>
-       </tr> 
-	
+       </tr> 	
      <tr>
        <td>《<a href="https://www.youtube.com/c/ZUOLUOTV?lang=zh-cn" title="@《ZUOLUOTV》频道 (于2016年5月17日注册) | YouTube">ZUOLUOTV™</a>》</td>
         <td> /zt/zltv/ </td>
         <td>    <a href="https://space.bilibili.com/7388950#!/" title="罗罗磊磊的个人空间 - 哔哩哔哩 ( ゜- ゜)つロ 乾杯~ Bilibili">主讲人</a>：
 		<a href="https://luolei.org/" title="罗磊的独立博客 （ luolei.org ）  
-						     【简介】罗磊，前端工程师，ZUOLUOTV™ 制作人，左左文化创始人。 - 科技、旅行、生活方式。
-						     
+						     【简介】罗磊，前端工程师，ZUOLUOTV™ 制作人，左左文化创始人。 - 科技、旅行、生活方式。					     
 						        我叫罗磊,来自中国深圳,当过5年程序员,前端工程师,曾任职于大型互联网公司, 
 						     2018年底与老婆辞职创业,现在是视频节目 ZUOLUOTV 制作人,旅行摄影玩家和内容创作者
                                                      当过五年前端工程师，俗称程序员，2018年辞职创业，现在给老婆打工，全世界走走逛逛拍拍。">罗磊</a>
@@ -317,8 +282,7 @@
 		@<a href="https://twitter.com/luoleiorg?lang=zh-cn" title="微博 |  罗罗磊磊(@*)*年*月 加入">微博</a> 
 		@<a href="https://www.zhihu.com/people/luolei" title="罗磊 - 知乎">知乎</a> 
 	</td>
-    </tr> 
-			
+    </tr> 			
      <tr>
        <td>《<a href="https://i.youku.com/luojisw" title="优酷视频《罗辑思维》自频道 （ 微信公众号：luojisw ） ">罗辑思维</a>·<a href="https://www.biji.com/" title="罗辑思维 | 得到App/Web版 - 知识就是力量，知识就在得到 （ https://www.biji.com/ ）">得到</a><a href="https://www.igetget.com/" title="罗辑思维 | 得到App - 北京思维造物信息科技股份有限公司">App</a>》</td>
         <td> /zt/ljsw/ </td>
@@ -333,16 +297,13 @@
 	   &<a href="https://blog.luojilab.com" title="罗辑思维技术博客（ blog.luojilab.com ）">blog</a>
            @<a href="https://github.com/luojilab" title="@Github | 罗辑思维 - 得到App（ luojilab.github.io ）">Github</a>
 	</td>
-     </tr> 
-			
+     </tr> 			
   </table> 
-</details>
-			
+</details>			
 <details>
 <summary><b>公众媒体</b> </summary> 
 	<p>（“<a href="../../GFW/bolin/" title="文章转载：《学习一下德国人民的翻墙精神》 - 原载于@编程随想的博客/2009-07-16">兼听则明，偏信则暗。--《资治通鉴》</a>”）</p>
 <table> 
-
     <tr>
         <td><b>名称</b></td>
         <td><b>链接</b></td>
@@ -359,7 +320,6 @@
           ）
         </td>
     </tr>  	
-
     <tr>
         <td>YouTube</td>
         <td><a href="https://www.youtube.com/?hl=zh-CN" title="YouTube 中文版 - YouTube是世界上最大的视频网站
@@ -367,28 +327,24 @@
         <td> 视频 </td>
         <td>@<a href="https://zh.wikipedia.org/wiki/YouTube" title="YouTube（成立于2005年2月14日） - 维基百科">维基百科</a> （ @<a href="https://www.youtube.com/html5?hl=zh-CN" title="YouTube HTML5 视频播放器">HTML5</a> |  <a href="https://www.youtube.com/user/YouTube?hl=zh-CN" title="YouTube Spotlight - YouTube聚光灯（英语：YouTube Spotlight）是YouTube自办的官方频道。">聚光灯</a>）</td>
  </tr> 
-
     <tr>
         <td> &nbsp; </td>
         <td><a href=" http://cn.rfi.fr/" title="法广-法国国际广播电台-时事与新闻直播（简体中文）">法广</a> | @<a href="https://www.youtube.com/RFACHINESE?lang=zh-cn" title="@《自由亚洲电台(普通话)》频道(于*年*月*日注册) | YouTube">YouTube</a> </td>
         <td> /zt/rfi/ </td>
         <td> 法广-法国国际广播电台-时事与新闻直播（简体中文）</td>
-    </tr> 
-    
+    </tr>     
     <tr>
         <td> &nbsp; </td>
         <td><a href="https://www.bbc.com/zhongwen/simp" title="BBC 中文网">BBC 中文网</a> | @<a href="https://www.youtube.com/channel/UCb3TZ4SD_Ys3j4z0-8o6auA?lang=zh-cn" title="@《BBC 中文网》频道(于2010年8月24日注册) | YouTube">YouTube</a> </td>
         <td> /zt/bbc/ </td>
         <td> <a href="http://www.bbc.co.uk/academy/zh-hans/" title="BBC学院新版中文网站">BBC 学院</a>  </td>
-    </tr>     
-    
+    </tr>         
     <tr>
         <td> &nbsp; </td>
         <td><a href="http://www.voachinese.com/" title="美国之音（VOA 中文网）">VOA 美国之音</a> | @<a href="https://youtube.com/voachina?lang=zh-cn" title="@《美国之音（VOA 中文网）》频道(于2007年5月31日注册) | YouTube">YouTube</a> </td>
         <td> /zt/voa/ </td>
         <td> 美国之音（VOA 中文网） </td>
-    </tr>  
-       
+    </tr>         
     <tr>
         <td> &nbsp; </td>
         <td><a href="http://cn.nytimes.com/" title="纽约时报 - 中文网 | 国际纵览">纽约时报</a> | @<a href="https://www.youtube.com/channel/UCa37l88L_6Db70pPvA7_uPQ?lang=zh-cn" title="@《纽约时报 中文网》频道(于2015年7月30日注册) | YouTube">YouTube</a> </td>
@@ -396,14 +352,12 @@
         <td> 纽约时报中文网 @<a href="https://twitter.com/nytchinese?lang=zh-cn" title="@纽约时报中文网 | Twitter">Twitter</a> 
         @<a href="https://zh-cn.facebook.com/nytimeschinese.t" title="@纽约时报中文网 | facebook">FaceBook</a></td>
     </tr> 
-
     <tr>
         <td> &nbsp; </td>
         <td><a href="http://www.rfa.org/mandarin/" title="自由亚洲电台(普通话)">自由亚洲电台</a> | @<a href="https://www.youtube.com/RFACHINESE?lang=zh-cn" title="@《自由亚洲电台(普通话)》频道(于2009年9月8日注册) | YouTube">YouTube</a> </td>
         <td> /zt/rfa/ </td>
         <td> 自由亚洲电台(普通话) </td>
-    </tr>   
-			
+    </tr>   			
     <tr>
         <td> &nbsp; </td>
         <td><a href="https://www.chinasuntv.com/" title=" ChinaSuntv 陽光衛視
@@ -420,8 +374,7 @@
 	 @<a href="https://twitter.com/chinasuntv?lang=zh-cn" title="@陽光衛視全媒體 | Twitter">Twitter</a> 
         @<a href="https://zh-cn.facebook.com/isuntvvr" title="@Suntv 陽光衛視 | facebook">FaceBook</a>
 	</td>
-    </tr> 
-	
+    </tr> 	
 	<tr>
         <td> 中国影音平台 </td>
         <td>	<a href="https://www.cctv.com/" title="CCTV 中国中央电视台 - 央视网_世界就在眼前">CCTV央视网</a> 
@@ -453,8 +406,7 @@
 		    CGTN总部位于北京，当前使用中央广播电视总台光华路办公区进行办公，并在肯尼亚内罗毕、美国华盛顿特区、英国伦敦设非洲、北美、欧洲分台，
 		    观众范围覆盖全球160多个国家和地区。">维基百科</a>
 	</td>
-    </tr> 
-	
+    </tr> 	
 	<tr>
         <td> &nbsp; </td>
         <td>	<a href="https://v.qq.com/" title="腾讯视频 - 中国领先的在线视频媒体平台,海量高清视频在线观看">腾讯视频</a> 
@@ -472,8 +424,7 @@
 		  旗下有子公司企鹅影视。
 		  2018年腾讯视频国际版WeTV上线。">维基百科</a>
 	</td>
-    </tr> 
-	
+    </tr> 	
 	<tr>
         <td> &nbsp; </td>
         <td>	<a href="https://www.youku.com/" title="优酷 - 这世界很酷">优酷</a> 
@@ -496,8 +447,7 @@
 		  其“快速播放，快速发布，快速搜索”的产品特性，优酷现已成为互联网拍客聚集的阵营之一。
 		  优酷这个名字是创业团队投票产生的结果，意为希望网站能够帮助用户在网络上找到最酷的视频。">维基百科</a>
 	</td>
-    </tr> 
-			
+    </tr> 			
 	<tr>
         <td> &nbsp; </td>
         <td>	<a href="https://www.iqiyi.com/" title="爱奇艺-在线视频网站-海量正版高清视频在线观看">爱奇艺</a> 
@@ -515,7 +465,6 @@
 		    按节点财经在钛媒体上的报告，爱奇艺为2019年中国市场份额最大的四个影音平台之一（另外三家是：优酷、腾讯视频、芒果TV）。">维基百科</a>
 	</td>
     </tr> 
-
 	<tr>
         <td> &nbsp; </td>
         <td>	<a href="https://corp.mgtv.com/" title="湖南快乐阳光互动娱乐传媒有限公司">湖南</a> 
@@ -544,15 +493,12 @@
 		主力与中国电信湖南公司、央视爱上传媒联合打造湖南IPTV，为湖南省规模最大的主流家庭互联网流媒体品牌业务。
 		2018年3月16日，芒果TV国际版APP（MangoTV）上线，供全球用户观赏其影视剧和综艺节目。">维基百科</a>
 	</td>
-    </tr> 
-			
-</table> </details>
-	
+    </tr> 			
+</table> </details>	
 <details>
 <summary><b>科技&资讯</b> </summary> 
 	<p>（“<a href="../../GFW/bolin/" title="文章转载：《学习一下德国人民的翻墙精神》 - 原载于@编程随想的博客/2009-07-16">兼听则明，偏信则暗。--《资治通鉴》</a>”）</p>
-<table> 
-	
+<table> 	
      <tr>
         <td><b>项目</b></td>
         <td>
@@ -566,8 +512,7 @@
           <a href="https://go.choong.net/Mozilla/ADD-ONS/" title="③添加扩展插件：常用扩展集 – 下载 🦊 Firefox 附加组件（zh-CN）--网址">③</a>
           ）
         </td>
-    </tr> 
-	
+    </tr> 	
      <tr>
        <td>《<a href="https://anyway.fm/" title="Anyway.FM 设计杂谈 • UI 设计师 JJ 和 Leon 主播的设计播客 Podcast
 	       Anyway.FM 设计杂谈 是一档播客节目，由 UI 设计师 JJ Ying 和 Leon Gao 主播，我们的目标是让你的听觉更懂视觉。">Anyway.FM</a>》 </td>
@@ -596,8 +541,7 @@
 	    <a href="https://anyway.fm/rss.xml" title="RSS订阅 | Anyway.FM 设计杂谈">RSS</a>
 	    <a href="https://github.com/Anyway-Design" title="Anyway.Design | Github">Github</a>
 	</td>     
-    </tr> 
-	
+    </tr> 	
      <tr>
        <td>《<a href="https://www.youtube.com/user/CDTChinese?lang=zh-cn" title="@《中国数字时代Cao Nima》网站"中国数字时代"的专用网络视频频道。 (于2011年1月27日注册) | YouTube">中国数字时代</a>》</td>
         <td> <a href="https://chinadigitaltimes.net/chinese/" title="中国数字时代 - China Digital Times 【官网】 https://chinadigitaltimes.net/chinese/">中国数字时代 CDT</a>
@@ -609,7 +553,6 @@
 			• <a href="https://docs.google.com/spreadsheets/d/1CQBeBpP2-A45lw-zr6mneDuPtSBNWg_8KqgXpWMLcbo/htmlview#" title="【CDT推荐】中国近年文字狱事件盘点（含新冠肺炎专题）(twitter.com/SpeechFreedomCN) - Google 云端硬盘 [ 短链接快捷直达 https://go.choong.net/word's/ ]">文字狱</a>
 			</td>
     </tr>   
-
      <tr>
        <td> 《<a href="https://program-think.blogspot.com/" title="编程随想的博客 | 主站点 (BlogSpot)">编程随想</a>》 </td>
         <td> 
@@ -626,15 +569,12 @@
           <a href="https://github.com/taoste/Hello-World/tree/master/Technical%20File(PDF)/ProgramThink" title="BTSync (资源) | 编程随想">BTSync</a>-        
            <a href="https://copy69.github.io/blog/html/2015/03/blog-sync.html" title="BTSync (使用说明) | 编程随想(HTML网友同步版)">①</a>
           </td> 
-    </tr>
-	
+    </tr>	
 	 <tr>
        <td> 《@<a href="https://github.com/xiaoandx" title="一个拥有像素眼的后端工程师 | Github">xiaoandx</a>》 </td>
        <td> <a href="https://blog.xiaoandx.club/" title="一个拥有像素眼的后端工程师">大眼睛工程师</a> | WEI.ZHOU | 后端工程师 </td> 
-	 <tr>
-		 
+	 <tr>		 
  </table> </details>
-
 <details>
 <summary><b>音视频&有声电台</b> </summary> 
 	<p>（“<a href="../../GFW/bolin/" title="文章转载：《学习一下德国人民的翻墙精神》 - 原载于@编程随想的博客/2009-07-16">兼听则明，偏信则暗。--《资治通鉴》</a>”）</p>
@@ -653,7 +593,6 @@
           ）
         </td>
     </tr>  
-
     <tr>
         <td><a href="https://www.ximalaya.com/" title="有声小说,听小说,有声书,在线听书电台-喜马拉雅FM">喜马拉雅FM</a>-推荐：</td>
 	<td>&nbsp;</td>
