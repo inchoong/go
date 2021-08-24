@@ -1,0 +1,1 @@
+function returnMenu(){window.jsInterface.returnMenu()}function searchContent(){window.jsInterface.searchContent(3)}function goParent(){var a=document.getElementById("backLink");if(a){if(a.getAttribute("href").indexOf("returnMenu")>=0){returnMenu()}else{window.location.href=a.getAttribute("href")}}else{window.history.go(-1)}};

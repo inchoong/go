@@ -1,0 +1,1 @@
+function returnMenu(){window.jsInterface.returnMenu()}function searchContent(){window.jsInterface.searchContent()}function goParent(){var b=document.getElementById("parentUrl");if(b!=null&&b.value!=null&&b.value!=""){var a=b.value;window.location.href=a}else{returnMenu()}};

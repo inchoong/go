@@ -1,0 +1,1 @@
+$$(function(){var b=$$("#jd-divcontent div:first");var c=b.children().eq(0);var a=c.attr("class");if("simpletableborder"==a){c.attr("isfristele","true")}else{if("tablenoborder"==a){var d=c.children("table");d.attr("isfristele","true")}}});
