@@ -15,5 +15,5 @@
 <br>
 </div>
 <div>
-<a href="https://www.canon.com.cn/special/webcam/index.html">佳能（中国）-EOS Webcam直播软件 (canon.com.cn)</a>
+<a href="https://go.choong.net/Canon/webcam/index.html">Tips</a>：<a href="https://www.canon.com.cn/special/webcam/index.html">佳能（中国）-EOS Webcam直播软件 (canon.com.cn)</a>
 </div>
