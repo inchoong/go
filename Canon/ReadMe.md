@@ -4,6 +4,10 @@
 <div>
 <br>
 </div>
+<div><a href="https://club.canon.com.cn/home.html">佳能俱乐部 | 首页 (club.canon.com.cn)</a></div>
+<div>
+<br>
+</div>
 <div>
 <a href="https://shop.canon.com.cn/">佳能官方线上商城 - 首页 (canon.com.cn)</a>
 </div>
