@@ -9,7 +9,7 @@
 <br>
 </div>
 <div>
-<a href="https://shop.canon.com.cn/">佳能官方线上商城 - 首页 (canon.com.cn)</a>
+<a href="https://shop.canon.com.cn/">佳能官方线上商城 - 首页 (shop.canon.com.cn)</a>
 </div>
 <div>
 <br>
