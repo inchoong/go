@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>notepad：教你制作书签脚本</title>
+  <link rel="icon" href="https://go.choong.net/welcome/favicon.ico" > <!-- Microsoft 徽标 -->
+<!-- IE地址栏前换成自己的图标 -->
+  <link href="favicon.ico" rel="Bookmark">  <!-- 可以在收藏夹中显示出你的图标 -->	
+<script src="https://libs.baidu.com/jquery/1.11.3/jquery.min.js">
+</script>  <!--获取当前实时时间-jq22.com  -->
+  <style type="text/css"> 
+	a:link,a:visited{ 
+	text-decoration:none;  /*超链接无下划线*/ 
+	} 
+	a:hover{ 
+	text-decoration:underline;  /*鼠标放上去有下划线*/ 
+	} 
+	tr:hover {background-color: #f5f5f5;}  /*可悬停表格 https://www.w3school.com.cn/css/css_table.asp*/ 
+</style>  
+	<style> 
+	    body {
+        background:url("2021-9.jpg")  no-repeat center center;   /*加载背景图：蓝天白云绿草地 https://go.choong.net/welcome/50.jpg*/   /* 背景图不平铺 https://go.choong.net/City/images/ZJ-ReYi.jpg */  /*原图链接 https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4ncJa.jpg */
+		background-size:cover;  /* 让背景图基于容器大小伸缩 【背景人物：780.jpg】申世景（Shin Se Kyung），1990年7月29日出生于韩国首尔市。韩国女演员，毕业于韩国中央大学。https://graph.baidu.com/s?sign=1265098517b1259e33dbb01630918357 */
+		background-attachment:fixed;        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */    //此条属性必须设置否则可能无效/
+		background-color: #CCCCCC;   /* 设置背景颜色，背景图加载过程中会显示背景色 */
+	    }
+    </style> 
+<style>  /* 文本垂直对齐图像 https://www.w3cschool.cn/tryrun/showhtml/trycss_vertical-align */
+	    img.top {vertical-align:text-top;}
+	    img.bottom {vertical-align:text-bottom;}
+       </style>
+ </head>  
+<body style="color:#808080;text-decoration:none;">
+<div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/littledu/p/4020417.html">
+    <span>教你制作书签脚本</span>
+</a>
+</h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p>所谓书签脚本，纯属我自己制造的名词。</p>
+<p>经常的，我们会看到如下交互界面：<br>
+<img src="https://images.cnblogs.com/cnblogs_com/littledu/619156/o_1.jpg" alt="图片" loading="lazy"><br>
+拖动一个按钮到书签栏，然后就可以使用特定的功能，还兼容所有的浏览器。第一次看到感觉很新奇，觉得好厉害，不知道怎么做出来的。</p>
+<p>我不知道别人是怎么称呼 “这种技巧” 的，也没去问过，因为它其实很简单，我怕问了有失我的“身份”，所以我决定继续装B，我就暂且把它称为 <code>书签脚本(bookmark-script)</code>。</p>
+<p>我们都知道 <code>书签</code> 的作用就是帮我们保存网址，点一下就能跳转到相应的网址。不同浏览器对如何添加书签有不同的方式：</p>
+<blockquote>
+<p>这里直接截取财付通的一个帮助文档，详细可点击： <b><a href="https://www.tenpay.com/v2/labs/wrtb/help.shtml" target="_blank">原文档地址</a></b></p>
+</blockquote>
+<h3 id="1-ie系列浏览器">1. IE系列浏览器</h3>
+<p><img src="https://images.cnblogs.com/cnblogs_com/littledu/619156/o_2.png" alt="图片" loading="lazy"></p>
+<h3 id="2-chrome-等高级浏览器">2. chrome 等高级浏览器</h3>
+<p><img src="https://images.cnblogs.com/cnblogs_com/littledu/619156/o_3.png" alt="图片" loading="lazy"></p>
+<p>事实上，书签就是一个个链接，不管是右键添加到收藏夹还是拖动，保存的都是右键或拖动的对象的地址，可以新建一个 html 页面复制下面 <code>a标签</code>，拖动或添加到收藏夹试试。</p>
+<pre><code class="language-html">&lt;a href="http://www.cnblogs.com/littledu"&gt;拖到收藏栏点击我&lt;/a&gt;
+</code></pre>
+<p>那如何让点击的时候做我们想做的功能呢？这个就更简单了。</p>
+<p>可能作为一名新生代的前端，重构，接受的都是标准的，规范的知识，知道要 <code>结构</code>，<code>表现</code>，<code>行为</code> 三者分离，所以你可能没写过，甚至不知道古老的 <code>a标签</code> 可以直接执行 JS 代码。继续复制如下运行：</p>
+<pre><code class="language-html">&lt;a href="javascript:alert('嘿哟，不错哦！');"&gt;拖到收藏栏点击我&lt;/a&gt;
+</code></pre>
+<p>相信你看到这里已经明白了如何制作一个 <code>bookmark-script</code>。甚至会鄙视我这么简单的东西居然也整理出来，还写得这么啰嗦。但昨天一直被某死开发一直纠着我的 <code>第一次</code>，强调万事都有 <code>第一次</code> 不放。所以想想这第一次，也就厚着脸皮放了出来。</p>
+<blockquote>
+<p>本文多次出现财付通的重构单元测试截图，但绝非本人故意做托，只是为了举例方便刚好印象中这工具就是用此方法，故用之。<br>
+某人看到这里一脸鄙夷说：你想多了，没多少人认识你，可能不会有人看到你这篇“软文”。</p>
+</blockquote>
+<p>好吧！</p>
+
+</div></div></div>
+
+</body>
+</html>
