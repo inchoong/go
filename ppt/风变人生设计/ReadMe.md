@@ -29,3 +29,15 @@
 ☞ <a href="https://github.com/inchoong/go/blob/master/ppt/风变人生设计/风变人生设计介绍.pdf" target="_blank" class="S_txt1">风变人生设计介绍.pdf</a>
 
 ---------------------------------------------------------------------
+
+
+<a href="https://mp.weixin.qq.com/s/s_LfFPdsqrHpaxIhvVso7Q" target="_blank" title="
+/迷茫是因为没有方向/
+/一旦找到方向/
+/你会像火箭一样成长/
+☞「风变 IDP-个人发展计划」
+官网价 199 元 
+秋叶 PPT  粉丝特惠 
+前 100 名 9.9 元
+长按扫码，立刻抢直降 189 元的优惠资格👇">
+<img src="https://github.com/inchoong/go/blob/master/ppt/%E9%A3%8E%E5%8F%98%E4%BA%BA%E7%94%9F%E8%AE%BE%E8%AE%A1/9.9.jpg?raw=true" height="50%" width="50%"/></a>
