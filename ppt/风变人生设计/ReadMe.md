@@ -1,4 +1,4 @@
-# <a href="https://www.forchange.cn/" title="风变科技官网 - 风变python编程、人生设计,用技术推动下一代基础教育" target="_blank" class="S_txt1">风变科技官网</a> : <a href="https://prod.pandateacher.com/idpgo-develop/idp-frontend/#/home/classlist/9" target="_blank" class="S_txt1">IDP人生设计课</a> | <a href="https://www.pypypy.cn/app" target="_blank" class="S_txt1">风变Python编程</a>
+# <a href="https://www.forchange.cn/" title="风变科技官网 - 风变python编程、人生设计,用技术推动下一代基础教育" target="_blank" class="S_txt1">风变科技官网</a> : ☞<a href="https://prod.pandateacher.com/idpgo-develop/idp-frontend/#/home/classlist/9" target="_blank" class="S_txt1">IDP人生设计课</a> | ☞<a href="https://www.pypypy.cn/app" target="_blank" class="S_txt1">风变Python编程</a>
 
 ---------------------------------------------------------------------
 
