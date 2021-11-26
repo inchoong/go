@@ -12,6 +12,8 @@
 
 ☞ <a href="https://github.com/inchoong/go/blob/master/ppt/风变人生设计/7天IDP入门训练营学习须知（体验课）.pdf" target="_blank" class="S_txt1">7天IDP入门训练营学习须知（体验课）.pdf</a>
 
+<img src="https://github.com/inchoong/go/blob/master/ppt/%E9%A3%8E%E5%8F%98%E4%BA%BA%E7%94%9F%E8%AE%BE%E8%AE%A1/933.png?raw=true" title="扫码关注微信公众☞风变人生设计" height="50%" width="50%"/>
+
 ---------------------------------------------------------------------
 
 为了能够针对性协助且解决到你在体验课学习内容的信息点，请同学先花5分钟时间完成入学申请表：https://jinshuju.net/f/UcwTGS?x_field_1=1623
