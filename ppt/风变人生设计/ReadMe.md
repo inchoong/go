@@ -1,4 +1,4 @@
-# <a href="https://www.forchange.cn/" title="风变科技官网 - 风变python编程、人生设计,用技术推动下一代基础教育" target="_blank" class="S_txt1">风变科技官网</a> : ☞<a href="https://prod.pandateacher.com/idpgo-develop/idp-frontend/#/home/classlist/9" target="_blank" class="S_txt1">IDP人生设计课</a> | ☞<a href="https://www.pypypy.cn/app" target="_blank" class="S_txt1">风变Python编程</a>
+#  ☞<a href="https://www.forchange.cn/" title="风变科技官网 - 风变python编程、人生设计,用技术推动下一代基础教育" target="_blank" class="S_txt1">风变科技</a> : <a href="https://prod.pandateacher.com/idpgo-develop/idp-frontend/#/home/classlist/9" target="_blank" class="S_txt1">IDP人生设计课</a> | <a href="https://www.pypypy.cn/app" target="_blank" class="S_txt1">风变Python编程</a> ( <a href="https://www.qcc.com/firm/f77bbbbdbe14cb7e54ac965e19026f86.html" title="风变科技（深圳）有限公司 - 企查查" target="_blank" class="S_txt1">企查查</a> | <a href="https://www.tianyancha.com/company/2357900814" title="风变科技（深圳）有限公司刘克亮_工商_风险信息_风变科技 - 天眼查" target="_blank" class="S_txt1">天眼查</a> )
 
 ---------------------------------------------------------------------
 
