@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+    <title>泡面神器</title>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    
+    <script language="JavaScript">
+    	var countdown=300;
+	    function settime(val) {
+	    	//停止倒计时
+	        if (countdown == 0) {
+	            val.removeAttribute("disabled");
+	            val.value="再来一碗！";
+	            countdown = 300;
+				// 弹窗提醒
+				alert("可以吃了!");
+				
+	        } else {
+	        	//倒计时
+	            val.setAttribute("disabled", true);
+	            val.value="请耐心等待";
+	            countdown--;
+	            
+	            var nM=Math.floor(countdown/60);//分
+				var nS=Math.floor(countdown) % 60;//秒
+				
+				document.getElementById("RemainM").innerHTML=nM;
+			 	document.getElementById("RemainS").innerHTML=nS;
+
+	            setTimeout(function() {
+	                settime(val)
+	            },1000)
+	        }
+	    }
+	</script>
+</head>
+ 
+ 
+ 
+
+<body>
+
+<br> <br> <br>
+
+<div style=font-size:3em>
+	<center>
+		<font>盖Kindle，面更香</font>
+	<center>
+</div>
+
+<br> <br> <br>
+	
+<div style=font-size:2em>
+	<center>
+		剩余时间
+	</center>
+</div>
+	
+<div style=font-size:10em>
+	<center>
+		<strong id="RemainM">5</strong>:<strong id="RemainS">00</strong>
+	</center>
+</div>
+
+<br>
+
+<div>
+	<center>
+		<input type="button" style="width:300px; height:80px;font-size:2em;text-align:center" value="开始泡面" onclick="settime(this)" />
+	</center >
+</div>
+
+</body>
+</html>
