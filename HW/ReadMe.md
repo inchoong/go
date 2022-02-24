@@ -8,7 +8,7 @@ ReadMe.md
         <div class="main">
             <div class="img"><img src="pcbg.png"></div>
             <div class="txt">
-                <h4 class="service-process">远程桌面服务流程</h4>
+                <h4 class="service-process">远程桌面服务流程 ( <a class="btn_load" href="https://remotedesktop.consumer.huawei.com/agent/api/file/download">下载安装包</a> )</h4>
                 <ol>
                     <li class="step01">1. 点击下载远程桌面服务安装包</li>
                     <li class="step02">2. 安装并运行远程桌面服务</li>
@@ -17,7 +17,7 @@ ReadMe.md
                 <p class="tip">提示：该远程服务仅支持华为电脑，请确定您的设备为华为电脑</p>
             </div>
         </div>
-        <a class="btn_load" href="https://remotedesktop.consumer.huawei.com/agent/api/file/download">下载安装包</a>
+       
     </div>  
 </details>
 
