@@ -4,6 +4,8 @@
 > 多看维基百科，涵盖人物/人文/历史/社科/地理/自然/科学/技术，比国内的教材可信度高多了。
 >> 学史使人明智，看看中国百年近代史，就能平安度过未来十年。
 
+<hr style="height:1px;border:none;border-top:1px dashed #0066CC;">
+
  <blockquote>
 01 -- 下载kiwix阅读器，98.64 MB
 https://www.kiwix.org/en/download/
