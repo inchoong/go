@@ -1,11 +1,10 @@
-维基百科  中文离线版
-2022.3.15
-不识Google和Wikipedia，读完985博士也枉然！
+维基百科  中文离线版 2022.3.15
+>> 不识Google和Wikipedia，读完985博士也枉然！
 
-多看维基百科，涵盖人物/人文/历史/社科/地理/自然/科学/技术，比国内的教材可信度高多了。
-学史使人明智，看看中国百年近代史，就能平安度过未来十年。
+> 多看维基百科，涵盖人物/人文/历史/社科/地理/自然/科学/技术，比国内的教材可信度高多了。
+>> 学史使人明智，看看中国百年近代史，就能平安度过未来十年。
 
-
+ <blockquote>
 01 -- 下载kiwix阅读器，98.64 MB
 https://www.kiwix.org/en/download/
 下载链接：v2.2.1 ，120.54 MB， 2022-03-12 更新。
@@ -103,3 +102,4 @@ https://mirrors.dotsrc.org/kiwix/zim/other/
 https://ftp.acc.umu.se/mirror/kiwix.org/zim/
 https://ftp.nluug.nl/pub/kiwix/zim/
 https://wiki.kiwix.org/wiki/Content_in_all_languages
+ </blockquote>
