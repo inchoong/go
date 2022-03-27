@@ -1,0 +1,798 @@
+    <!DOCTYPE html>
+                <script charset="UTF-8">
+                    (function () {
+                        if (!window.VZAN_LIVE_USER_SITEINFO) {
+                            window.VZAN_LIVE_USER_SITEINFO = {"Id":1725393497,"Name":"瑞联集团","Version":"标准版","AuthStatus":1,"AuthVersion":1,"IsLogin":true,"Project":"直播-后台-PC端","zb_industry_id":84,"zb_industry_id2":86,"zb_industry_id3":170,"zb_industry_name":"企业综合","zb_industry_name2":"企业营销","zb_industry_name3":"其他"};
+                        }
+                    })();
+                </script>
+    <script charset="UTF-8" src="https://static1.weizan.cn/zhibo/js/sa-sdk-javascript@1.18.15/sensorsdata.min.js"></script>
+        <script charset="UTF-8" src="https://static1.weizan.cn/zhibo/userlivecontent/vzan/static/live-user-trace.js"></script>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>云分发申请</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=7,IE=8,IE=9" />
+    <meta name="author" content="vzan" />
+    <meta name="Copyright" content="vzan.com" />
+    <link href="https://live.vzan.com/Content/css/mybase.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://live.vzan.com/Content/layui-v2.4.3/layui/css/layui.css" />
+    <link href="https://live.vzan.com/assets/css/clouddisapply/clouddisapply.css?v=2019052819" rel="stylesheet" />
+    <link href="https://live.vzan.com/Content/css/vodsetrecommend.css?v=2019052819" rel="stylesheet" />
+    <!-- H-表格 -->    
+    <link rel="stylesheet" type="text/css" href="https://live.vzan.com/Content/H-UI.Admin/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://live.vzan.com/Content/H-UI.Admin/static/h-ui.admin/css/H-ui.admin.css" />
+    <script type="text/javascript" src="https://static1.weizan.cn/zhibo/js/vue.js"></script>
+
+    <style>
+        [v-cloak] {
+            display:none;
+        }
+    </style>
+</head>
+<body style="height:100%;">
+    <div class="container" id="app" v-cloak>
+        <div class="apply-img"><img src="https://live.vzan.com/Content/images/cloudDisBanner.png?v=637834701226315357" alt="" /></div>
+        <div class="apply-form">
+            <p class="apply-title">提交分发需求表</p>
+            <input id="applyId" type="hidden" name="Id" value="0" />
+            <div class="d-flex d-flex-center demand">
+                <span><s>*</s> 姓名：</span>
+                <div class="input-in"><input id="name" type="text" value="" autocomplete="off" /></div>
+            </div>
+            <div class="d-flex d-flex-center demand">
+                <span><s>*</s> 电话：</span>
+                <div class="input-in"><input id="phone" type="text" value="" autocomplete="off" /></div>
+            </div>
+            <div class="d-flex d-flex-center demand">
+                <span><s>*</s> 分发时间：</span>
+                <div class="input-in"><input type="text" id="disTime" class="demo-input" autocomplete="off" /></div>
+            </div>
+                <div class="d-flex d-flex-center demand">
+                    <span>选择需要分发话题：</span>
+                    <div class="input-in" style="cursor:pointer;"><input v-on:click="selTopic" v-model="topicName" style="width:87%;margin-right:10px;cursor:pointer;" type="text" id="topicsel" class="demo-input" placeholder="请选择话题" readonly /><span style="color:#0084ff;" v-on:click="clear">清除</span></div>
+                </div>
+            <div class="d-flex d-flex-center demand" style="color:red;">
+                <span></span>
+                <div>
+                    注：至少提前3个工作日申请直播分发
+                </div>
+            </div>
+            <div class="apply-platform">
+                <div class="d-flex d-flex-center">
+                    <div class="d-flex d-flex-center platform-tiltle">
+                        <i></i>
+                        <p><s>*</s> 请选择需要分发的直播平台</p>
+                        <i></i>
+                    </div>
+                </div>
+                <div class="platform">
+                    <ul id="platList" class="clearfix">
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-QQNews.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="腾讯新闻" />
+                                        <p>腾讯新闻</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Wangyi.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="网易新闻" />
+                                        <p>网易新闻</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-IFeng.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="凤凰新闻" />
+                                        <p>凤凰新闻</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-SinaNews.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="新浪新闻" />
+                                        <p>新浪新闻</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-CCTVVideoMobile.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="央视频移动网" />
+                                        <p>央视频移动网</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-XinHuaSheXCY.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="新华社现场云" />
+                                        <p>新华社现场云</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-RMRB.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="人民日报" />
+                                        <p>人民日报</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-CCTVVideo.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="央视频" />
+                                        <p>央视频</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-CNLive.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="中国网&#x2B;&#x2B;" />
+                                        <p>中国网&#x2B;&#x2B;</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Toutiao.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="今日头条" />
+                                        <p>今日头条</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Baidu.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="百度APP" />
+                                        <p>百度APP</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-KuaiShou.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="快手" />
+                                        <p>快手</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-SinaWeibo.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="新浪微博" />
+                                        <p>新浪微博</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-QQVideo.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="腾讯视频" />
+                                        <p>腾讯视频</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Youku.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="优酷" />
+                                        <p>优酷</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Iqiyi.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="爱奇艺" />
+                                        <p>爱奇艺</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-V1.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="第一视频" />
+                                        <p>第一视频</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-PPTV.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="PPTV" />
+                                        <p>PPTV</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Kr36.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="36Kr" />
+                                        <p>36Kr</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Btime.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="北京时间" />
+                                        <p>北京时间</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-SJBJ.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="视界北京" />
+                                        <p>视界北京</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-ZakerNews.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="ZAKER新闻" />
+                                        <p>ZAKER新闻</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-ITouchTv.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="触电新闻" />
+                                        <p>触电新闻</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Eastday.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="东方头条" />
+                                        <p>东方头条</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Wasu.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="华数TV" />
+                                        <p>华数TV</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-IXigua.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="西瓜视频" />
+                                        <p>西瓜视频</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Yiketalks.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="一刻talks" />
+                                        <p>一刻talks</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-ChinaBlueNews.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="中国蓝新闻" />
+                                        <p>中国蓝新闻</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-ZJNews.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="浙江新闻" />
+                                        <p>浙江新闻</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Ishaanxi.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="陕西新闻网" />
+                                        <p>陕西新闻网</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-BJRB.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="北京日报" />
+                                        <p>北京日报</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-BJYNET.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="北京青年报" />
+                                        <p>北京青年报</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-SouHuFocus.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="搜狐焦点" />
+                                        <p>搜狐焦点</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Souyue.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="中搜搜悦" />
+                                        <p>中搜搜悦</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Yizhibo.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="一直播" />
+                                        <p>一直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Boosj.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="播视网" />
+                                        <p>播视网</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-BaiDuHaoKan.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="百度好看" />
+                                        <p>百度好看</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-ChinaSport.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="中国体育" />
+                                        <p>中国体育</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-MiGuLive.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="咪咕直播" />
+                                        <p>咪咕直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-QQLive.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="企鹅直播" />
+                                        <p>企鹅直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Huya.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="虎牙直播" />
+                                        <p>虎牙直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Douyu.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="斗鱼直播" />
+                                        <p>斗鱼直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Bilibili.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="哔哩哔哩" />
+                                        <p>哔哩哔哩</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-YY.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="YY直播" />
+                                        <p>YY直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Yike.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="映客直播" />
+                                        <p>映客直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Huajiao.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="花椒直播" />
+                                        <p>花椒直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Renren.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="人人直播" />
+                                        <p>人人直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Zhanqi.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="战旗直播" />
+                                        <p>战旗直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-JustFunLive.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="抓饭直播" />
+                                        <p>抓饭直播</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="https://live.vzan.com/images/plat-Qingting.png" />
+                                <div class="d-flex d-flex-center">
+                                    <div class="d-flex d-flex-center checkbox-input">
+                                        <input  name="platform" type="checkbox" value="蜻蜓FM" />
+                                        <p>蜻蜓FM</p>
+                                    </div>
+                                </div>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="apply-platform">
+                <div class="d-flex d-flex-center">
+                    <div class="d-flex d-flex-center platform-tiltle">
+                        <i></i>
+                        <p>请详细描述您的分发需求</p>
+                        <i></i>
+                    </div>
+                </div>
+                <div class="suggest">
+                    <textarea id="remark" class="lc" placeholder="请详细描述您的分发需求，让我们给与您更好的服务"></textarea>
+                </div>
+            </div>
+            <div class="all-btns clearfix">
+                <input hidden id="topicId" v-model="topicId" />
+                <a href="javascript:;" class="submit-btns" onclick="ApplySubmit()">提交</a>
+                <a href="javascript:history.back(-1)" class="return-btns">返回话题管理</a>
+            </div>
+        </div>
+        <div class="select-recommend-content" v-if="isSelectTopic">
+            <div class="select-recommend-list">
+                <div class="layui-layer-title" style="width: 680px;">选择分发话题</div>
+                <span class="layui-layer-setwin" v-on:click="isSelectTopic=false"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:;"></a></span>
+                <div style="height: 100%;overflow-y:auto;">
+                    <div class="topic-xuanze">
+                        <div style="float:left;font-size: 16px;line-height: 34px;">收费类型：</div>
+                        <div class="live-style" style="width:90px;">
+                            <select style="width:90px;" class="flex pingdao-xz" v-model="topicsData.paytype" v-on:change="topicsData.pageindex=1,getTopicData();">
+                                <option value="-1">全部</option>
+                                <option value="1">加密</option>
+                                <option value="2">付费</option>
+                                <option value="0">公开</option>
+                            </select>
+                            <span></span>
+                        </div>
+                        <div class="live-search">
+                            <input id="key" type="text" v-model="topicsData.key" value="" placeholder="输入话题名称或Id" autocomplete="off" maxlength="50">
+                            <button v-on:click="searchTopic">搜索</button>
+                        </div>                       
+                    </div>                    
+                    <div class="recommend-list-content">
+                        <table class="table table-border table-bordered table-bg table-hover table-sort dataTable">
+                            <thead>
+                                <tr class="text-c">                                    
+                                    <th width="50">话题ID</th>
+                                    <th width="60">话题名称</th>
+                                    <th width="65">封面</th>
+                                    <th width="50">收费类型</th>
+                                    <th width="60">直播分类</th>
+                                    <th width="50">开始时间</th>
+                                    <th width="50">操作</th>
+                                </tr>
+                            <thead>
+                                <tr class="text-c" v-for="(item,index) in topicsData.list" v-if="topicsData.list.length>0">                                   
+                                    <td width="50">{{item.id}}</td>
+                                    <td width="60" class="recommend-name"><p>{{item.name}}</p></td>
+                                    <td width="65"><img style="width:88px;height:50px;" :src="item.cover" /></td>
+                                    <td>{{item.types == 1 ? '密码' : item.types == 0 ? '公开':item.types == 2 ? '付费':''}}</td>
+                                    <td width="60" class="recommend-name"><p>{{item.typename}}</p></td>
+                                    <td width="50">{{item.addtime}}</td>
+                                    <td width="50"><a style="background-color:#1E9FFF;color:#fff;margin-left:5px;padding:4px;" v-on:click="confirmTopic(index)">确定</a></td>
+                                </tr>
+                        </table>
+                        <div v-if="!topicsData.isloading && topicsData.list.length<=0" style="text-align:center;font-size:14px;margin-top:5px;">没有数据</div>
+                        <div id="recommend-topic-pageing" style="margin-top:20px; text-align:center;"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="/assets/hui/js/jquery.min.js?v=2.1.4"></script>
+    <script type="text/javascript" src="https://live.vzan.com/Content/layui-v2.4.3/layui/layui.js"></script>
+    <script>
+        var chosenDisTime = '';
+        //Demo
+        layui.use(['layer','laydate'], function () {
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#disTime' //指定元素
+                , type: 'datetime'
+                , calendar: true
+                , value: chosenDisTime
+                , done: function (value, date, endDate) {
+                    chosenDisTime = value;
+                }
+            });
+        });
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                isloading: false,
+                isSelectTopic: false,
+                topicName: '选择分发话题',
+                topicId: 132081806,
+                topicsData: {
+                    pageindex: 1,
+                    pagesize: 10,
+                    list: [],
+                    isnull: false,
+                    isloading: false,
+                    zbid: '1725393497',
+                    paytype: -1,
+                    key: '',
+                    selected: [],
+                    isallsel:false
+                }
+            },
+            methods: {
+                selTopic: function () {
+                    var that = this;
+                    that.isSelectTopic = true;
+                    that.topicsData.list = [];
+                    that.getTopicData();
+                },
+                searchTopic: function () {
+                    this.topicsData.list = [];
+                    this.topicsData.pageindex = 1;
+                    this.topicsData.isnull = false;
+                    this.getTopicData();
+                },
+                confirmTopic: function (index) {
+                    if (index < 0) {
+                        layer.msg('参数错误');
+                        return false;                    
+                    }
+                    var that = this;
+                    var item = that.topicsData.list[index];
+                    if (item == undefined || !item) {
+                        layer.msg('对象不存在');
+                        return false;  
+                    }
+                    that.topicName = item.name;
+                    that.topicId = item.id;
+                    that.isSelectTopic = false;
+                },
+                clear: function () {
+                    this.topicName = '';
+                    this.topicId = 0;
+                },
+                getTopicData: function () {
+                    var that = this;
+                    if (that.topicsData.isloading || that.topicsData.isnull)
+                        return false;
+                    layer.load(2);
+                    that.topicsData.isloading = true;
+                    var data = { zbid: that.topicsData.zbid || 0, pageindex: that.topicsData.pageindex, pagesize: that.topicsData.pagesize, key: that.topicsData.key, paytype: that.topicsData.paytype, modelType: 2, isNoHaveRelay:1 };
+                    $.post('/liveajax/GetTopics', data, function (res) {
+                        that.topicsData.isloading = false;
+                        layer.closeAll('loading');
+                        if (res && res.isok) {
+                            if (parseInt(res.code) > that.topicsData.pagesize || (that.topicsData.pageindex > 1 && that.topicsData.total)) {
+                                if (that.topicsData.pageindex == 1) {
+                                    that.topicsData.total = parseInt(res.code) || 0;
+                                }
+                                that.resetPage('recommend-topic-pageing',that.topicsData.total, that.topicsData.pageindex, that.topicsData.pagesize);
+                                $('#recommend-topic-pageing').show();
+                            } else {
+                                that.topicsData.total = 0;
+                                $('#recommend-topic-pageing').hide();
+                            }
+                            if (res.dataObj && res.dataObj.length > 0) {
+                                that.topicsData.list = res.dataObj;                                
+                            } else {
+                                that.topicsData.list = [];
+                            }
+                        } else {
+                            layer.msg(res.Msg || '网络出错');
+                        }
+                    });
+                },
+                resetPage: function (id, count, curr, limit) {
+                    var that = this;
+                    laypage.render({
+                        elem: id
+                        , curr: curr || 1
+                        , count: count || 0
+                        , limit: limit || 10
+                        , layout: ['prev', 'page', 'next']
+                        , theme: '#1E9FFF'
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                that.topicsData.pageindex = obj.curr;
+                                that.topicsData.pagesize = obj.limit;
+                                that.getTopicData();
+                            }
+                        }
+                    });
+                },
+            },
+            created: function () {
+                $('#app').show();
+                layui.use("laypage", function () {
+                    laypage = layui.laypage;
+                });
+            }
+        });
+
+        function GetPlatform() {
+            var obj = document.getElementsByName("platform");
+            var check_val = [];
+            for (k in obj) {
+                if (obj[k].checked)
+                    check_val.push(obj[k].value);
+            }
+            return check_val.join(',');
+        }
+
+        function ApplyValidate() {
+            var postdata = {
+                tpId: $("#topicId").val(),
+                zbId:1725393497,
+                Id: $("#applyId").val(),
+                name: $("#name").val(),
+                phone: $("#phone").val(),
+                remark: $("#remark").val(),
+                distributeTime: chosenDisTime,
+                platform: GetPlatform(),
+                fromType:0
+            }
+            if (!postdata.name) {
+                layer.msg('请输入您的姓名');
+                return false;
+            } else if (postdata.name.length > 100) {
+                layer.msg('请正确输入您的姓名，且输入项不能超过100个字');
+                return false;
+            }
+            if (!postdata.phone) {
+                layer.msg('请输入您的手机号码');
+                return false;
+            } else if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(postdata.phone)) {
+                layer.msg('请正确输入您的手机号码');
+                return false;
+            }
+            if (!postdata.distributeTime) {
+                layer.msg('请选择分发时间');
+                return false;
+            }
+
+            for (var key in postdata) {
+                if (typeof postdata[key] == 'string') {
+                    postdata[key] = $.trim(postdata[key]);
+                }
+            }
+            //if (postdata.tpId && postdata.tpId > 0) {
+            //    postdata.fromType = 1;
+            //}
+            return postdata;
+        }
+
+        function ApplySubmit() {
+            var postdata = ApplyValidate();
+            if (postdata) {
+                var index = layer.load();
+                $.post('/liveajax/CloudDisApplySave', postdata, function (data) {
+                    layer.close(index);
+                    if (data && data.isok) {
+                        if (!$("#applyId").val() || $("#applyId").val() == 0) {
+                            $("#applyId").val(data.dataObj);
+                        }
+                        layer.open({
+                            title: '提交成功！'
+                            , content: '稍后会有云分发的工作人员联系你的，你可直接咨询热线：18620027314'
+                            , btnAlign: 'c'
+                            , btn: ['我知道了']
+                        });
+                    } else {
+                        layer.msg(data.Msg || '提交失败');
+                    }
+                }, "json");
+            }
+        }
+    </script>
+</body>
