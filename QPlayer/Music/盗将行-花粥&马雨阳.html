@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+		<title>盗将行-花粥&马雨阳</title>
+		<script src="js/jquery.min.js"></script>
+		<style>
+			div{
+				width:340px;
+				height:90%;
+				margin:0 auto;
+				overflow:hidden;
+			}
+			ul{
+				transition-duration: 600ms;
+			}
+			ul, li{
+				list-style:none;
+				padding: 0;
+				margin: 0;
+			}
+			li.on{
+				color: #66CCFF;
+				font-weight:bold;
+				letter-spacing:2px;
+			}
+			p{
+				overflow:hidden;
+				text-overflow: ellipsis;
+				height: 17px;
+				line-height: 17px;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				display: -webkit-box;
+				text-align: left;
+				margin-top: 0;
+				margin-bottom: 16px;
+			}
+			audio{
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="float:left;position:absolute;width:auto;margin-top: 66px;margin-left:15px">
+			<ul id="lrclist" style="transform: translateY(200px);width:500px"><!-- 初始值 -->
+				
+			</ul>
+		</div>
+		<audio id="audio" src="盗将行-花粥&马雨阳.mp3" controls="controls" style="position: absolute;width:100%" ></audio>
+		
+		<script>
+		var lrcJSON = {
+			"[00:00.000]":" 作词 : 姬霄",
+"[00:01.000]":" 作曲 : 花粥",
+"[00:08.225]":"编曲/混音：马雨阳",
+"[00:17.617]":"劫过九重城关",
+"[00:20.584]":"我座下马正酣",
+"[00:23.056]":"看那轻飘飘的衣摆",
+"[00:26.375]":"趁擦肩把裙掀",
+"[00:29.277]":"踏遍三江六岸",
+"[00:32.610]":"借刀光做船帆",
+"[00:35.345]":"任露水浸透了短衫",
+"[00:38.793]":"大盗睥睨四野",
+"[00:43.135]":"枕风宿雪多年",
+"[00:46.594]":"我与虎谋早餐",
+"[00:49.088]":"拎着钓叟的鱼弦",
+"[00:52.757]":"问卧龙几两钱",
+"[00:55.274]":"蜀中大雨连绵",
+"[00:58.691]":"关外横尸遍野",
+"[01:01.537]":"你的笑像一条恶犬",
+"[01:04.703]":"撞乱了我心弦",
+"[01:22.409]":"谈花饮月赋闲",
+"[01:25.171]":"这春宵艳阳天",
+"[01:27.674]":"待到梦醒时分睁眼",
+"[01:31.170]":"铁甲寒意凛冽",
+"[01:33.703]":"夙愿只隔一箭",
+"[01:37.102]":"故乡近似天边",
+"[01:40.007]":"不知何人浅唱弄弦",
+"[01:43.409]":"我彷徨不可前",
+"[01:50.712]":"枕风宿雪多年",
+"[01:54.045]":"我与虎谋早餐",
+"[01:56.736]":"拎着钓叟的鱼弦",
+"[02:00.239]":"问卧龙几两钱",
+"[02:02.915]":"蜀中大雨连绵",
+"[02:06.447]":"关外横尸遍野",
+"[02:09.170]":"你的笑像一条恶犬",
+"[02:12.536]":"撞乱我心弦",
+"[02:15.316]":"烽烟万里如衔",
+"[02:18.689]":"掷群雄下酒宴",
+"[02:21.401]":"谢绝策勋十二转",
+"[02:24.938]":"想为你窃玉簪",
+"[02:27.603]":"入巷间吃汤面",
+"[02:31.089]":"笑看窗边飞雪",
+"[02:33.739]":"取腰间明珠弹山雀",
+"[02:37.120]":"立枇杷于庭前",
+"[02:45.147]":"入巷间吃汤面",
+"[02:49.093]":"笑看窗边飞雪",
+"[02:52.608]":"取腰间明珠弹山雀",
+"[02:56.441]":"立枇杷于庭前",
+
+
+		};
+		
+		
+		var lrcTime = [];//歌词对应的时间数组
+		var ul = $("#lrclist")[0];//获取ul
+		
+		var i = 0;
+		$.each(lrcJSON, function(key, value) {//遍历lrc
+			lrcTime[i++] = parseFloat(key.substr(1,3)) * 60 + parseFloat(key.substring(4,10));//00:00.000转化为00.000格式
+			ul.innerHTML += "<li><p>"+lrcJSON[key]+"</p></li>";//ul里填充歌词
+		});
+		lrcTime[lrcTime.length] = lrcTime[lrcTime.length-1] + 3;//如不另加一个结束时间，到最后歌词滚动不到最后一句
+		
+		
+		var $li = $("#lrclist>li");//获取所有li
+		var isLocked = false;//当拖动进度条的时候锁定，防止拖动进度条时audio时间改变出现冲突
+		var currentLine = 0;//当前播放到哪一句了
+		var currentTime;//当前播放的时间
+		var audio = document.getElementById("audio");
+		var ppxx;//保存ul的translateY值
+		
+		audio.ontimeupdate = function() {//audio时间改变事件
+			if(isLocked==false)
+				{
+					isLocked=true;
+					currentTime = audio.currentTime;
+					for(n=-8,len=lrcTime.length;n<=8;n++)
+						{//将可视部分的所有其他歌词设置为默认
+							if(currentLine+n<len-1)
+								{
+									$li.get(currentLine+n).className="";
+							console.log(" clear"+currentLine+n);
+									
+								}
+							
+							else break;
+						}
+					
+			for (j=0, len=lrcTime.length; j<len; j++){
+				
+				if (currentTime<=lrcTime[j+1] && currentTime>=lrcTime[j]){
+					currentLine =  j;
+					ppxx = 180-(currentLine*32);
+					ul.style.transform = "translateY("+ppxx+"px)";
+					
+					$li.get(currentLine-1).className="";
+					console.log("on"+currentLine);
+					$li.get(currentLine).className="on";
+					break;
+				}
+			}
+					isLocked=false;
+				}
+			
+		};
+		
+
+		
+		</script>
+	</body>
+</html>
