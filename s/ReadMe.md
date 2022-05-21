@@ -19,6 +19,7 @@
     </table> 
 </details>
 
+# 《[**双击html或cmd文件后, 自动打开网站的方法**](https://github.com/taoste/Hello-World/blob/master/Tools/hosts/%E3%80%8A%E5%8F%8C%E5%87%BBhtml%E6%88%96cmd%E6%96%87%E4%BB%B6%E5%90%8E%2C%20%E8%87%AA%E5%8A%A8%E6%89%93%E5%BC%80%E7%BD%91%E7%AB%99%E7%9A%84%E6%96%B9%E6%B3%95%E3%80%8B.md)》 - @[CSDN博客](https://blog.csdn.net/bjarnecpp/article/details/93479694)
 
 # HTML图文分享简易代码：
 ```
