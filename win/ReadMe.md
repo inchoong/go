@@ -1,0 +1,1 @@
+- Win10移除自带恶意软件删除工具方法(运行：MRT).[html](https://github.com/inchoong/go/tree/master/win/mrt/index.html)
