@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>全球疫情地图</title>
+    <!--     <link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css"> -->
+    <!--     <script src="Bootstrap/js/bootstrap.min.js"></script> -->
+    <script src="js/echarts.min.js"></script>
+    <!-- arcgis模块 -->
+    <!--     <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.15/"></script> -->
+    <script src="js/jquery.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <header>
+        <h1> 全球疫情地图 </h1>
+        <div class="showTime"></div>
+        <div class="index"><a href="https://ypigy.gitee.io/">首页</a></div>
+        <script>
+        var formaDate = function() {
+            var d = new Date()
+            var year = d.getFullYear(), //多变量赋值
+                month = d.getMonth() + 1, //month：从0开始
+                date = d.getDate(),
+                hour = d.getHours(),
+                minute = d.getMinutes(),
+                second = d.getSeconds();
+
+            year = year < 10 ? '0' + year : year; //三元操作符
+            month = month < 10 ? '0' + month : month;
+            date = date < 10 ? '0' + date : date;
+            hour = hour < 10 ? '0' + hour : hour;
+            minute = minute < 10 ? '0' + minute : minute;
+            second = second < 10 ? '0' + second : second;
+            var a = year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second
+            $('.showTime').html(a);
+        }
+        setInterval(formaDate, 1000) //设定定时器，循环运行;
+        </script>
+    </header>
+    <section class="mainbox">
+        <!-- 左 -->
+        <div class="column">
+            <div class="panel bl bar">
+                <h2>各洲累计确诊分布（海外）</h2>
+                <div class="chart"></div>
+                <div class="panelFooter"></div>
+            </div>
+            <div class="panel bl line">
+                <h2>全球疫情趋势（海外）</h2>
+                <div class="chart"></div>
+                <div class="panelFooter"></div>
+            </div>
+        </div>
+        <!-- 中 -->
+        <div class="column">
+            <!-- 上模块 -->
+            <div class="no">
+                <div class="no-hd">
+                    <ul>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+                <div class="no-bd">
+                    <ul>
+                        <li>累计确诊人数</li>
+                        <li>累计治愈人数</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 地图模块 -->
+            <div class="map">
+                <div class="map1"></div>
+                <div class="map2"></div>
+                <div class="map3"></div>
+                <div class="chart" id="viewDiv"></div>
+                <div class="panelFooter"></div>
+            </div>
+        </div>
+        <!-- 右 -->
+        <div class="column">
+            <div class="panel bl bar1">
+                <h2>世界疫情确诊情况前十五</h2>
+                <div class="chart"></div>
+                <div class="panelFooter"></div>
+            </div>
+        </div>
+        <div class="data">数据来源于腾讯</div>
+    </section>
+    <script src="js/flexible.js"></script>
+    <script src="js/world.js"></script>
+    <!-- <script src="js/echarts.min.js"></script> -->
+    <!--     <script src="js/arcgis.js"></script> -->
+    <script src="js/index.js"></script>
+    <script>
+    let res1, res2
+    $.ajax({
+            url: 'https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5',
+            type: 'get',
+            // data: {},
+            dataType: 'jsonp',
+        })
+        .then((data) => {
+            var res = data.data || "";
+            // console.log(JSON.parse(res).chinaTotal.heal)
+            res1 = JSON.parse(res).chinaTotal.confirm;
+            res2 = JSON.parse(res).chinaTotal.heal;
+            return $.ajax({
+                url: 'https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=FAutoGlobalStatis,FAutoContinentStatis,FAutoGlobalDailyList,FAutoCountryConfirmAdd',
+                type: 'get',
+                // data: {},
+                dataType: 'json',
+            })
+        })
+        .then((data) => {
+            // console.log(data)
+            let sum = data.data.FAutoGlobalStatis.confirm + res1
+            let cureSum = data.data.FAutoGlobalStatis.heal + res2
+            $(".no-hd li:first").text(sum)
+            $(".no-hd li:nth-child(2)").text(cureSum)
+        })
+
+
+
+    // $.ajax({
+    //     url: 'https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5',
+    //     type: 'get',
+    //     // data: {},
+    //     dataType: 'jsonp',
+    //     success: function(data) {
+    //         var res = data.data || "";
+    //         // console.log(JSON.parse(res).chinaTotal.heal)
+    //         var res1 = JSON.parse(res).chinaTotal.confirm;
+    //         var res2 = JSON.parse(res).chinaTotal.heal;
+    //         $.ajax({
+    //             url: 'https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=FAutoGlobalStatis,FAutoContinentStatis,FAutoGlobalDailyList,FAutoCountryConfirmAdd',
+    //             type: 'get',
+    //             // data: {},
+    //             dataType: 'json',
+    //             success: function(data) {
+    //                 // console.log(data)
+    //                 var sum = data.data.FAutoGlobalStatis.confirm + res1
+    //                 var cureSum = data.data.FAutoGlobalStatis.heal + res2
+    //                 $(".no-hd li:first").text(sum)
+    //                 $(".no-hd li:nth-child(2)").text(cureSum)
+    //             }
+    //         })
+    //     }
+    // })
+    </script>
+</body>
+
+</html>
