@@ -1,7 +1,7 @@
 
 - [爱在哈佛 (豆瓣)](https://movie.douban.com/subject/1756844/)
 
-<img src="[/i/eg_tulip.jpg](https://img1.doubanio.com/view/photo/l/public/p2570481197.webp)"  alt="爱在哈佛 러브스토리인하버드 (2004)" />
+<img src="https://github.com/inchoong/go/blob/master/azhf/0.png?raw=true"  alt="爱在哈佛 러브스토리인하버드 (2004)" />
 
 ```
 爱在哈佛 러브스토리인하버드 (2004)
@@ -21,6 +21,7 @@ IMDb: tt0439392
 资源名称: 爱在哈佛.Love.Story.in.Harvard.2004.tt0439392
 资源名称: 爱在哈佛.Love.Story.in.Harvard.2004.
 ```
+<img src="https://github.com/inchoong/go/blob/master/azhf/1.png?raw=true"  alt="爱在哈佛 러브스토리인하버드 (2004)" />
 
 - [《爱在哈佛》러브스토리 인 하버드 OST（哈佛爱情故事）](https://music.163.com/#/album?id=531837) - V.A.（日韩群星） - 专辑 - 网易云音乐
 
