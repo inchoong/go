@@ -1,3 +1,4 @@
+# 打开chrome网页做屏保.bat ( [下载.zip](https://go.choong.net/win10/%E6%89%93%E5%BC%80%E7%BD%91%E9%A1%B5%E5%81%9A%E5%B1%8F%E4%BF%9D/down.zip) )
 - 1.打开chrome网页做屏保.bat
 ```
 @echo off 
