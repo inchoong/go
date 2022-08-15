@@ -1,4 +1,4 @@
-# HBuilderX 自述文件 (markdown格式)
+# HBuilderX（HTML前端开发工具) 自述文件 (markdown格式)
 ***************************************
 
 `HBuilderX`，H是HTML的首字母，Builder是构造者，X是HBuilder的下一代版本。我们也简称`HX`。
