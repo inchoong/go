@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>太极八卦图</title>
+<!-- 纯css+jquery实现太极八卦图 -->
+	<link rel="icon" href="69.jpg" type="image/x-icon"/>
+<script src="https://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+  #box {
+	width:800px;
+	height:800px;
+	border-radius:50%;
+	margin:0px auto;
+	position:relative;
+	top:100px;
+}
+.second {
+	width:180px;
+	height:100px;
+	position:absolute;
+	color:black;
+	font-weight:bolder;
+	text-align:center;
+	font-size:40px;
+}
+.one {
+	width:180px;
+	height:20px;
+	background:black;
+	margin-bottom:5px;
+}
+.two {
+	width:180px;
+	height:20px;
+	margin-bottom:5px;
+	overflow:hidden;
+}
+.two:before {
+	display:block;
+	content:"";
+	background:black;
+	width:85px;
+	height:20px;
+	float:left;
+}
+.two:after {
+	display:block;
+	content:"";
+	background:black;
+	width:85px;
+	height:20px;
+	float:right;
+}
+.box-taiji {
+	width:0;
+	height:400px;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin-top:-200px;
+	/* 高度的一半 */
+            margin-left:-200px;
+	/* 宽度的一半 */
+            border-left:200px solid #000;
+	border-right:200px solid #fff;
+	box-shadow:0 0 30px rgba(0,0,0,.5);
+	border-radius:400px;
+	animation:rotation 2.5s linear infinite;
+	-webkit-animation:rotation 2.5s linear infinite;
+	-moz-animation:rotation 2.5s linear infinite;
+}
+.box-taiji:before,.box-taiji:after {
+	position:absolute;
+	content:"";
+	display:block;
+}
+.box-taiji:before {
+	width:200px;
+	height:200px;
+	top:0;
+	left:-100px;
+	z-index:1;
+	background-color:#fff;
+	border-radius:50%;
+	box-shadow:0 200px 0 #000;
+}
+.box-taiji:after {
+	width:60px;
+	height:60px;
+	top:70px;
+	left:-30px;
+	z-index:2;
+	background-color:#000;
+	border-radius:50%;
+	box-shadow:0 200px 0 #fff;
+}
+@keyframes rotation {
+	0% {
+	transform:rotate(0deg);
+}
+100% {
+	transform:rotate(-360deg);
+}
+}@-webkit-keyframes rotation {
+	0% {
+	-webkit-transform:rotate(0deg);
+}
+100% {
+	-webkit-transform:rotate(-360deg);
+}
+}@-moz-keyframes rotation {
+	0% {
+	-moz-transform:rotate(0deg);
+}
+100% {
+	-moz-transform:rotate(-360deg);
+}
+}</style>
+</head>
+<body>
+<div id="box">
+    <div class="box-taiji"></div>
+</div>
+
+<script>
+  var arr = ["南", "南西", "西", "西北", "北", "北东", "东", "东南"];
+  var arr2 = ["南火", "坤土", "兑金", "乾金", "坎水", "艮土", "震木", "巽木"];
+  for (var i = 0; i < 8; i++) {
+      $("#box").append("<div class='second'></div>");
+      $(".second").eq(i).css({
+          left: 400 * Math.sin(Math.PI / 180 * 45 * i) + 400 - 80 + "px",
+          top: 400 - 400 * Math.cos(Math.PI / 180 * 45 * i) - 50 + "px",
+          transform: "rotate(" + 45 * i + "deg)"
+      })
+      $(".second").eq(i).append("<span>" + arr[i] + "</span>")
+  }
+  for (var i = 0; i < 3; i++) {
+      $(".second").eq(1).append("<div class='two'></div>");
+      if (i < 2) {
+          $(".second").eq(6).append("<div class='two'></div>");
+      }
+      if (i < 1) {
+          $(".second").eq(2).append("<div class='two'></div>");
+          $(".second").eq(4).append("<div class='two'></div>");
+      }
+  }
+  for (var i = 0; i < 3; i++) {
+      $(".second").eq(3).append("<div class='one'></div>");
+      if (i < 2) {
+          $(".second").eq(2).append("<div class='one'></div>");
+          $(".second").eq(7).append("<div class='one'></div>");
+      }
+      if (i < 1) {
+          $(".second").eq(5).append("<div class='one'></div>");
+          $(".second").eq(4).append("<div class='one'></div>");
+          $(".second").eq(6).append("<div class='one'></div>");
+          $(".second").eq(0).append("<div class='one'></div>");
+      }
+  }
+  for (var i = 0; i < 2; i++) {
+      $(".second").eq(5).append("<div class='two'></div>");
+      if (i < 1) {
+          $(".second").eq(4).append("<div class='two'></div>");
+          $(".second").eq(7).append("<div class='two'></div>");
+          $(".second").eq(0).append("<div class='two'></div>");
+      }
+  }
+  $(".second").eq(0).append("<div class='one'></div>");
+  for (var i = 0; i < 8; i++) {
+      $(".second").eq(i).append("<span>" + arr2[i] + "</span>")
+  }
+</script>
+
+</body>
+</html>
