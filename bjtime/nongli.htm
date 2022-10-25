@@ -1,0 +1,153 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>农历日期换算为阳历</title>
+<meta name="description" content="">
+<style>
+body{background:#e7e7e7;margin:0;}
+body,table,div{font-size:1.1rem;line-height:2.0rem;}
+table{border-collapse:collapse;cursor:default;}
+input,select{height:2.4rem;font-size:1.2rem;}
+.y{width:7rem;}
+.d{width:4rem;}
+</style>
+
+<base target=_top>
+</head>
+
+<body>
+
+
+
+<div style="margin-left:1rem;margin-top:1rem;">
+<a href=./>日期计算</a> - <b>农历日期换算为阳历</b>
+
+
+<br>
+<br>
+
+<script type="text/javascript" src="base.js"></script>
+
+
+今天是<span id=today></span>
+<br>
+<br>
+
+农历年：<input type=number class=y id=LY> 正月所在的阳历年份
+<br>
+农历月：<input type=number class=d id=LM> 闰月则输入负数，比如闰八月输入"-8"月
+<br>
+农历日：<input type=number class=d id=LD> 
+<br>阳历：
+<span id=result></span>
+<br>
+<input type=button value="计算" onclick="calc()">
+<br>
+
+
+
+
+<script>
+
+function setday(dc,ly,lm,ld){
+
+theday=new Date();
+theday.setTime(dc*86400000);
+
+$("today").innerHTML=getdatestring(theday)+"&nbsp;"+getlinfo(ly,lm,ld);
+
+var temp=localStorage.getItem("nongli_t");
+
+if(temp!=null)
+{
+	var ss=temp.split('-');
+
+	$("LY").value=ss[0];
+	$("LM").value=ss[1];
+	$("LD").value=ss[2];
+}
+else{
+
+	$("LY").value=ly+1;
+	$("LM").value=1;
+	$("LD").value=1;
+
+}
+
+}
+
+
+
+function calc()
+{
+var ly=$("LY").value;
+var lm=$("LM").value;
+var ld=$("LD").value;
+
+LoadJs("l2s.php?"+ly+"-"+lm+"-"+ld);
+
+localStorage.setItem( "nongli_t",ly+"-"+lm+"-"+ld);
+}
+
+
+
+function l2s(dc)
+{
+theday=new Date();
+theday.setTime(dc*86400000);
+
+$("result").innerHTML=getdatestring(theday);
+
+
+
+
+}
+
+</script>
+
+<br>
+
+<script type="text/javascript" src="today.php?"+new Date().getTime()></script>
+
+</div>
+
+
+<br>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2872916894005511"
+     crossorigin="anonymous"></script>
+<!-- date -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2872916894005511"
+     data-ad-slot="9228551842"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+<br>
+<div style="margin-left:1rem">
+
+
+</div>
+
+
+<br>
+<br>
+
+
+<center>
+<div style="border-top:solid 1px #cccccc;padding-top:2rem;width:90%;text-align:center">
+&copy; bjtime.cn
+</div>
+</center>
+<br>
+<br>
+
+</body>
+</html>

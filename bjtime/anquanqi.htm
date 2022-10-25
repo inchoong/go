@@ -1,0 +1,322 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>安全期计算</title>
+<meta name="description" content="掌握安全期有助于受孕或避孕。在本网页的日历上点击月经第一天的日期，在弹出窗口上输入个人周期，即可显示安全期、危险期、排卵日，方便直观。">
+<style>
+body{background:#e7e7e7;margin:0;}
+body,table,div{font-size:1.1rem;line-height:2.0rem;}
+table{border-collapse:collapse;cursor:default;}
+input,select{height:2.4rem;font-size:1.2rem;}
+.y{width:7rem;}
+.d{width:4rem;}
+</style>
+
+<base target=_top>
+</head>
+
+<body>
+
+
+
+<div style="margin-left:1rem;margin-top:1rem;">
+<a href=./>日期计算</a> - <b>安全期计算</b>
+
+
+<br>
+<br>
+
+<script type="text/javascript" src="base.js"></script>
+<script type="text/javascript" src="cld2.js"></script>
+
+
+<style>
+.pop{position:absolute;display:none;z-index:10}	
+table,th,td { border:1px solid gray; }
+</style>
+
+
+<DIV id=detail class=pop style="background-color:#99CCFF;"></DIV>
+
+
+<DIV id=input class=pop style="background-color:#ccbbaa;padding-left:2px;">
+<span id=riqi></span>
+<br>
+月经周期：<input type=number class=d id=period value="28"></input>天
+<br>
+
+&nbsp;
+<input type=button value="确 定" onclick="calperiod()"></input>
+&nbsp;
+<input type=button value="取 消" onclick="hclose()"></input>
+
+</DIV>
+
+
+在日历上点击末次月经的第一天，输入月经周期开始计算。 &nbsp;<a href=# id="clearold" onclick="clearold();return false;" style="display:none" class=big2>清除</a>
+<br>
+<br>
+
+
+
+<SELECT id="yearsel" name=SY onchange=selectym()> </SELECT>年&nbsp;
+<SELECT id="monsel" name=SM onchange=selectym()></SELECT>月 <FONT id=YMBG style="COLOR:silver; FONT-FAMILY:Arial;"></FONT>
+&nbsp;
+<a href=# onclick="preback(-1);return false;">上月</a>
+&nbsp;
+<a href=# onclick="preback(1);return false;">下月</a>
+&nbsp;
+<a id=curMonth href="javascript:cldinit();" style="display:none;"><i>返回</i></a>
+
+
+
+
+<TABLE id="MDAYS" style="border-collapse:collapse;" width=99%>
+<tr align=center style="height:1.5rem" bgcolor=#cccccc>
+<th style="color:green">日<th>一<th>二<th>三<th>四<th>五<th style="color:green">六</tr>
+</TABLE>
+
+
+<script>
+showsel();
+showdays();
+
+</script>
+
+<br>
+
+<span style="width:2em;background:red">&nbsp;</span> 月经第一天
+<br>
+<span style="width:2em;background:#bbddff">&nbsp;</span> 安全期
+<br>
+<span style="width:2em;background:yellow">&nbsp;</span> 排卵日
+<br>
+<span style="width:2em;background:orange">&nbsp;</span> 易孕期
+<br>
+<br>
+
+排卵日一般在下次月经来潮的前第14天，卵细胞从卵巢排出后，大约能存活2～5天，精子在女性体内可存活1～3天。因此，在排卵日的前3天和排卵日后的5天内（包括排卵日）为易孕期，如不想怀孕则为危险期。其余日期则相对安全，为安全期。
+<br>
+<br>
+采用此日期推算法进行避孕容易失败，因为个人的健康和情绪波动以及环境变化可以使排卵推迟或提前。
+
+
+
+
+
+
+
+<script>
+
+var _sel_color="lightgreen";
+
+
+var from_time;
+
+var period=localStorage.getItem("period");
+var fromday=localStorage.getItem("fromday");
+
+if(period==null) period=0;
+
+  
+function showdata()
+{
+
+
+
+if(period!=0){
+var ss=fromday.split("-");
+from_time=new Date(ss[0],parseInt(ss[1])-1,ss[2]).getTime();
+}
+
+
+
+$("clearold").style.display=period==0?"none":"inline";
+
+
+for(i=0;i<cldObj.length;i++){
+	setbcolor(i);
+}
+
+}
+
+
+function clearold()
+{
+localStorage.removeItem("period");
+localStorage.removeItem("fromday");
+period=0;
+fromday=""
+showdata();
+}
+
+
+
+
+
+function calperiod()
+{
+
+period=parseInt($("period").value);
+if(period<14) {
+	alert("输入有误");
+	return ;
+}
+
+if(curd==-1){
+	alert("请点击日期");
+	return ;	
+}
+
+
+
+with(cldObj[curd]){
+	fromday=sYear+"-"+sMonth+"-"+sDay;
+}
+
+
+localStorage.setItem("period",period);
+
+localStorage.setItem("fromday",fromday);
+
+
+hclose();
+
+showdata();
+
+}
+
+
+
+function loadinput()
+{
+with(cldObj[curd]){
+$("riqi").innerHTML=sMonth+"月"+sDay+"日（周"+cweekday(wDay)+"）";
+}
+if(period>15){
+	$("period").value=period;
+}
+
+}
+
+
+
+
+
+
+function setbcolor(d)
+{
+var thed=cldObj[d]
+
+
+if(period==0) {
+	thed.bcolor="";
+}
+else{
+
+
+var dt=new Date(thed.sYear,thed.sMonth-1,thed.sDay);
+
+//alert(fromday);
+
+var delta=(dt.getTime()-from_time)/86400000;
+
+
+if(delta<0){
+	thed.bcolor="";	
+}
+
+else{
+
+var remain=period-delta%period;
+
+if(remain==period){
+	thed.bcolor="red";
+}
+else if(remain==14)
+{
+	thed.bcolor="yellow";
+	
+}
+else if(remain>8 && remain<18)
+{
+	thed.bcolor="orange";
+	
+}
+else{
+	thed.bcolor="#bbddff";
+	
+}
+}
+}
+
+$('GD'+cldObj[d].v).style.background=thed.bcolor;
+
+}
+
+
+
+function gethint(d)
+{
+
+return "";
+
+}
+
+
+
+
+
+function closeinput()
+{
+setbcolor(curd);
+}
+
+
+
+</script>
+
+<script type="text/javascript" src="getdate.php?"+new Date().getTime()></script>
+
+</div>
+
+
+<br>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2872916894005511"
+     crossorigin="anonymous"></script>
+<!-- date -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2872916894005511"
+     data-ad-slot="9228551842"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+<br>
+<div style="margin-left:1rem">
+
+
+</div>
+
+
+<br>
+<br>
+
+
+<center>
+<div style="border-top:solid 1px #cccccc;padding-top:2rem;width:90%;text-align:center">
+&copy; bjtime.cn
+</div>
+</center>
+<br>
+<br>
+
+</body>
+</html>

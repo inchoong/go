@@ -1,0 +1,185 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>倒计时</title>
+<meta name="description" content="距离元旦还有几天？距离春节还有几天？">
+<style>
+body{background:#e7e7e7;margin:0;}
+body,table,div{font-size:1.1rem;line-height:2.0rem;}
+table{border-collapse:collapse;cursor:default;}
+input,select{height:2.4rem;font-size:1.2rem;}
+.y{width:7rem;}
+.d{width:4rem;}
+</style>
+
+<base target=_top>
+</head>
+
+<body>
+
+
+
+<div style="margin-left:1rem;margin-top:1rem;">
+<a href=./>日期计算</a> - <b>倒计时</b>
+
+
+<br>
+<br>
+
+<script type="text/javascript" src="base.js"></script>
+
+
+
+
+今天是<span id=today></span>
+
+
+<br>
+<br>
+距<b>元旦</b><span id=nextyear></span>年1月1日还有<big><big>
+<b><span id=tonewyear></span></b></big></big>天
+<br>
+<br>
+
+
+
+
+<b><span id=newanimal></span></b>年春节是
+<b><span id=spring></span></b>（正月初一）
+<br>
+距<b>春节</b>还有 <big><big><b>
+<span id=tospring></span>
+</big></big></b> 天
+<br>
+<br>
+
+<b>自定义倒计时：</b>
+<br>
+距 <input type=number class=y id=SY3>年
+<input type=number class=d id=SM3>月
+<input type=number class=d id=SD3>日
+<input type=button value=" 计算 " onclick="touser()">
+<br>
+还有 <big><big><b><span id=touser></span></big></big></b> 天
+<script>
+
+function touser()
+{
+y3=$("SY3").value;
+m3=$("SM3").value;
+d3=$("SD3").value;
+
+day3=new Date(y3,m3-1,d3);
+
+localStorage.setItem("userday",y3+"-"+m3+"-"+d3);
+
+$("touser").innerHTML=Math.ceil(day3/86400000 - curdc);
+
+}
+
+var curdc;
+
+function setday(dc,ly,lm,ld){
+
+curdc=dc;
+
+theday=new Date();
+theday.setTime(dc*86400000);
+
+$("today").innerHTML=getdatestring(theday)+"&nbsp;"+getlinfo(ly,lm,ld);
+
+
+
+newy=theday.getFullYear()+1;
+
+$("nextyear").innerHTML=newy;
+
+$("tonewyear").innerHTML=Math.ceil((new Date(newy,0,1).getTime()-theday.getTime())/86400000);
+
+
+$("newanimal").innerHTML=Animals[(ly+9)%12];
+
+
+LoadJs("l2s.php?"+(ly+1)+"-1-1");
+
+
+var temp=localStorage.getItem("userday");
+
+
+
+if(temp!=null)
+{
+var ss=temp.split('-');
+$("SY3").value=ss[0];
+$("SM3").value=ss[1];
+$("SD3").value=ss[2];
+}
+else{
+    $("SY3").value=theday.getFullYear();
+    $("SM3").value=12;
+$("SD3").value=31;
+}
+
+
+
+
+}
+
+function l2s(dc)
+{
+theday=new Date();
+theday.setTime(dc*86400000);
+
+$("spring").innerHTML=getdatestring(theday);
+
+
+$("tospring").innerHTML=dc-curdc;
+
+}
+
+</script>
+
+<script type="text/javascript" src="today.php?"+new Date().getTime()></script>
+
+</div>
+
+
+<br>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2872916894005511"
+     crossorigin="anonymous"></script>
+<!-- date -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2872916894005511"
+     data-ad-slot="9228551842"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+<br>
+<div style="margin-left:1rem">
+
+
+</div>
+
+
+<br>
+<br>
+
+
+<center>
+<div style="border-top:solid 1px #cccccc;padding-top:2rem;width:90%;text-align:center">
+&copy; bjtime.cn
+</div>
+</center>
+<br>
+<br>
+
+</body>
+</html>

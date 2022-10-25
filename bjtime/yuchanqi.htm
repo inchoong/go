@@ -1,0 +1,222 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>预产期计算</title>
+<meta name="description" content="计算宝宝什么时候出生。医学上以末次月经的第一天作为开始，整个孕期280天，分为10个妊娠月。每个妊娠月为28天，总共为40周（星期）。做孕期检查时，一般以第几周作为时间节点。">
+<style>
+body{background:#e7e7e7;margin:0;}
+body,table,div{font-size:1.1rem;line-height:2.0rem;}
+table{border-collapse:collapse;cursor:default;}
+input,select{height:2.4rem;font-size:1.2rem;}
+.y{width:7rem;}
+.d{width:4rem;}
+</style>
+
+<base target=_top>
+</head>
+
+<body>
+
+
+
+<div style="margin-left:1rem;margin-top:1rem;">
+<a href=./>日期计算</a> - <b>预产期计算</b>
+
+
+<br>
+<br>
+
+<script type="text/javascript" src="base.js"></script>
+
+
+
+今天是：<span id=today></span>
+
+
+<br>
+<br>
+请输入<b>最后一次月经的第一天</b>日期：
+<br>
+<form name=theform target=savedb  action="adddays.php" method=post onsubmit="return false">
+<input type=number class=y id=SY name=SY>年
+<input type=number class=d id=SM name=SM>月
+<input type=number class=d id=SD name=SD>日
+<input type=hidden name=addnum value=280>
+　　<input type=button value="计 算" onclick="cala()">
+</form>
+
+
+<b>预产期</b>是：
+<span id=result1></span>
+<br>
+距预产期还有：
+<b><span id=result2></span></b>
+<br>
+ 当前处于：第<b><span id=result3></span></b>周
+<br>
+<br>
+
+<table>
+<script>
+for(i=1;i<=40;i++){
+    if(i%4==1){
+        document.write('<tr style="height:7rem">');
+    }
+    document.write("<td id=t"+i+" style='width:9rem' align=center>第"+i+"周<br><span id=d"+i+"></span>");
+
+}
+</script>
+</table>
+
+<br>
+<br>
+“十月怀胎，一朝分娩”，指的是10个妊娠月，每个妊娠月是28天（四个星期）。从月经第一天开始计算（卵子发育日），共280天，40周。
+一般来说，男孩在预产期之前出生，女孩在预产期之后出生。
+
+<br>
+<br>
+<br>
+<iframe name=savedb style="display:none"></iframe>
+
+
+
+<script>
+
+var day0;
+var today;
+
+function cala()
+{
+y=$("SY").value;
+m=$("SM").value;
+d=$("SD").value;
+
+day0=new Date(y,m-1,d);
+
+
+if(day0=="Invalid Date"){
+    alert("请输入正确日期");
+    return;
+}
+
+localStorage.setItem("beingday",y+"-"+m+"-"+d);
+
+theform.submit();
+
+}
+
+
+function afteradd(datestr,ly,lm,ld)
+{
+
+var ss=datestr.split("-");
+
+theday=new Date(ss[0],ss[1]-1,ss[2]);
+
+$("result1").innerHTML=getdatestring(theday)+"&nbsp;"+getlinfo(ly,lm,ld);
+
+
+var restdays=Math.floor((theday.getTime()-today.getTime())/86400000);
+
+$("result2").innerHTML=restdays+"天";
+
+
+var weekno=parseInt((280-restdays)/7);
+weekno++;
+
+$("result3").innerHTML=weekno;
+
+for(i=1;i<=40;i++){
+
+    theday.setTime(day0.getTime()+86400000*(i-1)*7);
+    theday2=new Date();
+    theday2.setTime(day0.getTime()+86400000*(i*7-1));
+    $("d"+i).innerHTML=theday.getFullYear()+"."+(1+theday.getMonth())+"."+theday.getDate()
+    +"<br>-"+theday2.getFullYear()+"."+(1+theday2.getMonth())+"."+theday2.getDate();
+
+    if(i==weekno)
+        $("t"+i).style.border="solid red 2px";
+    else
+        $("t"+i).style.border="";
+
+}
+
+}
+   
+
+function setday(ty,tm,td)
+
+{
+today=new Date(ty,tm-1,td);
+
+
+$("today").innerHTML=getdatestring(today);
+
+
+
+var temp=localStorage.getItem("beingday");
+if(temp!=null)
+{
+	var ss=temp.split('-');
+	$("SY").value=ss[0];
+	$("SM").value=ss[1];
+	$("SD").value=ss[2];
+}
+else{
+    $("SY").value=ty;
+    $("SM").value=tm;
+	$("SD").value=td;
+}
+
+
+
+
+}
+
+</script>
+
+
+<script type="text/javascript" src="getdate.php?"+new Date().getTime()></script>
+
+</div>
+
+
+<br>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2872916894005511"
+     crossorigin="anonymous"></script>
+<!-- date -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2872916894005511"
+     data-ad-slot="9228551842"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+<br>
+<div style="margin-left:1rem">
+
+
+</div>
+
+
+<br>
+<br>
+
+
+<center>
+<div style="border-top:solid 1px #cccccc;padding-top:2rem;width:90%;text-align:center">
+&copy; bjtime.cn
+</div>
+</center>
+<br>
+<br>
+
+</body>
+</html>
