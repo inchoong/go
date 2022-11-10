@@ -8,5 +8,6 @@
 >> F-Droid 是一个 Android 平台上 FOSS（Free and Open Source Software，自由开源软件）的目录，并提供下载安装支持。使用客户端可以更轻松地浏览、安装及跟进设备上的应用更新。
 
 - DeepNude - Bing搜索(DeepNude又出现了！已有65万女性受害被一键“脱衣”软件)
->> https://cn.bing.com/search?q=DeepNude
 > Deepfakes 视频一键换脸
+>> https://cn.bing.com/search?q=DeepNude
+
