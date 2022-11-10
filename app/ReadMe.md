@@ -9,3 +9,4 @@
 
 - DeepNude - Bing搜索(DeepNude又出现了！已有65万女性受害被一键“脱衣”软件)
 >> https://cn.bing.com/search?q=DeepNude
+> Deepfakes 视频一键换脸
