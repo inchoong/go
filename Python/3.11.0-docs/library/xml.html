@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>XML处理模块 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="xml.etree.ElementTree --- ElementTree XML API" href="xml.etree.elementtree.html" />
+    <link rel="prev" title="html.entities --- HTML 一般实体的定义" href="html.entities.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/xml.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">XML处理模块</a><ul>
+<li><a class="reference internal" href="#xml-vulnerabilities">XML 漏洞</a></li>
+<li><a class="reference internal" href="#the-defusedxml-package"><code class="xref py py-mod docutils literal notranslate"><span class="pre">defusedxml</span></code> 包</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="html.entities.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">html.entities</span></code> --- HTML 一般实体的定义</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="xml.etree.elementtree.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.etree.ElementTree</span></code> ---  ElementTree XML API</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/xml.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="xml.etree.elementtree.html" title="xml.etree.ElementTree --- ElementTree XML API"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="html.entities.html" title="html.entities --- HTML 一般实体的定义"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="markup.html" accesskey="U">结构化标记处理工具</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">XML处理模块</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-xml">
+<span id="xml-processing-modules"></span><span id="xml"></span><h1>XML处理模块<a class="headerlink" href="#module-xml" title="永久链接至标题">¶</a></h1>
+<p><strong>源码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/xml/">Lib/xml/</a></p>
+<hr class="docutils" />
+<p>用于处理XML的Python接口分组在 <code class="docutils literal notranslate"><span class="pre">xml</span></code> 包中。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>XML 模块对于错误或恶意构造的数据是不安全的。 如果你需要解析不受信任或未经身份验证的数据，请参阅 <a class="reference internal" href="#xml-vulnerabilities"><span class="std std-ref">XML 漏洞</span></a> 和 <a class="reference internal" href="#defusedxml-package"><span class="std std-ref">defusedxml 包</span></a> 部分。</p>
+</div>
+<p>值得注意的是 <a class="reference internal" href="#module-xml" title="xml: Package containing XML processing modules"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml</span></code></a> 包中的模块要求至少有一个 SAX 兼容的 XML 解析器可用。在 Python 中包含 Expat 解析器，因此 <a class="reference internal" href="pyexpat.html#module-xml.parsers.expat" title="xml.parsers.expat: An interface to the Expat non-validating XML parser."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.parsers.expat</span></code></a> 模块将始终可用。</p>
+<p><a class="reference internal" href="xml.dom.html#module-xml.dom" title="xml.dom: Document Object Model API for Python."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom</span></code></a> 和 <a class="reference internal" href="xml.sax.html#module-xml.sax" title="xml.sax: Package containing SAX2 base classes and convenience functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax</span></code></a> 包的文档是 DOM 和 SAX 接口的 Python 绑定的定义。</p>
+<p>XML 处理子模块包括:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="xml.etree.elementtree.html#module-xml.etree.ElementTree" title="xml.etree.ElementTree: Implementation of the ElementTree API."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.etree.ElementTree</span></code></a>： ElementTree API，一个简单而轻量级的XML处理器</p></li>
+</ul>
+<ul class="simple">
+<li><p><a class="reference internal" href="xml.dom.html#module-xml.dom" title="xml.dom: Document Object Model API for Python."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom</span></code></a>：DOM API 定义</p></li>
+<li><p><a class="reference internal" href="xml.dom.minidom.html#module-xml.dom.minidom" title="xml.dom.minidom: Minimal Document Object Model (DOM) implementation."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.minidom</span></code></a>：最小的 DOM 实现</p></li>
+<li><p><a class="reference internal" href="xml.dom.pulldom.html#module-xml.dom.pulldom" title="xml.dom.pulldom: Support for building partial DOM trees from SAX events."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.pulldom</span></code></a>：支持构建部分 DOM 树</p></li>
+</ul>
+<ul class="simple">
+<li><p><a class="reference internal" href="xml.sax.html#module-xml.sax" title="xml.sax: Package containing SAX2 base classes and convenience functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax</span></code></a>：SAX2 基类和便利函数</p></li>
+<li><p><a class="reference internal" href="pyexpat.html#module-xml.parsers.expat" title="xml.parsers.expat: An interface to the Expat non-validating XML parser."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.parsers.expat</span></code></a>：Expat解析器绑定</p></li>
+</ul>
+<section id="xml-vulnerabilities">
+<span id="id1"></span><h2>XML 漏洞<a class="headerlink" href="#xml-vulnerabilities" title="永久链接至标题">¶</a></h2>
+<p>XML 处理模块对于恶意构造的数据是不安全的。 攻击者可能滥用 XML 功能来执行拒绝服务攻击、访问本地文件、生成与其它计算机的网络连接或绕过防火墙。</p>
+<p>下表概述了已知的攻击以及各种模块是否容易受到攻击。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>种类</p></th>
+<th class="head"><p>sax</p></th>
+<th class="head"><p>etree</p></th>
+<th class="head"><p>minidom</p></th>
+<th class="head"><p>pulldom</p></th>
+<th class="head"><p>xmlrpc</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>billion laughs</p></td>
+<td><p><strong>易受攻击</strong> (1)</p></td>
+<td><p><strong>易受攻击</strong> (1)</p></td>
+<td><p><strong>易受攻击</strong> (1)</p></td>
+<td><p><strong>易受攻击</strong> (1)</p></td>
+<td><p><strong>易受攻击</strong> (1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>quadratic blowup</p></td>
+<td><p><strong>易受攻击</strong> (1)</p></td>
+<td><p><strong>易受攻击</strong> (1)</p></td>
+<td><p><strong>易受攻击</strong> (1)</p></td>
+<td><p><strong>易受攻击</strong> (1)</p></td>
+<td><p><strong>易受攻击</strong> (1)</p></td>
+</tr>
+<tr class="row-even"><td><p>external entity expansion</p></td>
+<td><p>安全 (5)</p></td>
+<td><p>安全 (2)</p></td>
+<td><p>安全 (3)</p></td>
+<td><p>安全 (5)</p></td>
+<td><p>安全 (4)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://en.wikipedia.org/wiki/Document_type_definition">DTD</a> retrieval</p></td>
+<td><p>安全 (5)</p></td>
+<td><p>安全</p></td>
+<td><p>安全</p></td>
+<td><p>安全 (5)</p></td>
+<td><p>安全</p></td>
+</tr>
+<tr class="row-even"><td><p>decompression bomb</p></td>
+<td><p>安全</p></td>
+<td><p>安全</p></td>
+<td><p>安全</p></td>
+<td><p>安全</p></td>
+<td><p><strong>易受攻击</strong></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li><p>Expat 2.4.1 及更新的版本不易受 &quot;billion laughs&quot; 和 &quot;quadratic blowup&quot; 漏洞的攻击。 因为可能要依赖系统提供的库而仍被列为易受攻击的项目。 请检查 <code class="xref py py-data docutils literal notranslate"><span class="pre">pyexpat.EXPAT_VERSION</span></code>。</p></li>
+<li><p><a class="reference internal" href="xml.etree.elementtree.html#module-xml.etree.ElementTree" title="xml.etree.ElementTree: Implementation of the ElementTree API."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.etree.ElementTree</span></code></a> 不会扩展外部实体并在实体发生时引发 <code class="xref py py-exc docutils literal notranslate"><span class="pre">ParserError</span></code>。</p></li>
+<li><p><a class="reference internal" href="xml.dom.minidom.html#module-xml.dom.minidom" title="xml.dom.minidom: Minimal Document Object Model (DOM) implementation."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.minidom</span></code></a> 不会扩展外部实体，只是简单地返回未扩展的实体。</p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">xmlrpclib</span></code> 不扩展外部实体并省略它们。</p></li>
+<li><p>从 Python 3.7.1 开始，默认情况下不再处理外部通用实体。</p></li>
+</ol>
+<dl class="simple">
+<dt>billion laughs / exponential entity expansion （狂笑/递归实体扩展）</dt><dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Billion_laughs">Billion Laughs</a> 攻击 -- 也称为递归实体扩展 -- 使用多级嵌套实体。 每个实体多次引用另一个实体，最终实体定义包含一个小字符串。 指数级扩展导致几千 GB 的文本，并消耗大量内存和 CPU 时间。</p>
+</dd>
+<dt>quadratic blowup entity expansion（二次爆炸实体扩展）</dt><dd><p>A quadratic blowup attack is similar to a <a class="reference external" href="https://en.wikipedia.org/wiki/Billion_laughs">Billion Laughs</a> attack; it abuses
+entity expansion, too. Instead of nested entities it repeats one large entity
+with a couple of thousand chars over and over again. The attack isn't as
+efficient as the exponential case but it avoids triggering parser countermeasures
+that forbid deeply nested entities.</p>
+</dd>
+<dt>external entity expansion</dt><dd><p>实体声明可以包含的不仅仅是替换文本。 它们还可以指向外部资源或本地文件。 XML 解析器访问资源并将内容嵌入到 XML 文档中。</p>
+</dd>
+<dt><a class="reference external" href="https://en.wikipedia.org/wiki/Document_type_definition">DTD</a> retrieval</dt><dd><p>Python 的一些 XML 库 <a class="reference internal" href="xml.dom.pulldom.html#module-xml.dom.pulldom" title="xml.dom.pulldom: Support for building partial DOM trees from SAX events."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.pulldom</span></code></a> 从远程或本地位置检索文档类型定义。 该功能与外部实体扩展问题具有相似的含义。</p>
+</dd>
+<dt>decompression bomb</dt><dd><p>Decompression bombs（解压炸弹，又名 <a class="reference external" href="https://en.wikipedia.org/wiki/Zip_bomb">ZIP bomb</a>）适用于所有可以解析压缩 XML 流（例如 gzip 压缩的 HTTP 流或 LZMA 压缩的文件）的 XML 库。 对于攻击者来说，它可以将传输的数据量减少三个量级或更多。</p>
+</dd>
+</dl>
+<p>PyPI上 <a class="reference external" href="https://pypi.org/project/defusedxml/">defusedxml</a> 的文档包含有关所有已知攻击向量的更多信息以及示例和参考。</p>
+</section>
+<section id="the-defusedxml-package">
+<span id="defusedxml-package"></span><h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">defusedxml</span></code> 包<a class="headerlink" href="#the-defusedxml-package" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="https://pypi.org/project/defusedxml/">defusedxml</a> 是一个纯 Python 软件包，它修改了所有标准库 XML 解析器的子类，可以防止任何潜在的恶意操作。 对于解析不受信任的XML数据的任何服务器代码，建议使用此程序包。 该软件包还提供了有关更多 XML 漏洞（如 XPath 注入）的示例漏洞和扩展文档。</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">XML处理模块</a><ul>
+<li><a class="reference internal" href="#xml-vulnerabilities">XML 漏洞</a></li>
+<li><a class="reference internal" href="#the-defusedxml-package"><code class="xref py py-mod docutils literal notranslate"><span class="pre">defusedxml</span></code> 包</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="html.entities.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">html.entities</span></code> --- HTML 一般实体的定义</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="xml.etree.elementtree.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.etree.ElementTree</span></code> ---  ElementTree XML API</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/xml.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="xml.etree.elementtree.html" title="xml.etree.ElementTree --- ElementTree XML API"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="html.entities.html" title="html.entities --- HTML 一般实体的定义"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="markup.html" >结构化标记处理工具</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">XML处理模块</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

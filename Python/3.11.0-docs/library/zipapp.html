@@ -1,0 +1,547 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>zipapp —— 管理可执行的 Python zip 打包文件 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="Python运行时服务" href="python.html" />
+    <link rel="prev" title="venv --- 创建虚拟环境" href="venv.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/zipapp.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> —— 管理可执行的 Python zip 打包文件</a><ul>
+<li><a class="reference internal" href="#basic-example">简单示例</a></li>
+<li><a class="reference internal" href="#command-line-interface">命令行接口</a></li>
+<li><a class="reference internal" href="#python-api">Python API</a></li>
+<li><a class="reference internal" href="#examples">例子</a></li>
+<li><a class="reference internal" href="#specifying-the-interpreter">指定解释器程序</a></li>
+<li><a class="reference internal" href="#creating-standalone-applications-with-zipapp">用 zipapp 创建独立运行的应用程序</a><ul>
+<li><a class="reference internal" href="#making-a-windows-executable">制作 Windows 可执行文件</a></li>
+<li><a class="reference internal" href="#caveats">注意事项</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-python-zip-application-archive-format">Python 打包应用程序的格式</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="venv.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> --- 创建虚拟环境</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="python.html"
+                          title="下一章">Python运行时服务</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/zipapp.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="python.html" title="Python运行时服务"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="venv.html" title="venv --- 创建虚拟环境"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="distribution.html" accesskey="U">软件打包和分发</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> —— 管理可执行的 Python zip 打包文件</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-zipapp">
+<span id="zipapp-manage-executable-python-zip-archives"></span><h1><a class="reference internal" href="#module-zipapp" title="zipapp: Manage executable Python zip archives"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code></a> —— 管理可执行的 Python zip 打包文件<a class="headerlink" href="#module-zipapp" title="永久链接至标题">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/zipapp.py">Lib/zipapp.py</a></p>
+<hr class="docutils" id="index-0" />
+<p>本模块提供了一套管理工具，用于创建包含 Python 代码的压缩文件，这些文件可以 <a class="reference internal" href="../using/cmdline.html#using-on-interface-options"><span class="std std-ref">直接由 Python 解释器执行</span></a>。 本模块提供 <a class="reference internal" href="#zipapp-command-line-interface"><span class="std std-ref">命令行接口</span></a> 和 <a class="reference internal" href="#zipapp-python-api"><span class="std std-ref">Python API</span></a>。</p>
+<section id="basic-example">
+<h2>简单示例<a class="headerlink" href="#basic-example" title="永久链接至标题">¶</a></h2>
+<p>下述例子展示了用 <a class="reference internal" href="#zipapp-command-line-interface"><span class="std std-ref">命令行接口</span></a> 根据含有 Python 代码的目录创建一个可执行的打包文件。 运行后该打包文件时，将会执行 <code class="docutils literal notranslate"><span class="pre">myapp</span></code> 模块中的 <code class="docutils literal notranslate"><span class="pre">main</span></code> 函数。</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m zipapp myapp -m <span class="s2">&quot;myapp:main&quot;</span>
+<span class="gp">$ </span>python myapp.pyz
+<span class="go">&lt;output from myapp&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="command-line-interface">
+<span id="zipapp-command-line-interface"></span><h2>命令行接口<a class="headerlink" href="#command-line-interface" title="永久链接至标题">¶</a></h2>
+<p>若要从命令行调用，则采用以下形式：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m zipapp <span class="nb">source</span> <span class="o">[</span>options<span class="o">]</span>
+</pre></div>
+</div>
+<p>如果 <em>source</em> 是个目录，将根据 <em>source</em> 的内容创建一个打包文件。如果 <em>source</em> 是个文件，则应为一个打包文件，将会复制到目标打包文件中（如果指定了 -info 选项，将会显示 shebang 行的内容）。</p>
+<p>可以接受以下参数：</p>
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipapp-o">
+<span id="cmdoption-zipapp-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"><span class="pre">=&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-zipapp-o" title="永久链接至目标">¶</a></dt>
+<dd><p>将程序的输出写入名为 <em>output</em> 的文件中。若未指定此参数，输出的文件名将与输入的 <em>source</em> 相同，并添加扩展名 <code class="docutils literal notranslate"><span class="pre">.pyz</span></code>。如果显式给出了文件名，将会原样使用（因此必要时应包含扩展名 <code class="docutils literal notranslate"><span class="pre">.pyz</span></code>）。</p>
+<p>如果 <em>source</em> 是个打包文件，必须指定一个输出文件名（这时 <em>output</em> 必须与 <em>source</em> 不同）。</p>
+</dd></dl>
+
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipapp-p">
+<span id="cmdoption-zipapp-python"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;interpreter&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--python</span></span><span class="sig-prename descclassname"><span class="pre">=&lt;interpreter&gt;</span></span><a class="headerlink" href="#cmdoption-zipapp-p" title="永久链接至目标">¶</a></dt>
+<dd><p>给打包文件加入 <code class="docutils literal notranslate"><span class="pre">#!</span></code> 行，以便指定 <em>解释器</em> 作为运行的命令行。另外，还让打包文件在 POSIX 平台上可执行。默认不会写入  <code class="docutils literal notranslate"><span class="pre">#!</span></code> 行，也不让文件可执行。</p>
+</dd></dl>
+
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipapp-m">
+<span id="cmdoption-zipapp-main"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;mainfn&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--main</span></span><span class="sig-prename descclassname"><span class="pre">=&lt;mainfn&gt;</span></span><a class="headerlink" href="#cmdoption-zipapp-m" title="永久链接至目标">¶</a></dt>
+<dd><p>在打包文件中写入一个 <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> 文件，用于执行 <em>mainfn</em>。<em>mainfn</em> 参数的形式应为 “pkg.mod:fn”，其中 “pkg.mod”是打包文件中的某个包/模块，“fn”是该模块中的一个可调用对象。<code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> 文件将会执行该可调用对象。</p>
+<p>在复制打包文件时，不能设置 <a class="reference internal" href="#cmdoption-zipapp-m"><code class="xref std std-option docutils literal notranslate"><span class="pre">--main</span></code></a>  参数。</p>
+</dd></dl>
+
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipapp-c">
+<span id="cmdoption-zipapp-compress"></span><span class="sig-name descname"><span class="pre">-c</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--compress</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-zipapp-c" title="永久链接至目标">¶</a></dt>
+<dd><p>利用 deflate 方法压缩文件，减少输出文件的大小。默认情况下，打包文件中的文件是不压缩的。</p>
+<p>在复制打包文件时，<a class="reference internal" href="#cmdoption-zipapp-c"><code class="xref std std-option docutils literal notranslate"><span class="pre">--compress</span></code></a> 无效。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipapp-info">
+<span class="sig-name descname"><span class="pre">--info</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-zipapp-info" title="永久链接至目标">¶</a></dt>
+<dd><p>显示嵌入在打包文件中的解释器程序，以便诊断问题。这时会忽略其他所有参数，SOURCE 必须是个打包文件，而不是目录。</p>
+</dd></dl>
+
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipapp-h">
+<span id="cmdoption-zipapp-help"></span><span class="sig-name descname"><span class="pre">-h</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-zipapp-h" title="永久链接至目标">¶</a></dt>
+<dd><p>打印简短的用法信息并退出。</p>
+</dd></dl>
+
+</section>
+<section id="python-api">
+<span id="zipapp-python-api"></span><h2>Python API<a class="headerlink" href="#python-api" title="永久链接至标题">¶</a></h2>
+<p>该模块定义了两个快捷函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="zipapp.create_archive">
+<span class="sig-prename descclassname"><span class="pre">zipapp.</span></span><span class="sig-name descname"><span class="pre">create_archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpreter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">main</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compressed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipapp.create_archive" title="永久链接至目标">¶</a></dt>
+<dd><p>由 <em>source</em> 创建一个应用程序打包文件。source 可以是以下形式之一：</p>
+<ul class="simple">
+<li><p>一个目录名，或指向目录的 <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a> ，这时将根据目录内容新建一个应用程序打包文件。</p></li>
+<li><p>一个已存在的应用程序打包文件名，或指向这类文件的 <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a>，这时会将该文件复制为目标文件（会稍作修改以反映出 <em>interpreter</em> 参数的值）。必要时文件名中应包括 <code class="docutils literal notranslate"><span class="pre">.pyz</span></code> 扩展名。</p></li>
+<li><p>一个以字节串模式打开的文件对象。该文件的内容应为应用程序打包文件，且假定文件对象定位于打包文件的初始位置。</p></li>
+</ul>
+<p><em>target</em> 参数定义了打包文件的写入位置：</p>
+<ul class="simple">
+<li><p>若是个文件名，或是 <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a>，打包文件将写入该文件中。</p></li>
+<li><p>若是个打开的文件对象，打包文件将写入该对象，该文件对象必须在字节串写入模式下打开。</p></li>
+<li><p>如果省略了 target （或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>），则 source 必须为一个目录，target  将是与 source 同名的文件，并加上 <code class="docutils literal notranslate"><span class="pre">.pyz</span></code> 扩展名。</p></li>
+</ul>
+<p>参数 <em>interpreter</em> 指定了 Python 解释器程序名，用于执行打包文件。这将以 “释伴（shebang）”行的形式写入打包文件的头部。在 POSIX 平台上，操作系统会进行解释，而在 Windows 平台则会由 Python 启动器进行处理。省略 <em>interpreter</em> 参数则不会写入释伴行。如果指定了解释器，且目标为文件名，则会设置目标文件的可执行属性位。</p>
+<p>参数 <em>main</em> 指定某个可调用程序的名称，用作打包文件的主程序。仅当 source 为目录且不含 <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> 文件时，才能指定该参数。<em>main</em> 参数应采用 “pkg.module:callable”的形式，通过导入“pkg.module”并不带参数地执行给出的可调用对象，即可执行打包文件。如果 source 是目录且不含``__main__.py`` 文件，省略 <em>main</em> 将会出错，生成的打包文件将无法执行。</p>
+<p>可选参数 <em>filter</em> 指定了回调函数，将传给代表被添加文件路径的 Path 对象（相对于源目录）。如若文件需要加入打包文件，则回调函数应返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<p>可选参数 <em>compressed</em> 指定是否要压缩打包文件。若设为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则打包中的文件将用 deflate 方法进行压缩；否则就不会压缩。本参数在复制现有打包文件时无效。</p>
+<p>若 <em>source</em> 或 <em>target</em> 指定的是文件对象，则调用者有责任在调用 create_archive 之后关闭这些文件对象。</p>
+<p>当复制已有的打包文件时，提供的文件对象只需 <code class="docutils literal notranslate"><span class="pre">read</span></code> 和 <code class="docutils literal notranslate"><span class="pre">readline</span></code> 方法，或 <code class="docutils literal notranslate"><span class="pre">write</span></code> 方法。当由目录创建打包文件时，若目标为文件对象，将会将其传给  类，且必须提供 <code class="docutils literal notranslate"><span class="pre">zipfile.ZipFile</span></code> 类所需的方法。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能: </span>加入了 <em>filter</em> 和 <em>compressed</em> 参数。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zipapp.get_interpreter">
+<span class="sig-prename descclassname"><span class="pre">zipapp.</span></span><span class="sig-name descname"><span class="pre">get_interpreter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">archive</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipapp.get_interpreter" title="永久链接至目标">¶</a></dt>
+<dd><p>返回打包文件开头的  行指定的解释器程序。如果没有 <code class="docutils literal notranslate"><span class="pre">#!</span></code> 行，则返回 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>。参数 <em>archive</em> 可为文件名或在字节串模式下打开以供读取的文件类对象。<code class="docutils literal notranslate"><span class="pre">#!</span></code> 行假定是在打包文件的开头。</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<span id="zipapp-examples"></span><h2>例子<a class="headerlink" href="#examples" title="永久链接至标题">¶</a></h2>
+<p>将目录打包成一个文件并运行它。</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m zipapp myapp
+<span class="gp">$ </span>python myapp.pyz
+<span class="go">&lt;output from myapp&gt;</span>
+</pre></div>
+</div>
+<p>同样还可用 <a class="reference internal" href="#zipapp.create_archive" title="zipapp.create_archive"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_archive()</span></code></a> 函数完成：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">zipapp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zipapp</span><span class="o">.</span><span class="n">create_archive</span><span class="p">(</span><span class="s1">&#39;myapp&#39;</span><span class="p">,</span> <span class="s1">&#39;myapp.pyz&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>要让应用程序能在 POSIX 平台上直接执行，需要指定所用的解释器。</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m zipapp myapp -p <span class="s2">&quot;/usr/bin/env python&quot;</span>
+<span class="gp">$ </span>./myapp.pyz
+<span class="go">&lt;output from myapp&gt;</span>
+</pre></div>
+</div>
+<p>若要替换已有打包文件中的释伴行，请用 <a class="reference internal" href="#zipapp.create_archive" title="zipapp.create_archive"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_archive()</span></code></a> 函数另建一个修改好的打包文件：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">zipapp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zipapp</span><span class="o">.</span><span class="n">create_archive</span><span class="p">(</span><span class="s1">&#39;old_archive.pyz&#39;</span><span class="p">,</span> <span class="s1">&#39;new_archive.pyz&#39;</span><span class="p">,</span> <span class="s1">&#39;/usr/bin/python3&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>若要原地更新打包文件，可用 <code class="xref py py-class docutils literal notranslate"><span class="pre">BytesIO</span></code> 对象在内存中进行替换，然后再覆盖源文件。注意，原地覆盖文件会有风险，出错时会丢失原文件。这里没有考虑出错情况，但生产代码则应进行处理。另外，这种方案仅当内存足以容纳打包文件时才有意义：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">zipapp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">temp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zipapp</span><span class="o">.</span><span class="n">create_archive</span><span class="p">(</span><span class="s1">&#39;myapp.pyz&#39;</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="s1">&#39;/usr/bin/python2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;myapp.pyz&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="specifying-the-interpreter">
+<span id="zipapp-specifying-the-interpreter"></span><h2>指定解释器程序<a class="headerlink" href="#specifying-the-interpreter" title="永久链接至标题">¶</a></h2>
+<p>注意，如果指定了解释器程序再发布应用程序打包文件，需要确保所用到的解释器是可移植的。Windows 的 Python 启动器支持大多数常见的 POSIX <code class="docutils literal notranslate"><span class="pre">#!</span></code> 行，但还需要考虑一些其他问题。</p>
+<ul class="simple">
+<li><p>如果采用“/usr/bin/env python”（或其他格式的 python 调用命令，比如“/usr/bin/python”)，需要考虑默认版本既可能是 Python 2 又可能是 Python 3，应让代码在两个版本下均能正常运行。</p></li>
+<li><p>如果用到的 Python 版本明确，如“/usr/bin/env python3”，则没有该版本的用户将无法运行应用程序。（如果代码不兼容 Python 2，可能正该如此）。</p></li>
+<li><p>因为无法指定“python X.Y以上版本”，所以应小心“/usr/bin/env python3.4”这种精确版本的指定方式，因为对于 Python 3.5 的用户就得修改释伴行，比如：</p></li>
+</ul>
+<p>通常应该用“/usr/bin/env python2”或“/usr/bin/env python3”的格式，具体根据代码适用于 Python 2 还是 3 而定。</p>
+</section>
+<section id="creating-standalone-applications-with-zipapp">
+<h2>用 zipapp 创建独立运行的应用程序<a class="headerlink" href="#creating-standalone-applications-with-zipapp" title="永久链接至标题">¶</a></h2>
+<p>利用 <a class="reference internal" href="#module-zipapp" title="zipapp: Manage executable Python zip archives"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code></a> 模块可以创建独立运行的 Python 程序，以便向最终用户发布，仅需在系统中装有合适版本的 Python 即可运行。操作的关键就是把应用程序代码和所有依赖项一起放入打包文件中。</p>
+<p>创建独立运行打包文件的步骤如下：</p>
+<ol class="arabic">
+<li><p>照常在某个目录中创建应用程序，于是会有一个 <code class="docutils literal notranslate"><span class="pre">myapp</span></code> 目录，里面有个``__main__.py`` 文件，以及所有支持性代码。</p></li>
+<li><p>用 pip 将应用程序的所有依赖项装入 <code class="docutils literal notranslate"><span class="pre">myapp</span></code> 目录。</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m pip install -r requirements.txt --target myapp
+</pre></div>
+</div>
+<p>（这里假定在 <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> 文件中列出了项目所需的依赖项，也可以在 pip 命令行中列出依赖项）。</p>
+</li>
+<li><p>pip 在 <code class="docutils literal notranslate"><span class="pre">myapp</span></code> 中创建的 <code class="docutils literal notranslate"><span class="pre">.dist-info</span></code> 目录，是可以删除的。这些目录保存了 pip 用于管理包的元数据，由于接下来不会再用到 pip，所以不是必须存在，当然留下来也不会有什么坏处。</p></li>
+<li><p>用以下命令打包：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m zipapp -p <span class="s2">&quot;interpreter&quot;</span> myapp
+</pre></div>
+</div>
+</li>
+</ol>
+<p>这会生成一个独立的可执行文件，可在任何装有合适解释器的机器上运行。详情参见 <a class="reference internal" href="#zipapp-specifying-the-interpreter"><span class="std std-ref">指定解释器程序</span></a>。可以单个文件的形式分发给用户。</p>
+<p>在 Unix 系统中，<code class="docutils literal notranslate"><span class="pre">myapp.pyz</span></code> 文件将以原有文件名执行。如果喜欢 “普通”的命令名，可以重命名该文件，去掉扩展名 <code class="docutils literal notranslate"><span class="pre">.pyz</span></code> 。在 Windows 系统中，<code class="docutils literal notranslate"><span class="pre">myapp.pyz[w]</span></code> 是可执行文件，因为 Python 解释器在安装时注册了扩展名``.pyz`` 和 <code class="docutils literal notranslate"><span class="pre">.pyzw</span></code> 。</p>
+<section id="making-a-windows-executable">
+<h3>制作 Windows 可执行文件<a class="headerlink" href="#making-a-windows-executable" title="永久链接至标题">¶</a></h3>
+<p>在 Windows 系统中，可能没有注册扩展名 <code class="docutils literal notranslate"><span class="pre">.pyz</span></code>，另外有些场合无法“透明”地识别已注册的扩展（最简单的例子是，<code class="docutils literal notranslate"><span class="pre">subprocess.run(['myapp'])</span></code> 就找不到——需要明确指定扩展名）。</p>
+<p>因此，在 Windows 系统中，通常最好 由zipapp 创建一个可执行文件。虽然需要用到 C 编译器，但还是相对容易做到的。基本做法有赖于以下事实，即 zip 文件内可预置任意数据，Windows 的 exe 文件也可以附带任意数据。因此，创建一个合适的启动程序并将 <code class="docutils literal notranslate"><span class="pre">.pyz</span></code> 文件附在后面，最后就能得到一个单文件的可执行文件，可运行 Python 应用程序。</p>
+<p>合适的启动程序可以简单如下：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#define Py_LIMITED_API 1</span>
+<span class="c1">#include &quot;Python.h&quot;</span>
+
+<span class="c1">#define WIN32_LEAN_AND_MEAN</span>
+<span class="c1">#include &lt;windows.h&gt;</span>
+
+<span class="c1">#ifdef WINDOWS</span>
+<span class="nb">int</span> <span class="n">WINAPI</span> <span class="n">wWinMain</span><span class="p">(</span>
+    <span class="n">HINSTANCE</span> <span class="n">hInstance</span><span class="p">,</span>      <span class="o">/*</span> <span class="n">handle</span> <span class="n">to</span> <span class="n">current</span> <span class="n">instance</span> <span class="o">*/</span>
+    <span class="n">HINSTANCE</span> <span class="n">hPrevInstance</span><span class="p">,</span>  <span class="o">/*</span> <span class="n">handle</span> <span class="n">to</span> <span class="n">previous</span> <span class="n">instance</span> <span class="o">*/</span>
+    <span class="n">LPWSTR</span> <span class="n">lpCmdLine</span><span class="p">,</span>         <span class="o">/*</span> <span class="n">pointer</span> <span class="n">to</span> <span class="n">command</span> <span class="n">line</span> <span class="o">*/</span>
+    <span class="nb">int</span> <span class="n">nCmdShow</span>              <span class="o">/*</span> <span class="n">show</span> <span class="n">state</span> <span class="n">of</span> <span class="n">window</span> <span class="o">*/</span>
+<span class="p">)</span>
+<span class="c1">#else</span>
+<span class="nb">int</span> <span class="n">wmain</span><span class="p">()</span>
+<span class="c1">#endif</span>
+<span class="p">{</span>
+    <span class="n">wchar_t</span> <span class="o">**</span><span class="n">myargv</span> <span class="o">=</span> <span class="n">_alloca</span><span class="p">((</span><span class="n">__argc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">wchar_t</span><span class="o">*</span><span class="p">));</span>
+    <span class="n">myargv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">__wargv</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="n">myargv</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">__wargv</span><span class="p">,</span> <span class="n">__argc</span> <span class="o">*</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">wchar_t</span> <span class="o">*</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">Py_Main</span><span class="p">(</span><span class="n">__argc</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">myargv</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>若已定义了预处理器符号 <code class="docutils literal notranslate"><span class="pre">WINDOWS</span></code>，上述代码将会生成一个 GUI 可执行文件。若未定义则生成一个可执行的控制台文件。</p>
+<p>直接使用标准的 MSVC 命令行工具，或利用 distutils 知道如何编译 Python 源代码，即可编译可执行文件：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">distutils.ccompiler</span> <span class="kn">import</span> <span class="n">new_compiler</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">distutils.sysconfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="n">src</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">src</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">cc</span> <span class="o">=</span> <span class="n">new_compiler</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">exe</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">stem</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">cc</span><span class="o">.</span><span class="n">add_include_dir</span><span class="p">(</span><span class="n">distutils</span><span class="o">.</span><span class="n">sysconfig</span><span class="o">.</span><span class="n">get_python_inc</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">cc</span><span class="o">.</span><span class="n">add_library_dir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">base_exec_prefix</span><span class="p">,</span> <span class="s1">&#39;libs&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># First the CLI executable</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">objs</span> <span class="o">=</span> <span class="n">cc</span><span class="o">.</span><span class="n">compile</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">src</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">cc</span><span class="o">.</span><span class="n">link_executable</span><span class="p">(</span><span class="n">objs</span><span class="p">,</span> <span class="n">exe</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># Now the GUI executable</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">cc</span><span class="o">.</span><span class="n">define_macro</span><span class="p">(</span><span class="s1">&#39;WINDOWS&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">objs</span> <span class="o">=</span> <span class="n">cc</span><span class="o">.</span><span class="n">compile</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">src</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">cc</span><span class="o">.</span><span class="n">link_executable</span><span class="p">(</span><span class="n">objs</span><span class="p">,</span> <span class="n">exe</span> <span class="o">+</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">compile</span><span class="p">(</span><span class="s2">&quot;zastub.c&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>生成的启动程序用到了 “受限 ABI”，所以可在任意版本的 Python 3.x 中运行。只要用户的 <code class="docutils literal notranslate"><span class="pre">PATH</span></code> 中包含了 Python（<code class="docutils literal notranslate"><span class="pre">python3.dll</span></code>）路径即可。</p>
+<p>若要得到完全独立运行的发行版程序，可将附有应用程序的启动程序，与“内嵌版” Python 打包在一起即可。这样在架构匹配（32位或64位）的任一 PC 上都能运行。</p>
+</section>
+<section id="caveats">
+<h3>注意事项<a class="headerlink" href="#caveats" title="永久链接至标题">¶</a></h3>
+<p>要将应用程序打包为单个文件，存在一些限制。大多数情况下，无需对应用程序进行重大修改即可解决。</p>
+<ol class="arabic simple">
+<li><p>如果应用程序依赖某个带有 C 扩展的包，则此程序包无法由打包文件运行（这是操作系统的限制，因为可执行代码必须存在于文件系统中，操作系统才能加载）。这时可去除打包文件中的依赖关系，然后要求用户事先安装好该程序包，或者与打包文件一起发布并在 <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> 中增加代码，将未打包模块的目录加入 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> 中。采用增加代码方式时，一定要为目标架构提供合适的二进制文件（可能还需在运行时根据用户的机器选择正确的版本加入 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>）。</p></li>
+<li><p>若要如上所述发布一个 Windows 可执行文件，就得确保用户在 PATH 中包含``python3.dll`` 的路径（安装程序默认不会如此），或者应把应用程序与内嵌版 Python 一起打包。</p></li>
+<li><p>上述给出的启动程序采用了 Python 嵌入 API。 这意味着应用程序将会是 <code class="docutils literal notranslate"><span class="pre">sys.executable</span></code> ，而*不是*传统的 Python 解释器。代码及依赖项需做好准备。例如，如果应用程序用到了 <a class="reference internal" href="multiprocessing.html#module-multiprocessing" title="multiprocessing: Process-based parallelism."><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code></a> 模块，就需要调用 <a class="reference internal" href="multiprocessing.html#multiprocessing.set_executable" title="multiprocessing.set_executable"><code class="xref py py-func docutils literal notranslate"><span class="pre">multiprocessing.set_executable()</span></code></a> 来让模块知道标准 Python 解释器的位置。</p></li>
+</ol>
+</section>
+</section>
+<section id="the-python-zip-application-archive-format">
+<h2>Python 打包应用程序的格式<a class="headerlink" href="#the-python-zip-application-archive-format" title="永久链接至标题">¶</a></h2>
+<p>自 2.6 版开始，Python 即能够执行包含  文件的打包文件了。为了能被 Python 执行，应用程序的打包文件必须为包含 <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> 文件的标准 zip 文件，<code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> 文件将作为应用程序的入口运行。类似于常规的 Python 脚本，父级（这里指打包文件）将放入 <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> ，因此可从打包文件中导入更多的模块。</p>
+<p>zip 文件格式允许在文件中预置任意数据。利用这种能力，zip 应用程序格式在文件中预置了一个标准的 POSIX “释伴”行（<code class="docutils literal notranslate"><span class="pre">#!/path/to/interpreter</span></code>）。</p>
+<p>因此，Python zip 应用程序的格式会如下所示：</p>
+<ol class="arabic simple">
+<li><p>可选的释伴行，包含字符 <code class="docutils literal notranslate"><span class="pre">b'#!'</span></code>，后面是解释器名，然后是换行符 （<code class="docutils literal notranslate"><span class="pre">b'\n'</span></code>）。 解释器名可为操作系统 “释伴”处理所能接受的任意值，或为 Windows 系统中的 Python 启动程序。解释器名在 Windows 中应用 UTF-8 编码，在 POSIX 中则用 <a class="reference internal" href="sys.html#sys.getfilesystemencoding" title="sys.getfilesystemencoding"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.getfilesystemencoding()</span></code></a>。</p></li>
+<li><p>标准的打包文件由 <a class="reference internal" href="zipfile.html#module-zipfile" title="zipfile: Read and write ZIP-format archive files."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code></a> 模块生成。其中 <em>必须</em> 包含一个名为``__main__.py`` 的文件（必须位于打包文件的“根”目录——不能位于某个子目录中）。打包文件中的数据可以是压缩或未压缩的。</p></li>
+</ol>
+<p>如果应用程序的打包文件带有释伴行，则在 POSIX 系统中可能需要启用可执行属性，以允许直接执行。</p>
+<p>不一定非要用本模块中的工具创建应用程序打包文件，本模块只是提供了便捷方案，上述格式的打包文件可用任何方式创建，均可被 Python 接受。</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> —— 管理可执行的 Python zip 打包文件</a><ul>
+<li><a class="reference internal" href="#basic-example">简单示例</a></li>
+<li><a class="reference internal" href="#command-line-interface">命令行接口</a></li>
+<li><a class="reference internal" href="#python-api">Python API</a></li>
+<li><a class="reference internal" href="#examples">例子</a></li>
+<li><a class="reference internal" href="#specifying-the-interpreter">指定解释器程序</a></li>
+<li><a class="reference internal" href="#creating-standalone-applications-with-zipapp">用 zipapp 创建独立运行的应用程序</a><ul>
+<li><a class="reference internal" href="#making-a-windows-executable">制作 Windows 可执行文件</a></li>
+<li><a class="reference internal" href="#caveats">注意事项</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-python-zip-application-archive-format">Python 打包应用程序的格式</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="venv.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> --- 创建虚拟环境</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="python.html"
+                          title="下一章">Python运行时服务</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/zipapp.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="python.html" title="Python运行时服务"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="venv.html" title="venv --- 创建虚拟环境"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="distribution.html" >软件打包和分发</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> —— 管理可执行的 Python zip 打包文件</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

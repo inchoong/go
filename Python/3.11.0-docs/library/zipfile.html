@@ -1,0 +1,1094 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>zipfile --- 使用ZIP存档 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="tarfile --- 读写tar归档文件" href="tarfile.html" />
+    <link rel="prev" title="lzma --- 用 LZMA 算法压缩" href="lzma.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/zipfile.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> --- 使用ZIP存档</a><ul>
+<li><a class="reference internal" href="#zipfile-objects">ZipFile 对象</a></li>
+<li><a class="reference internal" href="#path-objects">Path 对象</a></li>
+<li><a class="reference internal" href="#pyzipfile-objects">PyZipFile 对象</a></li>
+<li><a class="reference internal" href="#zipinfo-objects">ZipInfo 对象</a></li>
+<li><a class="reference internal" href="#command-line-interface">命令行接口</a><ul>
+<li><a class="reference internal" href="#command-line-options">命令行选项</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#decompression-pitfalls">解压缩的障碍</a><ul>
+<li><a class="reference internal" href="#from-file-itself">由于文件本身</a></li>
+<li><a class="reference internal" href="#file-system-limitations">文件系统限制</a></li>
+<li><a class="reference internal" href="#resources-limitations">资源限制</a></li>
+<li><a class="reference internal" href="#interruption">中断</a></li>
+<li><a class="reference internal" href="#default-behaviors-of-extraction">提取的默认行为</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="lzma.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code> --- 用 LZMA 算法压缩</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="tarfile.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tarfile</span></code> --- 读写tar归档文件</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/zipfile.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="tarfile.html" title="tarfile --- 读写tar归档文件"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="lzma.html" title="lzma --- 用 LZMA 算法压缩"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="archiving.html" accesskey="U">数据压缩和存档</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> --- 使用ZIP存档</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-zipfile">
+<span id="zipfile-work-with-zip-archives"></span><h1><a class="reference internal" href="#module-zipfile" title="zipfile: Read and write ZIP-format archive files."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code></a> --- 使用ZIP存档<a class="headerlink" href="#module-zipfile" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/zipfile.py">Lib/zipfile.py</a></p>
+<hr class="docutils" />
+<p>ZIP 文件格式是一个常用的归档与压缩标准。 这个模块提供了创建、读取、写入、添加及列出 ZIP 文件的工具。 任何对此模块的进阶使用都将需要理解此格式，其定义参见 <a class="reference external" href="https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT">PKZIP 应用程序笔记</a>。</p>
+<p>此模块目前不能处理分卷 ZIP 文件。它可以处理使用 ZIP64 扩展（超过 4 GB 的 ZIP 文件）的 ZIP 文件。它支持解密 ZIP 归档中的加密文件，但是目前不能创建一个加密的文件。解密非常慢，因为它是使用原生 Python 而不是 C 实现的。</p>
+<p>这个模块定义了以下内容：</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="zipfile.BadZipFile">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">BadZipFile</span></span><a class="headerlink" href="#zipfile.BadZipFile" title="永久链接至目标">¶</a></dt>
+<dd><p>为损坏的 ZIP 文件抛出的错误。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="zipfile.BadZipfile">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">BadZipfile</span></span><a class="headerlink" href="#zipfile.BadZipfile" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#zipfile.BadZipFile" title="zipfile.BadZipFile"><code class="xref py py-exc docutils literal notranslate"><span class="pre">BadZipFile</span></code></a> 的别名，与旧版本 Python 保持兼容性。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.2 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="zipfile.LargeZipFile">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">LargeZipFile</span></span><a class="headerlink" href="#zipfile.LargeZipFile" title="永久链接至目标">¶</a></dt>
+<dd><p>当 ZIP 文件需要 ZIP64 功能但是未启用时会抛出此错误。</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZipFile</span></span></dt>
+<dd><p>用于读写 ZIP 文件的类。 欲了解构造函数的描述，参阅段落 <a class="reference internal" href="#zipfile-objects"><span class="std std-ref">ZipFile 对象</span></a>。</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">Path</span></span></dt>
+<dd><p>用于 zip 文件的兼容 pathlib 的包装器。 详情参见 <a class="reference internal" href="#path-objects"><span class="std std-ref">Path 对象</span></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.8 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">PyZipFile</span></span></dt>
+<dd><p>用于创建包含 Python 库的 ZIP 归档的类。</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="zipfile.ZipInfo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZipInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NoName'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1980,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipInfo" title="永久链接至目标">¶</a></dt>
+<dd><p>用于表示档案内一个成员信息的类。 此类的实例会由 <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> 对象的 <a class="reference internal" href="#zipfile.ZipFile.getinfo" title="zipfile.ZipFile.getinfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getinfo()</span></code></a> 和 <a class="reference internal" href="#zipfile.ZipFile.infolist" title="zipfile.ZipFile.infolist"><code class="xref py py-meth docutils literal notranslate"><span class="pre">infolist()</span></code></a> 方法返回。 大多数 <a class="reference internal" href="#module-zipfile" title="zipfile: Read and write ZIP-format archive files."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code></a> 模块的用户都不必创建它们，只需使用此模块所创建的实例。 <em>filename</em> 应当是档案成员的全名，<em>date_time</em> 应当是包含六个字段的描述最近修改时间的元组；这些字段的描述请参阅 <a class="reference internal" href="#zipinfo-objects"><span class="std std-ref">ZipInfo 对象</span></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zipfile.is_zipfile">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">is_zipfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.is_zipfile" title="永久链接至目标">¶</a></dt>
+<dd><p>根据文件的 Magic Number，如果 <em>filename</em> 是一个有效的 ZIP 文件则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。 <em>filename</em> 也可能是一个文件或类文件对象。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.1 版更改: </span>支持文件或类文件对象。</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.ZIP_STORED">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZIP_STORED</span></span><a class="headerlink" href="#zipfile.ZIP_STORED" title="永久链接至目标">¶</a></dt>
+<dd><p>未被压缩的归档成员的数字常数。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.ZIP_DEFLATED">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZIP_DEFLATED</span></span><a class="headerlink" href="#zipfile.ZIP_DEFLATED" title="永久链接至目标">¶</a></dt>
+<dd><p>常用的 ZIP 压缩方法的数字常数。需要 <a class="reference internal" href="zlib.html#module-zlib" title="zlib: Low-level interface to compression and decompression routines compatible with gzip."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code></a> 模块。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.ZIP_BZIP2">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZIP_BZIP2</span></span><a class="headerlink" href="#zipfile.ZIP_BZIP2" title="永久链接至目标">¶</a></dt>
+<dd><p>BZIP2 压缩方法的数字常数。需要 <a class="reference internal" href="bz2.html#module-bz2" title="bz2: Interfaces for bzip2 compression and decompression."><code class="xref py py-mod docutils literal notranslate"><span class="pre">bz2</span></code></a> 模块。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.ZIP_LZMA">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZIP_LZMA</span></span><a class="headerlink" href="#zipfile.ZIP_LZMA" title="永久链接至目标">¶</a></dt>
+<dd><p>LZMA 压缩方法的数字常数。需要 <a class="reference internal" href="lzma.html#module-lzma" title="lzma: A Python wrapper for the liblzma compression library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code></a> 模块。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>ZIP 文件格式规范包括自 2001 年以来对 bzip2 压缩的支持，以及自 2006 年以来对 LZMA 压缩的支持。但是，一些工具（包括较旧的 Python 版本）不支持这些压缩方法，并且可能拒绝完全处理 ZIP 文件，或者无法提取单个文件。</p>
+</div>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT">PKZIP 应用程序笔记</a></dt><dd><p>Phil Katz 编写的 ZIP 文件格式文档，此格式和使用的算法的创建者。</p>
+</dd>
+<dt><a class="reference external" href="http://www.info-zip.org/">Info-ZIP 主页</a></dt><dd><p>有关 Info-ZIP 项目的 ZIP 存档程序和开发库的信息。</p>
+</dd>
+</dl>
+</div>
+<section id="zipfile-objects">
+<span id="id1"></span><h2>ZipFile 对象<a class="headerlink" href="#zipfile-objects" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="zipfile.ZipFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZipFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ZIP_STORED</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowZip64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compresslevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_timestamps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile" title="永久链接至目标">¶</a></dt>
+<dd><p>打开一个 ZIP 文件，<em>file</em> 为一个指向文件的路径（字符串），一个类文件对象或者一个 <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a>。</p>
+<p>形参 <em>mode</em> 应当为 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> 来读取一个存在的文件，<code class="docutils literal notranslate"><span class="pre">'w'</span></code> 来截断并写入新的文件， <code class="docutils literal notranslate"><span class="pre">'a'</span></code> 来添加到一个存在的文件，或者 <code class="docutils literal notranslate"><span class="pre">'x'</span></code> 来仅新建并写入新的文件。如果 <em>mode</em> 为 <code class="docutils literal notranslate"><span class="pre">'x'</span></code> 并且 <em>file</em> 指向已经存在的文件，则抛出 <a class="reference internal" href="exceptions.html#FileExistsError" title="FileExistsError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">FileExistsError</span></code></a>。如果 <em>mode</em> 为 <code class="docutils literal notranslate"><span class="pre">'a'</span></code> 且 <em>file</em> 为已存在的文件，则格外的文件将被加入。如果 <em>file</em> 不指向 ZIP 文件，之后一个新的 ZIP 归档将被追加为此文件。这是为了将 ZIP 归档添加到另一个文件（例如 <code class="file docutils literal notranslate"><span class="pre">python.exe</span></code>）。如果 <em>mode</em> 为 <code class="docutils literal notranslate"><span class="pre">'a'</span></code> 并且文件不存在， 则会新建。如果 <em>mode</em> 为 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'a'</span></code>， 则文件应当可定位。</p>
+<p><em>compression</em> 是在写入归档时要使用的 ZIP 压缩方法，应为 <a class="reference internal" href="#zipfile.ZIP_STORED" title="zipfile.ZIP_STORED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_STORED</span></code></a>, <a class="reference internal" href="#zipfile.ZIP_DEFLATED" title="zipfile.ZIP_DEFLATED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_DEFLATED</span></code></a>, <a class="reference internal" href="#zipfile.ZIP_BZIP2" title="zipfile.ZIP_BZIP2"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_BZIP2</span></code></a> 或 <a class="reference internal" href="#zipfile.ZIP_LZMA" title="zipfile.ZIP_LZMA"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_LZMA</span></code></a>；不可识别的值将导致引发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>。 如果指定了 <a class="reference internal" href="#zipfile.ZIP_DEFLATED" title="zipfile.ZIP_DEFLATED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_DEFLATED</span></code></a>, <a class="reference internal" href="#zipfile.ZIP_BZIP2" title="zipfile.ZIP_BZIP2"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_BZIP2</span></code></a> 或 <a class="reference internal" href="#zipfile.ZIP_LZMA" title="zipfile.ZIP_LZMA"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_LZMA</span></code></a> 但相应的模块 (<a class="reference internal" href="zlib.html#module-zlib" title="zlib: Low-level interface to compression and decompression routines compatible with gzip."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code></a>, <a class="reference internal" href="bz2.html#module-bz2" title="bz2: Interfaces for bzip2 compression and decompression."><code class="xref py py-mod docutils literal notranslate"><span class="pre">bz2</span></code></a> 或 <a class="reference internal" href="lzma.html#module-lzma" title="lzma: A Python wrapper for the liblzma compression library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code></a>) 不可用，则会引发 <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>。 默认值为 <a class="reference internal" href="#zipfile.ZIP_STORED" title="zipfile.ZIP_STORED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_STORED</span></code></a>。</p>
+<p>如果 <em>allowZip64</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code> (默认值) 则当 zipfile 大于 4 GiB 时 zipfile 将创建使用 ZIP64 扩展的 ZIP 文件。 如果该参数为 <code class="docutils literal notranslate"><span class="pre">false</span></code> 则当 ZIP 文件需要 ZIP64 扩展时 <a class="reference internal" href="#module-zipfile" title="zipfile: Read and write ZIP-format archive files."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code></a> 将引发异常。</p>
+<p><em>compresslevel</em> 形参控制在将文件写入归档时要使用的压缩等级。 当使用 <a class="reference internal" href="#zipfile.ZIP_STORED" title="zipfile.ZIP_STORED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_STORED</span></code></a> 或 <a class="reference internal" href="#zipfile.ZIP_LZMA" title="zipfile.ZIP_LZMA"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_LZMA</span></code></a> 时无压缩效果。 当使用 <a class="reference internal" href="#zipfile.ZIP_DEFLATED" title="zipfile.ZIP_DEFLATED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_DEFLATED</span></code></a> 时接受整数 <code class="docutils literal notranslate"><span class="pre">0</span></code> 至 <code class="docutils literal notranslate"><span class="pre">9</span></code> (更多信息参见 <a class="reference internal" href="zlib.html#zlib.compressobj" title="zlib.compressobj"><code class="xref py py-class docutils literal notranslate"><span class="pre">zlib</span></code></a>)。 当使用 <a class="reference internal" href="#zipfile.ZIP_BZIP2" title="zipfile.ZIP_BZIP2"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_BZIP2</span></code></a> 时接受整数 <code class="docutils literal notranslate"><span class="pre">1</span></code> 至 <code class="docutils literal notranslate"><span class="pre">9</span></code> (更多信息参见 <a class="reference internal" href="bz2.html#bz2.BZ2File" title="bz2.BZ2File"><code class="xref py py-class docutils literal notranslate"><span class="pre">bz2</span></code></a>)。</p>
+<p><em>strict_timestamps</em> 参数在设为 <code class="docutils literal notranslate"><span class="pre">False</span></code> 时允许压缩早于 1980-01-01 的文件，代价时会将时间戳设为 1980-01-01。 类似的行为也会对晚于 2107-12-31 的文件发生，时间戳也会被设为该上限值。</p>
+<p>When mode is <code class="docutils literal notranslate"><span class="pre">'r'</span></code>, <em>metadata_encoding</em> may be set to the name of a codec,
+which will be used to decode metadata such as the names of members and ZIP
+comments.</p>
+<p>如果创建文件时使用 <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'a'</span></code> 模式并且未向归档添加任何文件就执行了 <a class="reference internal" href="#zipfile.ZipFile.close" title="zipfile.ZipFile.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">closed</span></code></a>，则会将适当的空归档 ZIP 结构写入文件。</p>
+<p>ZipFile 也是一个上下文管理器，因此支持 <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句。 在这个示例中，<em>myzip</em> 将在 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code> 语句块执行完成之后被关闭 --- 即使是发生了异常:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ZipFile</span><span class="p">(</span><span class="s1">&#39;spam.zip&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myzip</span><span class="p">:</span>
+    <span class="n">myzip</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;eggs.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><em>metadata_encoding</em> is an instance-wide setting for the ZipFile.
+It is not currently possible to set this on a per-member basis.</p>
+<p>This attribute is a workaround for legacy implementations which produce
+archives with names in the current locale encoding or code page (mostly
+on Windows).  According to the .ZIP standard, the encoding of metadata
+may be specified to be either IBM code page (default) or UTF-8 by a flag
+in the archive header.
+That flag takes precedence over <em>metadata_encoding</em>, which is
+a Python-specific extension.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能: </span>添加了将 <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> 用作上下文管理器的功能。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>添加了对 <a class="reference internal" href="bz2.html#module-bz2" title="bz2: Interfaces for bzip2 compression and decompression."><code class="xref py py-mod docutils literal notranslate"><span class="pre">bzip2</span></code></a> 和 <a class="reference internal" href="lzma.html#module-lzma" title="lzma: A Python wrapper for the liblzma compression library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code></a> 压缩的支持。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>默认启用 ZIP64 扩展。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>添加了对不可查找数据流的支持。 并添加了对 <code class="docutils literal notranslate"><span class="pre">'x'</span></code> 模式的支持。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>在此之前，对于不可识别的压缩值将引发普通的 <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6.2 版更改: </span><em>file</em> 形参接受一个 <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>添加了 <em>compresslevel</em> 形参。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.8 新版功能: </span><em>strict_timestamps</em> 仅限关键字参数</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>Added support for specifying member name encoding for reading
+metadata in the zipfile's directory and file headers.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.close">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭归档文件。 你必须在退出程序之前调用 <a class="reference internal" href="#zipfile.ZipFile.close" title="zipfile.ZipFile.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a> 否则将不会写入关键记录数据。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.getinfo">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">getinfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.getinfo" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 对象，其中包含有关归档成员 <em>name</em> 的信息。 针对一个目前并不包含于归档中的名称调用 <a class="reference internal" href="#zipfile.ZipFile.getinfo" title="zipfile.ZipFile.getinfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getinfo()</span></code></a> 将会引发 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.infolist">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">infolist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.infolist" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个列表，其中包含每个归档成员的 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 对象。 如果是打开一个现有归档则这些对象的排列顺序与它们对应条目在磁盘上的实际 ZIP 文件中的顺序一致。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.namelist">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">namelist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.namelist" title="永久链接至目标">¶</a></dt>
+<dd><p>返回按名称排序的归档成员列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.open">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_zip64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.open" title="永久链接至目标">¶</a></dt>
+<dd><p>以二进制文件类对象的形式访问一个归档成员。 <em>name</em> 可以是归档内某个文件的名称也可以是某个 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 对象。 如果包含了 <em>mode</em> 形参，则它必须为 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> (默认值) 或 <code class="docutils literal notranslate"><span class="pre">'w'</span></code>。  <em>pwd</em> 为用于解密已加密 ZIP 文件的密码。</p>
+<p><a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">open()</span></code></a> 也是一个上下文管理器，因此支持 <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ZipFile</span><span class="p">(</span><span class="s1">&#39;spam.zip&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myzip</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">myzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;eggs.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">myfile</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>如果 <em>mode</em> 为 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> 则文件类对象 (<code class="docutils literal notranslate"><span class="pre">ZipExtFile</span></code>) 将为只读并且提供下列方法: <a class="reference internal" href="io.html#io.BufferedIOBase.read" title="io.BufferedIOBase.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a>, <a class="reference internal" href="io.html#io.IOBase.readline" title="io.IOBase.readline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readline()</span></code></a>, <a class="reference internal" href="io.html#io.IOBase.readlines" title="io.IOBase.readlines"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readlines()</span></code></a>, <a class="reference internal" href="io.html#io.IOBase.seek" title="io.IOBase.seek"><code class="xref py py-meth docutils literal notranslate"><span class="pre">seek()</span></code></a>, <a class="reference internal" href="io.html#io.IOBase.tell" title="io.IOBase.tell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tell()</span></code></a>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code>, <a class="reference internal" href="stdtypes.html#iterator.__next__" title="iterator.__next__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__next__()</span></code></a>。 这些对象可独立于 ZipFile 进行操作。</p>
+<p>如果 <code class="docutils literal notranslate"><span class="pre">mode='w'</span></code> 则返回一个可写入的文件句柄，它将支持 <a class="reference internal" href="io.html#io.BufferedIOBase.write" title="io.BufferedIOBase.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a> 方法。 当一个可写入的文件句柄被打开时，尝试读写 ZIP 文件中的其他文件将会引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+<p>当写入一个文件时，如果文件大小不能预先确定但是可能超过 2 GiB，可传入 <code class="docutils literal notranslate"><span class="pre">force_zip64=True</span></code> 以确保标头格式能够支持超大文件。 如果文件大小可以预先确定，则在构造 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 对象时应设置 <a class="reference internal" href="#zipfile.ZipInfo.file_size" title="zipfile.ZipInfo.file_size"><code class="xref py py-attr docutils literal notranslate"><span class="pre">file_size</span></code></a>，并将其用作 <em>name</em> 形参。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">open()</span></code></a>, <a class="reference internal" href="#zipfile.ZipFile.read" title="zipfile.ZipFile.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> 和 <a class="reference internal" href="#zipfile.ZipFile.extract" title="zipfile.ZipFile.extract"><code class="xref py py-meth docutils literal notranslate"><span class="pre">extract()</span></code></a> 方法可接受文件名或 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 对象。 当尝试读取一个包含重复名称成员的 ZIP 文件时你将发现此功能很有好处。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>移除了对 <code class="docutils literal notranslate"><span class="pre">mode='U'</span></code> 的支持。 请使用 <a class="reference internal" href="io.html#io.TextIOWrapper" title="io.TextIOWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.TextIOWrapper</span></code></a> 以在 <a class="reference internal" href="../glossary.html#term-universal-newlines"><span class="xref std std-term">universal newlines</span></a> 模式中读取已压缩的文本文件。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>现在 <a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZipFile.open()</span></code></a> 可以被用来配合 <code class="docutils literal notranslate"><span class="pre">mode='w'</span></code> 选项将文件写入归档。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>在已关闭的 ZipFile 上调用 <a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">open()</span></code></a> 将引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。 在之前的版本中则会引发 <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.extract">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.extract" title="永久链接至目标">¶</a></dt>
+<dd><p>从归档中提取出一个成员放入当前工作目录；<em>member</em> 必须为成员的完整名称或 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 对象。 成员的文件信息会尽可能精确地被提取。 <em>path</em> 指定一个要提取到的不同目录。 <em>member</em> 可以是一个文件名或 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 对象。 <em>pwd</em> 是用于解密文件的密码。</p>
+<p>返回所创建的经正规化的路径（对应于目录或新文件）。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>如果一个成员文件名为绝对路径，则将去掉驱动器/UNC共享点和前导的（反）斜杠，例如: <code class="docutils literal notranslate"><span class="pre">///foo/bar</span></code> 在 Unix 上将变为 <code class="docutils literal notranslate"><span class="pre">foo/bar</span></code>，而 <code class="docutils literal notranslate"><span class="pre">C:\foo\bar</span></code> 在 Windows 上将变为 <code class="docutils literal notranslate"><span class="pre">foo\bar</span></code>。 并且一个成员文件名中的所有 <code class="docutils literal notranslate"><span class="pre">&quot;..&quot;</span></code> 都将被移除，例如: <code class="docutils literal notranslate"><span class="pre">../../foo../../ba..r</span></code> 将变为 <code class="docutils literal notranslate"><span class="pre">foo../ba..r</span></code>。 在 Windows 上非法字符 (<code class="docutils literal notranslate"><span class="pre">:</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">|</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code>, and <code class="docutils literal notranslate"><span class="pre">*</span></code>) 会被替换为下划线 (<code class="docutils literal notranslate"><span class="pre">_</span></code>)。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>在已关闭的 ZipFile 上调用 <a class="reference internal" href="#zipfile.ZipFile.extract" title="zipfile.ZipFile.extract"><code class="xref py py-meth docutils literal notranslate"><span class="pre">extract()</span></code></a> 将引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。 在之前的版本中则将引发 <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6.2 版更改: </span><em>path</em> 形参接受一个 <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.extractall">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">extractall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">members</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.extractall" title="永久链接至目标">¶</a></dt>
+<dd><p>从归档中提取出所有成员放入当前工作目录。 <em>path</em> 指定一个要提取到的不同目录。 <em>members</em> 为可选项且必须为 <a class="reference internal" href="#zipfile.ZipFile.namelist" title="zipfile.ZipFile.namelist"><code class="xref py py-meth docutils literal notranslate"><span class="pre">namelist()</span></code></a> 所返回列表的一个子集。 <em>pwd</em> 是用于解密文件的密码。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>绝不要未经预先检验就从不可靠的源中提取归档文件。 这样有可能在 <em>path</em> 之外创建文件，例如某些成员具有以 <code class="docutils literal notranslate"><span class="pre">&quot;/&quot;</span></code> 开始的文件名或带有两个点号 <code class="docutils literal notranslate"><span class="pre">&quot;..&quot;</span></code> 的文件名。 此模块会尝试防止这种情况。 参见 <a class="reference internal" href="#zipfile.ZipFile.extract" title="zipfile.ZipFile.extract"><code class="xref py py-meth docutils literal notranslate"><span class="pre">extract()</span></code></a> 的注释。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>在已关闭的 ZipFile 上调用 <a class="reference internal" href="#zipfile.ZipFile.extractall" title="zipfile.ZipFile.extractall"><code class="xref py py-meth docutils literal notranslate"><span class="pre">extractall()</span></code></a> 将引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。 在之前的版本中则将引发 <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6.2 版更改: </span><em>path</em> 形参接受一个 <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.printdir">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">printdir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.printdir" title="永久链接至目标">¶</a></dt>
+<dd><p>将归档的目录表打印到 <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.setpassword">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">setpassword</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pwd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.setpassword" title="永久链接至目标">¶</a></dt>
+<dd><p>设置 <em>pwd</em> 为用于提取已加密文件的默认密码。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.read">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.read" title="永久链接至目标">¶</a></dt>
+<dd><p>返回归档中文件 <em>name</em> 的字节数据。 <em>name</em> 是归档中文件的名称，或是一个 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 对象。 归档必须以读取或追加方式打开。 <em>pwd</em> 为用于已加密文件的密码，并且如果指定该参数则它将覆盖通过 <a class="reference internal" href="#zipfile.ZipFile.setpassword" title="zipfile.ZipFile.setpassword"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setpassword()</span></code></a> 设置的默认密码。  on a ZipFile that uses a compression method 在使用 <a class="reference internal" href="#zipfile.ZIP_STORED" title="zipfile.ZIP_STORED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_STORED</span></code></a> , <a class="reference internal" href="#zipfile.ZIP_DEFLATED" title="zipfile.ZIP_DEFLATED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_DEFLATED</span></code></a>, <a class="reference internal" href="#zipfile.ZIP_BZIP2" title="zipfile.ZIP_BZIP2"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_BZIP2</span></code></a> 或 <a class="reference internal" href="#zipfile.ZIP_LZMA" title="zipfile.ZIP_LZMA"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_LZMA</span></code></a> 以外的压缩方法的 ZipFile 上调用 <a class="reference internal" href="#zipfile.ZipFile.read" title="zipfile.ZipFile.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> 将引发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>。 如果相应的压缩模块不可用也会引发错误。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>在已关闭的 ZipFile 上调用 <a class="reference internal" href="#zipfile.ZipFile.read" title="zipfile.ZipFile.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> 将引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。 在之前的版本中则会引发 <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.testzip">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">testzip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.testzip" title="永久链接至目标">¶</a></dt>
+<dd><p>读取归档中的所有文件并检查它们的 CRC 和文件头。 返回第一个已损坏文件的名称，在其他情况下则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>在已关闭的 ZipFile 上调用 <a class="reference internal" href="#zipfile.ZipFile.testzip" title="zipfile.ZipFile.testzip"><code class="xref py py-meth docutils literal notranslate"><span class="pre">testzip()</span></code></a> 将引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。 在之前的版本中则将引发 <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.write">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arcname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compresslevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.write" title="永久链接至目标">¶</a></dt>
+<dd><p>将名为 <em>filename</em> 的文件写入归档，给予的归档名为 <em>arcname</em> (默认情况下将与 <em>filename</em> 一致，但是不带驱动器盘符并会移除开头的路径分隔符)。 <em>compress_type</em> 如果给出，它将覆盖作为构造器 <em>compression</em> 形参对于新条目所给出的值。 类似地，<em>compresslevel</em> 如果给出也将覆盖构造器。 归档必须使用 <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'a'</span></code> 模式打开。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>The ZIP file standard historically did not specify a metadata encoding,
+but strongly recommended CP437 (the original IBM PC encoding) for
+interoperability.  Recent versions allow use of UTF-8 (only).  In this
+module, UTF-8 will automatically be used to write the member names if
+they contain any non-ASCII characters.  It is not possible to write
+member names in any encoding other than ASCII or UTF-8.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>归档名称应当是基于归档根目录的相对路径，也就是说，它们不应以路径分隔符开头。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>如果 <code class="docutils literal notranslate"><span class="pre">arcname</span></code> (或 <code class="docutils literal notranslate"><span class="pre">filename</span></code>，如果 <code class="docutils literal notranslate"><span class="pre">arcname</span></code> 未给出) 包含一个空字节，则归档中该文件的名称将在空字节位置被截断。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>文件名开头有一个斜杠可能导致存档文件无法在 Windows 系统上的某些 zip 程序中打开。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>在使用 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> 模式创建的 ZipFile 或已关闭的 ZipFile 上调用 <a class="reference internal" href="#zipfile.ZipFile.write" title="zipfile.ZipFile.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a> 将引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。 在之前的版本中则会引发 <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.writestr">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">writestr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zinfo_or_arcname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compresslevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.writestr" title="永久链接至目标">¶</a></dt>
+<dd><p>将一个文件写入归档。 内容为 <em>data</em>，它可以是一个 <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 或 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 的实例；如果是 <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>，则会先使用 UTF-8 进行编码。 <em>zinfo_or_arcname</em> 可以是它在归档中将被给予的名称，或者是 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 的实例。 如果它是一个实例，则至少必须给定文件名、日期和时间。 如果它是一个名称，则日期和时间会被设为当前日期和时间。 归档必须以 <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'a'</span></code> 模式打开。</p>
+<p>如果给定了 <em>compress_type</em>，它将会覆盖作为新条目构造器的 <em>compression</em> 形参或在 <em>zinfo_or_arcname</em> (如果是一个 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 实例) 中所给出的值。 类似地，如果给定了 <em>compresslevel</em>，它将会覆盖构造器。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>当传入一个 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 实例作为 <em>zinfo_or_arcname</em> 形参时，所使用的压缩方法将为在给定的 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 实例的 <em>compress_type</em> 成员中指定的方法。 默认情况下，<a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 构造器将将此成员设为 <a class="reference internal" href="#zipfile.ZIP_STORED" title="zipfile.ZIP_STORED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_STORED</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span><em>compress_type</em> 参数。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>在使用 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> 模式创建的 ZipFile 或已关闭的 ZipFile 上调用 <a class="reference internal" href="#zipfile.ZipFile.writestr" title="zipfile.ZipFile.writestr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writestr()</span></code></a> 将引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。 在之前的版本中则会引发 <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.mkdir">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">mkdir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zinfo_or_directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">511</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.mkdir" title="永久链接至目标">¶</a></dt>
+<dd><p>Create a directory inside the archive.  If <em>zinfo_or_directory</em> is a string,
+a directory is created inside the archive with the mode that is specified in
+the <em>mode</em> argument. If, however, <em>zinfo_or_directory</em> is
+a <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> instance then the <em>mode</em> argument is ignored.</p>
+<p>The archive must be opened with mode <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> or <code class="docutils literal notranslate"><span class="pre">'a'</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>以下数据属性也是可用的:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipFile.filename">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#zipfile.ZipFile.filename" title="永久链接至目标">¶</a></dt>
+<dd><p>ZIP 文件的名称。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipFile.debug">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">debug</span></span><a class="headerlink" href="#zipfile.ZipFile.debug" title="永久链接至目标">¶</a></dt>
+<dd><p>要使用的调试输出等级。 这可以设为从 <code class="docutils literal notranslate"><span class="pre">0</span></code> (默认无输出) 到 <code class="docutils literal notranslate"><span class="pre">3</span></code> (最多输出) 的值。 调试信息会被写入 <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipFile.comment">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">comment</span></span><a class="headerlink" href="#zipfile.ZipFile.comment" title="永久链接至目标">¶</a></dt>
+<dd><p>关联到 ZIP 文件的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象形式的说明。 如果将说明赋给以 <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'a'</span></code> 模式创建的 <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> 实例，它的长度不应超过 65535 字节。 超过此长度的说明将被截断。</p>
+</dd></dl>
+
+</section>
+<section id="path-objects">
+<span id="id2"></span><h2>Path 对象<a class="headerlink" href="#path-objects" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="zipfile.Path">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">Path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path" title="永久链接至目标">¶</a></dt>
+<dd><p>根据 <code class="docutils literal notranslate"><span class="pre">root</span></code> zipfile (它可以是一个 <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> 实例或适合传给 <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> 构造器的 <code class="docutils literal notranslate"><span class="pre">file</span></code>) 构造一个 Path 对象。</p>
+<p><code class="docutils literal notranslate"><span class="pre">at</span></code> 指定此 Path 在 zipfile 中的位置，例如 'dir/file.txt', 'dir/' 或 ''。 默认为空字符串，即指定跟目录。</p>
+</dd></dl>
+
+<p>Path 对象会公开 <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a> 对象的下列特性:</p>
+<p>Path 对象可以使用 <code class="docutils literal notranslate"><span class="pre">/</span></code> 运算符或 <code class="docutils literal notranslate"><span class="pre">joinpath</span></code> 来进行遍历。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.Path.name">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#zipfile.Path.name" title="永久链接至目标">¶</a></dt>
+<dd><p>最终的路径组成部分。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.open">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode='r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.open" title="永久链接至目标">¶</a></dt>
+<dd><p>在当前路径上发起调用 <a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZipFile.open()</span></code></a>。 允许通过支持的模式打开用于读取或写入文本或二进制数据: 'r', 'w', 'rb', 'wb'。 当以文本模式打开时位置和关键字参数会被传给 <a class="reference internal" href="io.html#io.TextIOWrapper" title="io.TextIOWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.TextIOWrapper</span></code></a>，在其他情况下则会被忽略。 <code class="docutils literal notranslate"><span class="pre">pwd</span></code> 是要传给 <a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZipFile.open()</span></code></a>  的 <code class="docutils literal notranslate"><span class="pre">pwd</span></code> 形参。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>增加了对以文本和二进制模式打开的支持。 现在默认为文本模式。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.iterdir">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">iterdir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.iterdir" title="永久链接至目标">¶</a></dt>
+<dd><p>枚举当前目录的子目录。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.is_dir">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">is_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.is_dir" title="永久链接至目标">¶</a></dt>
+<dd><p>如果当前上下文引用了一个目录则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.is_file">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">is_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.is_file" title="永久链接至目标">¶</a></dt>
+<dd><p>如果当前上下文引用了一个文件则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.exists">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.exists" title="永久链接至目标">¶</a></dt>
+<dd><p>如果当前上下文引用了 zip 文件内的一个文件或目录则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.Path.suffix">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">suffix</span></span><a class="headerlink" href="#zipfile.Path.suffix" title="永久链接至目标">¶</a></dt>
+<dd><p>The file extension of the final component.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能: </span>Added <a class="reference internal" href="#zipfile.Path.suffix" title="zipfile.Path.suffix"><code class="xref py py-data docutils literal notranslate"><span class="pre">Path.suffix</span></code></a> property.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.Path.stem">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">stem</span></span><a class="headerlink" href="#zipfile.Path.stem" title="永久链接至目标">¶</a></dt>
+<dd><p>The final path component, without its suffix.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能: </span>Added <a class="reference internal" href="#zipfile.Path.stem" title="zipfile.Path.stem"><code class="xref py py-data docutils literal notranslate"><span class="pre">Path.stem</span></code></a> property.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.Path.suffixes">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">suffixes</span></span><a class="headerlink" href="#zipfile.Path.suffixes" title="永久链接至目标">¶</a></dt>
+<dd><p>A list of the path’s file extensions.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能: </span>Added <a class="reference internal" href="#zipfile.Path.suffixes" title="zipfile.Path.suffixes"><code class="xref py py-data docutils literal notranslate"><span class="pre">Path.suffixes</span></code></a> property.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.read_text">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">read_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.read_text" title="永久链接至目标">¶</a></dt>
+<dd><p>读取当前文件为 unicode 文本。 位置和关键字参数会被传递给 <a class="reference internal" href="io.html#io.TextIOWrapper" title="io.TextIOWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.TextIOWrapper</span></code></a> (<code class="docutils literal notranslate"><span class="pre">buffer</span></code> 除外，它将由上下文确定)。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.read_bytes">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">read_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.read_bytes" title="永久链接至目标">¶</a></dt>
+<dd><p>读取当前文件为字节串。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.joinpath">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">joinpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.joinpath" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个新的 Path 对象，其中合并了每个 <em>other</em> 参数。 以下代码是等价的:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;child&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;grandchild&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;child&#39;</span><span class="p">,</span> <span class="s1">&#39;grandchild&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="o">/</span> <span class="s1">&#39;child&#39;</span> <span class="o">/</span> <span class="s1">&#39;grandchild&#39;</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>在 3.10 之前，<code class="docutils literal notranslate"><span class="pre">joinpath</span></code> 未被写入文档并且只接受一个形参。</p>
+</div>
+</dd></dl>
+
+<p>The <a class="reference external" href="https://pypi.org/project/zipp">zipp</a> project provides backports
+of the latest path object functionality to older Pythons. Use
+<code class="docutils literal notranslate"><span class="pre">zipp.Path</span></code> in place of <code class="docutils literal notranslate"><span class="pre">zipfile.Path</span></code> for early access to
+changes.</p>
+</section>
+<section id="pyzipfile-objects">
+<span id="id3"></span><h2>PyZipFile 对象<a class="headerlink" href="#pyzipfile-objects" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#zipfile.PyZipFile" title="zipfile.PyZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyZipFile</span></code></a> 构造器接受与 <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> 构造器相同的形参，以及一个额外的形参 <em>optimize</em>。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="zipfile.PyZipFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">PyZipFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ZIP_STORED</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowZip64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.PyZipFile" title="永久链接至目标">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能: </span><em>optimize</em> 形参。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>默认启用 ZIP64 扩展。</p>
+</div>
+<p>实例在 <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> 对象所具有的方法以外还附加了一个方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.PyZipFile.writepy">
+<span class="sig-name descname"><span class="pre">writepy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filterfunc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.PyZipFile.writepy" title="永久链接至目标">¶</a></dt>
+<dd><p>查找 <code class="file docutils literal notranslate"><span class="pre">*.py</span></code> 文件并将相应的文件添加到归档。</p>
+<p>如果 <a class="reference internal" href="#zipfile.PyZipFile" title="zipfile.PyZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyZipFile</span></code></a> 的 <em>optimize</em> 形参未给定或为 <code class="docutils literal notranslate"><span class="pre">-1</span></code>，则相应的文件为 <code class="file docutils literal notranslate"><span class="pre">*.pyc</span></code> 文件，并在必要时进行编译。</p>
+<p>如果 <a class="reference internal" href="#zipfile.PyZipFile" title="zipfile.PyZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyZipFile</span></code></a> 的 <em>optimize</em> 形参为 <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code> 或 <code class="docutils literal notranslate"><span class="pre">2</span></code>，则限具有相应优化级别 (参见 <a class="reference internal" href="functions.html#compile" title="compile"><code class="xref py py-func docutils literal notranslate"><span class="pre">compile()</span></code></a>) 的文件会被添加到归档，并在必要时进行编译。</p>
+<p>如果 <em>pathname</em> 是文件，则文件名必须以 <code class="file docutils literal notranslate"><span class="pre">.py</span></code> 为后缀，并且只有 (相应的 <code class="file docutils literal notranslate"><span class="pre">*.pyc</span></code>) 文件会被添加到最高层级（不带路径信息）。 如果 <em>pathname</em> 不是以 <code class="file docutils literal notranslate"><span class="pre">.py</span></code> 为后缀的文件，则将引发 <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>。 如果它是目录，并且该目录不是一个包目录，则所有的 <code class="file docutils literal notranslate"><span class="pre">*.pyc</span></code> 文件会被添加到最高层级。 如果目录是一个包目录，则所有的 <code class="file docutils literal notranslate"><span class="pre">*.pyc</span></code> 会被添加到包名所表示的文件路径下，并且如果有任何子目录为包目录，则会以排好的顺序递归地添加这些目录。</p>
+<p><em>basename</em> 仅限在内部使用。</p>
+<p>如果给定 <em>filterfunc</em>，则它必须是一个接受单个字符串参数的函数。 在将其添加到归档之前它将被传入每个路径（包括每个单独的完整路径）。 如果 <em>filterfunc</em> 返回假值，则路径将不会被添加，而如果它是一个目录则其内容将被忽略。 例如，如果我们的测试文件全都位于 <code class="docutils literal notranslate"><span class="pre">test</span></code> 目录或以字符串 <code class="docutils literal notranslate"><span class="pre">test_</span></code> 打头，则我们可以使用一个 <em>filterfunc</em> 来排除它们:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">zf</span> <span class="o">=</span> <span class="n">PyZipFile</span><span class="p">(</span><span class="s1">&#39;myprog.zip&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">notests</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">fn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">(</span><span class="ow">not</span> <span class="p">(</span><span class="n">fn</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span> <span class="ow">or</span> <span class="n">fn</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;test_&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zf</span><span class="o">.</span><span class="n">writepy</span><span class="p">(</span><span class="s1">&#39;myprog&#39;</span><span class="p">,</span> <span class="n">filterfunc</span><span class="o">=</span><span class="n">notests</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#zipfile.PyZipFile.writepy" title="zipfile.PyZipFile.writepy"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writepy()</span></code></a> 方法会产生带有这样一些文件名的归档:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">string</span><span class="o">.</span><span class="n">pyc</span>                   <span class="c1"># Top level name</span>
+<span class="n">test</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">pyc</span>            <span class="c1"># Package directory</span>
+<span class="n">test</span><span class="o">/</span><span class="n">testall</span><span class="o">.</span><span class="n">pyc</span>             <span class="c1"># Module test.testall</span>
+<span class="n">test</span><span class="o">/</span><span class="n">bogus</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">pyc</span>      <span class="c1"># Subpackage directory</span>
+<span class="n">test</span><span class="o">/</span><span class="n">bogus</span><span class="o">/</span><span class="n">myfile</span><span class="o">.</span><span class="n">pyc</span>        <span class="c1"># Submodule test.bogus.myfile</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能: </span><em>filterfunc</em> 形参。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6.2 版更改: </span><em>pathname</em> 形参接受一个 <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>递归排序目录条目。</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="zipinfo-objects">
+<span id="id4"></span><h2>ZipInfo 对象<a class="headerlink" href="#zipinfo-objects" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 类的实例会通过 <a class="reference internal" href="#zipfile.ZipFile.getinfo" title="zipfile.ZipFile.getinfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getinfo()</span></code></a> 和 <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> 对象的 <a class="reference internal" href="#zipfile.ZipFile.infolist" title="zipfile.ZipFile.infolist"><code class="xref py py-meth docutils literal notranslate"><span class="pre">infolist()</span></code></a> 方法返回。 每个对象将存储关于 ZIP 归档的一个成员的信息。</p>
+<p>有一个类方法可以为文件系统文件创建 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 实例:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.from_file">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arcname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_timestamps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipInfo.from_file" title="永久链接至目标">¶</a></dt>
+<dd><p>为文件系统中的文件构造一个 <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> 实例，并准备将其添加到一个 zip 文件。</p>
+<p><em>filename</em> 应为文件系统中某个文件或目录的路径。</p>
+<p>如果指定了 <em>arcname</em>，它会被用作归档中的名称。 如果未指定 <em>arcname</em>，则所用名称与 <em>filename</em> 相同，但将去除任何驱动器盘符和打头的路径分隔符。</p>
+<p><em>strict_timestamps</em> 参数在设为 <code class="docutils literal notranslate"><span class="pre">False</span></code> 时允许压缩早于 1980-01-01 的文件，代价时会将时间戳设为 1980-01-01。 类似的行为也会对晚于 2107-12-31 的文件发生，时间戳也会被设为该上限值。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6.2 版更改: </span><em>filename</em> 形参接受一个 <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a>。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.8 新版功能: </span><em>strict_timestamps</em> 仅限关键字参数</p>
+</div>
+</dd></dl>
+
+<p>实例具有下列方法和属性:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.is_dir">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">is_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipInfo.is_dir" title="永久链接至目标">¶</a></dt>
+<dd><p>如果此归档成员是一个目录则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<p>这会使用条目的名称：目录应当总是以 <code class="docutils literal notranslate"><span class="pre">/</span></code> 结尾。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.filename">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#zipfile.ZipInfo.filename" title="永久链接至目标">¶</a></dt>
+<dd><p>归档中的文件名称。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.date_time">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">date_time</span></span><a class="headerlink" href="#zipfile.ZipInfo.date_time" title="永久链接至目标">¶</a></dt>
+<dd><p>上次修改存档成员的时间和日期。这是六个值的元组：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 79%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>索引</p></th>
+<th class="head"><p>值</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>Year (&gt;= 1980)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>月（1为基数）</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p>月份中的日期（1为基数）</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">3</span></code></p></td>
+<td><p>小时（0为基数）</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">4</span></code></p></td>
+<td><p>分钟（0为基数）</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">5</span></code></p></td>
+<td><p>秒（0为基数）</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>ZIP文件格式不支持1980年以前的时间戳。</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.compress_type">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">compress_type</span></span><a class="headerlink" href="#zipfile.ZipInfo.compress_type" title="永久链接至目标">¶</a></dt>
+<dd><p>归档成员的压缩类型。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.comment">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">comment</span></span><a class="headerlink" href="#zipfile.ZipInfo.comment" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象形式的单个归档成员的注释。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.extra">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">extra</span></span><a class="headerlink" href="#zipfile.ZipInfo.extra" title="永久链接至目标">¶</a></dt>
+<dd><p>扩展字段数据。 <a class="reference external" href="https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT">PKZIP Application Note</a> 包含一些保存于该 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象中的内部结构的注释。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.create_system">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">create_system</span></span><a class="headerlink" href="#zipfile.ZipInfo.create_system" title="永久链接至目标">¶</a></dt>
+<dd><p>创建 ZIP 归档所用的系统。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.create_version">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">create_version</span></span><a class="headerlink" href="#zipfile.ZipInfo.create_version" title="永久链接至目标">¶</a></dt>
+<dd><p>创建 ZIP 归档所用的 PKZIP 版本。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.extract_version">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">extract_version</span></span><a class="headerlink" href="#zipfile.ZipInfo.extract_version" title="永久链接至目标">¶</a></dt>
+<dd><p>需要用来提取归档的 PKZIP 版本。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.reserved">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">reserved</span></span><a class="headerlink" href="#zipfile.ZipInfo.reserved" title="永久链接至目标">¶</a></dt>
+<dd><p>必须为零。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.flag_bits">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">flag_bits</span></span><a class="headerlink" href="#zipfile.ZipInfo.flag_bits" title="永久链接至目标">¶</a></dt>
+<dd><p>ZIP 标志位。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.volume">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#zipfile.ZipInfo.volume" title="永久链接至目标">¶</a></dt>
+<dd><p>文件头的分卷号。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.internal_attr">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">internal_attr</span></span><a class="headerlink" href="#zipfile.ZipInfo.internal_attr" title="永久链接至目标">¶</a></dt>
+<dd><p>内部属性。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.external_attr">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">external_attr</span></span><a class="headerlink" href="#zipfile.ZipInfo.external_attr" title="永久链接至目标">¶</a></dt>
+<dd><p>外部文件属性。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.header_offset">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">header_offset</span></span><a class="headerlink" href="#zipfile.ZipInfo.header_offset" title="永久链接至目标">¶</a></dt>
+<dd><p>文件头的字节偏移量。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.CRC">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">CRC</span></span><a class="headerlink" href="#zipfile.ZipInfo.CRC" title="永久链接至目标">¶</a></dt>
+<dd><p>未压缩文件的 CRC-32。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.compress_size">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">compress_size</span></span><a class="headerlink" href="#zipfile.ZipInfo.compress_size" title="永久链接至目标">¶</a></dt>
+<dd><p>已压缩数据的大小。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.file_size">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">file_size</span></span><a class="headerlink" href="#zipfile.ZipInfo.file_size" title="永久链接至目标">¶</a></dt>
+<dd><p>未压缩文件的大小。</p>
+</dd></dl>
+
+</section>
+<section id="command-line-interface">
+<span id="zipfile-commandline"></span><h2>命令行接口<a class="headerlink" href="#command-line-interface" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#module-zipfile" title="zipfile: Read and write ZIP-format archive files."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code></a> 模块提供了简单的命令行接口用于与 ZIP 归档的交互。</p>
+<p>如果你想要创建一个新的 ZIP 归档，请在 <a class="reference internal" href="#cmdoption-zipfile-c"><code class="xref std std-option docutils literal notranslate"><span class="pre">-c</span></code></a> 选项后指定其名称然后列出应当被包含的文件名:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m zipfile -c monty.zip spam.txt eggs.txt
+</pre></div>
+</div>
+<p>传入一个目录也是可接受的:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m zipfile -c monty.zip life-of-brian_1979/
+</pre></div>
+</div>
+<p>如果你想要将一个 ZIP 归档提取到指定的目录，请使用 <a class="reference internal" href="#cmdoption-zipfile-e"><code class="xref std std-option docutils literal notranslate"><span class="pre">-e</span></code></a> 选项:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m zipfile -e monty.zip target-dir/
+</pre></div>
+</div>
+<p>要获取一个 ZIP 归档中的文件列表，请使用 <a class="reference internal" href="#cmdoption-zipfile-l"><code class="xref std std-option docutils literal notranslate"><span class="pre">-l</span></code></a> 选项:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m zipfile -l monty.zip
+</pre></div>
+</div>
+<section id="command-line-options">
+<h3>命令行选项<a class="headerlink" href="#command-line-options" title="永久链接至标题">¶</a></h3>
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipfile-l">
+<span class="sig-name descname"><span class="pre">-l</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-l" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-zipfile-list">
+<span class="sig-name descname"><span class="pre">--list</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-list" title="永久链接至目标">¶</a></dt>
+<dd><p>列出一个 zipfile 中的文件名。</p>
+</dd></dl>
+
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipfile-c">
+<span class="sig-name descname"><span class="pre">-c</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span> <span class="pre">&lt;source1&gt;</span> <span class="pre">...</span> <span class="pre">&lt;sourceN&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-c" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-zipfile-create">
+<span class="sig-name descname"><span class="pre">--create</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span> <span class="pre">&lt;source1&gt;</span> <span class="pre">...</span> <span class="pre">&lt;sourceN&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-create" title="永久链接至目标">¶</a></dt>
+<dd><p>基于源文件创建 zipfile。</p>
+</dd></dl>
+
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipfile-e">
+<span class="sig-name descname"><span class="pre">-e</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span> <span class="pre">&lt;output_dir&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-e" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-zipfile-extract">
+<span class="sig-name descname"><span class="pre">--extract</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span> <span class="pre">&lt;output_dir&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-extract" title="永久链接至目标">¶</a></dt>
+<dd><p>将 zipfile 提取到目标目录中。</p>
+</dd></dl>
+
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipfile-t">
+<span class="sig-name descname"><span class="pre">-t</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-t" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-zipfile-test">
+<span class="sig-name descname"><span class="pre">--test</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-test" title="永久链接至目标">¶</a></dt>
+<dd><p>检测 zipfile 是否有效。</p>
+</dd></dl>
+
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-zipfile-metadata-encoding">
+<span class="sig-name descname"><span class="pre">--metadata-encoding</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;encoding&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-metadata-encoding" title="永久链接至目标">¶</a></dt>
+<dd><p>Specify encoding of member names for <a class="reference internal" href="#cmdoption-zipfile-l"><code class="xref std std-option docutils literal notranslate"><span class="pre">-l</span></code></a>, <a class="reference internal" href="#cmdoption-zipfile-e"><code class="xref std std-option docutils literal notranslate"><span class="pre">-e</span></code></a> and
+<a class="reference internal" href="#cmdoption-zipfile-t"><code class="xref std std-option docutils literal notranslate"><span class="pre">-t</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="decompression-pitfalls">
+<h2>解压缩的障碍<a class="headerlink" href="#decompression-pitfalls" title="永久链接至标题">¶</a></h2>
+<p>zipfile 模块的提取操作可能会由于下面列出的障碍而失败。</p>
+<section id="from-file-itself">
+<h3>由于文件本身<a class="headerlink" href="#from-file-itself" title="永久链接至标题">¶</a></h3>
+<p>解压缩可能由于不正确的密码 / CRC 校验和 / ZIP 格式或不受支持的压缩 / 解密方法而失败。</p>
+</section>
+<section id="file-system-limitations">
+<h3>文件系统限制<a class="headerlink" href="#file-system-limitations" title="永久链接至标题">¶</a></h3>
+<p>超出特定文件系统上的限制可能会导致解压缩失败。 例如目录条目所允许的字符、文件名的长度、路径名的长度、单个文件的大小以及文件的数量等等。</p>
+</section>
+<section id="resources-limitations">
+<span id="zipfile-resources-limitations"></span><h3>资源限制<a class="headerlink" href="#resources-limitations" title="永久链接至标题">¶</a></h3>
+<p>缺乏内存或磁盘空间将会导致解压缩失败。 例如，作用于 zipfile 库的解压缩炸弹 (即 <a class="reference external" href="https://en.wikipedia.org/wiki/Zip_bomb">ZIP bomb</a>) 就可能造成磁盘空间耗尽。</p>
+</section>
+<section id="interruption">
+<h3>中断<a class="headerlink" href="#interruption" title="永久链接至标题">¶</a></h3>
+<p>在解压缩期间中断执行，例如按下 ctrl-C 或杀死解压缩进程可能会导致归档文件的解压缩不完整。</p>
+</section>
+<section id="default-behaviors-of-extraction">
+<h3>提取的默认行为<a class="headerlink" href="#default-behaviors-of-extraction" title="永久链接至标题">¶</a></h3>
+<p>不了解提取的默认行为可能导致不符合期望的解压缩结果。 例如，当提取相同归档两次时，它会不经询问地覆盖文件。</p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> --- 使用ZIP存档</a><ul>
+<li><a class="reference internal" href="#zipfile-objects">ZipFile 对象</a></li>
+<li><a class="reference internal" href="#path-objects">Path 对象</a></li>
+<li><a class="reference internal" href="#pyzipfile-objects">PyZipFile 对象</a></li>
+<li><a class="reference internal" href="#zipinfo-objects">ZipInfo 对象</a></li>
+<li><a class="reference internal" href="#command-line-interface">命令行接口</a><ul>
+<li><a class="reference internal" href="#command-line-options">命令行选项</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#decompression-pitfalls">解压缩的障碍</a><ul>
+<li><a class="reference internal" href="#from-file-itself">由于文件本身</a></li>
+<li><a class="reference internal" href="#file-system-limitations">文件系统限制</a></li>
+<li><a class="reference internal" href="#resources-limitations">资源限制</a></li>
+<li><a class="reference internal" href="#interruption">中断</a></li>
+<li><a class="reference internal" href="#default-behaviors-of-extraction">提取的默认行为</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="lzma.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code> --- 用 LZMA 算法压缩</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="tarfile.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tarfile</span></code> --- 读写tar归档文件</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/zipfile.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="tarfile.html" title="tarfile --- 读写tar归档文件"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="lzma.html" title="lzma --- 用 LZMA 算法压缩"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="archiving.html" >数据压缩和存档</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> --- 使用ZIP存档</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>
