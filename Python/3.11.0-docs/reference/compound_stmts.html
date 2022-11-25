@@ -1,0 +1,1346 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>8. 复合语句 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="9. 顶级组件" href="toplevel_components.html" />
+    <link rel="prev" title="7. 简单语句" href="simple_stmts.html" />
+    <link rel="canonical" href="https://docs.python.org/3/reference/compound_stmts.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">8. 复合语句</a><ul>
+<li><a class="reference internal" href="#the-if-statement">8.1. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code> 语句</a></li>
+<li><a class="reference internal" href="#the-while-statement">8.2. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">while</span></code> 语句</a></li>
+<li><a class="reference internal" href="#the-for-statement">8.3. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code> 语句</a></li>
+<li><a class="reference internal" href="#the-try-statement">8.4. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code> 语句</a><ul>
+<li><a class="reference internal" href="#except-clause">8.4.1. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause</a></li>
+<li><a class="reference internal" href="#except-star">8.4.2. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code> clause</a></li>
+<li><a class="reference internal" href="#else-clause">8.4.3. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code> clause</a></li>
+<li><a class="reference internal" href="#finally-clause">8.4.4. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-with-statement">8.5. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code> 语句</a></li>
+<li><a class="reference internal" href="#the-match-statement">8.6. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">match</span></code> 语句</a><ul>
+<li><a class="reference internal" href="#overview">8.6.1. 概述</a></li>
+<li><a class="reference internal" href="#guards">8.6.2. 约束项</a></li>
+<li><a class="reference internal" href="#irrefutable-case-blocks">8.6.3. 必定匹配的 case 块</a></li>
+<li><a class="reference internal" href="#patterns">8.6.4. 模式</a><ul>
+<li><a class="reference internal" href="#or-patterns">8.6.4.1. 或模式</a></li>
+<li><a class="reference internal" href="#as-patterns">8.6.4.2. AS 模式</a></li>
+<li><a class="reference internal" href="#literal-patterns">8.6.4.3. 字面值模式</a></li>
+<li><a class="reference internal" href="#capture-patterns">8.6.4.4. 捕获模式</a></li>
+<li><a class="reference internal" href="#wildcard-patterns">8.6.4.5. 通配符模式</a></li>
+<li><a class="reference internal" href="#value-patterns">8.6.4.6. 值模式</a></li>
+<li><a class="reference internal" href="#group-patterns">8.6.4.7. 组模式</a></li>
+<li><a class="reference internal" href="#sequence-patterns">8.6.4.8. 序列模式</a></li>
+<li><a class="reference internal" href="#mapping-patterns">8.6.4.9. 映射模式</a></li>
+<li><a class="reference internal" href="#class-patterns">8.6.4.10. 类模式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#function-definitions">8.7. 函数定义</a></li>
+<li><a class="reference internal" href="#class-definitions">8.8. 类定义</a></li>
+<li><a class="reference internal" href="#coroutines">8.9. 协程</a><ul>
+<li><a class="reference internal" href="#coroutine-function-definition">8.9.1. 协程函数定义</a></li>
+<li><a class="reference internal" href="#the-async-for-statement">8.9.2. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">for</span></code> 语句</a></li>
+<li><a class="reference internal" href="#the-async-with-statement">8.9.3. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span></code> 语句</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="simple_stmts.html"
+                          title="上一章"><span class="section-number">7. </span>简单语句</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="toplevel_components.html"
+                          title="下一章"><span class="section-number">9. </span>顶级组件</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/reference/compound_stmts.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="toplevel_components.html" title="9. 顶级组件"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="simple_stmts.html" title="7. 简单语句"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python 语言参考手册</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">8. </span>复合语句</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="compound-statements">
+<span id="compound"></span><h1><span class="section-number">8. </span>复合语句<a class="headerlink" href="#compound-statements" title="永久链接至标题">¶</a></h1>
+<p id="index-0">复合语句是包含其它语句（语句组）的语句；它们会以某种方式影响或控制所包含其它语句的执行。 通常，复合语句会跨越多行，虽然在某些简单形式下整个复合语句也可能包含于一行之内。</p>
+<p><a class="reference internal" href="#if"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code></a>, <a class="reference internal" href="#while"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">while</span></code></a> 和 <a class="reference internal" href="#for"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code></a> 语句用来实现传统的控制流程构造。 <a class="reference internal" href="#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a> 语句为一组语句指定异常处理和/和清理代码，而 <a class="reference internal" href="#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句允许在一个代码块周围执行初始化和终结化代码。 函数和类定义在语法上也属于复合语句。</p>
+<p id="index-1">一条复合语句由一个或多个‘子句’组成。 一个子句则包含一个句头和一个‘句体’。 特定复合语句的子句头都处于相同的缩进层级。 每个子句头以一个作为唯一标识的关键字开始并以一个冒号结束。 子句体是由一个子句控制的一组语句。 子句体可以是在子句头的冒号之后与其同处一行的一条或由分号分隔的多条简单语句，或者也可以是在其之后缩进的一行或多行语句。 只有后一种形式的子句体才能包含嵌套的复合语句；以下形式是不合法的，这主要是因为无法分清某个后续的 <a class="reference internal" href="#else"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code></a> 子句应该属于哪个 <a class="reference internal" href="#if"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code></a> 子句:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">test1</span><span class="p">:</span> <span class="k">if</span> <span class="n">test2</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>还要注意的是在这种情形下分号的绑定比冒号更紧密，因此在以下示例中，所有 <a class="reference internal" href="../library/functions.html#print" title="print"><code class="xref py py-func docutils literal notranslate"><span class="pre">print()</span></code></a> 调用或者都不执行，或者都执行:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">z</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>总结:</p>
+<pre>
+<strong id="grammar-token-python-grammar-compound_stmt"><span id="grammar-token-compound-stmt"></span>compound_stmt</strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-if_stmt"><code class="xref docutils literal notranslate"><span class="pre">if_stmt</span></code></a>
+                   | <a class="reference internal" href="#grammar-token-python-grammar-while_stmt"><code class="xref docutils literal notranslate"><span class="pre">while_stmt</span></code></a>
+                   | <a class="reference internal" href="#grammar-token-python-grammar-for_stmt"><code class="xref docutils literal notranslate"><span class="pre">for_stmt</span></code></a>
+                   | <a class="reference internal" href="#grammar-token-python-grammar-try_stmt"><code class="xref docutils literal notranslate"><span class="pre">try_stmt</span></code></a>
+                   | <a class="reference internal" href="#grammar-token-python-grammar-with_stmt"><code class="xref docutils literal notranslate"><span class="pre">with_stmt</span></code></a>
+                   | <a class="reference internal" href="#grammar-token-python-grammar-match_stmt"><code class="xref docutils literal notranslate"><span class="pre">match_stmt</span></code></a>
+                   | <a class="reference internal" href="#grammar-token-python-grammar-funcdef"><code class="xref docutils literal notranslate"><span class="pre">funcdef</span></code></a>
+                   | <a class="reference internal" href="#grammar-token-python-grammar-classdef"><code class="xref docutils literal notranslate"><span class="pre">classdef</span></code></a>
+                   | <a class="reference internal" href="#grammar-token-python-grammar-async_with_stmt"><code class="xref docutils literal notranslate"><span class="pre">async_with_stmt</span></code></a>
+                   | <a class="reference internal" href="#grammar-token-python-grammar-async_for_stmt"><code class="xref docutils literal notranslate"><span class="pre">async_for_stmt</span></code></a>
+                   | <a class="reference internal" href="#grammar-token-python-grammar-async_funcdef"><code class="xref docutils literal notranslate"><span class="pre">async_funcdef</span></code></a>
+<strong id="grammar-token-python-grammar-suite"><span id="grammar-token-suite"></span>suite        </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-stmt_list"><code class="xref docutils literal notranslate"><span class="pre">stmt_list</span></code></a> NEWLINE | NEWLINE INDENT <a class="reference internal" href="#grammar-token-python-grammar-statement"><code class="xref docutils literal notranslate"><span class="pre">statement</span></code></a>+ DEDENT
+<strong id="grammar-token-python-grammar-statement"><span id="grammar-token-statement"></span>statement    </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-stmt_list"><code class="xref docutils literal notranslate"><span class="pre">stmt_list</span></code></a> NEWLINE | <a class="reference internal" href="#grammar-token-python-grammar-compound_stmt"><code class="xref docutils literal notranslate"><span class="pre">compound_stmt</span></code></a>
+<strong id="grammar-token-python-grammar-stmt_list"><span id="grammar-token-stmt-list"></span>stmt_list    </strong> ::=  <a class="reference internal" href="simple_stmts.html#grammar-token-python-grammar-simple_stmt"><code class="xref docutils literal notranslate"><span class="pre">simple_stmt</span></code></a> (&quot;;&quot; <a class="reference internal" href="simple_stmts.html#grammar-token-python-grammar-simple_stmt"><code class="xref docutils literal notranslate"><span class="pre">simple_stmt</span></code></a>)* [&quot;;&quot;]
+</pre>
+<p id="index-2">请注意语句总是以 <code class="docutils literal notranslate"><span class="pre">NEWLINE</span></code> 结束，之后可能跟随一个 <code class="docutils literal notranslate"><span class="pre">DEDENT</span></code>。 还要注意可选的后续子句总是以一个不能作为语句开头的关键字作为开头，因此不会产生歧义（‘悬空的 <a class="reference internal" href="#else"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code></a>’问题在 Python 中是通过要求嵌套的 <a class="reference internal" href="#if"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code></a> 语句必须缩进来解决的)。</p>
+<p>为了保证清晰，以下各节中语法规则采用将每个子句都放在单独行中的格式。</p>
+<section id="the-if-statement">
+<span id="else"></span><span id="elif"></span><span id="if"></span><h2><span class="section-number">8.1. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code> 语句<a class="headerlink" href="#the-if-statement" title="永久链接至标题">¶</a></h2>
+<p id="index-3"><a class="reference internal" href="#if"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code></a> 语句用于有条件的执行:</p>
+<pre>
+<strong id="grammar-token-python-grammar-if_stmt"><span id="grammar-token-if-stmt"></span>if_stmt</strong> ::=  &quot;if&quot; <a class="reference internal" href="expressions.html#grammar-token-python-grammar-assignment_expression"><code class="xref docutils literal notranslate"><span class="pre">assignment_expression</span></code></a> &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+             (&quot;elif&quot; <a class="reference internal" href="expressions.html#grammar-token-python-grammar-assignment_expression"><code class="xref docutils literal notranslate"><span class="pre">assignment_expression</span></code></a> &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>)*
+             [&quot;else&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>]
+</pre>
+<p>它通过对表达式逐个求值直至找到一个真值（请参阅 <a class="reference internal" href="expressions.html#booleans"><span class="std std-ref">布尔运算</span></a> 了解真值与假值的定义）在子句体中选择唯一匹配的一个；然后执行该子句体（而且 <a class="reference internal" href="#if"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code></a> 语句的其他部分不会被执行或求值）。 如果所有表达式均为假值，则如果 <a class="reference internal" href="#else"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code></a> 子句体如果存在就会被执行。</p>
+</section>
+<section id="the-while-statement">
+<span id="while"></span><h2><span class="section-number">8.2. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">while</span></code> 语句<a class="headerlink" href="#the-while-statement" title="永久链接至标题">¶</a></h2>
+<p id="index-4"><a class="reference internal" href="#while"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">while</span></code></a> 语句用于在表达式保持为真的情况下重复地执行:</p>
+<pre>
+<strong id="grammar-token-python-grammar-while_stmt"><span id="grammar-token-while-stmt"></span>while_stmt</strong> ::=  &quot;while&quot; <a class="reference internal" href="expressions.html#grammar-token-python-grammar-assignment_expression"><code class="xref docutils literal notranslate"><span class="pre">assignment_expression</span></code></a> &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+                [&quot;else&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>]
+</pre>
+<p>这将重复地检验表达式，并且如果其值为真就执行第一个子句体；如果表达式值为假（这可能在第一次检验时就发生）则如果 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code> 子句体存在就会被执行并终止循环。</p>
+<p id="index-5">第一个子句体中的 <a class="reference internal" href="simple_stmts.html#break"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">break</span></code></a> 语句在执行时将终止循环且不执行 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code> 子句体。 第一个子句体中的 <a class="reference internal" href="simple_stmts.html#continue"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">continue</span></code></a> 语句在执行时将跳过子句体中的剩余部分并返回检验表达式。</p>
+</section>
+<section id="the-for-statement">
+<span id="for"></span><h2><span class="section-number">8.3. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code> 语句<a class="headerlink" href="#the-for-statement" title="永久链接至标题">¶</a></h2>
+<p id="index-6"><a class="reference internal" href="#for"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code></a> 语句用于对序列（例如字符串、元组或列表）或其他可迭代对象中的元素进行迭代:</p>
+<pre>
+<strong id="grammar-token-python-grammar-for_stmt"><span id="grammar-token-for-stmt"></span>for_stmt</strong> ::=  &quot;for&quot; <a class="reference internal" href="simple_stmts.html#grammar-token-python-grammar-target_list"><code class="xref docutils literal notranslate"><span class="pre">target_list</span></code></a> &quot;in&quot; <a class="reference internal" href="expressions.html#grammar-token-python-grammar-starred_list"><code class="xref docutils literal notranslate"><span class="pre">starred_list</span></code></a> &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+              [&quot;else&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>]
+</pre>
+<p>The <code class="docutils literal notranslate"><span class="pre">starred_list</span></code> expression is evaluated once; it should yield an
+<a class="reference internal" href="../glossary.html#term-iterable"><span class="xref std std-term">iterable</span></a> object.  An <a class="reference internal" href="../glossary.html#term-iterator"><span class="xref std std-term">iterator</span></a> is created for that iterable.
+The first item provided
+by the iterator is then assigned to the target list using the standard
+rules for assignments (see <a class="reference internal" href="simple_stmts.html#assignment"><span class="std std-ref">赋值语句</span></a>), and the suite is executed.  This
+repeats for each item provided by the iterator.  When the iterator is exhausted,
+the suite in the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code> clause,
+if present, is executed, and the loop terminates.</p>
+<p id="index-7">第一个子句体中的 <a class="reference internal" href="simple_stmts.html#break"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">break</span></code></a> 语句在执行时将终止循环且不执行 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code> 子句体。 第一个子句体中的 <a class="reference internal" href="simple_stmts.html#continue"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">continue</span></code></a> 语句在执行时将跳过子句体中的剩余部分并转往下一项继续执行，或者在没有下一项时转往 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code> 子句执行。</p>
+<p>for 循环会对目标列表中的变量进行赋值。 这将覆盖之前对这些变量的所有赋值，包括在 for 循环体中的赋值:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">5</span>             <span class="c1"># this will not affect the for-loop</span>
+                      <span class="c1"># because i will be overwritten with the next</span>
+                      <span class="c1"># index in the range</span>
+</pre></div>
+</div>
+<p id="index-8">目标列表中的名称在循环结束时不会被删除，但如果序列为空，则它们根本不会被循环所赋值。 提示：内置函数 <a class="reference internal" href="../library/stdtypes.html#range" title="range"><code class="xref py py-func docutils literal notranslate"><span class="pre">range()</span></code></a> 会返回一个可迭代的整数序列，适用于模拟 Pascal 中的 <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">:=</span> <span class="pre">a</span> <span class="pre">to</span> <span class="pre">b</span> <span class="pre">do</span></code> 这种效果；例如 <code class="docutils literal notranslate"><span class="pre">list(range(3))</span></code> 会返回列表 <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2]</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>Starred elements are now allowed in the expression list.</p>
+</div>
+</section>
+<section id="the-try-statement">
+<span id="try"></span><h2><span class="section-number">8.4. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code> 语句<a class="headerlink" href="#the-try-statement" title="永久链接至标题">¶</a></h2>
+<p id="index-9">The <code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code> statement specifies exception handlers and/or cleanup code
+for a group of statements:</p>
+<pre>
+<strong id="grammar-token-python-grammar-try_stmt"><span id="grammar-token-try-stmt"></span>try_stmt </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-try1_stmt"><code class="xref docutils literal notranslate"><span class="pre">try1_stmt</span></code></a> | <a class="reference internal" href="#grammar-token-python-grammar-try2_stmt"><code class="xref docutils literal notranslate"><span class="pre">try2_stmt</span></code></a> | <a class="reference internal" href="#grammar-token-python-grammar-try3_stmt"><code class="xref docutils literal notranslate"><span class="pre">try3_stmt</span></code></a>
+<strong id="grammar-token-python-grammar-try1_stmt"><span id="grammar-token-try1-stmt"></span>try1_stmt</strong> ::=  &quot;try&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+               (&quot;except&quot; [<a class="reference internal" href="expressions.html#grammar-token-python-grammar-expression"><code class="xref docutils literal notranslate"><span class="pre">expression</span></code></a> [&quot;as&quot; <a class="reference internal" href="lexical_analysis.html#grammar-token-python-grammar-identifier"><code class="xref docutils literal notranslate"><span class="pre">identifier</span></code></a>]] &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>)+
+               [&quot;else&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>]
+               [&quot;finally&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>]
+<strong id="grammar-token-python-grammar-try2_stmt"><span id="grammar-token-try2-stmt"></span>try2_stmt</strong> ::=  &quot;try&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+               (&quot;except&quot; &quot;*&quot; <a class="reference internal" href="expressions.html#grammar-token-python-grammar-expression"><code class="xref docutils literal notranslate"><span class="pre">expression</span></code></a> [&quot;as&quot; <a class="reference internal" href="lexical_analysis.html#grammar-token-python-grammar-identifier"><code class="xref docutils literal notranslate"><span class="pre">identifier</span></code></a>] &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>)+
+               [&quot;else&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>]
+               [&quot;finally&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>]
+<strong id="grammar-token-python-grammar-try3_stmt"><span id="grammar-token-try3-stmt"></span>try3_stmt</strong> ::=  &quot;try&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+               &quot;finally&quot; &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+</pre>
+<p>有关异常的更多信息可以在 <a class="reference internal" href="executionmodel.html#exceptions"><span class="std std-ref">异常</span></a> 一节找到，有关使用 <a class="reference internal" href="simple_stmts.html#raise"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">raise</span></code></a> 语句生成异常的信息可以在 <a class="reference internal" href="simple_stmts.html#raise"><span class="std std-ref">raise 语句</span></a> 一节找到。</p>
+<section id="except-clause">
+<span id="except"></span><h3><span class="section-number">8.4.1. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause<a class="headerlink" href="#except-clause" title="永久链接至标题">¶</a></h3>
+<p>The <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause(s) specify one or more exception handlers. When no
+exception occurs in the <a class="reference internal" href="#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a> clause, no exception handler is executed.
+When an exception occurs in the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code> suite, a search for an exception
+handler is started. This search inspects the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clauses in turn
+until one is found that matches the exception.
+An expression-less <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause, if present, must be last;
+it matches any exception.
+For an <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause with an expression,
+that expression is evaluated, and the clause matches the exception
+if the resulting object is &quot;compatible&quot; with the exception.  An object is
+compatible with an exception if the object is the class or a
+<a class="reference internal" href="../glossary.html#term-abstract-base-class"><span class="xref std std-term">non-virtual base class</span></a> of the exception object,
+or a tuple containing an item that is the class or a non-virtual base class
+of the exception object.</p>
+<p>If no <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause matches the exception,
+the search for an exception handler
+continues in the surrounding code and on the invocation stack.  <a class="footnote-reference brackets" href="#id17" id="id1">1</a></p>
+<p>If the evaluation of an expression
+in the header of an <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause raises an exception,
+the original search for a handler is canceled and a search starts for
+the new exception in the surrounding code and on the call stack (it is treated
+as if the entire <a class="reference internal" href="#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a> statement raised the exception).</p>
+<p id="index-10">When a matching <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause is found,
+the exception is assigned to the target
+specified after the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">as</span></code> keyword in that <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause,
+if present, and the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause's suite is executed.
+All <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clauses must have an executable block.
+When the end of this block is reached, execution continues
+normally after the entire <a class="reference internal" href="#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a> statement.
+(This means that if two nested handlers exist for the same exception,
+and the exception occurs in the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code> clause of the inner handler,
+the outer handler will not handle the exception.)</p>
+<p>When an exception has been assigned using <code class="docutils literal notranslate"><span class="pre">as</span> <span class="pre">target</span></code>, it is cleared at the
+end of the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause.  This is as if</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">except</span> <span class="n">E</span> <span class="k">as</span> <span class="n">N</span><span class="p">:</span>
+    <span class="n">foo</span>
+</pre></div>
+</div>
+<p>被转写为</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">except</span> <span class="n">E</span> <span class="k">as</span> <span class="n">N</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">foo</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">N</span>
+</pre></div>
+</div>
+<p>This means the exception must be assigned to a different name to be able to
+refer to it after the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause.
+Exceptions are cleared because with the
+traceback attached to them, they form a reference cycle with the stack frame,
+keeping all locals in that frame alive until the next garbage collection occurs.</p>
+<p id="index-11">Before an <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause's suite is executed,
+details about the exception are
+stored in the <a class="reference internal" href="../library/sys.html#module-sys" title="sys: Access system-specific parameters and functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code></a> module and can be accessed via <a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exc_info()</span></code></a>.
+<a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exc_info()</span></code></a> returns a 3-tuple consisting of the exception class, the
+exception instance and a traceback object (see section <a class="reference internal" href="datamodel.html#types"><span class="std std-ref">标准类型层级结构</span></a>) identifying
+the point in the program where the exception occurred.  The details about the
+exception accessed via <a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exc_info()</span></code></a> are restored to their previous values
+when leaving an exception handler:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">())</span>
+<span class="go">(None, None, None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">raise</span> <span class="ne">TypeError</span>
+<span class="gp">... </span><span class="k">except</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">())</span>
+<span class="gp">... </span>    <span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>         <span class="k">raise</span> <span class="ne">ValueError</span>
+<span class="gp">... </span>    <span class="k">except</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">())</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">())</span>
+<span class="gp">...</span>
+<span class="go">(&lt;class &#39;TypeError&#39;&gt;, TypeError(), &lt;traceback object at 0x10efad080&gt;)</span>
+<span class="go">(&lt;class &#39;ValueError&#39;&gt;, ValueError(), &lt;traceback object at 0x10efad040&gt;)</span>
+<span class="go">(&lt;class &#39;TypeError&#39;&gt;, TypeError(), &lt;traceback object at 0x10efad080&gt;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">())</span>
+<span class="go">(None, None, None)</span>
+</pre></div>
+</div>
+</section>
+<section id="except-star">
+<span id="index-12"></span><span id="id2"></span><h3><span class="section-number">8.4.2. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code> clause<a class="headerlink" href="#except-star" title="永久链接至标题">¶</a></h3>
+<p>The <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code> clause(s) are used for handling
+<a class="reference internal" href="../library/exceptions.html#ExceptionGroup" title="ExceptionGroup"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ExceptionGroup</span></code></a>s. The exception type for matching is interpreted as in
+the case of <a class="reference internal" href="#except"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code></a>, but in the case of exception groups we can have
+partial matches when the type matches some of the exceptions in the group.
+This means that multiple <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code> clauses can execute,
+each handling part of the exception group.
+Each clause executes at most once and handles an exception group
+of all matching exceptions.  Each exception in the group is handled by at most
+one <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code> clause, the first that matches it.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">raise</span> <span class="n">ExceptionGroup</span><span class="p">(</span><span class="s2">&quot;eg&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="p">[</span><span class="ne">ValueError</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="ne">TypeError</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="ne">OSError</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="ne">OSError</span><span class="p">(</span><span class="mi">4</span><span class="p">)])</span>
+<span class="gp">... </span><span class="k">except</span><span class="o">*</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;caught </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s1"> with nested </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">exceptions</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">except</span><span class="o">*</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;caught </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s1"> with nested </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">exceptions</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">caught &lt;class &#39;ExceptionGroup&#39;&gt; with nested (TypeError(2),)</span>
+<span class="go">caught &lt;class &#39;ExceptionGroup&#39;&gt; with nested (OSError(3), OSError(4))</span>
+<span class="go">  + Exception Group Traceback (most recent call last):</span>
+<span class="go">  |   File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;</span>
+<span class="go">  | ExceptionGroup: eg</span>
+<span class="go">  +-+---------------- 1 ----------------</span>
+<span class="go">    | ValueError: 1</span>
+<span class="go">    +------------------------------------</span>
+</pre></div>
+</div>
+<p>Any remaining exceptions that were not handled by any <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code>
+clause are re-raised at the end, combined into an exception group along with
+all exceptions that were raised from within <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code> clauses.</p>
+<p>If the raised exception is not an exception group and its type matches
+one of the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code> clauses, it is caught and wrapped by an
+exception group with an empty message string.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">raise</span> <span class="ne">BlockingIOError</span>
+<span class="gp">... </span><span class="k">except</span><span class="o">*</span> <span class="ne">BlockingIOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">ExceptionGroup(&#39;&#39;, (BlockingIOError()))</span>
+</pre></div>
+</div>
+<p>An <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code> clause must have a matching type,
+and this type cannot be a subclass of <a class="reference internal" href="../library/exceptions.html#BaseExceptionGroup" title="BaseExceptionGroup"><code class="xref py py-exc docutils literal notranslate"><span class="pre">BaseExceptionGroup</span></code></a>.
+It is not possible to mix <a class="reference internal" href="#except"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code></a> and <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code>
+in the same <a class="reference internal" href="#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a>.
+<a class="reference internal" href="simple_stmts.html#break"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">break</span></code></a>, <a class="reference internal" href="simple_stmts.html#continue"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">continue</span></code></a> and <a class="reference internal" href="simple_stmts.html#return"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">return</span></code></a>
+cannot appear in an <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code> clause.</p>
+</section>
+<section id="else-clause">
+<span id="except-else"></span><span id="index-13"></span><h3><span class="section-number">8.4.3. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code> clause<a class="headerlink" href="#else-clause" title="永久链接至标题">¶</a></h3>
+<p>如果控制流离开 <a class="reference internal" href="#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a> 子句体时没有引发异常，并且没有执行 <a class="reference internal" href="simple_stmts.html#return"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">return</span></code></a>, <a class="reference internal" href="simple_stmts.html#continue"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">continue</span></code></a> 或 <a class="reference internal" href="simple_stmts.html#break"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">break</span></code></a> 语句，可选的 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code> 子句将被执行。  <code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code> 语句中的异常不会由之前的 <a class="reference internal" href="#except"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code></a> 子句处理。</p>
+</section>
+<section id="finally-clause">
+<span id="finally"></span><span id="index-14"></span><h3><span class="section-number">8.4.4. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause<a class="headerlink" href="#finally-clause" title="永久链接至标题">¶</a></h3>
+<p>If <code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> is present, it specifies a 'cleanup' handler.  The
+<a class="reference internal" href="#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a> clause is executed, including any <a class="reference internal" href="#except"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code></a> and
+<a class="reference internal" href="#else"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code></a> clauses.  If an exception occurs in any of the clauses and is
+not handled, the exception is temporarily saved. The <code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause
+is executed.  If there is a saved exception it is re-raised at the end of the
+<code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause.  If the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause raises another
+exception, the saved exception is set as the context of the new exception.
+If the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause executes a <a class="reference internal" href="simple_stmts.html#return"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">return</span></code></a>, <a class="reference internal" href="simple_stmts.html#break"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">break</span></code></a>
+or <a class="reference internal" href="simple_stmts.html#continue"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">continue</span></code></a> statement, the saved exception is discarded:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="mi">1</span><span class="o">/</span><span class="mi">0</span>
+<span class="gp">... </span>    <span class="k">finally</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="mi">42</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">()</span>
+<span class="go">42</span>
+</pre></div>
+</div>
+<p>The exception information is not available to the program during execution of
+the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause.</p>
+<p id="index-15">When a <a class="reference internal" href="simple_stmts.html#return"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">return</span></code></a>, <a class="reference internal" href="simple_stmts.html#break"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">break</span></code></a> or <a class="reference internal" href="simple_stmts.html#continue"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">continue</span></code></a> statement is
+executed in the <a class="reference internal" href="#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a> suite of a <code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code>...<code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code>
+statement, the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause is also executed 'on the way out.'</p>
+<p>The return value of a function is determined by the last <a class="reference internal" href="simple_stmts.html#return"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">return</span></code></a>
+statement executed.  Since the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause always executes, a
+<code class="xref std std-keyword docutils literal notranslate"><span class="pre">return</span></code> statement executed in the <code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause will
+always be the last one executed:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="s1">&#39;try&#39;</span>
+<span class="gp">... </span>    <span class="k">finally</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="s1">&#39;finally&#39;</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">()</span>
+<span class="go">&#39;finally&#39;</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>Prior to Python 3.8, a <a class="reference internal" href="simple_stmts.html#continue"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">continue</span></code></a> statement was illegal in the
+<code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause due to a problem with the implementation.</p>
+</div>
+</section>
+</section>
+<section id="the-with-statement">
+<span id="as"></span><span id="with"></span><h2><span class="section-number">8.5. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code> 语句<a class="headerlink" href="#the-with-statement" title="永久链接至标题">¶</a></h2>
+<p id="index-16"><a class="reference internal" href="#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句用于包装带有使用上下文管理器 (参见 <a class="reference internal" href="datamodel.html#context-managers"><span class="std std-ref">with 语句上下文管理器</span></a> 一节) 定义的方法的代码块的执行。 这允许对普通的 <a class="reference internal" href="#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a>...<a class="reference internal" href="#except"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code></a>...<a class="reference internal" href="#finally"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code></a> 使用模式进行封装以方便地重用。</p>
+<pre>
+<strong id="grammar-token-python-grammar-with_stmt"><span id="grammar-token-with-stmt"></span>with_stmt         </strong> ::=  &quot;with&quot; ( &quot;(&quot; <a class="reference internal" href="#grammar-token-python-grammar-with_stmt_contents"><code class="xref docutils literal notranslate"><span class="pre">with_stmt_contents</span></code></a> &quot;,&quot;? &quot;)&quot; | <a class="reference internal" href="#grammar-token-python-grammar-with_stmt_contents"><code class="xref docutils literal notranslate"><span class="pre">with_stmt_contents</span></code></a> ) &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+<strong id="grammar-token-python-grammar-with_stmt_contents"><span id="grammar-token-with-stmt-contents"></span>with_stmt_contents</strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-with_item"><code class="xref docutils literal notranslate"><span class="pre">with_item</span></code></a> (&quot;,&quot; <a class="reference internal" href="#grammar-token-python-grammar-with_item"><code class="xref docutils literal notranslate"><span class="pre">with_item</span></code></a>)*
+<strong id="grammar-token-python-grammar-with_item"><span id="grammar-token-with-item"></span>with_item         </strong> ::=  <a class="reference internal" href="expressions.html#grammar-token-python-grammar-expression"><code class="xref docutils literal notranslate"><span class="pre">expression</span></code></a> [&quot;as&quot; <a class="reference internal" href="simple_stmts.html#grammar-token-python-grammar-target"><code class="xref docutils literal notranslate"><span class="pre">target</span></code></a>]
+</pre>
+<p>带有一个“项目”的 <a class="reference internal" href="#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句的执行过程如下:</p>
+<ol class="arabic">
+<li><p>对上下文表达式（在 <a class="reference internal" href="#grammar-token-python-grammar-with_item"><code class="xref std std-token docutils literal notranslate"><span class="pre">with_item</span></code></a> 中给出的表达式）进行求值来获得上下文管理器。</p></li>
+<li><p>载入上下文管理器的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__enter__()</span></code> 以便后续使用。</p></li>
+<li><p>载入上下文管理器的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__exit__()</span></code> 以便后续使用。</p></li>
+<li><p>发起调用上下文管理器的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__enter__()</span></code> 方法。</p></li>
+<li><p>如果 <a class="reference internal" href="#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句中包含一个目标，来自 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__enter__()</span></code> 的返回值将被赋值给它。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><a class="reference internal" href="#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句会保证如果 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__enter__()</span></code> 方法返回时未发生错误，则 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__exit__()</span></code> 将总是被调用。 因此，如果在对目标列表赋值期间发生错误，则会将其视为在语句体内部发生的错误。 参见下面的第 6 步。</p>
+</div>
+</li>
+<li><p>执行语句体。</p></li>
+<li><p>发起调用上下文管理器的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__exit__()</span></code> 方法。 如果语句体的退出是由异常导致的，则其类型、值和回溯信息将被作为参数传递给 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__exit__()</span></code>。 否则的话，将提供三个 <a class="reference internal" href="../library/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a> 参数。</p>
+<p>如果语句体的退出是由异常导致的，并且来自 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__exit__()</span></code> 方法的返回值为假，则该异常会被重新引发。 如果返回值为真，则该异常会被抑制，并会继续执行 <a class="reference internal" href="#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句之后的语句。</p>
+<p>如果语句体由于异常以外的任何原因退出，则来自 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__exit__()</span></code> 的返回值会被忽略，并会在该类退出正常的发生位置继续执行。</p>
+</li>
+</ol>
+<p>以下代码:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">EXPRESSION</span> <span class="k">as</span> <span class="n">TARGET</span><span class="p">:</span>
+    <span class="n">SUITE</span>
+</pre></div>
+</div>
+<p>在语义上等价于:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">manager</span> <span class="o">=</span> <span class="p">(</span><span class="n">EXPRESSION</span><span class="p">)</span>
+<span class="n">enter</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">manager</span><span class="p">)</span><span class="o">.</span><span class="fm">__enter__</span>
+<span class="n">exit</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">manager</span><span class="p">)</span><span class="o">.</span><span class="fm">__exit__</span>
+<span class="n">value</span> <span class="o">=</span> <span class="n">enter</span><span class="p">(</span><span class="n">manager</span><span class="p">)</span>
+<span class="n">hit_except</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">TARGET</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">SUITE</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">hit_except</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exit</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()):</span>
+        <span class="k">raise</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hit_except</span><span class="p">:</span>
+        <span class="n">exit</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果有多个项目，则会视作存在多个 <a class="reference internal" href="#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句嵌套来处理多个上下文管理器:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">A</span><span class="p">()</span> <span class="k">as</span> <span class="n">a</span><span class="p">,</span> <span class="n">B</span><span class="p">()</span> <span class="k">as</span> <span class="n">b</span><span class="p">:</span>
+    <span class="n">SUITE</span>
+</pre></div>
+</div>
+<p>在语义上等价于:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">A</span><span class="p">()</span> <span class="k">as</span> <span class="n">a</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">B</span><span class="p">()</span> <span class="k">as</span> <span class="n">b</span><span class="p">:</span>
+        <span class="n">SUITE</span>
+</pre></div>
+</div>
+<p>也可以用圆括号包围的多行形式的多项目上下文管理器。例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="p">(</span>
+    <span class="n">A</span><span class="p">()</span> <span class="k">as</span> <span class="n">a</span><span class="p">,</span>
+    <span class="n">B</span><span class="p">()</span> <span class="k">as</span> <span class="n">b</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">SUITE</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.1 版更改: </span>支持多个上下文表达式。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>Support for using grouping parentheses to break the statement in multiple lines.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><span class="target" id="index-68"></span><a class="pep reference external" href="https://peps.python.org/pep-0343/"><strong>PEP 343</strong></a> - &quot;with&quot; 语句</dt><dd><p>Python <a class="reference internal" href="#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句的规范描述、背景和示例。</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="the-match-statement">
+<span id="match"></span><h2><span class="section-number">8.6. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">match</span></code> 语句<a class="headerlink" href="#the-match-statement" title="永久链接至标题">¶</a></h2>
+<div class="versionadded" id="index-18">
+<p><span class="versionmodified added">3.10 新版功能.</span></p>
+</div>
+<p>匹配语句用于进行模式匹配。语法如下：</p>
+<pre>
+<strong id="grammar-token-python-grammar-match_stmt"><span id="grammar-token-match-stmt"></span>match_stmt  </strong> ::=  'match' <a class="reference internal" href="#grammar-token-python-grammar-subject_expr"><code class="xref docutils literal notranslate"><span class="pre">subject_expr</span></code></a> &quot;:&quot; NEWLINE INDENT <a class="reference internal" href="#grammar-token-python-grammar-case_block"><code class="xref docutils literal notranslate"><span class="pre">case_block</span></code></a>+ DEDENT
+<strong id="grammar-token-python-grammar-subject_expr"><span id="grammar-token-subject-expr"></span>subject_expr</strong> ::=  <code class="xref docutils literal notranslate"><span class="pre">star_named_expression</span></code> &quot;,&quot; <code class="xref docutils literal notranslate"><span class="pre">star_named_expressions</span></code>?
+                  | <code class="xref docutils literal notranslate"><span class="pre">named_expression</span></code>
+<strong id="grammar-token-python-grammar-case_block"><span id="grammar-token-case-block"></span>case_block  </strong> ::=  'case' <a class="reference internal" href="#grammar-token-python-grammar-patterns"><code class="xref docutils literal notranslate"><span class="pre">patterns</span></code></a> [<a class="reference internal" href="#grammar-token-python-grammar-guard"><code class="xref docutils literal notranslate"><span class="pre">guard</span></code></a>] &quot;:&quot; <code class="xref docutils literal notranslate"><span class="pre">block</span></code>
+</pre>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>本节使用单引号来表示 <a class="reference internal" href="lexical_analysis.html#soft-keywords"><span class="std std-ref">软关键字</span></a>。</p>
+</div>
+<p>模式匹配接受一个模式作为输入（跟在 <code class="docutils literal notranslate"><span class="pre">case</span></code> 后），一个目标值（跟在 <code class="docutils literal notranslate"><span class="pre">match</span></code> 后）。该模式（可能包含子模式）将与目标值进行匹配。输出是：</p>
+<ul class="simple">
+<li><p>匹配成功或失败（也被称为模式成功或失败）。</p></li>
+<li><p>可能将匹配的值绑定到一个名字上。 这方面的先决条件将在下面进一步讨论。</p></li>
+</ul>
+<p>关键字 <code class="docutils literal notranslate"><span class="pre">match</span></code> 和 <code class="docutils literal notranslate"><span class="pre">case</span></code> 是 <a class="reference internal" href="lexical_analysis.html#soft-keywords"><span class="std std-ref">soft keywords</span></a> 。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<ul class="simple">
+<li><p><span class="target" id="index-69"></span><a class="pep reference external" href="https://peps.python.org/pep-0634/"><strong>PEP 634</strong></a> —— 结构化模式匹配：规范</p></li>
+<li><p><span class="target" id="index-70"></span><a class="pep reference external" href="https://peps.python.org/pep-0636/"><strong>PEP 636</strong></a> —— 结构化模式匹配：教程</p></li>
+</ul>
+</div>
+<section id="overview">
+<h3><span class="section-number">8.6.1. </span>概述<a class="headerlink" href="#overview" title="永久链接至标题">¶</a></h3>
+<p>匹配语句逻辑流程的概述如下：</p>
+<ol class="arabic">
+<li><p>对目标表达式 <code class="docutils literal notranslate"><span class="pre">subject_expr</span></code> 求值后将结果作为匹配用的目标值。 如果目标表达式包含逗号，则使用 <a class="reference internal" href="../library/stdtypes.html#typesseq-tuple"><span class="std std-ref">the standard rules</span></a> 构建一个元组。</p></li>
+<li><p>目标值将依次与 <code class="docutils literal notranslate"><span class="pre">case_block</span></code> 中的每个模式进行匹配。匹配成功或失败的具体规则在下面描述。匹配尝试也可以与模式中的一些或所有的独立名称绑定。准确的模式绑定规则因模式类型而异，具体规定见下文。<strong>成功的模式匹配过程中产生的名称绑定将超越所执行的块的范围，可以在匹配语句之后使用</strong>。</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>在模式匹配失败时，一些子模式可能会成功。 不要依赖于失败匹配进行的绑定。 反过来说，不要认为变量在匹配失败后保持不变。 确切的行为取决于实现，可能会有所不同。 这是一个有意的决定，允许不同的实现添加优化。</p>
+</div>
+</div></blockquote>
+</li>
+<li><p>如果该模式匹配成功，并且完成了对相应的约束项（如果存在）的求值。在这种情况下，保证完成所有的名称绑定。</p>
+<ul class="simple">
+<li><p>如果约束项求值为真或缺失，执行 <code class="docutils literal notranslate"><span class="pre">case_block</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">block</span></code> 。</p></li>
+<li><p>否则，将按照上述方法尝试下一个 <code class="docutils literal notranslate"><span class="pre">case_block</span></code> 。</p></li>
+<li><p>如果没有进一步的 case 块，匹配语句终止。</p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>用户一般不应依赖正在求值的模式。 根据不同的实现方式，解释器可能会缓存数值或使用其他优化方法来避免重复求值。</p>
+</div>
+<p>匹配语句示例:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">match</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">case</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">300</span><span class="p">):</span>  <span class="c1"># Mismatch: 200 != 300</span>
+<span class="gp">... </span>       <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Case 1&#39;</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="k">case</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span> <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>  <span class="c1"># Successful match, but guard fails</span>
+<span class="gp">... </span>       <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Case 2&#39;</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="k">case</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c1"># Matches and binds y to 200</span>
+<span class="gp">... </span>       <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Case 3, y: </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="k">case</span> <span class="k">_</span><span class="p">:</span>  <span class="c1"># Pattern not attempted</span>
+<span class="gp">... </span>       <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Case 4, I match anything!&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">Case 3, y: 200</span>
+</pre></div>
+</div>
+<p>在这个示例中，<code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">flag</span></code> 是约束项。请阅读下一节以了解更多相关内容。</p>
+</section>
+<section id="guards">
+<h3><span class="section-number">8.6.2. </span>约束项<a class="headerlink" href="#guards" title="永久链接至标题">¶</a></h3>
+<pre id="index-21">
+<strong id="grammar-token-python-grammar-guard"><span id="grammar-token-guard"></span>guard</strong> ::=  &quot;if&quot; <code class="xref docutils literal notranslate"><span class="pre">named_expression</span></code>
+</pre>
+<p><code class="docutils literal notranslate"><span class="pre">guard</span></code> (它是 <code class="docutils literal notranslate"><span class="pre">case</span></code> 的一部分) 必须成立才能让 <code class="docutils literal notranslate"><span class="pre">case</span></code> 语句块中的代码被执行。 它所采用的形式为: <a class="reference internal" href="#if"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code></a> 之后跟一个表达式。</p>
+<p>拥有 <code class="docutils literal notranslate"><span class="pre">guard</span></code> 的 <code class="docutils literal notranslate"><span class="pre">case</span></code> 块的逻辑流程如下：</p>
+<ol class="arabic simple">
+<li><p>检查 <code class="docutils literal notranslate"><span class="pre">case</span></code> 块中的模式是否匹配成功。如果该模式匹配失败，则不对 <code class="docutils literal notranslate"><span class="pre">guard</span></code> 进行求值，检查下一个 <code class="docutils literal notranslate"><span class="pre">case</span></code> 块。</p></li>
+<li><p>如果该模式匹配成功，对 <code class="docutils literal notranslate"><span class="pre">guard</span></code> 求值。</p>
+<ul class="simple">
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">guard</span></code> 求值为真，则选用该 case 块。</p></li>
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">guard</span></code> 求值为假，则不选用该 case 块。</p></li>
+<li><p>如果在对 <code class="docutils literal notranslate"><span class="pre">guard</span></code> 求值过程中引发了异常，则异常将被抛出。</p></li>
+</ul>
+</li>
+</ol>
+<p>允许约束项产生副作用，因为他们是表达式。约束项求值必须从第一个 case 块到最后一个 case 块依次逐个进行，模式匹配失败的 case 块将被跳过。（也就是说，约束项求值必须按顺序进行。）一旦选用了一个 case 块，约束项求值必须由此终止。</p>
+</section>
+<section id="irrefutable-case-blocks">
+<span id="irrefutable-case"></span><h3><span class="section-number">8.6.3. </span>必定匹配的 case 块<a class="headerlink" href="#irrefutable-case-blocks" title="永久链接至标题">¶</a></h3>
+<p id="index-22">必定匹配的 case 块是能匹配所有情况的 case 块。一个匹配语句最多可以有一个必定匹配的 case 块，而且必须是最后一个。</p>
+<p>如果一个 case 块没有约束项，并且其模式是必定匹配的，那么它就被认为是必定匹配的。 如果我们可以仅从语法上证明一个模式总是能匹配成功，那么这个模式就被认为是必定匹配的。 只有以下模式是必定匹配的：</p>
+<ul class="simple">
+<li><p>左侧模式是必定匹配的 <a class="reference internal" href="#as-patterns"><span class="std std-ref">AS 模式</span></a></p></li>
+<li><p>包含至少一个必定匹配模式的 <a class="reference internal" href="#or-patterns"><span class="std std-ref">或模式</span></a></p></li>
+<li><p><a class="reference internal" href="#capture-patterns"><span class="std std-ref">捕获模式</span></a></p></li>
+<li><p><a class="reference internal" href="#wildcard-patterns"><span class="std std-ref">通配符模式</span></a></p></li>
+<li><p>括号内的必定匹配模式</p></li>
+</ul>
+</section>
+<section id="patterns">
+<h3><span class="section-number">8.6.4. </span>模式<a class="headerlink" href="#patterns" title="永久链接至标题">¶</a></h3>
+<div class="admonition note" id="index-23">
+<p class="admonition-title">备注</p>
+<p>本节使用了超出标准 EBNF 的语法符号。</p>
+<ul class="simple">
+<li><p>符号 <code class="docutils literal notranslate"><span class="pre">SEP.RULE+</span></code> 是 <code class="docutils literal notranslate"><span class="pre">RULE</span> <span class="pre">(SEP</span> <span class="pre">RULE)*</span></code> 的简写</p></li>
+<li><p>符号 <code class="docutils literal notranslate"><span class="pre">!RULE</span></code> 是前向否定断言的简写</p></li>
+</ul>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">patterns</span></code> 的顶层语法是：</p>
+<pre>
+<strong id="grammar-token-python-grammar-patterns"><span id="grammar-token-patterns"></span>patterns      </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-open_sequence_pattern"><code class="xref docutils literal notranslate"><span class="pre">open_sequence_pattern</span></code></a> | <a class="reference internal" href="#grammar-token-python-grammar-pattern"><code class="xref docutils literal notranslate"><span class="pre">pattern</span></code></a>
+<strong id="grammar-token-python-grammar-pattern"><span id="grammar-token-pattern"></span>pattern       </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-as_pattern"><code class="xref docutils literal notranslate"><span class="pre">as_pattern</span></code></a> | <a class="reference internal" href="#grammar-token-python-grammar-or_pattern"><code class="xref docutils literal notranslate"><span class="pre">or_pattern</span></code></a>
+<strong id="grammar-token-python-grammar-closed_pattern"><span id="grammar-token-closed-pattern"></span>closed_pattern</strong> ::=  | <a class="reference internal" href="#grammar-token-python-grammar-literal_pattern"><code class="xref docutils literal notranslate"><span class="pre">literal_pattern</span></code></a>
+                    | <a class="reference internal" href="#grammar-token-python-grammar-capture_pattern"><code class="xref docutils literal notranslate"><span class="pre">capture_pattern</span></code></a>
+                    | <a class="reference internal" href="#grammar-token-python-grammar-wildcard_pattern"><code class="xref docutils literal notranslate"><span class="pre">wildcard_pattern</span></code></a>
+                    | <a class="reference internal" href="#grammar-token-python-grammar-value_pattern"><code class="xref docutils literal notranslate"><span class="pre">value_pattern</span></code></a>
+                    | <a class="reference internal" href="#grammar-token-python-grammar-group_pattern"><code class="xref docutils literal notranslate"><span class="pre">group_pattern</span></code></a>
+                    | <a class="reference internal" href="#grammar-token-python-grammar-sequence_pattern"><code class="xref docutils literal notranslate"><span class="pre">sequence_pattern</span></code></a>
+                    | <a class="reference internal" href="#grammar-token-python-grammar-mapping_pattern"><code class="xref docutils literal notranslate"><span class="pre">mapping_pattern</span></code></a>
+                    | <a class="reference internal" href="#grammar-token-python-grammar-class_pattern"><code class="xref docutils literal notranslate"><span class="pre">class_pattern</span></code></a>
+</pre>
+<p>下面的描述将包括一个“简而言之”以描述模式的作用，便于说明问题（感谢 Raymond Hettinger 提供的一份文件，大部分的描述受其启发）。请注意，这些描述纯粹是为了说明问题，<strong>可能不</strong> 反映底层的实现。此外，它们并没有涵盖所有有效的形式。</p>
+<section id="or-patterns">
+<span id="id3"></span><h4><span class="section-number">8.6.4.1. </span>或模式<a class="headerlink" href="#or-patterns" title="永久链接至标题">¶</a></h4>
+<p>或模式是由竖杠 <code class="docutils literal notranslate"><span class="pre">|</span></code> 分隔的两个或更多的模式。语法：</p>
+<pre>
+<strong id="grammar-token-python-grammar-or_pattern"><span id="grammar-token-or-pattern"></span>or_pattern</strong> ::=  &quot;|&quot;.<a class="reference internal" href="#grammar-token-python-grammar-closed_pattern"><code class="xref docutils literal notranslate"><span class="pre">closed_pattern</span></code></a>+
+</pre>
+<p>只有最后的子模式可以是 <a class="reference internal" href="#irrefutable-case"><span class="std std-ref">必定匹配的</span></a>，且每个子模式必须绑定相同的名字集以避免歧义。</p>
+<p>或模式将目标值依次与其每个子模式尝试匹配，直到有一个匹配成功，然后该或模式被视作匹配成功。 否则，如果没有任何子模式匹配成功，则或模式匹配失败。</p>
+<p>简而言之，<code class="docutils literal notranslate"><span class="pre">P1</span> <span class="pre">|</span> <span class="pre">P2</span> <span class="pre">|</span> <span class="pre">...</span></code> 会首先尝试匹配 <code class="docutils literal notranslate"><span class="pre">P1</span></code> ，如果失败将接着尝试匹配 <code class="docutils literal notranslate"><span class="pre">P2</span></code> ，如果出现成功的匹配则立即结束且模式匹配成功，否则模式匹配失败。</p>
+</section>
+<section id="as-patterns">
+<span id="id4"></span><h4><span class="section-number">8.6.4.2. </span>AS 模式<a class="headerlink" href="#as-patterns" title="永久链接至标题">¶</a></h4>
+<p>AS 模式将关键字 <a class="reference internal" href="#as"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">as</span></code></a> 左侧的或模式与目标值进行匹配。语法：</p>
+<pre>
+<strong id="grammar-token-python-grammar-as_pattern"><span id="grammar-token-as-pattern"></span>as_pattern</strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-or_pattern"><code class="xref docutils literal notranslate"><span class="pre">or_pattern</span></code></a> &quot;as&quot; <a class="reference internal" href="#grammar-token-python-grammar-capture_pattern"><code class="xref docutils literal notranslate"><span class="pre">capture_pattern</span></code></a>
+</pre>
+<p>如果或模式匹配失败，AS 模式也匹配失败。 否则，AS 模式将目标与关键字 as 右边的名字绑定且匹配陈成功。 <code class="docutils literal notranslate"><span class="pre">capture_pattern</span></code> 不能是 <code class="docutils literal notranslate"><span class="pre">_</span></code> 。</p>
+<p>简而言之， <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">as</span> <span class="pre">NAME</span></code> 将与 <code class="docutils literal notranslate"><span class="pre">P</span></code> 匹配，成功后将设置 <code class="docutils literal notranslate"><span class="pre">NAME</span> <span class="pre">=</span> <span class="pre">&lt;subject&gt;</span></code> 。</p>
+</section>
+<section id="literal-patterns">
+<span id="id5"></span><h4><span class="section-number">8.6.4.3. </span>字面值模式<a class="headerlink" href="#literal-patterns" title="永久链接至标题">¶</a></h4>
+<p>字面值模式对应 Python 中的大多数 <a class="reference internal" href="lexical_analysis.html#literals"><span class="std std-ref">字面值</span></a>。 语法为:</p>
+<pre>
+<strong id="grammar-token-python-grammar-literal_pattern"><span id="grammar-token-literal-pattern"></span>literal_pattern</strong> ::=  <code class="xref docutils literal notranslate"><span class="pre">signed_number</span></code>
+                     | <code class="xref docutils literal notranslate"><span class="pre">signed_number</span></code> &quot;+&quot; NUMBER
+                     | <code class="xref docutils literal notranslate"><span class="pre">signed_number</span></code> &quot;-&quot; NUMBER
+                     | <code class="xref docutils literal notranslate"><span class="pre">strings</span></code>
+                     | &quot;None&quot;
+                     | &quot;True&quot;
+                     | &quot;False&quot;
+                     | <code class="xref docutils literal notranslate"><span class="pre">signed_number</span></code>: NUMBER | &quot;-&quot; NUMBER
+</pre>
+<p>规则 <code class="docutils literal notranslate"><span class="pre">strings</span></code> 和标记 <code class="docutils literal notranslate"><span class="pre">NUMBER</span></code> 是在 <a class="reference internal" href="grammar.html"><span class="doc">standard Python grammar</span></a> 中定义的。支持三引号的字符串。不支持原始字符串和字节字符串。也不支持 <a class="reference internal" href="lexical_analysis.html#f-strings"><span class="std std-ref">格式字符串字面值</span></a> 。</p>
+<p><code class="docutils literal notranslate"><span class="pre">signed_number</span> <span class="pre">'+'</span> <span class="pre">NUMBER</span></code> 和 <code class="docutils literal notranslate"><span class="pre">signed_number</span> <span class="pre">'-'</span> <span class="pre">NUMBER</span></code> 形式是用于表示 <a class="reference internal" href="lexical_analysis.html#imaginary"><span class="std std-ref">复数</span></a>；它们要求左边是一个实数而右边是一个虚数。 例如 <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">+</span> <span class="pre">4j</span></code>。</p>
+<p>简而言之， <code class="docutils literal notranslate"><span class="pre">LITERAL</span></code> 只会在 <code class="docutils literal notranslate"><span class="pre">&lt;subject&gt;</span> <span class="pre">==</span> <span class="pre">LITERAL</span></code> 时匹配成功。对于单例 <code class="docutils literal notranslate"><span class="pre">None</span></code> 、 <code class="docutils literal notranslate"><span class="pre">True</span></code> 和 <code class="docutils literal notranslate"><span class="pre">False</span></code> ，会使用 <a class="reference internal" href="expressions.html#is"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">is</span></code></a> 运算符。</p>
+</section>
+<section id="capture-patterns">
+<span id="id6"></span><h4><span class="section-number">8.6.4.4. </span>捕获模式<a class="headerlink" href="#capture-patterns" title="永久链接至标题">¶</a></h4>
+<p>捕获模式将目标值与一个名称绑定。语法：</p>
+<pre>
+<strong id="grammar-token-python-grammar-capture_pattern"><span id="grammar-token-capture-pattern"></span>capture_pattern</strong> ::=  !'_' NAME
+</pre>
+<p>单独的一个下划线 <code class="docutils literal notranslate"><span class="pre">_</span></code> 不是捕获模式（ <code class="docutils literal notranslate"><span class="pre">!'_'</span></code> 表达的就是这个含义）。 它会被当作 <a class="reference internal" href="#grammar-token-python-grammar-wildcard_pattern"><code class="xref std std-token docutils literal notranslate"><span class="pre">wildcard_pattern</span></code></a> 。</p>
+<p>在给定的模式中，一个名字只能被绑定一次。例如 <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">x,</span> <span class="pre">x:</span> <span class="pre">...</span></code> 时无效的，但 <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">[x]</span> <span class="pre">|</span> <span class="pre">x:</span> <span class="pre">...</span></code> 是被允许的。</p>
+<p>捕获模式总是能匹配成功。绑定遵循 <span class="target" id="index-71"></span><a class="pep reference external" href="https://peps.python.org/pep-0572/"><strong>PEP 572</strong></a> 中赋值表达式运算符设立的作用域规则；名字在最接近的包含函数作用域内成为一个局部变量，除非有适用的 <a class="reference internal" href="simple_stmts.html#global"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">global</span></code></a> 或 <a class="reference internal" href="simple_stmts.html#nonlocal"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">nonlocal</span></code></a> 语句。</p>
+<p>简而言之， <code class="docutils literal notranslate"><span class="pre">NAME</span></code> 总是会匹配成功且将设置 <code class="docutils literal notranslate"><span class="pre">NAME</span> <span class="pre">=</span> <span class="pre">&lt;subject&gt;</span></code> 。</p>
+</section>
+<section id="wildcard-patterns">
+<span id="id7"></span><h4><span class="section-number">8.6.4.5. </span>通配符模式<a class="headerlink" href="#wildcard-patterns" title="永久链接至标题">¶</a></h4>
+<p>通配符模式总是会匹配成功（匹配任何内容）并且不绑定任何名称。语法：</p>
+<pre>
+<strong id="grammar-token-python-grammar-wildcard_pattern"><span id="grammar-token-wildcard-pattern"></span>wildcard_pattern</strong> ::=  '_'
+</pre>
+<p>在且仅在任何模式中 <code class="docutils literal notranslate"><span class="pre">_</span></code> 是一个 <a class="reference internal" href="lexical_analysis.html#soft-keywords"><span class="std std-ref">软关键字</span></a>。 通常情况下它是一个标识符，即使是在 <code class="docutils literal notranslate"><span class="pre">match</span></code> 的目标表达式、<code class="docutils literal notranslate"><span class="pre">guard</span></code> 和 <code class="docutils literal notranslate"><span class="pre">case</span></code> 代码块中也是如此。</p>
+<p>简而言之，<code class="docutils literal notranslate"><span class="pre">_</span></code> 总是会匹配成功。</p>
+</section>
+<section id="value-patterns">
+<span id="id8"></span><h4><span class="section-number">8.6.4.6. </span>值模式<a class="headerlink" href="#value-patterns" title="永久链接至标题">¶</a></h4>
+<p>值模式代表 Python 中具有名称的值。语法：</p>
+<pre>
+<strong id="grammar-token-python-grammar-value_pattern"><span id="grammar-token-value-pattern"></span>value_pattern</strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-attr"><code class="xref docutils literal notranslate"><span class="pre">attr</span></code></a>
+<strong id="grammar-token-python-grammar-attr"><span id="grammar-token-attr"></span>attr         </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-name_or_attr"><code class="xref docutils literal notranslate"><span class="pre">name_or_attr</span></code></a> &quot;.&quot; NAME
+<strong id="grammar-token-python-grammar-name_or_attr"><span id="grammar-token-name-or-attr"></span>name_or_attr </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-attr"><code class="xref docutils literal notranslate"><span class="pre">attr</span></code></a> | NAME
+</pre>
+<p>模式中带点的名称会使用标准的 Python <a class="reference internal" href="executionmodel.html#resolve-names"><span class="std std-ref">名称解析规则</span></a> 来查找。 如果找到的值与目标值比较结果相等则模式匹配成功（使用 <code class="docutils literal notranslate"><span class="pre">==</span></code> 相等运算符）。</p>
+<p>简而言之， <code class="docutils literal notranslate"><span class="pre">NAME1.NAME2</span></code> 仅在 <code class="docutils literal notranslate"><span class="pre">&lt;subject&gt;</span> <span class="pre">==</span> <span class="pre">NAME1.NAME2</span></code> 时匹配成功。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>如果相同的值在同一个匹配语句中出现多次，解释器可能会缓存找到的第一个值并重新使用它，而不是重复查找。 这种缓存与特定匹配语句的执行严格挂钩。</p>
+</div>
+</section>
+<section id="group-patterns">
+<span id="id9"></span><h4><span class="section-number">8.6.4.7. </span>组模式<a class="headerlink" href="#group-patterns" title="永久链接至标题">¶</a></h4>
+<p>组模式允许用户在模式周围添加括号，以强调预期的分组。 除此之外，它没有额外的语法。语法：</p>
+<pre>
+<strong id="grammar-token-python-grammar-group_pattern"><span id="grammar-token-group-pattern"></span>group_pattern</strong> ::=  &quot;(&quot; <a class="reference internal" href="#grammar-token-python-grammar-pattern"><code class="xref docutils literal notranslate"><span class="pre">pattern</span></code></a> &quot;)&quot;
+</pre>
+<p>简单来说 <code class="docutils literal notranslate"><span class="pre">(P)</span></code> 具有与 <code class="docutils literal notranslate"><span class="pre">P</span></code> 相同的效果。</p>
+</section>
+<section id="sequence-patterns">
+<span id="id10"></span><h4><span class="section-number">8.6.4.8. </span>序列模式<a class="headerlink" href="#sequence-patterns" title="永久链接至标题">¶</a></h4>
+<p>一个序列模式包含数个将与序列元素进行匹配的子模式。其语法类似于列表或元组的解包。</p>
+<pre>
+<strong id="grammar-token-python-grammar-sequence_pattern"><span id="grammar-token-sequence-pattern"></span>sequence_pattern      </strong> ::=  &quot;[&quot; [<a class="reference internal" href="#grammar-token-python-grammar-maybe_sequence_pattern"><code class="xref docutils literal notranslate"><span class="pre">maybe_sequence_pattern</span></code></a>] &quot;]&quot;
+                            | &quot;(&quot; [<a class="reference internal" href="#grammar-token-python-grammar-open_sequence_pattern"><code class="xref docutils literal notranslate"><span class="pre">open_sequence_pattern</span></code></a>] &quot;)&quot;
+<strong id="grammar-token-python-grammar-open_sequence_pattern"><span id="grammar-token-open-sequence-pattern"></span>open_sequence_pattern </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-maybe_star_pattern"><code class="xref docutils literal notranslate"><span class="pre">maybe_star_pattern</span></code></a> &quot;,&quot; [<a class="reference internal" href="#grammar-token-python-grammar-maybe_sequence_pattern"><code class="xref docutils literal notranslate"><span class="pre">maybe_sequence_pattern</span></code></a>]
+<strong id="grammar-token-python-grammar-maybe_sequence_pattern"><span id="grammar-token-maybe-sequence-pattern"></span>maybe_sequence_pattern</strong> ::=  &quot;,&quot;.<a class="reference internal" href="#grammar-token-python-grammar-maybe_star_pattern"><code class="xref docutils literal notranslate"><span class="pre">maybe_star_pattern</span></code></a>+ &quot;,&quot;?
+<strong id="grammar-token-python-grammar-maybe_star_pattern"><span id="grammar-token-maybe-star-pattern"></span>maybe_star_pattern    </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-star_pattern"><code class="xref docutils literal notranslate"><span class="pre">star_pattern</span></code></a> | <a class="reference internal" href="#grammar-token-python-grammar-pattern"><code class="xref docutils literal notranslate"><span class="pre">pattern</span></code></a>
+<strong id="grammar-token-python-grammar-star_pattern"><span id="grammar-token-star-pattern"></span>star_pattern          </strong> ::=  &quot;*&quot; (<a class="reference internal" href="#grammar-token-python-grammar-capture_pattern"><code class="xref docutils literal notranslate"><span class="pre">capture_pattern</span></code></a> | <a class="reference internal" href="#grammar-token-python-grammar-wildcard_pattern"><code class="xref docutils literal notranslate"><span class="pre">wildcard_pattern</span></code></a>)
+</pre>
+<p>序列模式中使用圆括号或方括号没有区别（例如 <code class="docutils literal notranslate"><span class="pre">(...)</span></code> 和 <code class="docutils literal notranslate"><span class="pre">[...]</span></code> ）。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>用圆括号括起来且没有跟随逗号的单个模式 (例如 <code class="docutils literal notranslate"><span class="pre">(3</span> <span class="pre">|</span> <span class="pre">4)</span></code>) 是一个 <a class="reference internal" href="#group-patterns"><span class="std std-ref">分组模式</span></a>。 而用方括号括起来的单个模式 (例如 <code class="docutils literal notranslate"><span class="pre">[3</span> <span class="pre">|</span> <span class="pre">4]</span></code>) 则仍是一个序列模式。</p>
+</div>
+<p>一个序列模式中最多可以有一个星号子模式。星号子模式可以出现在任何位置。如果没有星号子模式，该序列模式是固定长度的序列模式；否则，其是一个可变长度的序列模式。</p>
+<p>下面是将一个序列模式与一个目标值相匹配的逻辑流程：</p>
+<ol class="arabic">
+<li><p>如果目标值不是一个序列 <a class="footnote-reference brackets" href="#id18" id="id11">2</a> ，该序列模式匹配失败。</p></li>
+<li><p>如果目标值是 <code class="docutils literal notranslate"><span class="pre">str</span></code> 、 <code class="docutils literal notranslate"><span class="pre">bytes</span></code> 或 <code class="docutils literal notranslate"><span class="pre">bytearray</span></code> 的实例，则该序列模式匹配失败。</p></li>
+<li><p>随后的步骤取决于序列模式是固定长度还是可变长度的。</p>
+<p>如果序列模式是固定长度的：</p>
+<ol class="arabic simple">
+<li><p>如果目标序列的长度与子模式的数量不相等，则该序列模式匹配失败</p></li>
+<li><p>序列模式中的子模式与目标序列中的相应项目从左到右进行匹配。 一旦一个子模式匹配失败，就停止匹配。 如果所有的子模式都成功地与它们的对应项相匹配，那么该序列模式就匹配成功了。</p></li>
+</ol>
+<p>否则，如果序列模式是变长的：</p>
+<ol class="arabic simple">
+<li><p>如果目标序列的长度小于非星号子模式的数量，则该序列模式匹配失败。</p></li>
+<li><p>与固定长度的序列一样，靠前的非星形子模式与其相应的项目进行匹配。</p></li>
+<li><p>如果上一步成功，星号子模式与剩余的目标项形成的列表相匹配，不包括星号子模式之后的非星号子模式所对应的剩余项。</p></li>
+<li><p>剩余的非星号子模式将与相应的目标项匹配，就像固定长度的序列一样。</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>目标序列的长度可通过 <a class="reference internal" href="../library/functions.html#len" title="len"><code class="xref py py-func docutils literal notranslate"><span class="pre">len()</span></code></a> (即通过 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code> 协议) 获得。 解释器可能会以类似于 <a class="reference internal" href="#value-patterns"><span class="std std-ref">值模式</span></a> 的方式缓存这个长度信息。</p>
+</div>
+</li>
+</ol>
+<p>简而言之， <code class="docutils literal notranslate"><span class="pre">[P1,</span> <span class="pre">P2,</span> <span class="pre">P3,</span></code> ... <code class="docutils literal notranslate"><span class="pre">,</span> <span class="pre">P&lt;N&gt;]</span></code> 仅在满足以下情况时匹配成功：</p>
+<ul class="simple">
+<li><p>检查 <code class="docutils literal notranslate"><span class="pre">&lt;subject&gt;</span></code> 是一个序列</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">len(subject)</span> <span class="pre">==</span> <span class="pre">&lt;N&gt;</span></code></p></li>
+<li><p>将 <code class="docutils literal notranslate"><span class="pre">P1</span></code> 与 <code class="docutils literal notranslate"><span class="pre">&lt;subject&gt;[0]</span></code> 进行匹配（请注意此匹配可以绑定名称）</p></li>
+<li><p>将 <code class="docutils literal notranslate"><span class="pre">P2</span></code> 与 <code class="docutils literal notranslate"><span class="pre">&lt;subject&gt;[1]</span></code> 进行匹配（请注意此匹配可以绑定名称）</p></li>
+<li><p>…… 剩余对应的模式/元素也以此类推。</p></li>
+</ul>
+</section>
+<section id="mapping-patterns">
+<span id="id12"></span><h4><span class="section-number">8.6.4.9. </span>映射模式<a class="headerlink" href="#mapping-patterns" title="永久链接至标题">¶</a></h4>
+<p>映射模式包含一个或多个键值模式。其语法类似于字典的构造。语法：</p>
+<pre>
+<strong id="grammar-token-python-grammar-mapping_pattern"><span id="grammar-token-mapping-pattern"></span>mapping_pattern    </strong> ::=  &quot;{&quot; [<a class="reference internal" href="#grammar-token-python-grammar-items_pattern"><code class="xref docutils literal notranslate"><span class="pre">items_pattern</span></code></a>] &quot;}&quot;
+<strong id="grammar-token-python-grammar-items_pattern"><span id="grammar-token-items-pattern"></span>items_pattern      </strong> ::=  &quot;,&quot;.<a class="reference internal" href="#grammar-token-python-grammar-key_value_pattern"><code class="xref docutils literal notranslate"><span class="pre">key_value_pattern</span></code></a>+ &quot;,&quot;?
+<strong id="grammar-token-python-grammar-key_value_pattern"><span id="grammar-token-key-value-pattern"></span>key_value_pattern  </strong> ::=  (<a class="reference internal" href="#grammar-token-python-grammar-literal_pattern"><code class="xref docutils literal notranslate"><span class="pre">literal_pattern</span></code></a> | <a class="reference internal" href="#grammar-token-python-grammar-value_pattern"><code class="xref docutils literal notranslate"><span class="pre">value_pattern</span></code></a>) &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-pattern"><code class="xref docutils literal notranslate"><span class="pre">pattern</span></code></a>
+                         | <a class="reference internal" href="#grammar-token-python-grammar-double_star_pattern"><code class="xref docutils literal notranslate"><span class="pre">double_star_pattern</span></code></a>
+<strong id="grammar-token-python-grammar-double_star_pattern"><span id="grammar-token-double-star-pattern"></span>double_star_pattern</strong> ::=  &quot;**&quot; <a class="reference internal" href="#grammar-token-python-grammar-capture_pattern"><code class="xref docutils literal notranslate"><span class="pre">capture_pattern</span></code></a>
+</pre>
+<p>一个映射模式中最多可以有一个双星号模式。双星号模式必须是映射模式中的最后一个子模式。</p>
+<p>映射模式中不允许出现重复的键。重复的字面值键会引发  <a class="reference internal" href="../library/exceptions.html#SyntaxError" title="SyntaxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SyntaxError</span></code></a> 。若是两个键有相同的值将会在运行时引发 <a class="reference internal" href="../library/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> 。</p>
+<p>以下是映射模式与目标值匹配的逻辑流程：</p>
+<ol class="arabic simple">
+<li><p>如果目标值不是一个映射 <a class="footnote-reference brackets" href="#id19" id="id13">3</a>，则映射模式匹配失败。</p></li>
+<li><p>若映射模式中给出的每个键都存在于目标映射中，且每个键的模式都与目标映射的相应项匹配成功，则该映射模式匹配成功。</p></li>
+<li><p>如果在映射模式中检测到重复的键，该模式将被视作无效。对于重复的字面值，会引发  <a class="reference internal" href="../library/exceptions.html#SyntaxError" title="SyntaxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SyntaxError</span></code></a> ；对于相同值的命名键，会引发  <a class="reference internal" href="../library/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> 。</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>键值对使用映射目标的 <code class="docutils literal notranslate"><span class="pre">get()</span></code> 方法的双参数形式进行匹配。匹配的键值对必须已经存在于映射中，而不是通过 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__missing__()</span></code> 或 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code> 即时创建。</p>
+</div>
+<p>简而言之， <code class="docutils literal notranslate"><span class="pre">{KEY1:</span> <span class="pre">P1,</span> <span class="pre">KEY2:</span> <span class="pre">P2,</span> <span class="pre">...</span> <span class="pre">}</span></code> 仅在满足以下情况时匹配成功：</p>
+<ul class="simple">
+<li><p>检查 <code class="docutils literal notranslate"><span class="pre">&lt;subject&gt;</span></code> 是映射</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KEY1</span> <span class="pre">in</span> <span class="pre">&lt;subject&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P1</span></code> 与 <code class="docutils literal notranslate"><span class="pre">&lt;subject&gt;[KEY1]</span></code> 相匹配</p></li>
+<li><p>…… 剩余对应的键/模式对也以此类推。</p></li>
+</ul>
+</section>
+<section id="class-patterns">
+<span id="id14"></span><h4><span class="section-number">8.6.4.10. </span>类模式<a class="headerlink" href="#class-patterns" title="永久链接至标题">¶</a></h4>
+<p>类模式表示一个类以及它的位置参数和关键字参数（如果有的话）。语法：</p>
+<pre>
+<strong id="grammar-token-python-grammar-class_pattern"><span id="grammar-token-class-pattern"></span>class_pattern      </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-name_or_attr"><code class="xref docutils literal notranslate"><span class="pre">name_or_attr</span></code></a> &quot;(&quot; [<a class="reference internal" href="#grammar-token-python-grammar-pattern_arguments"><code class="xref docutils literal notranslate"><span class="pre">pattern_arguments</span></code></a> &quot;,&quot;?] &quot;)&quot;
+<strong id="grammar-token-python-grammar-pattern_arguments"><span id="grammar-token-pattern-arguments"></span>pattern_arguments  </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-positional_patterns"><code class="xref docutils literal notranslate"><span class="pre">positional_patterns</span></code></a> [&quot;,&quot; <a class="reference internal" href="#grammar-token-python-grammar-keyword_patterns"><code class="xref docutils literal notranslate"><span class="pre">keyword_patterns</span></code></a>]
+                         | <a class="reference internal" href="#grammar-token-python-grammar-keyword_patterns"><code class="xref docutils literal notranslate"><span class="pre">keyword_patterns</span></code></a>
+<strong id="grammar-token-python-grammar-positional_patterns"><span id="grammar-token-positional-patterns"></span>positional_patterns</strong> ::=  &quot;,&quot;.<a class="reference internal" href="#grammar-token-python-grammar-pattern"><code class="xref docutils literal notranslate"><span class="pre">pattern</span></code></a>+
+<strong id="grammar-token-python-grammar-keyword_patterns"><span id="grammar-token-keyword-patterns"></span>keyword_patterns   </strong> ::=  &quot;,&quot;.<a class="reference internal" href="#grammar-token-python-grammar-keyword_pattern"><code class="xref docutils literal notranslate"><span class="pre">keyword_pattern</span></code></a>+
+<strong id="grammar-token-python-grammar-keyword_pattern"><span id="grammar-token-keyword-pattern"></span>keyword_pattern    </strong> ::=  NAME &quot;=&quot; <a class="reference internal" href="#grammar-token-python-grammar-pattern"><code class="xref docutils literal notranslate"><span class="pre">pattern</span></code></a>
+</pre>
+<p>同一个关键词不应该在类模式中重复出现。</p>
+<p>以下是类模式与目标值匹配的逻辑流程：</p>
+<ol class="arabic">
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">name_or_attr</span></code> 不是内置 <a class="reference internal" href="../library/functions.html#type" title="type"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a> 的实例，引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 。</p></li>
+<li><p>如果目标值不是 <code class="docutils literal notranslate"><span class="pre">name_or_attr</span></code> 的实例（通过 <a class="reference internal" href="../library/functions.html#isinstance" title="isinstance"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a> 测试），该类模式匹配失败。</p></li>
+<li><p>如果没有模式参数存在，则该模式匹配成功。 否则，后面的步骤取决于是否有关键字或位置参数模式存在。</p>
+<p>对于一些内置的类型（将在后文详述），接受一个位置子模式，它将与整个目标值相匹配；对于这些类型，关键字模式也像其他类型一样工作。</p>
+<p>如果只存在关键词模式，它们将被逐一处理，如下所示：</p>
+<p>一. 该关键词被视作主体的一个属性进行查找。</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>如果这引发了除 <a class="reference internal" href="../library/exceptions.html#AttributeError" title="AttributeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> 以外的异常，该异常会被抛出。</p></li>
+<li><p>如果这引发了 <a class="reference internal" href="../library/exceptions.html#AttributeError" title="AttributeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> ，该类模式匹配失败。</p></li>
+<li><p>否则，与关键词模式相关的子模式将与目标的属性值进行匹配。 如果失败，则类模式匹配失败；如果成功，则继续对下一个关键词进行匹配。</p></li>
+</ul>
+</div></blockquote>
+<p>二. 如果所有的关键词模式匹配成功，该类模式匹配成功。</p>
+<p>如果存在位置模式，在匹配前会用类 <code class="docutils literal notranslate"><span class="pre">name_or_attr</span></code> 的 <a class="reference internal" href="datamodel.html#object.__match_args__" title="object.__match_args__"><code class="xref py py-data docutils literal notranslate"><span class="pre">__match_args__</span></code></a> 属性将其转换为关键词模式。</p>
+<p>一. 进行与 <code class="docutils literal notranslate"><span class="pre">getattr(cls,</span> <span class="pre">&quot;__match_args__&quot;,</span> <span class="pre">())</span></code> 等价的调用。</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>如果这引发一个异常，该异常将被抛出。</p></li>
+<li><p>如果返回值不是一个元组，则转换失败且引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 。</p></li>
+<li><p>若位置模式的数量超出 <code class="docutils literal notranslate"><span class="pre">len(cls.__match_args__)</span></code> ，将引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 。</p></li>
+<li><p>否则，位置模式 <code class="docutils literal notranslate"><span class="pre">i</span></code> 会使用 <code class="docutils literal notranslate"><span class="pre">__match_args__[i]</span></code> 转换为关键词。 <code class="docutils literal notranslate"><span class="pre">__match_args__[i]</span></code> 必须是一个字符串；如果不是则引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 。</p></li>
+<li><p>如果有重复的关键词，引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 。</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<p><a class="reference internal" href="datamodel.html#class-pattern-matching"><span class="std std-ref">定制类模式匹配中的位置参数</span></a></p>
+</div>
+</div></blockquote>
+<dl class="simple">
+<dt>二. 若所有的位置模式都被转换为关键词模式，</dt><dd><p>匹配的过程就像只有关键词模式一样。</p>
+</dd>
+</dl>
+<p>对于以下内置类型，位置子模式的处理是不同的：</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../library/functions.html#bool" title="bool"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p></li>
+</ul>
+<p>These classes accept a single positional argument, and the pattern there is matched
+against the whole object rather than an attribute. For example <code class="docutils literal notranslate"><span class="pre">int(0|1)</span></code> matches
+the value <code class="docutils literal notranslate"><span class="pre">0</span></code>, but not the value <code class="docutils literal notranslate"><span class="pre">0.0</span></code>.</p>
+</li>
+</ol>
+<p>简而言之， <code class="docutils literal notranslate"><span class="pre">CLS(P1,</span> <span class="pre">attr=P2)</span></code> 仅在满足以下情况时匹配成功：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">isinstance(&lt;subject&gt;,</span> <span class="pre">CLS)</span></code></p></li>
+<li><p>用 <code class="docutils literal notranslate"><span class="pre">CLS.__match_args__</span></code> 将 <code class="docutils literal notranslate"><span class="pre">P1</span></code> 转换为关键词模式</p></li>
+<li><dl class="simple">
+<dt>对于每个关键词参数 <code class="docutils literal notranslate"><span class="pre">attr=P2</span></code> ：</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">hasattr(&lt;subject&gt;,</span> <span class="pre">&quot;attr&quot;)</span></code></p></li>
+<li><p>将 <code class="docutils literal notranslate"><span class="pre">P2</span></code> 与 <code class="docutils literal notranslate"><span class="pre">&lt;subject&gt;.attr</span></code> 进行匹配</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>…… 剩余对应的关键字参数/模式对也以此类推。</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<ul class="simple">
+<li><p><span class="target" id="index-72"></span><a class="pep reference external" href="https://peps.python.org/pep-0634/"><strong>PEP 634</strong></a> —— 结构化模式匹配：规范</p></li>
+<li><p><span class="target" id="index-73"></span><a class="pep reference external" href="https://peps.python.org/pep-0636/"><strong>PEP 636</strong></a> —— 结构化模式匹配：教程</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+<section id="function-definitions">
+<span id="def"></span><span id="function"></span><span id="index-27"></span><h2><span class="section-number">8.7. </span>函数定义<a class="headerlink" href="#function-definitions" title="永久链接至标题">¶</a></h2>
+<p id="index-28">函数定义就是对用户自定义函数的定义（参见 <a class="reference internal" href="datamodel.html#types"><span class="std std-ref">标准类型层级结构</span></a> 一节）:</p>
+<pre>
+<strong id="grammar-token-python-grammar-funcdef"><span id="grammar-token-funcdef"></span>funcdef                  </strong> ::=  [<a class="reference internal" href="#grammar-token-python-grammar-decorators"><code class="xref docutils literal notranslate"><span class="pre">decorators</span></code></a>] &quot;def&quot; <a class="reference internal" href="#grammar-token-python-grammar-funcname"><code class="xref docutils literal notranslate"><span class="pre">funcname</span></code></a> &quot;(&quot; [<a class="reference internal" href="#grammar-token-python-grammar-parameter_list"><code class="xref docutils literal notranslate"><span class="pre">parameter_list</span></code></a>] &quot;)&quot;
+                               [&quot;-&gt;&quot; <a class="reference internal" href="expressions.html#grammar-token-python-grammar-expression"><code class="xref docutils literal notranslate"><span class="pre">expression</span></code></a>] &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+<strong id="grammar-token-python-grammar-decorators"><span id="grammar-token-decorators"></span>decorators               </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-decorator"><code class="xref docutils literal notranslate"><span class="pre">decorator</span></code></a>+
+<strong id="grammar-token-python-grammar-decorator"><span id="grammar-token-decorator"></span>decorator                </strong> ::=  &quot;&#64;&quot; <a class="reference internal" href="expressions.html#grammar-token-python-grammar-assignment_expression"><code class="xref docutils literal notranslate"><span class="pre">assignment_expression</span></code></a> NEWLINE
+<strong id="grammar-token-python-grammar-parameter_list"><span id="grammar-token-parameter-list"></span>parameter_list           </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-defparameter"><code class="xref docutils literal notranslate"><span class="pre">defparameter</span></code></a> (&quot;,&quot; <a class="reference internal" href="#grammar-token-python-grammar-defparameter"><code class="xref docutils literal notranslate"><span class="pre">defparameter</span></code></a>)* &quot;,&quot; &quot;/&quot; [&quot;,&quot; [<a class="reference internal" href="#grammar-token-python-grammar-parameter_list_no_posonly"><code class="xref docutils literal notranslate"><span class="pre">parameter_list_no_posonly</span></code></a>]]
+                                 | <a class="reference internal" href="#grammar-token-python-grammar-parameter_list_no_posonly"><code class="xref docutils literal notranslate"><span class="pre">parameter_list_no_posonly</span></code></a>
+<strong id="grammar-token-python-grammar-parameter_list_no_posonly"><span id="grammar-token-parameter-list-no-posonly"></span>parameter_list_no_posonly</strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-defparameter"><code class="xref docutils literal notranslate"><span class="pre">defparameter</span></code></a> (&quot;,&quot; <a class="reference internal" href="#grammar-token-python-grammar-defparameter"><code class="xref docutils literal notranslate"><span class="pre">defparameter</span></code></a>)* [&quot;,&quot; [<a class="reference internal" href="#grammar-token-python-grammar-parameter_list_starargs"><code class="xref docutils literal notranslate"><span class="pre">parameter_list_starargs</span></code></a>]]
+                               | <a class="reference internal" href="#grammar-token-python-grammar-parameter_list_starargs"><code class="xref docutils literal notranslate"><span class="pre">parameter_list_starargs</span></code></a>
+<strong id="grammar-token-python-grammar-parameter_list_starargs"><span id="grammar-token-parameter-list-starargs"></span>parameter_list_starargs  </strong> ::=  &quot;*&quot; [<a class="reference internal" href="#grammar-token-python-grammar-parameter"><code class="xref docutils literal notranslate"><span class="pre">parameter</span></code></a>] (&quot;,&quot; <a class="reference internal" href="#grammar-token-python-grammar-defparameter"><code class="xref docutils literal notranslate"><span class="pre">defparameter</span></code></a>)* [&quot;,&quot; [&quot;**&quot; <a class="reference internal" href="#grammar-token-python-grammar-parameter"><code class="xref docutils literal notranslate"><span class="pre">parameter</span></code></a> [&quot;,&quot;]]]
+                               | &quot;**&quot; <a class="reference internal" href="#grammar-token-python-grammar-parameter"><code class="xref docutils literal notranslate"><span class="pre">parameter</span></code></a> [&quot;,&quot;]
+<strong id="grammar-token-python-grammar-parameter"><span id="grammar-token-parameter"></span>parameter                </strong> ::=  <a class="reference internal" href="lexical_analysis.html#grammar-token-python-grammar-identifier"><code class="xref docutils literal notranslate"><span class="pre">identifier</span></code></a> [&quot;:&quot; <a class="reference internal" href="expressions.html#grammar-token-python-grammar-expression"><code class="xref docutils literal notranslate"><span class="pre">expression</span></code></a>]
+<strong id="grammar-token-python-grammar-defparameter"><span id="grammar-token-defparameter"></span>defparameter             </strong> ::=  <a class="reference internal" href="#grammar-token-python-grammar-parameter"><code class="xref docutils literal notranslate"><span class="pre">parameter</span></code></a> [&quot;=&quot; <a class="reference internal" href="expressions.html#grammar-token-python-grammar-expression"><code class="xref docutils literal notranslate"><span class="pre">expression</span></code></a>]
+<strong id="grammar-token-python-grammar-funcname"><span id="grammar-token-funcname"></span>funcname                 </strong> ::=  <a class="reference internal" href="lexical_analysis.html#grammar-token-python-grammar-identifier"><code class="xref docutils literal notranslate"><span class="pre">identifier</span></code></a>
+</pre>
+<p>函数定义是一条可执行语句。 它执行时会在当前局部命名空间中将函数名称绑定到一个函数对象（函数可执行代码的包装器）。 这个函数对象包含对当前全局命名空间的引用，作为函数被调用时所使用的全局命名空间。</p>
+<p>函数定义并不会执行函数体；只有当函数被调用时才会执行此操作。 <a class="footnote-reference brackets" href="#id20" id="id15">4</a></p>
+<p id="index-29">一个函数定义可以被一个或多个 <a class="reference internal" href="../glossary.html#term-decorator"><span class="xref std std-term">decorator</span></a> 表达式所包装。 当函数被定义时将在包含该函数定义的作用域中对装饰器表达式求值。 求值结果必须是一个可调用对象，它会以该函数对象作为唯一参数被发起调用。 其返回值将被绑定到函数名称而非函数对象。 多个装饰器会以嵌套方式被应用。 例如以下代码</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@f1</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+<span class="nd">@f2</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">():</span> <span class="k">pass</span>
+</pre></div>
+</div>
+<p>大致等价于</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">func</span><span class="p">():</span> <span class="k">pass</span>
+<span class="n">func</span> <span class="o">=</span> <span class="n">f1</span><span class="p">(</span><span class="n">arg</span><span class="p">)(</span><span class="n">f2</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>不同之处在于原始函数并不会被临时绑定到名称 <code class="docutils literal notranslate"><span class="pre">func</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>函数可使用任何有效的 <a class="reference internal" href="expressions.html#grammar-token-python-grammar-assignment_expression"><code class="xref std std-token docutils literal notranslate"><span class="pre">assignment_expression</span></code></a> 来装饰。 在之前版本中，此语法则更为受限，详情参见 <span class="target" id="index-74"></span><a class="pep reference external" href="https://peps.python.org/pep-0614/"><strong>PEP 614</strong></a>。</p>
+</div>
+<p id="index-31">当一个或多个 <a class="reference internal" href="../glossary.html#term-parameter"><span class="xref std std-term">形参</span></a> 具有 <em>形参</em> <code class="docutils literal notranslate"><span class="pre">=</span></code> <em>表达式</em> 这样的形式时，该函数就被称为具有“默认形参值”。 对于一个具有默认值的形参，其对应的 <a class="reference internal" href="../glossary.html#term-argument"><span class="xref std std-term">argument</span></a> 可以在调用中被省略，在此情况下会用形参的默认值来替代。 如果一个形参具有默认值，后续所有在 &quot;<code class="docutils literal notranslate"><span class="pre">*</span></code>&quot; 之前的形参也必须具有默认值 --- 这个句法限制并未在语法中明确表达。</p>
+<p><strong>默认形参值会在执行函数定义时按从左至右的顺序被求值。</strong> 这意味着当函数被定义时将对表达式求值一次，相同的“预计算”值将在每次调用时被使用。 这一点在默认形参为可变对象，例如列表或字典的时候尤其需要重点理解：如果函数修改了该对象（例如向列表添加了一项），则实际上默认值也会被修改。 这通常不是人们所想要的。 绕过此问题的一个方法是使用 <code class="docutils literal notranslate"><span class="pre">None</span></code> 作为默认值，并在函数体中显式地对其进测试，例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">whats_on_the_telly</span><span class="p">(</span><span class="n">penguin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">penguin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">penguin</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">penguin</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;property of the zoo&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">penguin</span>
+</pre></div>
+</div>
+<p id="index-32">函数调用的语义在 <a class="reference internal" href="expressions.html#calls"><span class="std std-ref">调用</span></a> 一节中有更详细的描述。 函数调用总是会给形参列表中列出的所有形参赋值，或是用位置参数，或是用关键字参数，或是用默认值。 如果存在 &quot;<code class="docutils literal notranslate"><span class="pre">*identifier</span></code>&quot; 这样的形式，它会被初始化为一个元组来接收任何额外的位置参数，默认为一个空元组。 如果存在 &quot;<code class="docutils literal notranslate"><span class="pre">**identifier</span></code>&quot; 这样的形式，它会被初始化为一个新的有序映射来接收任何额外的关键字参数，默认为一个相同类型的空映射。 在 &quot;<code class="docutils literal notranslate"><span class="pre">*</span></code>&quot; 或 &quot;<code class="docutils literal notranslate"><span class="pre">*identifier</span></code>&quot; 之后的形参都是仅限关键字形参因而只能通过关键字参数传入。 在 &quot;<code class="docutils literal notranslate"><span class="pre">/</span></code>&quot; 之前的形参都是仅限位置形参因而只能通过位置参数传入。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>可以使用 <code class="docutils literal notranslate"><span class="pre">/</span></code> 函数形参语法来标示仅限位置形参。 请参阅 <span class="target" id="index-75"></span><a class="pep reference external" href="https://peps.python.org/pep-0570/"><strong>PEP 570</strong></a> 了解详情。</p>
+</div>
+<p id="index-34">形参可以带有 <a class="reference internal" href="../glossary.html#term-function-annotation"><span class="xref std std-term">标注</span></a>，其形式为在形参名称后加上 &quot;<code class="docutils literal notranslate"><span class="pre">:</span> <span class="pre">expression</span></code>&quot;。 任何形参都可以带有标注，甚至 <code class="docutils literal notranslate"><span class="pre">*identifier</span></code> 或 <code class="docutils literal notranslate"><span class="pre">**identifier</span></code> 这样的形参也可以。 函数可以带有“返回”标注，其形式为在形参列表后加上 &quot;<code class="docutils literal notranslate"><span class="pre">-&gt;</span> <span class="pre">expression</span></code>&quot;。 这些标注可以是任何有效的 Python 表达式。 标注的存在不会改变函数的语义。 标注值可以作为函数对象的 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__annotations__</span></code> 属性中以对应形参名称为键的字典值被访问。 如果使用了 <code class="docutils literal notranslate"><span class="pre">annotations</span></code> import from <a class="reference internal" href="../library/__future__.html#module-__future__" title="__future__: Future statement definitions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">__future__</span></code></a> 的方式，则标注会在运行时保存为字符串以启用延迟求值特性。 否则，它们会在执行函数定义时被求值。 在这种情况下，标注的求值顺序可能与它们在源代码中出现的顺序不同。</p>
+<p id="index-35">创建匿名函数（未绑定到一个名称的函数）以便立即在表达式中使用也是可能的。 这需要使用 lambda 表达式，具体描述见 <a class="reference internal" href="expressions.html#lambda"><span class="std std-ref">lambda 表达式</span></a> 一节。 请注意 lambda 只是简单函数定义的一种简化写法；在 &quot;<a class="reference internal" href="#def"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">def</span></code></a>&quot; 语句中定义的函数也可以像用 lambda 表达式定义的函数一样被传递或赋值给其他名称。 &quot;<code class="xref std std-keyword docutils literal notranslate"><span class="pre">def</span></code>&quot; 形式实际上更为强大，因为它允许执行多条语句和使用标注。</p>
+<p><strong>程序员注意事项:</strong> 函数属于一类对象。 在一个函数内部执行的 &quot;<code class="docutils literal notranslate"><span class="pre">def</span></code>&quot; 语句会定义一个局部函数并可被返回或传递。 在嵌套函数中使用的自由变量可以访问包含该 def 语句的函数的局部变量。 详情参见 <a class="reference internal" href="executionmodel.html#naming"><span class="std std-ref">命名与绑定</span></a> 一节。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><span class="target" id="index-76"></span><a class="pep reference external" href="https://peps.python.org/pep-3107/"><strong>PEP 3107</strong></a> - 函数标注</dt><dd><p>最初的函数标注规范说明。</p>
+</dd>
+<dt><span class="target" id="index-77"></span><a class="pep reference external" href="https://peps.python.org/pep-0484/"><strong>PEP 484</strong></a> —— 类型注解</dt><dd><p>标注的标准含意定义：类型提示。</p>
+</dd>
+<dt><span class="target" id="index-78"></span><a class="pep reference external" href="https://peps.python.org/pep-0526/"><strong>PEP 526</strong></a> - 变量标注的语法</dt><dd><p>变量声明的类型提示功能，包括类变量和实例变量</p>
+</dd>
+<dt><span class="target" id="index-79"></span><a class="pep reference external" href="https://peps.python.org/pep-0563/"><strong>PEP 563</strong></a> - 延迟的标注求值</dt><dd><p>支持在运行时通过以字符串形式保存标注而非不是即求值来实现标注内部的向前引用。</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="class-definitions">
+<span id="class"></span><h2><span class="section-number">8.8. </span>类定义<a class="headerlink" href="#class-definitions" title="永久链接至标题">¶</a></h2>
+<p id="index-40">类定义就是对类对象的定义 (参见 <a class="reference internal" href="datamodel.html#types"><span class="std std-ref">标准类型层级结构</span></a> 一节):</p>
+<pre>
+<strong id="grammar-token-python-grammar-classdef"><span id="grammar-token-classdef"></span>classdef   </strong> ::=  [<a class="reference internal" href="#grammar-token-python-grammar-decorators"><code class="xref docutils literal notranslate"><span class="pre">decorators</span></code></a>] &quot;class&quot; <a class="reference internal" href="#grammar-token-python-grammar-classname"><code class="xref docutils literal notranslate"><span class="pre">classname</span></code></a> [<a class="reference internal" href="#grammar-token-python-grammar-inheritance"><code class="xref docutils literal notranslate"><span class="pre">inheritance</span></code></a>] &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+<strong id="grammar-token-python-grammar-inheritance"><span id="grammar-token-inheritance"></span>inheritance</strong> ::=  &quot;(&quot; [<a class="reference internal" href="expressions.html#grammar-token-python-grammar-argument_list"><code class="xref docutils literal notranslate"><span class="pre">argument_list</span></code></a>] &quot;)&quot;
+<strong id="grammar-token-python-grammar-classname"><span id="grammar-token-classname"></span>classname  </strong> ::=  <a class="reference internal" href="lexical_analysis.html#grammar-token-python-grammar-identifier"><code class="xref docutils literal notranslate"><span class="pre">identifier</span></code></a>
+</pre>
+<p>类定义是一条可执行语句。 其中继承列表通常给出基类的列表 (进阶用法请参见 <a class="reference internal" href="datamodel.html#metaclasses"><span class="std std-ref">元类</span></a>)，列表中的每一项都应当被求值为一个允许子类的类对象。 没有继承列表的类默认继承自基类 <a class="reference internal" href="../library/functions.html#object" title="object"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a>；因此，:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>等价于</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>随后类体将在一个新的执行帧 (参见 <a class="reference internal" href="executionmodel.html#naming"><span class="std std-ref">命名与绑定</span></a>) 中被执行，使用新创建的局部命名空间和原有的全局命名空间。 （通常，类体主要包含函数定义。） 当类体结束执行时，其执行帧将被丢弃而其局部命名空间会被保存。 <a class="footnote-reference brackets" href="#id21" id="id16">5</a> 一个类对象随后会被创建，其基类使用给定的继承列表，属性字典使用保存的局部命名空间。 类名称将在原有的全局命名空间中绑定到该类对象。</p>
+<p>在类体内定义的属性的顺序保存在新类的 <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> 中。 请注意此顺序的可靠性只限于类刚被创建时，并且只适用于使用定义语法所定义的类。</p>
+<p>类的创建可使用 <a class="reference internal" href="datamodel.html#metaclasses"><span class="std std-ref">元类</span></a> 进行重度定制。</p>
+<p id="index-41">类也可以被装饰：就像装饰函数一样，:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@f1</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+<span class="nd">@f2</span>
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span> <span class="k">pass</span>
+</pre></div>
+</div>
+<p>大致等价于</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span> <span class="k">pass</span>
+<span class="n">Foo</span> <span class="o">=</span> <span class="n">f1</span><span class="p">(</span><span class="n">arg</span><span class="p">)(</span><span class="n">f2</span><span class="p">(</span><span class="n">Foo</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>装饰器表达式的求值规则与函数装饰器相同。 结果随后会被绑定到类名称。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>类可使用任何有效的 <a class="reference internal" href="expressions.html#grammar-token-python-grammar-assignment_expression"><code class="xref std std-token docutils literal notranslate"><span class="pre">assignment_expression</span></code></a> 来装饰。 在之前版本中，此语法则更为受限，详情参见 <span class="target" id="index-80"></span><a class="pep reference external" href="https://peps.python.org/pep-0614/"><strong>PEP 614</strong></a>。</p>
+</div>
+<p><strong>程序员注意事项:</strong> 在类定义内定义的变量是类属性；它们将被类实例所共享。 实例属性可通过 <code class="docutils literal notranslate"><span class="pre">self.name</span> <span class="pre">=</span> <span class="pre">value</span></code> 在方法中设定。 类和实例属性均可通过 &quot;<code class="docutils literal notranslate"><span class="pre">self.name</span></code>&quot; 表示法来访问，当通过此方式访问时实例属性会隐藏同名的类属性。 类属性可被用作实例属性的默认值，但在此场景下使用可变值可能导致未预期的结果。 可以使用 <a class="reference internal" href="datamodel.html#descriptors"><span class="std std-ref">描述器</span></a> 来创建具有不同实现细节的实例变量。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><span class="target" id="index-81"></span><a class="pep reference external" href="https://peps.python.org/pep-3115/"><strong>PEP 3115</strong></a> - Python 3000 中的元类</dt><dd><p>将元类声明修改为当前语法的提议，以及关于如何构建带有元类的类的语义描述。</p>
+</dd>
+<dt><span class="target" id="index-82"></span><a class="pep reference external" href="https://peps.python.org/pep-3129/"><strong>PEP 3129</strong></a> - 类装饰器</dt><dd><p>增加类装饰器的提议。 函数和方法装饰器是在 <span class="target" id="index-83"></span><a class="pep reference external" href="https://peps.python.org/pep-0318/"><strong>PEP 318</strong></a> 中被引入的。</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="coroutines">
+<span id="async"></span><h2><span class="section-number">8.9. </span>协程<a class="headerlink" href="#coroutines" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+<section id="coroutine-function-definition">
+<span id="async-def"></span><span id="index-46"></span><h3><span class="section-number">8.9.1. </span>协程函数定义<a class="headerlink" href="#coroutine-function-definition" title="永久链接至标题">¶</a></h3>
+<pre>
+<strong id="grammar-token-python-grammar-async_funcdef"><span id="grammar-token-async-funcdef"></span>async_funcdef</strong> ::=  [<a class="reference internal" href="#grammar-token-python-grammar-decorators"><code class="xref docutils literal notranslate"><span class="pre">decorators</span></code></a>] &quot;async&quot; &quot;def&quot; <a class="reference internal" href="#grammar-token-python-grammar-funcname"><code class="xref docutils literal notranslate"><span class="pre">funcname</span></code></a> &quot;(&quot; [<a class="reference internal" href="#grammar-token-python-grammar-parameter_list"><code class="xref docutils literal notranslate"><span class="pre">parameter_list</span></code></a>] &quot;)&quot;
+                   [&quot;-&gt;&quot; <a class="reference internal" href="expressions.html#grammar-token-python-grammar-expression"><code class="xref docutils literal notranslate"><span class="pre">expression</span></code></a>] &quot;:&quot; <a class="reference internal" href="#grammar-token-python-grammar-suite"><code class="xref docutils literal notranslate"><span class="pre">suite</span></code></a>
+</pre>
+<p id="index-47">Python 协程的执行可以在多个位置上被挂起和恢复 (参见 <a class="reference internal" href="../glossary.html#term-coroutine"><span class="xref std std-term">coroutine</span></a>)。 <a class="reference internal" href="expressions.html#await"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">await</span></code></a> 表达式，<a class="reference internal" href="#async-for"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">for</span></code></a> 以及 <a class="reference internal" href="#async-with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span></code></a> 只能在协程函数体中使用。</p>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span></code> 语法定义的函数总是为协程函数，即使它们不包含 <code class="docutils literal notranslate"><span class="pre">await</span></code> 或 <code class="docutils literal notranslate"><span class="pre">async</span></code> 关键字。</p>
+<p>在协程函数体中使用 <code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span></code> 表达式将引发 <a class="reference internal" href="../library/exceptions.html#SyntaxError" title="SyntaxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SyntaxError</span></code></a>。</p>
+<p>协程函数的例子:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">param1</span><span class="p">,</span> <span class="n">param2</span><span class="p">):</span>
+    <span class="n">do_stuff</span><span class="p">()</span>
+    <span class="k">await</span> <span class="n">some_coroutine</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span><code class="docutils literal notranslate"><span class="pre">await</span></code> 和 <code class="docutils literal notranslate"><span class="pre">async</span></code> 现在是保留关键字；在之前版本中它们仅在协程函数内被当作保留关键字。</p>
+</div>
+</section>
+<section id="the-async-for-statement">
+<span id="async-for"></span><span id="index-48"></span><h3><span class="section-number">8.9.2. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">for</span></code> 语句<a class="headerlink" href="#the-async-for-statement" title="永久链接至标题">¶</a></h3>
+<pre>
+<strong id="grammar-token-python-grammar-async_for_stmt"><span id="grammar-token-async-for-stmt"></span>async_for_stmt</strong> ::=  &quot;async&quot; <a class="reference internal" href="#grammar-token-python-grammar-for_stmt"><code class="xref docutils literal notranslate"><span class="pre">for_stmt</span></code></a>
+</pre>
+<p><a class="reference internal" href="../glossary.html#term-asynchronous-iterable"><span class="xref std std-term">asynchronous iterable</span></a> 提供了 <code class="docutils literal notranslate"><span class="pre">__aiter__</span></code> 方法，该方法会直接返回 <a class="reference internal" href="../glossary.html#term-asynchronous-iterator"><span class="xref std std-term">asynchronous iterator</span></a>，它可以在其 <code class="docutils literal notranslate"><span class="pre">__anext__</span></code> 方法中调用异步代码。</p>
+<p><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">for</span></code> 语句允许方便地对异步可迭代对象进行迭代。</p>
+<p>以下代码:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">for</span> <span class="n">TARGET</span> <span class="ow">in</span> <span class="n">ITER</span><span class="p">:</span>
+    <span class="n">SUITE</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">SUITE2</span>
+</pre></div>
+</div>
+<p>在语义上等价于:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nb">iter</span> <span class="o">=</span> <span class="p">(</span><span class="n">ITER</span><span class="p">)</span>
+<span class="nb">iter</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="nb">iter</span><span class="p">)</span><span class="o">.</span><span class="fm">__aiter__</span><span class="p">(</span><span class="nb">iter</span><span class="p">)</span>
+<span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">while</span> <span class="n">running</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">TARGET</span> <span class="o">=</span> <span class="k">await</span> <span class="nb">type</span><span class="p">(</span><span class="nb">iter</span><span class="p">)</span><span class="o">.</span><span class="fm">__anext__</span><span class="p">(</span><span class="nb">iter</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">StopAsyncIteration</span><span class="p">:</span>
+        <span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">SUITE</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">SUITE2</span>
+</pre></div>
+</div>
+<p>See also <a class="reference internal" href="datamodel.html#object.__aiter__" title="object.__aiter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__aiter__()</span></code></a> and <a class="reference internal" href="datamodel.html#object.__anext__" title="object.__anext__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__anext__()</span></code></a> for details.</p>
+<p>在协程函数体之外使用 <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">for</span></code> 语句将引发 <a class="reference internal" href="../library/exceptions.html#SyntaxError" title="SyntaxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SyntaxError</span></code></a>。</p>
+</section>
+<section id="the-async-with-statement">
+<span id="async-with"></span><span id="index-49"></span><h3><span class="section-number">8.9.3. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span></code> 语句<a class="headerlink" href="#the-async-with-statement" title="永久链接至标题">¶</a></h3>
+<pre>
+<strong id="grammar-token-python-grammar-async_with_stmt"><span id="grammar-token-async-with-stmt"></span>async_with_stmt</strong> ::=  &quot;async&quot; <a class="reference internal" href="#grammar-token-python-grammar-with_stmt"><code class="xref docutils literal notranslate"><span class="pre">with_stmt</span></code></a>
+</pre>
+<p><a class="reference internal" href="../glossary.html#term-asynchronous-context-manager"><span class="xref std std-term">asynchronous context manager</span></a> 是一种 <a class="reference internal" href="../glossary.html#term-context-manager"><span class="xref std std-term">context manager</span></a>，能够在其 <em>enter</em> 和 <em>exit</em> 方法中暂停执行。</p>
+<p>以下代码:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">EXPRESSION</span> <span class="k">as</span> <span class="n">TARGET</span><span class="p">:</span>
+    <span class="n">SUITE</span>
+</pre></div>
+</div>
+<p>在语义上等价于:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">manager</span> <span class="o">=</span> <span class="p">(</span><span class="n">EXPRESSION</span><span class="p">)</span>
+<span class="n">aenter</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">manager</span><span class="p">)</span><span class="o">.</span><span class="fm">__aenter__</span>
+<span class="n">aexit</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">manager</span><span class="p">)</span><span class="o">.</span><span class="fm">__aexit__</span>
+<span class="n">value</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aenter</span><span class="p">(</span><span class="n">manager</span><span class="p">)</span>
+<span class="n">hit_except</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">TARGET</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">SUITE</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">hit_except</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="k">await</span> <span class="n">aexit</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()):</span>
+        <span class="k">raise</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hit_except</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">aexit</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See also <a class="reference internal" href="datamodel.html#object.__aenter__" title="object.__aenter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__aenter__()</span></code></a> and <a class="reference internal" href="datamodel.html#object.__aexit__" title="object.__aexit__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__aexit__()</span></code></a> for details.</p>
+<p>在协程函数体之外使用 <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span></code> 语句将引发 <a class="reference internal" href="../library/exceptions.html#SyntaxError" title="SyntaxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SyntaxError</span></code></a>。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><span class="target" id="index-84"></span><a class="pep reference external" href="https://peps.python.org/pep-0492/"><strong>PEP 492</strong></a> - 使用 async 和 await 语法实现协程</dt><dd><p>将协程作为 Python 中的一个正式的单独概念，并增加相应的支持语法。</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">备注</p>
+<dl class="footnote brackets">
+<dt class="label" id="id17"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>异常会被传播给发起调用栈，除非存在一个 <a class="reference internal" href="#finally"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code></a> 子句正好引发了另一个异常。 新引发的异常将导致旧异常的丢失。</p>
+</dd>
+<dt class="label" id="id18"><span class="brackets"><a class="fn-backref" href="#id11">2</a></span></dt>
+<dd><p>在模式匹配中，序列被定义为以下几种之一:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>继承自 <a class="reference internal" href="../library/collections.abc.html#collections.abc.Sequence" title="collections.abc.Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Sequence</span></code></a> 的类</p></li>
+<li><p>注册为 <a class="reference internal" href="../library/collections.abc.html#collections.abc.Sequence" title="collections.abc.Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Sequence</span></code></a> 的 Python 类</p></li>
+<li><p>设置了 (CPython) <a class="reference internal" href="../c-api/typeobj.html#Py_TPFLAGS_SEQUENCE" title="Py_TPFLAGS_SEQUENCE"><code class="xref py py-data docutils literal notranslate"><span class="pre">Py_TPFLAGS_SEQUENCE</span></code></a> 位的内置类</p></li>
+<li><p>继承自上述任何一个类的类</p></li>
+</ul>
+</div></blockquote>
+<p>下列标准库中的类都是序列:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="../library/array.html#array.array" title="array.array"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/collections.html#collections.deque" title="collections.deque"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.deque</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#memoryview" title="memoryview"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#range" title="range"><code class="xref py py-class docutils literal notranslate"><span class="pre">range</span></code></a></p></li>
+<li><p><a class="reference internal" href="../library/stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>类型为 <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">bytes</span></code> 和 <code class="docutils literal notranslate"><span class="pre">bytearray</span></code> 的目标值不能匹配序列模式。</p>
+</div>
+</dd>
+<dt class="label" id="id19"><span class="brackets"><a class="fn-backref" href="#id13">3</a></span></dt>
+<dd><p>在模式匹配中，映射被定义为以下几种之一:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>继承自 <a class="reference internal" href="../library/collections.abc.html#collections.abc.Mapping" title="collections.abc.Mapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Mapping</span></code></a> 的类</p></li>
+<li><p>注册为 <a class="reference internal" href="../library/collections.abc.html#collections.abc.Mapping" title="collections.abc.Mapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Mapping</span></code></a> 的 Python 类</p></li>
+<li><p>设置了 (CPython) <a class="reference internal" href="../c-api/typeobj.html#Py_TPFLAGS_MAPPING" title="Py_TPFLAGS_MAPPING"><code class="xref py py-data docutils literal notranslate"><span class="pre">Py_TPFLAGS_MAPPING</span></code></a> 位的内置类</p></li>
+<li><p>继承自上述任何一个类的类</p></li>
+</ul>
+</div></blockquote>
+<p>标准库中的 <a class="reference internal" href="../library/stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> 和 <a class="reference internal" href="../library/types.html#types.MappingProxyType" title="types.MappingProxyType"><code class="xref py py-class docutils literal notranslate"><span class="pre">types.MappingProxyType</span></code></a> 类都属于映射。</p>
+</dd>
+<dt class="label" id="id20"><span class="brackets"><a class="fn-backref" href="#id15">4</a></span></dt>
+<dd><p>作为函数体的第一条语句出现的字符串字面值会被转换为函数的 <code class="docutils literal notranslate"><span class="pre">__doc__</span></code> 属性，也就是该函数的 <a class="reference internal" href="../glossary.html#term-docstring"><span class="xref std std-term">docstring</span></a>。</p>
+</dd>
+<dt class="label" id="id21"><span class="brackets"><a class="fn-backref" href="#id16">5</a></span></dt>
+<dd><p>作为类体的第一条语句出现的字符串字面值会被转换为命名空间的 <code class="docutils literal notranslate"><span class="pre">__doc__</span></code> 条目，也就是该类的 <a class="reference internal" href="../glossary.html#term-docstring"><span class="xref std std-term">docstring</span></a>。</p>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">8. 复合语句</a><ul>
+<li><a class="reference internal" href="#the-if-statement">8.1. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code> 语句</a></li>
+<li><a class="reference internal" href="#the-while-statement">8.2. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">while</span></code> 语句</a></li>
+<li><a class="reference internal" href="#the-for-statement">8.3. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code> 语句</a></li>
+<li><a class="reference internal" href="#the-try-statement">8.4. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code> 语句</a><ul>
+<li><a class="reference internal" href="#except-clause">8.4.1. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code> clause</a></li>
+<li><a class="reference internal" href="#except-star">8.4.2. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">except*</span></code> clause</a></li>
+<li><a class="reference internal" href="#else-clause">8.4.3. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code> clause</a></li>
+<li><a class="reference internal" href="#finally-clause">8.4.4. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code> clause</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-with-statement">8.5. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code> 语句</a></li>
+<li><a class="reference internal" href="#the-match-statement">8.6. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">match</span></code> 语句</a><ul>
+<li><a class="reference internal" href="#overview">8.6.1. 概述</a></li>
+<li><a class="reference internal" href="#guards">8.6.2. 约束项</a></li>
+<li><a class="reference internal" href="#irrefutable-case-blocks">8.6.3. 必定匹配的 case 块</a></li>
+<li><a class="reference internal" href="#patterns">8.6.4. 模式</a><ul>
+<li><a class="reference internal" href="#or-patterns">8.6.4.1. 或模式</a></li>
+<li><a class="reference internal" href="#as-patterns">8.6.4.2. AS 模式</a></li>
+<li><a class="reference internal" href="#literal-patterns">8.6.4.3. 字面值模式</a></li>
+<li><a class="reference internal" href="#capture-patterns">8.6.4.4. 捕获模式</a></li>
+<li><a class="reference internal" href="#wildcard-patterns">8.6.4.5. 通配符模式</a></li>
+<li><a class="reference internal" href="#value-patterns">8.6.4.6. 值模式</a></li>
+<li><a class="reference internal" href="#group-patterns">8.6.4.7. 组模式</a></li>
+<li><a class="reference internal" href="#sequence-patterns">8.6.4.8. 序列模式</a></li>
+<li><a class="reference internal" href="#mapping-patterns">8.6.4.9. 映射模式</a></li>
+<li><a class="reference internal" href="#class-patterns">8.6.4.10. 类模式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#function-definitions">8.7. 函数定义</a></li>
+<li><a class="reference internal" href="#class-definitions">8.8. 类定义</a></li>
+<li><a class="reference internal" href="#coroutines">8.9. 协程</a><ul>
+<li><a class="reference internal" href="#coroutine-function-definition">8.9.1. 协程函数定义</a></li>
+<li><a class="reference internal" href="#the-async-for-statement">8.9.2. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">for</span></code> 语句</a></li>
+<li><a class="reference internal" href="#the-async-with-statement">8.9.3. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span></code> 语句</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="simple_stmts.html"
+                          title="上一章"><span class="section-number">7. </span>简单语句</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="toplevel_components.html"
+                          title="下一章"><span class="section-number">9. </span>顶级组件</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/reference/compound_stmts.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="toplevel_components.html" title="9. 顶级组件"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="simple_stmts.html" title="7. 简单语句"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 语言参考手册</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">8. </span>复合语句</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>
