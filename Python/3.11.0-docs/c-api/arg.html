@@ -1,0 +1,700 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>解析参数并构建值变量 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="字符串转换与格式化" href="conversion.html" />
+    <link rel="prev" title="数据 marshal 操作支持" href="marshal.html" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/arg.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">解析参数并构建值变量</a><ul>
+<li><a class="reference internal" href="#parsing-arguments">解析参数</a><ul>
+<li><a class="reference internal" href="#strings-and-buffers">字符串和缓存区</a></li>
+<li><a class="reference internal" href="#numbers">数字</a></li>
+<li><a class="reference internal" href="#other-objects">其他对象</a></li>
+<li><a class="reference internal" href="#api-functions">API 函数</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-values">创建变量</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="marshal.html"
+                          title="上一章">数据 marshal 操作支持</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="conversion.html"
+                          title="下一章">字符串转换与格式化</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/arg.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="conversion.html" title="字符串转换与格式化"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="marshal.html" title="数据 marshal 操作支持"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="utilities.html" accesskey="U">工具</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">解析参数并构建值变量</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="parsing-arguments-and-building-values">
+<span id="arg-parsing"></span><h1>解析参数并构建值变量<a class="headerlink" href="#parsing-arguments-and-building-values" title="永久链接至标题">¶</a></h1>
+<p>在创建你自己的扩展函数和方法时，这些函数是有用的。其它的信息和样例见 <a class="reference internal" href="../extending/index.html#extending-index"><span class="std std-ref">扩展和嵌入 Python 解释器</span></a> 。</p>
+<p>这些函数描述的前三个，<a class="reference internal" href="#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a>，<a class="reference internal" href="#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a>，以及 <a class="reference internal" href="#c.PyArg_Parse" title="PyArg_Parse"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_Parse()</span></code></a>，它们都使用 <em>格式化字符串</em> 来将函数期待的参数告知函数。这些函数都使用相同语法规则的格式化字符串。</p>
+<section id="parsing-arguments">
+<h2>解析参数<a class="headerlink" href="#parsing-arguments" title="永久链接至标题">¶</a></h2>
+<p>一个格式化字符串包含 0 或者更多的格式单元。一个格式单元用来描述一个 Python 对象；它通常是一个字符或者由括号括起来的格式单元序列。除了少数例外，一个非括号序列的格式单元通常对应这些函数的具有单一地址的参数。在接下来的描述中，双引号内的表达式是格式单元；圆括号 () 内的是对应这个格式单元的 Python 对象类型；方括号 [] 内的是传递的 C 变量(变量集)类型。</p>
+<section id="strings-and-buffers">
+<h3>字符串和缓存区<a class="headerlink" href="#strings-and-buffers" title="永久链接至标题">¶</a></h3>
+<p>这些格式允许将对象按照连续的内存块形式进行访问。你没必要提供返回的 unicode 字符或者字节区的原始数据存储。</p>
+<p>一般的，当一个表达式设置一个指针指向一个缓冲区，这个缓冲区可以被相应的 Python 对象管理，并且这个缓冲区共享这个对象的生存周期。你不需要人为的释放任何内存空间。除了这些 <code class="docutils literal notranslate"><span class="pre">es</span></code>, <code class="docutils literal notranslate"><span class="pre">es#</span></code>, <code class="docutils literal notranslate"><span class="pre">et</span></code> and <code class="docutils literal notranslate"><span class="pre">et#</span></code>.</p>
+<p>然而，当一个 <a class="reference internal" href="buffer.html#c.Py_buffer" title="Py_buffer"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_buffer</span></code></a> 结构被赋值，其包含的缓冲区被锁住，所以调用者在随后使用这个缓冲区，即使在 <a class="reference internal" href="init.html#c.Py_BEGIN_ALLOW_THREADS" title="Py_BEGIN_ALLOW_THREADS"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_BEGIN_ALLOW_THREADS</span></code></a> 块中，可以避免可变数据因为调整大小或者被销毁所带来的风险。因此，<strong>你不得不调用</strong> <a class="reference internal" href="buffer.html#c.PyBuffer_Release" title="PyBuffer_Release"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyBuffer_Release()</span></code></a> 在你结束数据的处理时(或者在之前任何中断事件中)</p>
+<p>除非另有说明，缓冲区是不会以空终止的。</p>
+<p>某些格式需要只读的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>，并设置指针而不是缓冲区结构。 他们通过检查对象的 <a class="reference internal" href="typeobj.html#c.PyBufferProcs.bf_releasebuffer" title="PyBufferProcs.bf_releasebuffer"><code class="xref c c-member docutils literal notranslate"><span class="pre">PyBufferProcs.bf_releasebuffer</span></code></a> 字段是否为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 来发挥作用，该字段不允许为 <a class="reference internal" href="../library/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> 这样的可变对象。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>对于所有 <code class="docutils literal notranslate"><span class="pre">#</span></code> 格式的变体（<code class="docutils literal notranslate"><span class="pre">s#</span></code>、<code class="docutils literal notranslate"><span class="pre">y#</span></code> 等），宏 <code class="xref c c-macro docutils literal notranslate"><span class="pre">PY_SSIZE_T_CLEAN</span></code> 必须在包含 <code class="file docutils literal notranslate"><span class="pre">Python</span> <span class="pre">之前定义。</span> <span class="pre">h</span></code>。在 Python 3.9 及更早版本上，如果定义了 <code class="xref c c-macro docutils literal notranslate"><span class="pre">PY_SSIZE_T_CLEAN</span></code> 宏，则长度参数的类型为 <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>，否则为 int。</p>
+</div>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">s</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) [const char *]</dt><dd><p>将一个 Unicode 对象转换成一个指向字符串的 C 指针。一个指针指向一个已经存在的字符串，这个字符串存储的是传如的字符指针变量。C 字符串是已空结束的。Python 字符串不能包含嵌入的无效的代码点；如果由，一个 <a class="reference internal" href="../library/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> 异常会被引发。Unicode 对象被转化成 <code class="docutils literal notranslate"><span class="pre">'utf-8'</span></code> 编码的 C 字符串。如果转换失败，一个 <a class="reference internal" href="../library/exceptions.html#UnicodeError" title="UnicodeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">UnicodeError</span></code></a> 异常被引发。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>这个表达式不接受 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like objects</span></a>。如果你想接受文件系统路径并将它们转化成 C 字符串，建议使用 <code class="docutils literal notranslate"><span class="pre">O&amp;</span></code> 表达式配合 <a class="reference internal" href="unicode.html#c.PyUnicode_FSConverter" title="PyUnicode_FSConverter"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnicode_FSConverter()</span></code></a> 作为 <em>转化函数</em>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>以前，当 Python 字符串中遇到了嵌入的 null 代码点会引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 。</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">s*</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>) [Py_buffer]</dt><dd><p>这个表达式既接受 Unicode 对象也接受类字节类型对象。它为由调用者提供的 <a class="reference internal" href="buffer.html#c.Py_buffer" title="Py_buffer"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_buffer</span></code></a> 结构赋值。这里结果的 C 字符串可能包含嵌入的 NUL 字节。Unicode 对象通过 <code class="docutils literal notranslate"><span class="pre">'utf-8'</span></code> 编码转化成 C 字符串。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">s#</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, read-only <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>) [const char *, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p>像 <code class="docutils literal notranslate"><span class="pre">s*</span></code>，除了它不接受易变的对象。结果存储在两个 C 变量中，第一个是指向 C 字符串的指针，第二个是它的长度。字符串可能包含嵌入的 null 字节。Unicode 对象都被通过 <code class="docutils literal notranslate"><span class="pre">'utf-8'</span></code> 编码转化成 C 字符串。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">z</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) [const char *]</dt><dd><p>与 <code class="docutils literal notranslate"><span class="pre">s</span></code> 类似，但 Python 对象也可能为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，在这种情况下，C 指针设置为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">z*</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) [Py_buffer]</dt><dd><p>与 <code class="docutils literal notranslate"><span class="pre">s*</span></code> 类似，但 Python 对象也可能为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，在这种情况下，<a class="reference internal" href="buffer.html#c.Py_buffer" title="Py_buffer"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_buffer</span></code></a> 结构的 <code class="docutils literal notranslate"><span class="pre">buf</span></code> 成员设置为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">z#</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, read-only <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 或者 <code class="docutils literal notranslate"><span class="pre">None</span></code>) [const char *, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p>与 <code class="docutils literal notranslate"><span class="pre">s#</span></code> 类似，但 Python 对象也可能为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，在这种情况下，C 指针设置为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">y</span></code> (read-only <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>) [const char *]</dt><dd><p>这个表达式将一个类字节类型对象转化成一个指向字符串的 C 指针；它不接受 Unicode 对象。字节缓存区必须不包含嵌入的 null 字节；如果包含了 null 字节，会引发一个 <a class="reference internal" href="../library/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> 异常。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>以前，当字节缓冲区中遇到了嵌入的 null 字节会引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 。</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">y*</span></code> (<a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>) [Py_buffer]</dt><dd><p><code class="docutils literal notranslate"><span class="pre">s*</span></code> 的变式，不接受 Unicode 对象，只接受类字节类型变量。<strong>这是接受二进制数据的推荐方法。</strong></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">y#</span></code> (read-only <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>) [const char *, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p><code class="docutils literal notranslate"><span class="pre">s#</span></code> 的变式，不接受 Unicode 对象，只接受类字节类型变量。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">S</span></code> (<a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) [PyBytesObject *]</dt><dd><p>Requires that the Python object is a <a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> object, without
+attempting any conversion.  Raises <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> if the object is not
+a bytes object.  The C variable may also be declared as <span class="c-expr sig sig-inline c"><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n">PyObject</span></a><span class="p">*</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Y</span></code> (<a class="reference internal" href="../library/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a>) [PyByteArrayObject *]</dt><dd><p>Requires that the Python object is a <a class="reference internal" href="../library/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> object, without
+attempting any conversion.  Raises <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> if the object is not
+a <a class="reference internal" href="../library/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> object. The C variable may also be declared as <span class="c-expr sig sig-inline c"><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n">PyObject</span></a><span class="p">*</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">u</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) [const Py_UNICODE *]</dt><dd><p>将一个 Python Unicode 对象转化成指向一个以空终止的 Unicode 字符缓冲区的指针。你必须传入一个 <a class="reference internal" href="unicode.html#c.Py_UNICODE" title="Py_UNICODE"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></a> 指针变量的地址，存储了一个指向已经存在的 Unicode 缓冲区的指针。请注意一个 <a class="reference internal" href="unicode.html#c.Py_UNICODE" title="Py_UNICODE"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></a> 类型的字符宽度取决于编译选项(16 位或者 32 位)。Python 字符串必须不能包含嵌入的 null 代码点；如果有，引发一个 <a class="reference internal" href="../library/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> 异常。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>以前，当 Python 字符串中遇到了嵌入的 null 代码点会引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 。</p>
+</div>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.3 开始标记为过时，将在版本 3.12 中移除。: </span>这是旧版样式 <a class="reference internal" href="unicode.html#c.Py_UNICODE" title="Py_UNICODE"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></a> API; 请迁移至 <a class="reference internal" href="unicode.html#c.PyUnicode_AsWideCharString" title="PyUnicode_AsWideCharString"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnicode_AsWideCharString()</span></code></a>.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">u#</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) [const Py_UNICODE *, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p><code class="docutils literal notranslate"><span class="pre">u</span></code> 的变式，存储两个 C 变量，第一个指针指向一个 Unicode 数据缓存区，第二个是它的长度。它允许 null 代码点。</p>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.3 开始标记为过时，将在版本 3.12 中移除。: </span>这是旧版样式 <a class="reference internal" href="unicode.html#c.Py_UNICODE" title="Py_UNICODE"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></a> API; 请迁移至 <a class="reference internal" href="unicode.html#c.PyUnicode_AsWideCharString" title="PyUnicode_AsWideCharString"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnicode_AsWideCharString()</span></code></a>.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Z</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 或 <code class="docutils literal notranslate"><span class="pre">None</span></code>) [const Py_UNICODE *]</dt><dd><p>与 <code class="docutils literal notranslate"><span class="pre">u</span></code> 类似，但 Python 对象也可能为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，在这种情况下 <a class="reference internal" href="unicode.html#c.Py_UNICODE" title="Py_UNICODE"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></a> 指针设置为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.3 开始标记为过时，将在版本 3.12 中移除。: </span>这是旧版样式 <a class="reference internal" href="unicode.html#c.Py_UNICODE" title="Py_UNICODE"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></a> API; 请迁移至 <a class="reference internal" href="unicode.html#c.PyUnicode_AsWideCharString" title="PyUnicode_AsWideCharString"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnicode_AsWideCharString()</span></code></a>.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Z#</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 或 <code class="docutils literal notranslate"><span class="pre">None</span></code>) [const Py_UNICODE *, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p>与 <code class="docutils literal notranslate"><span class="pre">u#</span></code> 类似，但 Python 对象也可能为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，在这种情况下 <a class="reference internal" href="unicode.html#c.Py_UNICODE" title="Py_UNICODE"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></a> 指针设置为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.3 开始标记为过时，将在版本 3.12 中移除。: </span>这是旧版样式 <a class="reference internal" href="unicode.html#c.Py_UNICODE" title="Py_UNICODE"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></a> API; 请迁移至 <a class="reference internal" href="unicode.html#c.PyUnicode_AsWideCharString" title="PyUnicode_AsWideCharString"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnicode_AsWideCharString()</span></code></a>.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">U</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) [PyObject *]</dt><dd><p>Requires that the Python object is a Unicode object, without attempting
+any conversion.  Raises <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> if the object is not a Unicode
+object.  The C variable may also be declared as <span class="c-expr sig sig-inline c"><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n">PyObject</span></a><span class="p">*</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">w*</span></code> (可读写 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>) [Py_buffer]</dt><dd><p>这个表达式接受任何实现可读写缓存区接口的对象。它为调用者提供的 <a class="reference internal" href="buffer.html#c.Py_buffer" title="Py_buffer"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_buffer</span></code></a> 结构赋值。缓冲区可能存在嵌入的 null 字节。当缓冲区使用完后调用者需要调用 <a class="reference internal" href="buffer.html#c.PyBuffer_Release" title="PyBuffer_Release"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyBuffer_Release()</span></code></a>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">es</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) [const char *encoding, char **buffer]</dt><dd><p><code class="docutils literal notranslate"><span class="pre">s</span></code> 的变式，它将编码后的 Unicode 字符存入字符缓冲区。它只处理没有嵌 NUL 字节的已编码数据。</p>
+<p>This format requires two arguments.  The first is only used as input, and
+must be a <span class="c-expr sig sig-inline c"><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="p">*</span></span> which points to the name of an encoding as a
+NUL-terminated string, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, in which case <code class="docutils literal notranslate"><span class="pre">'utf-8'</span></code> encoding is used.
+An exception is raised if the named encoding is not known to Python.  The
+second argument must be a <span class="c-expr sig sig-inline c"><span class="kt">char</span><span class="p">*</span><span class="p">*</span></span>; the value of the pointer it
+references will be set to a buffer with the contents of the argument text.
+The text will be encoded in the encoding specified by the first argument.</p>
+<p><a class="reference internal" href="#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 会分配一个足够大小的缓冲区，将编码后的数据拷贝进这个缓冲区并且设置 <em>*buffer</em> 引用这个新分配的内存空间。调用者有责任在使用后调用 <a class="reference internal" href="memory.html#c.PyMem_Free" title="PyMem_Free"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_Free()</span></code></a> 去释放已经分配的缓冲区。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">et</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> or <a class="reference internal" href="../library/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a>) [const char *encoding, char **buffer]</dt><dd><p>和 <code class="docutils literal notranslate"><span class="pre">es</span></code> 相同，除了不用重编码传入的字符串对象。相反，它假设传入的参数是编码后的字符串类型。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">es#</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) [const char *encoding, char **buffer, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a> *buffer_length]</dt><dd><p><code class="docutils literal notranslate"><span class="pre">s#</span></code> 的变式，它将已编码的 Unicode 字符存入字符缓冲区。不像 <code class="docutils literal notranslate"><span class="pre">es</span></code> 表达式，它允许传入的数据包含 NUL 字符。</p>
+<p>It requires three arguments.  The first is only used as input, and must be a
+<span class="c-expr sig sig-inline c"><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="p">*</span></span> which points to the name of an encoding as a
+NUL-terminated string, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, in which case <code class="docutils literal notranslate"><span class="pre">'utf-8'</span></code> encoding is used.
+An exception is raised if the named encoding is not known to Python.  The
+second argument must be a <span class="c-expr sig sig-inline c"><span class="kt">char</span><span class="p">*</span><span class="p">*</span></span>; the value of the pointer it
+references will be set to a buffer with the contents of the argument text.
+The text will be encoded in the encoding specified by the first argument.
+The third argument must be a pointer to an integer; the referenced integer
+will be set to the number of bytes in the output buffer.</p>
+<p>有两种操作方式：</p>
+<p>如果 <em>*buffer</em> 指向 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 指针，则函数将分配所需大小的缓冲区，将编码的数据复制到此缓冲区，并设置 <em>*buffer</em> 以引用新分配的存储。 呼叫者负责调用 <a class="reference internal" href="memory.html#c.PyMem_Free" title="PyMem_Free"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_Free()</span></code></a> 以在使用后释放分配的缓冲区。</p>
+<p>如果 <em>*buffer</em> 指向非 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 指针（已分配的缓冲区），则 <a class="reference internal" href="#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 将使用此位置作为缓冲区，并将 <em>*buffer_length</em> 的初始值解释为缓冲区大小。 然后，它将将编码的数据复制到缓冲区，并终止它。 如果缓冲区不够大，将设置一个 <a class="reference internal" href="../library/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+<p>在这两个例子中，<em>*buffer_length</em> 被设置为编码后结尾不为 NUL 的数据的长度。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">et#</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 或 <a class="reference internal" href="../library/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a>) [const char *encoding, char **buffer, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a> *buffer_length]</dt><dd><p>和 <code class="docutils literal notranslate"><span class="pre">es#</span></code> 相同，除了不用重编码传入的字符串对象。相反，它假设传入的参数是编码后的字符串类型。</p>
+</dd>
+</dl>
+</section>
+<section id="numbers">
+<h3>数字<a class="headerlink" href="#numbers" title="永久链接至标题">¶</a></h3>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">b</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned char]</dt><dd><p>Convert a nonnegative Python integer to an unsigned tiny int, stored in a C
+<span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">B</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned char]</dt><dd><p>Convert a Python integer to a tiny int without overflow checking, stored in a C
+<span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">h</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [short int]</dt><dd><p>Convert a Python integer to a C <span class="c-expr sig sig-inline c"><span class="kt">short</span><span class="w"> </span><span class="kt">int</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">H</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned short int]</dt><dd><p>Convert a Python integer to a C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="kt">int</span></span>, without overflow
+checking.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">i</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [int]</dt><dd><p>Convert a Python integer to a plain C <span class="c-expr sig sig-inline c"><span class="kt">int</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">I</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned int]</dt><dd><p>Convert a Python integer to a C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span></span>, without overflow
+checking.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">l</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [long int]</dt><dd><p>Convert a Python integer to a C <span class="c-expr sig sig-inline c"><span class="kt">long</span><span class="w"> </span><span class="kt">int</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">k</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned long]</dt><dd><p>Convert a Python integer to a C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span></span> without
+overflow checking.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">L</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [long long]</dt><dd><p>Convert a Python integer to a C <span class="c-expr sig sig-inline c"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">K</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned long long]</dt><dd><p>Convert a Python integer to a C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span>
+without overflow checking.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">n</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [<a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p>将一个 Python 整型转化成一个 C <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a> Python 元大小类型。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">c</span></code> (<a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 或者 <a class="reference internal" href="../library/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> 长度为 1) [char]</dt><dd><p>Convert a Python byte, represented as a <a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> or
+<a class="reference internal" href="../library/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> object of length 1, to a C <span class="c-expr sig sig-inline c"><span class="kt">char</span></span>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>允许 <a class="reference internal" href="../library/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> 类型的对象。</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">C</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 长度为 1) [int]</dt><dd><p>Convert a Python character, represented as a <a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> object of
+length 1, to a C <span class="c-expr sig sig-inline c"><span class="kt">int</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">f</span></code> (<a class="reference internal" href="../library/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) [float]</dt><dd><p>Convert a Python floating point number to a C <span class="c-expr sig sig-inline c"><span class="kt">float</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">d</span></code> (<a class="reference internal" href="../library/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) [double]</dt><dd><p>Convert a Python floating point number to a C <span class="c-expr sig sig-inline c"><span class="kt">double</span></span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">D</span></code> (<a class="reference internal" href="../library/functions.html#complex" title="complex"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a>) [Py_complex]</dt><dd><p>将一个 Python 复数类型转化成一个 C <a class="reference internal" href="complex.html#c.Py_complex" title="Py_complex"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_complex</span></code></a> Python 复数类型。</p>
+</dd>
+</dl>
+</section>
+<section id="other-objects">
+<h3>其他对象<a class="headerlink" href="#other-objects" title="永久链接至标题">¶</a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">O</span></code> (object) [PyObject *]</dt><dd><p>将 Python 对象（不进行任何转换）存储在 C 对象指针中。 因此，C 程序接收已传递的实际对象。 对象的引用计数不会增加。 存储的指针不是 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">O!</span></code> (object) [<em>typeobject</em>, PyObject *]</dt><dd><p>Store a Python object in a C object pointer.  This is similar to <code class="docutils literal notranslate"><span class="pre">O</span></code>, but
+takes two C arguments: the first is the address of a Python type object, the
+second is the address of the C variable (of type <span class="c-expr sig sig-inline c"><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n">PyObject</span></a><span class="p">*</span></span>) into which
+the object pointer is stored.  If the Python object does not have the required
+type, <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> is raised.</p>
+</dd>
+</dl>
+<dl id="o-ampersand">
+<dt><code class="docutils literal notranslate"><span class="pre">O&amp;</span></code> (object) [<em>converter</em>, <em>anything</em>]</dt><dd><p>Convert a Python object to a C variable through a <em>converter</em> function.  This
+takes two arguments: the first is a function, the second is the address of a C
+variable (of arbitrary type), converted to <span class="c-expr sig sig-inline c"><span class="kt">void</span><span class="p">*</span></span>.  The <em>converter</em>
+function in turn is called as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">converter</span><span class="p">(</span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="n">address</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>where <em>object</em> is the Python object to be converted and <em>address</em> is the
+<span class="c-expr sig sig-inline c"><span class="kt">void</span><span class="p">*</span></span> argument that was passed to the <code class="docutils literal notranslate"><span class="pre">PyArg_Parse*</span></code> function.
+The returned <em>status</em> should be <code class="docutils literal notranslate"><span class="pre">1</span></code> for a successful conversion and <code class="docutils literal notranslate"><span class="pre">0</span></code> if
+the conversion has failed.  When the conversion fails, the <em>converter</em> function
+should raise an exception and leave the content of <em>address</em> unmodified.</p>
+<p>如果 <em>converter</em> 返回 <code class="docutils literal notranslate"><span class="pre">Py_CLEANUP_SUPPORTED</span></code>，则如果参数解析最终失败，它可能会再次调用该函数，从而使转换器有机会释放已分配的任何内存。在第二个调用中，<em>object</em> 参数将为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>;因此，该参数将为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>;因此，该参数将为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，因此，该参数将为 <code class="docutils literal notranslate"><span class="pre">NULL``（如果值）为</span> <span class="pre">``NULL</span></code> <em>address</em> 的值与原始呼叫中的值相同。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.1 版更改: </span><code class="docutils literal notranslate"><span class="pre">Py_CLEANUP_SUPPORTED</span></code> 被添加。</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">p</span></code> (<a class="reference internal" href="../library/functions.html#bool" title="bool"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) [int]</dt><dd><p>测试传入的值是否为真(一个布尔判断)并且将结果转化为相对应的 C true/false 整型值。如果表达式为真置 <code class="docutils literal notranslate"><span class="pre">1</span></code>，假则置 <code class="docutils literal notranslate"><span class="pre">0</span></code>。它接受任何合法的 Python 值。参见 <a class="reference internal" href="../library/stdtypes.html#truth"><span class="std std-ref">逻辑值检测</span></a> 获取更多关于 Python 如何测试值为真的信息。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">(items)</span></code> (<a class="reference internal" href="../library/stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>) [<em>matching-items</em>]</dt><dd><p>对象必须是 Python 序列，它的长度是 <em>items</em> 中格式单元的数量。C 参数必须对应 <em>items</em> 中每一个独立的格式单元。序列中的格式单元可能有嵌套。</p>
+</dd>
+</dl>
+<p>传递 &quot;long&quot; 整型(整型的值超过了平台的 <code class="xref py py-const docutils literal notranslate"><span class="pre">LONG_MAX</span></code> 限制)是可能的，然而没有进行适当的范围检测——当接收字段太小而接收不到值时，最重要的位被静默地截断(实际上，C 语言会在语义继承的基础上强制类型转换——期望的值可能会发生变化)。</p>
+<p>格式化字符串中还有一些其他的字符具有特殊的涵义。这些可能并不嵌套在圆括号中。它们是：</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">|</span></code></dt><dd><p>表明在 Python 参数列表中剩下的参数都是可选的。C 变量对应的可选参数需要初始化为默认值——当一个可选参数没有指定时， <a class="reference internal" href="#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a>  不能访问相应的 C 变量(变量集)的内容。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">$</span></code></dt><dd><p><a class="reference internal" href="#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a> only：表明在 Python 参数列表中剩下的参数都是强制关键字参数。当前，所有强制关键字参数都必须也是可选参数，所以格式化字符串中  <code class="docutils literal notranslate"><span class="pre">|</span></code> 必须一直在 <code class="docutils literal notranslate"><span class="pre">$</span></code> 前面。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:</span></code></dt><dd><p>格式单元的列表结束标志；冒号后的字符串被用来作为错误消息中的函数名(<a class="reference internal" href="#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 函数引发的“关联值”异常)。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">;</span></code></dt><dd><p>格式单元的列表结束标志；分号后的字符串被用来作为错误消息取代默认的错误消息。 <code class="docutils literal notranslate"><span class="pre">:</span></code> 和 <code class="docutils literal notranslate"><span class="pre">;</span></code> 相互排斥。</p>
+</dd>
+</dl>
+<p>注意任何由调用者提供的 Python 对象引用是 <em>借来的</em> 引用；不要递减它们的引用计数！</p>
+<p>传递给这些函数的附加参数必须是由格式化字符串确定的变量的地址；这些都是用来存储输入元组的值。有一些情况，如上面的格式单元列表中所描述的，这些参数作为输入值使用；在这种情况下，它们应该匹配指定的相应的格式单元。</p>
+<p>For the conversion to succeed, the <em>arg</em> object must match the format
+and the format must be exhausted.  On success, the
+<code class="docutils literal notranslate"><span class="pre">PyArg_Parse*</span></code> functions return true, otherwise they return
+false and raise an appropriate exception. When the
+<code class="docutils literal notranslate"><span class="pre">PyArg_Parse*</span></code> functions fail due to conversion failure in one
+of the format units, the variables at the addresses corresponding to that
+and the following format units are left untouched.</p>
+</section>
+<section id="api-functions">
+<h3>API 函数<a class="headerlink" href="#api-functions" title="永久链接至标题">¶</a></h3>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyArg_ParseTuple">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArg_ParseTuple</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArg_ParseTuple" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>解析一个函数的参数，表达式中的参数按参数位置顺序存入局部变量中。成功返回 true；失败返回 false 并且引发相应的异常。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyArg_VaParse">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArg_VaParse</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">vargs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArg_VaParse" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>和 <a class="reference internal" href="#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 相同，然而它接受一个 va_list 类型的参数而不是可变数量的参数集。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyArg_ParseTupleAndKeywords">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArg_ParseTupleAndKeywords</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">kw</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">keywords</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArg_ParseTupleAndKeywords" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>分析将位置参数和关键字参数同时转换为局部变量的函数的参数。 <em>keywords</em> 参数是关键字参数名称的 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 终止数组。 空名称表示 <a class="reference internal" href="../glossary.html#positional-only-parameter"><span class="std std-ref">positional-only parameters</span></a>。成功时返回 true;发生故障时，它将返回 false 并引发相应的异常。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>添加了 <a class="reference internal" href="../glossary.html#positional-only-parameter"><span class="std std-ref">positional-only parameters</span></a> 的支持。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyArg_VaParseTupleAndKeywords">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArg_VaParseTupleAndKeywords</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">kw</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">keywords</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">vargs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArg_VaParseTupleAndKeywords" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>和 <a class="reference internal" href="#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a> 相同，然而它接受一个va_list类型的参数而不是可变数量的参数集。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyArg_ValidateKeywordArguments">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArg_ValidateKeywordArguments</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="p"><span class="pre">*</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArg_ValidateKeywordArguments" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>确保字典中的关键字参数都是字符串。这个函数只被使用于 <a class="reference internal" href="#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a> 不被使用的情况下，后者已经不再做这样的检查。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyArg_Parse">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArg_Parse</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArg_Parse" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>函数被用来析构“旧类型”函数的参数列表——这些函数使用的 <code class="xref py py-const docutils literal notranslate"><span class="pre">METH_OLDARGS</span></code> 参数解析方法已从 Python 3 中移除。这不被推荐用于新代码的参数解析，并且在标准解释器中的大多数代码已被修改，已不再用于该目的。它仍然方便于分解其他元组，然而可能因为这个目的被继续使用。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyArg_UnpackTuple">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArg_UnpackTuple</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">min</span></span>, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">max</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArg_UnpackTuple" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>A simpler form of parameter retrieval which does not use a format string to
+specify the types of the arguments.  Functions which use this method to retrieve
+their parameters should be declared as <a class="reference internal" href="structures.html#METH_VARARGS" title="METH_VARARGS"><code class="xref py py-const docutils literal notranslate"><span class="pre">METH_VARARGS</span></code></a> in function or
+method tables.  The tuple containing the actual parameters should be passed as
+<em>args</em>; it must actually be a tuple.  The length of the tuple must be at least
+<em>min</em> and no more than <em>max</em>; <em>min</em> and <em>max</em> may be equal.  Additional
+arguments must be passed to the function, each of which should be a pointer to a
+<span class="c-expr sig sig-inline c"><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n">PyObject</span></a><span class="p">*</span></span> variable; these will be filled in with the values from
+<em>args</em>; they will contain <a class="reference internal" href="../glossary.html#term-borrowed-reference"><span class="xref std std-term">borrowed references</span></a>.
+The variables which correspond
+to optional parameters not given by <em>args</em> will not be filled in; these should
+be initialized by the caller. This function returns true on success and false if
+<em>args</em> is not a tuple or contains the wrong number of elements; an exception
+will be set if there was a failure.</p>
+<p>这是一个使用此函数的示例，取自 <code class="xref py py-mod docutils literal notranslate"><span class="pre">_weakref</span></code> 帮助模块用来弱化引用的源代码：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="nf">weakref_ref</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">args</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">object</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyArg_UnpackTuple</span><span class="p">(</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ref&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">callback</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyWeakref_NewRef</span><span class="p">(</span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>这个例子中调用 <a class="reference internal" href="#c.PyArg_UnpackTuple" title="PyArg_UnpackTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_UnpackTuple()</span></code></a> 完全等价于调用 <a class="reference internal" href="#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">PyArg_ParseTuple</span><span class="p">(</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;O|O:ref&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">callback</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="building-values">
+<h2>创建变量<a class="headerlink" href="#building-values" title="永久链接至标题">¶</a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_BuildValue">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Py_BuildValue</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_BuildValue" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>Create a new value based on a format string similar to those accepted by the
+<code class="docutils literal notranslate"><span class="pre">PyArg_Parse*</span></code> family of functions and a sequence of values.  Returns
+the value or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> in the case of an error; an exception will be raised if
+<code class="docutils literal notranslate"><span class="pre">NULL</span></code> is returned.</p>
+<p><a class="reference internal" href="#c.Py_BuildValue" title="Py_BuildValue"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_BuildValue()</span></code></a> 并不一直创建一个元组。只有当它的格式化字符串包含两个或更多的格式单元才会创建一个元组。如果格式化字符串是空，它返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>；如果它包含一个格式单元，它返回由格式单元描述的的任一对象。用圆括号包裹格式化字符串可以强制它返回一个大小为 0 或者 1 的元组。</p>
+<p>当内存缓存区的数据以参数形式传递用来构建对象时，如 <code class="docutils literal notranslate"><span class="pre">s</span></code> 和 <code class="docutils literal notranslate"><span class="pre">s#</span></code> 格式单元，会拷贝需要的数据。调用者提供的缓冲区从来都不会被由 <a class="reference internal" href="#c.Py_BuildValue" title="Py_BuildValue"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_BuildValue()</span></code></a> 创建的对象来引用。换句话说，如果你的代码调用 <code class="xref c c-func docutils literal notranslate"><span class="pre">malloc()</span></code> 并且将分配的内存空间传递给 <a class="reference internal" href="#c.Py_BuildValue" title="Py_BuildValue"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_BuildValue()</span></code></a>，你的代码就有责任在 <a class="reference internal" href="#c.Py_BuildValue" title="Py_BuildValue"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_BuildValue()</span></code></a> 返回时调用 <code class="xref c c-func docutils literal notranslate"><span class="pre">free()</span></code> 。</p>
+<p>在下面的描述中，双引号的表达式使格式单元；圆括号 () 内的是格式单元将要返回的 Python 对象类型；方括号 [] 内的是传递的 C 变量(变量集)的类型。</p>
+<p>字符例如空格，制表符，冒号和逗号在格式化字符串中会被忽略(但是不包括格式单元，如 <code class="docutils literal notranslate"><span class="pre">s#</span></code>)。这可以使很长的格式化字符串具有更好的可读性。</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">s</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 或 <code class="docutils literal notranslate"><span class="pre">None</span></code>) [const char *]</dt><dd><p>使用 <code class="docutils literal notranslate"><span class="pre">'utf-8'</span></code> 编码将空终止的 C 字符串转换为 Python <a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 对象。如果 C 字符串指针为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，则使用 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">s#</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 或 <code class="docutils literal notranslate"><span class="pre">None</span></code>) [const char *, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p>使用 <code class="docutils literal notranslate"><span class="pre">'utf-8'</span></code> 编码将 C 字符串及其长度转换为 Python <a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 对象。如果 C 字符串指针为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，则长度将被忽略，并返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">y</span></code> (<a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) [const char *]</dt><dd><p>这将 C 字符串转换为 Python <a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象。 如果 C 字符串指针为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">y#</span></code> (<a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) [const char *, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p>这会将 C 字符串及其长度转换为一个 Python 对象。 如果该 C 字符串指针为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">z</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) [const char *]</dt><dd><p>和 <code class="docutils literal notranslate"><span class="pre">s</span></code> 一样。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">z#</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 或 <code class="docutils literal notranslate"><span class="pre">None</span></code>) [const char *, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p>和 <code class="docutils literal notranslate"><span class="pre">s#</span></code> 一样。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">u</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) [const wchar_t *]</dt><dd><p>Convert a null-terminated <span class="c-expr sig sig-inline c"><span class="n">wchar_t</span></span> buffer of Unicode (UTF-16 or UCS-4)
+data to a Python Unicode object.  If the Unicode buffer pointer is <code class="docutils literal notranslate"><span class="pre">NULL</span></code>,
+<code class="docutils literal notranslate"><span class="pre">None</span></code> is returned.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">u#</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) [const wchar_t *, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p>将 Unicode （UTF-16 或 UCS-4） 数据缓冲区及其长度转换为 Python Unicode 对象。  如果 Unicode 缓冲区指针为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，则长度将被忽略，并返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">U</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 或 <code class="docutils literal notranslate"><span class="pre">None</span></code>) [const char *]</dt><dd><p>和 <code class="docutils literal notranslate"><span class="pre">s</span></code> 一样。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">U#</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 或 <code class="docutils literal notranslate"><span class="pre">None</span></code>) [const char *, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p>和 <code class="docutils literal notranslate"><span class="pre">s#</span></code> 一样。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">i</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [int]</dt><dd><p>Convert a plain C <span class="c-expr sig sig-inline c"><span class="kt">int</span></span> to a Python integer object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">b</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [char]</dt><dd><p>Convert a plain C <span class="c-expr sig sig-inline c"><span class="kt">char</span></span> to a Python integer object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">h</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [short int]</dt><dd><p>Convert a plain C <span class="c-expr sig sig-inline c"><span class="kt">short</span><span class="w"> </span><span class="kt">int</span></span> to a Python integer object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">l</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [long int]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">long</span><span class="w"> </span><span class="kt">int</span></span> to a Python integer object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">B</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned char]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span></span> to a Python integer object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">H</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned short int]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="kt">int</span></span> to a Python integer object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">I</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned int]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span></span> to a Python integer object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">k</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned long]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span></span> to a Python integer object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">L</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [long long]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> to a Python integer object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">K</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [unsigned long long]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> to a Python integer object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">n</span></code> (<a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) [<a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>]</dt><dd><p>将一个 C <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a> 类型转化为 Python 整型。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">c</span></code> (<a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 长度为1 ) [char]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">int</span></span> representing a byte to a Python <a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> object of
+length 1.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">C</span></code> (<a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 长度为 1) [int]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">int</span></span> representing a character to Python <a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>
+object of length 1.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">d</span></code> (<a class="reference internal" href="../library/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) [double]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">double</span></span> to a Python floating point number.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">f</span></code> (<a class="reference internal" href="../library/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) [float]</dt><dd><p>Convert a C <span class="c-expr sig sig-inline c"><span class="kt">float</span></span> to a Python floating point number.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">D</span></code> (<a class="reference internal" href="../library/functions.html#complex" title="complex"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a>) [Py_complex *]</dt><dd><p>将一个 C <a class="reference internal" href="complex.html#c.Py_complex" title="Py_complex"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_complex</span></code></a> 类型的结构转化为 Python 复数类型。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">O</span></code> (object) [PyObject *]</dt><dd><p>将 Python 对象传递不变（其引用计数除外，该计数由 1 递增）。 如果传入的对象是 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 指针，则假定这是由于生成参数的调用发现错误并设置异常而引起的。因此，<a class="reference internal" href="#c.Py_BuildValue" title="Py_BuildValue"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_BuildValue()</span></code></a> 将返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，但不会引发异常。 如果尚未引发异常，则设置 <a class="reference internal" href="../library/exceptions.html#SystemError" title="SystemError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SystemError</span></code></a>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">S</span></code> (object) [PyObject *]</dt><dd><p>和 <code class="docutils literal notranslate"><span class="pre">O</span></code> 相同。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">N</span></code> (object) [PyObject *]</dt><dd><p>和 <code class="docutils literal notranslate"><span class="pre">O</span></code> 相同，然而它并不增加对象的引用计数。当通过调用参数列表中的对象构造器创建对象时很实用。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">O&amp;</span></code> (object) [<em>converter</em>, <em>anything</em>]</dt><dd><p>Convert <em>anything</em> to a Python object through a <em>converter</em> function.  The
+function is called with <em>anything</em> (which should be compatible with <span class="c-expr sig sig-inline c"><span class="kt">void</span><span class="p">*</span></span>)
+as its argument and should return a &quot;new&quot; Python object, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if an
+error occurred.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">(items)</span></code> (<a class="reference internal" href="../library/stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>) [<em>matching-items</em>]</dt><dd><p>将一个 C 变量序列转换成 Python 元组并保持相同的元素数量。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">[items]</span></code> (<a class="reference internal" href="../library/stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) [<em>相关的元素</em>]</dt><dd><p>将一个 C 变量序列转换成 Python 列表并保持相同的元素数量。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">{items}</span></code> (<a class="reference internal" href="../library/stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) [<em>相关的元素</em>]</dt><dd><p>将一个C变量序列转换成 Python 字典。每一对连续的 C 变量对作为一个元素插入字典中，分别作为关键字和值。</p>
+</dd>
+</dl>
+<p>如果格式字符串中出现错误，则设置 <a class="reference internal" href="../library/exceptions.html#SystemError" title="SystemError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SystemError</span></code></a> 异常并返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_VaBuildValue">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Py_VaBuildValue</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="n"><span class="pre">va_list</span></span><span class="w"> </span><span class="n"><span class="pre">vargs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_VaBuildValue" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>和 <a class="reference internal" href="#c.Py_BuildValue" title="Py_BuildValue"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_BuildValue()</span></code></a> 相同，然而它接受一个 va_list 类型的参数而不是可变数量的参数集。</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">解析参数并构建值变量</a><ul>
+<li><a class="reference internal" href="#parsing-arguments">解析参数</a><ul>
+<li><a class="reference internal" href="#strings-and-buffers">字符串和缓存区</a></li>
+<li><a class="reference internal" href="#numbers">数字</a></li>
+<li><a class="reference internal" href="#other-objects">其他对象</a></li>
+<li><a class="reference internal" href="#api-functions">API 函数</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-values">创建变量</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="marshal.html"
+                          title="上一章">数据 marshal 操作支持</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="conversion.html"
+                          title="下一章">字符串转换与格式化</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/arg.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="conversion.html" title="字符串转换与格式化"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="marshal.html" title="数据 marshal 操作支持"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="utilities.html" >工具</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">解析参数并构建值变量</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Python/C API 参考手册 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="概述" href="intro.html" />
+    <link rel="prev" title="1. 在其它应用程序嵌入 Python" href="../extending/embedding.html" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/index.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="../extending/embedding.html"
+                          title="上一章"><span class="section-number">1. </span>在其它应用程序嵌入 Python</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="intro.html"
+                          title="下一章">概述</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/index.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="概述"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="../extending/embedding.html" title="1. 在其它应用程序嵌入 Python"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">Python/C API 参考手册</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="python-c-api-reference-manual">
+<span id="c-api-index"></span><h1>Python/C API 参考手册<a class="headerlink" href="#python-c-api-reference-manual" title="永久链接至标题">¶</a></h1>
+<p>本手册描述了希望编写扩展模块并将 Python 解释器嵌入其应用程序中的 C 和 C++ 程序员可用的 API。同时可以参阅 <a class="reference internal" href="../extending/index.html#extending-index"><span class="std std-ref">扩展和嵌入 Python 解释器</span></a> ，其中描述了扩展编写的一般原则，但没有详细描述 API 函数。</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">概述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#coding-standards">代码标准</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#include-files">包含文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#useful-macros">有用的宏</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#objects-types-and-reference-counts">对象、类型和引用计数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#exceptions">异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#embedding-python">嵌入Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#debugging-builds">调试构建</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stable.html">C API 的稳定性</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stable.html#stable-application-binary-interface">应用程序二进制接口的稳定版</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stable.html#platform-considerations">平台的考虑</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stable.html#contents-of-limited-api">受限 API 的内容</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="veryhigh.html">极高层级 API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="refcounting.html">引用计数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常处理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#printing-and-clearing">打印和清理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#raising-exceptions">抛出异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#issuing-warnings">发出警告</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#querying-the-error-indicator">查询错误指示器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#signal-handling">信号处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#exception-classes">Exception 类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#exception-objects">异常对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#unicode-exception-objects">Unicode 异常对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#recursion-control">递归控制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#standard-exceptions">标准异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html#standard-warning-categories">标准警告类别</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">工具</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sys.html">操作系统实用工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sys.html#system-functions">系统功能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sys.html#process-control">过程控制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="import.html">导入模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="marshal.html">数据 marshal 操作支持</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arg.html">解析参数并构建值变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conversion.html">字符串转换与格式化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reflection.html">反射</a></li>
+<li class="toctree-l2"><a class="reference internal" href="codec.html">编解码器注册与支持功能</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="abstract.html">抽象对象层</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="object.html">对象协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="call.html">调用协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="number.html">数字协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sequence.html">序列协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping.html">映射协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iter.html">迭代器协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buffer.html">缓冲协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objbuffer.html">旧缓冲协议</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="concrete.html">具体的对象层</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="concrete.html#fundamental-objects">基本对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concrete.html#numeric-objects">数值对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concrete.html#sequence-objects">序列对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concrete.html#container-objects">容器对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concrete.html#function-objects">Function 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concrete.html#other-objects">其他对象</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="init.html">初始化，终结和线程</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="init.html#before-python-initialization">在Python初始化之前</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#global-configuration-variables">全局配置变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#initializing-and-finalizing-the-interpreter">Initializing and finalizing the interpreter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#process-wide-parameters">Process-wide parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#thread-state-and-the-global-interpreter-lock">线程状态和全局解释器锁</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#sub-interpreter-support">子解释器支持</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#asynchronous-notifications">异步通知</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#profiling-and-tracing">分析和跟踪</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#advanced-debugger-support">高级调试器支持</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#thread-local-storage-support">线程本地存储支持</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="init_config.html">Python初始化配置</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#example">示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#pywidestringlist">PyWideStringList</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#pystatus">PyStatus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#pypreconfig">PyPreConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#preinitialize-python-with-pypreconfig">Preinitialize Python with PyPreConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#pyconfig">PyConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#initialization-with-pyconfig">Initialization with PyConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#isolated-configuration">Isolated Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#python-configuration">Python Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#python-path-configuration">Python Path Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#py-runmain">Py_RunMain()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#py-getargcargv">Py_GetArgcArgv()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="init_config.html#multi-phase-initialization-private-provisional-api">Multi-Phase Initialization Private Provisional API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="memory.html">内存管理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#overview">概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#allocator-domains">分配器域</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#raw-memory-interface">原始内存接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#memory-interface">内存接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#object-allocators">对象分配器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#default-memory-allocators">默认内存分配器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#customize-memory-allocators">自定义内存分配器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#debug-hooks-on-the-python-memory-allocators">Python 内存分配器的调试钩子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#the-pymalloc-allocator">pymalloc 分配器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#tracemalloc-c-api">tracemalloc C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory.html#examples">例子</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="objimpl.html">对象实现支持</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="allocation.html">在堆上分配对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structures.html">公用对象的结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typeobj.html">类型对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typeobj.html#number-object-structures">Number Object Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typeobj.html#mapping-object-structures">Mapping Object Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typeobj.html#sequence-object-structures">Sequence Object Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typeobj.html#buffer-object-structures">Buffer Object Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typeobj.html#async-object-structures">Async Object Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typeobj.html#slot-type-typedefs">Slot Type typedefs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typeobj.html#examples">例子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gcsupport.html">使对象类型支持循环垃圾回收</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apiabiversion.html">API 和 ABI 版本管理</a></li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="../extending/embedding.html"
+                          title="上一章"><span class="section-number">1. </span>在其它应用程序嵌入 Python</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="intro.html"
+                          title="下一章">概述</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/index.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="概述"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="../extending/embedding.html" title="1. 在其它应用程序嵌入 Python"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">Python/C API 参考手册</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

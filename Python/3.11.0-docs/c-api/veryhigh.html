@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>极高层级 API &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="引用计数" href="refcounting.html" />
+    <link rel="prev" title="C API 的稳定性" href="stable.html" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/veryhigh.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="stable.html"
+                          title="上一章">C API 的稳定性</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="refcounting.html"
+                          title="下一章">引用计数</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/veryhigh.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="refcounting.html" title="引用计数"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="stable.html" title="C API 的稳定性"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python/C API 参考手册</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">极高层级 API</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="the-very-high-level-layer">
+<span id="veryhigh"></span><h1>极高层级 API<a class="headerlink" href="#the-very-high-level-layer" title="永久链接至标题">¶</a></h1>
+<p>本章节的函数将允许你执行在文件或缓冲区中提供的 Python 源代码，但它们将不允许你在更细节化的方式与解释器进行交互。</p>
+<p>这些函数中有几个可以接受特定的前缀语法符号作为形参。 可用的前缀符号有 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_eval_input</span></code>, <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_file_input</span></code> 以及 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_single_input</span></code>。 这些符号会在接受它们作为形参的函数文档中加以说明。</p>
+<p>Note also that several of these functions take <span class="c-expr sig sig-inline c"><span class="n">FILE</span><span class="p">*</span></span> parameters.  One
+particular issue which needs to be handled carefully is that the <span class="c-expr sig sig-inline c"><span class="n">FILE</span></span>
+structure for different C libraries can be different and incompatible.  Under
+Windows (at least), it is possible for dynamically linked extensions to actually
+use different libraries, so care should be taken that <span class="c-expr sig sig-inline c"><span class="n">FILE</span><span class="p">*</span></span> parameters
+are only passed to these functions if it is certain that they were created by
+the same library that the Python runtime is using.</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_Main">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Py_Main</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">argc</span></span>, <span class="n"><span class="pre">wchar_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">argv</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_Main" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>针对标准解释器的主程序。 嵌入了 Python 的程序将可使用此程序。 所提供的 <em>argc</em> 和 <em>argv</em> 形参应当与传给 C 程序的 <code class="xref c c-func docutils literal notranslate"><span class="pre">main()</span></code> 函数的形参相同（将根据用户的语言区域转换为）。 一个重要的注意事项是参数列表可能会被修改（但参数列表中字符串所指向的内容不会被修改）。 如果解释器正常退出（即未引发异常）则返回值将为 <code class="docutils literal notranslate"><span class="pre">0</span></code>，如果解释器因引发异常而退出则返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>，或者如果形参列表不能表示有效的 Python 命令行则返回 <code class="docutils literal notranslate"><span class="pre">2</span></code>。</p>
+<p>请注意如果引发了一个在其他场合下未处理的 <a class="reference internal" href="../library/exceptions.html#SystemExit" title="SystemExit"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SystemExit</span></code></a>，此函数将不会返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>，而是退出进程，只要 <code class="docutils literal notranslate"><span class="pre">Py_InspectFlag</span></code> 还未被设置。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_BytesMain">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Py_BytesMain</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">argc</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">argv</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_BytesMain" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.8.</em><p>类似于 <a class="reference internal" href="#c.Py_Main" title="Py_Main"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_Main()</span></code></a> 但 <em>argv</em> 是一个包含字节串的数组。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.8 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_AnyFile">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_AnyFile</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_AnyFile" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>这是针对下面 <a class="reference internal" href="#c.PyRun_AnyFileExFlags" title="PyRun_AnyFileExFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_AnyFileExFlags()</span></code></a> 的简化版接口，将 <em>closeit</em> 设为 <code class="docutils literal notranslate"><span class="pre">0</span></code> 而将 <em>flags</em> 设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_AnyFileFlags">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_AnyFileFlags</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_AnyFileFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>这是针对下面 <a class="reference internal" href="#c.PyRun_AnyFileExFlags" title="PyRun_AnyFileExFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_AnyFileExFlags()</span></code></a> 的简化版接口，将 <em>closeit</em> 参数设为 <code class="docutils literal notranslate"><span class="pre">0</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_AnyFileEx">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_AnyFileEx</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">closeit</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_AnyFileEx" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>这是针对下面 <a class="reference internal" href="#c.PyRun_AnyFileExFlags" title="PyRun_AnyFileExFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_AnyFileExFlags()</span></code></a> 的简化版接口，将 <em>flags</em> 参数设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_AnyFileExFlags">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_AnyFileExFlags</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">closeit</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_AnyFileExFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>如果 <em>fp</em> 指向一个关联到交互设备（控制台或终端输入或 Unix 伪终端）的文件，则返回 <a class="reference internal" href="#c.PyRun_InteractiveLoop" title="PyRun_InteractiveLoop"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_InteractiveLoop()</span></code></a> 的值，否则返回 <a class="reference internal" href="#c.PyRun_SimpleFile" title="PyRun_SimpleFile"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_SimpleFile()</span></code></a> 的结果。 <em>filename</em> 会使用文件系统的编码格式 (<a class="reference internal" href="../library/sys.html#sys.getfilesystemencoding" title="sys.getfilesystemencoding"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.getfilesystemencoding()</span></code></a>) 来解码。 如果 <em>filename</em> 为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，此函数会使用 <code class="docutils literal notranslate"><span class="pre">&quot;???&quot;</span></code> 作为文件名。 如果 <em>closeit</em> 为真值，文件会在 <code class="docutils literal notranslate"><span class="pre">PyRun_SimpleFileExFlags()</span></code> 返回之前被关闭。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_SimpleString">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_SimpleString</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">command</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_SimpleString" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>This is a simplified interface to <a class="reference internal" href="#c.PyRun_SimpleStringFlags" title="PyRun_SimpleStringFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_SimpleStringFlags()</span></code></a> below,
+leaving the <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><code class="xref c c-struct docutils literal notranslate"><span class="pre">PyCompilerFlags</span></code></a>* argument set to <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_SimpleStringFlags">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_SimpleStringFlags</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">command</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_SimpleStringFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>根据 <em>flags</em> 参数，在 <a class="reference internal" href="../library/__main__.html#module-__main__" title="__main__: The environment where top-level code is run. Covers command-line interfaces, import-time behavior, and ``__name__ == '__main__'``."><code class="xref py py-mod docutils literal notranslate"><span class="pre">__main__</span></code></a> 模块中执行 Python 源代码。 如果 <a class="reference internal" href="../library/__main__.html#module-__main__" title="__main__: The environment where top-level code is run. Covers command-line interfaces, import-time behavior, and ``__name__ == '__main__'``."><code class="xref py py-mod docutils literal notranslate"><span class="pre">__main__</span></code></a> 尚不存在，它将被创建。 成功时返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>，如果引发异常则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。 如果发生错误，则将无法获得异常信息。 对于 <em>flags</em> 的含义，请参阅下文。</p>
+<p>请注意如果引发了一个在其他场合下未处理的 <a class="reference internal" href="../library/exceptions.html#SystemExit" title="SystemExit"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SystemExit</span></code></a>，此函数将不会返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>，而是退出进程，只要 <code class="docutils literal notranslate"><span class="pre">Py_InspectFlag</span></code> 还未被设置。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_SimpleFile">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_SimpleFile</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_SimpleFile" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>这是针对下面 <a class="reference internal" href="#c.PyRun_SimpleFileExFlags" title="PyRun_SimpleFileExFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_SimpleFileExFlags()</span></code></a> 的简化版接口，将 <em>closeit</em> 设为 <code class="docutils literal notranslate"><span class="pre">0</span></code> 而将 <em>flags</em> 设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_SimpleFileEx">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_SimpleFileEx</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">closeit</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_SimpleFileEx" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>这是针对下面 <a class="reference internal" href="#c.PyRun_SimpleFileExFlags" title="PyRun_SimpleFileExFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_SimpleFileExFlags()</span></code></a> 的简化版接口，将 <em>flags</em> 设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_SimpleFileExFlags">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_SimpleFileExFlags</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">closeit</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_SimpleFileExFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>类似于 <a class="reference internal" href="#c.PyRun_SimpleStringFlags" title="PyRun_SimpleStringFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_SimpleStringFlags()</span></code></a>，但 Python 源代码是从 <em>fp</em> 读取而不是一个内存中的字符串。 <em>filename</em> 应为文件名，它将使用 <a class="reference internal" href="../glossary.html#term-filesystem-encoding-and-error-handler"><span class="xref std std-term">filesystem encoding and error handler</span></a> 来解码。 如果 <em>closeit</em> 为真值，则文件将在 <code class="docutils literal notranslate"><span class="pre">PyRun_SimpleFileExFlags()</span></code> 返回之前被关闭。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>在 Windows 上，<em>fp</em> 应当以二进制模式打开 (即 <code class="docutils literal notranslate"><span class="pre">fopen(filename,</span> <span class="pre">&quot;rb&quot;)</span></code>)。 否则，Python 可能无法正确地处理使用 LF 行结束符的脚本文件。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_InteractiveOne">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_InteractiveOne</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_InteractiveOne" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>这是针对下面 <a class="reference internal" href="#c.PyRun_InteractiveOneFlags" title="PyRun_InteractiveOneFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_InteractiveOneFlags()</span></code></a> 的简化版接口，将 <em>flags</em> 设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_InteractiveOneFlags">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_InteractiveOneFlags</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_InteractiveOneFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>根据 <em>flags</em> 参数读取并执行来自与交互设备相关联的文件的一条语句。 用户将得到使用 <code class="docutils literal notranslate"><span class="pre">sys.ps1</span></code> 和 <code class="docutils literal notranslate"><span class="pre">sys.ps2</span></code> 的提示。 <em>filename</em> 将使用 <a class="reference internal" href="../glossary.html#term-filesystem-encoding-and-error-handler"><span class="xref std std-term">filesystem encoding and error handler</span></a> 来解码。</p>
+<p>当输入被成功执行时返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>，如果引发异常则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>，或者如果存在解析错误则返回来自作为 Python 的组成部分发布的 <code class="file docutils literal notranslate"><span class="pre">errcode.h</span></code> 包括文件的错误代码。 （请注意 <code class="file docutils literal notranslate"><span class="pre">errcode.h</span></code> 并未被 <code class="file docutils literal notranslate"><span class="pre">Python.h</span></code> 所包括，因此如果需要则必须专门地包括。）</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_InteractiveLoop">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_InteractiveLoop</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_InteractiveLoop" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>这是针对下面 <a class="reference internal" href="#c.PyRun_InteractiveLoopFlags" title="PyRun_InteractiveLoopFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_InteractiveLoopFlags()</span></code></a> 的简化版接口，将 <em>flags</em> 设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_InteractiveLoopFlags">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_InteractiveLoopFlags</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_InteractiveLoopFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>读取并执行来自与交互设备相关联的语句直至到达 EOF。 用户将得到使用 <code class="docutils literal notranslate"><span class="pre">sys.ps1</span></code> 和 <code class="docutils literal notranslate"><span class="pre">sys.ps2</span></code> 的提示。 <em>filename</em> 将使用 <a class="reference internal" href="../glossary.html#term-filesystem-encoding-and-error-handler"><span class="xref std std-term">filesystem encoding and error handler</span></a> 来解码。 当位于 EOF 时将返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>，或者当失败时将返回一个负数。</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.PyOS_InputHook">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_InputHook</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.PyOS_InputHook" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>可以被设为指向一个原型为 <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">func(void)</span></code> 的函数。 该函数将在Python 的解释器提示符即将空闲并等待用户从终端输入时被调用。 返回值会被忽略。 重载这个钩子可被用来将解释器的提示符集成到其他事件循环中，就像 Python 码中 <code class="file docutils literal notranslate"><span class="pre">Modules/_tkinter.c</span></code> 所做的那样。</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.PyOS_ReadlineFunctionPointer">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_ReadlineFunctionPointer</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">FILE</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FILE</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.PyOS_ReadlineFunctionPointer" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>可以被设为指向一个原型为 <code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*func(FILE</span> <span class="pre">*stdin,</span> <span class="pre">FILE</span> <span class="pre">*stdout,</span> <span class="pre">char</span> <span class="pre">*prompt)</span></code> 的函数，重载被用来读取解释器提示符的一行输入的默认函数。 该函数被预期为如果字符串 <em>prompt</em> 不为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 就输出它，然后从所提供的标准输入文件读取一行输入，并返回结果字符串。 例如，<a class="reference internal" href="../library/readline.html#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> 模块将这个钩子设置为提供行编辑和 tab 键补全等功能。</p>
+<p>结果必须是一个由 <a class="reference internal" href="memory.html#c.PyMem_RawMalloc" title="PyMem_RawMalloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_RawMalloc()</span></code></a> 或 <a class="reference internal" href="memory.html#c.PyMem_RawRealloc" title="PyMem_RawRealloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_RawRealloc()</span></code></a> 分配的字符串，或者如果发生错误则为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>结果必须由 <a class="reference internal" href="memory.html#c.PyMem_RawMalloc" title="PyMem_RawMalloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_RawMalloc()</span></code></a> 或 <a class="reference internal" href="memory.html#c.PyMem_RawRealloc" title="PyMem_RawRealloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_RawRealloc()</span></code></a> 分配，而不是由 <a class="reference internal" href="memory.html#c.PyMem_Malloc" title="PyMem_Malloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_Malloc()</span></code></a> 或 <a class="reference internal" href="memory.html#c.PyMem_Realloc" title="PyMem_Realloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_Realloc()</span></code></a> 分配。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_String">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_String</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">globals</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locals</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_String" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>这是针对下面 <a class="reference internal" href="#c.PyRun_StringFlags" title="PyRun_StringFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_StringFlags()</span></code></a> 的简化版接口，将 <em>flags</em> 设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_StringFlags">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_StringFlags</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">globals</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locals</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_StringFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>在由对象 <em>globals</em> 和 <em>locals</em> 指定的上下文中执行来自 <em>str</em> 的 Python 源代码，并使用以 <em>flags</em> 指定的编译器旗标。 <em>globals</em> 必须是一个字典；<em>locals</em> 可以是任何实现了映射协议的对象。 形参 <em>start</em> 指定了应当被用来解析源代码的起始形符。</p>
+<p>返回将代码作为 Python 对象执行的结果，或者如果引发了异常则返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_File">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_File</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">globals</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locals</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_File" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>这是针对下面 <a class="reference internal" href="#c.PyRun_FileExFlags" title="PyRun_FileExFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_FileExFlags()</span></code></a> 的简化版接口，将 <em>closeit</em> 设为 <code class="docutils literal notranslate"><span class="pre">0</span></code> 并将 <em>flags</em> 设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_FileEx">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_FileEx</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">globals</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locals</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">closeit</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_FileEx" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>这是针对下面 <a class="reference internal" href="#c.PyRun_FileExFlags" title="PyRun_FileExFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_FileExFlags()</span></code></a> 的简化版接口，将 <em>flags</em> 设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_FileFlags">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_FileFlags</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">globals</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locals</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_FileFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>这是针对下面 <a class="reference internal" href="#c.PyRun_FileExFlags" title="PyRun_FileExFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_FileExFlags()</span></code></a> 的简化版接口，将 <em>closeit</em> 设为 <code class="docutils literal notranslate"><span class="pre">0</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyRun_FileExFlags">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyRun_FileExFlags</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">globals</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locals</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">closeit</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyRun_FileExFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>类似于 <a class="reference internal" href="#c.PyRun_StringFlags" title="PyRun_StringFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_StringFlags()</span></code></a>，但 Python 源代码是从 <em>fp</em> 读取而不是一个内存中的字符串。 <em>filename</em> 应为文件名，它将使用 <a class="reference internal" href="../glossary.html#term-filesystem-encoding-and-error-handler"><span class="xref std std-term">filesystem encoding and error handler</span></a> 来解码。 如果 <em>closeit</em> 为真值，则文件将在 <a class="reference internal" href="#c.PyRun_FileExFlags" title="PyRun_FileExFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyRun_FileExFlags()</span></code></a> 返回之前被关闭。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_CompileString">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Py_CompileString</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_CompileString" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>这是针对下面 <a class="reference internal" href="#c.Py_CompileStringFlags" title="Py_CompileStringFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_CompileStringFlags()</span></code></a> 的简化版接口，将 <em>flags</em> 设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_CompileStringFlags">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Py_CompileStringFlags</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_CompileStringFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>这是针对下面 <a class="reference internal" href="#c.Py_CompileStringExFlags" title="Py_CompileStringExFlags"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_CompileStringExFlags()</span></code></a> 的简化版接口，将 <em>optimize</em> 设为 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_CompileStringObject">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Py_CompileStringObject</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">optimize</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_CompileStringObject" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>解析并编译 <em>str</em> 中的 Python 源代码，返回结果代码对象。 开始形符由 <em>start</em> 给出；这可被用来限制可被编译的代码并且应为 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_eval_input</span></code>, <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_file_input</span></code> 或 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_single_input</span></code>。 由 <em>filename</em> 指定的文件名会被用来构造代码对象并可能出现在回溯信息或 <a class="reference internal" href="../library/exceptions.html#SyntaxError" title="SyntaxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SyntaxError</span></code></a> 异常消息中。 如果代码无法被解析或编译则此函数将返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+<p>整数 <em>optimize</em> 指定编译器的优化级别；值 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 将选择与 <a class="reference internal" href="../using/cmdline.html#cmdoption-O"><code class="xref std std-option docutils literal notranslate"><span class="pre">-O</span></code></a> 选项相同的解释器优化级别。 显式级别为 <code class="docutils literal notranslate"><span class="pre">0</span></code> (无优化；<code class="docutils literal notranslate"><span class="pre">__debug__</span></code> 为真值)、<code class="docutils literal notranslate"><span class="pre">1</span></code> (断言被移除，<code class="docutils literal notranslate"><span class="pre">__debug__</span></code> 为假值) 或 <code class="docutils literal notranslate"><span class="pre">2</span></code> (文档字符串也被移除)。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_CompileStringExFlags">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Py_CompileStringExFlags</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">start</span></span>, <a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">flags</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">optimize</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_CompileStringExFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>与 <a class="reference internal" href="#c.Py_CompileStringObject" title="Py_CompileStringObject"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_CompileStringObject()</span></code></a> 类似，但 <em>filename</em> 是以 <a class="reference internal" href="../glossary.html#term-filesystem-encoding-and-error-handler"><span class="xref std std-term">filesystem encoding and error handler</span></a> 解码出的字节串。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyEval_EvalCode">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyEval_EvalCode</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">co</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">globals</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locals</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyEval_EvalCode" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>这是针对 <a class="reference internal" href="#c.PyEval_EvalCodeEx" title="PyEval_EvalCodeEx"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyEval_EvalCodeEx()</span></code></a> 的简化版接口，只附带代码对象，以及全局和局部变量。 其他参数均设为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyEval_EvalCodeEx">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyEval_EvalCodeEx</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">co</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">globals</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locals</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">argcount</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">kws</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">kwcount</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">defs</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">defcount</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">kwdefs</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">closure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyEval_EvalCodeEx" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>对一个预编译的代码对象求值，为其求值给出特定的环境。 此环境由全局变量的字典，局部变量映射对象，参数、关键字和默认值的数组，<a class="reference internal" href="../glossary.html#keyword-only-parameter"><span class="std std-ref">仅限关键字</span></a> 参数的默认值的字典和单元的封闭元组构成。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyEval_EvalFrame">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyEval_EvalFrame</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="frame.html#c.PyFrameObject" title="PyFrameObject"><span class="n"><span class="pre">PyFrameObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">f</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyEval_EvalFrame" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>对一个执行帧求值。 这是针对 <a class="reference internal" href="#c.PyEval_EvalFrameEx" title="PyEval_EvalFrameEx"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyEval_EvalFrameEx()</span></code></a> 的简化版接口，用于保持向下兼容性。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyEval_EvalFrameEx">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyEval_EvalFrameEx</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="frame.html#c.PyFrameObject" title="PyFrameObject"><span class="n"><span class="pre">PyFrameObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">f</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">throwflag</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyEval_EvalFrameEx" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>这是 Python 解释运行不带修饰的主函数。 与执行帧 <em>f</em> 相关联的代码对象将被执行，解释字节码并根据需要执行调用。 额外的 <em>throwflag</em> 形参基本可以被忽略 —— 如果为真值，则会导致立即抛出一个异常；这会被用于生成器对象的 <a class="reference internal" href="../reference/expressions.html#generator.throw" title="generator.throw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">throw()</span></code></a> 方法。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>该函数现在包含一个调试断言，用以确保不会静默地丢弃活动的异常。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyEval_MergeCompilerFlags">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyEval_MergeCompilerFlags</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.PyCompilerFlags" title="PyCompilerFlags"><span class="n"><span class="pre">PyCompilerFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">cf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyEval_MergeCompilerFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>此函数会修改当前求值帧的旗标，并在成功时返回真值，失败时返回假值。</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.Py_eval_input">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Py_eval_input</span></span></span><a class="headerlink" href="#c.Py_eval_input" title="永久链接至目标">¶</a><br /></dt>
+<dd><p id="index-0">Python 语法中用于孤立表达式的起始符号；配合 <a class="reference internal" href="#c.Py_CompileString" title="Py_CompileString"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_CompileString()</span></code></a> 使用。</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.Py_file_input">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Py_file_input</span></span></span><a class="headerlink" href="#c.Py_file_input" title="永久链接至目标">¶</a><br /></dt>
+<dd><p id="index-1">Python 语法中用于从文件或其他源读取语句序列的起始符号；配合 <a class="reference internal" href="#c.Py_CompileString" title="Py_CompileString"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_CompileString()</span></code></a> 使用。 这是在编译任意长的 Python 源代码时要使用的符号。</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.Py_single_input">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Py_single_input</span></span></span><a class="headerlink" href="#c.Py_single_input" title="永久链接至目标">¶</a><br /></dt>
+<dd><p id="index-2">Python 语法中用于单独语句的起始符号；配合 <a class="reference internal" href="#c.Py_CompileString" title="Py_CompileString"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_CompileString()</span></code></a> 使用。 这是用于交互式解释器循环的符号。</p>
+</dd></dl>
+
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.PyCompilerFlags">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyCompilerFlags</span></span></span><a class="headerlink" href="#c.PyCompilerFlags" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>这是用来存放编译器旗标的结构体。 对于代码仅被编译的情况，它将作为 <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">flags</span></code> 传入，而对于代码要被执行的情况，它将作为 <code class="docutils literal notranslate"><span class="pre">PyCompilerFlags</span> <span class="pre">*flags</span></code> 传入。 在这种情况下，<code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span></code> 可以修改 <em>flags</em>。</p>
+<p>当 <code class="docutils literal notranslate"><span class="pre">PyCompilerFlags</span> <span class="pre">*flags</span></code> 为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 时，<code class="xref py py-attr docutils literal notranslate"><span class="pre">cf_flags</span></code> 将被当作等于 <code class="docutils literal notranslate"><span class="pre">0</span></code> 来处理，而任何 <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span></code> 所导致的修改都会被丢弃。</p>
+<dl class="c member">
+<dt class="sig sig-object c" id="c.PyCompilerFlags.cf_flags">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cf_flags</span></span></span><a class="headerlink" href="#c.PyCompilerFlags.cf_flags" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>编译器旗标。</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.PyCompilerFlags.cf_feature_version">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cf_feature_version</span></span></span><a class="headerlink" href="#c.PyCompilerFlags.cf_feature_version" title="永久链接至目标">¶</a><br /></dt>
+<dd><p><em>cf_feature_version</em> 是 Python 的小版本号。 它应当被初始化为 <code class="docutils literal notranslate"><span class="pre">PY_MINOR_VERSION</span></code>。</p>
+<p>此字段默认会被忽略，当且仅当在 <em>cf_flags</em> 中设置了 <code class="docutils literal notranslate"><span class="pre">PyCF_ONLY_AST</span></code> 旗标它才会被使用。</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>增加了 <em>cf_feature_version</em> 字段。</p>
+</div>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.CO_FUTURE_DIVISION">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CO_FUTURE_DIVISION</span></span></span><a class="headerlink" href="#c.CO_FUTURE_DIVISION" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>这个标志位可在 <em>flags</em> 中设置以使得除法运算符 <code class="docutils literal notranslate"><span class="pre">/</span></code> 被解读为 <span class="target" id="index-5"></span><a class="pep reference external" href="https://peps.python.org/pep-0238/"><strong>PEP 238</strong></a> 所规定的“真除法”。</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="stable.html"
+                          title="上一章">C API 的稳定性</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="refcounting.html"
+                          title="下一章">引用计数</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/veryhigh.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="refcounting.html" title="引用计数"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="stable.html" title="C API 的稳定性"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">极高层级 API</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

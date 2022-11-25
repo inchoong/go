@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>3. 编写设置脚本的配置文件 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="4. 创建源代码分发包" href="sourcedist.html" />
+    <link rel="prev" title="2. 编写安装脚本" href="setupscript.html" />
+    <link rel="canonical" href="https://docs.python.org/3/distutils/configfile.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="setupscript.html"
+                          title="上一章"><span class="section-number">2. </span>编写安装脚本</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="sourcedist.html"
+                          title="下一章"><span class="section-number">4. </span>创建源代码分发包</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/distutils/configfile.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="sourcedist.html" title="4. 创建源代码分发包"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="setupscript.html" title="2. 编写安装脚本"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">分发 Python 模块（遗留版本）</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">3. </span>编写设置脚本的配置文件</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="writing-the-setup-configuration-file">
+<span id="setup-config"></span><h1><span class="section-number">3. </span>编写设置脚本的配置文件<a class="headerlink" href="#writing-the-setup-configuration-file" title="永久链接至标题">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>这篇文档是历史遗留文档，在 <a class="reference external" href="https://setuptools.readthedocs.io/en/latest/setuptools.html">https://setuptools.readthedocs.io/en/latest/setuptools.html</a> 上的 <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> 文档独立涵盖此处包含的所有相关信息之后，将不再单独作为正式文档保留。</p>
+</div>
+<p>通常，在 <em>事前</em> 就写出构建发布包所需的一切是不可能的：你可能需要从用户或者用户的系统获取一些信息，才能继续下去。 只要这些信息相当简单 —— 例如一个用于搜索 C 头文件或库的目录列表 —— 那么提供配置文件 <code class="file docutils literal notranslate"><span class="pre">setup.cfg</span></code> 供用户配置就是一个低成本且方便的解决方式。 配置文件还允许你为任何命令选项提供默认值，而安装器可以通过命令行或编辑配置文件来覆盖这些默认值。</p>
+<p>安装配置文件是在安装脚本和安装脚本命令行之间一个适当的折衷方式 --- 安装脚本在理想情况下应当不受安装者的控制 <a class="footnote-reference brackets" href="#id2" id="id1">1</a> --- 而安装脚本命令行则在你的控制范围之外且完全取决于安装者的选择。 实际上，<code class="file docutils literal notranslate"><span class="pre">setup.cfg</span></code> (以及目标系统上的其他任何 Distutils 配置文件) 是在配置脚本之后、命令行之前被处理。 这导致了几个有用的后果:</p>
+<ul class="simple">
+<li><p>安装者可以通过编辑 <code class="file docutils literal notranslate"><span class="pre">setup.cfg</span></code> 来覆盖你放在 <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> 中的配置</p></li>
+<li><p>你可以为无法在 <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> 中方便设置的选项提供非标准的默认值</p></li>
+<li><p>安装者可以使用 <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> 的命令行选项来覆盖 <code class="file docutils literal notranslate"><span class="pre">setup.cfg</span></code> 中的一切</p></li>
+</ul>
+<p>配置文件的基本语法很简单:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[command]</span><span class="w"></span>
+<span class="na">option</span><span class="o">=</span><span class="s">value</span><span class="w"></span>
+<span class="na">...</span><span class="w"></span>
+</pre></div>
+</div>
+<p>其中 <em>command</em> 是一个 Distutils 命令 (例如 <strong class="command">build_py</strong>, <strong class="command">install</strong>)，而 <em>option</em> 是该命令所支持的某个选项。 可以为每个命令提供任意数量的选项，并且可以在文件中包括任意数量的命令组。 空白行会被忽略，以一个 <code class="docutils literal notranslate"><span class="pre">'#'</span></code> 开始的注释行也是如此。 长选项值可以简单地通过缩进后续行的方式被拆分为多行。</p>
+<p>你可以用通用的 <code class="xref std std-option docutils literal notranslate"><span class="pre">--help</span></code> 选项找出特定命令所支持的选项列表，例如</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python setup.py --help build_ext
+<span class="go">[...]</span>
+<span class="go">Options for &#39;build_ext&#39; command:</span>
+<span class="go">  --build-lib (-b)     directory for compiled extension modules</span>
+<span class="go">  --build-temp (-t)    directory for temporary files (build by-products)</span>
+<span class="go">  --inplace (-i)       ignore build-lib and put compiled extensions into the</span>
+<span class="go">                       source directory alongside your pure Python modules</span>
+<span class="go">  --include-dirs (-I)  list of directories to search for header files</span>
+<span class="go">  --define (-D)        C preprocessor macros to define</span>
+<span class="go">  --undef (-U)         C preprocessor macros to undefine</span>
+<span class="go">  --swig-opts          list of SWIG command line options</span>
+<span class="go">[...]</span>
+</pre></div>
+</div>
+<p>请注意在命令行中拼写为 <code class="xref std std-option docutils literal notranslate"><span class="pre">--foo-bar</span></code> 的选项在配置文件中会拼写为 <code class="docutils literal notranslate"><span class="pre">foo_bar</span></code>。</p>
+<p id="distutils-build-ext-inplace">例如，假设你希望你的扩展在“原地”构建 --- 就是说你有一个扩展 <code class="xref py py-mod docutils literal notranslate"><span class="pre">pkg.ext</span></code>，你希望编译出的扩展文件 (例如在 Unix 上为 <code class="file docutils literal notranslate"><span class="pre">ext.so</span></code>) 放在与你的纯 Python 模块 <code class="xref py py-mod docutils literal notranslate"><span class="pre">pkg.mod1</span></code> 和 <code class="xref py py-mod docutils literal notranslate"><span class="pre">pkg.mod2</span></code> 相同的源目录中。 你总是可以在命令行中使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">--inplace</span></code> 选项来确保这一点:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python setup.py build_ext --inplace
+</pre></div>
+</div>
+<p>但是这要求你总是显式地指定 <strong class="command">build_ext</strong> 命令，并且记得提供 <code class="xref std std-option docutils literal notranslate"><span class="pre">--inplace</span></code>。 一个更容易的方式是通过将其编码在此发布包的配置文件 <code class="file docutils literal notranslate"><span class="pre">setup.cfg</span></code> 中，“设置并忘记”该选项。</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[build_ext]</span><span class="w"></span>
+<span class="na">inplace</span><span class="o">=</span><span class="s">1</span><span class="w"></span>
+</pre></div>
+</div>
+<p>这将影响此模块发布包的所有构建，不论你是否显式指定 <strong class="command">build_ext</strong>。 如果你在你的源发布包中包括了 <code class="file docutils literal notranslate"><span class="pre">setup.cfg</span></code>，它还将影响最终用户的构建 --- 对此选项来说这可能不是个好主意，因为总是原地构建扩展会破坏模块发布包的安装。 不过在某些特殊情况下，模块是在其安装目录中被构建的，因此这可能会是个有用的功能。 （但是，发布预期在其安装目录中被构建的扩展几乎总是一个坏主意。）</p>
+<p>另一个例子：特定的命令会接受许多在多次运行中都不发生变化的选项；例如，<strong class="command">bdist_rpm</strong> 需要知道为创建 RPM 发布包生成 &quot;spec&quot; 文件所要求的所有信息。 这些信息有的来自安装脚本，有的由 Distutils 自动生成（例如已安装文件列表）。 但有的则必须作为 <strong class="command">bdist_rpm</strong> 的选项提供，每次运行时都在命令行中完成将会非常繁琐。 因此，这里提供 Distutils 本身的 <code class="file docutils literal notranslate"><span class="pre">setup.cfg</span></code> 中的一段代码:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[bdist_rpm]</span><span class="w"></span>
+<span class="na">release</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span><span class="w"></span>
+<span class="na">packager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Greg Ward &lt;gward@python.net&gt;</span><span class="w"></span>
+<span class="na">doc_files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CHANGES.txt</span><span class="w"></span>
+<span class="w">            </span><span class="na">README.txt</span><span class="w"></span>
+<span class="w">            </span><span class="na">USAGE.txt</span><span class="w"></span>
+<span class="w">            </span><span class="na">doc/</span><span class="w"></span>
+<span class="w">            </span><span class="na">examples/</span><span class="w"></span>
+</pre></div>
+</div>
+<p>请注意 <code class="docutils literal notranslate"><span class="pre">doc_files</span></code> 选项只是一个空格分隔以提高可读性的多行字符串。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>&quot;安装 Python 模块&quot; 中的 <a class="reference internal" href="../install/index.html#inst-config-syntax"><span class="std std-ref">Syntax of config files</span></a></dt><dd><p>有关配置文件的更多信息可在系统管理员手册中查看。</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">备注</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>在 Distutils 完全支持自动配置之前，这一理想可能是无法实现的。</p>
+</dd>
+</dl>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="setupscript.html"
+                          title="上一章"><span class="section-number">2. </span>编写安装脚本</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="sourcedist.html"
+                          title="下一章"><span class="section-number">4. </span>创建源代码分发包</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/distutils/configfile.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="sourcedist.html" title="4. 创建源代码分发包"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="setupscript.html" title="2. 编写安装脚本"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >分发 Python 模块（遗留版本）</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">3. </span>编写设置脚本的配置文件</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

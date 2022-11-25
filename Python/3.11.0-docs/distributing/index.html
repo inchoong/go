@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>分发 Python 模块 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="安装 Python 模块" href="../installing/index.html" />
+    <link rel="prev" title="API 和 ABI 版本管理" href="../c-api/apiabiversion.html" />
+    <link rel="canonical" href="https://docs.python.org/3/distributing/index.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">分发 Python 模块</a><ul>
+<li><a class="reference internal" href="#key-terms">关键术语</a></li>
+<li><a class="reference internal" href="#open-source-licensing-and-collaboration">开源许可与协作</a></li>
+<li><a class="reference internal" href="#installing-the-tools">安装相关工具</a></li>
+<li><a class="reference internal" href="#reading-the-python-packaging-user-guide">阅读 Python 打包用户指南</a></li>
+<li><a class="reference internal" href="#how-do-i">我该如何...？</a><ul>
+<li><a class="reference internal" href="#choose-a-name-for-my-project">...为我的项目选择一个名字？</a></li>
+<li><a class="reference internal" href="#create-and-distribute-binary-extensions">...创建和分发二进制扩展？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="../c-api/apiabiversion.html"
+                          title="上一章">API 和 ABI 版本管理</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="../installing/index.html"
+                          title="下一章">安装 Python 模块</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/distributing/index.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="../installing/index.html" title="安装 Python 模块"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="../c-api/apiabiversion.html" title="API 和 ABI 版本管理"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">分发 Python 模块</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="distributing-python-modules">
+<span id="distributing-index"></span><h1>分发 Python 模块<a class="headerlink" href="#distributing-python-modules" title="永久链接至标题">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">电子邮箱</dt>
+<dd class="field-odd"><p><a class="reference external" href="mailto:distutils-sig&#37;&#52;&#48;python&#46;org">distutils-sig<span>&#64;</span>python<span>&#46;</span>org</a></p>
+</dd>
+</dl>
+<p>作为一个流行的开源开发项目，Python拥有一个活跃的贡献者和用户支持社区，这些社区也可以让他们的软件可供其他Python开发人员在开源许可条款下使用。</p>
+<p>这允许Python用户有效地共享和协作，从其他人已经创建的解决方案中受益于常见（有时甚至是罕见的）问题，以及可以提供他们自己的解决方案。</p>
+<p>本指南涵盖了分发部分的流程。有关安装其他Python项目的指南，请参阅 <a class="reference internal" href="../installing/index.html#installing-index"><span class="std std-ref">安装指南</span></a>。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>对于企业和其他机构用户，请注意许多组织都有自己的政策来使用和贡献开源软件。在使用Python提供的分发和安装工具时，请考虑这些政策。</p>
+</div>
+<section id="key-terms">
+<h2>关键术语<a class="headerlink" href="#key-terms" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pypi.org">Python Package Index</a> 是一个开源许可的软件包公共存储库，可供所有 Python 用户使用。</p></li>
+<li><p><a class="reference external" href="https://www.pypa.io/">Python Packaging Authority</a> 是负责标准打包工具以及相关元数据和文件格式标准维护与改进的开发人员和文档作者团队。 他们基于 <a class="reference external" href="https://github.com/pypa">GitHub</a> 和 <a class="reference external" href="https://bitbucket.org/pypa/">Bitbucket</a> 这两个平台维护着各种工具、文档和问题追踪系统。</p></li>
+<li><p><a class="reference internal" href="../library/distutils.html#module-distutils" title="distutils: Support for building and installing Python modules into an existing Python installation."><code class="xref py py-mod docutils literal notranslate"><span class="pre">distutils</span></code></a> 是 1998 年首次添加到 Python 标准库的原始构建和分发系统。 虽然直接使用 <a class="reference internal" href="../library/distutils.html#module-distutils" title="distutils: Support for building and installing Python modules into an existing Python installation."><code class="xref py py-mod docutils literal notranslate"><span class="pre">distutils</span></code></a> 正在逐步淘汰，但它仍然为当前的打包和分发基础架构奠定了基础它不仅仍然是标准库的一部分，而且它的名称还以其他方式存在（例如用于协调 Python 打包标准开发的邮件列表的名称）。</p></li>
+<li><p><a class="reference external" href="https://setuptools.readthedocs.io/en/latest/">setuptools</a> （在很大程度上）是作为 <a class="reference internal" href="../library/distutils.html#module-distutils" title="distutils: Support for building and installing Python modules into an existing Python installation."><code class="xref py py-mod docutils literal notranslate"><span class="pre">distutils</span></code></a> 的取代者，于 2004 年首次发布。 它对未经修改的 <a class="reference internal" href="../library/distutils.html#module-distutils" title="distutils: Support for building and installing Python modules into an existing Python installation."><code class="xref py py-mod docutils literal notranslate"><span class="pre">distutils</span></code></a> 工具最重要的补充是能够声明对其他包的依赖。 目前它被推荐用来替代 <a class="reference internal" href="../library/distutils.html#module-distutils" title="distutils: Support for building and installing Python modules into an existing Python installation."><code class="xref py py-mod docutils literal notranslate"><span class="pre">distutils</span></code></a>，其更新更为频繁，在更为多样的 Python 版本之上为最新的打包标准提供持续支持。</p></li>
+<li><p><a class="reference external" href="https://wheel.readthedocs.io/">wheel</a> （在此上下文中）是一个将 <code class="docutils literal notranslate"><span class="pre">bdist_wheel</span></code> 命令添加到 <a class="reference internal" href="../library/distutils.html#module-distutils" title="distutils: Support for building and installing Python modules into an existing Python installation."><code class="xref py py-mod docutils literal notranslate"><span class="pre">distutils</span></code></a>/<a class="reference external" href="https://setuptools.readthedocs.io/en/latest/">setuptools</a> 的项目。这产生了一个跨平台的二进制打包格式（称为“轮子”或“轮子文件”，并在 <span class="target" id="index-3"></span><a class="pep reference external" href="https://peps.python.org/pep-0427/"><strong>PEP 427</strong></a> 中定义），它允许在系统上安装Python库，甚至包括二进制扩展的库，而不需在本地进行构建。</p></li>
+</ul>
+</section>
+<section id="open-source-licensing-and-collaboration">
+<h2>开源许可与协作<a class="headerlink" href="#open-source-licensing-and-collaboration" title="永久链接至标题">¶</a></h2>
+<p>在世界上大多数地方，软件自动受版权保护。这意味着其他开发人员需要明确的权限来复制，使用，修改和重新分发软件。</p>
+<p>开源许可是一种以相对一致的方式明确授予此类权限的方式，允许开发人员通过为各种问题免费提供通用解决方案来有效地共享和协作。这使得许多开发人员可以将更多时间用于关注他们特定情况相对独特的问题。</p>
+<p>Python提供的分发工具旨在使开发人员选择开源时，可以合理地直接将其自己的贡献回馈到该公共软件池。</p>
+<p>无论该软件是否作为开源软件发布，相同的分发工具也可用于在组织内分发软件。</p>
+</section>
+<section id="installing-the-tools">
+<h2>安装相关工具<a class="headerlink" href="#installing-the-tools" title="永久链接至标题">¶</a></h2>
+<p>标准库不包括支持现代Python打包标准的构建工具，因为核心开发团队已经发现，即使在旧版本的Python上，使用一致工作的标准工具也很重要。</p>
+<p>可以通过在命令行调用 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 模块来安装当前推荐的构建和分发工具:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">setuptools</span> <span class="n">wheel</span> <span class="n">twine</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>对于 POSIX 用户（包括 macOS 和 Linux 用户），这些说明假定使用了 <a class="reference internal" href="../glossary.html#term-virtual-environment"><span class="xref std std-term">virtual environment</span></a> 。</p>
+<p>对于Windows用户，这些说明假定在安装Python时选择了调整系统PATH环境变量的选项。</p>
+</div>
+<p>Python 打包用户指南包含有关 <a class="reference external" href="https://packaging.python.org/guides/tool-recommendations/#packaging-tool-recommendations">当前推荐工具的</a> 的更多详细信息。</p>
+</section>
+<section id="reading-the-python-packaging-user-guide">
+<span id="publishing-python-packages"></span><span id="index-1"></span><h2>阅读 Python 打包用户指南<a class="headerlink" href="#reading-the-python-packaging-user-guide" title="永久链接至标题">¶</a></h2>
+<p>“Python 打包用户指南”介绍了创建和发布项目所涉及的各个关键步骤和元素：</p>
+<ul class="simple">
+<li><p><a class="reference external" href=" https://packaging.python.org/tutorials/packaging-projects/#packaging-python-projects">项目的结构</a></p></li>
+<li><p><a class="reference external" href=" https://packaging.python.org/tutorials/packaging-projects/#creating-the-package-files">项目的构建与打包</a></p></li>
+<li><p><a class="reference external" href=" https://packaging.python.org/tutorials/packaging-projects/#uploading-the-distribution-archives">Uploading the project to the Python Package Index</a></p></li>
+<li><p><a class="reference external" href=" https://packaging.python.org/specifications/pypirc/">The .pypirc file</a></p></li>
+</ul>
+</section>
+<section id="how-do-i">
+<h2>我该如何...？<a class="headerlink" href="#how-do-i" title="永久链接至标题">¶</a></h2>
+<p>这是一些常见任务的快速解答或相关链接。</p>
+<section id="choose-a-name-for-my-project">
+<h3>...为我的项目选择一个名字？<a class="headerlink" href="#choose-a-name-for-my-project" title="永久链接至标题">¶</a></h3>
+<p>这不是一个简单的主题，但这里有一些提示：</p>
+<ul class="simple">
+<li><p>检查 Python Package Index 以查看该名称是否已被使用</p></li>
+<li><p>检查流行的托管网站如 GitHub，Bitbucket 等等，看是否已有一个该名称的项目</p></li>
+<li><p>检查您正在考虑的名称在网络搜索中出现的内容</p></li>
+<li><p>避免使用特别常见的单词，尤其是具有多重含义的单词，因为它们会使用户在搜索时难以找到您的软件</p></li>
+</ul>
+</section>
+<section id="create-and-distribute-binary-extensions">
+<h3>...创建和分发二进制扩展？<a class="headerlink" href="#create-and-distribute-binary-extensions" title="永久链接至标题">¶</a></h3>
+<p>这实际上是一个非常复杂的主题，根据您的目标，可以提供各种替代方案。 有关更多信息和建议，请参阅 Python 打包用户指南。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<p><a class="reference external" href="https://packaging.python.org/guides/packaging-binary-extensions/">Python 打包用户指南：二进制扩展</a></p>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">分发 Python 模块</a><ul>
+<li><a class="reference internal" href="#key-terms">关键术语</a></li>
+<li><a class="reference internal" href="#open-source-licensing-and-collaboration">开源许可与协作</a></li>
+<li><a class="reference internal" href="#installing-the-tools">安装相关工具</a></li>
+<li><a class="reference internal" href="#reading-the-python-packaging-user-guide">阅读 Python 打包用户指南</a></li>
+<li><a class="reference internal" href="#how-do-i">我该如何...？</a><ul>
+<li><a class="reference internal" href="#choose-a-name-for-my-project">...为我的项目选择一个名字？</a></li>
+<li><a class="reference internal" href="#create-and-distribute-binary-extensions">...创建和分发二进制扩展？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="../c-api/apiabiversion.html"
+                          title="上一章">API 和 ABI 版本管理</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="../installing/index.html"
+                          title="下一章">安装 Python 模块</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/distributing/index.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="../installing/index.html" title="安装 Python 模块"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="../c-api/apiabiversion.html" title="API 和 ABI 版本管理"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">分发 Python 模块</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

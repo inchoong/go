@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>对象协议 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="调用协议" href="call.html" />
+    <link rel="prev" title="抽象对象层" href="abstract.html" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/object.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="abstract.html"
+                          title="上一章">抽象对象层</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="call.html"
+                          title="下一章">调用协议</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/object.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="call.html" title="调用协议"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="abstract.html" title="抽象对象层"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="abstract.html" accesskey="U">抽象对象层</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">对象协议</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="object-protocol">
+<span id="object"></span><h1>对象协议<a class="headerlink" href="#object-protocol" title="永久链接至标题">¶</a></h1>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.Py_NotImplemented">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Py_NotImplemented</span></span></span><a class="headerlink" href="#c.Py_NotImplemented" title="永久链接至目标">¶</a><br /></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code> 单例，用于标记某个操作没有针对给定类型组合的实现。</p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.Py_RETURN_NOTIMPLEMENTED">
+<span class="sig-name descname"><span class="n"><span class="pre">Py_RETURN_NOTIMPLEMENTED</span></span></span><a class="headerlink" href="#c.Py_RETURN_NOTIMPLEMENTED" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>C 函数内部应正确处理 <a class="reference internal" href="#c.Py_NotImplemented" title="Py_NotImplemented"><code class="xref c c-data docutils literal notranslate"><span class="pre">Py_NotImplemented</span></code></a> 的返回过程（即增加 NotImplemented 的引用计数并返回之）。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_Print">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_Print</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_Print" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>将对象 <em>o</em> 写入到文件 <em>fp</em>。 出错时返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 。 旗标参数被用于启用特定的输出选项。 目前唯一支持的选项是 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_PRINT_RAW</span></code>；如果给出该选项，则将写入对象的 <a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code></a> 而不是 <a class="reference internal" href="../library/functions.html#repr" title="repr"><code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_HasAttr">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_HasAttr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">attr_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_HasAttr" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>如果 <em>o</em> 带有属性 <em>attr_name</em>，则返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>。这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">hasattr(o,</span> <span class="pre">attr_name)</span></code>。 此函数总是成功。</p>
+<p>注意，在调用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattr__()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattribute__()</span></code> 方法时发生的异常将被抑制。若要获得错误报告，请换用 <a class="reference internal" href="#c.PyObject_GetAttr" title="PyObject_GetAttr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_GetAttr()</span></code></a> 。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_HasAttrString">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_HasAttrString</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">attr_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_HasAttrString" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>如果 <em>o</em> 带有属性 <em>attr_name</em>，则返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>。这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">hasattr(o,</span> <span class="pre">attr_name)</span></code>。 此函数总是成功。</p>
+<p>注意，在调用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattr__()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattribute__()</span></code> 方法并创建一个临时字符串对象时，异常将被抑制。若要获得错误报告，请换用 <a class="reference internal" href="#c.PyObject_GetAttrString" title="PyObject_GetAttrString"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_GetAttrString()</span></code></a> 。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_GetAttr">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_GetAttr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">attr_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_GetAttr" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>从对象 <em>o</em> 中读取名为 <em>attr_name</em> 的属性。成功返回属性值，失败则返回  <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。 这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">o.attr_name</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_GetAttrString">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_GetAttrString</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">attr_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_GetAttrString" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>从对象 <em>o</em> 中读取一个名为 <em>attr_name</em> 的属性。成功时返回属性值，失败则返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">o.attr_name</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_GenericGetAttr">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_GenericGetAttr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_GenericGetAttr" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>通用的属性获取函数，用于放入类型对象的 <code class="docutils literal notranslate"><span class="pre">tp_getattro</span></code> 槽中。它在类的字典中（位于对象的 MRO 中）查找某个描述符，并在对象的 <a class="reference internal" href="../library/stdtypes.html#object.__dict__" title="object.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a> 中查找某个属性。正如 <a class="reference internal" href="../reference/datamodel.html#descriptors"><span class="std std-ref">实现描述器</span></a> 所述，数据描述符优先于实例属性，而非数据描述符则不优先。失败则会触发 <a class="reference internal" href="../library/exceptions.html#AttributeError" title="AttributeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> 。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_SetAttr">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_SetAttr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">attr_name</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_SetAttr" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>将对象 <em>o</em> 中名为 <em>attr_name</em> 的属性值设为 <em>v</em> 。失败时引发异常并返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>；成功时返 回``0`` 。这相当于 Python 语句 <code class="docutils literal notranslate"><span class="pre">o.attr_name</span> <span class="pre">=</span> <span class="pre">v</span></code>。</p>
+<p>如果 <em>v</em> 为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，该属性将被删除。 此行为已被弃用而应改用 <a class="reference internal" href="#c.PyObject_DelAttr" title="PyObject_DelAttr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_DelAttr()</span></code></a>，但目前还没有移除它的计划。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_SetAttrString">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_SetAttrString</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">attr_name</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_SetAttrString" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>将对象 <em>o</em> 中名为 <em>attr_name</em> 的属性值设为 <em>v</em> 。失败时引发异常并返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>；成功时返 回``0`` 。这相当于 Python 语句 <code class="docutils literal notranslate"><span class="pre">o.attr_name</span> <span class="pre">=</span> <span class="pre">v</span></code>。</p>
+<p>如果 <em>v</em> 为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，该属性将被删除，但是此功能已被弃用而应改用 <a class="reference internal" href="#c.PyObject_DelAttrString" title="PyObject_DelAttrString"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_DelAttrString()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_GenericSetAttr">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_GenericSetAttr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_GenericSetAttr" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>通用的属性设置和删除函数，用于放入类型对象的 <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_setattro" title="PyTypeObject.tp_setattro"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_setattro</span></code></a> 槽。它在类的字典中（位于对象的MRO中）查找数据描述器，如果找到，则将比在实例字典中设置或删除属性优先执行。否则，该属性将在对象的 <a class="reference internal" href="../library/stdtypes.html#object.__dict__" title="object.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a> 中设置或删除。如果成功将返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>，否则将引发 <a class="reference internal" href="../library/exceptions.html#AttributeError" title="AttributeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> 并返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_DelAttr">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_DelAttr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">attr_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_DelAttr" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>删除对象 <em>o</em> 中名为 <em>attr_name</em> 的属性。失败时返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。这相当于 Python 语句 <code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">o.attr_name</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_DelAttrString">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_DelAttrString</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">attr_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_DelAttrString" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>删除对象 <em>o</em> 中名为 <em>attr_name</em> 的属性。失败时返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。这相当于 Python 语句 <code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">o.attr_name</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_GenericGetDict">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_GenericGetDict</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_GenericGetDict" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.10.</em><p><code class="docutils literal notranslate"><span class="pre">__dict__</span></code> 描述符的获取函数的一种通用实现。必要时会创建该字典。</p>
+<p>This function may also be called to get the <a class="reference internal" href="../library/stdtypes.html#object.__dict__" title="object.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a>
+of the object <em>o</em>. Pass <code class="docutils literal notranslate"><span class="pre">NULL</span></code> for <em>context</em> when calling it.
+Since this function may need to allocate memory for the
+dictionary, it may be more efficient to call <a class="reference internal" href="#c.PyObject_GetAttr" title="PyObject_GetAttr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_GetAttr()</span></code></a>
+when accessing an attribute on the object.</p>
+<p>On failure, returns <code class="docutils literal notranslate"><span class="pre">NULL</span></code> with an exception set.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_GenericSetDict">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_GenericSetDict</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_GenericSetDict" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.7.</em><p><code class="docutils literal notranslate"><span class="pre">__dict__</span></code> 描述符设置函数的一种通用实现。这里不允许删除该字典。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c._PyObject_GetDictPtr">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">_PyObject_GetDictPtr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c._PyObject_GetDictPtr" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>Return a pointer to <a class="reference internal" href="../library/stdtypes.html#object.__dict__" title="object.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a> of the object <em>obj</em>.
+If there is no <code class="docutils literal notranslate"><span class="pre">__dict__</span></code>, return <code class="docutils literal notranslate"><span class="pre">NULL</span></code> without setting an exception.</p>
+<p>This function may need to allocate memory for the
+dictionary, so it may be more efficient to call <a class="reference internal" href="#c.PyObject_GetAttr" title="PyObject_GetAttr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_GetAttr()</span></code></a>
+when accessing an attribute on the object.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_RichCompare">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_RichCompare</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o1</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">opid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_RichCompare" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>用 <em>opid</em> 指定的操作比较 <em>o1</em> 和 <em>o2</em> 的值，必须是 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_LT</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_LE</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_EQ</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_NE</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_GT</span></code> 或 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_GE</span></code> 之一，分别对应于``&lt;<code class="docutils literal notranslate"><span class="pre">、``&lt;=</span></code> 、<code class="docutils literal notranslate"><span class="pre">==</span></code> 、 <code class="docutils literal notranslate"><span class="pre">!=</span></code> 、<code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 或 <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>。这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">o1</span> <span class="pre">op</span> <span class="pre">o2</span></code>，其中 <code class="docutils literal notranslate"><span class="pre">op</span></code> 是对应于 <em>opid</em> 的操作符。成功时返回比较值，失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_RichCompareBool">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_RichCompareBool</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o1</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">opid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_RichCompareBool" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>用 <em>opid</em> 指定的操作比较 <em>o1</em> 和 <em>o2</em> 的值，必须是 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_LT</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_LE</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_EQ</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_NE</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_GT</span></code> 或 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_GE</span></code> 之一，分别对应于 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 、<code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>、 <code class="docutils literal notranslate"><span class="pre">==</span></code> 、<code class="docutils literal notranslate"><span class="pre">!=</span></code> 、<code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 或 <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>。错误时返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>，若结果为 false 则返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>。这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">o1</span> <span class="pre">op</span> <span class="pre">o2</span></code>，其中 <code class="docutils literal notranslate"><span class="pre">op</span></code> 是对应于 <em>opid</em> 的操作符。</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>如果 <em>o1</em> 和 <em>o2</em> 是同一个对象，<a class="reference internal" href="#c.PyObject_RichCompareBool" title="PyObject_RichCompareBool"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_RichCompareBool()</span></code></a> 为 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_EQ</span></code> 则返回 <code class="docutils literal notranslate"><span class="pre">1</span></code> ，为 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_NE</span></code> 则返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>。</p>
+</div>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_Repr">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_Repr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_Repr" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p id="index-0">计算对象 <em>o</em> 的字符串形式。 成功时返回字符串，失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。 这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">repr(o)</span></code>。 由内置函数 <a class="reference internal" href="../library/functions.html#repr" title="repr"><code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code></a>  调用。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>该函数现在包含一个调试断言，用以确保不会静默地丢弃活动的异常。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_ASCII">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_ASCII</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_ASCII" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p id="index-1">与 <a class="reference internal" href="#c.PyObject_Repr" title="PyObject_Repr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_Repr()</span></code></a> 一样，计算对象 <em>o</em> 的字符串形式，但在 <a class="reference internal" href="#c.PyObject_Repr" title="PyObject_Repr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_Repr()</span></code></a> 返回的字符串中用 <code class="docutils literal notranslate"><span class="pre">\x</span></code>、<code class="docutils literal notranslate"><span class="pre">\u</span></code> 或 <code class="docutils literal notranslate"><span class="pre">\U</span></code> 转义非 ASCII 字符。这将生成一个类似于 Python 2 中由 <a class="reference internal" href="#c.PyObject_Repr" title="PyObject_Repr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_Repr()</span></code></a> 返回的字符串。由内置函数 <a class="reference internal" href="../library/functions.html#ascii" title="ascii"><code class="xref py py-func docutils literal notranslate"><span class="pre">ascii()</span></code></a> 调用。</p>
+<span class="target" id="index-2"></span></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_Str">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_Str</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_Str" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>计算对象 <em>o</em> 的字符串形式。 成功时返回字符串，失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。 这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">str(o)</span></code>。由内置函数 <a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code></a> 调用，因此也由 <a class="reference internal" href="../library/functions.html#print" title="print"><code class="xref py py-func docutils literal notranslate"><span class="pre">print()</span></code></a> 函数调用。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>该函数现在包含一个调试断言，用以确保不会静默地丢弃活动的异常。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_Bytes">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_Bytes</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_Bytes" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p id="index-3">计算对象 <em>o</em> 的字节形式。失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，成功时返回一个字节串对象。这相当于 <em>o</em> 不是整数时的 Python 表达式 <code class="docutils literal notranslate"><span class="pre">bytes(o)</span></code> 。与 <code class="docutils literal notranslate"><span class="pre">bytes(o)</span></code> 不同的是，当 <em>o</em> 是整数而不是初始为 0 的字节串对象时，会触发 TypeError。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_IsSubclass">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_IsSubclass</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">derived</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">cls</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_IsSubclass" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>如果 <em>derived</em> 类与 <em>cls</em> 类相同或为其派生类，则返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>。 如果出错则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。</p>
+<p>如果 <em>cls</em> 是元组，则会对 <em>cls</em> 进行逐项检测。如果至少有一次检测返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>，结果将为 <code class="docutils literal notranslate"><span class="pre">1</span></code>，否则将是 <code class="docutils literal notranslate"><span class="pre">0</span></code>。</p>
+<p>正如 <span class="target" id="index-11"></span><a class="pep reference external" href="https://peps.python.org/pep-3119/"><strong>PEP 3119</strong></a> 所述，如果 <em>cls</em> 带有 <a class="reference internal" href="../reference/datamodel.html#class.__subclasscheck__" title="class.__subclasscheck__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__subclasscheck__()</span></code></a> 方法，将会被调用以确定子类的状态。 否则，如果 <em>derived</em> 是个直接或间接子类，即包含在 <code class="docutils literal notranslate"><span class="pre">cls.__mro__</span></code> 中，那么它就是 <em>cls</em> 的一个子类。</p>
+<p>通常只有类对象才会被视为类，即 <a class="reference internal" href="../library/functions.html#type" title="type"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a> 或派生类的实例。然而，对象可以通过拥有 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__bases__</span></code> 属性（必须是基类的元组）来覆盖这一点。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_IsInstance">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_IsInstance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">inst</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">cls</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_IsInstance" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>如果 <em>inst</em> 是 <em>cls</em> 类或其子类的实例，则返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>，如果不是则返回``0``。 如果出错则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 并设置一个异常。</p>
+<p>如果 <em>cls</em> 是元组，则会对 <em>cls</em> 进行逐项检测。如果至少有一次检测返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>，结果将为 <code class="docutils literal notranslate"><span class="pre">1</span></code>，否则将是 <code class="docutils literal notranslate"><span class="pre">0</span></code>。</p>
+<p>正如 <span class="target" id="index-12"></span><a class="pep reference external" href="https://peps.python.org/pep-3119/"><strong>PEP 3119</strong></a> 所述，如果 <em>cls</em> 带有 <a class="reference internal" href="../reference/datamodel.html#class.__subclasscheck__" title="class.__subclasscheck__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__subclasscheck__()</span></code></a> 方法，将会被调用以确定子类的状态。 否则，如果 <em>derived</em> 是 <em>cls</em> 的子类，那么它就是 <em>cls</em> 的一个实例。</p>
+<p>实例 <em>inst</em> 可以通过 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__class__</span></code> 属性来覆盖其所属类。</p>
+<p>对象 <em>cls</em> 是否被认作类，以及基类是什么，均可通过 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__bases__</span></code> 属性（必须是基类的元组）进行覆盖。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_Hash">
+<span class="n"><span class="pre">Py_hash_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_Hash</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_Hash" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p id="index-6">计算并返回对象的哈希值 <em>o</em>。 失败时返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">hash(o)</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>现在的返回类型是 Py_hash_t。 这是一个大小与 <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a> 相同的有符号整数。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_HashNotImplemented">
+<span class="n"><span class="pre">Py_hash_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_HashNotImplemented</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_HashNotImplemented" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>设置一个 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 表示 <code class="docutils literal notranslate"><span class="pre">type(o)</span></code> 是不可哈希的，并返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 。该函数保存在 <code class="docutils literal notranslate"><span class="pre">tp_hash</span></code> 槽中时会受到特别对待，允许某个类型向解释器显式表明它不可散列。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_IsTrue">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_IsTrue</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_IsTrue" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>如果对象 <em>o</em> 被认为是 true，则返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>。这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">not</span> <span class="pre">o</span></code>。 失败则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_Not">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_Not</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_Not" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>如果对象 <em>o</em> 被认为是 true，则返回 <code class="docutils literal notranslate"><span class="pre">1</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>。这相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">not</span> <span class="pre">o</span></code>。 失败则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_Type">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_Type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_Type" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p id="index-7">When <em>o</em> is non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code>, returns a type object corresponding to the object type
+of object <em>o</em>. On failure, raises <a class="reference internal" href="../library/exceptions.html#SystemError" title="SystemError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SystemError</span></code></a> and returns <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.  This
+is equivalent to the Python expression <code class="docutils literal notranslate"><span class="pre">type(o)</span></code>. This function increments the
+reference count of the return value. There's really no reason to use this
+function instead of the <a class="reference internal" href="structures.html#c.Py_TYPE" title="Py_TYPE"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_TYPE()</span></code></a> function, which returns a
+pointer of type <span class="c-expr sig sig-inline c"><a class="reference internal" href="type.html#c.PyTypeObject" title="PyTypeObject"><span class="n">PyTypeObject</span></a><span class="p">*</span></span>, except when the incremented reference
+count is needed.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_TypeCheck">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_TypeCheck</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="type.html#c.PyTypeObject" title="PyTypeObject"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_TypeCheck" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>如果对象 <em>o</em> 是 <em>type</em> 类型或其子类型，则返回非零，否则返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>。两个参数都必须非 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_Size">
+<a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_Size</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_Size" title="永久链接至目标">¶</a><br /></dt>
+<dt class="sig sig-object c" id="c.PyObject_Length">
+<a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_Length</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_Length" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p id="index-8">返回对象 <em>o</em> 的长度。 如果对象 <em>o</em> 支持序列和映射协议，则返回序列长度。 出错时返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。这等同于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">len(o)</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_LengthHint">
+<a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_LengthHint</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">defaultvalue</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_LengthHint" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>返回对象 <em>o</em> 的估计长度。首先尝试返回实际长度，然后用  <a class="reference internal" href="../reference/datamodel.html#object.__length_hint__" title="object.__length_hint__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__length_hint__()</span></code></a> 进行估计，最后返回默认值。出错时返回``-1``。这等同于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">operator.length_hint(o,</span> <span class="pre">defaultvalue)</span></code>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_GetItem">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_GetItem</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_GetItem" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>返回对象 <em>key</em> 对应的 <em>o</em> 元素，或在失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。这等同于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">o[key]</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_SetItem">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_SetItem</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">key</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_SetItem" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>将对象 <em>key</em> 映射到值 <em>v</em>。 失败时引发异常并返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>；成功时返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>。 这相当于 Python 语句 <code class="docutils literal notranslate"><span class="pre">o[key]</span> <span class="pre">=</span> <span class="pre">v</span></code>。该函数 <em>不会</em> 偷取 <em>v</em> 的引用计数。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_DelItem">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_DelItem</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_DelItem" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>从对象 <em>o</em> 中移除对象 <em>key</em> 的映射。失败时返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。 这相当于 Python 语句 <code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">o[key]</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_Dir">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_Dir</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_Dir" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>相当于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">dir(o)</span></code>，返回一个（可能为空）适合对象参数的字符串列表，如果出错则返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。 如果参数为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，类似 Python 的 <code class="docutils literal notranslate"><span class="pre">dir()</span></code>，则返回当前 locals 的名字；这时如果没有活动的执行框架，则返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，但 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 将返回 false。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_GetIter">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_GetIter</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_GetIter" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>等同于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">iter(o)</span></code>。为对象参数返回一个新的迭代器，如果该对象已经是一个迭代器，则返回对象本身。如果对象不能被迭代，会引发  <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> ，并返回  <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_GetAIter">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_GetAIter</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_GetAIter" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.10.</em><p>等同于 Python 表达式 <code class="docutils literal notranslate"><span class="pre">aiter(o)</span></code>。接受一个 <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterable</span></code> 对象，并为其返回一个 <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterator</span></code>。通常返回的是一个新迭代器，但如果参数是一个 <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterator</span></code>，将返回其自身。如果该对象不能被迭代，会引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>，并返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.10 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="abstract.html"
+                          title="上一章">抽象对象层</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="call.html"
+                          title="下一章">调用协议</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/object.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="call.html" title="调用协议"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="abstract.html" title="抽象对象层"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="abstract.html" >抽象对象层</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">对象协议</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>7. 扩展 Distutils &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="8. 命令参考" href="commandref.html" />
+    <link rel="prev" title="6. Distutils 示例" href="examples.html" />
+    <link rel="canonical" href="https://docs.python.org/3/distutils/extending.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">7. 扩展 Distutils</a><ul>
+<li><a class="reference internal" href="#integrating-new-commands">7.1. 集成新的命令</a></li>
+<li><a class="reference internal" href="#adding-new-distribution-types">7.2. 添加新的发布类型</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="examples.html"
+                          title="上一章"><span class="section-number">6. </span>Distutils 示例</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="commandref.html"
+                          title="下一章"><span class="section-number">8. </span>命令参考</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/distutils/extending.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="commandref.html" title="8. 命令参考"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="6. Distutils 示例"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">分发 Python 模块（遗留版本）</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">7. </span>扩展 Distutils</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="extending-distutils">
+<span id="id1"></span><h1><span class="section-number">7. </span>扩展 Distutils<a class="headerlink" href="#extending-distutils" title="永久链接至标题">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>这篇文档是历史遗留文档，在 <a class="reference external" href="https://setuptools.readthedocs.io/en/latest/setuptools.html">https://setuptools.readthedocs.io/en/latest/setuptools.html</a> 上的 <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> 文档独立涵盖此处包含的所有相关信息之后，将不再单独作为正式文档保留。</p>
+</div>
+<p>Distutils 可以通过各种方式扩展。 大多数扩展都采用新命令或现有命令的替换形式。 例如，可以编写新命令以支持新的特定于平台的包格式，但是可以修改现有命令的替换，以修改命令在包上的操作细节。</p>
+<p>distutils 的大多数扩展都在想要修改现有命令的 <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> 脚本中编写；其中许多只是简单地在 <code class="file docutils literal notranslate"><span class="pre">.py</span></code> 文件以外添加了一些应当被拷贝到包中的文件后缀以便使用。</p>
+<p>大多部 distutils 命令的实现都是 <a class="reference internal" href="apiref.html#distutils.cmd.Command" title="distutils.cmd.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">distutils.cmd.Command</span></code></a> 类的子类。 新增命令可直接继承自 <code class="xref py py-class docutils literal notranslate"><span class="pre">Command</span></code>，而替换命令往往间接派生自 <code class="xref py py-class docutils literal notranslate"><span class="pre">Command</span></code>， 直接子类化它们所替换的命令。 所有命令都要求自 <code class="xref py py-class docutils literal notranslate"><span class="pre">Command</span></code> 派生。</p>
+<section id="integrating-new-commands">
+<h2><span class="section-number">7.1. </span>集成新的命令<a class="headerlink" href="#integrating-new-commands" title="永久链接至标题">¶</a></h2>
+<p>有多种方法可将新的命令实现集成到 distutils 中。 最困难的一种是鼓动在 distutils 自身内部包含新特性，并等待（以及要求）某个 Python 版本提供该支持。 出于多种原因，这确实是相当难的。</p>
+<p>对于大多数需求来说最为常见并且可能最为合理的一种则是通过你自己的 <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> 脚本来包含新的实现，然后让 <a class="reference internal" href="apiref.html#distutils.core.setup" title="distutils.core.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">distutils.core.setup()</span></code></a> 函数使用它们:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">distutils.command.build_py</span> <span class="kn">import</span> <span class="n">build_py</span> <span class="k">as</span> <span class="n">_build_py</span>
+<span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
+
+<span class="k">class</span> <span class="nc">build_py</span><span class="p">(</span><span class="n">_build_py</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Specialized Python source builder.&quot;&quot;&quot;</span>
+
+    <span class="c1"># implement whatever needs to be different...</span>
+
+<span class="n">setup</span><span class="p">(</span><span class="n">cmdclass</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;build_py&#39;</span><span class="p">:</span> <span class="n">build_py</span><span class="p">},</span>
+      <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果新的实现必须通过特定的包来使用则此方式最为适宜，因为每个对这个包感兴趣的人都将会需要有新的命令实现。</p>
+<p>从 Python 2.4 开始，还有第三个选项可用，其目标是允许添加支持现有 <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> 脚本的新命令，而不需要修改 Python 安装包。 这预计可允许第三方扩展提供对附加打包系统的支持，而相应命令又可用于任何 distutils 命令可被使用的地方。 新的配置选项 <code class="docutils literal notranslate"><span class="pre">command_packages</span></code> (命令行选项为 <code class="xref std std-option docutils literal notranslate"><span class="pre">--command-packages</span></code>) 可用来指定附加包，以在其中查找实现新增命令的模块。 像所有 distutils 选项一样，这可以通过命令行或配置文件来指定。 此选项只能在配置文件的 <code class="docutils literal notranslate"><span class="pre">[global]</span></code> 小节之中或在命令行的任何命令之前设置。 如果是设置在配置文件中，则它可被命令行设置重载；如果在命令行中将其设为空字符串则将会使用默认值。 此选项绝不应当在随特定包提供的配置文件中设置。</p>
+<p>这个新选项可被用来添加任意数量的包到查找命令实现的包列表；多个包名应当以逗号分隔。 当未指明时，查找将只在 <a class="reference internal" href="apiref.html#module-distutils.command" title="distutils.command: Contains one module for each standard Distutils command."><code class="xref py py-mod docutils literal notranslate"><span class="pre">distutils.command</span></code></a> 包中进行。 但是当 <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> 附带 <code class="docutils literal notranslate"><span class="pre">--command-packages</span> <span class="pre">distcmds,buildcmds</span></code> 选项运行时，<a class="reference internal" href="apiref.html#module-distutils.command" title="distutils.command: Contains one module for each standard Distutils command."><code class="xref py py-mod docutils literal notranslate"><span class="pre">distutils.command</span></code></a>, <code class="xref py py-mod docutils literal notranslate"><span class="pre">distcmds</span></code> 和 <code class="xref py py-mod docutils literal notranslate"><span class="pre">buildcmds</span></code> 包将按此顺序被查找。 新的命令应当在与命名同名的模块中由同名的类来实现。 给定上述示例命令行选项，则命令 <strong class="command">bdist_openpkg</strong> 可由类 <code class="xref py py-class docutils literal notranslate"><span class="pre">distcmds.bdist_openpkg.bdist_openpkg</span></code> 或 <code class="xref py py-class docutils literal notranslate"><span class="pre">buildcmds.bdist_openpkg.bdist_openpkg</span></code> 来实现。</p>
+</section>
+<section id="adding-new-distribution-types">
+<h2><span class="section-number">7.2. </span>添加新的发布类型<a class="headerlink" href="#adding-new-distribution-types" title="永久链接至标题">¶</a></h2>
+<p>创建发布（在 <code class="file docutils literal notranslate"><span class="pre">dist/</span></code> 目录中的文件）的命令需要将 <code class="docutils literal notranslate"><span class="pre">(command,</span> <span class="pre">filename)</span></code> 二元组添加到 <code class="docutils literal notranslate"><span class="pre">self.distribution.dist_files</span></code> 以便 <strong class="command">upload</strong> 可以将其上传到 PyPI。 二元组中的 <em>filename</em> 不包含路径信息而只有文件名本身。 在 dry-run 模式下，二元组仍然应当被添加以表示必须创建的内容。</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">7. 扩展 Distutils</a><ul>
+<li><a class="reference internal" href="#integrating-new-commands">7.1. 集成新的命令</a></li>
+<li><a class="reference internal" href="#adding-new-distribution-types">7.2. 添加新的发布类型</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="examples.html"
+                          title="上一章"><span class="section-number">6. </span>Distutils 示例</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="commandref.html"
+                          title="下一章"><span class="section-number">8. </span>命令参考</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/distutils/extending.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="commandref.html" title="8. 命令参考"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="6. Distutils 示例"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >分发 Python 模块（遗留版本）</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">7. </span>扩展 Distutils</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

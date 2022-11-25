@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>操作系统实用工具 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="导入模块" href="import.html" />
+    <link rel="prev" title="工具" href="utilities.html" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/sys.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">操作系统实用工具</a></li>
+<li><a class="reference internal" href="#system-functions">系统功能</a></li>
+<li><a class="reference internal" href="#process-control">过程控制</a></li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="utilities.html"
+                          title="上一章">工具</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="import.html"
+                          title="下一章">导入模块</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/sys.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="import.html" title="导入模块"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="utilities.html" title="工具"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="utilities.html" accesskey="U">工具</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">操作系统实用工具</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="operating-system-utilities">
+<span id="os"></span><h1>操作系统实用工具<a class="headerlink" href="#operating-system-utilities" title="永久链接至标题">¶</a></h1>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_FSPath">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_FSPath</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_FSPath" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: New reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.6.</em><p>返回 <em>path</em> 在文件系统中的表示形式。 如果该对象是一个 <a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 或 <a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象，则它的引用计数将会增加。 如果该对象实现了 <a class="reference internal" href="../library/os.html#os.PathLike" title="os.PathLike"><code class="xref py py-class docutils literal notranslate"><span class="pre">os.PathLike</span></code></a> 接口，则只要它是一个 <a class="reference internal" href="../library/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> 或 <a class="reference internal" href="../library/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象就将返回 <a class="reference internal" href="../library/os.html#os.PathLike.__fspath__" title="os.PathLike.__fspath__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__fspath__()</span></code></a>。 在其他情况下将引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 并返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_FdIsInteractive">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Py_FdIsInteractive</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FILE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">fp</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_FdIsInteractive" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>如果名称为 <em>filename</em> 的标准 I/O 文件 <em>fp</em> 被确认为可交互的则返回真（非零）值。 <code class="docutils literal notranslate"><span class="pre">isatty(fileno(fp))</span></code> 为真值的文件均属于这种情况。 如果全局旗标 <a class="reference internal" href="init.html#c.Py_InteractiveFlag" title="Py_InteractiveFlag"><code class="xref c c-data docutils literal notranslate"><span class="pre">Py_InteractiveFlag</span></code></a> 为真值，此函数在 <em>filename</em> 指针为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 或者其名称等于字符串 <code class="docutils literal notranslate"><span class="pre">'&lt;stdin&gt;'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'???'</span></code> 时也将返回真值。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_BeforeFork">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_BeforeFork</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_BeforeFork" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> on platforms with fork() since version 3.7.</em><p>在进程分叉之前准备某些内部状态的函数。 此函数应当在调用 <code class="xref c c-func docutils literal notranslate"><span class="pre">fork()</span></code> 或者任何类似的克隆当前进程的函数之前被调用。 只适用于定义了 <code class="xref c c-func docutils literal notranslate"><span class="pre">fork()</span></code> 的系统。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>C <code class="xref c c-func docutils literal notranslate"><span class="pre">fork()</span></code> 调用应当只在 <a class="reference internal" href="init.html#fork-and-threads"><span class="std std-ref">&quot;main&quot; 线程</span></a> (位于 <a class="reference internal" href="init.html#sub-interpreter-support"><span class="std std-ref">&quot;main&quot; 解释器</span></a>) 中进行。 对于 <code class="docutils literal notranslate"><span class="pre">PyOS_BeforeFork()</span></code> 来说也是如此。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_AfterFork_Parent">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_AfterFork_Parent</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_AfterFork_Parent" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> on platforms with fork() since version 3.7.</em><p>在进程分叉之后更新某些内部状态的函数。 此函数应当在调用 <code class="xref c c-func docutils literal notranslate"><span class="pre">fork()</span></code> 或任何类似的克隆当前进程的函数之后被调用，无论进程克隆是否成功。 只适用于定义了 <code class="xref c c-func docutils literal notranslate"><span class="pre">fork()</span></code> 的系统。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>C <code class="xref c c-func docutils literal notranslate"><span class="pre">fork()</span></code> 调用应当只在 <a class="reference internal" href="init.html#fork-and-threads"><span class="std std-ref">&quot;main&quot; 线程</span></a> (位于 <a class="reference internal" href="init.html#sub-interpreter-support"><span class="std std-ref">&quot;main&quot; 解释器</span></a>) 中进行。 对于 <code class="docutils literal notranslate"><span class="pre">PyOS_AfterFork_Parent()</span></code> 来说也是如此。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_AfterFork_Child">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_AfterFork_Child</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_AfterFork_Child" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> on platforms with fork() since version 3.7.</em><p>在进程分叉之后更新内部解释器状态的函数。 此函数必须在调用 <code class="xref c c-func docutils literal notranslate"><span class="pre">fork()</span></code> 或任何类似的克隆当前进程的函数之后在子进程中被调用，如果该进程有机会回调到 Python 解释器的话。 只适用于定义了 <code class="xref c c-func docutils literal notranslate"><span class="pre">fork()</span></code> 的系统。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>C <code class="xref c c-func docutils literal notranslate"><span class="pre">fork()</span></code> 调用应当只在 <a class="reference internal" href="init.html#fork-and-threads"><span class="std std-ref">&quot;main&quot; 线程</span></a> (位于 <a class="reference internal" href="init.html#sub-interpreter-support"><span class="std std-ref">&quot;main&quot; 解释器</span></a>) 中进行。 对于 <code class="docutils literal notranslate"><span class="pre">PyOS_AfterFork_Child()</span></code> 来说也是如此。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<p><a class="reference internal" href="../library/os.html#os.register_at_fork" title="os.register_at_fork"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.register_at_fork()</span></code></a> 允许注册可被 <a class="reference internal" href="#c.PyOS_BeforeFork" title="PyOS_BeforeFork"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyOS_BeforeFork()</span></code></a>, <a class="reference internal" href="#c.PyOS_AfterFork_Parent" title="PyOS_AfterFork_Parent"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyOS_AfterFork_Parent()</span></code></a> 和 <a class="reference internal" href="#c.PyOS_AfterFork_Child" title="PyOS_AfterFork_Child"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyOS_AfterFork_Child()</span></code></a> 调用的自定义 Python 函数。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_AfterFork">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_AfterFork</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_AfterFork" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> on platforms with fork().</em><p>在进程分叉之后更新某些内部状态的函数；如果要继续使用 Python 解释器则此函数应当在新进程中被调用。 如果已将一个新的可执行文件载入到新进程中，则不需要调用此函数。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.7 版后已移除: </span>此函数已被 <a class="reference internal" href="#c.PyOS_AfterFork_Child" title="PyOS_AfterFork_Child"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyOS_AfterFork_Child()</span></code></a> 取代。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_CheckStack">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_CheckStack</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_CheckStack" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> on platforms with USE_STACKCHECK since version 3.7.</em><p>Return true when the interpreter runs out of stack space.  This is a reliable
+check, but is only available when <code class="xref py py-const docutils literal notranslate"><span class="pre">USE_STACKCHECK</span></code> is defined (currently
+on certain versions of Windows using the Microsoft Visual C++ compiler).
+<code class="xref py py-const docutils literal notranslate"><span class="pre">USE_STACKCHECK</span></code> will be defined automatically; you should never
+change the definition in your own code.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_getsig">
+<span class="n"><span class="pre">PyOS_sighandler_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_getsig</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_getsig" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>Return the current signal handler for signal <em>i</em>.  This is a thin wrapper around
+either <code class="xref c c-func docutils literal notranslate"><span class="pre">sigaction()</span></code> or <code class="xref c c-func docutils literal notranslate"><span class="pre">signal()</span></code>.  Do not call those functions
+directly! <code class="xref c c-type docutils literal notranslate"><span class="pre">PyOS_sighandler_t</span></code> is a typedef alias for <span class="c-expr sig sig-inline c"><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="p">*</span><span class="p">)</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span></span>.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyOS_setsig">
+<span class="n"><span class="pre">PyOS_sighandler_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyOS_setsig</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">i</span></span>, <span class="n"><span class="pre">PyOS_sighandler_t</span></span><span class="w"> </span><span class="n"><span class="pre">h</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyOS_setsig" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>Set the signal handler for signal <em>i</em> to be <em>h</em>; return the old signal handler.
+This is a thin wrapper around either <code class="xref c c-func docutils literal notranslate"><span class="pre">sigaction()</span></code> or <code class="xref c c-func docutils literal notranslate"><span class="pre">signal()</span></code>.  Do
+not call those functions directly!  <code class="xref c c-type docutils literal notranslate"><span class="pre">PyOS_sighandler_t</span></code> is a typedef
+alias for <span class="c-expr sig sig-inline c"><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="p">*</span><span class="p">)</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span></span>.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_DecodeLocale">
+<span class="n"><span class="pre">wchar_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Py_DecodeLocale</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arg</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_DecodeLocale" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.7.</em><div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>此函数不应当被直接调用：请使用 <a class="reference internal" href="init_config.html#c.PyConfig" title="PyConfig"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyConfig</span></code></a> API 以及可确保 <a class="reference internal" href="init_config.html#c-preinit"><span class="std std-ref">对 Python 进行预初始化</span></a> 的  <code class="xref c c-func docutils literal notranslate"><span class="pre">PyConfig_SetBytesString()</span></code> 函数。</p>
+<p>此函数不可在This function must not be called before <a class="reference internal" href="init_config.html#c-preinit"><span class="std std-ref">对 Python 进行预初始化</span></a> 之前被调用以便正确地配置 LC_CTYPE 语言区域：请参阅 <a class="reference internal" href="init_config.html#c.Py_PreInitialize" title="Py_PreInitialize"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_PreInitialize()</span></code></a> 函数。</p>
+</div>
+<p>使用 <a class="reference internal" href="../glossary.html#term-filesystem-encoding-and-error-handler"><span class="xref std std-term">filesystem encoding and error handler</span></a> 来解码一个字节串。 如果错误处理句柄为 <a class="reference internal" href="../library/codecs.html#surrogateescape"><span class="std std-ref">surrogateescape 错误处理句柄</span></a>，则不可解码的字节将被解码为 U+DC80..U+DCFF 范围内的字符；而如果一个字节序列可被解码为代理字符，则其中的字节会使用 surrogateescape 错误处理句柄来转义而不是解码它们。</p>
+<p>返回一个指向新分配的由宽字符组成的字符串的指针，使用 <a class="reference internal" href="memory.html#c.PyMem_RawFree" title="PyMem_RawFree"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_RawFree()</span></code></a> 来释放内存。 如果 size 不为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，则将排除了 null 字符的宽字符数量写入到 <code class="docutils literal notranslate"><span class="pre">*size</span></code></p>
+<p>在解码错误或内存分配错误时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。 如果 <em>size</em> 不为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，则 <code class="docutils literal notranslate"><span class="pre">*size</span></code> 将在内存错误时设为 <code class="docutils literal notranslate"><span class="pre">(size_t)-1</span></code> 或在解码错误时设为 <code class="docutils literal notranslate"><span class="pre">(size_t)-2</span></code>。</p>
+<p><a class="reference internal" href="../glossary.html#term-filesystem-encoding-and-error-handler"><span class="xref std std-term">filesystem encoding and error handler</span></a> 是由 <code class="xref c c-func docutils literal notranslate"><span class="pre">PyConfig_Read()</span></code> 来选择的: 参见 <a class="reference internal" href="init_config.html#c.PyConfig" title="PyConfig"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyConfig</span></code></a> 的 <a class="reference internal" href="init_config.html#c.PyConfig.filesystem_encoding" title="PyConfig.filesystem_encoding"><code class="xref c c-member docutils literal notranslate"><span class="pre">filesystem_encoding</span></code></a> 和 <a class="reference internal" href="init_config.html#c.PyConfig.filesystem_errors" title="PyConfig.filesystem_errors"><code class="xref c c-member docutils literal notranslate"><span class="pre">filesystem_errors</span></code></a> 等成员。</p>
+<p>解码错误绝对不应当发生，除非 C 库有程序缺陷。</p>
+<p>请使用 <a class="reference internal" href="#c.Py_EncodeLocale" title="Py_EncodeLocale"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_EncodeLocale()</span></code></a> 函数来将字符串编码回字节串。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<p><a class="reference internal" href="unicode.html#c.PyUnicode_DecodeFSDefaultAndSize" title="PyUnicode_DecodeFSDefaultAndSize"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnicode_DecodeFSDefaultAndSize()</span></code></a> 和 <a class="reference internal" href="unicode.html#c.PyUnicode_DecodeLocaleAndSize" title="PyUnicode_DecodeLocaleAndSize"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnicode_DecodeLocaleAndSize()</span></code></a> 函数。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>现在此函数在 <a class="reference internal" href="../library/os.html#utf8-mode"><span class="std std-ref">Python UTF-8 模式</span></a> 下将使用 UTF-8 编码格式。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>现在如果在 Windows 上 <a class="reference internal" href="init.html#c.Py_LegacyWindowsFSEncodingFlag" title="Py_LegacyWindowsFSEncodingFlag"><code class="xref c c-data docutils literal notranslate"><span class="pre">Py_LegacyWindowsFSEncodingFlag</span></code></a> 为零则此函数将使用 UTF-8 编码格式；</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_EncodeLocale">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Py_EncodeLocale</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">wchar_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">text</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">error_pos</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_EncodeLocale" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.7.</em><p>将一个由宽字符组成的字符串编码为 <a class="reference internal" href="../glossary.html#term-filesystem-encoding-and-error-handler"><span class="xref std std-term">filesystem encoding and error handler</span></a>。 如果错误处理句柄为 <a class="reference internal" href="../library/codecs.html#surrogateescape"><span class="std std-ref">surrogateescape 错误处理句柄</span></a>，则在 U+DC80..U+DCFF 范围内的代理字符会被转换为字节值 0x80..0xFF。</p>
+<p>返回一个指向新分配的字节串的指针，使用 <a class="reference internal" href="memory.html#c.PyMem_Free" title="PyMem_Free"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_Free()</span></code></a> 来释放内存。 当发生编码错误或内存分配错误时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+<p>如果 error_pos 不为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，则成功时会将 <code class="docutils literal notranslate"><span class="pre">*error_pos</span></code> 设为 <code class="docutils literal notranslate"><span class="pre">(size_t)-1</span></code>，或是在发生编码错误时设为无效字符的索引号。</p>
+<p><a class="reference internal" href="../glossary.html#term-filesystem-encoding-and-error-handler"><span class="xref std std-term">filesystem encoding and error handler</span></a> 是由 <code class="xref c c-func docutils literal notranslate"><span class="pre">PyConfig_Read()</span></code> 来选择的: 参见 <a class="reference internal" href="init_config.html#c.PyConfig" title="PyConfig"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyConfig</span></code></a> 的 <a class="reference internal" href="init_config.html#c.PyConfig.filesystem_encoding" title="PyConfig.filesystem_encoding"><code class="xref c c-member docutils literal notranslate"><span class="pre">filesystem_encoding</span></code></a> 和 <a class="reference internal" href="init_config.html#c.PyConfig.filesystem_errors" title="PyConfig.filesystem_errors"><code class="xref c c-member docutils literal notranslate"><span class="pre">filesystem_errors</span></code></a> 等成员。</p>
+<p>请使用 <a class="reference internal" href="#c.Py_DecodeLocale" title="Py_DecodeLocale"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_DecodeLocale()</span></code></a> 函数来将字节串解码回由宽字符组成的字符串。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>此函数不可在This function must not be called before <a class="reference internal" href="init_config.html#c-preinit"><span class="std std-ref">对 Python 进行预初始化</span></a> 之前被调用以便正确地配置 LC_CTYPE 语言区域：请参阅 <a class="reference internal" href="init_config.html#c.Py_PreInitialize" title="Py_PreInitialize"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_PreInitialize()</span></code></a> 函数。</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<p><a class="reference internal" href="unicode.html#c.PyUnicode_EncodeFSDefault" title="PyUnicode_EncodeFSDefault"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnicode_EncodeFSDefault()</span></code></a> 和 <a class="reference internal" href="unicode.html#c.PyUnicode_EncodeLocale" title="PyUnicode_EncodeLocale"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnicode_EncodeLocale()</span></code></a> 函数。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>现在此函数在 <a class="reference internal" href="../library/os.html#utf8-mode"><span class="std std-ref">Python UTF-8 模式</span></a> 下将使用 UTF-8 编码格式。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>现在如果在 Windows 上 <a class="reference internal" href="init.html#c.Py_LegacyWindowsFSEncodingFlag" title="Py_LegacyWindowsFSEncodingFlag"><code class="xref c c-data docutils literal notranslate"><span class="pre">Py_LegacyWindowsFSEncodingFlag</span></code></a> 为零则此函数将使用 UTF-8 编码格式。</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="system-functions">
+<span id="systemfunctions"></span><h1>系统功能<a class="headerlink" href="#system-functions" title="永久链接至标题">¶</a></h1>
+<p>这些是使来自 <a class="reference internal" href="../library/sys.html#module-sys" title="sys: Access system-specific parameters and functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code></a> 模块的功能可以让 C 代码访问的工具函数。 它们都可用于当前解释器线程的 <a class="reference internal" href="../library/sys.html#module-sys" title="sys: Access system-specific parameters and functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code></a> 模块的字典，该字典包含在内部线程状态结构体中。</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_GetObject">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PySys_GetObject</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_GetObject" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: Borrowed reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>返回来自 <a class="reference internal" href="../library/sys.html#module-sys" title="sys: Access system-specific parameters and functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code></a> 模块的对象 <em>name</em> 或者如果它不存在则返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，并且不会设置异常。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_SetObject">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_SetObject</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_SetObject" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>将 <a class="reference internal" href="../library/sys.html#module-sys" title="sys: Access system-specific parameters and functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code></a> 模块中的 <em>name</em> 设为 <em>v</em> 除非 <em>v</em> 为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，在此情况下 <em>name</em> 将从 sys 模块中被删除。 成功时返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>，发生错误时返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_ResetWarnOptions">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_ResetWarnOptions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_ResetWarnOptions" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>将 <a class="reference internal" href="../library/sys.html#sys.warnoptions" title="sys.warnoptions"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.warnoptions</span></code></a> 重置为空列表。 此函数可在 <a class="reference internal" href="init.html#c.Py_Initialize" title="Py_Initialize"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_Initialize()</span></code></a> 之前被调用。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_AddWarnOption">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_AddWarnOption</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">wchar_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_AddWarnOption" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>This API is kept for backward compatibility: setting
+<a class="reference internal" href="init_config.html#c.PyConfig.warnoptions" title="PyConfig.warnoptions"><code class="xref c c-member docutils literal notranslate"><span class="pre">PyConfig.warnoptions</span></code></a> should be used instead, see <a class="reference internal" href="init_config.html#init-config"><span class="std std-ref">Python
+Initialization Configuration</span></a>.</p>
+<p>将 <em>s</em> 添加到 <a class="reference internal" href="../library/sys.html#sys.warnoptions" title="sys.warnoptions"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.warnoptions</span></code></a>。 此函数必须在 <a class="reference internal" href="init.html#c.Py_Initialize" title="Py_Initialize"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_Initialize()</span></code></a> 之前被调用以便影响警告过滤器列表。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.11 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_AddWarnOptionUnicode">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_AddWarnOptionUnicode</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">unicode</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_AddWarnOptionUnicode" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>This API is kept for backward compatibility: setting
+<a class="reference internal" href="init_config.html#c.PyConfig.warnoptions" title="PyConfig.warnoptions"><code class="xref c c-member docutils literal notranslate"><span class="pre">PyConfig.warnoptions</span></code></a> should be used instead, see <a class="reference internal" href="init_config.html#init-config"><span class="std std-ref">Python
+Initialization Configuration</span></a>.</p>
+<p>将 <em>unicode</em> 添加到 <a class="reference internal" href="../library/sys.html#sys.warnoptions" title="sys.warnoptions"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.warnoptions</span></code></a>。</p>
+<p>注意：目前此函数不可在 CPython 实现之外使用，因为它必须在 <a class="reference internal" href="init.html#c.Py_Initialize" title="Py_Initialize"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_Initialize()</span></code></a> 中的 <a class="reference internal" href="../library/warnings.html#module-warnings" title="warnings: Issue warning messages and control their disposition."><code class="xref py py-mod docutils literal notranslate"><span class="pre">warnings</span></code></a> 显式导入之前被调用，但是要等运行时已初始化到足以允许创建 Unicode 对象时才能被调用。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.11 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_SetPath">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_SetPath</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">wchar_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_SetPath" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>This API is kept for backward compatibility: setting
+<a class="reference internal" href="init_config.html#c.PyConfig.module_search_paths" title="PyConfig.module_search_paths"><code class="xref c c-member docutils literal notranslate"><span class="pre">PyConfig.module_search_paths</span></code></a> and
+<a class="reference internal" href="init_config.html#c.PyConfig.module_search_paths_set" title="PyConfig.module_search_paths_set"><code class="xref c c-member docutils literal notranslate"><span class="pre">PyConfig.module_search_paths_set</span></code></a> should be used instead, see
+<a class="reference internal" href="init_config.html#init-config"><span class="std std-ref">Python Initialization Configuration</span></a>.</p>
+<p>将 <a class="reference internal" href="../library/sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> 设为由在 <em>path</em> 中找到的路径组成的列表对象，该参数应为使用特定平台的搜索路径分隔符 (在 Unix 上为 <code class="docutils literal notranslate"><span class="pre">:</span></code>，在 Windows 上为 <code class="docutils literal notranslate"><span class="pre">;</span></code>) 分隔的路径的列表。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.11 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_WriteStdout">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_WriteStdout</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_WriteStdout" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>将以 <em>format</em> 描述的输出字符串写入到 <a class="reference internal" href="../library/sys.html#sys.stdout" title="sys.stdout"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout</span></code></a>。 不会引发任何异常，即使发生了截断（见下文）。</p>
+<p><em>format</em> 应当将已格式化的输出字符串的总大小限制在 1000 字节以下 -- 超过 1000 字节后，输出字符串会被截断。 特别地，这意味着不应出现不受限制的 &quot;%s&quot; 格式；它们应当使用 &quot;%.&lt;N&gt;s&quot; 来限制，其中 &lt;N&gt; 是一个经计算使得 &lt;N&gt; 与其他已格式化文本的最大尺寸之和不会超过 1000 字节的十进制数字。 还要注意 &quot;%f&quot;，它可能为非常大的数字打印出数以百计的数位。</p>
+<p>如果发生了错误，<a class="reference internal" href="../library/sys.html#sys.stdout" title="sys.stdout"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout</span></code></a> 会被清空，已格式化的消息将被写入到真正的 (C 层级) <em>stdout</em>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_WriteStderr">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_WriteStderr</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_WriteStderr" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>类似 <a class="reference internal" href="#c.PySys_WriteStdout" title="PySys_WriteStdout"><code class="xref c c-func docutils literal notranslate"><span class="pre">PySys_WriteStdout()</span></code></a>，但改为写入到 <a class="reference internal" href="../library/sys.html#sys.stderr" title="sys.stderr"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a> 或 <em>stderr</em>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_FormatStdout">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_FormatStdout</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_FormatStdout" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>类似 PySys_WriteStdout() 的函数将会使用 <a class="reference internal" href="unicode.html#c.PyUnicode_FromFormatV" title="PyUnicode_FromFormatV"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnicode_FromFormatV()</span></code></a> 来格式化消息并且不会将消息截短至任意长度。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_FormatStderr">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_FormatStderr</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_FormatStderr" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p>类似 <a class="reference internal" href="#c.PySys_FormatStdout" title="PySys_FormatStdout"><code class="xref c c-func docutils literal notranslate"><span class="pre">PySys_FormatStdout()</span></code></a>，但改为写入到 <a class="reference internal" href="../library/sys.html#sys.stderr" title="sys.stderr"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a> 或 <em>stderr</em>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_AddXOption">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_AddXOption</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">wchar_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">s</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_AddXOption" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.7.</em><p>This API is kept for backward compatibility: setting
+<a class="reference internal" href="init_config.html#c.PyConfig.xoptions" title="PyConfig.xoptions"><code class="xref c c-member docutils literal notranslate"><span class="pre">PyConfig.xoptions</span></code></a> should be used instead, see <a class="reference internal" href="init_config.html#init-config"><span class="std std-ref">Python
+Initialization Configuration</span></a>.</p>
+<p>将 <em>s</em> 解析为一个由 <a class="reference internal" href="../using/cmdline.html#cmdoption-X"><code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span></code></a> 选项组成的集合并将它们添加到 <a class="reference internal" href="#c.PySys_GetXOptions" title="PySys_GetXOptions"><code class="xref c c-func docutils literal notranslate"><span class="pre">PySys_GetXOptions()</span></code></a> 所返回的当前选项映射。 此函数可以在 <a class="reference internal" href="init.html#c.Py_Initialize" title="Py_Initialize"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_Initialize()</span></code></a> 之前被调用。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.11 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_GetXOptions">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PySys_GetXOptions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_GetXOptions" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="refcount">Return value: Borrowed reference.</em><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a> since version 3.7.</em><p>返回当前 <a class="reference internal" href="../using/cmdline.html#cmdoption-X"><code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span></code></a> 选项的字典，类似于 <a class="reference internal" href="../library/sys.html#sys._xoptions" title="sys._xoptions"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys._xoptions</span></code></a>。 发生错误时，将返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 并设置一个异常。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_Audit">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_Audit</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">event</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_Audit" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>引发一个审计事件并附带任何激活的钩子。 成功时返回零值或在失败时返回非零值并设置一个异常。</p>
+<p>如果已添加了任何钩子，则将使用 <em>format</em> 和其他参数来构造一个用入传入的元组。 除 <code class="docutils literal notranslate"><span class="pre">N</span></code> 以外，在 <a class="reference internal" href="arg.html#c.Py_BuildValue" title="Py_BuildValue"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_BuildValue()</span></code></a> 中使用的格式字符均可使用。 如果构建的值不是一个元组，它将被添加到一个单元素元组中。 （格式选项 <code class="docutils literal notranslate"><span class="pre">N</span></code> 会消耗一个引用，但是由于没有办法知道此函数的参数是否将被消耗，因此使用它可能导致引用泄漏。）</p>
+<p>请注意 <code class="docutils literal notranslate"><span class="pre">#</span></code> 格式字符应当总是被当作 <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a> 来处理，无论是否定义了 <code class="docutils literal notranslate"><span class="pre">PY_SSIZE_T_CLEAN</span></code>。</p>
+<p><a class="reference internal" href="../library/sys.html#sys.audit" title="sys.audit"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.audit()</span></code></a> 会执行与来自 Python 代码的函数相同的操作。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.8 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8.2 版更改: </span>要求 <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a> 用于 <code class="docutils literal notranslate"><span class="pre">#</span></code> 格式字符。 在此之前，会引发一个不可避免的弃用警告。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PySys_AddAuditHook">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PySys_AddAuditHook</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">Py_AuditHookFunction</span></span><span class="w"> </span><span class="n"><span class="pre">hook</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">userData</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PySys_AddAuditHook" title="永久链接至目标">¶</a><br /></dt>
+<dd><p>将可调用对象 <em>hook</em> 添加到激活的审计钩子列表。 在成功时返回零而在失败时返回非零值。 如果运行时已经被初始化，还会在失败时设置一个错误。 通过此 API 添加的钩子会针对在运行时创建的所有解释器被调用。</p>
+<p><em>userData</em> 指针会被传入钩子函数。 因于钩子函数可能由不同的运行时调用，该指针不应直接指向 Python 状态。</p>
+<p>此函数可在 <a class="reference internal" href="init.html#c.Py_Initialize" title="Py_Initialize"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_Initialize()</span></code></a> 之前被安全地调用。 如果在运行时初始化之后被调用，现有的审计钩子将得到通知并可能通过引发一个从 <a class="reference internal" href="../library/exceptions.html#Exception" title="Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a> 子类化的错误静默地放弃操作（其他错误将不会被静默）。</p>
+<p>The hook function is of type <span class="c-expr sig sig-inline c"><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="p">*</span><span class="p">)</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="p">*</span><span class="n">event</span><span class="p">,</span><span class="w"> </span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n">PyObject</span></a><span class="w"> </span><span class="p">*</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">*</span><span class="n">userData</span><span class="p">)</span></span>, where <em>args</em> is guaranteed to be a
+<a class="reference internal" href="tuple.html#c.PyTupleObject" title="PyTupleObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyTupleObject</span></code></a>. The hook function is always called with the GIL
+held by the Python interpreter that raised the event.</p>
+<p>请参阅 <span class="target" id="index-5"></span><a class="pep reference external" href="https://peps.python.org/pep-0578/"><strong>PEP 578</strong></a> 了解有关审计的详细描述。 在运行时和标准库中会引发审计事件的函数清单见 <a class="reference internal" href="../library/audit_events.html#audit-events"><span class="std std-ref">审计事件表</span></a>。 更多细节见每个函数的文档。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="../library/sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">sys.addaudithook</span></code>，没有附带参数。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.8 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="process-control">
+<span id="processcontrol"></span><h1>过程控制<a class="headerlink" href="#process-control" title="永久链接至标题">¶</a></h1>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_FatalError">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Py_FatalError</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_FatalError" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p id="index-1">打印一个致命错误消息并杀掉进程。 不会执行任何清理。 此函数应当仅在检测到可能令继续使用 Python 解释器变得危险的条件时被发起调用；例如，当对象管理已被破坏的时候。 在 Unix 上，标准 C 库函数 <code class="xref c c-func docutils literal notranslate"><span class="pre">abort()</span></code> 会被调用并将由它来尝试产生一个 <code class="file docutils literal notranslate"><span class="pre">core</span></code> 文件。</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Py_FatalError()</span></code> function is replaced with a macro which logs
+automatically the name of the current function, unless the
+<code class="docutils literal notranslate"><span class="pre">Py_LIMITED_API</span></code> macro is defined.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>自动记录函数名称。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_Exit">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Py_Exit</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">status</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_Exit" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p id="index-2">退出当前进程。 这将调用 <a class="reference internal" href="init.html#c.Py_FinalizeEx" title="Py_FinalizeEx"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_FinalizeEx()</span></code></a> 然后再调用标准 C 库函数 <code class="docutils literal notranslate"><span class="pre">exit(status)</span></code>。 如果 <a class="reference internal" href="init.html#c.Py_FinalizeEx" title="Py_FinalizeEx"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_FinalizeEx()</span></code></a> 提示错误，退出状态将被设为 120。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>来自最终化的错误不会再被忽略。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.Py_AtExit">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Py_AtExit</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.Py_AtExit" title="永久链接至目标">¶</a><br /></dt>
+<dd><em class="stableabi"> Part of the <a class="reference internal" href="stable.html#stable"><span class="std std-ref">Stable ABI</span></a>.</em><p id="index-3">注册一个由 <a class="reference internal" href="init.html#c.Py_FinalizeEx" title="Py_FinalizeEx"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_FinalizeEx()</span></code></a> 调用的清理函数。 调用清理函数将不传入任何参数且不应返回任何值。 最多可以注册32 个清理函数。 当注册成功时，<a class="reference internal" href="#c.Py_AtExit" title="Py_AtExit"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_AtExit()</span></code></a> 将返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>；失败时，它将返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。 最后注册的清理函数会最先被调用。 每个清理函数将至多被调用一次。 由于 Python 的内部最终化将在清理函数之前完成，因此 Python API 不应被 <em>func</em> 调用。</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">操作系统实用工具</a></li>
+<li><a class="reference internal" href="#system-functions">系统功能</a></li>
+<li><a class="reference internal" href="#process-control">过程控制</a></li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="utilities.html"
+                          title="上一章">工具</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="import.html"
+                          title="下一章">导入模块</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/sys.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="import.html" title="导入模块"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="utilities.html" title="工具"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="utilities.html" >工具</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">操作系统实用工具</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

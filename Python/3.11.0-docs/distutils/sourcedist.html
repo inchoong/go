@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>4. 创建源代码分发包 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="5. 创建构建分发版" href="builtdist.html" />
+    <link rel="prev" title="3. 编写设置脚本的配置文件" href="configfile.html" />
+    <link rel="canonical" href="https://docs.python.org/3/distutils/sourcedist.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">4. 创建源代码分发包</a><ul>
+<li><a class="reference internal" href="#specifying-the-files-to-distribute">4.1. 指定要分发的文件</a></li>
+<li><a class="reference internal" href="#manifest-related-options">4.2. 声明相关选项</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="configfile.html"
+                          title="上一章"><span class="section-number">3. </span>编写设置脚本的配置文件</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="builtdist.html"
+                          title="下一章"><span class="section-number">5. </span>创建构建分发版</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/distutils/sourcedist.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="builtdist.html" title="5. 创建构建分发版"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="configfile.html" title="3. 编写设置脚本的配置文件"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">分发 Python 模块（遗留版本）</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">4. </span>创建源代码分发包</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="creating-a-source-distribution">
+<span id="source-dist"></span><h1><span class="section-number">4. </span>创建源代码分发包<a class="headerlink" href="#creating-a-source-distribution" title="永久链接至标题">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>这篇文档是历史遗留文档，在 <a class="reference external" href="https://setuptools.readthedocs.io/en/latest/setuptools.html">https://setuptools.readthedocs.io/en/latest/setuptools.html</a> 上的 <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> 文档独立涵盖此处包含的所有相关信息之后，将不再单独作为正式文档保留。</p>
+</div>
+<p>如 <a class="reference internal" href="introduction.html#distutils-simple-example"><span class="std std-ref">一个简单的例子</span></a> 一节所示，可以使用 <strong class="command">sdist</strong> 命令来创建一个源代码分发包。 在最简单的场景下，:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">sdist</span>
+</pre></div>
+</div>
+<p>（假定你没有在设置脚本或配置文件中指定任何 <strong class="command">sdist</strong> 选项），<strong class="command">sdist</strong> 将创建基于当前平台的默认格式的归档。 在 Unix 上默认格式为 gzip 的 tar 文件，而在 Windows 上则为 ZIP 文件。</p>
+<p>你可以使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">--formats</span></code> 选项来指定任何你想要的格式，例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">sdist</span> <span class="o">--</span><span class="n">formats</span><span class="o">=</span><span class="n">gztar</span><span class="p">,</span><span class="nb">zip</span>
+</pre></div>
+</div>
+<p>是创建一个 gzip 的 tar 文件和一个 zip 文件。 可用的格式有:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 51%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>格式</p></th>
+<th class="head"><p>描述</p></th>
+<th class="head"><p>备注</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">zip</span></code></p></td>
+<td><p>zip 文件 (<code class="file docutils literal notranslate"><span class="pre">.zip</span></code>)</p></td>
+<td><p>(1),(3)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gztar</span></code></p></td>
+<td><p>gzip 的 tar 文件 (<code class="file docutils literal notranslate"><span class="pre">.tar.gz</span></code>)</p></td>
+<td><p>(2)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bztar</span></code></p></td>
+<td><p>bzip2 的 tar 文件 (<code class="file docutils literal notranslate"><span class="pre">.tar.bz2</span></code>)</p></td>
+<td><p>(5)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">xztar</span></code></p></td>
+<td><p>xz 的 tar 文件 (<code class="file docutils literal notranslate"><span class="pre">.tar.xz</span></code>)</p></td>
+<td><p>(5)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ztar</span></code></p></td>
+<td><p>带压缩的 tar 文件 (<code class="file docutils literal notranslate"><span class="pre">.tar.Z</span></code>)</p></td>
+<td><p>(4),(5)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tar</span></code></p></td>
+<td><p>tar 文件 (<code class="file docutils literal notranslate"><span class="pre">.tar</span></code>)</p></td>
+<td><p>(5)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>添加了对 <code class="docutils literal notranslate"><span class="pre">xztar</span></code> 格式的支持</p>
+</div>
+<p>注释：</p>
+<ol class="arabic simple">
+<li><p>默认Windows</p></li>
+<li><p>默认 Unix</p></li>
+<li><p>需要有外部 <strong class="program">zip</strong> 工具或 <a class="reference internal" href="../library/zipfile.html#module-zipfile" title="zipfile: Read and write ZIP-format archive files."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code></a> 模块（自 Python 1.6 起是标准 Python 库的一部分）</p></li>
+<li><p>需要有 <strong class="program">compress</strong> 程序。 请注意此格式计划要弃用并将在未来的 Python 版本中被移除。</p></li>
+<li><p>deprecated by <a class="reference external" href="https://peps.python.org/pep-0527/">PEP 527</a>;
+<a class="reference external" href="https://pypi.org">PyPI</a> only accepts <code class="docutils literal notranslate"><span class="pre">.zip</span></code> and <code class="docutils literal notranslate"><span class="pre">.tar.gz</span></code> files.</p></li>
+</ol>
+<p>当使用任意 <code class="docutils literal notranslate"><span class="pre">tar</span></code> 格式 (<code class="docutils literal notranslate"><span class="pre">gztar</span></code>, <code class="docutils literal notranslate"><span class="pre">bztar</span></code>, <code class="docutils literal notranslate"><span class="pre">xztar</span></code>, <code class="docutils literal notranslate"><span class="pre">ztar</span></code> 或 <code class="docutils literal notranslate"><span class="pre">tar</span></code>) 时，在 Unix 中你可以指定将为每个归档成员设置的 <code class="docutils literal notranslate"><span class="pre">owner</span></code> 和 <code class="docutils literal notranslate"><span class="pre">group</span></code> 名称。</p>
+<p>举例来说，如果你希望归档中的全部文件均为 root 所有:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">sdist</span> <span class="o">--</span><span class="n">owner</span><span class="o">=</span><span class="n">root</span> <span class="o">--</span><span class="n">group</span><span class="o">=</span><span class="n">root</span>
+</pre></div>
+</div>
+<section id="specifying-the-files-to-distribute">
+<span id="manifest"></span><h2><span class="section-number">4.1. </span>指定要分发的文件<a class="headerlink" href="#specifying-the-files-to-distribute" title="永久链接至标题">¶</a></h2>
+<p>如果你没有显式提供文件列表（或如何生成该列表的说明），则 <strong class="command">sdist</strong> 命令会将一个最小化默认集加入源代码分发版:</p>
+<ul class="simple">
+<li><p>通过 <code class="docutils literal notranslate"><span class="pre">py_modules</span></code> 和 <code class="docutils literal notranslate"><span class="pre">packages</span></code> 选项指明的所有 Python 源文件</p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">ext_modules</span></code> 在 <code class="docutils literal notranslate"><span class="pre">libraries</span></code> 选项提及的所有 C 源代码文件</p>
+</li>
+<li><p>通过 <code class="docutils literal notranslate"><span class="pre">scripts</span></code> 选项标识的脚本，参见 <a class="reference internal" href="setupscript.html#distutils-installing-scripts"><span class="std std-ref">Installing Scripts</span></a>。</p></li>
+<li><p>任何看起来像是测试脚本的文件: <code class="file docutils literal notranslate"><span class="pre">test/test*.py</span></code> (目前，Distutils 不会对测试脚本做除了将它们包括到源代码分发版以外的任何操作，但是在未来将会有一个测试 Python 模块分发版的标准)</p></li>
+<li><p>任何标准的 README 文件 (<code class="file docutils literal notranslate"><span class="pre">README</span></code>, <code class="file docutils literal notranslate"><span class="pre">README.txt</span></code> 或 <code class="file docutils literal notranslate"><span class="pre">README.rst</span></code>), <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> (或任何你指定的安装脚本) 以及 <code class="file docutils literal notranslate"><span class="pre">setup.cfg</span></code>。</p></li>
+<li><p>所有匹配 <code class="docutils literal notranslate"><span class="pre">package_data</span></code> 元数据的文件。 参见 <a class="reference internal" href="setupscript.html#distutils-installing-package-data"><span class="std std-ref">Installing Package Data</span></a>。</p></li>
+<li><p>所有匹配 <code class="docutils literal notranslate"><span class="pre">data_files</span></code> 元数据的文件。 参见 <a class="reference internal" href="setupscript.html#distutils-additional-files"><span class="std std-ref">Installing Additional Files</span></a>。</p></li>
+</ul>
+<p>有时这就足够了，但通常你还会希望指定要分发的额外文件。 实现这一点的通常方式是编写一个 <em>声明模板</em>，默认名称为 <code class="file docutils literal notranslate"><span class="pre">MANIFEST.in</span></code>。 声明模板就是一个有关如何生成你的声明文件 <code class="file docutils literal notranslate"><span class="pre">MANIFEST</span></code> 的指令列表，也就是要实际包括在你的源代码分发版中的文件的列表。 <strong class="command">sdist</strong> 命令会处理这个模板并基于其指令及其在文件系统中的查找结果生成一个声明文件。</p>
+<p>如果你想要制作你自己的声明文件，格式很简单：每行一个文件名，仅限常规文件。 如果你提供你自己的 <code class="file docutils literal notranslate"><span class="pre">MANIFEST</span></code>，你必须指明一切：上面描述的默认集将不适用于这种情况。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.1 版更改: </span>现有的已生成 <code class="file docutils literal notranslate"><span class="pre">MANIFEST</span></code> 将被生成而无需 <strong class="command">sdist</strong> 来将其修改时间与 <code class="file docutils literal notranslate"><span class="pre">MANIFEST.in</span></code> 或 <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> 的修改时间进行比较。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.1.3 版更改: </span><code class="file docutils literal notranslate"><span class="pre">MANIFEST</span></code> 文件以一个表明它们已生成的注释开始。 没有这条注释的文件不会被覆盖或移除。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2.2 版更改: </span><strong class="command">sdist</strong> 将在不存在 <code class="file docutils literal notranslate"><span class="pre">MANIFEST.in</span></code> 时读取一个 <code class="file docutils literal notranslate"><span class="pre">MANIFEST</span></code> 文件，如它以前所做的一样。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span><code class="file docutils literal notranslate"><span class="pre">README.rst</span></code> 现在已被包括在 distutils 标准 README 列表中。</p>
+</div>
+<p>声明模板每行都有一个命令，其中每个命令指定了一组源代码发布版中要包括或排除的文件。 举例来说，我们再次关注 Distutils 自己的声明模板:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>include *.txt
+recursive-include examples *.txt *.py
+prune examples/sample?/build
+</pre></div>
+</div>
+<p>其含义应当很清楚：包括发布在根目录中所有匹配 <code class="file docutils literal notranslate"><span class="pre">*.txt</span></code> 的文件，在 <code class="file docutils literal notranslate"><span class="pre">examples</span></code> 目录下任何位置上匹配 <code class="file docutils literal notranslate"><span class="pre">*.txt</span></code> 或 <code class="file docutils literal notranslate"><span class="pre">*.py</span></code> 的所有文件，并排除匹配 <code class="file docutils literal notranslate"><span class="pre">examples/sample?/build</span></code> 的所有目录。 所有这些操作都将在标准的包括集 <em>之后</em> 执行，因此你可以通过在声明模板中的显式指令来排除标准集中的文件。 （或者，你也可以使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">--no-defaults</span></code> 选项来完全禁用标准集。） 在声明模板迷你语言中还有一些其他的可用命令；参见 <a class="reference internal" href="commandref.html#sdist-cmd"><span class="std std-ref">创建源码发行包: sdist 命令</span></a> 小节。</p>
+<p>声明模板中命令的顺序是很重要的：在初始状态下，我们有如上所述的默认文件列表，而模板中的每个命令将在该文件列表中添加或移除条目。 一旦我们完全处理好声明模板，我们将再移除不应包括在源代码发布版中的文件:</p>
+<ul class="simple">
+<li><p>Distutils &quot;构建&quot; 目录树中的所有文件 (默认值 <code class="file docutils literal notranslate"><span class="pre">build/</span></code>)</p></li>
+<li><p>目录中所有名为 <code class="file docutils literal notranslate"><span class="pre">RCS</span></code>, <code class="file docutils literal notranslate"><span class="pre">CVS</span></code>, <code class="file docutils literal notranslate"><span class="pre">.svn</span></code>, <code class="file docutils literal notranslate"><span class="pre">.hg</span></code>, <code class="file docutils literal notranslate"><span class="pre">.git</span></code>, <code class="file docutils literal notranslate"><span class="pre">.bzr</span></code> 或 <code class="file docutils literal notranslate"><span class="pre">_darcs</span></code> 的文件</p></li>
+</ul>
+<p>现在我们有了完整的文件列表，它已被写入声明以供将来引用，并随后用于构建源代码分发压缩 包。</p>
+<p>你可以通过 <code class="xref std std-option docutils literal notranslate"><span class="pre">--no-defaults</span></code> 选项禁用默认的包括文件集，你还可以通过 <code class="xref std std-option docutils literal notranslate"><span class="pre">--no-prune</span></code> 禁用默认的排除文件集。</p>
+<p>跟随 Distutils 自己的声明模板，让我们追踪' own manifest template, let's trace how the <strong class="command">sdist</strong> 命令是如何构建要包括在 Distutils 源代码分发版中的文件列表的:</p>
+<ol class="arabic simple">
+<li><p>包括 <code class="file docutils literal notranslate"><span class="pre">distutils</span></code> 和 <code class="file docutils literal notranslate"><span class="pre">distutils/command</span></code> 子目录中的所有 Python 源代码文件（因为与这两个目录对应的包在 setup 脚本的 <code class="docutils literal notranslate"><span class="pre">packages</span></code> 选项中被提及 --- 参见 <a class="reference internal" href="setupscript.html#setup-script"><span class="std std-ref">编写安装脚本</span></a> 一节）</p></li>
+<li><p>包括 <code class="file docutils literal notranslate"><span class="pre">README.txt</span></code>, <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> 和 <code class="file docutils literal notranslate"><span class="pre">setup.cfg</span></code> (标准文件)</p></li>
+<li><p>包括 <code class="file docutils literal notranslate"><span class="pre">test/test*.py</span></code> (标准文件)</p></li>
+<li><p>包括分发根目录下的 <code class="file docutils literal notranslate"><span class="pre">*.txt</span></code> (这将第二次找到 <code class="file docutils literal notranslate"><span class="pre">README.txt</span></code>，但这样的冗余随后会被清除)</p></li>
+<li><p>包括 <code class="file docutils literal notranslate"><span class="pre">examples</span></code> 下所有子目录树中匹配 <code class="file docutils literal notranslate"><span class="pre">*.txt</span></code> 或 <code class="file docutils literal notranslate"><span class="pre">*.py</span></code> 的任何文件，</p></li>
+<li><p>排除从匹配 <code class="file docutils literal notranslate"><span class="pre">examples/sample?/build</span></code> 的目录开始的子目录树中的所有文件 --- 这可能会排除之前两个步骤所包括的文件，因此重要的一点是声明模板中的 <code class="docutils literal notranslate"><span class="pre">prune</span></code> 命令应放在 <code class="docutils literal notranslate"><span class="pre">recursive-include</span></code> 命令之后</p></li>
+<li><p>排除整个 <code class="file docutils literal notranslate"><span class="pre">build</span></code> 目录树，以及任何 <code class="file docutils literal notranslate"><span class="pre">RCS</span></code>, <code class="file docutils literal notranslate"><span class="pre">CVS</span></code>, <code class="file docutils literal notranslate"><span class="pre">.svn</span></code>, <code class="file docutils literal notranslate"><span class="pre">.hg</span></code>, <code class="file docutils literal notranslate"><span class="pre">.git</span></code>, <code class="file docutils literal notranslate"><span class="pre">.bzr</span></code> and <code class="file docutils literal notranslate"><span class="pre">_darcs</span></code> 目录</p></li>
+</ol>
+<p>就像在设置脚本中一样，声明模板中的文件和目录名应当总是以斜杠分隔；Distutils 将会负责把它们转化为你的系统平台上的标准表示形式。 通过这种方式，声明模板将可跨操作系统移植。</p>
+</section>
+<section id="manifest-related-options">
+<span id="manifest-options"></span><h2><span class="section-number">4.2. </span>声明相关选项<a class="headerlink" href="#manifest-related-options" title="永久链接至标题">¶</a></h2>
+<p>针对 <strong class="command">sdist</strong> 命令的正常操作过程如下:</p>
+<ul class="simple">
+<li><p>如果声明文件 (默认为 <code class="file docutils literal notranslate"><span class="pre">MANIFEST</span></code>) 存在且第一行不为表示它是由 <code class="file docutils literal notranslate"><span class="pre">MANIFEST.in</span></code> 生成的注释，则它会被不加修改地原样使用</p></li>
+<li><p>如果声明文件不存在或是在此之前被自动生成的，则读取 <code class="file docutils literal notranslate"><span class="pre">MANIFEST.in</span></code> 并创建声明文件</p></li>
+<li><p>如果 <code class="file docutils literal notranslate"><span class="pre">MANIFEST</span></code> 或 <code class="file docutils literal notranslate"><span class="pre">MANIFEST.in</span></code> 均不存在，则使用默认文件集创建声明文件</p></li>
+<li><p>使用当前 <code class="file docutils literal notranslate"><span class="pre">MANIFEST</span></code> (刚生成的或读入的) 中的文件列表创建源代码分发压缩包</p></li>
+</ul>
+<p>有数个选项可以修改此行为。 首先，使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">--no-defaults</span></code> 和 <code class="xref std std-option docutils literal notranslate"><span class="pre">--no-prune</span></code> 来禁用标准的 &quot;包括&quot; 和 &quot;排除&quot; 集。</p>
+<p>第二，你可能只是想要（重）生成声明文件，但不想要创建源代码分发包:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">sdist</span> <span class="o">--</span><span class="n">manifest</span><span class="o">-</span><span class="n">only</span>
+</pre></div>
+</div>
+<p><code class="xref std std-option docutils literal notranslate"><span class="pre">-o</span></code> 是 <code class="xref std std-option docutils literal notranslate"><span class="pre">--manifest-only</span></code> 的缩写。</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">4. 创建源代码分发包</a><ul>
+<li><a class="reference internal" href="#specifying-the-files-to-distribute">4.1. 指定要分发的文件</a></li>
+<li><a class="reference internal" href="#manifest-related-options">4.2. 声明相关选项</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="configfile.html"
+                          title="上一章"><span class="section-number">3. </span>编写设置脚本的配置文件</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="builtdist.html"
+                          title="下一章"><span class="section-number">5. </span>创建构建分发版</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/distutils/sourcedist.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="builtdist.html" title="5. 创建构建分发版"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="configfile.html" title="3. 编写设置脚本的配置文件"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >分发 Python 模块（遗留版本）</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">4. </span>创建源代码分发包</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>
