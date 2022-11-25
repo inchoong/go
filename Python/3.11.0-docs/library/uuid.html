@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>uuid --- RFC 4122 定义的UUID对象 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="socketserver --- 用于网络服务器的框架" href="socketserver.html" />
+    <link rel="prev" title="smtplib --- SMTP 协议客户端" href="smtplib.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/uuid.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uuid</span></code> --- <strong>RFC 4122</strong> 定义的UUID对象</a><ul>
+<li><a class="reference internal" href="#example">示例</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="smtplib.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">smtplib</span></code> --- SMTP 协议客户端</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="socketserver.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">socketserver</span></code> --- 用于网络服务器的框架</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/uuid.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="socketserver.html" title="socketserver --- 用于网络服务器的框架"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="smtplib.html" title="smtplib --- SMTP 协议客户端"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="internet.html" accesskey="U">互联网协议和支持</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">uuid</span></code> --- <strong>RFC 4122</strong> 定义的UUID对象</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-uuid">
+<span id="uuid-uuid-objects-according-to-rfc-4122"></span><h1><a class="reference internal" href="#module-uuid" title="uuid: UUID objects (universally unique identifiers) according to RFC 4122"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uuid</span></code></a> --- <span class="target" id="index-12"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4122.html"><strong>RFC 4122</strong></a> 定义的UUID对象<a class="headerlink" href="#module-uuid" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/uuid.py">Lib/uuid.py</a></p>
+<hr class="docutils" />
+<p>这个模块提供了不可变的 <a class="reference internal" href="#uuid.UUID" title="uuid.UUID"><code class="xref py py-class docutils literal notranslate"><span class="pre">UUID</span></code></a> 对象 (<a class="reference internal" href="#uuid.UUID" title="uuid.UUID"><code class="xref py py-class docutils literal notranslate"><span class="pre">UUID</span></code></a> 类) 和 <a class="reference internal" href="#uuid.uuid1" title="uuid.uuid1"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid1()</span></code></a>, <a class="reference internal" href="#uuid.uuid3" title="uuid.uuid3"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid3()</span></code></a>, <a class="reference internal" href="#uuid.uuid4" title="uuid.uuid4"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid4()</span></code></a>, <a class="reference internal" href="#uuid.uuid5" title="uuid.uuid5"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid5()</span></code></a> 等函数用于生成 <span class="target" id="index-19"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4122.html"><strong>RFC 4122</strong></a> 所定义的第 1, 3, 4 和 5 版 UUID。</p>
+<p>如果你想要的只是一个唯一的ID，你可能应该调用 <a class="reference internal" href="#uuid.uuid1" title="uuid.uuid1"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid1()</span></code></a> 或 <a class="reference internal" href="#uuid.uuid4" title="uuid.uuid4"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid4()</span></code></a>。 注意 <a class="reference internal" href="#uuid.uuid1" title="uuid.uuid1"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid1()</span></code></a> 可能会损害隐私，因为它创建了一个包含计算机网络地址的UUID。 <a class="reference internal" href="#uuid.uuid4" title="uuid.uuid4"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid4()</span></code></a> 可以创建一个随机UUID。</p>
+<p>根据底层平台的支持，<a class="reference internal" href="#uuid.uuid1" title="uuid.uuid1"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid1()</span></code></a> 可能会也可能不会返回一个 &quot;安全的&quot; UUID。 安全的 UUID 是使用同步方法生成的，确保没有两个进程可以获得相同的 UUID。 所有 <a class="reference internal" href="#uuid.UUID" title="uuid.UUID"><code class="xref py py-class docutils literal notranslate"><span class="pre">UUID</span></code></a> 的实例都有一个 <code class="xref py py-attr docutils literal notranslate"><span class="pre">is_safe</span></code> 属性，使用这个枚举来传递关于 UUID 安全的任何信息:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="uuid.SafeUUID">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">SafeUUID</span></span><a class="headerlink" href="#uuid.SafeUUID" title="永久链接至目标">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.SafeUUID.safe">
+<span class="sig-name descname"><span class="pre">safe</span></span><a class="headerlink" href="#uuid.SafeUUID.safe" title="永久链接至目标">¶</a></dt>
+<dd><p>该UUID是由平台以多进程安全的方式生成的。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.SafeUUID.unsafe">
+<span class="sig-name descname"><span class="pre">unsafe</span></span><a class="headerlink" href="#uuid.SafeUUID.unsafe" title="永久链接至目标">¶</a></dt>
+<dd><p>UUID不是以多进程安全的方式生成的。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.SafeUUID.unknown">
+<span class="sig-name descname"><span class="pre">unknown</span></span><a class="headerlink" href="#uuid.SafeUUID.unknown" title="永久链接至目标">¶</a></dt>
+<dd><p>该平台不提供UUID是否安全生成的信息。</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uuid.UUID">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">UUID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bytes_le</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_safe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">SafeUUID.unknown</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uuid.UUID" title="永久链接至目标">¶</a></dt>
+<dd><p>用一串32位十六进制数字、一串大端序16个字节作为*bytes*参数、一串16个小端序字节作为*bytes_le*参数、一个由六个整数组成的元组（32位*time_low*，16位*time_mid*，16位*time_hi_version*，8位*clock_seq_hi_variant*，8位*clock_seq_low*，48位*node*）作为*fields*参数，或者一个128位整数作为*int*参数创建一个UUID。当给出一串十六进制数字时，大括号、连字符和URN前缀都是可选的。 例如，这些表达式都产生相同的UUID:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">UUID</span><span class="p">(</span><span class="s1">&#39;{12345678-1234-5678-1234-567812345678}&#39;</span><span class="p">)</span>
+<span class="n">UUID</span><span class="p">(</span><span class="s1">&#39;12345678123456781234567812345678&#39;</span><span class="p">)</span>
+<span class="n">UUID</span><span class="p">(</span><span class="s1">&#39;urn:uuid:12345678-1234-5678-1234-567812345678&#39;</span><span class="p">)</span>
+<span class="n">UUID</span><span class="p">(</span><span class="nb">bytes</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x12\x34\x56\x78</span><span class="s1">&#39;</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">UUID</span><span class="p">(</span><span class="n">bytes_le</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x78\x56\x34\x12\x34\x12\x78\x56</span><span class="s1">&#39;</span> <span class="o">+</span>
+              <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x12\x34\x56\x78\x12\x34\x56\x78</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">UUID</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">(</span><span class="mh">0x12345678</span><span class="p">,</span> <span class="mh">0x1234</span><span class="p">,</span> <span class="mh">0x5678</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x34</span><span class="p">,</span> <span class="mh">0x567812345678</span><span class="p">))</span>
+<span class="n">UUID</span><span class="p">(</span><span class="nb">int</span><span class="o">=</span><span class="mh">0x12345678123456781234567812345678</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>必须给出 <em>hex</em>、<em>bytes</em>、<em>bytes_le</em>、<em>fields</em> 或 <em>int</em> 中的唯一一个。 <em>version</em> 参数是可选的；如果给定，产生的UUID将根据 <span class="target" id="index-20"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4122.html"><strong>RFC 4122</strong></a> 设置其变体和版本号，覆盖给定的 <em>hex</em>、<em>bytes</em>、<em>bytes_le</em>、<em>fields</em> 或 <em>int</em> 中的位。</p>
+<p>UUID 对象的比较是通过比较它们的 <a class="reference internal" href="#uuid.UUID.int" title="uuid.UUID.int"><code class="xref py py-attr docutils literal notranslate"><span class="pre">UUID.int</span></code></a> 属性进行的。 与非 UUID 对象的比较会引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+<p><code class="docutils literal notranslate"><span class="pre">str(uuid)</span></code> 返回一个 <code class="docutils literal notranslate"><span class="pre">12345678-1234-5678-1234-567812345678</span></code> 形式的字符串，其中 32 位十六进制数字代表 UUID。</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#uuid.UUID" title="uuid.UUID"><code class="xref py py-class docutils literal notranslate"><span class="pre">UUID</span></code></a> 实例有这些只读的属性:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.UUID.bytes">
+<span class="sig-prename descclassname"><span class="pre">UUID.</span></span><span class="sig-name descname"><span class="pre">bytes</span></span><a class="headerlink" href="#uuid.UUID.bytes" title="永久链接至目标">¶</a></dt>
+<dd><p>UUID是一个16字节的字符串（包含6个大端字节序的整数字段）。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.UUID.bytes_le">
+<span class="sig-prename descclassname"><span class="pre">UUID.</span></span><span class="sig-name descname"><span class="pre">bytes_le</span></span><a class="headerlink" href="#uuid.UUID.bytes_le" title="永久链接至目标">¶</a></dt>
+<dd><p>UUID 是一个 16 字节的字符串（其中 <em>time_low</em>、<em>time_mid</em> 和 <em>time_hi_version</em> 为小端字节顺序）。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.UUID.fields">
+<span class="sig-prename descclassname"><span class="pre">UUID.</span></span><span class="sig-name descname"><span class="pre">fields</span></span><a class="headerlink" href="#uuid.UUID.fields" title="永久链接至目标">¶</a></dt>
+<dd><p>以元组形式存放的UUID的6个整数域，有六个单独的属性和两个派生属性：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 49%" />
+<col style="width: 51%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>域</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">time_low</span></code></p></td>
+<td><p>UUID的前32位</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">time_mid</span></code></p></td>
+<td><p>接前一域的16位</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">time_hi_version</span></code></p></td>
+<td><p>接前一域的16位</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">clock_seq_hi_variant</span></code></p></td>
+<td><p>接前一域的8位</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">clock_seq_low</span></code></p></td>
+<td><p>接前一域的8位</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">node</span></code></p></td>
+<td><p>UUID的最后48位</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="time.html#module-time" title="time: Time access and conversions."><code class="xref py py-attr docutils literal notranslate"><span class="pre">time</span></code></a></p></td>
+<td><p>UUID的总长60位的时间戳</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">clock_seq</span></code></p></td>
+<td><p>14位的序列号</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.UUID.hex">
+<span class="sig-prename descclassname"><span class="pre">UUID.</span></span><span class="sig-name descname"><span class="pre">hex</span></span><a class="headerlink" href="#uuid.UUID.hex" title="永久链接至目标">¶</a></dt>
+<dd><p>UUID 是一个 32 字符的小写十六进制数码字符串。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.UUID.int">
+<span class="sig-prename descclassname"><span class="pre">UUID.</span></span><span class="sig-name descname"><span class="pre">int</span></span><a class="headerlink" href="#uuid.UUID.int" title="永久链接至目标">¶</a></dt>
+<dd><p>UUID是一个128位的整数。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.UUID.urn">
+<span class="sig-prename descclassname"><span class="pre">UUID.</span></span><span class="sig-name descname"><span class="pre">urn</span></span><a class="headerlink" href="#uuid.UUID.urn" title="永久链接至目标">¶</a></dt>
+<dd><p>在 <span class="target" id="index-21"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4122.html"><strong>RFC 4122</strong></a> 中定义的 URN 形式的 UUID。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.UUID.variant">
+<span class="sig-prename descclassname"><span class="pre">UUID.</span></span><span class="sig-name descname"><span class="pre">variant</span></span><a class="headerlink" href="#uuid.UUID.variant" title="永久链接至目标">¶</a></dt>
+<dd><p>UUID 的变体，它决定了 UUID 的内部布局。 这将是 <a class="reference internal" href="#uuid.RESERVED_NCS" title="uuid.RESERVED_NCS"><code class="xref py py-const docutils literal notranslate"><span class="pre">RESERVED_NCS</span></code></a>, <a class="reference internal" href="#uuid.RFC_4122" title="uuid.RFC_4122"><code class="xref py py-const docutils literal notranslate"><span class="pre">RFC_4122</span></code></a>, <a class="reference internal" href="#uuid.RESERVED_MICROSOFT" title="uuid.RESERVED_MICROSOFT"><code class="xref py py-const docutils literal notranslate"><span class="pre">RESERVED_MICROSOFT</span></code></a> 或 <a class="reference internal" href="#uuid.RESERVED_FUTURE" title="uuid.RESERVED_FUTURE"><code class="xref py py-const docutils literal notranslate"><span class="pre">RESERVED_FUTURE</span></code></a> 中的一个。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.UUID.version">
+<span class="sig-prename descclassname"><span class="pre">UUID.</span></span><span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#uuid.UUID.version" title="永久链接至目标">¶</a></dt>
+<dd><p>UUID 版本号（1 到 5，只有当变体为 <a class="reference internal" href="#uuid.RFC_4122" title="uuid.RFC_4122"><code class="xref py py-const docutils literal notranslate"><span class="pre">RFC_4122</span></code></a> 时才有意义）。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uuid.UUID.is_safe">
+<span class="sig-prename descclassname"><span class="pre">UUID.</span></span><span class="sig-name descname"><span class="pre">is_safe</span></span><a class="headerlink" href="#uuid.UUID.is_safe" title="永久链接至目标">¶</a></dt>
+<dd><p>一个 <a class="reference internal" href="#uuid.SafeUUID" title="uuid.SafeUUID"><code class="xref py py-class docutils literal notranslate"><span class="pre">SafeUUID</span></code></a> 的枚举，表示平台是否以多进程安全的方式生成 UUID。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p><a class="reference internal" href="#module-uuid" title="uuid: UUID objects (universally unique identifiers) according to RFC 4122"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uuid</span></code></a> 模块定义了以下函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="uuid.getnode">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">getnode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#uuid.getnode" title="永久链接至目标">¶</a></dt>
+<dd><p>获取 48 位正整数形式的硬件地址。 第一次运行时，它可能会启动一个单独的程序，这可能会相当慢。 如果所有获取硬件地址的尝试都失败了，我们会按照 <span class="target" id="index-22"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4122.html"><strong>RFC 4122</strong></a> 中的建议，选择一个随机的 48 位数字，其多播位 (第一个八进制数的最小有效位) 设置为 1。 “硬件地址”是指一个网络接口的 MAC 地址。 在一台有多个网络接口的机器上，普遍管理的 MAC 地址 (即第一个八位数的第二个最小有效位是 <em>未设置的</em>) 将比本地管理的 MAC 地址优先，但没有其他排序保证。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>普遍管理的MAC地址优于本地管理的MAC地址，因为前者保证是全球唯一的，而后者则不是。</p>
+</div>
+</dd></dl>
+
+<span class="target" id="index-5"></span><dl class="py function">
+<dt class="sig sig-object py" id="uuid.uuid1">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">uuid1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uuid.uuid1" title="永久链接至目标">¶</a></dt>
+<dd><p>根据主机 ID、序列号和当前时间生成一个 UUID。 如果没有给出 <em>node</em>，则使用 <a class="reference internal" href="#uuid.getnode" title="uuid.getnode"><code class="xref py py-func docutils literal notranslate"><span class="pre">getnode()</span></code></a> 来获取硬件地址。 如果给出了 <em>clock_seq</em>，它将被用作序列号；否则将选择一个随机的 14 比特位序列号。</p>
+</dd></dl>
+
+<span class="target" id="index-6"></span><dl class="py function">
+<dt class="sig sig-object py" id="uuid.uuid3">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">uuid3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uuid.uuid3" title="永久链接至目标">¶</a></dt>
+<dd><p>根据命名空间标识符（这是一个UUID）和名称（这是一个字符串）的MD5哈希值，生成一个UUID。</p>
+</dd></dl>
+
+<span class="target" id="index-7"></span><dl class="py function">
+<dt class="sig sig-object py" id="uuid.uuid4">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">uuid4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#uuid.uuid4" title="永久链接至目标">¶</a></dt>
+<dd><p>生成一个随机的UUID。</p>
+</dd></dl>
+
+<span class="target" id="index-8"></span><dl class="py function">
+<dt class="sig sig-object py" id="uuid.uuid5">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">uuid5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uuid.uuid5" title="永久链接至目标">¶</a></dt>
+<dd><p>根据命名空间标识符（这是一个UUID）和名称（这是一个字符串）的SHA-1哈希值生成一个UUID。</p>
+</dd></dl>
+
+<p id="index-9"><a class="reference internal" href="#module-uuid" title="uuid: UUID objects (universally unique identifiers) according to RFC 4122"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uuid</span></code></a> 模块定义了以下命名空间标识符，供 <a class="reference internal" href="#uuid.uuid3" title="uuid.uuid3"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid3()</span></code></a> 或 <a class="reference internal" href="#uuid.uuid5" title="uuid.uuid5"><code class="xref py py-func docutils literal notranslate"><span class="pre">uuid5()</span></code></a> 使用。</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="uuid.NAMESPACE_DNS">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">NAMESPACE_DNS</span></span><a class="headerlink" href="#uuid.NAMESPACE_DNS" title="永久链接至目标">¶</a></dt>
+<dd><p>When this namespace is specified, the <em>name</em> string is a fully qualified domain
+name.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uuid.NAMESPACE_URL">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">NAMESPACE_URL</span></span><a class="headerlink" href="#uuid.NAMESPACE_URL" title="永久链接至目标">¶</a></dt>
+<dd><p>当指定这个命名空间时，<em>name</em> 字符串是一个 URL。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uuid.NAMESPACE_OID">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">NAMESPACE_OID</span></span><a class="headerlink" href="#uuid.NAMESPACE_OID" title="永久链接至目标">¶</a></dt>
+<dd><p>当指定这个命名空间时，<em>name</em> 字符串是一个 ISO OID。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uuid.NAMESPACE_X500">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">NAMESPACE_X500</span></span><a class="headerlink" href="#uuid.NAMESPACE_X500" title="永久链接至目标">¶</a></dt>
+<dd><p>当指定这个命名空间时，<em>name</em> 字符串是 DER 或文本输出格式的 X.500 DN。</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#module-uuid" title="uuid: UUID objects (universally unique identifiers) according to RFC 4122"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uuid</span></code></a> 模块为 <code class="xref py py-attr docutils literal notranslate"><span class="pre">variant</span></code> 属性的可能值定义了以下常量:</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="uuid.RESERVED_NCS">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">RESERVED_NCS</span></span><a class="headerlink" href="#uuid.RESERVED_NCS" title="永久链接至目标">¶</a></dt>
+<dd><p>为NCS兼容性保留。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uuid.RFC_4122">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">RFC_4122</span></span><a class="headerlink" href="#uuid.RFC_4122" title="永久链接至目标">¶</a></dt>
+<dd><p>指定 <span class="target" id="index-23"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4122.html"><strong>RFC 4122</strong></a> 中给出的 UUID 布局。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uuid.RESERVED_MICROSOFT">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">RESERVED_MICROSOFT</span></span><a class="headerlink" href="#uuid.RESERVED_MICROSOFT" title="永久链接至目标">¶</a></dt>
+<dd><p>为微软的兼容性保留。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uuid.RESERVED_FUTURE">
+<span class="sig-prename descclassname"><span class="pre">uuid.</span></span><span class="sig-name descname"><span class="pre">RESERVED_FUTURE</span></span><a class="headerlink" href="#uuid.RESERVED_FUTURE" title="永久链接至目标">¶</a></dt>
+<dd><p>保留给未来的定义。</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><span class="target" id="index-24"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4122.html"><strong>RFC 4122</strong></a> - 通用唯一标识符（UUID）URN命名空间</dt><dd><p>本规范定义了UUID的统一资源名称空间，UUID的内部格式，以及生成UUID的方法。</p>
+</dd>
+</dl>
+</div>
+<section id="example">
+<span id="uuid-example"></span><h2>示例<a class="headerlink" href="#example" title="永久链接至标题">¶</a></h2>
+<p>下面是一些 <a class="reference internal" href="#module-uuid" title="uuid: UUID objects (universally unique identifiers) according to RFC 4122"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uuid</span></code></a> 模块的典型使用例子:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># make a UUID based on the host ID and current time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">()</span>
+<span class="go">UUID(&#39;a8098c1a-f86e-11da-bd1a-00112444be1e&#39;)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># make a UUID using an MD5 hash of a namespace UUID and a name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid3</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">NAMESPACE_DNS</span><span class="p">,</span> <span class="s1">&#39;python.org&#39;</span><span class="p">)</span>
+<span class="go">UUID(&#39;6fa459ea-ee8a-3ca4-894e-db77e160355e&#39;)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># make a random UUID</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
+<span class="go">UUID(&#39;16fd2706-8baf-433b-82eb-8c7fada847da&#39;)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># make a UUID using a SHA-1 hash of a namespace UUID and a name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid5</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">NAMESPACE_DNS</span><span class="p">,</span> <span class="s1">&#39;python.org&#39;</span><span class="p">)</span>
+<span class="go">UUID(&#39;886313e1-3b8a-5372-9b90-0c9aee199e5d&#39;)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># make a UUID from a string of hex digits (braces and hyphens ignored)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">(</span><span class="s1">&#39;{00010203-0405-0607-0809-0a0b0c0d0e0f}&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># convert a UUID to a string of hex digits in standard form</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">&#39;00010203-0405-0607-0809-0a0b0c0d0e0f&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the raw 16 bytes of the UUID</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">bytes</span>
+<span class="go">b&#39;\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># make a UUID from a 16-byte string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">(</span><span class="nb">bytes</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">bytes</span><span class="p">)</span>
+<span class="go">UUID(&#39;00010203-0405-0607-0809-0a0b0c0d0e0f&#39;)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uuid</span></code> --- <strong>RFC 4122</strong> 定义的UUID对象</a><ul>
+<li><a class="reference internal" href="#example">示例</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="smtplib.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">smtplib</span></code> --- SMTP 协议客户端</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="socketserver.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">socketserver</span></code> --- 用于网络服务器的框架</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/uuid.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="socketserver.html" title="socketserver --- 用于网络服务器的框架"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="smtplib.html" title="smtplib --- SMTP 协议客户端"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="internet.html" >互联网协议和支持</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">uuid</span></code> --- <strong>RFC 4122</strong> 定义的UUID对象</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

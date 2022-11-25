@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>sunau --- 读写 Sun AU 文件 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="telnetlib -- Telnet 客户端" href="telnetlib.html" />
+    <link rel="prev" title="spwd —— shadow 密码库" href="spwd.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/sunau.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sunau</span></code> --- 读写 Sun AU 文件</a><ul>
+<li><a class="reference internal" href="#au-read-objects">AU_read 对象</a></li>
+<li><a class="reference internal" href="#au-write-objects">AU_write 对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="spwd.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">spwd</span></code> —— shadow 密码库</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="telnetlib.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">telnetlib</span></code> -- Telnet 客户端</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/sunau.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="telnetlib.html" title="telnetlib -- Telnet 客户端"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="spwd.html" title="spwd —— shadow 密码库"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" accesskey="U">被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">sunau</span></code> --- 读写 Sun AU 文件</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-sunau">
+<span id="sunau-read-and-write-sun-au-files"></span><h1><a class="reference internal" href="#module-sunau" title="sunau: Provide an interface to the Sun AU sound format. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sunau</span></code></a> --- 读写 Sun AU 文件<a class="headerlink" href="#module-sunau" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/sunau.py">Lib/sunau.py</a></p>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.11 开始标记为过时，将在版本 3.13 中移除。: </span><a class="reference internal" href="#module-sunau" title="sunau: Provide an interface to the Sun AU sound format. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sunau</span></code></a> 模块已被弃用（请参阅 <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0594/#sunau"><strong>PEP 594</strong></a> 了解详情）。</p>
+</div>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-sunau" title="sunau: Provide an interface to the Sun AU sound format. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sunau</span></code></a> 模拟提供了一个处理 Sun AU 声音格式的便利接口。请注意此模块与 <a class="reference internal" href="aifc.html#module-aifc" title="aifc: Read and write audio files in AIFF or AIFC format. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aifc</span></code></a> 和 <a class="reference internal" href="wave.html#module-wave" title="wave: Provide an interface to the WAV sound format."><code class="xref py py-mod docutils literal notranslate"><span class="pre">wave</span></code></a> 是兼容接口的。</p>
+<p>音频文件由标头和数据组成。标头的字段为：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 76%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>域</p></th>
+<th class="head"><p>目录</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>magic word</p></td>
+<td><p>四个字节 <code class="docutils literal notranslate"><span class="pre">.snd</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>header size</p></td>
+<td><p>标头的大小，包括信息，以字节为单位。</p></td>
+</tr>
+<tr class="row-even"><td><p>data size</p></td>
+<td><p>数据的物理大小，以字节为单位。</p></td>
+</tr>
+<tr class="row-odd"><td><p>encoding</p></td>
+<td><p>指示音频样本的编码方式。</p></td>
+</tr>
+<tr class="row-even"><td><p>sample rate</p></td>
+<td><p>采样率</p></td>
+</tr>
+<tr class="row-odd"><td><p># of channels</p></td>
+<td><p>采样中的通道数。</p></td>
+</tr>
+<tr class="row-even"><td><p>info</p></td>
+<td><p>提供音频文件描述的ASCII字符串（用空字节填充）。</p></td>
+</tr>
+</tbody>
+</table>
+<p>除了 info 字段，所有标头字段的大小都是 4 字节。 它们都是采用大端字节序编码的 32 位无符号整数。</p>
+<p><a class="reference internal" href="#module-sunau" title="sunau: Provide an interface to the Sun AU sound format. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sunau</span></code></a> 模块定义了以下函数:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="sunau.open">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.open" title="永久链接至目标">¶</a></dt>
+<dd><p>如果 <em>file</em> 是一个字符串，打开相应名称的文件，否则就把它作为可定位的文件类对象来处理。 <em>mode</em> 可以是</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">'r'</span></code></dt><dd><p>只读模式。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">'w'</span></code></dt><dd><p>只写模式。</p>
+</dd>
+</dl>
+<p>注意它不支持同时读/写文件。</p>
+<p><em>mode</em> 为 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> 时返回一个 <code class="xref py py-class docutils literal notranslate"><span class="pre">AU_read</span></code> 对象，而 <em>mode</em> 为 <code class="docutils literal notranslate"><span class="pre">'w'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'wb'</span></code> 时返回一个 <code class="xref py py-class docutils literal notranslate"><span class="pre">AU_write</span></code> 对象。</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#module-sunau" title="sunau: Provide an interface to the Sun AU sound format. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sunau</span></code></a> 模块定义了以下异常:</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="sunau.Error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">Error</span></span><a class="headerlink" href="#sunau.Error" title="永久链接至目标">¶</a></dt>
+<dd><p>当 Sun AU 规范或实现的低效导致无法操作时引发的错误。</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#module-sunau" title="sunau: Provide an interface to the Sun AU sound format. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sunau</span></code></a> 模块定义了以下数据条目:</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_MAGIC">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_MAGIC</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_MAGIC" title="永久链接至目标">¶</a></dt>
+<dd><p>位于每个有效的 Sun AU 文件开头的整数，以大端序形式存储。 这是一个被当作整数来解读的字符串 <code class="docutils literal notranslate"><span class="pre">.snd</span></code>。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_MULAW_8">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_MULAW_8</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_MULAW_8" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_LINEAR_8">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_LINEAR_8</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_LINEAR_8" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_LINEAR_16">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_LINEAR_16</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_LINEAR_16" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_LINEAR_24">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_LINEAR_24</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_LINEAR_24" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_LINEAR_32">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_LINEAR_32</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_LINEAR_32" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_ALAW_8">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_ALAW_8</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_ALAW_8" title="永久链接至目标">¶</a></dt>
+<dd><p>AU 标头中被此模块所支持的 encoding 字段值。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_FLOAT">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_FLOAT</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_FLOAT" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_DOUBLE">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_DOUBLE</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_DOUBLE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_ADPCM_G721">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_ADPCM_G721</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_ADPCM_G721" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_ADPCM_G722">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_ADPCM_G722</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_ADPCM_G722" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_ADPCM_G723_3">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_ADPCM_G723_3</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_ADPCM_G723_3" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="sunau.AUDIO_FILE_ENCODING_ADPCM_G723_5">
+<span class="sig-prename descclassname"><span class="pre">sunau.</span></span><span class="sig-name descname"><span class="pre">AUDIO_FILE_ENCODING_ADPCM_G723_5</span></span><a class="headerlink" href="#sunau.AUDIO_FILE_ENCODING_ADPCM_G723_5" title="永久链接至目标">¶</a></dt>
+<dd><p>AU 标头中附加的已知但不被此模块所支持的 encoding 字段值。</p>
+</dd></dl>
+
+<section id="au-read-objects">
+<span id="id1"></span><h2>AU_read 对象<a class="headerlink" href="#au-read-objects" title="永久链接至标题">¶</a></h2>
+<p>由上面的 <a class="reference internal" href="#sunau.open" title="sunau.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> 所返回的 AU_read 对象具有以下几种方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.close">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭流，并使实例不可用。 （此方法会在删除对象时自动调用。）</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.getnchannels">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">getnchannels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.getnchannels" title="永久链接至目标">¶</a></dt>
+<dd><p>返回音频的通道数（单声道为 1，立体声为 2）。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.getsampwidth">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">getsampwidth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.getsampwidth" title="永久链接至目标">¶</a></dt>
+<dd><p>返回采样字节长度。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.getframerate">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">getframerate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.getframerate" title="永久链接至目标">¶</a></dt>
+<dd><p>返回采样频率。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.getnframes">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">getnframes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.getnframes" title="永久链接至目标">¶</a></dt>
+<dd><p>返回音频总帧数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.getcomptype">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">getcomptype</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.getcomptype" title="永久链接至目标">¶</a></dt>
+<dd><p>返回压缩类型。 受支持的压缩类型有 <code class="docutils literal notranslate"><span class="pre">'ULAW'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ALAW'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'NONE'</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.getcompname">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">getcompname</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.getcompname" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#sunau.AU_read.getcomptype" title="sunau.AU_read.getcomptype"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getcomptype()</span></code></a> 的人类可读的版本。 受支持的类型将为相应的名称 <code class="docutils literal notranslate"><span class="pre">'CCITT</span> <span class="pre">G.711</span> <span class="pre">u-law'</span></code>, <code class="docutils literal notranslate"><span class="pre">'CCITT</span> <span class="pre">G.711</span> <span class="pre">A-law'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'not</span> <span class="pre">compressed'</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.getparams">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">getparams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.getparams" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="collections.html#collections.namedtuple" title="collections.namedtuple"><code class="xref py py-func docutils literal notranslate"><span class="pre">namedtuple()</span></code></a> <code class="docutils literal notranslate"><span class="pre">(nchannels,</span> <span class="pre">sampwidth,</span> <span class="pre">framerate,</span> <span class="pre">nframes,</span> <span class="pre">comptype,</span> <span class="pre">compname)</span></code>，与 <code class="xref py py-meth docutils literal notranslate"><span class="pre">get*()</span></code> 方法的输出相同。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.readframes">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">readframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.readframes" title="永久链接至目标">¶</a></dt>
+<dd><p>读取至多 <em>n</em> 帧音频并作为 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象返回。 数据将以线性格式返回。 如果原始数据为 u-LAW 格式，则它将被转换。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.rewind">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">rewind</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.rewind" title="永久链接至目标">¶</a></dt>
+<dd><p>重置文件指针至音频开头.</p>
+</dd></dl>
+
+<p>以下两个方法都使用指针，具体实现由其底层决定。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.setpos">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">setpos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.setpos" title="永久链接至目标">¶</a></dt>
+<dd><p>设置文件指针到特定位置。 只有从 <a class="reference internal" href="#sunau.AU_read.tell" title="sunau.AU_read.tell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tell()</span></code></a> 返回的值才可被用作 <em>pos</em>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.tell">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">tell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.tell" title="永久链接至目标">¶</a></dt>
+<dd><p>返回当前文件指针的位置。 请注意该返回值与文件中的实例位置无关。</p>
+</dd></dl>
+
+<p>以下两个函数是为了与 <a class="reference internal" href="aifc.html#module-aifc" title="aifc: Read and write audio files in AIFF or AIFC format. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aifc</span></code></a> 保持兼容而定义的，实际不做任何事情。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.getmarkers">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">getmarkers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.getmarkers" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_read.getmark">
+<span class="sig-prename descclassname"><span class="pre">AU_read.</span></span><span class="sig-name descname"><span class="pre">getmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_read.getmark" title="永久链接至目标">¶</a></dt>
+<dd><p>引发错误异常。</p>
+</dd></dl>
+
+</section>
+<section id="au-write-objects">
+<span id="id2"></span><h2>AU_write 对象<a class="headerlink" href="#au-write-objects" title="永久链接至标题">¶</a></h2>
+<p>由上面的 <a class="reference internal" href="#sunau.open" title="sunau.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> 所返回的 AU_write 对象具有以下几种方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_write.setnchannels">
+<span class="sig-prename descclassname"><span class="pre">AU_write.</span></span><span class="sig-name descname"><span class="pre">setnchannels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_write.setnchannels" title="永久链接至目标">¶</a></dt>
+<dd><p>设置声道数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_write.setsampwidth">
+<span class="sig-prename descclassname"><span class="pre">AU_write.</span></span><span class="sig-name descname"><span class="pre">setsampwidth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_write.setsampwidth" title="永久链接至目标">¶</a></dt>
+<dd><p>设置采样宽度（字节长度。）</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>增加了对 24 位采样的支持。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_write.setframerate">
+<span class="sig-prename descclassname"><span class="pre">AU_write.</span></span><span class="sig-name descname"><span class="pre">setframerate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_write.setframerate" title="永久链接至目标">¶</a></dt>
+<dd><p>设置帧速率。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_write.setnframes">
+<span class="sig-prename descclassname"><span class="pre">AU_write.</span></span><span class="sig-name descname"><span class="pre">setnframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_write.setnframes" title="永久链接至目标">¶</a></dt>
+<dd><p>设置总帧数。 如果写入了更多的帧，此值将会被更改。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_write.setcomptype">
+<span class="sig-prename descclassname"><span class="pre">AU_write.</span></span><span class="sig-name descname"><span class="pre">setcomptype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_write.setcomptype" title="永久链接至目标">¶</a></dt>
+<dd><p>设置压缩类型和描述。 对于输出只支持 <code class="docutils literal notranslate"><span class="pre">'NONE'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'ULAW'</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_write.setparams">
+<span class="sig-prename descclassname"><span class="pre">AU_write.</span></span><span class="sig-name descname"><span class="pre">setparams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tuple</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_write.setparams" title="永久链接至目标">¶</a></dt>
+<dd><p><em>tuple</em> 应该是 <code class="docutils literal notranslate"><span class="pre">(nchannels,</span> <span class="pre">sampwidth,</span> <span class="pre">framerate,</span> <span class="pre">nframes,</span> <span class="pre">comptype,</span> <span class="pre">compname)</span></code>，每项的值可用于 <code class="xref py py-meth docutils literal notranslate"><span class="pre">set*()</span></code> 方法。 设置所有形参。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_write.tell">
+<span class="sig-prename descclassname"><span class="pre">AU_write.</span></span><span class="sig-name descname"><span class="pre">tell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_write.tell" title="永久链接至目标">¶</a></dt>
+<dd><p>返回文件中的当前位置，其含义与 <a class="reference internal" href="#sunau.AU_read.tell" title="sunau.AU_read.tell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">AU_read.tell()</span></code></a> 和 <a class="reference internal" href="#sunau.AU_read.setpos" title="sunau.AU_read.setpos"><code class="xref py py-meth docutils literal notranslate"><span class="pre">AU_read.setpos()</span></code></a> 方法的一致。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_write.writeframesraw">
+<span class="sig-prename descclassname"><span class="pre">AU_write.</span></span><span class="sig-name descname"><span class="pre">writeframesraw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_write.writeframesraw" title="永久链接至目标">¶</a></dt>
+<dd><p>写入音频数据但不更新 <em>nframes</em>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>现在可接受任意 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_write.writeframes">
+<span class="sig-prename descclassname"><span class="pre">AU_write.</span></span><span class="sig-name descname"><span class="pre">writeframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_write.writeframes" title="永久链接至目标">¶</a></dt>
+<dd><p>写入音频数据并更新 <em>nframes</em>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>现在可接受任意 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sunau.AU_write.close">
+<span class="sig-prename descclassname"><span class="pre">AU_write.</span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sunau.AU_write.close" title="永久链接至目标">¶</a></dt>
+<dd><p>确保 <em>nframes</em> 正确，并关闭文件。</p>
+<p>此方法会在删除时被调用。</p>
+</dd></dl>
+
+<p>请注意在调用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">writeframes()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">writeframesraw()</span></code> 之后再设置任何形参都是无效的。</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sunau</span></code> --- 读写 Sun AU 文件</a><ul>
+<li><a class="reference internal" href="#au-read-objects">AU_read 对象</a></li>
+<li><a class="reference internal" href="#au-write-objects">AU_write 对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="spwd.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">spwd</span></code> —— shadow 密码库</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="telnetlib.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">telnetlib</span></code> -- Telnet 客户端</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/sunau.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="telnetlib.html" title="telnetlib -- Telnet 客户端"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="spwd.html" title="spwd —— shadow 密码库"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" >被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">sunau</span></code> --- 读写 Sun AU 文件</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

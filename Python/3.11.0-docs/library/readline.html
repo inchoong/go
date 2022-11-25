@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>readline --- GNU readline 接口 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="rlcompleter --- GNU readline 的补全函数" href="rlcompleter.html" />
+    <link rel="prev" title="stringprep --- 因特网字符串预备" href="stringprep.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/readline.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> --- GNU readline 接口</a><ul>
+<li><a class="reference internal" href="#init-file">初始化文件</a></li>
+<li><a class="reference internal" href="#line-buffer">行缓冲区</a></li>
+<li><a class="reference internal" href="#history-file">历史文件</a></li>
+<li><a class="reference internal" href="#history-list">历史列表</a></li>
+<li><a class="reference internal" href="#startup-hooks">启动钩子</a></li>
+<li><a class="reference internal" href="#completion">Completion</a></li>
+<li><a class="reference internal" href="#example">示例</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="stringprep.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stringprep</span></code> --- 因特网字符串预备</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="rlcompleter.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlcompleter</span></code> --- GNU readline 的补全函数</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/readline.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="rlcompleter.html" title="rlcompleter --- GNU readline 的补全函数"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="stringprep.html" title="stringprep --- 因特网字符串预备"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" accesskey="U">文本处理服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> --- GNU readline 接口</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-readline">
+<span id="readline-gnu-readline-interface"></span><h1><a class="reference internal" href="#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> --- GNU readline 接口<a class="headerlink" href="#module-readline" title="永久链接至标题">¶</a></h1>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> 模块定义了许多方便从 Python 解释器完成和读取/写入历史文件的函数。 此模块可以直接使用，或通过支持在交互提示符下完成 Python 标识符的 <a class="reference internal" href="rlcompleter.html#module-rlcompleter" title="rlcompleter: Python identifier completion, suitable for the GNU readline library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlcompleter</span></code></a> 模块使用。 使用此模块进行的设置会同时影响解释器的交互提示符以及内置 <a class="reference internal" href="functions.html#input" title="input"><code class="xref py py-func docutils literal notranslate"><span class="pre">input()</span></code></a> 函数提供的提示符。</p>
+<p>Readline keybindings may be configured via an initialization file, typically
+<code class="docutils literal notranslate"><span class="pre">.inputrc</span></code> in your home directory.  See <a class="reference external" href="https://tiswww.cwru.edu/php/chet/readline/rluserman.html#SEC9">Readline Init File</a>
+in the GNU Readline manual for information about the format and
+allowable constructs of that file, and the capabilities of the
+Readline library in general.</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>底层的 Readline 库 API 可能使用 <code class="docutils literal notranslate"><span class="pre">libedit</span></code> 库来实现而不是 GNU readline。 在 macOS 上 <a class="reference internal" href="#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> 模块会在运行时检测所使用的是哪个库。</p>
+<p><code class="docutils literal notranslate"><span class="pre">libedit</span></code> 所用的配置文件与 GNU readline 的不同。 如果你要在程序中载入配置字符串你可以在 <code class="xref py py-const docutils literal notranslate"><span class="pre">readline.__doc__</span></code> 中检测文本 &quot;libedit&quot; 来区分 GNU readline 和 libedit。</p>
+<p>如果你是在 macOS 上使用 <em>editline</em>/<code class="docutils literal notranslate"><span class="pre">libedit</span></code> readline 模拟，则位于你的主目录中的初始化文件名称为 <code class="docutils literal notranslate"><span class="pre">.editrc</span></code>。 例如，<code class="docutils literal notranslate"><span class="pre">~/.editrc</span></code> 中的以下内容将开启 <em>vi</em> 按键绑定以及 TAB 补全:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span><span class="p">:</span><span class="n">bind</span> <span class="o">-</span><span class="n">v</span>
+<span class="n">python</span><span class="p">:</span><span class="n">bind</span> <span class="o">^</span><span class="n">I</span> <span class="n">rl_complete</span>
+</pre></div>
+</div>
+</div>
+<section id="init-file">
+<h2>初始化文件<a class="headerlink" href="#init-file" title="永久链接至标题">¶</a></h2>
+<p>下列函数与初始化文件和用户配置有关：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.parse_and_bind">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">parse_and_bind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.parse_and_bind" title="永久链接至目标">¶</a></dt>
+<dd><p>执行在 <em>string</em> 参数中提供的初始化行。 此函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">rl_parse_and_bind()</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.read_init_file">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">read_init_file</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.read_init_file" title="永久链接至目标">¶</a></dt>
+<dd><p>执行一个 readline 初始化文件。 默认文件名为最近所使用的文件名。 此函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">rl_read_init_file()</span></code>。</p>
+</dd></dl>
+
+</section>
+<section id="line-buffer">
+<h2>行缓冲区<a class="headerlink" href="#line-buffer" title="永久链接至标题">¶</a></h2>
+<p>下列函数会在行缓冲区上操作。</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_line_buffer">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_line_buffer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_line_buffer" title="永久链接至目标">¶</a></dt>
+<dd><p>返回行缓冲区的当前内容 (底层库中的 <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_line_buffer</span></code>)。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.insert_text">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">insert_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.insert_text" title="永久链接至目标">¶</a></dt>
+<dd><p>将文本插入行缓冲区的当前游标位置。 该函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">rl_insert_text()</span></code>，但会忽略其返回值。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.redisplay">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">redisplay</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.redisplay" title="永久链接至目标">¶</a></dt>
+<dd><p>改变屏幕的显示以反映行缓冲区的当前内容。 该函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">rl_redisplay()</span></code>。</p>
+</dd></dl>
+
+</section>
+<section id="history-file">
+<h2>历史文件<a class="headerlink" href="#history-file" title="永久链接至标题">¶</a></h2>
+<p>下列函数会在历史文件上操作：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.read_history_file">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">read_history_file</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.read_history_file" title="永久链接至目标">¶</a></dt>
+<dd><p>载入一个 readline 历史文件，并将其添加到历史列表。 默认文件名为 <code class="file docutils literal notranslate"><span class="pre">~/.history</span></code>。 此函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">read_history()</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.write_history_file">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">write_history_file</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.write_history_file" title="永久链接至目标">¶</a></dt>
+<dd><p>将历史列表保存为 readline 历史文件，覆盖任何现有文件。 默认文件名为 <code class="file docutils literal notranslate"><span class="pre">~/.history</span></code>。 此函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">write_history()</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.append_history_file">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">append_history_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nelements</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.append_history_file" title="永久链接至目标">¶</a></dt>
+<dd><p>将历史列表的最后 <em>nelements</em> 项添加到历史文件。 默认文件名为 <code class="file docutils literal notranslate"><span class="pre">~/.history</span></code>。 文件必须已存在。 此函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">append_history()</span></code>。 此函数仅当 Python 编译包带有支持此功能的库版本时才会存在。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_history_length">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_history_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_history_length" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="readline.set_history_length">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_history_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_history_length" title="永久链接至目标">¶</a></dt>
+<dd><p>设置或返回需要保存到历史文件的行数。 <a class="reference internal" href="#readline.write_history_file" title="readline.write_history_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">write_history_file()</span></code></a> 函数会通过调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">history_truncate_file()</span></code> 以使用该值来截取历史文件。 负值意味着不限制历史文件的大小。</p>
+</dd></dl>
+
+</section>
+<section id="history-list">
+<h2>历史列表<a class="headerlink" href="#history-list" title="永久链接至标题">¶</a></h2>
+<p>以下函数会在全局历史列表上操作：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.clear_history">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">clear_history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.clear_history" title="永久链接至目标">¶</a></dt>
+<dd><p>清除当前历史。 此函数会调用底层库的 <code class="xref c c-func docutils literal notranslate"><span class="pre">clear_history()</span></code>。 此 Python 函数仅当 Python 编译包带有支持此功能的库版本时才会存在。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_current_history_length">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_current_history_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_current_history_length" title="永久链接至目标">¶</a></dt>
+<dd><p>返回历史列表的当前项数。 （此函数不同于 <a class="reference internal" href="#readline.get_history_length" title="readline.get_history_length"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_history_length()</span></code></a>，后者是返回将被写入历史文件的最大行数。）</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_history_item">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_history_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_history_item" title="永久链接至目标">¶</a></dt>
+<dd><p>返回序号为 <em>index</em> 的历史条目的当前内容。 条目序号从一开始。 此函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">history_get()</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.remove_history_item">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">remove_history_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.remove_history_item" title="永久链接至目标">¶</a></dt>
+<dd><p>从历史列表中移除指定位置上的历史条目。 条目位置从零开始。 此函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">remove_history()</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.replace_history_item">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">replace_history_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.replace_history_item" title="永久链接至目标">¶</a></dt>
+<dd><p>将指定位置上的历史条目替换为 <em>line</em>。 条目位置从零开始。 此函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">replace_history_entry()</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.add_history">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">add_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.add_history" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>line</em> 添加到历史缓冲区，相当于是最近输入的一行。 此函数会调用底层库中的 <code class="xref c c-func docutils literal notranslate"><span class="pre">add_history()</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_auto_history">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_auto_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_auto_history" title="永久链接至目标">¶</a></dt>
+<dd><p>启用或禁用当通过 readline 读取输入时自动调用 <code class="xref c c-func docutils literal notranslate"><span class="pre">add_history()</span></code>。 <em>enabled</em> 参数应为一个布尔值，当其为真值时启用自动历史，当其为假值时禁用自动历史。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+<div class="impl-detail compound">
+<p><strong>CPython 实现细节：</strong> Auto history is enabled by default, and changes to this do not persist
+across multiple sessions.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="startup-hooks">
+<h2>启动钩子<a class="headerlink" href="#startup-hooks" title="永久链接至标题">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_startup_hook">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_startup_hook</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_startup_hook" title="永久链接至目标">¶</a></dt>
+<dd><p>设置或移除底层库的 <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_startup_hook</span></code> 回调所发起调用的函数。 如果指定了 <em>function</em>，它将被用作新的钩子函数；如果省略或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，任何已安装的函数将被移除。 钩子函数将在 readline 打印第一个提示信息之前不带参数地被调用。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_pre_input_hook">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_pre_input_hook</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_pre_input_hook" title="永久链接至目标">¶</a></dt>
+<dd><p>设置或移除底层库的 <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_pre_input_hook</span></code> 回调所发起调用的函数。 如果指定了 <em>function</em>，它将被用作新的钩子函数；如果省略或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，任何已安装的函数将被移除。 钩子函数将在打印第一个提示信息之后、readline 开始读取输入字符之前不带参数地被调用。 此函数仅当 Python 编译包带有支持此功能的库版本时才会存在。</p>
+</dd></dl>
+
+</section>
+<section id="completion">
+<h2>Completion<a class="headerlink" href="#completion" title="永久链接至标题">¶</a></h2>
+<p>以下函数与自定义单词补全函数的实现有关。 这通常使用 Tab 键进行操作，能够提示并自动补全正在输入的单词。 默认情况下，Readline 设置为由 <a class="reference internal" href="rlcompleter.html#module-rlcompleter" title="rlcompleter: Python identifier completion, suitable for the GNU readline library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlcompleter</span></code></a> 来补全交互模式解释器的 Python 标识符。 如果 <a class="reference internal" href="#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> 模块要配合自定义的补全函数来使用，则需要设置不同的单词分隔符。</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_completer">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_completer</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_completer" title="永久链接至目标">¶</a></dt>
+<dd><p>设置或移除补全函数。 如果指定了 <em>function</em>，它将被用作新的补全函数；如果省略或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，任何已安装的补全函数将被移除。 补全函数的调用形式为 <code class="docutils literal notranslate"><span class="pre">function(text,</span> <span class="pre">state)</span></code>，其中 <em>state</em> 为 <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, ..., 直至其返回一个非字符串值。 它应当返回下一个以 <em>text</em> 开头的候选补全内容。</p>
+<p>已安装的补全函数将由传递给底层库中 <code class="xref c c-func docutils literal notranslate"><span class="pre">rl_completion_matches()</span></code> 的 <em>entry_func</em> 回调函数来发起调用。 <em>text</em> 字符串来自于底层库中 <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_attempted_completion_function</span></code> 回调函数的第一个形参。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_completer">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_completer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_completer" title="永久链接至目标">¶</a></dt>
+<dd><p>获取补全函数，如果没有设置补全函数则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_completion_type">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_completion_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_completion_type" title="永久链接至目标">¶</a></dt>
+<dd><p>获取正在尝试的补全类型。 此函数会将底层库中的 <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_completion_type</span></code> 变量作为一个整数返回。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_begidx">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_begidx</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_begidx" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="readline.get_endidx">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_endidx</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_endidx" title="永久链接至目标">¶</a></dt>
+<dd><p>获取完全范围的开始和结束索引号。 这些索引号就是传递给下层库的 <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_attempted_completion_function</span></code> 回调的 <em>start</em> 和 <em>end</em> 参数。 具体值在同一个输入编辑场景中可能不同，具体取决于下层的 C readline 实现。 例如：已知 libedit 的行为就不同于 libreadline。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_completer_delims">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_completer_delims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_completer_delims" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="readline.get_completer_delims">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_completer_delims</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_completer_delims" title="永久链接至目标">¶</a></dt>
+<dd><p>设置或获取补全的单词分隔符。 此分隔符确定了要考虑补全的单词的开始和结束位置（补全域）。 这些函数会访问底层库的 <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_completer_word_break_characters</span></code> 变量。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_completion_display_matches_hook">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_completion_display_matches_hook</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_completion_display_matches_hook" title="永久链接至目标">¶</a></dt>
+<dd><p>设置或移除补全显示函数。 如果指定了 <em>function</em>，它将被用作新的补全显示函数；如果省略或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，任何已安装的补全显示函数将被移除。 此函数会设置或清除底层库的 <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_completion_display_matches_hook</span></code> 回调函数。 补全显示函数会在每次需要显示匹配项时以 <code class="docutils literal notranslate"><span class="pre">function(substitution,</span> <span class="pre">[matches],</span> <span class="pre">longest_match_length)</span></code> 的形式被调用。</p>
+</dd></dl>
+
+</section>
+<section id="example">
+<span id="readline-example"></span><h2>示例<a class="headerlink" href="#example" title="永久链接至标题">¶</a></h2>
+<p>以下示例演示了如何使用 <a class="reference internal" href="#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> 模块的历史读取或写入函数来自动加载和保存用户主目录下名为 <code class="file docutils literal notranslate"><span class="pre">.python_history</span></code> 的历史文件。 以下代码通常应当在交互会话期间从用户的 <span class="target" id="index-2"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONSTARTUP"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONSTARTUP</span></code></a> 文件自动执行。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">atexit</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">readline</span>
+
+<span class="n">histfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.python_history&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">readline</span><span class="o">.</span><span class="n">read_history_file</span><span class="p">(</span><span class="n">histfile</span><span class="p">)</span>
+    <span class="c1"># default history len is -1 (infinite), which may grow unruly</span>
+    <span class="n">readline</span><span class="o">.</span><span class="n">set_history_length</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">readline</span><span class="o">.</span><span class="n">write_history_file</span><span class="p">,</span> <span class="n">histfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>此代码实际上会在 Python 运行于 <a class="reference internal" href="../tutorial/interpreter.html#tut-interactive"><span class="std std-ref">交互模式</span></a> 时自动运行 (参见 <a class="reference internal" href="site.html#rlcompleter-config"><span class="std std-ref">Readline 配置</span></a>)。</p>
+<p>以下示例实现了同样的目标，但是通过只添加新历史的方式来支持并发的交互会话。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">atexit</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">readline</span>
+<span class="n">histfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.python_history&quot;</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">readline</span><span class="o">.</span><span class="n">read_history_file</span><span class="p">(</span><span class="n">histfile</span><span class="p">)</span>
+    <span class="n">h_len</span> <span class="o">=</span> <span class="n">readline</span><span class="o">.</span><span class="n">get_current_history_length</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="nb">open</span><span class="p">(</span><span class="n">histfile</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">h_len</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="n">prev_h_len</span><span class="p">,</span> <span class="n">histfile</span><span class="p">):</span>
+    <span class="n">new_h_len</span> <span class="o">=</span> <span class="n">readline</span><span class="o">.</span><span class="n">get_current_history_length</span><span class="p">()</span>
+    <span class="n">readline</span><span class="o">.</span><span class="n">set_history_length</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">readline</span><span class="o">.</span><span class="n">append_history_file</span><span class="p">(</span><span class="n">new_h_len</span> <span class="o">-</span> <span class="n">prev_h_len</span><span class="p">,</span> <span class="n">histfile</span><span class="p">)</span>
+<span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">save</span><span class="p">,</span> <span class="n">h_len</span><span class="p">,</span> <span class="n">histfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>以下示例扩展了 <a class="reference internal" href="code.html#code.InteractiveConsole" title="code.InteractiveConsole"><code class="xref py py-class docutils literal notranslate"><span class="pre">code.InteractiveConsole</span></code></a> 类以支持历史保存/恢复。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">atexit</span>
+<span class="kn">import</span> <span class="nn">code</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">readline</span>
+
+<span class="k">class</span> <span class="nc">HistoryConsole</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">InteractiveConsole</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">locals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;&lt;console&gt;&quot;</span><span class="p">,</span>
+                 <span class="n">histfile</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/.console-history&quot;</span><span class="p">)):</span>
+        <span class="n">code</span><span class="o">.</span><span class="n">InteractiveConsole</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">locals</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_history</span><span class="p">(</span><span class="n">histfile</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">init_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">histfile</span><span class="p">):</span>
+        <span class="n">readline</span><span class="o">.</span><span class="n">parse_and_bind</span><span class="p">(</span><span class="s2">&quot;tab: complete&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">readline</span><span class="p">,</span> <span class="s2">&quot;read_history_file&quot;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">readline</span><span class="o">.</span><span class="n">read_history_file</span><span class="p">(</span><span class="n">histfile</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_history</span><span class="p">,</span> <span class="n">histfile</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">save_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">histfile</span><span class="p">):</span>
+        <span class="n">readline</span><span class="o">.</span><span class="n">set_history_length</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="n">readline</span><span class="o">.</span><span class="n">write_history_file</span><span class="p">(</span><span class="n">histfile</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> --- GNU readline 接口</a><ul>
+<li><a class="reference internal" href="#init-file">初始化文件</a></li>
+<li><a class="reference internal" href="#line-buffer">行缓冲区</a></li>
+<li><a class="reference internal" href="#history-file">历史文件</a></li>
+<li><a class="reference internal" href="#history-list">历史列表</a></li>
+<li><a class="reference internal" href="#startup-hooks">启动钩子</a></li>
+<li><a class="reference internal" href="#completion">Completion</a></li>
+<li><a class="reference internal" href="#example">示例</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="stringprep.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stringprep</span></code> --- 因特网字符串预备</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="rlcompleter.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlcompleter</span></code> --- GNU readline 的补全函数</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/readline.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="rlcompleter.html" title="rlcompleter --- GNU readline 的补全函数"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="stringprep.html" title="stringprep --- 因特网字符串预备"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" >文本处理服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> --- GNU readline 接口</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

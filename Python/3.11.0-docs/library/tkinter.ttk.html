@@ -1,0 +1,1816 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>tkinter.ttk --- Tk 风格的控件 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="tkinter.tix --- TK扩展包" href="tkinter.tix.html" />
+    <link rel="prev" title="tkinter.dnd --- 拖放操作支持" href="tkinter.dnd.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/tkinter.ttk.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.ttk</span></code> --- Tk 风格的控件</a><ul>
+<li><a class="reference internal" href="#using-ttk">ttk 的用法</a></li>
+<li><a class="reference internal" href="#ttk-widgets">ttk 控件</a></li>
+<li><a class="reference internal" href="#widget">控件</a><ul>
+<li><a class="reference internal" href="#standard-options">标准属性</a></li>
+<li><a class="reference internal" href="#scrollable-widget-options">可滚动控件的属性</a></li>
+<li><a class="reference internal" href="#label-options">标签控件的属性</a></li>
+<li><a class="reference internal" href="#compatibility-options">兼容性属性</a></li>
+<li><a class="reference internal" href="#widget-states">控件状态</a></li>
+<li><a class="reference internal" href="#ttk-widget">ttk.Widget</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#combobox">Combobox</a><ul>
+<li><a class="reference internal" href="#options">属性</a></li>
+<li><a class="reference internal" href="#virtual-events">虚拟事件</a></li>
+<li><a class="reference internal" href="#ttk-combobox">ttk.Combobox</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#spinbox">Spinbox</a><ul>
+<li><a class="reference internal" href="#id1">属性</a></li>
+<li><a class="reference internal" href="#id2">虚拟事件</a></li>
+<li><a class="reference internal" href="#ttk-spinbox">ttk.Spinbox</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#notebook">Notebook</a><ul>
+<li><a class="reference internal" href="#id3">属性</a></li>
+<li><a class="reference internal" href="#tab-options">Tab 属性</a></li>
+<li><a class="reference internal" href="#tab-identifiers">Tab ID</a></li>
+<li><a class="reference internal" href="#id4">虚拟事件</a></li>
+<li><a class="reference internal" href="#ttk-notebook">ttk.Notebook</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#progressbar">Progressbar</a><ul>
+<li><a class="reference internal" href="#id5">属性</a></li>
+<li><a class="reference internal" href="#ttk-progressbar">ttk.Progressbar</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#separator">Separator</a><ul>
+<li><a class="reference internal" href="#id6">属性</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sizegrip">Sizegrip</a><ul>
+<li><a class="reference internal" href="#platform-specific-notes">与平台相关的注意事项</a></li>
+<li><a class="reference internal" href="#bugs">Bug</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#treeview">Treeview</a><ul>
+<li><a class="reference internal" href="#id7">属性</a></li>
+<li><a class="reference internal" href="#item-options">数据项的属性</a></li>
+<li><a class="reference internal" href="#tag-options">tag 属性</a></li>
+<li><a class="reference internal" href="#column-identifiers">列标识</a></li>
+<li><a class="reference internal" href="#id8">虚拟事件</a></li>
+<li><a class="reference internal" href="#ttk-treeview">ttk.Treeview</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ttk-styling">Ttk 样式</a><ul>
+<li><a class="reference internal" href="#layouts">布局</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="tkinter.dnd.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.dnd</span></code> --- 拖放操作支持</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="tkinter.tix.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.tix</span></code> --- TK扩展包</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/tkinter.ttk.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="tkinter.tix.html" title="tkinter.tix --- TK扩展包"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="tkinter.dnd.html" title="tkinter.dnd --- 拖放操作支持"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="tk.html" accesskey="U">Tk图形用户界面(GUI)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.ttk</span></code> --- Tk 风格的控件</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-tkinter.ttk">
+<span id="tkinter-ttk-tk-themed-widgets"></span><h1><a class="reference internal" href="#module-tkinter.ttk" title="tkinter.ttk: Tk themed widget set"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.ttk</span></code></a> --- Tk 风格的控件<a class="headerlink" href="#module-tkinter.ttk" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/tkinter/ttk.py">Lib/tkinter/ttk.py</a></p>
+<hr class="docutils" id="index-0" />
+<p>The <a class="reference internal" href="#module-tkinter.ttk" title="tkinter.ttk: Tk themed widget set"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.ttk</span></code></a> module provides access to the Tk themed widget set,
+introduced in Tk 8.5. It provides additional benefits including anti-aliased font
+rendering under X11 and window transparency (requiring a composition
+window manager on X11).</p>
+<p><a class="reference internal" href="#module-tkinter.ttk" title="tkinter.ttk: Tk themed widget set"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.ttk</span></code></a> 的基本设计思路，就是尽可能地把控件的行为代码与实现其外观的代码分离开来。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://core.tcl.tk/tips/doc/trunk/tip/48.md">Tk 控件风格</a></dt><dd><p>介绍 Tk 风格的文档</p>
+</dd>
+</dl>
+</div>
+<section id="using-ttk">
+<h2>ttk 的用法<a class="headerlink" href="#using-ttk" title="永久链接至标题">¶</a></h2>
+<p>使用 ttk 之前，首先要导入模块：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
+</pre></div>
+</div>
+<p>为了覆盖基础的 Tk 控件，应该在 Tk 之后进行导入：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">tkinter.ttk</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>这段代码会让以下几个 <code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.</span> <span class="pre">ttk</span></code> 控件（<code class="xref py py-class docutils literal notranslate"><span class="pre">Button</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Checkbutton</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Entry</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Frame</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Label</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">LabelFrame</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Menubutton</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PanedWindow</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Radiobutton</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Scale</span></code> 和 <code class="xref py py-class docutils literal notranslate"><span class="pre">Scrollbar</span></code>）自动替换掉 Tk 的对应控件。</p>
+<p>使用新控件的直接好处，是拥有更好的跨平台的外观，但新旧控件并不完全兼容。主要区别在于，Ttk 组件不再包含“fg”、“bg”等与样式相关的属性 。而是用 <code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Style</span></code>  类来定义更美观的样式效果。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://tktable.sourceforge.net/tile/doc/converting.txt">Converting existing applications to use Tile widgets</a></dt><dd><p>此文介绍迁移为新控件时的常见差别（使用 Tcl ）。</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="ttk-widgets">
+<h2>ttk 控件<a class="headerlink" href="#ttk-widgets" title="永久链接至标题">¶</a></h2>
+<p>ttk 中有 18 种部件 ，其中 12 种在 tkinter 中已包含了： <code class="xref py py-class docutils literal notranslate"><span class="pre">Button</span></code> 、 <code class="xref py py-class docutils literal notranslate"><span class="pre">Checkbutton</span></code> 、<code class="xref py py-class docutils literal notranslate"><span class="pre">Entry</span></code> 、 <code class="xref py py-class docutils literal notranslate"><span class="pre">Frame</span></code> 、 <code class="xref py py-class docutils literal notranslate"><span class="pre">Label</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">LabelFrame</span></code> 、 <code class="xref py py-class docutils literal notranslate"><span class="pre">Menubutton</span></code> 、<code class="xref py py-class docutils literal notranslate"><span class="pre">PanedWindow</span></code> 、<code class="xref py py-class docutils literal notranslate"><span class="pre">Radiobutton</span></code> 、 <code class="xref py py-class docutils literal notranslate"><span class="pre">Scale</span></code> 、 <code class="xref py py-class docutils literal notranslate"><span class="pre">Scrollbar</span></code> 和 <a class="reference internal" href="#tkinter.ttk.Spinbox" title="tkinter.ttk.Spinbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spinbox</span></code></a>。另有 6 种是新增的： <a class="reference internal" href="#tkinter.ttk.Combobox" title="tkinter.ttk.Combobox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Combobox</span></code></a> 、 <a class="reference internal" href="#tkinter.ttk.Notebook" title="tkinter.ttk.Notebook"><code class="xref py py-class docutils literal notranslate"><span class="pre">Notebook</span></code></a> 、 <a class="reference internal" href="#tkinter.ttk.Progressbar" title="tkinter.ttk.Progressbar"><code class="xref py py-class docutils literal notranslate"><span class="pre">Progressbar</span></code></a> 、 <code class="xref py py-class docutils literal notranslate"><span class="pre">Separator</span></code> 、 <code class="xref py py-class docutils literal notranslate"><span class="pre">Sizegrip</span></code> 和  <a class="reference internal" href="#tkinter.ttk.Treeview" title="tkinter.ttk.Treeview"><code class="xref py py-class docutils literal notranslate"><span class="pre">Treeview</span></code></a>。这些控件全都是 <a class="reference internal" href="#tkinter.ttk.Widget" title="tkinter.ttk.Widget"><code class="xref py py-class docutils literal notranslate"><span class="pre">Widget</span></code></a> 的子类。</p>
+<p>ttk 控件可以改善应用程序的外观。如上所述，修改样式的代码与 tk 控件存在差异。</p>
+<p>Tk 代码:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">l1</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+<span class="n">l2</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Ttk 代码：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">style</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span>
+<span class="n">style</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">&quot;BW.TLabel&quot;</span><span class="p">,</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+
+<span class="n">l1</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;BW.TLabel&quot;</span><span class="p">)</span>
+<span class="n">l2</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;BW.TLabel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>有关 <a class="reference internal" href="#ttkstyling">TtkStyling</a> 的更多信息，请参阅 <a class="reference internal" href="#tkinter.ttk.Style" title="tkinter.ttk.Style"><code class="xref py py-class docutils literal notranslate"><span class="pre">Style</span></code></a> 类文档。</p>
+</section>
+<section id="widget">
+<h2>控件<a class="headerlink" href="#widget" title="永久链接至标题">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Widget</span></code> 定义了 Tk 风格控件支持的标准属性和方法，不应直接对其进行实例化。</p>
+<section id="standard-options">
+<h3>标准属性<a class="headerlink" href="#standard-options" title="永久链接至标题">¶</a></h3>
+<p>所有 <code class="xref py py-mod docutils literal notranslate"><span class="pre">ttk</span></code> 控件均可设置以下属性：</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>class</p></td>
+<td><p>指定窗口类。若要从参数库中查找窗口的其他属性，或确认窗口的默认绑定标签，或选择控件的默认布局和样式，会用到 class 属性。该属性只读，且只能在创建窗口时指定。</p></td>
+</tr>
+<tr class="row-odd"><td><p>cursor</p></td>
+<td><p>指定控件使用的鼠标光标。若设为空字符串（默认值），则会继承父控件的光标。</p></td>
+</tr>
+<tr class="row-even"><td><p>takefocus</p></td>
+<td><p>决定了窗口是否可用键盘获得焦点。返回 0 、1  或空字符串。若返回 0，则表示在用键盘遍历时应该跳过该窗口。如果为 1，则表示只要窗口可见即应接收输入焦点。而空字符串则表示由遍历代码决定窗口是否接收焦点。</p></td>
+</tr>
+<tr class="row-odd"><td><p>style</p></td>
+<td><p>可用于指定自定义控件样式。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="scrollable-widget-options">
+<h3>可滚动控件的属性<a class="headerlink" href="#scrollable-widget-options" title="永久链接至标题">¶</a></h3>
+<p>带滚动条的控件支持以下属性：</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 78%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>xscrollcommand</p></td>
+<td><p>用于与水平滚动条通讯.</p>
+<p>当窗口中的可见内容发生变化时，控件将根据 scrollcommand 生成 Tcl 命令。</p>
+<p>通常该属性由一些滚动条的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Scrollbar.set()</span></code> 方法组成。当窗口中的可见内容发生变化时，将会刷新滚动条的状态。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>yscrollcommand</p></td>
+<td><p>用于与垂直滚动条通讯，更多信息请参考上一条。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="label-options">
+<h3>标签控件的属性<a class="headerlink" href="#label-options" title="永久链接至标题">¶</a></h3>
+<p>标签、按钮和类似按钮的控件支持以下属性。</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 81%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>text</p></td>
+<td><p>指定显示在控件内的文本。</p></td>
+</tr>
+<tr class="row-odd"><td><p>textvariable</p></td>
+<td><p>指定一个变量名，其值将用于设置 text 属性。</p></td>
+</tr>
+<tr class="row-even"><td><p>underline</p></td>
+<td><p>设置文本字符串中带下划线字符的索引（基于0）。下划线字符用于激活快捷键。</p></td>
+</tr>
+<tr class="row-odd"><td><p>image</p></td>
+<td><p>指定一个用于显示的图片。这是一个由1个或多个元素组成的列表。第一个元素是默认的图片名称。列表的其余部分是由 <a class="reference internal" href="#tkinter.ttk.Style.map" title="tkinter.ttk.Style.map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Style.map()</span></code></a> 定义的“状态/值对”的序列，指定控件在某状态或状态组合时要采用的图片。列表中的所有图片应具备相同的尺寸。</p></td>
+</tr>
+<tr class="row-even"><td><p>compound</p></td>
+<td><p>指定同时存在 text 和 image 属性时，应如何显示文本和对应的图片。合法的值包括：</p>
+<ul class="simple">
+<li><p>text:：只显示文本</p></li>
+<li><p>image：只显示图片</p></li>
+<li><p>top、bottom、left、right：分别在文本的上、下、左、右显示图片。</p></li>
+<li><p>none：默认值。 如果给出了图片则显示，否则显示文本。</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>width</p></td>
+<td><p>如果值大于零，指定文本标签留下多少空间，单位是字符数；如果值小于零，则指定最小宽度。如果等于零或未指定，则使用文本标签本身的宽度。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="compatibility-options">
+<h3>兼容性属性<a class="headerlink" href="#compatibility-options" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 89%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>state</p></td>
+<td><p>可以设为“normal”或“disabled”，以便控制“禁用”状态标志位。本属性只允许写入：用以改变控件的状态，但 <a class="reference internal" href="#tkinter.ttk.Widget.state" title="tkinter.ttk.Widget.state"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.state()</span></code></a> 方法不影响本属性。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="widget-states">
+<h3>控件状态<a class="headerlink" href="#widget-states" title="永久链接至标题">¶</a></h3>
+<p>控件状态是多个相互独立的状态标志位的组合。</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 84%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>标志位</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>active</p></td>
+<td><p>鼠标光标经过控件并按下鼠标按钮，将引发动作。</p></td>
+</tr>
+<tr class="row-odd"><td><p>disabled</p></td>
+<td><p>控件处于禁用状态，而由程序控制。</p></td>
+</tr>
+<tr class="row-even"><td><p>focus</p></td>
+<td><p>控件接受键盘焦点。</p></td>
+</tr>
+<tr class="row-odd"><td><p>pressed</p></td>
+<td><p>控件已被按下。</p></td>
+</tr>
+<tr class="row-even"><td><p>selected</p></td>
+<td><p>勾选或单选框之类的控件，表示启用、选中状态。</p></td>
+</tr>
+<tr class="row-odd"><td><p>background</p></td>
+<td><p>Windows 和 Mac 系统的窗口具有“激活”或后台的概念。后台窗口的控件会设置 <em>foreground</em> 参数，而前台窗口的控件则会清除此状态。</p></td>
+</tr>
+<tr class="row-even"><td><p>readonly</p></td>
+<td><p>控件不允许用户修改。</p></td>
+</tr>
+<tr class="row-odd"><td><p>alternate</p></td>
+<td><p>控件的备选显式格式。</p></td>
+</tr>
+<tr class="row-even"><td><p>invalid</p></td>
+<td><p>控件的值是无效的</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>所谓的控件状态，就是一串状态名称的组合，可在某个名称前加上感叹号，表示该状态位是关闭的。</p>
+</section>
+<section id="ttk-widget">
+<h3>ttk.Widget<a class="headerlink" href="#ttk-widget" title="永久链接至标题">¶</a></h3>
+<p>除了以下方法之外，<code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Widget</span></code> 还支持 <code class="xref py py-meth docutils literal notranslate"><span class="pre">tkinter.Widget.cget()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">tkinter.Widget.configure()</span></code> 方法。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tkinter.ttk.Widget">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tkinter.ttk.</span></span><span class="sig-name descname"><span class="pre">Widget</span></span><a class="headerlink" href="#tkinter.ttk.Widget" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Widget.identify">
+<span class="sig-name descname"><span class="pre">identify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Widget.identify" title="永久链接至目标">¶</a></dt>
+<dd><p>返回位于 <em>x</em> <em>y</em> 的控件名称，如果该坐标点不属于任何控件，则返回空字符串。</p>
+<p><em>x</em> 和 <em>y</em> 是控件内的相对坐标，单位是像素。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Widget.instate">
+<span class="sig-name descname"><span class="pre">instate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statespec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Widget.instate" title="永久链接至目标">¶</a></dt>
+<dd><p>检测控件的状态。如果没有设置回调函数，那么当控件状态符合 <em>statespec</em> 时返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。如果指定了回调函数，那么当控件状态匹配 <em>statespec</em> 时将会调用回调函数，且会带上后面的参数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Widget.state">
+<span class="sig-name descname"><span class="pre">state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statespec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Widget.state" title="永久链接至目标">¶</a></dt>
+<dd><p>Modify or inquire widget state. If <em>statespec</em> is specified, sets the
+widget state according to it and return a new <em>statespec</em> indicating
+which flags were changed. If <em>statespec</em> is not specified, returns
+the currently enabled state flags.</p>
+</dd></dl>
+
+<p><em>statespec</em> 通常是个列表或元组。</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="combobox">
+<h2>Combobox<a class="headerlink" href="#combobox" title="永久链接至标题">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Combobox</span></code> 控件是文本框和下拉列表的组合体。该控件是 <code class="xref py py-class docutils literal notranslate"><span class="pre">Entry</span></code> 的子类。</p>
+<p>除了从 <a class="reference internal" href="#tkinter.ttk.Widget" title="tkinter.ttk.Widget"><code class="xref py py-class docutils literal notranslate"><span class="pre">Widget</span></code></a> 继承的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.cget()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.configure()</span></code> 、<a class="reference internal" href="#tkinter.ttk.Widget.identify" title="tkinter.ttk.Widget.identify"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.identify()</span></code></a> 、<a class="reference internal" href="#tkinter.ttk.Widget.instate" title="tkinter.ttk.Widget.instate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.instate()</span></code></a> 和 <a class="reference internal" href="#tkinter.ttk.Widget.state" title="tkinter.ttk.Widget.state"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.state()</span></code></a> 方法，以及从  <code class="xref py py-class docutils literal notranslate"><span class="pre">Entry</span></code> 继承的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.bbox()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.delete()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.icursor()</span></code> 、<code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.index()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.insert()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.selection()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.xview()</span></code> 方法，控件还自带了其他几个方法，在 <code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Combobox</span></code> 中都有介绍。</p>
+<section id="options">
+<h3>属性<a class="headerlink" href="#options" title="永久链接至标题">¶</a></h3>
+<p>控件可设置以下属性：</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 77%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>exportselection</p></td>
+<td><p>布尔值，如果设为 True，则控件的选中文字将关联为窗口管理器的选中文字（可由 Misc.selection_get 返回）。</p></td>
+</tr>
+<tr class="row-odd"><td><p>justify</p></td>
+<td><p>指定文本在控件中的对齐方式。可为 left、center、right 之一。</p></td>
+</tr>
+<tr class="row-even"><td><p>height</p></td>
+<td><p>设置下拉列表框的高度。</p></td>
+</tr>
+<tr class="row-odd"><td><p>postcommand</p></td>
+<td><p>在显示之前将被调用的代码（可用 Misc.register 进行注册）。可用于选择要显示的值。</p></td>
+</tr>
+<tr class="row-even"><td><p>state</p></td>
+<td><p>normal 、readonly 或 disabled。在 readonly  状态下，数据不能直接编辑，用户只能从下拉列表中选取。在 normal  状态下，可直接编辑文本框。在 disabled 状态下，无法做任何交互。</p></td>
+</tr>
+<tr class="row-odd"><td><p>textvariable</p></td>
+<td><p>设置一个变量名，其值与控件的值关联。每当该变量对应的值发生变动时，控件值就会更新，反之亦然。参见 <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.StringVar</span></code> 。</p></td>
+</tr>
+<tr class="row-even"><td><p>values</p></td>
+<td><p>设置显示于下拉列表中的值。</p></td>
+</tr>
+<tr class="row-odd"><td><p>width</p></td>
+<td><p>设置为整数值，表示输入窗口的应有宽度，单位是字符单位（控件字体的平均字符宽度）。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="virtual-events">
+<h3>虚拟事件<a class="headerlink" href="#virtual-events" title="永久链接至标题">¶</a></h3>
+<p>当用户从下拉列表中选择某个元素时，控件会生成一条 <strong>&lt;&lt;ComboboxSelected&gt;&gt;</strong> 虚拟事件。</p>
+</section>
+<section id="ttk-combobox">
+<h3>ttk.Combobox<a class="headerlink" href="#ttk-combobox" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="tkinter.ttk.Combobox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tkinter.ttk.</span></span><span class="sig-name descname"><span class="pre">Combobox</span></span><a class="headerlink" href="#tkinter.ttk.Combobox" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Combobox.current">
+<span class="sig-name descname"><span class="pre">current</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newindex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Combobox.current" title="永久链接至目标">¶</a></dt>
+<dd><p>如果给出了 <em>newindex</em>，则把控件值设为 <em>newindex</em> 位置的元素值。否则，返回当前值的索引，当前值未在列表中则返回 -1。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Combobox.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Combobox.get" title="永久链接至目标">¶</a></dt>
+<dd><p>返回控件的当前值。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Combobox.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Combobox.set" title="永久链接至目标">¶</a></dt>
+<dd><p>设置控件的值为 <em>value</em> 。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="spinbox">
+<h2>Spinbox<a class="headerlink" href="#spinbox" title="永久链接至标题">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Spinbox</span></code> 控件是 <code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Entry</span></code> 的扩展，带有递增和递减箭头。可用于数字或字符串列表。这是 <code class="xref py py-class docutils literal notranslate"><span class="pre">Entry</span></code> 的子类。</p>
+<p>除了从 <a class="reference internal" href="#tkinter.ttk.Widget" title="tkinter.ttk.Widget"><code class="xref py py-class docutils literal notranslate"><span class="pre">Widget</span></code></a> 继承的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.cget()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.configure()</span></code> 、<code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.identified()</span></code> 、 <a class="reference internal" href="#tkinter.ttk.Widget.instate" title="tkinter.ttk.Widget.instate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.instate()</span></code></a> 和 <a class="reference internal" href="#tkinter.ttk.Widget.state" title="tkinter.ttk.Widget.state"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.state()</span></code></a> 方法，以及从 <code class="xref py py-class docutils literal notranslate"><span class="pre">Entry</span></code> 继承的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.</span> <span class="pre">bbox()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.delete()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.icursor()</span></code> 、<code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.index()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.insert()</span></code> 、 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Entry.xview()</span></code> 方法，控件还自带了其他一些方法，在 <code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Spinbox</span></code> 中都有介绍。</p>
+<section id="id1">
+<h3>属性<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
+<p>控件可设置以下属性：</p>
+<blockquote>
+<div></div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>from</p></td>
+<td><p>浮点值。如若给出，则为递减按钮能够到达的最小值。作为参数使用时必须写成 <code class="docutils literal notranslate"><span class="pre">from_</span></code>，因为 <code class="docutils literal notranslate"><span class="pre">from</span></code> 是 Python 关键字。</p></td>
+</tr>
+<tr class="row-odd"><td><p>to</p></td>
+<td><p>浮点值。如若给出，则为递增按钮能够到达的最大值。</p></td>
+</tr>
+<tr class="row-even"><td><p>increment</p></td>
+<td><p>浮点值。指定递增/递减按钮每次的修改量。默认值为 1.0。</p></td>
+</tr>
+<tr class="row-odd"><td><p>values</p></td>
+<td><p>字符串或浮点值构成的序列。如若给出，则递增/递减会在此序列元素间循环，而不是增减数值。</p></td>
+</tr>
+<tr class="row-even"><td><p>wrap</p></td>
+<td><p>布尔值。若为 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，则递增和递减按钮会由 <code class="docutils literal notranslate"><span class="pre">to</span></code> 值循环至 <code class="docutils literal notranslate"><span class="pre">from</span></code> 值，或由  <code class="docutils literal notranslate"><span class="pre">from</span></code> 值循环至 <code class="docutils literal notranslate"><span class="pre">to</span></code> 值。</p></td>
+</tr>
+<tr class="row-odd"><td><p>format</p></td>
+<td><p>字符串。指定递增/递减按钮的数字格式。必须以“%W.Pf”的格式给出，W 是填充的宽度，P 是小数精度，% 和 f 就是本身的含义。</p></td>
+</tr>
+<tr class="row-even"><td><p>command</p></td>
+<td><p>Python 回调函数。只要递增或递减按钮按下之后，就会进行不带参数的调用。</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id2">
+<h3>虚拟事件<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>用户若按下 &lt;Up&gt; ，则控件会生成 <strong>&lt;&lt;Increment&gt;&gt;</strong> 虚拟事件，若按下 &lt;Down&gt; 则会生成 <strong>&lt;&lt;Decrement&gt;&gt;</strong> 事件。</p>
+</section>
+<section id="ttk-spinbox">
+<h3>ttk.Spinbox<a class="headerlink" href="#ttk-spinbox" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="tkinter.ttk.Spinbox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tkinter.ttk.</span></span><span class="sig-name descname"><span class="pre">Spinbox</span></span><a class="headerlink" href="#tkinter.ttk.Spinbox" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Spinbox.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Spinbox.get" title="永久链接至目标">¶</a></dt>
+<dd><p>返回控件的当前值。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Spinbox.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Spinbox.set" title="永久链接至目标">¶</a></dt>
+<dd><p>设置控件值为 <em>value</em>。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="notebook">
+<h2>Notebook<a class="headerlink" href="#notebook" title="永久链接至标题">¶</a></h2>
+<p>Ttk Notebook widget manages a collection of windows and displays a single
+one at a time. Each child window is associated with a tab, which the user
+may select to change the currently displayed window.</p>
+<section id="id3">
+<h3>属性<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p>控件可设置以下属性：</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 88%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>height</p></td>
+<td><p>如若给出且大于 0，则指定面板的应有高度（不含内部 padding 或 tab）。否则会采用所有子窗口面板的最大高度。</p></td>
+</tr>
+<tr class="row-odd"><td><p>padding</p></td>
+<td><p>指定在控件外部添加的留白。padding 是最多包含四个值的列表，指定左顶右底的空间。如果给出的元素少于四个，底部值默认为顶部值，右侧值默认为左侧值，顶部值默认为左侧值。</p></td>
+</tr>
+<tr class="row-even"><td><p>width</p></td>
+<td><p>若给出且大于 0，则设置面板的应有宽度（不含内部 padding）。否则将采用所有子窗口面板的最大宽度。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="tab-options">
+<h3>Tab 属性<a class="headerlink" href="#tab-options" title="永久链接至标题">¶</a></h3>
+<p>Tab 特有属性如下：</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>state</p></td>
+<td><p>可为 normal、disabled 或 disabled 之一。若为 disabled 则不能选中。若为 hidden 则不会显示。</p></td>
+</tr>
+<tr class="row-odd"><td><p>sticky</p></td>
+<td><p>指定子窗口在面板内的定位方式。应为包含零个或多个 n、s、e 、w 字符的字符串。每个字母表示子窗口应紧靠的方向（北、南、东或西），正如 <code class="xref py py-meth docutils literal notranslate"><span class="pre">grid()</span></code> 位置管理器所述。</p></td>
+</tr>
+<tr class="row-even"><td><p>padding</p></td>
+<td><p>指定控件和面板之间的留白空间。格式与本控件的 padding 属性相同。</p></td>
+</tr>
+<tr class="row-odd"><td><p>text</p></td>
+<td><p>指定显示在 tab 上的文本。</p></td>
+</tr>
+<tr class="row-even"><td><p>image</p></td>
+<td><p>指定显示在 tab 上的图片。参见 <a class="reference internal" href="#tkinter.ttk.Widget" title="tkinter.ttk.Widget"><code class="xref py py-class docutils literal notranslate"><span class="pre">Widget</span></code></a> 的 image 属性。</p></td>
+</tr>
+<tr class="row-odd"><td><p>compound</p></td>
+<td><p>当文本和图片同时存在时，指定图片相对于文本的显示位置。合法的属性值参见 <a class="reference internal" href="#label-options">Label Options</a> 。</p></td>
+</tr>
+<tr class="row-even"><td><p>underline</p></td>
+<td><p>指定下划线在文本字符串中的索引（基于0）。如果调用过了 <a class="reference internal" href="#tkinter.ttk.Notebook.enable_traversal" title="tkinter.ttk.Notebook.enable_traversal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Notebook.enable_traversal()</span></code></a>，带下划线的字符将用于激活快捷键。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="tab-identifiers">
+<h3>Tab ID<a class="headerlink" href="#tab-identifiers" title="永久链接至标题">¶</a></h3>
+<p>The tab_id present in several methods of <code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Notebook</span></code> may take any
+of the following forms:</p>
+<ul class="simple">
+<li><p>介于 0 和 tab 总数之间的整数值。</p></li>
+<li><p>子窗口的名称。</p></li>
+<li><p>以“&#64;x,y”形式给出的位置，唯一标识了 tab 页。</p></li>
+<li><p>The literal string &quot;current&quot;, which identifies the currently selected tab</p></li>
+<li><p>字符串字面值 &quot;end&quot;，它返回标签页的数量 (仅适用于 <a class="reference internal" href="#tkinter.ttk.Notebook.index" title="tkinter.ttk.Notebook.index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Notebook.index()</span></code></a>)</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>虚拟事件<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>当选中一个新 tab 页之后，控件会生成一条 <strong>&lt;&lt;NotebookTabChanged&gt;&gt;</strong> 虚拟事件。</p>
+</section>
+<section id="ttk-notebook">
+<h3>ttk.Notebook<a class="headerlink" href="#ttk-notebook" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tkinter.ttk.</span></span><span class="sig-name descname"><span class="pre">Notebook</span></span><a class="headerlink" href="#tkinter.ttk.Notebook" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Notebook.add" title="永久链接至目标">¶</a></dt>
+<dd><p>添加一个新 tab 页。</p>
+<p>如果窗口是由 Notebook 管理但处于隐藏状态，则会恢复到之前的位置。</p>
+<p>可用属性请参见 <a class="reference internal" href="#tab-options">Tab Options</a> 。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook.forget">
+<span class="sig-name descname"><span class="pre">forget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tab_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Notebook.forget" title="永久链接至目标">¶</a></dt>
+<dd><p>删除 <em>tab_id</em> 指定的 tab 页，对其关联的窗口不再作映射和管理。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook.hide">
+<span class="sig-name descname"><span class="pre">hide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tab_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Notebook.hide" title="永久链接至目标">¶</a></dt>
+<dd><p>隐藏 <em>tab_id</em> 指定的 tab 页。</p>
+<p>tab 页不会显示出来，但关联的窗口仍接受 Notebook 的管理，其配置属性会继续保留。隐藏的 tab 页可由 <a class="reference internal" href="#tkinter.ttk.Notebook.add" title="tkinter.ttk.Notebook.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a> 恢复。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook.identify">
+<span class="sig-name descname"><span class="pre">identify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Notebook.identify" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 tab 页内位置为  <em>x</em>、<em>y</em> 的控件名称，若不存在则返回空字符串。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tab_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Notebook.index" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>tab_id</em> 指定 tab 页的索引值，如果 <em>tab_id</em> 为 end 则返回 tab 页的总数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook.insert">
+<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Notebook.insert" title="永久链接至目标">¶</a></dt>
+<dd><p>在指定位置插入一个 tab。</p>
+<p><em>pos</em> 可为字符串“end” 、整数索引值或子窗口名称。如果 <em>child</em> 已由 Notebook 管理，则将其移至指定位置。</p>
+<p>可用属性请参见 <a class="reference internal" href="#tab-options">Tab Options</a> 。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook.select">
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tab_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Notebook.select" title="永久链接至目标">¶</a></dt>
+<dd><p>选中 <em>tab_id</em> 指定 tab。</p>
+<p>The associated child window will be displayed, and the
+previously selected window (if different) is unmapped. If <em>tab_id</em> is
+omitted, returns the widget name of the currently selected pane.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook.tab">
+<span class="sig-name descname"><span class="pre">tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tab_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Notebook.tab" title="永久链接至目标">¶</a></dt>
+<dd><p>查询或修改 <em>tab_id</em> 指定 tab 的属性。</p>
+<p>如果未给出 <em>kw</em> ，则返回由 tab 属性组成的字典。如果指定了 <em>option</em>，则返回其值。否则，设置属性值。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook.tabs">
+<span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Notebook.tabs" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 Notebook 管理的窗口列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Notebook.enable_traversal">
+<span class="sig-name descname"><span class="pre">enable_traversal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Notebook.enable_traversal" title="永久链接至目标">¶</a></dt>
+<dd><p>为包含 Notebook 的顶层窗口启用键盘遍历。</p>
+<p>这将为包含 Notebook 的顶层窗口增加如下键盘绑定关系：</p>
+<ul class="simple">
+<li><p><kbd class="kbd compound docutils literal notranslate"><kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">Tab</kbd></kbd> ：选中当前 tab 之后的页。</p></li>
+<li><p><kbd class="kbd compound docutils literal notranslate"><kbd class="kbd docutils literal notranslate">Shift</kbd>-<kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">Tab</kbd></kbd> ：选中当前 tab 之前的页。</p></li>
+<li><p><kbd class="kbd compound docutils literal notranslate"><kbd class="kbd docutils literal notranslate">Alt</kbd>-<kbd class="kbd docutils literal notranslate">K</kbd></kbd> ：这里 <em>K</em> 是任意 tab 页的快捷键（带下划线）字符，将会直接选中该 tab。</p></li>
+</ul>
+<p>一个顶层窗口中可为多个 Notebook 启用键盘遍历，包括嵌套的 Notebook 。但仅当所有面板都将所在 Notebook 作为父控件时，键盘遍历才会生效。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="progressbar">
+<h2>Progressbar<a class="headerlink" href="#progressbar" title="永久链接至标题">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Progressbar</span></code> 控件可为长时间操作显示状态。可工作于两种模式：1）determinate 模式，显示相对完成进度；2） indeterminate 模式，显示动画让用户知道工作正在进行中。</p>
+<section id="id5">
+<h3>属性<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>控件可设置以下属性：</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>orient</p></td>
+<td><p>horizontal 或 vertical。指定进度条的显示方向。</p></td>
+</tr>
+<tr class="row-odd"><td><p>length</p></td>
+<td><p>指定进度条长轴的长度（横向为宽度，纵向则为高度）。</p></td>
+</tr>
+<tr class="row-even"><td><p>mode</p></td>
+<td><p>determinate 或 indeterminate。</p></td>
+</tr>
+<tr class="row-odd"><td><p>maximum</p></td>
+<td><p>设定最大值。默认为 100。</p></td>
+</tr>
+<tr class="row-even"><td><p>value</p></td>
+<td><p>进度条的当前值。在 determinate 模式下代表已完成的工作量。在 indeterminate 模式下，解释为 <em>maximum</em> 的模；也就是说，当本值增至 <em>maximum</em> 时，进度条完成了一个“周期”。</p></td>
+</tr>
+<tr class="row-odd"><td><p>variable</p></td>
+<td><p>与属性值关联的变量名。若给出，则当变量值变化时会自动设为进度条的值。</p></td>
+</tr>
+<tr class="row-even"><td><p>phase</p></td>
+<td><p>只读属性。只要值大于 0 且在 determinate 模式下小于最大值，控件就会定期增大该属性值。当前主题可利用本属性提供额外的动画效果。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="ttk-progressbar">
+<h3>ttk.Progressbar<a class="headerlink" href="#ttk-progressbar" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="tkinter.ttk.Progressbar">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tkinter.ttk.</span></span><span class="sig-name descname"><span class="pre">Progressbar</span></span><a class="headerlink" href="#tkinter.ttk.Progressbar" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Progressbar.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Progressbar.start" title="永久链接至目标">¶</a></dt>
+<dd><p>开启自增模式：安排一个循环的定时器事件，每隔 <em>interval</em> 毫秒调用一次 <a class="reference internal" href="#tkinter.ttk.Progressbar.step" title="tkinter.ttk.Progressbar.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Progressbar.step()</span></code></a>。<em>interval</em> 可省略，默认为 50毫秒。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Progressbar.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Progressbar.step" title="永久链接至目标">¶</a></dt>
+<dd><p>将进度条的值增加 <em>amount</em>。</p>
+<p><em>amount</em> 可省略，默认为 1.0。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Progressbar.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Progressbar.stop" title="永久链接至目标">¶</a></dt>
+<dd><p>停止自增模式：取消所有由 <a class="reference internal" href="#tkinter.ttk.Progressbar.start" title="tkinter.ttk.Progressbar.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Progressbar.start()</span></code></a> 启动的循环定时器事件。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="separator">
+<h2>Separator<a class="headerlink" href="#separator" title="永久链接至标题">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Separator</span></code> 控件用于显示横向或纵向的分隔条。</p>
+<p>除由 <code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Widget</span></code> 继承而来的方法外，没有定义其他方法。</p>
+<section id="id6">
+<h3>属性<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>属性如下：</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 89%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>orient</p></td>
+<td><p>horizontal 或 vertical。指定分隔条的方向。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+</section>
+<section id="sizegrip">
+<h2>Sizegrip<a class="headerlink" href="#sizegrip" title="永久链接至标题">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Sizegrip</span></code> 控件允许用户通过按下并拖动控制柄来调整内部顶层窗口的大小。</p>
+<p>除由 <code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Widget</span></code> 继承的之外，没有其他属性和方法。</p>
+<section id="platform-specific-notes">
+<h3>与平台相关的注意事项<a class="headerlink" href="#platform-specific-notes" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>在 macOS 上，顶层窗口默认自动包括了一个内置的大小控制柄。 再加一个 <code class="xref py py-class docutils literal notranslate"><span class="pre">Sizegrip</span></code> 也没什么坏处，因为内置的控制柄会盖住该控件。</p></li>
+</ul>
+</section>
+<section id="bugs">
+<h3>Bug<a class="headerlink" href="#bugs" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p>假如内部的顶层窗口位置是相对于屏幕的右侧或底部进行设置的，那么 <code class="xref py py-class docutils literal notranslate"><span class="pre">Sizegrip</span></code> 控件将不会改变窗口的大小。</p></li>
+<li><p>Sizegrip 仅支持往“东南”方向的缩放。</p></li>
+</ul>
+</section>
+</section>
+<section id="treeview">
+<h2>Treeview<a class="headerlink" href="#treeview" title="永久链接至标题">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">ttk.Treeview</span></code> 控件可将多项内容分层级显示。每个数据项抖带有一个文本标签、一张图片（可选）和一个数据列表（可选）。这些数据值将在树标签后面分列显示。</p>
+<p>数据值的显示顺序可用属性 <code class="docutils literal notranslate"><span class="pre">displaycolumns</span></code> 进行控制。树控件还可以显示列标题。数据列可通过数字或名称进行访问，各列的名称在属性 columns 中列出。参阅 <a class="reference internal" href="#column-identifiers">Column Identifiers</a>。</p>
+<p>每个数据项都由唯一名称进行标识。如果调用者未提供数据项的 ID，树控件会自动生成。根有且只有一个，名为 <code class="docutils literal notranslate"><span class="pre">{}</span></code>。根本身不会显示出来；其子项将显示在顶层。</p>
+<p>每个数据项均带有一个 tag 列表，可用于绑定事件及控制外观。</p>
+<p>Treeview 组件支持水平和垂直滚动，滚动时会依据 <a class="reference internal" href="#scrollable-widget-options">Scrollable Widget Options</a>  描述的属性和 <a class="reference internal" href="#tkinter.ttk.Treeview.xview" title="tkinter.ttk.Treeview.xview"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Treeview.xview()</span></code></a> 和 <a class="reference internal" href="#tkinter.ttk.Treeview.yview" title="tkinter.ttk.Treeview.yview"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Treeview.yview()</span></code></a> 方法。</p>
+<section id="id7">
+<h3>属性<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p>控件可设置以下属性：</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 78%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>columns</p></td>
+<td><p>列标识的列表，定义了列的数量和名称。</p></td>
+</tr>
+<tr class="row-odd"><td><p>displaycolumns</p></td>
+<td><p>列标识的列表（索引可为符号或整数），指定要显示的数据列及显示顺序，或为字符串 “#all”。</p></td>
+</tr>
+<tr class="row-even"><td><p>height</p></td>
+<td><p>指定可见的行数。注意：所需宽度由各列宽度之和决定。</p></td>
+</tr>
+<tr class="row-odd"><td><p>padding</p></td>
+<td><p>指定控件内部的留白。为不超过四个元素的长度列表。</p></td>
+</tr>
+<tr class="row-even"><td><p>selectmode</p></td>
+<td><p>控制内部类如何进行选中项的管理。可为 extended、browse 或 none。若设为 extended（默认），则可选中多个项。若为 browse ，则每次只能选中一项。若为 none，则无法修改选中项。</p>
+<p>请注意，代码和 tag 绑定可自由进行选中操作，不受本属性的限制。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>show</p></td>
+<td><p>由0个或下列值组成的列表，指定要显示树的哪些元素。</p>
+<ul class="simple">
+<li><p>tree ：在 #0 列显示树的文本标签。</p></li>
+<li><p>headings ：显示标题行。</p></li>
+</ul>
+<p>默认为“tree headings”，显示所有元素。</p>
+<p>** 注意** ：第 #0 列一定是指 tree 列，即便未设置 show=&quot;tree&quot; 也一样。</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="item-options">
+<h3>数据项的属性<a class="headerlink" href="#item-options" title="永久链接至标题">¶</a></h3>
+<p>可在插入和数据项操作时设置以下属性。</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 89%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>text</p></td>
+<td><p>用于显示的文本标签。</p></td>
+</tr>
+<tr class="row-odd"><td><p>image</p></td>
+<td><p>Tk 图片对象，显示在文本标签左侧。</p></td>
+</tr>
+<tr class="row-even"><td><p>values</p></td>
+<td><p>关联的数据值列表。</p>
+<p>每个数据项关联的数据数量应与 columns 属性相同。如果比 columns 属性的少，剩下的值将视为空。如果多于 columns 属性的，多余数据将被忽略。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>open</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code> 或 <code class="docutils literal notranslate"><span class="pre">False</span></code>，表明是否显示数据项的子树。</p></td>
+</tr>
+<tr class="row-even"><td><p>tags</p></td>
+<td><p>与该数据项关联的 tag 列表。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="tag-options">
+<h3>tag 属性<a class="headerlink" href="#tag-options" title="永久链接至标题">¶</a></h3>
+<p>tag 可定义以下属性：</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>foreground</p></td>
+<td><p>定义文本前景色。</p></td>
+</tr>
+<tr class="row-odd"><td><p>background</p></td>
+<td><p>定义单元格或数据项的背景色。</p></td>
+</tr>
+<tr class="row-even"><td><p>font</p></td>
+<td><p>定义文本的字体。</p></td>
+</tr>
+<tr class="row-odd"><td><p>image</p></td>
+<td><p>定义数据项的图片，当 image 属性为空时使用。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="column-identifiers">
+<h3>列标识<a class="headerlink" href="#column-identifiers" title="永久链接至标题">¶</a></h3>
+<p>列标识可用以下格式给出：</p>
+<ul class="simple">
+<li><p>由 columns 属性给出的符号名。</p></li>
+<li><p>整数值 n，指定第 n 列。</p></li>
+<li><p>#n 的字符串格式，n 是整数，指定第 n 个显示列。</p></li>
+</ul>
+<p>注意：</p>
+<ul class="simple">
+<li><p>数据项属性的显示顺序可能与存储顺序不一样。</p></li>
+<li><p>#0 列一定是指 tree 列，即便未指定 show=&quot;tree&quot; 也是一样。</p></li>
+</ul>
+<p>数据列号是指属性值列表中的索引值，显示列号是指显示在树控件中的列号。树的文本标签将显示在 #0 列。如果未设置 displaycolumns 属性，则数据列 n 将显示在第 #n+1 列。再次强调一下，<strong>#0 列一定是指 tree 列</strong> 。</p>
+</section>
+<section id="id8">
+<h3>虚拟事件<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p>Treeview 控件会生成以下虚拟事件。</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>事件</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&lt;&lt;TreeviewSelect&gt;&gt;</p></td>
+<td><p>当选中项发生变化时生成。</p></td>
+</tr>
+<tr class="row-odd"><td><p>&lt;&lt;TreeviewOpen&gt;&gt;</p></td>
+<td><p>当焦点所在项的 open= True 之前立即生成。</p></td>
+</tr>
+<tr class="row-even"><td><p>&lt;&lt;TreeviewClose&gt;&gt;</p></td>
+<td><p>当焦点所在项的 open= True 之后立即生成。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><a class="reference internal" href="#tkinter.ttk.Treeview.focus" title="tkinter.ttk.Treeview.focus"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Treeview.focus()</span></code></a> 和 <a class="reference internal" href="#tkinter.ttk.Treeview.selection" title="tkinter.ttk.Treeview.selection"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Treeview.selection()</span></code></a> 方法可用于确认涉及的数据项。</p>
+</section>
+<section id="ttk-treeview">
+<h3>ttk.Treeview<a class="headerlink" href="#ttk-treeview" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tkinter.ttk.</span></span><span class="sig-name descname"><span class="pre">Treeview</span></span><a class="headerlink" href="#tkinter.ttk.Treeview" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.bbox">
+<span class="sig-name descname"><span class="pre">bbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.bbox" title="永久链接至目标">¶</a></dt>
+<dd><p>返回某 <em>数据项</em> 的边界（相对于控件窗口的坐标），形式为 (x, y, width, height) 。</p>
+<p>若给出了 <em>column</em>，则返回该单元格的边界。若该 <em>数据项</em> 不可见（即从属于已关闭项或滚动至屏幕外），则返回空字符串。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.get_children">
+<span class="sig-name descname"><span class="pre">get_children</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.get_children" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>item</em> 的下属数据项列表。</p>
+<p>若未给出 <em>item</em> ，则返回根的下属数据。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.set_children">
+<span class="sig-name descname"><span class="pre">set_children</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">newchildren</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.set_children" title="永久链接至目标">¶</a></dt>
+<dd><p>用 <em>newchildren</em> 替换 <em>item</em> 的下属数据。</p>
+<p>对于 <em>item</em> 中存在而 <em>newchildren</em> 中不存在的数据项，会从树中移除。<em>newchildren</em> 中的数据不能是 <em>item</em> 的上级。注意，未给出 <em>newchildren</em> 会导致 <em>item</em> 的子项被解除关联。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.column">
+<span class="sig-name descname"><span class="pre">column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.column" title="永久链接至目标">¶</a></dt>
+<dd><p>查询或修改列 <em>column</em> 的属性。</p>
+<p>如果未给出 <em>kw</em>，则返回属性值的字典。若指定了 <em>option</em>，则会返回该属性值。否则将设置属性值。</p>
+<p>合法的 属性/值 可为：</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>id</dt><dd><p>返回列名。这是只读属性。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>anchor：标准的 Tk 锚点值。</dt><dd><p>指定该列的文本在单元格内的对齐方式。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>minwidth：宽度。</dt><dd><p>列的最小宽度，单位是像素。在缩放控件或用户拖动某一列时，Treeview 会保证列宽不小于此值。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>stretch： <code class="docutils literal notranslate"><span class="pre">True</span></code>/<code class="docutils literal notranslate"><span class="pre">False</span></code></dt><dd><p>指明缩放控件时是否调整列宽。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>width：宽度</dt><dd><p>列宽，单位为像素数。</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>若要设置 tree 列，请带上参数 column = &quot;#0&quot; 进行调用。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.delete" title="永久链接至目标">¶</a></dt>
+<dd><p>删除所有 <em>items</em> 及其下属。</p>
+<p>根不能删除。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.detach">
+<span class="sig-name descname"><span class="pre">detach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.detach" title="永久链接至目标">¶</a></dt>
+<dd><p>将所有 <em>items</em> 与树解除关联。</p>
+<p>数据项及其下属依然存在，后续可以重新插入，目前只是不显示出来。</p>
+<p>根不能解除关联。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.exists">
+<span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.exists" title="永久链接至目标">¶</a></dt>
+<dd><p>如果给出的 <em>item</em> 位于树中，则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.focus">
+<span class="sig-name descname"><span class="pre">focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.focus" title="永久链接至目标">¶</a></dt>
+<dd><p>如果给出 <em>item</em> 则设为当前焦点。否则返回当前焦点所在数据项，若无则返回 ''。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.heading">
+<span class="sig-name descname"><span class="pre">heading</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.heading" title="永久链接至目标">¶</a></dt>
+<dd><p>查询或修改某 <em>column</em> 的标题。</p>
+<p>若未给出 <em>kw</em>，则返回列标题组成的列表。若给出了 <em>option</em> 则返回对应属性值。否则，设置属性值。</p>
+<p>合法的 属性/值 可为：</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>text：文本。</dt><dd><p>显示为列标题的文本。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>image：图片名称</dt><dd><p>指定显示在列标题右侧的图片。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>anchor：锚点</dt><dd><p>指定列标题文本的对齐方式。应为标准的 Tk 锚点值。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>command：回调函数</dt><dd><p>点击列标题时执行的回调函数。</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>若要对 tree 列进行设置，请带上 column = &quot;#0&quot; 进行调用。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.identify">
+<span class="sig-name descname"><span class="pre">identify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.identify" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>x</em>、<em>y</em> 位置上 <em>component</em> 数据项的描述信息，如果此处没有该数据项，则返回空字符串。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.identify_row">
+<span class="sig-name descname"><span class="pre">identify_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.identify_row" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>y</em> 位置上的数据项 ID。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.identify_column">
+<span class="sig-name descname"><span class="pre">identify_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.identify_column" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>x</em> 位置上的单元格所在的数据列 ID。</p>
+<p>tree 列的 ID 为 #0 。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.identify_region">
+<span class="sig-name descname"><span class="pre">identify_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.identify_region" title="永久链接至目标">¶</a></dt>
+<dd><p>返回以下值之一：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 78%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>区域</p></th>
+<th class="head"><p>含义</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>heading</p></td>
+<td><p>树的标题栏区域。</p></td>
+</tr>
+<tr class="row-odd"><td><p>separator</p></td>
+<td><p>两个列标题之间的间隔区域。</p></td>
+</tr>
+<tr class="row-even"><td><p>tree</p></td>
+<td><p>树区域。</p></td>
+</tr>
+<tr class="row-odd"><td><p>cell</p></td>
+<td><p>数据单元格。</p></td>
+</tr>
+</tbody>
+</table>
+<p>可用性：Tk 8.6。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.identify_element">
+<span class="sig-name descname"><span class="pre">identify_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.identify_element" title="永久链接至目标">¶</a></dt>
+<dd><p>返回位于 <em>x</em> 、<em>y</em> 的数据项。</p>
+<p>可用性：Tk 8.6。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.index" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>item</em> 在父项的子项列表中的整数索引。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.insert">
+<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.insert" title="永久链接至目标">¶</a></dt>
+<dd><p>新建一个数据项并返回其 ID。</p>
+<p><em>parent</em> 是父项的 ID，若要新建顶级项则为空字符串。 <em>index</em> 是整数或“end”，指明在父项的子项列表中的插入位置。如果 <em>index</em> 小于等于0，则在开头插入新节点；如果 <em>index</em> 大于或等于当前子节点数，则将其插入末尾。如果给出了 <em>iid</em>，则将其用作数据项 ID； <em>iid</em> 不得存在于树中。否则会新生成一个唯一 ID。</p>
+<p>此处可设置的属性请参阅 <a class="reference internal" href="#item-options">Item Options</a> 。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.item">
+<span class="sig-name descname"><span class="pre">item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.item" title="永久链接至目标">¶</a></dt>
+<dd><p>查询或修改某 <em>item</em> 的属性。</p>
+<p>如果未给出 option，则返回属性/值构成的字典。如果给出了 <em>option</em>，则返回该属性的值。否则，将属性设为 <em>kw</em> 给出的值。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.move" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>item</em> 移至指定位置，父项为 <em>parent</em> ，子项列表索引为 <em>index</em> 。</p>
+<p>将数据项移入其子项之下是非法的。如果 <em>index</em> 小于等于0，<em>item</em> 将被移到开头；如果大于等于子项的总数，则被移至最后。如果 <em>item</em> 已解除关联，则会被重新关联。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.next">
+<span class="sig-name descname"><span class="pre">next</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.next" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>item</em> 的下一个相邻项，如果 <em>item</em> 是父项的最后一个子项，则返回 ''。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.parent">
+<span class="sig-name descname"><span class="pre">parent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.parent" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>item</em> 的父项 ID，如果 <em>item</em> 为顶级节点，则返回 ''。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.prev">
+<span class="sig-name descname"><span class="pre">prev</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.prev" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>item</em> 的前一个相邻项，若 <em>item</em> 为父项的第一个子项，则返回 ''。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.reattach">
+<span class="sig-name descname"><span class="pre">reattach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.reattach" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#tkinter.ttk.Treeview.move" title="tkinter.ttk.Treeview.move"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Treeview.move()</span></code></a> 的别名。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.see">
+<span class="sig-name descname"><span class="pre">see</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.see" title="永久链接至目标">¶</a></dt>
+<dd><p>确保 <em>item</em> 可见。</p>
+<p>将 <em>item</em> 所有上级的 open 属性设为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，必要时会滚动控件，让 <em>item</em> 处于树的可见部分。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.selection">
+<span class="sig-name descname"><span class="pre">selection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.selection" title="永久链接至目标">¶</a></dt>
+<dd><p>返回由选中项构成的元组。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span><code class="docutils literal notranslate"><span class="pre">selection()</span></code> 不再接受参数了。若要改变选中的状态，请使用下面介绍的方法。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.selection_set">
+<span class="sig-name descname"><span class="pre">selection_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.selection_set" title="永久链接至目标">¶</a></dt>
+<dd><p>让 <em>items</em> 成为新的选中项。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>items</em> 可作为多个单独的参数传递，而不只是作为一个元组。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.selection_add">
+<span class="sig-name descname"><span class="pre">selection_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.selection_add" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>items</em> 加入选中项。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>items</em> 可作为多个单独的参数传递，而不只是作为一个元组。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.selection_remove">
+<span class="sig-name descname"><span class="pre">selection_remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.selection_remove" title="永久链接至目标">¶</a></dt>
+<dd><p>从选中项中移除 <em>items</em> 。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>items</em> 可作为多个单独的参数传递，而不只是作为一个元组。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.selection_toggle">
+<span class="sig-name descname"><span class="pre">selection_toggle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.selection_toggle" title="永久链接至目标">¶</a></dt>
+<dd><p>切换 <em>items</em> 中各项的选中状态。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>items</em> 可作为多个单独的参数传递，而不只是作为一个元组。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.set" title="永久链接至目标">¶</a></dt>
+<dd><p>若带一个参数，则返回 <em>item</em> 的列/值字典。若带两个参数，则返回 <em>column</em> 的当前值。若带三个参数，则将 <em>item</em> 的 <em>column</em> 设为 <em>value</em>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.tag_bind">
+<span class="sig-name descname"><span class="pre">tag_bind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tagname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.tag_bind" title="永久链接至目标">¶</a></dt>
+<dd><p>为 tag 为 <em>tagname</em> 的数据项绑定事件 <em>sequence</em> 的回调函数。当事件分发给该数据项时，tag 参数为 <em>tagname</em> 的全部数据项的回调都会被调用到。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.tag_configure">
+<span class="sig-name descname"><span class="pre">tag_configure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tagname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.tag_configure" title="永久链接至目标">¶</a></dt>
+<dd><p>查询或修改 <em>tagname</em> 指定项的属性。</p>
+<p>如果给出了 <em>kw</em>，则返回 <em>tagname</em> 项的属性字典。如果给出了 <em>option</em>，则返回 <em>tagname</em> 项的 <em>option</em> 属性值。否则，设置 <em>tagname</em> 项的属性值。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.tag_has">
+<span class="sig-name descname"><span class="pre">tag_has</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tagname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.tag_has" title="永久链接至目标">¶</a></dt>
+<dd><p>如果给出了 <em>item</em> ，则依据 <em>item</em> 是否具备 <em>tagname</em> 而返回 1 或 0。否则，返回 tag 为 <em>tagname</em> 的所有数据项构成的列表。</p>
+<p>可用性：Tk 8.6。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.xview">
+<span class="sig-name descname"><span class="pre">xview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.xview" title="永久链接至目标">¶</a></dt>
+<dd><p>查询或修改 Treeview 的横向位置。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Treeview.yview">
+<span class="sig-name descname"><span class="pre">yview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Treeview.yview" title="永久链接至目标">¶</a></dt>
+<dd><p>查询或修改 Treeview 的纵向位置。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="ttk-styling">
+<span id="ttkstyling"></span><h2>Ttk 样式<a class="headerlink" href="#ttk-styling" title="永久链接至标题">¶</a></h2>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">ttk</span></code> 的每种控件都赋有一个样式，指定了控件内的元素及其排列方式，以及元素属性的动态和默认设置。默认情况下，样式名与控件的类名相同，但可能会被控件的 style 属性覆盖。如果不知道控件的类名，可用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Misc.winfo_class()</span></code> 方法获取（somewidget.winfo_class()）。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://tktable.sourceforge.net/tile/tile-tcl2004.pdf">Tcl'2004 conference presentation</a></dt><dd><p>文章解释了主题引擎的工作原理。</p>
+</dd>
+</dl>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="tkinter.ttk.Style">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tkinter.ttk.</span></span><span class="sig-name descname"><span class="pre">Style</span></span><a class="headerlink" href="#tkinter.ttk.Style" title="永久链接至目标">¶</a></dt>
+<dd><p>用于操控样式数据库的类。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.configure">
+<span class="sig-name descname"><span class="pre">configure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_opt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.configure" title="永久链接至目标">¶</a></dt>
+<dd><p>查询或设置 <em>style</em> 的默认属性值。</p>
+<p>Each key in <em>kw</em> is an option and each value is a string identifying
+the value for that option.</p>
+<p>例如，要将默认按钮改为扁平样式，并带有留白和各种背景色：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
+<span class="kn">import</span> <span class="nn">tkinter</span>
+
+<span class="n">root</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+
+<span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">&quot;TButton&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="s2">&quot;flat&quot;</span><span class="p">,</span>
+   <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#ccc&quot;</span><span class="p">)</span>
+
+<span class="n">btn</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Sample&quot;</span><span class="p">)</span>
+<span class="n">btn</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+
+<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.map">
+<span class="sig-name descname"><span class="pre">map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_opt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.map" title="永久链接至目标">¶</a></dt>
+<dd><p>查询或设置 <em>style</em> 的指定属性的动态值。</p>
+<p><em>kw</em> 的每个键都是一个属性，每个值通常应为列表或元组，其中包含以元组、列表或其他形式组合而成的状态标识（statespec）。状态标识是由一个或多个状态组合，加上一个值组成。</p>
+<p>举个例子能更清晰些：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tkinter</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
+
+<span class="n">root</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+
+<span class="n">style</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span>
+<span class="n">style</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s2">&quot;C.TButton&quot;</span><span class="p">,</span>
+    <span class="n">foreground</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;pressed&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">)],</span>
+    <span class="n">background</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;pressed&#39;</span><span class="p">,</span> <span class="s1">&#39;!disabled&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">)]</span>
+    <span class="p">)</span>
+
+<span class="n">colored_btn</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;C.TButton&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+
+<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>请注意，要点是属性的（状态，值）序列的顺序，如果前景色属性的顺序改为 <code class="docutils literal notranslate"><span class="pre">[('active',</span> <span class="pre">'blue'),</span> <span class="pre">('pressed',</span> <span class="pre">'red')]</span></code> ，则控件处于激活或按下状态时的前景色将为蓝色。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.lookup">
+<span class="sig-name descname"><span class="pre">lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.lookup" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>style</em> 中的 <em>option</em> 属性值。</p>
+<p>如果给出了 <em>state</em> ，则应是一个或多个状态组成的序列。如果设置了 <em>default</em> 参数，则在属性值缺失时会用作后备值。</p>
+<p>若要检测按钮的默认字体，可以：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;TButton&quot;</span><span class="p">,</span> <span class="s2">&quot;font&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.layout">
+<span class="sig-name descname"><span class="pre">layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layoutspec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.layout" title="永久链接至目标">¶</a></dt>
+<dd><p>按照 <em>style</em> 定义控件布局。如果省略了 <em>layoutspec</em>，则返回该样式的布局属性。</p>
+<p>若给出了 <em>layoutspec</em>，则应为一个列表或其他的序列类型（不包括字符串），其中的数据项应为元组类型，第一项是布局名称，第二项的格式应符合 <a class="reference internal" href="#layouts">Layouts</a>  的描述。</p>
+<p>以下示例有助于理解这种格式（这里并没有实际意义）：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
+<span class="kn">import</span> <span class="nn">tkinter</span>
+
+<span class="n">root</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+
+<span class="n">style</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span>
+<span class="n">style</span><span class="o">.</span><span class="n">layout</span><span class="p">(</span><span class="s2">&quot;TMenubutton&quot;</span><span class="p">,</span> <span class="p">[</span>
+   <span class="p">(</span><span class="s2">&quot;Menubutton.background&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+   <span class="p">(</span><span class="s2">&quot;Menubutton.button&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;children&quot;</span><span class="p">:</span>
+       <span class="p">[(</span><span class="s2">&quot;Menubutton.focus&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;children&quot;</span><span class="p">:</span>
+           <span class="p">[(</span><span class="s2">&quot;Menubutton.padding&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;children&quot;</span><span class="p">:</span>
+               <span class="p">[(</span><span class="s2">&quot;Menubutton.label&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;side&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;expand&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})]</span>
+           <span class="p">})]</span>
+       <span class="p">})]</span>
+   <span class="p">}),</span>
+<span class="p">])</span>
+
+<span class="n">mbtn</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Menubutton</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s1">&#39;Text&#39;</span><span class="p">)</span>
+<span class="n">mbtn</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.element_create">
+<span class="sig-name descname"><span class="pre">element_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elementname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etype</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.element_create" title="永久链接至目标">¶</a></dt>
+<dd><p>在当前主题中创建一个新元素 <em>etype</em> ，应为 image、from 或 vsapi。后者仅在 Windows XP 和 Vista 版的 Tk 8.6a 中可用，此处不再赘述。</p>
+<p>如果用了 image，则 <em>args</em> 应包含默认的图片名，后面跟着 状态标识/值（这里是 imagespec），<em>kw</em> 可带有以下属性：</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>border=padding</dt><dd><p>padding 是由不超过四个整数构成的列表，分别定义了左、顶、右、底的边界。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>height=height</dt><dd><p>定义了元素的最小高度。如果小于零，则默认采用图片本身的高度。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>padding=padding</dt><dd><p>定义了元素的内部留白。若未指定则默认采用 border 值。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>sticky=spec</dt><dd><p>定义了图片的对齐方式。spec 包含零个或多个 n、s、w、e 字符。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>width=width</dt><dd><p>定义了元素的最小宽度。如果小于零，则默认采用图片本身的宽度。</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>如果 <em>etype</em> 的值用了 from，则 <a class="reference internal" href="#tkinter.ttk.Style.element_create" title="tkinter.ttk.Style.element_create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">element_create()</span></code></a> 将复制一个现有的元素。 <em>args</em> 应包含主题名和可选的要复制的元素。若未给出要克隆的元素，则采用空元素。 <em>kw</em> 参数将被丢弃。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.element_names">
+<span class="sig-name descname"><span class="pre">element_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.element_names" title="永久链接至目标">¶</a></dt>
+<dd><p>返回当前主题已定义的元素列表 。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.element_options">
+<span class="sig-name descname"><span class="pre">element_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elementname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.element_options" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>elementname</em> 元素的属性列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.theme_create">
+<span class="sig-name descname"><span class="pre">theme_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">themename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.theme_create" title="永久链接至目标">¶</a></dt>
+<dd><p>新建一个主题。</p>
+<p>如果 <em>themename</em> 已经存在，则会报错。如果给出了 <em>parent</em>，则新主题将从父主题继承样式、元素和布局。若给出了 <em>settings</em> ，则语法应与 <a class="reference internal" href="#tkinter.ttk.Style.theme_settings" title="tkinter.ttk.Style.theme_settings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">theme_settings()</span></code></a> 的相同。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.theme_settings">
+<span class="sig-name descname"><span class="pre">theme_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">themename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.theme_settings" title="永久链接至目标">¶</a></dt>
+<dd><p>将当前主题临时设为 <em>themename</em>，并应用 <em>settings</em>，然后恢复之前的主题。</p>
+<p><em>settings</em> 中的每个键都是一种样式而每个值可能包含 'configure', 'map', 'layout' 和 'element create' 等键并且它们被预期具有与分别由 <a class="reference internal" href="#tkinter.ttk.Style.configure" title="tkinter.ttk.Style.configure"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Style.configure()</span></code></a>, <a class="reference internal" href="#tkinter.ttk.Style.map" title="tkinter.ttk.Style.map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Style.map()</span></code></a>, <a class="reference internal" href="#tkinter.ttk.Style.layout" title="tkinter.ttk.Style.layout"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Style.layout()</span></code></a> 和 <a class="reference internal" href="#tkinter.ttk.Style.element_create" title="tkinter.ttk.Style.element_create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Style.element_create()</span></code></a> 方法所指定的相符的格式。</p>
+<p>以下例子会对 Combobox 的默认主题稍作修改：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
+<span class="kn">import</span> <span class="nn">tkinter</span>
+
+<span class="n">root</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+
+<span class="n">style</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span>
+<span class="n">style</span><span class="o">.</span><span class="n">theme_settings</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="p">{</span>
+   <span class="s2">&quot;TCombobox&quot;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="s2">&quot;configure&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+       <span class="s2">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span>
+           <span class="s2">&quot;background&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;active&quot;</span><span class="p">,</span> <span class="s2">&quot;green2&quot;</span><span class="p">),</span>
+                          <span class="p">(</span><span class="s2">&quot;!disabled&quot;</span><span class="p">,</span> <span class="s2">&quot;green4&quot;</span><span class="p">)],</span>
+           <span class="s2">&quot;fieldbackground&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;!disabled&quot;</span><span class="p">,</span> <span class="s2">&quot;green3&quot;</span><span class="p">)],</span>
+           <span class="s2">&quot;foreground&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;focus&quot;</span><span class="p">,</span> <span class="s2">&quot;OliveDrab1&quot;</span><span class="p">),</span>
+                          <span class="p">(</span><span class="s2">&quot;!disabled&quot;</span><span class="p">,</span> <span class="s2">&quot;OliveDrab2&quot;</span><span class="p">)]</span>
+       <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="n">combo</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">()</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+
+<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.theme_names">
+<span class="sig-name descname"><span class="pre">theme_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.theme_names" title="永久链接至目标">¶</a></dt>
+<dd><p>返回所有已知主题的列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tkinter.ttk.Style.theme_use">
+<span class="sig-name descname"><span class="pre">theme_use</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">themename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tkinter.ttk.Style.theme_use" title="永久链接至目标">¶</a></dt>
+<dd><p>若未给出 <em>themename</em>，则返回正在使用的主题。否则，将当前主题设为 <em>themename</em>，刷新所有控件并引发 &lt;&lt;ThemeChanged&gt;&gt; 事件。</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="layouts">
+<h3>布局<a class="headerlink" href="#layouts" title="永久链接至标题">¶</a></h3>
+<p>布局在没有属性时可以为 <code class="docutils literal notranslate"><span class="pre">None</span></code> ，或是定义了元素排列方式的属性字典。布局机制采用了位置管理器的简化版本：给定一个初始容器（cavity），为每个元素都分配一个包装盒（parcel）。合法的选项/值包括：</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>side: whichside</dt><dd><p>指定元素置于容器的哪一侧； 顶、右、底或左。如果省略，则该元素将占据整个容器。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>sticky: nswe</dt><dd><p>指定元素在已分配包装盒内的放置位置。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>unit: 0 或 1</dt><dd><p>如果设为 1，则将元素及其所有后代均视作单个元素以供 <a class="reference internal" href="#tkinter.ttk.Widget.identify" title="tkinter.ttk.Widget.identify"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Widget.identify()</span></code></a> 等使用。 它被用于滚动条之类带有控制柄的东西。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>children: [sublayout... ]</dt><dd><p>指定要放置于元素内的元素列表。每个元素都是一个元组（或其他序列类型），其中第一项是布局名称，另一项是个 <a class="reference internal" href="#layouts">Layout</a> 。</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.ttk</span></code> --- Tk 风格的控件</a><ul>
+<li><a class="reference internal" href="#using-ttk">ttk 的用法</a></li>
+<li><a class="reference internal" href="#ttk-widgets">ttk 控件</a></li>
+<li><a class="reference internal" href="#widget">控件</a><ul>
+<li><a class="reference internal" href="#standard-options">标准属性</a></li>
+<li><a class="reference internal" href="#scrollable-widget-options">可滚动控件的属性</a></li>
+<li><a class="reference internal" href="#label-options">标签控件的属性</a></li>
+<li><a class="reference internal" href="#compatibility-options">兼容性属性</a></li>
+<li><a class="reference internal" href="#widget-states">控件状态</a></li>
+<li><a class="reference internal" href="#ttk-widget">ttk.Widget</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#combobox">Combobox</a><ul>
+<li><a class="reference internal" href="#options">属性</a></li>
+<li><a class="reference internal" href="#virtual-events">虚拟事件</a></li>
+<li><a class="reference internal" href="#ttk-combobox">ttk.Combobox</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#spinbox">Spinbox</a><ul>
+<li><a class="reference internal" href="#id1">属性</a></li>
+<li><a class="reference internal" href="#id2">虚拟事件</a></li>
+<li><a class="reference internal" href="#ttk-spinbox">ttk.Spinbox</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#notebook">Notebook</a><ul>
+<li><a class="reference internal" href="#id3">属性</a></li>
+<li><a class="reference internal" href="#tab-options">Tab 属性</a></li>
+<li><a class="reference internal" href="#tab-identifiers">Tab ID</a></li>
+<li><a class="reference internal" href="#id4">虚拟事件</a></li>
+<li><a class="reference internal" href="#ttk-notebook">ttk.Notebook</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#progressbar">Progressbar</a><ul>
+<li><a class="reference internal" href="#id5">属性</a></li>
+<li><a class="reference internal" href="#ttk-progressbar">ttk.Progressbar</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#separator">Separator</a><ul>
+<li><a class="reference internal" href="#id6">属性</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sizegrip">Sizegrip</a><ul>
+<li><a class="reference internal" href="#platform-specific-notes">与平台相关的注意事项</a></li>
+<li><a class="reference internal" href="#bugs">Bug</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#treeview">Treeview</a><ul>
+<li><a class="reference internal" href="#id7">属性</a></li>
+<li><a class="reference internal" href="#item-options">数据项的属性</a></li>
+<li><a class="reference internal" href="#tag-options">tag 属性</a></li>
+<li><a class="reference internal" href="#column-identifiers">列标识</a></li>
+<li><a class="reference internal" href="#id8">虚拟事件</a></li>
+<li><a class="reference internal" href="#ttk-treeview">ttk.Treeview</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ttk-styling">Ttk 样式</a><ul>
+<li><a class="reference internal" href="#layouts">布局</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="tkinter.dnd.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.dnd</span></code> --- 拖放操作支持</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="tkinter.tix.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.tix</span></code> --- TK扩展包</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/tkinter.ttk.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="tkinter.tix.html" title="tkinter.tix --- TK扩展包"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="tkinter.dnd.html" title="tkinter.dnd --- 拖放操作支持"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="tk.html" >Tk图形用户界面(GUI)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">tkinter.ttk</span></code> --- Tk 风格的控件</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

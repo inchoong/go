@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>site —— 指定域的配置钩子 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="自定义 Python 解释器" href="custominterp.html" />
+    <link rel="prev" title="inspect --- 检查对象" href="inspect.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/site.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code> —— 指定域的配置钩子</a><ul>
+<li><a class="reference internal" href="#readline-configuration">Readline 配置</a></li>
+<li><a class="reference internal" href="#module-contents">模块内容</a></li>
+<li><a class="reference internal" href="#command-line-interface">命令行界面</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="inspect.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code> --- 检查对象</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="custominterp.html"
+                          title="下一章">自定义 Python 解释器</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/site.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="custominterp.html" title="自定义 Python 解释器"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="inspect.html" title="inspect --- 检查对象"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" accesskey="U">Python运行时服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code> —— 指定域的配置钩子</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-site">
+<span id="site-site-specific-configuration-hook"></span><h1><a class="reference internal" href="#module-site" title="site: Module responsible for site-specific configuration."><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a> —— 指定域的配置钩子<a class="headerlink" href="#module-site" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/site.py">Lib/site.py</a></p>
+<hr class="docutils" />
+<p><strong>这个模块将在初始化时被自动导入。</strong> 此自动导入可以通过使用解释器的 <a class="reference internal" href="../using/cmdline.html#cmdoption-S"><code class="xref std std-option docutils literal notranslate"><span class="pre">-S</span></code></a> 选项来屏蔽。</p>
+<p id="index-0">导入此模块将会附加域特定的路径到模块搜索路径并且添加一些内建对象，除非使用了 <a class="reference internal" href="../using/cmdline.html#cmdoption-S"><code class="xref std std-option docutils literal notranslate"><span class="pre">-S</span></code></a> 选项。 那样的话，模块可以被安全地导入，而不会对模块搜索路径和内建对象有自动的修改或添加。要明确地触发通常域特定的添加，调用函数 <a class="reference internal" href="#site.main" title="site.main"><code class="xref py py-func docutils literal notranslate"><span class="pre">site.main()</span></code></a>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>在之前即便使用了 <a class="reference internal" href="../using/cmdline.html#cmdoption-S"><code class="xref std std-option docutils literal notranslate"><span class="pre">-S</span></code></a>，导入此模块仍然会触发路径操纵。</p>
+</div>
+<p id="index-1">它会从头部和尾部构建至多四个目录作为起点。 对于头部，它会使用 <code class="docutils literal notranslate"><span class="pre">sys.prefix</span></code> 和 <code class="docutils literal notranslate"><span class="pre">sys.exec_prefix</span></code>；空的头部会被跳过。 对于尾部，它会使用空字符串然后是 <code class="file docutils literal notranslate"><span class="pre">lib/site-packages</span></code> (在 Windows 上) 或 <code class="file docutils literal notranslate"><span class="pre">lib/python</span><em><span class="pre">X.Y</span></em><span class="pre">/site-packages</span></code> (在 Unix 和 macOS 上)。 对于每个不同的头-尾组合，它会查看其是否指向现有的目录，如果是的话，则将其添加到 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> 并且检查新添加目录中的配置文件。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>对 &quot;site-python&quot; 目录的支持已被移除。</p>
+</div>
+<p>如果名为 &quot;pyvenv.cfg&quot; 的文件存在于 sys.executable 之上的一个目录中，则 sys.prefix 和 sys.exec_prefix 将被设置为该目录，并且还会检查 site-packages （ sys.base_prefix 和 sys.base_exec_prefix 始终是 Python 安装的 &quot;真实&quot; 前缀）。 如果 &quot;pyvenv.cfg&quot; （引导程序配置文件）包含设置为非 &quot;true&quot;（不区分大小写）的 &quot;include-system-site-packages&quot; 键，则不会在系统级前缀中搜索 site-packages；反之则会。</p>
+<p id="index-2">一个路径配置文件是具有 <code class="file docutils literal notranslate"><em><span class="pre">name</span></em><span class="pre">.pth</span></code> 命名格式的文件，并且存在上面提到的四个目录之一中；它的内容是要添加到 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> 中的额外项目（每行一个）。不存在的项目不会添加到 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>，并且不会检查项目指向的是目录还是文件。项目不会被添加到 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> 超过一次。空行和由 <code class="docutils literal notranslate"><span class="pre">#</span></code> 起始的行会被跳过。以 <code class="docutils literal notranslate"><span class="pre">import</span></code> 开始的行（跟着空格或 TAB）会被执行。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>每次启动 Python，在 <code class="file docutils literal notranslate"><span class="pre">.pth</span></code> 文件中的可执行行都将会被运行，而不管特定的模块实际上是否需要被使用。 因此，其影响应降至最低。可执行行的主要预期目的是使相关模块可导入（加载第三方导入钩子，调整 <span class="target" id="index-18"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code> 等）。如果它发生了，任何其他的初始化都应当在模块实际导入之前完成。将代码块限制为一行是一种有意采取的措施，不鼓励在此处放置更复杂的内容。</p>
+</div>
+<p id="index-4">例如，假设 <code class="docutils literal notranslate"><span class="pre">sys.prefix</span></code> 和 <code class="docutils literal notranslate"><span class="pre">sys.exec_prefix</span></code> 已经被设置为 <code class="file docutils literal notranslate"><span class="pre">/usr/local</span></code>。 Python X.Y 的库之后被安装为 <code class="file docutils literal notranslate"><span class="pre">/usr/local/lib/python</span><em><span class="pre">X.Y</span></em></code>。假设有一个拥有三个孙目录 <code class="file docutils literal notranslate"><span class="pre">foo</span></code>, <code class="file docutils literal notranslate"><span class="pre">bar</span></code> 和 <code class="file docutils literal notranslate"><span class="pre">spam</span></code> 的子目录 <code class="file docutils literal notranslate"><span class="pre">/usr/local/lib/python</span><em><span class="pre">X.Y</span></em><span class="pre">/site-packages</span></code>，并且有两个路径配置文件 <code class="file docutils literal notranslate"><span class="pre">foot.pth</span></code> 和 <code class="file docutils literal notranslate"><span class="pre">bar.pth</span></code>。假定 <code class="file docutils literal notranslate"><span class="pre">foo.pth</span></code> 内容如下:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># foo package configuration
+
+foo
+bar
+bletch
+</pre></div>
+</div>
+<p>并且 <code class="file docutils literal notranslate"><span class="pre">bar.pth</span></code> 包含:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># bar package configuration
+
+bar
+</pre></div>
+</div>
+<p>则下面特定版目录将以如下顺序被添加到 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/pythonX.Y/site-packages/bar
+/usr/local/lib/pythonX.Y/site-packages/foo
+</pre></div>
+</div>
+<p>请注意 <code class="file docutils literal notranslate"><span class="pre">bletch</span></code> 已被省略因为它并不存在；<code class="file docutils literal notranslate"><span class="pre">bar</span></code> 目前在 <code class="file docutils literal notranslate"><span class="pre">foo</span></code> 目录之前因为 <code class="file docutils literal notranslate"><span class="pre">bar.pth</span></code> 按字母顺序排在 <code class="file docutils literal notranslate"><span class="pre">foo.pth</span></code> 之前；而 <code class="file docutils literal notranslate"><span class="pre">spam</span></code> 已被省略因为它在两个路径配置文件中都未被提及。</p>
+<p id="index-5">在这些路径操作之后，会尝试导入一个名为 <code class="xref py py-mod docutils literal notranslate"><span class="pre">sitecustomize</span></code> 的模块，它可以执行任意站点专属的定制。 它通常是由系统管理员在 site-packages 目录下创建的。 如此此导入失败并引发 <a class="reference internal" href="exceptions.html#ImportError" title="ImportError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ImportError</span></code></a> 或其子类异常，并且异常的 <code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code> 属性等于 <code class="docutils literal notranslate"><span class="pre">'sitecustomize'</span></code>，则它会被静默地忽略。 如果 Python 是在没有可用输出流的情况下启动的，例如在 Windows 上使用 <code class="file docutils literal notranslate"><span class="pre">pythonw.exe</span></code> (它默认被用于启动 start IDLE)，则来自 <code class="xref py py-mod docutils literal notranslate"><span class="pre">sitecustomize</span></code> 的输出尝试会被忽略。 任何其他异常都会导致静默且可能令人迷惑不解的进程失败。</p>
+<p id="index-6">在此之后，会尝试导入一个名为 <code class="xref py py-mod docutils literal notranslate"><span class="pre">usercustomize</span></code> 的模块，它可以执行任意用户专属的定制，如果 <a class="reference internal" href="#site.ENABLE_USER_SITE" title="site.ENABLE_USER_SITE"><code class="xref py py-data docutils literal notranslate"><span class="pre">ENABLE_USER_SITE</span></code></a> 为真值的话。 这个文件应该在用户的 site-packages 目录中创建（见下文），该目录是 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> 的组成部分，除非被 <a class="reference internal" href="../using/cmdline.html#cmdoption-s"><code class="xref std std-option docutils literal notranslate"><span class="pre">-s</span></code></a> 所禁用。 如果此导入失败并引发 <a class="reference internal" href="exceptions.html#ImportError" title="ImportError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ImportError</span></code></a> 或者其子类异常，并且异常的 <code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code> 属性等于 <code class="docutils literal notranslate"><span class="pre">'usercustomize'</span></code>，它会被静默地忽略。</p>
+<p>请注意对于某些非 Unix 系统来说，<code class="docutils literal notranslate"><span class="pre">sys.prefix</span></code> 和 <code class="docutils literal notranslate"><span class="pre">sys.exec_prefix</span></code> 均为空值，并且路径操作会被跳过；但是仍然会尝试导入 <code class="xref py py-mod docutils literal notranslate"><span class="pre">sitecustomize</span></code> 和 <code class="xref py py-mod docutils literal notranslate"><span class="pre">usercustomize</span></code>。</p>
+<section id="readline-configuration">
+<span id="rlcompleter-config"></span><h2>Readline 配置<a class="headerlink" href="#readline-configuration" title="永久链接至标题">¶</a></h2>
+<p>在支持 <a class="reference internal" href="readline.html#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> 的系统上，这个模块也将导入并配置 <a class="reference internal" href="rlcompleter.html#module-rlcompleter" title="rlcompleter: Python identifier completion, suitable for the GNU readline library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlcompleter</span></code></a> 模块，如果 Python 是以 <a class="reference internal" href="../tutorial/interpreter.html#tut-interactive"><span class="std std-ref">交互模式</span></a> 启动并且不带 <a class="reference internal" href="../using/cmdline.html#cmdoption-S"><code class="xref std std-option docutils literal notranslate"><span class="pre">-S</span></code></a> 选项的话。  默认的行为是启用 tab 键补全并使用 <code class="file docutils literal notranslate"><span class="pre">~/.python_history</span></code> 作为历史存档文件。 要禁用它，请删除（或重载）你的 <code class="xref py py-mod docutils literal notranslate"><span class="pre">sitecustomize</span></code> 或 <code class="xref py py-mod docutils literal notranslate"><span class="pre">usercustomize</span></code> 模块或 <span class="target" id="index-19"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONSTARTUP"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONSTARTUP</span></code></a> 文件中的 <a class="reference internal" href="sys.html#sys.__interactivehook__" title="sys.__interactivehook__"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.__interactivehook__</span></code></a> 属性。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>rlcompleter 和 history 会被自动激活。</p>
+</div>
+</section>
+<section id="module-contents">
+<h2>模块内容<a class="headerlink" href="#module-contents" title="永久链接至标题">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="site.PREFIXES">
+<span class="sig-prename descclassname"><span class="pre">site.</span></span><span class="sig-name descname"><span class="pre">PREFIXES</span></span><a class="headerlink" href="#site.PREFIXES" title="永久链接至目标">¶</a></dt>
+<dd><p>site-packages 目录的前缀列表。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="site.ENABLE_USER_SITE">
+<span class="sig-prename descclassname"><span class="pre">site.</span></span><span class="sig-name descname"><span class="pre">ENABLE_USER_SITE</span></span><a class="headerlink" href="#site.ENABLE_USER_SITE" title="永久链接至目标">¶</a></dt>
+<dd><p>显示用户 site-packages 目录状态的旗标。 <code class="docutils literal notranslate"><span class="pre">True</span></code> 意味着它被启用并被添加到 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>。 <code class="docutils literal notranslate"><span class="pre">False</span></code> 意味着它按照用户请求被禁用 (通过 <a class="reference internal" href="../using/cmdline.html#cmdoption-s"><code class="xref std std-option docutils literal notranslate"><span class="pre">-s</span></code></a> 或 <span class="target" id="index-20"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONNOUSERSITE"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONNOUSERSITE</span></code></a>)。 <code class="docutils literal notranslate"><span class="pre">None</span></code> 意味着它因安全理由（user 或 group id 和 effective id 之间不匹配）或是被管理员所禁用。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="site.USER_SITE">
+<span class="sig-prename descclassname"><span class="pre">site.</span></span><span class="sig-name descname"><span class="pre">USER_SITE</span></span><a class="headerlink" href="#site.USER_SITE" title="永久链接至目标">¶</a></dt>
+<dd><p>正在运行的 Python 的用户级 site-packages 的路径。 它可以为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，如果 <a class="reference internal" href="#site.getusersitepackages" title="site.getusersitepackages"><code class="xref py py-func docutils literal notranslate"><span class="pre">getusersitepackages()</span></code></a> 尚未被调用的话。 默认值在 UNIX 和非框架 macOS 编译版上为 <code class="file docutils literal notranslate"><span class="pre">~/.local/lib/python</span><em><span class="pre">X.Y</span></em><span class="pre">/site-packages</span></code>，在 macOS 框架编译版上为  <code class="file docutils literal notranslate"><span class="pre">~/Library/Python/</span><em><span class="pre">X.Y</span></em><span class="pre">/lib/python/site-packages</span></code>，而在 Windows 上则为 <code class="file docutils literal notranslate"><em><span class="pre">%APPDATA%</span></em><span class="pre">\Python\Python</span><em><span class="pre">XY</span></em><span class="pre">\site-packages</span></code>。 此目录属于站点目录，这意味着其中的 <code class="file docutils literal notranslate"><span class="pre">.pth</span></code> 文件将会被处理。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="site.USER_BASE">
+<span class="sig-prename descclassname"><span class="pre">site.</span></span><span class="sig-name descname"><span class="pre">USER_BASE</span></span><a class="headerlink" href="#site.USER_BASE" title="永久链接至目标">¶</a></dt>
+<dd><p>用户级 site-packages 的基准目录的路径。 它可以为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，如果 <a class="reference internal" href="#site.getuserbase" title="site.getuserbase"><code class="xref py py-func docutils literal notranslate"><span class="pre">getuserbase()</span></code></a> 尚未被调用的话。 默认值在 UNIX 和 macOS 非框架编译版上为 <code class="file docutils literal notranslate"><span class="pre">~/.local</span></code>，在 macOS 框架编译版上为 <code class="file docutils literal notranslate"><span class="pre">~/Library/Python/</span><em><span class="pre">X.Y</span></em></code>，而在 Windows 上则为 <code class="file docutils literal notranslate"><em><span class="pre">%APPDATA%</span></em><span class="pre">\Python</span></code>。 这个值会被 Distutils 用来计算脚本、数据文件和 Python 模块等的安装目录。 对于 <a class="reference internal" href="../install/index.html#inst-alt-install-user"><span class="std std-ref">用户安装规范</span></a>。 另请参阅 <span class="target" id="index-21"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONUSERBASE"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONUSERBASE</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="site.main">
+<span class="sig-prename descclassname"><span class="pre">site.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#site.main" title="永久链接至目标">¶</a></dt>
+<dd><p>将所有的标准站点专属目录添加到模块搜索路径。 这个函数会在导入此模块时被自动调用，除非 Python 解释器启动时附带了 <a class="reference internal" href="../using/cmdline.html#cmdoption-S"><code class="xref std std-option docutils literal notranslate"><span class="pre">-S</span></code></a> 旗标。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>这个函数使用无条件调用。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="site.addsitedir">
+<span class="sig-prename descclassname"><span class="pre">site.</span></span><span class="sig-name descname"><span class="pre">addsitedir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sitedir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">known_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#site.addsitedir" title="永久链接至目标">¶</a></dt>
+<dd><p>将一个目录添加到 sys.path 并处理其 <code class="file docutils literal notranslate"><span class="pre">.pth</span></code> 文件。 通常被用于 <code class="xref py py-mod docutils literal notranslate"><span class="pre">sitecustomize</span></code> 或 <code class="xref py py-mod docutils literal notranslate"><span class="pre">usercustomize</span></code> (见下文)。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="site.getsitepackages">
+<span class="sig-prename descclassname"><span class="pre">site.</span></span><span class="sig-name descname"><span class="pre">getsitepackages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#site.getsitepackages" title="永久链接至目标">¶</a></dt>
+<dd><p>返回包含所有全局 site-packages 目录的列表。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="site.getuserbase">
+<span class="sig-prename descclassname"><span class="pre">site.</span></span><span class="sig-name descname"><span class="pre">getuserbase</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#site.getuserbase" title="永久链接至目标">¶</a></dt>
+<dd><p>返回用户基准目录的路径 <a class="reference internal" href="#site.USER_BASE" title="site.USER_BASE"><code class="xref py py-data docutils literal notranslate"><span class="pre">USER_BASE</span></code></a>。 如果它尚未被初始化，则此函数还将参照 <span class="target" id="index-22"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONUSERBASE"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONUSERBASE</span></code></a> 来设置它。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="site.getusersitepackages">
+<span class="sig-prename descclassname"><span class="pre">site.</span></span><span class="sig-name descname"><span class="pre">getusersitepackages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#site.getusersitepackages" title="永久链接至目标">¶</a></dt>
+<dd><p>返回用户专属 site-packages 目录的路径 <a class="reference internal" href="#site.USER_SITE" title="site.USER_SITE"><code class="xref py py-data docutils literal notranslate"><span class="pre">USER_SITE</span></code></a>。 如果它尚未被初始化，则此函数还将参照 <a class="reference internal" href="#site.USER_BASE" title="site.USER_BASE"><code class="xref py py-data docutils literal notranslate"><span class="pre">USER_BASE</span></code></a> 来设置它。 要确定用户专属 site-packages 是否已被添加到 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> 则应当使用 <a class="reference internal" href="#site.ENABLE_USER_SITE" title="site.ENABLE_USER_SITE"><code class="xref py py-data docutils literal notranslate"><span class="pre">ENABLE_USER_SITE</span></code></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="command-line-interface">
+<span id="site-commandline"></span><h2>命令行界面<a class="headerlink" href="#command-line-interface" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#module-site" title="site: Module responsible for site-specific configuration."><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a> 模块还提供了一个从命令行获取用户目录的方式:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3 -m site --user-site
+<span class="go">/home/user/.local/lib/python3.3/site-packages</span>
+</pre></div>
+</div>
+<p>如果它被不带参数地调用，它将在标准输出打印 <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> 的内容，再打印 <a class="reference internal" href="#site.USER_BASE" title="site.USER_BASE"><code class="xref py py-data docutils literal notranslate"><span class="pre">USER_BASE</span></code></a> 的值以及该目录是否存在，然后打印 <a class="reference internal" href="#site.USER_SITE" title="site.USER_SITE"><code class="xref py py-data docutils literal notranslate"><span class="pre">USER_SITE</span></code></a> 的相应信息，最后打印 <a class="reference internal" href="#site.ENABLE_USER_SITE" title="site.ENABLE_USER_SITE"><code class="xref py py-data docutils literal notranslate"><span class="pre">ENABLE_USER_SITE</span></code></a> 的值。</p>
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-site-user-base">
+<span class="sig-name descname"><span class="pre">--user-base</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-site-user-base" title="永久链接至目标">¶</a></dt>
+<dd><p>输出用户基本的路径。</p>
+</dd></dl>
+
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-site-user-site">
+<span class="sig-name descname"><span class="pre">--user-site</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-site-user-site" title="永久链接至目标">¶</a></dt>
+<dd><p>输出用户site-packages目录的路径。</p>
+</dd></dl>
+
+<p>如果同时给出了两个选项，则将打印用户基准目录和用户站点信息（总是按此顺序），并以 <a class="reference internal" href="os.html#os.pathsep" title="os.pathsep"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.pathsep</span></code></a> 分隔。</p>
+<p>如果给出了其中一个选项，脚本将退出并返回以下值中的一个：如果用户级 site-packages 目录被启用则为 <code class="docutils literal notranslate"><span class="pre">0</span></code>，如果它被用户禁用则为 <code class="docutils literal notranslate"><span class="pre">1</span></code>，如果它因安全理由或被管理员禁用则为 <code class="docutils literal notranslate"><span class="pre">2</span></code>，如果发生错误则为大于 2 的值。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<ul class="simple">
+<li><p><span class="target" id="index-23"></span><a class="pep reference external" href="https://peps.python.org/pep-0370/"><strong>PEP 370</strong></a> -- 分用户的 site-packages 目录</p></li>
+<li><p><a class="reference internal" href="sys_path_init.html#sys-path-init"><span class="std std-ref">The initialization of the sys.path module search path</span></a> -- The initialization of <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a>.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code> —— 指定域的配置钩子</a><ul>
+<li><a class="reference internal" href="#readline-configuration">Readline 配置</a></li>
+<li><a class="reference internal" href="#module-contents">模块内容</a></li>
+<li><a class="reference internal" href="#command-line-interface">命令行界面</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="inspect.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code> --- 检查对象</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="custominterp.html"
+                          title="下一章">自定义 Python 解释器</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/site.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="custominterp.html" title="自定义 Python 解释器"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="inspect.html" title="inspect --- 检查对象"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" >Python运行时服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code> —— 指定域的配置钩子</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

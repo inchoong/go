@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>webbrowser --- 方便的 Web 浏览器控制工具 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="wsgiref --- WSGI 工具和参考实现" href="wsgiref.html" />
+    <link rel="prev" title="互联网协议和支持" href="internet.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/webbrowser.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">webbrowser</span></code> --- 方便的 Web 浏览器控制工具</a><ul>
+<li><a class="reference internal" href="#browser-controller-objects">浏览器控制器对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="internet.html"
+                          title="上一章">互联网协议和支持</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="wsgiref.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wsgiref</span></code> --- WSGI 工具和参考实现</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/webbrowser.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="wsgiref.html" title="wsgiref --- WSGI 工具和参考实现"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="internet.html" title="互联网协议和支持"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="internet.html" accesskey="U">互联网协议和支持</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">webbrowser</span></code> --- 方便的 Web 浏览器控制工具</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-webbrowser">
+<span id="webbrowser-convenient-web-browser-controller"></span><h1><a class="reference internal" href="#module-webbrowser" title="webbrowser: Easy-to-use controller for web browsers."><code class="xref py py-mod docutils literal notranslate"><span class="pre">webbrowser</span></code></a> --- 方便的 Web 浏览器控制工具<a class="headerlink" href="#module-webbrowser" title="永久链接至标题">¶</a></h1>
+<p><strong>源码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/webbrowser.py">Lib/webbrowser.py</a></p>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-webbrowser" title="webbrowser: Easy-to-use controller for web browsers."><code class="xref py py-mod docutils literal notranslate"><span class="pre">webbrowser</span></code></a> 模块提供了一个高层级接口，允许向用户显示基于 Web 的文档。 在大多数情况下，只需调用此模块的 <a class="reference internal" href="#webbrowser.open" title="webbrowser.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> 函数就可以了。</p>
+<p>在 Unix 下，图形浏览器在 X11 下是首选，但如果图形浏览器不可用或 X11 显示不可用，则将使用文本模式浏览器。 如果使用文本模式浏览器，则调用进程将阻塞，直到用户退出浏览器。</p>
+<p>如果存在环境变量 <span class="target" id="index-8"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">BROWSER</span></code> ，则将其解释为 <a class="reference internal" href="os.html#os.pathsep" title="os.pathsep"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.pathsep</span></code></a> 分隔的浏览器列表，以便在平台默认值之前尝试。 当列表部分的值包含字符串 <code class="docutils literal notranslate"><span class="pre">％s</span></code> 时，它被解释为一个文字浏览器命令行，用于替换 <code class="docutils literal notranslate"><span class="pre">％s</span></code> 的参数 URL ；如果该部分不包含 <code class="docutils literal notranslate"><span class="pre">％s</span></code>，则它只被解释为要启动的浏览器的名称。 <a class="footnote-reference brackets" href="#id2" id="id1">1</a></p>
+<p>对于非 Unix 平台，或者当 Unix 上有远程浏览器时，控制过程不会等待用户完成浏览器，而是允许远程浏览器在显示界面上维护自己的窗口。 如果 Unix 上没有远程浏览器，控制进程将启动一个新的浏览器并等待。</p>
+<p>脚本 <strong class="program">webbrowser</strong> 可以用作模块的命令行界面。它接受一个 URL 作为参数。还接受以下可选参数：<code class="docutils literal notranslate"><span class="pre">-n</span></code> 如果可能，在新的浏览器窗口中打开 URL ； <code class="docutils literal notranslate"><span class="pre">-t</span></code> 在新的浏览器页面（“标签”）中打开 URL。这些选择当然是相互排斥的。用法示例:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">webbrowser</span> <span class="o">-</span><span class="n">t</span> <span class="s2">&quot;https://www.python.org&quot;</span>
+</pre></div>
+</div>
+<p class="availability"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: not Emscripten, not WASI.<p>This module does not work or is not available on WebAssembly platforms
+<code class="docutils literal notranslate"><span class="pre">wasm32-emscripten</span></code> and <code class="docutils literal notranslate"><span class="pre">wasm32-wasi</span></code>. See
+<a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">WebAssembly platforms</span></a> for more information.</p>
+</p>
+<p>定义了以下异常：</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="webbrowser.Error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">webbrowser.</span></span><span class="sig-name descname"><span class="pre">Error</span></span><a class="headerlink" href="#webbrowser.Error" title="永久链接至目标">¶</a></dt>
+<dd><p>发生浏览器控件错误时引发异常。</p>
+</dd></dl>
+
+<p>定义了以下函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="webbrowser.open">
+<span class="sig-prename descclassname"><span class="pre">webbrowser.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autoraise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#webbrowser.open" title="永久链接至目标">¶</a></dt>
+<dd><p>使用默认浏览器显示 <em>url</em>。 如果 <em>new</em> 为 0，则尽可能在同一浏览器窗口中打开 <em>url</em>。 如果 <em>new</em> 为 1，则尽可能打开新的浏览器窗口。 如果 <em>new</em> 为 2，则尽可能打开新的浏览器页面（“标签”）。 如果 <em>autoraise</em> 为 “True”，则会尽可能置前窗口（请注意，在许多窗口管理器下，无论此变量的设置如何，都会置前窗口）。</p>
+<p>请注意，在某些平台上，尝试使用此函数打开文件名，可能会起作用并启动操作系统的关联程序。 但是，这种方式不被支持也不可移植。</p>
+<p class="audit-hook">使用 <code class="docutils literal notranslate"><span class="pre">url</span></code> 参数会引发  <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">auditing event</span></a> <code class="docutils literal notranslate"><span class="pre">webbrowser.open</span></code> 。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="webbrowser.open_new">
+<span class="sig-prename descclassname"><span class="pre">webbrowser.</span></span><span class="sig-name descname"><span class="pre">open_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#webbrowser.open_new" title="永久链接至目标">¶</a></dt>
+<dd><p>如果可能，在默认浏览器的新窗口中打开 <em>url</em>，否则，在唯一的浏览器窗口中打开 <em>url</em>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="webbrowser.open_new_tab">
+<span class="sig-prename descclassname"><span class="pre">webbrowser.</span></span><span class="sig-name descname"><span class="pre">open_new_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#webbrowser.open_new_tab" title="永久链接至目标">¶</a></dt>
+<dd><p>如果可能，在默认浏览器的新页面（“标签”）中打开 <em>url</em>，否则等效于 <a class="reference internal" href="#webbrowser.open_new" title="webbrowser.open_new"><code class="xref py py-func docutils literal notranslate"><span class="pre">open_new()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="webbrowser.get">
+<span class="sig-prename descclassname"><span class="pre">webbrowser.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">using</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#webbrowser.get" title="永久链接至目标">¶</a></dt>
+<dd><p>返回浏览器类型为 <em>using</em> 指定的控制器对象。 如果 <em>using</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则返回适用于调用者环境的默认浏览器的控制器。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="webbrowser.register">
+<span class="sig-prename descclassname"><span class="pre">webbrowser.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constructor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#webbrowser.register" title="永久链接至目标">¶</a></dt>
+<dd><p>注册 <em>name</em> 浏览器类型。 注册浏览器类型后， <a class="reference internal" href="#webbrowser.get" title="webbrowser.get"><code class="xref py py-func docutils literal notranslate"><span class="pre">get()</span></code></a> 函数可以返回该浏览器类型的控制器。 如果没有提供 <em>instance</em>，或者为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，<em>constructor</em> 将在没有参数的情况下被调用，以在需要时创建实例。 如果提供了 <em>instance</em>，则永远不会调用 <em>constructor</em>，并且可能是 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+<p>将 <em>preferred</em> 设置为 <code class="docutils literal notranslate"><span class="pre">True</span></code> 使得这个浏览器成为 <a class="reference internal" href="#webbrowser.get" title="webbrowser.get"><code class="xref py py-func docutils literal notranslate"><span class="pre">get()</span></code></a> 不带参数调用的首选结果。 否则，只有在您计划设置 <span class="target" id="index-9"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">BROWSER</span></code> 变量，或使用与您声明的处理程序的名称相匹配的非空参数调用 <a class="reference internal" href="#webbrowser.get" title="webbrowser.get"><code class="xref py py-func docutils literal notranslate"><span class="pre">get()</span></code></a> 时，此入口点才有用。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>添加了仅关键字参数 <em>preferred</em>。</p>
+</div>
+</dd></dl>
+
+<p>预定义了许多浏览器类型。 此表给出了可以传递给 <a class="reference internal" href="#webbrowser.get" title="webbrowser.get"><code class="xref py py-func docutils literal notranslate"><span class="pre">get()</span></code></a> 函数的类型名称以及控制器类的相应实例化，这些都在此模块中定义。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 57%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>类型名</p></th>
+<th class="head"><p>类名</p></th>
+<th class="head"><p>备注</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'mozilla'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Mozilla('mozilla')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'firefox'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Mozilla('mozilla')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'netscape'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Mozilla('netscape')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'galeon'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Galeon('galeon')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'epiphany'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Galeon('epiphany')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'skipstone'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">BackgroundBrowser('skipstone')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'kfmclient'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Konqueror()</span></code></p></td>
+<td><p>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'konqueror'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Konqueror()</span></code></p></td>
+<td><p>(1)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'kfm'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Konqueror()</span></code></p></td>
+<td><p>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'mosaic'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">BackgroundBrowser('mosaic')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'opera'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Opera()</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'grail'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Grail()</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'links'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">GenericBrowser('links')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'elinks'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Elinks('elinks')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'lynx'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">GenericBrowser('lynx')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'w3m'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">GenericBrowser('w3m')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'windows-default'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowsDefault</span></code></p></td>
+<td><p>(2)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'macosx'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MacOSXOSAScript('default')</span></code></p></td>
+<td><p>(3)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'safari'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MacOSXOSAScript('safari')</span></code></p></td>
+<td><p>(3)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'google-chrome'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Chrome('google-chrome')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'chrome'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Chrome('chrome')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'chromium'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Chromium('chromium')</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'chromium-browser'</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Chromium('chromium-browser')</span></code></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>注释：</p>
+<ol class="arabic simple">
+<li><p>“Konqueror” 是 Unix 的 KDE 桌面环境的文件管理器，只有在 KDE 运行时才有意义。 一些可靠地检测 KDE 的方法会很好；仅检查 <span class="target" id="index-10"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">KDEDIR</span></code> 变量是不够的。 另请注意，KDE 2的 <strong class="program">konqueror</strong> 命令，会使用名称 “kfm”---此实现选择运行的 Konqueror 的最佳策略。</p></li>
+<li><p>仅限 Windows 平台。</p></li>
+<li><p>仅限 macOS 平台。</p></li>
+</ol>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能: </span>添加了对 Chrome/Chromium 的支持。</p>
+</div>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.11 开始标记为过时，将在版本 3.13 中移除。: </span><code class="xref py py-class docutils literal notranslate"><span class="pre">MacOSX</span></code> is deprecated, use <code class="xref py py-class docutils literal notranslate"><span class="pre">MacOSXOSAScript</span></code> instead.</p>
+</div>
+<p>以下是一些简单的例子:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://docs.python.org/&#39;</span>
+
+<span class="c1"># Open URL in a new tab, if a browser window is already open.</span>
+<span class="n">webbrowser</span><span class="o">.</span><span class="n">open_new_tab</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+<span class="c1"># Open URL in new window, raising the window if possible.</span>
+<span class="n">webbrowser</span><span class="o">.</span><span class="n">open_new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="browser-controller-objects">
+<span id="browser-controllers"></span><h2>浏览器控制器对象<a class="headerlink" href="#browser-controller-objects" title="永久链接至标题">¶</a></h2>
+<p>浏览器控制器提供三个与模块级便捷函数相同的方法：</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="webbrowser.name">
+<span class="sig-prename descclassname"><span class="pre">webbrowser.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#webbrowser.name" title="永久链接至目标">¶</a></dt>
+<dd><p>System-dependent name for the browser.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="webbrowser.controller.open">
+<span class="sig-prename descclassname"><span class="pre">controller.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autoraise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#webbrowser.controller.open" title="永久链接至目标">¶</a></dt>
+<dd><p>使用此控制器处理的浏览器显示 <em>url</em>。 如果 <em>new</em> 为 1，则尽可能打开新的浏览器窗口。 如果 <em>new</em> 为 2，则尽可能打开新的浏览器页面（“标签”）。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="webbrowser.controller.open_new">
+<span class="sig-prename descclassname"><span class="pre">controller.</span></span><span class="sig-name descname"><span class="pre">open_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#webbrowser.controller.open_new" title="永久链接至目标">¶</a></dt>
+<dd><p>如果可能，在此控制器处理的浏览器的新窗口中打开 <em>url</em> ，否则，在唯一的浏览器窗口中打开 <em>url</em> 。 别名 <a class="reference internal" href="#webbrowser.open_new" title="webbrowser.open_new"><code class="xref py py-func docutils literal notranslate"><span class="pre">open_new()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="webbrowser.controller.open_new_tab">
+<span class="sig-prename descclassname"><span class="pre">controller.</span></span><span class="sig-name descname"><span class="pre">open_new_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#webbrowser.controller.open_new_tab" title="永久链接至目标">¶</a></dt>
+<dd><p>如果可能，在此控制器处理的浏览器的新页面（“标签”）中打开 <em>url</em>，否则等效于 <a class="reference internal" href="#webbrowser.open_new" title="webbrowser.open_new"><code class="xref py py-func docutils literal notranslate"><span class="pre">open_new()</span></code></a>。</p>
+</dd></dl>
+
+<p class="rubric">备注</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>这里命名的不带完整路径的可执行文件将在 <span class="target" id="index-11"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code> 环境变量给出的目录中搜索。</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">webbrowser</span></code> --- 方便的 Web 浏览器控制工具</a><ul>
+<li><a class="reference internal" href="#browser-controller-objects">浏览器控制器对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="internet.html"
+                          title="上一章">互联网协议和支持</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="wsgiref.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wsgiref</span></code> --- WSGI 工具和参考实现</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/webbrowser.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="wsgiref.html" title="wsgiref --- WSGI 工具和参考实现"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="internet.html" title="互联网协议和支持"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="internet.html" >互联网协议和支持</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">webbrowser</span></code> --- 方便的 Web 浏览器控制工具</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

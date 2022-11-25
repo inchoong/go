@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>queue --- 一个同步的队列类 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="contextvars --- 上下文变量" href="contextvars.html" />
+    <link rel="prev" title="sched --- 事件调度器" href="sched.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/queue.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code> --- 一个同步的队列类</a><ul>
+<li><a class="reference internal" href="#queue-objects">Queue对象</a></li>
+<li><a class="reference internal" href="#simplequeue-objects">SimpleQueue 对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="sched.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sched</span></code> --- 事件调度器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="contextvars.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextvars</span></code> --- 上下文变量</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/queue.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="contextvars.html" title="contextvars --- 上下文变量"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="sched.html" title="sched --- 事件调度器"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concurrency.html" accesskey="U">并发执行</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code> --- 一个同步的队列类</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-queue">
+<span id="queue-a-synchronized-queue-class"></span><h1><a class="reference internal" href="#module-queue" title="queue: A synchronized queue class."><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a> --- 一个同步的队列类<a class="headerlink" href="#module-queue" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/queue.py">Lib/queue.py</a></p>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-queue" title="queue: A synchronized queue class."><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a> 模块实现了多生产者、多消费者队列。这特别适用于消息必须安全地在多线程间交换的线程编程。模块中的 <a class="reference internal" href="#queue.Queue" title="queue.Queue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Queue</span></code></a> 类实现了所有所需的锁定语义。</p>
+<p>模块实现了三种类型的队列，它们的区别仅仅是条目取回的顺序。在 <abbr title="first-in, first-out">FIFO</abbr> 队列中，先添加的任务先取回。在 <abbr title="last-in, first-out">LIFO</abbr> 队列中，最近被添加的条目先取回(操作类似一个堆栈)。优先级队列中，条目将保持排序( 使用 <a class="reference internal" href="heapq.html#module-heapq" title="heapq: Heap queue algorithm (a.k.a. priority queue)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">heapq</span></code></a> 模块 ) 并且最小值的条目第一个返回。</p>
+<p>在内部，这三个类型的队列使用锁来临时阻塞竞争线程；然而，它们并未被设计用于线程的重入性处理。</p>
+<p>此外，模块实现了一个 &quot;简单的&quot;  <abbr title="first-in, first-out">FIFO</abbr> 队列类型， <a class="reference internal" href="#queue.SimpleQueue" title="queue.SimpleQueue"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleQueue</span></code></a> ，这个特殊实现为小功能在交换中提供额外的保障。</p>
+<p><a class="reference internal" href="#module-queue" title="queue: A synchronized queue class."><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a> 模块定义了下列类和异常：</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="queue.Queue">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">queue.</span></span><span class="sig-name descname"><span class="pre">Queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queue.Queue" title="永久链接至目标">¶</a></dt>
+<dd><p>Constructor for a <abbr title="first-in, first-out">FIFO</abbr> queue.  <em>maxsize</em> is
+an integer that sets the upperbound
+limit on the number of items that can be placed in the queue.  Insertion will
+block once this size has been reached, until queue items are consumed.  If
+<em>maxsize</em> is less than or equal to zero, the queue size is infinite.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="queue.LifoQueue">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">queue.</span></span><span class="sig-name descname"><span class="pre">LifoQueue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queue.LifoQueue" title="永久链接至目标">¶</a></dt>
+<dd><p><abbr title="last-in, first-out">LIFO</abbr> 队列构造函数。 <em>maxsize</em> 是个整数，用于设置可以放入队列中的项目数的上限。当达到这个大小的时候，插入操作将阻塞至队列中的项目被消费掉。如果 <em>maxsize</em> 小于等于零，队列尺寸为无限大。</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="queue.PriorityQueue">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">queue.</span></span><span class="sig-name descname"><span class="pre">PriorityQueue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queue.PriorityQueue" title="永久链接至目标">¶</a></dt>
+<dd><p>优先级队列构造函数。 <em>maxsize</em> 是个整数，用于设置可以放入队列中的项目数的上限。当达到这个大小的时候，插入操作将阻塞至队列中的项目被消费掉。如果 <em>maxsize</em> 小于等于零，队列尺寸为无限大。</p>
+<p>最小值先被取出( 最小值条目是由 <code class="docutils literal notranslate"><span class="pre">sorted(list(entries))[0]</span></code> 返回的条目)。条目的典型模式是一个以下形式的元组： <code class="docutils literal notranslate"><span class="pre">(priority_number,</span> <span class="pre">data)</span></code> 。</p>
+<p>如果 <em>data</em> 元素没有可比性，数据将被包装在一个类中，忽略数据值，仅仅比较优先级数字 ：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">PrioritizedItem</span><span class="p">:</span>
+    <span class="n">priority</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="o">=</span><span class="n">field</span><span class="p">(</span><span class="n">compare</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="queue.SimpleQueue">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">queue.</span></span><span class="sig-name descname"><span class="pre">SimpleQueue</span></span><a class="headerlink" href="#queue.SimpleQueue" title="永久链接至目标">¶</a></dt>
+<dd><p>无界的 <abbr title="first-in, first-out">FIFO</abbr> 队列构造函数。简单的队列，缺少任务跟踪等高级功能。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="queue.Empty">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">queue.</span></span><span class="sig-name descname"><span class="pre">Empty</span></span><a class="headerlink" href="#queue.Empty" title="永久链接至目标">¶</a></dt>
+<dd><p>对空的 <a class="reference internal" href="#queue.Queue" title="queue.Queue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Queue</span></code></a> 对象，调用非阻塞的 <a class="reference internal" href="#queue.Queue.get" title="queue.Queue.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> (or  <a class="reference internal" href="#queue.Queue.get_nowait" title="queue.Queue.get_nowait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_nowait()</span></code></a>) 时，引发的异常。</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="queue.Full">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">queue.</span></span><span class="sig-name descname"><span class="pre">Full</span></span><a class="headerlink" href="#queue.Full" title="永久链接至目标">¶</a></dt>
+<dd><p>对满的 <a class="reference internal" href="#queue.Queue" title="queue.Queue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Queue</span></code></a> 对象，调用非阻塞的 <a class="reference internal" href="#queue.Queue.put" title="queue.Queue.put"><code class="xref py py-meth docutils literal notranslate"><span class="pre">put()</span></code></a> (or <a class="reference internal" href="#queue.Queue.put_nowait" title="queue.Queue.put_nowait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">put_nowait()</span></code></a>) 时，引发的异常。</p>
+</dd></dl>
+
+<section id="queue-objects">
+<span id="queueobjects"></span><h2>Queue对象<a class="headerlink" href="#queue-objects" title="永久链接至标题">¶</a></h2>
+<p>队列对象 (<a class="reference internal" href="#queue.Queue" title="queue.Queue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Queue</span></code></a>, <a class="reference internal" href="#queue.LifoQueue" title="queue.LifoQueue"><code class="xref py py-class docutils literal notranslate"><span class="pre">LifoQueue</span></code></a>, 或者 <a class="reference internal" href="#queue.PriorityQueue" title="queue.PriorityQueue"><code class="xref py py-class docutils literal notranslate"><span class="pre">PriorityQueue</span></code></a>) 提供下列描述的公共方法。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.Queue.qsize">
+<span class="sig-prename descclassname"><span class="pre">Queue.</span></span><span class="sig-name descname"><span class="pre">qsize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#queue.Queue.qsize" title="永久链接至目标">¶</a></dt>
+<dd><p>返回队列的大致大小。注意，qsize() &gt; 0 不保证后续的 get() 不被阻塞，qsize() &lt; maxsize 也不保证 put() 不被阻塞。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.Queue.empty">
+<span class="sig-prename descclassname"><span class="pre">Queue.</span></span><span class="sig-name descname"><span class="pre">empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#queue.Queue.empty" title="永久链接至目标">¶</a></dt>
+<dd><p>如果队列为空，返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> 。如果 empty() 返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，不保证后续调用的 put() 不被阻塞。类似的，如果 empty() 返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> ，也不保证后续调用的 get() 不被阻塞。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.Queue.full">
+<span class="sig-prename descclassname"><span class="pre">Queue.</span></span><span class="sig-name descname"><span class="pre">full</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#queue.Queue.full" title="永久链接至目标">¶</a></dt>
+<dd><p>如果队列是满的返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> 。如果 full() 返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 不保证后续调用的 get() 不被阻塞。类似的，如果 full() 返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> 也不保证后续调用的 put() 不被阻塞。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.Queue.put">
+<span class="sig-prename descclassname"><span class="pre">Queue.</span></span><span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queue.Queue.put" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>item</em> 放入队列。如果可选参数 <em>block</em> 是 true 并且 <em>timeout</em> 是 <code class="docutils literal notranslate"><span class="pre">None</span></code> (默认)，则在必要时阻塞至有空闲插槽可用。如果 <em>timeout</em> 是个正数，将最多阻塞 <em>timeout</em> 秒，如果在这段时间没有可用的空闲插槽，将引发 <a class="reference internal" href="#queue.Full" title="queue.Full"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Full</span></code></a> 异常。反之 (<em>block</em> 是 false)，如果空闲插槽立即可用，则把 <em>item</em> 放入队列，否则引发 <a class="reference internal" href="#queue.Full" title="queue.Full"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Full</span></code></a> 异常 ( 在这种情况下，<em>timeout</em> 将被忽略)。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.Queue.put_nowait">
+<span class="sig-prename descclassname"><span class="pre">Queue.</span></span><span class="sig-name descname"><span class="pre">put_nowait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queue.Queue.put_nowait" title="永久链接至目标">¶</a></dt>
+<dd><p>相当于 <code class="docutils literal notranslate"><span class="pre">put(item,</span> <span class="pre">block=False)</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.Queue.get">
+<span class="sig-prename descclassname"><span class="pre">Queue.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queue.Queue.get" title="永久链接至目标">¶</a></dt>
+<dd><p>从队列中移除并返回一个项目。如果可选参数 <em>block</em> 是 true 并且 <em>timeout</em> 是 <code class="docutils literal notranslate"><span class="pre">None</span></code> (默认值)，则在必要时阻塞至项目可得到。如果 <em>timeout</em> 是个正数，将最多阻塞 <em>timeout</em> 秒，如果在这段时间内项目不能得到，将引发 <a class="reference internal" href="#queue.Empty" title="queue.Empty"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Empty</span></code></a> 异常。反之 (<em>block</em> 是 false) , 如果一个项目立即可得到，则返回一个项目，否则引发 <a class="reference internal" href="#queue.Empty" title="queue.Empty"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Empty</span></code></a> 异常 (这种情况下，<em>timeout</em> 将被忽略)。</p>
+<p>POSIX系统3.0之前，以及所有版本的Windows系统中，如果 <em>block</em> 是 true 并且 <em>timeout</em> 是 <code class="docutils literal notranslate"><span class="pre">None</span></code> ， 这个操作将进入基础锁的不间断等待。这意味着，没有异常能发生，尤其是 SIGINT 将不会触发 <a class="reference internal" href="exceptions.html#KeyboardInterrupt" title="KeyboardInterrupt"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyboardInterrupt</span></code></a> 异常。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.Queue.get_nowait">
+<span class="sig-prename descclassname"><span class="pre">Queue.</span></span><span class="sig-name descname"><span class="pre">get_nowait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#queue.Queue.get_nowait" title="永久链接至目标">¶</a></dt>
+<dd><p>相当于 <code class="docutils literal notranslate"><span class="pre">get(False)</span></code> 。</p>
+</dd></dl>
+
+<p>提供了两个方法，用于支持跟踪 排队的任务 是否 被守护的消费者线程 完整的处理。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.Queue.task_done">
+<span class="sig-prename descclassname"><span class="pre">Queue.</span></span><span class="sig-name descname"><span class="pre">task_done</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#queue.Queue.task_done" title="永久链接至目标">¶</a></dt>
+<dd><p>表示前面排队的任务已经被完成。被队列的消费者线程使用。每个 <a class="reference internal" href="#queue.Queue.get" title="queue.Queue.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> 被用于获取一个任务， 后续调用 <a class="reference internal" href="#queue.Queue.task_done" title="queue.Queue.task_done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task_done()</span></code></a> 告诉队列，该任务的处理已经完成。</p>
+<p>如果 <a class="reference internal" href="#queue.Queue.join" title="queue.Queue.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">join()</span></code></a> 当前正在阻塞，在所有条目都被处理后，将解除阻塞(意味着每个 <a class="reference internal" href="#queue.Queue.put" title="queue.Queue.put"><code class="xref py py-meth docutils literal notranslate"><span class="pre">put()</span></code></a> 进队列的条目的 <a class="reference internal" href="#queue.Queue.task_done" title="queue.Queue.task_done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task_done()</span></code></a> 都被收到)。</p>
+<p>如果被调用的次数多于放入队列中的项目数量，将引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> 异常 。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.Queue.join">
+<span class="sig-prename descclassname"><span class="pre">Queue.</span></span><span class="sig-name descname"><span class="pre">join</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#queue.Queue.join" title="永久链接至目标">¶</a></dt>
+<dd><p>阻塞至队列中所有的元素都被接收和处理完毕。</p>
+<p>当条目添加到队列的时候，未完成任务的计数就会增加。每当消费者线程调用 <a class="reference internal" href="#queue.Queue.task_done" title="queue.Queue.task_done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task_done()</span></code></a> 表示这个条目已经被回收，该条目所有工作已经完成，未完成计数就会减少。当未完成计数降到零的时候， <a class="reference internal" href="#queue.Queue.join" title="queue.Queue.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">join()</span></code></a> 阻塞被解除。</p>
+</dd></dl>
+
+<p>如何等待排队的任务被完成的示例：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">queue</span>
+
+<span class="n">q</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">worker</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Working on </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Finished </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">q</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+
+<span class="c1"># Turn-on the worker thread.</span>
+<span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># Send thirty task requests to the worker.</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+<span class="c1"># Block until all tasks are done.</span>
+<span class="n">q</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;All work completed&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="simplequeue-objects">
+<h2>SimpleQueue 对象<a class="headerlink" href="#simplequeue-objects" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#queue.SimpleQueue" title="queue.SimpleQueue"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleQueue</span></code></a> 对象提供下列描述的公共方法。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.SimpleQueue.qsize">
+<span class="sig-prename descclassname"><span class="pre">SimpleQueue.</span></span><span class="sig-name descname"><span class="pre">qsize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#queue.SimpleQueue.qsize" title="永久链接至目标">¶</a></dt>
+<dd><p>返回队列的大致大小。注意，qsize() &gt; 0 不保证后续的 get() 不被阻塞。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.SimpleQueue.empty">
+<span class="sig-prename descclassname"><span class="pre">SimpleQueue.</span></span><span class="sig-name descname"><span class="pre">empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#queue.SimpleQueue.empty" title="永久链接至目标">¶</a></dt>
+<dd><p>如果队列为空，返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> 。如果 empty() 返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> ，不保证后续调用的 get() 不被阻塞。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.SimpleQueue.put">
+<span class="sig-prename descclassname"><span class="pre">SimpleQueue.</span></span><span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queue.SimpleQueue.put" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>item</em> 放入队列。此方法永不阻塞，始终成功（除了潜在的低级错误，例如内存分配失败）。可选参数 <em>block</em> 和 <em>timeout</em> 仅仅是为了保持 <a class="reference internal" href="#queue.Queue.put" title="queue.Queue.put"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Queue.put()</span></code></a> 的兼容性而提供，其值被忽略。</p>
+<div class="impl-detail compound">
+<p><strong>CPython 实现细节：</strong> This method has a C implementation which is reentrant.  That is, a
+<code class="docutils literal notranslate"><span class="pre">put()</span></code> or <code class="docutils literal notranslate"><span class="pre">get()</span></code> call can be interrupted by another <code class="docutils literal notranslate"><span class="pre">put()</span></code>
+call in the same thread without deadlocking or corrupting internal
+state inside the queue.  This makes it appropriate for use in
+destructors such as <code class="docutils literal notranslate"><span class="pre">__del__</span></code> methods or <a class="reference internal" href="weakref.html#module-weakref" title="weakref: Support for weak references and weak dictionaries."><code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code></a> callbacks.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.SimpleQueue.put_nowait">
+<span class="sig-prename descclassname"><span class="pre">SimpleQueue.</span></span><span class="sig-name descname"><span class="pre">put_nowait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queue.SimpleQueue.put_nowait" title="永久链接至目标">¶</a></dt>
+<dd><p>相当于 <code class="docutils literal notranslate"><span class="pre">put(item,</span> <span class="pre">block=False)</span></code>，为保持与 <a class="reference internal" href="#queue.Queue.put_nowait" title="queue.Queue.put_nowait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Queue.put_nowait()</span></code></a> 的兼容性而提供。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.SimpleQueue.get">
+<span class="sig-prename descclassname"><span class="pre">SimpleQueue.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queue.SimpleQueue.get" title="永久链接至目标">¶</a></dt>
+<dd><p>从队列中移除并返回一个项目。如果可选参数 <em>block</em> 是 true 并且 <em>timeout</em> 是 <code class="docutils literal notranslate"><span class="pre">None</span></code> (默认值)，则在必要时阻塞至项目可得到。如果 <em>timeout</em> 是个正数，将最多阻塞 <em>timeout</em> 秒，如果在这段时间内项目不能得到，将引发 <a class="reference internal" href="#queue.Empty" title="queue.Empty"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Empty</span></code></a> 异常。反之 (<em>block</em> 是 false) , 如果一个项目立即可得到，则返回一个项目，否则引发 <a class="reference internal" href="#queue.Empty" title="queue.Empty"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Empty</span></code></a> 异常 (这种情况下，<em>timeout</em> 将被忽略)。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="queue.SimpleQueue.get_nowait">
+<span class="sig-prename descclassname"><span class="pre">SimpleQueue.</span></span><span class="sig-name descname"><span class="pre">get_nowait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#queue.SimpleQueue.get_nowait" title="永久链接至目标">¶</a></dt>
+<dd><p>相当于 <code class="docutils literal notranslate"><span class="pre">get(False)</span></code> 。</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>类 <a class="reference internal" href="multiprocessing.html#multiprocessing.Queue" title="multiprocessing.Queue"><code class="xref py py-class docutils literal notranslate"><span class="pre">multiprocessing.Queue</span></code></a></dt><dd><p>一个用于多进程上下文的队列类（而不是多线程）。</p>
+</dd>
+</dl>
+<p><a class="reference internal" href="collections.html#collections.deque" title="collections.deque"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.deque</span></code></a> 是无界队列的一个替代实现，具有快速的不需要锁并且支持索引的原子化 <a class="reference internal" href="collections.html#collections.deque.append" title="collections.deque.append"><code class="xref py py-meth docutils literal notranslate"><span class="pre">append()</span></code></a> 和 <a class="reference internal" href="collections.html#collections.deque.popleft" title="collections.deque.popleft"><code class="xref py py-meth docutils literal notranslate"><span class="pre">popleft()</span></code></a> 操作。</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code> --- 一个同步的队列类</a><ul>
+<li><a class="reference internal" href="#queue-objects">Queue对象</a></li>
+<li><a class="reference internal" href="#simplequeue-objects">SimpleQueue 对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="sched.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sched</span></code> --- 事件调度器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="contextvars.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextvars</span></code> --- 上下文变量</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/queue.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="contextvars.html" title="contextvars --- 上下文变量"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="sched.html" title="sched --- 事件调度器"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concurrency.html" >并发执行</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code> --- 一个同步的队列类</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

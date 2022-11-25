@@ -1,0 +1,739 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>traceback —— 打印或读取堆栈的跟踪信息 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="__future__ --- Future 语句定义" href="__future__.html" />
+    <link rel="prev" title="atexit --- 退出处理器" href="atexit.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/traceback.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">traceback</span></code> —— 打印或读取堆栈的跟踪信息</a><ul>
+<li><a class="reference internal" href="#tracebackexception-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">TracebackException</span></code> 对象</a></li>
+<li><a class="reference internal" href="#stacksummary-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code> 对象</a></li>
+<li><a class="reference internal" href="#framesummary-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code> 对象</a></li>
+<li><a class="reference internal" href="#traceback-examples">回溯示例</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="atexit.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">atexit</span></code> --- 退出处理器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="__future__.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">__future__</span></code> --- Future 语句定义</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/traceback.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="__future__.html" title="__future__ --- Future 语句定义"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="atexit.html" title="atexit --- 退出处理器"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" accesskey="U">Python运行时服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">traceback</span></code> —— 打印或读取堆栈的跟踪信息</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-traceback">
+<span id="traceback-print-or-retrieve-a-stack-traceback"></span><h1><a class="reference internal" href="#module-traceback" title="traceback: Print or retrieve a stack traceback."><code class="xref py py-mod docutils literal notranslate"><span class="pre">traceback</span></code></a> —— 打印或读取堆栈的跟踪信息<a class="headerlink" href="#module-traceback" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/traceback.py">Lib/traceback.py</a></p>
+<hr class="docutils" />
+<p>该模块提供了一个标准接口来提取、格式化和打印 Python 程序的堆栈跟踪结果。它完全模仿Python 解释器在打印堆栈跟踪结果时的行为。当您想要在程序控制下打印堆栈跟踪结果时，例如在“封装”解释器时，这是非常有用的。</p>
+<p id="index-0">这个模块使用 traceback 对象 —— 这是存储在 <a class="reference internal" href="sys.html#sys.last_traceback" title="sys.last_traceback"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.last_traceback</span></code></a> 中的对象类型变量，并作为 <a class="reference internal" href="sys.html#sys.exc_info" title="sys.exc_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exc_info()</span></code></a> 的第三项被返回。</p>
+<p>这个模块定义了以下函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.print_tb">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">print_tb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.print_tb" title="永久链接至目标">¶</a></dt>
+<dd><p>如果*limit*是正整数，那么从 traceback 对象 &quot;tb&quot; 输出最高 <em>limit</em> 个（从调用函数开始的）栈的堆栈回溯‎条目‎；如果 <em>limit</em> 是负数就输出 <code class="docutils literal notranslate"><span class="pre">abs(limit)</span></code> 个回溯条目；又如果 <em>limit</em> 被省略或者为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，那么就会输出所有回溯条目。如果 <em>file</em> 被省略或为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 那么就会输出至标准输出``sys.stderr``否则它应该是一个打开的文件或者文件类对象来接收输出</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>添加了对负数值 <em>limit</em> 的支持</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.print_exception">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">print_exception</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <span class="optional">]</span><em class="sig-param"><span class="n"><span class="pre">limit=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain=True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.print_exception" title="永久链接至目标">¶</a></dt>
+<dd><p>打印回溯对象 <em>tb</em> 到 <em>file</em> 的异常信息和整个堆栈回溯。这和 <a class="reference internal" href="#traceback.print_tb" title="traceback.print_tb"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_tb()</span></code></a> 比有以下方面不同：</p>
+<ul class="simple">
+<li><p>如果 <em>tb</em> 不为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，它将打印头部 <code class="docutils literal notranslate"><span class="pre">Traceback</span> <span class="pre">(most</span> <span class="pre">recent</span> <span class="pre">call</span> <span class="pre">last):</span></code></p></li>
+<li><p>它将在栈回溯之后打印异常类型和 <em>value</em></p></li>
+</ul>
+<ul class="simple" id="index-1">
+<li><p>如果 <em>type(value)</em> 为 <a class="reference internal" href="exceptions.html#SyntaxError" title="SyntaxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SyntaxError</span></code></a> 且 <em>value</em> 具有适当的格式，它会打印发生语法错误的行并用一个圆点来指明错误的大致位置。</p></li>
+</ul>
+<p>从 Python 3.10 开始，可以不再传递 <em>value</em> 和 <em>tb</em>，而是传递一个异常对象作为第一个参数。 如果提供了 <em>value</em> 和 <em>tb</em>，则第一个参数会被忽略以便提供向下兼容性。</p>
+<p>可选的 <em>limit</em> 参数具有与 <a class="reference internal" href="#traceback.print_tb" title="traceback.print_tb"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_tb()</span></code></a> 的相同含义。 如果 <em>chain</em> 为真值（默认），则链式异常（异常的 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__cause__</span></code> 或 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__context__</span></code> 属性）也将被打印出来，就像解释器本身在打印未处理的异常时一样。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span><em>etype</em> 参数会被忽略并根据 <em>value</em> 推断出来。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span><em>etype</em> 形参已被重命名为 <em>exc</em> 并且现在是仅限位置形参。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.print_exc">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">print_exc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.print_exc" title="永久链接至目标">¶</a></dt>
+<dd><p>这是 <code class="docutils literal notranslate"><span class="pre">print_exception(*sys.exc_info(),</span> <span class="pre">limit,</span> <span class="pre">file,</span> <span class="pre">chain)</span></code> 的简写。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.print_last">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">print_last</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.print_last" title="永久链接至目标">¶</a></dt>
+<dd><p>这是 <code class="docutils literal notranslate"><span class="pre">print_exception(sys.last_type,</span> <span class="pre">sys.last_value,</span> <span class="pre">sys.last_traceback,</span> <span class="pre">limit,</span> <span class="pre">file,</span> <span class="pre">chain)</span></code> 的简写。 通常它将只在异常到达交互提示之后才会起作用 (参见 <a class="reference internal" href="sys.html#sys.last_type" title="sys.last_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.last_type</span></code></a>)。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.print_stack">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">print_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.print_stack" title="永久链接至目标">¶</a></dt>
+<dd><p>如果 <em>limit</em> 为正数则打印至多 <em>limit</em> 个栈回溯条目（从发起调用点开始）。 在其他情况下，则打印最后 <code class="docutils literal notranslate"><span class="pre">abs(limit)</span></code> 个条目。 如果 <em>limit</em> 被省略或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会打印所有条目。 可选的 <em>f</em> 参数可被用来指明一个用于开始的替代栈。 可选的 <em>file</em> 参数具有与 <a class="reference internal" href="#traceback.print_tb" title="traceback.print_tb"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_tb()</span></code></a> 的相同含义。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>添加了对负数值 <em>limit</em> 的支持</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.extract_tb">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">extract_tb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.extract_tb" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#traceback.StackSummary" title="traceback.StackSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code></a> 对象来代表从回溯对象 <em>tb</em> 提取的 &quot;预处理&quot; 栈回溯条目列表。 它适用于栈回溯的替代格式化。 可选的 <em>limit</em> 参数具有与 <a class="reference internal" href="#traceback.print_tb" title="traceback.print_tb"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_tb()</span></code></a> 的相同含义。 &quot;预处理&quot; 栈回溯条目是一个 <a class="reference internal" href="#traceback.FrameSummary" title="traceback.FrameSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code></a> 对象，其中包含代表通常为栈回溯打印的信息的 <code class="xref py py-attr docutils literal notranslate"><span class="pre">filename</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">lineno</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code> 和 <code class="xref py py-attr docutils literal notranslate"><span class="pre">line</span></code> 等属性。 <code class="xref py py-attr docutils literal notranslate"><span class="pre">line</span></code> 是一个去除了前导和末尾空白符的字符串；如果源代码不可用则它将为 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.extract_stack">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">extract_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.extract_stack" title="永久链接至目标">¶</a></dt>
+<dd><p>从当前的栈帧提取原始回溯信息。 返回值具有与 <a class="reference internal" href="#traceback.extract_tb" title="traceback.extract_tb"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_tb()</span></code></a> 的相同格式。 可选的 <em>f</em> 和 <em>limit</em> 参数具有与 <a class="reference internal" href="#traceback.print_stack" title="traceback.print_stack"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_stack()</span></code></a> 的相同含义。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.format_list">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">format_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extracted_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.format_list" title="永久链接至目标">¶</a></dt>
+<dd><p>给定一个由元组或如 <a class="reference internal" href="#traceback.extract_tb" title="traceback.extract_tb"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_tb()</span></code></a> 或 <a class="reference internal" href="#traceback.extract_stack" title="traceback.extract_stack"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_stack()</span></code></a> 所返回的 <a class="reference internal" href="#traceback.FrameSummary" title="traceback.FrameSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code></a> 对象组成的列表，返回一个可打印的字符串列表。 结果列表中的每个字符串都对应于参数列表中具有相同索引号的条目。 每个字符串以一个换行符结束；对于那些源文本行不为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 的条目，字符串也可能包含内部换行符。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.format_exception_only">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">format_exception_only</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#traceback.format_exception_only" title="永久链接至目标">¶</a></dt>
+<dd><p>使用 <code class="docutils literal notranslate"><span class="pre">sys.last_value</span></code>  等给出的异常值来格式化回溯中的异常部分。 返回值是一个字符串的列表，每个字符串都以换行符结束。 通常，此列表只包含单个字符串；但是，对于 <a class="reference internal" href="exceptions.html#SyntaxError" title="SyntaxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SyntaxError</span></code></a> 异常，它将包含多行并且（当打印时）会显示有关语法错误在何处发生的详细信息。 指明发生了哪种异常的消息将总是该列表中的最后一个字符串。</p>
+<p>从 Python 3.10 开始，可以不传入 <em>value</em>，而是传入一个异常对象作为第一个参数。 如果提供了 <em>value</em>，则第一个参数将被忽略以便提供向下兼容性。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span><em>etype</em> 形参已被重命名为 <em>exc</em> 并且现在是仅限位置形参。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.format_exception">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">format_exception</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <span class="optional">]</span><em class="sig-param"><span class="n"><span class="pre">limit=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain=True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.format_exception" title="永久链接至目标">¶</a></dt>
+<dd><p>格式化一个栈跟踪和异常信息。 参数的含义与传给 <a class="reference internal" href="#traceback.print_exception" title="traceback.print_exception"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_exception()</span></code></a> 的相应参数相同。 返回值是一个字符串列表，每个字符串都以一个换行符结束且有些还包含内部换行符。 当这些行被拼接并打印时，打印的文本与 <a class="reference internal" href="#traceback.print_exception" title="traceback.print_exception"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_exception()</span></code></a> 的完全相同。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span><em>etype</em> 参数会被忽略并根据 <em>value</em> 推断出来。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>此函数的行为和签名已被修改以与 <a class="reference internal" href="#traceback.print_exception" title="traceback.print_exception"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_exception()</span></code></a> 相匹配。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.format_exc">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">format_exc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.format_exc" title="永久链接至目标">¶</a></dt>
+<dd><p>这类似于 <code class="docutils literal notranslate"><span class="pre">print_exc(limit)</span></code> 但会返回一个字符串而不是打印到一个文件。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.format_tb">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">format_tb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.format_tb" title="永久链接至目标">¶</a></dt>
+<dd><p>是 <code class="docutils literal notranslate"><span class="pre">format_list(extract_tb(tb,</span> <span class="pre">limit))</span></code> 的简写形式。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.format_stack">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">format_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.format_stack" title="永久链接至目标">¶</a></dt>
+<dd><p>是 <code class="docutils literal notranslate"><span class="pre">format_list(extract_stack(f,</span> <span class="pre">limit))</span></code> 的简写形式。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.clear_frames">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">clear_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.clear_frames" title="永久链接至目标">¶</a></dt>
+<dd><p>通过调用每个帧对象的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code> 方法来清除回溯 <em>tb</em> 中所有栈帧的局部变量。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.walk_stack">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">walk_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.walk_stack" title="永久链接至目标">¶</a></dt>
+<dd><p>从给定的帧开始访问 <code class="docutils literal notranslate"><span class="pre">f.f_back</span></code> 之后的栈，产生每一帧的帧和行号。 如果 <em>f</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会使用当前栈。 这个辅助函数要与 <a class="reference internal" href="#traceback.StackSummary.extract" title="traceback.StackSummary.extract"><code class="xref py py-meth docutils literal notranslate"><span class="pre">StackSummary.extract()</span></code></a> 一起使用。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="traceback.walk_tb">
+<span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">walk_tb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.walk_tb" title="永久链接至目标">¶</a></dt>
+<dd><p>访问 <code class="docutils literal notranslate"><span class="pre">tb_next</span></code> 之后的回溯并产生每一帧的帧和行号。 这个辅助函数要与 <a class="reference internal" href="#traceback.StackSummary.extract" title="traceback.StackSummary.extract"><code class="xref py py-meth docutils literal notranslate"><span class="pre">StackSummary.extract()</span></code></a> 一起使用。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>此模块还定义了以下的类:</p>
+<section id="tracebackexception-objects">
+<h2><a class="reference internal" href="#traceback.TracebackException" title="traceback.TracebackException"><code class="xref py py-class docutils literal notranslate"><span class="pre">TracebackException</span></code></a> 对象<a class="headerlink" href="#tracebackexception-objects" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+<p><a class="reference internal" href="#traceback.TracebackException" title="traceback.TracebackException"><code class="xref py py-class docutils literal notranslate"><span class="pre">TracebackException</span></code></a> 对象基于实际的异常创建通过轻量的方式捕获数据以便随后打印。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="traceback.TracebackException">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">TracebackException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_traceback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capture_locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.TracebackException" title="永久链接至目标">¶</a></dt>
+<dd><p>捕获一个异常以便随后渲染。 <em>limit</em>, <em>lookup_lines</em> 和 <em>capture_locals</em> 的含义与 <a class="reference internal" href="#traceback.StackSummary" title="traceback.StackSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code></a> 类的相同。</p>
+<p>如果 <em>compact</em> 为真值，则只有 <a class="reference internal" href="#traceback.TracebackException" title="traceback.TracebackException"><code class="xref py py-class docutils literal notranslate"><span class="pre">TracebackException</span></code></a> 的 <code class="docutils literal notranslate"><span class="pre">format</span></code> 方法所需要的数据会被保存在类属性中。 特别地，<code class="docutils literal notranslate"><span class="pre">__context__</span></code> 字段只有在 <code class="docutils literal notranslate"><span class="pre">__cause__</span></code> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 且 <code class="docutils literal notranslate"><span class="pre">__suppress_context__</span></code> 为假值时才会被计算。</p>
+<p>请注意当局部变量被捕获时，它们也会被显示在回溯中。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.__cause__">
+<span class="sig-name descname"><span class="pre">__cause__</span></span><a class="headerlink" href="#traceback.TracebackException.__cause__" title="永久链接至目标">¶</a></dt>
+<dd><p>原始 <code class="docutils literal notranslate"><span class="pre">__cause__</span></code> 的 <a class="reference internal" href="#traceback.TracebackException" title="traceback.TracebackException"><code class="xref py py-class docutils literal notranslate"><span class="pre">TracebackException</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.__context__">
+<span class="sig-name descname"><span class="pre">__context__</span></span><a class="headerlink" href="#traceback.TracebackException.__context__" title="永久链接至目标">¶</a></dt>
+<dd><p>原始 <code class="docutils literal notranslate"><span class="pre">__context__</span></code> 的 <a class="reference internal" href="#traceback.TracebackException" title="traceback.TracebackException"><code class="xref py py-class docutils literal notranslate"><span class="pre">TracebackException</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.__suppress_context__">
+<span class="sig-name descname"><span class="pre">__suppress_context__</span></span><a class="headerlink" href="#traceback.TracebackException.__suppress_context__" title="永久链接至目标">¶</a></dt>
+<dd><p>来自原始异常的 <code class="docutils literal notranslate"><span class="pre">__suppress_context__</span></code>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.__notes__">
+<span class="sig-name descname"><span class="pre">__notes__</span></span><a class="headerlink" href="#traceback.TracebackException.__notes__" title="永久链接至目标">¶</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">__notes__</span></code> value from the original exception, or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+if the exception does not have any notes. If it is not <code class="docutils literal notranslate"><span class="pre">None</span></code>
+is it formatted in the traceback after the exception string.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.stack">
+<span class="sig-name descname"><span class="pre">stack</span></span><a class="headerlink" href="#traceback.TracebackException.stack" title="永久链接至目标">¶</a></dt>
+<dd><p>代表回溯的 <a class="reference internal" href="#traceback.StackSummary" title="traceback.StackSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.exc_type">
+<span class="sig-name descname"><span class="pre">exc_type</span></span><a class="headerlink" href="#traceback.TracebackException.exc_type" title="永久链接至目标">¶</a></dt>
+<dd><p>原始回溯的类。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#traceback.TracebackException.filename" title="永久链接至目标">¶</a></dt>
+<dd><p>针对语法错误 —— 错误发生所在的文件名。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.lineno">
+<span class="sig-name descname"><span class="pre">lineno</span></span><a class="headerlink" href="#traceback.TracebackException.lineno" title="永久链接至目标">¶</a></dt>
+<dd><p>针对语法错误 —— 错误发生所在的行号。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.text">
+<span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#traceback.TracebackException.text" title="永久链接至目标">¶</a></dt>
+<dd><p>针对语法错误 —— 错误发生所在的文本。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.offset">
+<span class="sig-name descname"><span class="pre">offset</span></span><a class="headerlink" href="#traceback.TracebackException.offset" title="永久链接至目标">¶</a></dt>
+<dd><p>针对语法错误 —— 错误发生所在的文本内部的偏移量。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="traceback.TracebackException.msg">
+<span class="sig-name descname"><span class="pre">msg</span></span><a class="headerlink" href="#traceback.TracebackException.msg" title="永久链接至目标">¶</a></dt>
+<dd><p>针对语法错误 —— 编译器错误消息。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="traceback.TracebackException.from_exception">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_exception</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capture_locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.TracebackException.from_exception" title="永久链接至目标">¶</a></dt>
+<dd><p>捕获一个异常以便随后渲染。 <em>limit</em>, <em>lookup_lines</em> 和 <em>capture_locals</em> 的含义与 <a class="reference internal" href="#traceback.StackSummary" title="traceback.StackSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code></a> 类的相同。</p>
+<p>请注意当局部变量被捕获时，它们也会被显示在回溯中。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="traceback.TracebackException.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.TracebackException.print" title="永久链接至目标">¶</a></dt>
+<dd><p>Print to <em>file</em> (default <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code>) the exception information returned by
+<a class="reference internal" href="functions.html#format" title="format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">format()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="traceback.TracebackException.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.TracebackException.format" title="永久链接至目标">¶</a></dt>
+<dd><p>格式化异常。</p>
+<p>如果 <em>chain</em> 不为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则 <code class="docutils literal notranslate"><span class="pre">__cause__</span></code> 和 <code class="docutils literal notranslate"><span class="pre">__context__</span></code> 将不会被格式化。</p>
+<p>返回值是一个字符串的生成器，其中每个字符串都以换行符结束并且有些还会包含内部换行符。 <a class="reference internal" href="#traceback.print_exception" title="traceback.print_exception"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_exception()</span></code></a> 是此方法的一个包装器，它只是将这些行打印到一个文件。</p>
+<p>指明发生了哪种异常的消息总会是输出中的最后一个字符串。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="traceback.TracebackException.format_exception_only">
+<span class="sig-name descname"><span class="pre">format_exception_only</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#traceback.TracebackException.format_exception_only" title="永久链接至目标">¶</a></dt>
+<dd><p>格式化回溯的异常部分。</p>
+<p>返回值是一个字符串的生成器，每个字符串都以一个换行符结束。</p>
+<p>通常，生成器会发出单个字符串；不过，对于 <a class="reference internal" href="exceptions.html#SyntaxError" title="SyntaxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SyntaxError</span></code></a> 异常，它会发出（当打印时）显示有关语法错误发生在何处的详细信息的多个行。</p>
+<p>指明发生了哪种异常的消息总会是输出中的最后一个字符串。</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>增加了 <em>compact</em> 形参。</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="stacksummary-objects">
+<h2><a class="reference internal" href="#traceback.StackSummary" title="traceback.StackSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code></a> 对象<a class="headerlink" href="#stacksummary-objects" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+<p>代表一个可被格式化的调用栈的 <a class="reference internal" href="#traceback.StackSummary" title="traceback.StackSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code></a> 对象。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="traceback.StackSummary">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">StackSummary</span></span><a class="headerlink" href="#traceback.StackSummary" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="traceback.StackSummary.extract">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_gen</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capture_locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.StackSummary.extract" title="永久链接至目标">¶</a></dt>
+<dd><p>构造一个来自帧生成器的 <a class="reference internal" href="#traceback.StackSummary" title="traceback.StackSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code></a> 对象（如 <a class="reference internal" href="#traceback.walk_stack" title="traceback.walk_stack"><code class="xref py py-func docutils literal notranslate"><span class="pre">walk_stack()</span></code></a> 或 <a class="reference internal" href="#traceback.walk_tb" title="traceback.walk_tb"><code class="xref py py-func docutils literal notranslate"><span class="pre">walk_tb()</span></code></a> 所返回的一样）。</p>
+<p>如果提供了 <em>limit</em>，则只从 <em>frame_gen</em> 提取指定数量的帧。 如果 <em>lookup_lines</em> 为 <code class="docutils literal notranslate"><span class="pre">False</span></code>，则返回的 <a class="reference internal" href="#traceback.FrameSummary" title="traceback.FrameSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code></a> 对象将不会读入它们的行，这使得创建 <a class="reference internal" href="#traceback.StackSummary" title="traceback.StackSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code></a> 的开销更低（如果它不会被实际格式化这就会很有价值）。 如果 <em>capture_locals</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code> 则每个 <a class="reference internal" href="#traceback.FrameSummary" title="traceback.FrameSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code></a> 中的局部变量会被捕获为对象表示形式。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="traceback.StackSummary.from_list">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.StackSummary.from_list" title="永久链接至目标">¶</a></dt>
+<dd><p>从所提供的 <a class="reference internal" href="#traceback.FrameSummary" title="traceback.FrameSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code></a> 对象列表或旧式的元组列表构造一个 <a class="reference internal" href="#traceback.StackSummary" title="traceback.StackSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code></a> 对象。 每个元组都应当是以文件、行号、名称和行为元素的 4 元组。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="traceback.StackSummary.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#traceback.StackSummary.format" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个可打印的字符串列表。 结果列表中的每个字符串各自对应来自于栈的单独帧。 每个字符串都以一个换行符结束；对于带有源文本行的条目来说，字符串还可能包含内部换行符。</p>
+<p>对于同一帧与行的长序列，将显示前几个重复项，后面跟一个指明之后的实际重复次数的摘要行。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>重复帧的长序列现在将被缩减。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="traceback.StackSummary.format_frame_summary">
+<span class="sig-name descname"><span class="pre">format_frame_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_summary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.StackSummary.format_frame_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>Returns a string for printing one of the frames involved in the stack.
+This method is called for each <a class="reference internal" href="#traceback.FrameSummary" title="traceback.FrameSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code></a> object to be
+printed by <a class="reference internal" href="#traceback.StackSummary.format" title="traceback.StackSummary.format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">StackSummary.format()</span></code></a>. If it returns <code class="docutils literal notranslate"><span class="pre">None</span></code>, the
+frame is omitted from the output.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="framesummary-objects">
+<h2><a class="reference internal" href="#traceback.FrameSummary" title="traceback.FrameSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code></a> 对象<a class="headerlink" href="#framesummary-objects" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+<p>A <a class="reference internal" href="#traceback.FrameSummary" title="traceback.FrameSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code></a> object represents a single frame in a traceback.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="traceback.FrameSummary">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">traceback.</span></span><span class="sig-name descname"><span class="pre">FrameSummary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineno</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#traceback.FrameSummary" title="永久链接至目标">¶</a></dt>
+<dd><p>代表回溯或栈中被格式化或打印的一个单独帧。 它有时可能还带有包括在其中的帧局部变量的字符串化版本。 如果 <em>lookup_line</em> 为 <code class="docutils literal notranslate"><span class="pre">False</span></code>，则不会查找源代码直到 <a class="reference internal" href="#traceback.FrameSummary" title="traceback.FrameSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code></a> 已经访问了 <code class="xref py py-attr docutils literal notranslate"><span class="pre">line</span></code> 属性（这还将发生在将其转换为元组时）。 <code class="xref py py-attr docutils literal notranslate"><span class="pre">line</span></code> 可能会被直接提供，并将完全阻止行查找的发生。 <em>locals</em> 是一个可选的局部变量字典，如果有提供的话这些变量的表示形式将被存储在摘要中以便随后显示。</p>
+</dd></dl>
+
+</section>
+<section id="traceback-examples">
+<span id="traceback-example"></span><h2>回溯示例<a class="headerlink" href="#traceback-examples" title="永久链接至标题">¶</a></h2>
+<p>这个简单示例是一个基本的读取-求值-打印循环，类似于（但实用性小于）标准 Python 交互式解释器循环。 对于解释器循环的更完整实现，请参阅 <a class="reference internal" href="code.html#module-code" title="code: Facilities to implement read-eval-print loops."><code class="xref py py-mod docutils literal notranslate"><span class="pre">code</span></code></a> 模块。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">traceback</span>
+
+<span class="k">def</span> <span class="nf">run_user_code</span><span class="p">(</span><span class="n">envdir</span><span class="p">):</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; &quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">exec</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">envdir</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exception in user code:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+        <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="n">envdir</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">run_user_code</span><span class="p">(</span><span class="n">envdir</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>下面的例子演示了打印和格式化异常与回溯的不同方式:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">traceback</span>
+
+<span class="k">def</span> <span class="nf">lumberjack</span><span class="p">():</span>
+    <span class="n">bright_side_of_life</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">bright_side_of_life</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">lumberjack</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+    <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** print_tb:&quot;</span><span class="p">)</span>
+    <span class="n">traceback</span><span class="o">.</span><span class="n">print_tb</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** print_exception:&quot;</span><span class="p">)</span>
+    <span class="n">traceback</span><span class="o">.</span><span class="n">print_exception</span><span class="p">(</span><span class="n">exc_value</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** print_exc:&quot;</span><span class="p">)</span>
+    <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** format_exc, first and last line:&quot;</span><span class="p">)</span>
+    <span class="n">formatted_lines</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">formatted_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">formatted_lines</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** format_exception:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="n">exc_value</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** extract_tb:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">extract_tb</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** format_tb:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_tb</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** tb_lineno:&quot;</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="o">.</span><span class="n">tb_lineno</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>该示例的输出看起来像是这样的:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>*** print_tb:
+  File &quot;&lt;doctest...&gt;&quot;, line 10, in &lt;module&gt;
+    lumberjack()
+*** print_exception:
+Traceback (most recent call last):
+  File &quot;&lt;doctest...&gt;&quot;, line 10, in &lt;module&gt;
+    lumberjack()
+  File &quot;&lt;doctest...&gt;&quot;, line 4, in lumberjack
+    bright_side_of_life()
+IndexError: tuple index out of range
+*** print_exc:
+Traceback (most recent call last):
+  File &quot;&lt;doctest...&gt;&quot;, line 10, in &lt;module&gt;
+    lumberjack()
+  File &quot;&lt;doctest...&gt;&quot;, line 4, in lumberjack
+    bright_side_of_life()
+IndexError: tuple index out of range
+*** format_exc, first and last line:
+Traceback (most recent call last):
+IndexError: tuple index out of range
+*** format_exception:
+[&#39;Traceback (most recent call last):\n&#39;,
+ &#39;  File &quot;&lt;doctest default[0]&gt;&quot;, line 10, in &lt;module&gt;\n    lumberjack()\n&#39;,
+ &#39;  File &quot;&lt;doctest default[0]&gt;&quot;, line 4, in lumberjack\n    bright_side_of_life()\n&#39;,
+ &#39;  File &quot;&lt;doctest default[0]&gt;&quot;, line 7, in bright_side_of_life\n    return tuple()[0]\n           ~~~~~~~^^^\n&#39;,
+ &#39;IndexError: tuple index out of range\n&#39;]
+*** extract_tb:
+[&lt;FrameSummary file &lt;doctest...&gt;, line 10 in &lt;module&gt;&gt;,
+ &lt;FrameSummary file &lt;doctest...&gt;, line 4 in lumberjack&gt;,
+ &lt;FrameSummary file &lt;doctest...&gt;, line 7 in bright_side_of_life&gt;]
+*** format_tb:
+[&#39;  File &quot;&lt;doctest default[0]&gt;&quot;, line 10, in &lt;module&gt;\n    lumberjack()\n&#39;,
+ &#39;  File &quot;&lt;doctest default[0]&gt;&quot;, line 4, in lumberjack\n    bright_side_of_life()\n&#39;,
+ &#39;  File &quot;&lt;doctest default[0]&gt;&quot;, line 7, in bright_side_of_life\n    return tuple()[0]\n           ~~~~~~~^^^\n&#39;]
+*** tb_lineno: 10
+</pre></div>
+</div>
+<p>下面的例子演示了打印和格式化栈的不同方式:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">traceback</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">another_function</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">lumberstack</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">lumberstack</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">traceback</span><span class="o">.</span><span class="n">print_stack</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">extract_stack</span><span class="p">()))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_stack</span><span class="p">()))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">another_function</span><span class="p">()</span>
+<span class="go">  File &quot;&lt;doctest&gt;&quot;, line 10, in &lt;module&gt;</span>
+<span class="go">    another_function()</span>
+<span class="go">  File &quot;&lt;doctest&gt;&quot;, line 3, in another_function</span>
+<span class="go">    lumberstack()</span>
+<span class="go">  File &quot;&lt;doctest&gt;&quot;, line 6, in lumberstack</span>
+<span class="go">    traceback.print_stack()</span>
+<span class="go">[(&#39;&lt;doctest&gt;&#39;, 10, &#39;&lt;module&gt;&#39;, &#39;another_function()&#39;),</span>
+<span class="go"> (&#39;&lt;doctest&gt;&#39;, 3, &#39;another_function&#39;, &#39;lumberstack()&#39;),</span>
+<span class="go"> (&#39;&lt;doctest&gt;&#39;, 7, &#39;lumberstack&#39;, &#39;print(repr(traceback.extract_stack()))&#39;)]</span>
+<span class="go">[&#39;  File &quot;&lt;doctest&gt;&quot;, line 10, in &lt;module&gt;\n    another_function()\n&#39;,</span>
+<span class="go"> &#39;  File &quot;&lt;doctest&gt;&quot;, line 3, in another_function\n    lumberstack()\n&#39;,</span>
+<span class="go"> &#39;  File &quot;&lt;doctest&gt;&quot;, line 8, in lumberstack\n    print(repr(traceback.format_stack()))\n&#39;]</span>
+</pre></div>
+</div>
+<p>最后这个例子演示了最后几个格式化函数:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">traceback</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">traceback</span><span class="o">.</span><span class="n">format_list</span><span class="p">([(</span><span class="s1">&#39;spam.py&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;&lt;module&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;spam.eggs()&#39;</span><span class="p">),</span>
+<span class="gp">... </span>                       <span class="p">(</span><span class="s1">&#39;eggs.py&#39;</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;return &quot;bacon&quot;&#39;</span><span class="p">)])</span>
+<span class="go">[&#39;  File &quot;spam.py&quot;, line 3, in &lt;module&gt;\n    spam.eggs()\n&#39;,</span>
+<span class="go"> &#39;  File &quot;eggs.py&quot;, line 42, in eggs\n    return &quot;bacon&quot;\n&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">an_error</span> <span class="o">=</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;tuple index out of range&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exception_only</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">an_error</span><span class="p">),</span> <span class="n">an_error</span><span class="p">)</span>
+<span class="go">[&#39;IndexError: tuple index out of range\n&#39;]</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">traceback</span></code> —— 打印或读取堆栈的跟踪信息</a><ul>
+<li><a class="reference internal" href="#tracebackexception-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">TracebackException</span></code> 对象</a></li>
+<li><a class="reference internal" href="#stacksummary-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackSummary</span></code> 对象</a></li>
+<li><a class="reference internal" href="#framesummary-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameSummary</span></code> 对象</a></li>
+<li><a class="reference internal" href="#traceback-examples">回溯示例</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="atexit.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">atexit</span></code> --- 退出处理器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="__future__.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">__future__</span></code> --- Future 语句定义</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/traceback.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="__future__.html" title="__future__ --- Future 语句定义"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="atexit.html" title="atexit --- 退出处理器"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" >Python运行时服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">traceback</span></code> —— 打印或读取堆栈的跟踪信息</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

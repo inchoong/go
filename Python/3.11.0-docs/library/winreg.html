@@ -1,0 +1,930 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>winreg --- 访问 Windows 注册表 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="winsound —— Windows 系统的音频播放接口" href="winsound.html" />
+    <link rel="prev" title="msvcrt --- 来自 MS VC++ 运行时的有用例程" href="msvcrt.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/winreg.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> --- 访问 Windows 注册表</a><ul>
+<li><a class="reference internal" href="#functions">函数</a></li>
+<li><a class="reference internal" href="#constants">常量</a><ul>
+<li><a class="reference internal" href="#hkey-constants">HKEY_* 常量</a></li>
+<li><a class="reference internal" href="#access-rights">访问权限</a><ul>
+<li><a class="reference internal" href="#bit-specific">64 位系统特有</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#value-types">注册表值的类型</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#registry-handle-objects">注册表句柄对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="msvcrt.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">msvcrt</span></code> --- 来自 MS VC++ 运行时的有用例程</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="winsound.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winsound</span></code> —— Windows 系统的音频播放接口</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/winreg.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="winsound.html" title="winsound —— Windows 系统的音频播放接口"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="msvcrt.html" title="msvcrt --- 来自 MS VC++ 运行时的有用例程"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="windows.html" accesskey="U">Windows系统相关模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> --- 访问 Windows 注册表</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-winreg">
+<span id="winreg-windows-registry-access"></span><h1><a class="reference internal" href="#module-winreg" title="winreg: Routines and objects for manipulating the Windows registry. (Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code></a> --- 访问 Windows 注册表<a class="headerlink" href="#module-winreg" title="永久链接至标题">¶</a></h1>
+<hr class="docutils" />
+<p>这些函数将 Windows 注册表 API 暴露给 Python。 为了确保即便程序员忘记显式关闭时也能够正确关闭，这里没有用整数作为注册表句柄，而是采用了 <a class="reference internal" href="#handle-object"><span class="std std-ref">句柄对象</span></a>。</p>
+<div class="versionchanged" id="exception-changed">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>模块中有几个函数用于触发 <a class="reference internal" href="exceptions.html#WindowsError" title="WindowsError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">WindowsError</span></code></a>，此异常现在是 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 的别名。</p>
+</div>
+<section id="functions">
+<span id="id1"></span><h2>函数<a class="headerlink" href="#functions" title="永久链接至标题">¶</a></h2>
+<p>该模块提供了下列函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.CloseKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">CloseKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hkey</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.CloseKey" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭之前打开的注册表键。参数 <em>hkey</em> 指之前打开的键。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>如果没有使用该方法关闭 <em>hkey</em> (或者通过 <a class="reference internal" href="#winreg.PyHKEY.Close" title="winreg.PyHKEY.Close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">hkey.Close()</span></code></a>)，在对象 <em>hkey</em> 被 Python 销毁时会将其关闭。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.ConnectRegistry">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">ConnectRegistry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">computer_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.ConnectRegistry" title="永久链接至目标">¶</a></dt>
+<dd><p>建立到另一台计算机上的预定义注册表句柄的连接，并返回一个 <a class="reference internal" href="#handle-object"><span class="std std-ref">句柄对象</span></a>。</p>
+<p><em>computer_name</em> 是远程计算机的名称，以 <code class="docutils literal notranslate"><span class="pre">r&quot;\\computername&quot;</span></code> 的形式。如果是 <code class="docutils literal notranslate"><span class="pre">None</span></code> ，将会使用本地计算机。</p>
+<p><em>key</em> 是所连接到的预定义句柄。</p>
+<p>返回值是所开打键的句柄。如果函数失败，则引发一个 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 异常。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.ConnectRegistry</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">computer_name</span></code>, <code class="docutils literal notranslate"><span class="pre">key</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>参考 <a class="reference internal" href="#exception-changed"><span class="std std-ref">上文</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.CreateKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">CreateKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.CreateKey" title="永久链接至目标">¶</a></dt>
+<dd><p>创建或打开特定的键，返回一个 <a class="reference internal" href="#handle-object"><span class="std std-ref">handle 对象</span></a>。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>sub_key</em> 是用于命名该方法所打开或创建的键的字符串。</p>
+<p>如果 <em>key</em> 是预定义键之一，<em>sub_key</em> 可能会是 <code class="docutils literal notranslate"><span class="pre">None</span></code>。该情况下，返回的句柄就是传入函数的句柄。</p>
+<p>如果键已经存在，则该函数打开已经存在的该键。</p>
+<p>返回值是所开打键的句柄。如果函数失败，则引发一个 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 异常。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.CreateKey</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.OpenKey/result</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>参考 <a class="reference internal" href="#exception-changed"><span class="std std-ref">上文</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.CreateKeyEx">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">CreateKeyEx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">KEY_WRITE</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.CreateKeyEx" title="永久链接至目标">¶</a></dt>
+<dd><p>创建或打开特定的键，返回一个 <a class="reference internal" href="#handle-object"><span class="std std-ref">handle 对象</span></a>。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>sub_key</em> 是用于命名该方法所打开或创建的键的字符串。</p>
+<p><em>reserved</em> 是一个保留的证书，必须是零。默认值为零。</p>
+<p><em>access</em> 为一个整数，用于给键的预期安全访问指定访问掩码。默认值为 <a class="reference internal" href="#winreg.KEY_WRITE" title="winreg.KEY_WRITE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_WRITE</span></code></a>。 参阅 <a class="reference internal" href="#access-rights"><span class="std std-ref">Access Rights</span></a>  了解其它允许值。</p>
+<p>如果 <em>key</em> 是预定义键之一，<em>sub_key</em> 可能会是 <code class="docutils literal notranslate"><span class="pre">None</span></code>。该情况下，返回的句柄就是传入函数的句柄。</p>
+<p>如果键已经存在，则该函数打开已经存在的该键。</p>
+<p>返回值是所开打键的句柄。如果函数失败，则引发一个 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 异常。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.CreateKey</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.OpenKey/result</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>参考 <a class="reference internal" href="#exception-changed"><span class="std std-ref">上文</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.DeleteKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">DeleteKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.DeleteKey" title="永久链接至目标">¶</a></dt>
+<dd><p>删除指定的键。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>sub_key</em> 这个字符串必须是由 <em>key</em> 参数所指定键的一个子项。该值项不可以是 <code class="docutils literal notranslate"><span class="pre">None</span></code>，同时键也不可以有子项。</p>
+<p><em>该方法不能删除带有子项的键。</em></p>
+<p>如果方法成功，则整个键，包括其所有值项都会被移除。如果方法失败，则引发一个 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 异常。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.DeleteKey</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>参考 <a class="reference internal" href="#exception-changed"><span class="std std-ref">上文</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.DeleteKeyEx">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">DeleteKeyEx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">KEY_WOW64_64KEY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.DeleteKeyEx" title="永久链接至目标">¶</a></dt>
+<dd><p>删除指定的键。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>sub_key</em> 这个字符串必须是由 <em>key</em> 参数所指定键的一个子项。该值项不可以是 <code class="docutils literal notranslate"><span class="pre">None</span></code>，同时键也不可以有子项。</p>
+<p><em>reserved</em> 是一个保留的证书，必须是零。默认值为零。</p>
+<p><em>access</em> is an integer that specifies an access mask that describes the
+desired security access for the key.  Default is <a class="reference internal" href="#winreg.KEY_WOW64_64KEY" title="winreg.KEY_WOW64_64KEY"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_WOW64_64KEY</span></code></a>.
+On 32-bit Windows, the WOW64 constants are ignored.
+See <a class="reference internal" href="#access-rights"><span class="std std-ref">Access Rights</span></a> for other allowed values.</p>
+<p><em>该方法不能删除带有子项的键。</em></p>
+<p>如果方法成功，则整个键，包括其所有值项都会被移除。如果方法失败，则引发一个 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 异常。</p>
+<p>在不支持的 Windows 版本之上，将会引发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> 异常。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.DeleteKey</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>参考 <a class="reference internal" href="#exception-changed"><span class="std std-ref">上文</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.DeleteValue">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">DeleteValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.DeleteValue" title="永久链接至目标">¶</a></dt>
+<dd><p>从某个注册键中删除一个命名值项。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>value</em> 为标识所要删除值项的字符串。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.DeleteValue</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">value</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.EnumKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">EnumKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.EnumKey" title="永久链接至目标">¶</a></dt>
+<dd><p>列举某个已经打开注册表键的子项，并返回一个字符串。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>index</em> 为一个整数，用于标识所获取键的索引。</p>
+<p>每次调用该函数都会获取一个子项的名字。通常它会被反复调用，直到引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 异常，这说明已经没有更多的可用值了。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.EnumKey</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">index</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>参考 <a class="reference internal" href="#exception-changed"><span class="std std-ref">上文</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.EnumValue">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">EnumValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.EnumValue" title="永久链接至目标">¶</a></dt>
+<dd><p>列举某个已经打开注册表键的值项，并返回一个元组。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>index</em> 为一个整数，用于标识要获取值项的索引。</p>
+<p>每次调用该函数都会获取一个子项的名字。通常它会被反复调用，直到引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 异常，这说明已经没有更多的可用值了。</p>
+<p>结果为3元素的元组。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>索引</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>用于标识值项名称的字符串。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>保存值项数据的对象，其类型取决于背后的注册表类型。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p>标识值项数据类型的整数。（请查阅 <a class="reference internal" href="#winreg.SetValueEx" title="winreg.SetValueEx"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SetValueEx()</span></code></a> 文档中的表格）</p></td>
+</tr>
+</tbody>
+</table>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.EnumValue</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">index</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>参考 <a class="reference internal" href="#exception-changed"><span class="std std-ref">上文</span></a>。</p>
+</div>
+</dd></dl>
+
+<span class="target" id="index-0"></span><dl class="py function">
+<dt class="sig sig-object py" id="winreg.ExpandEnvironmentStrings">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">ExpandEnvironmentStrings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.ExpandEnvironmentStrings" title="永久链接至目标">¶</a></dt>
+<dd><p>Expands environment variable placeholders <code class="docutils literal notranslate"><span class="pre">%NAME%</span></code> in strings like
+<a class="reference internal" href="#winreg.REG_EXPAND_SZ" title="winreg.REG_EXPAND_SZ"><code class="xref py py-const docutils literal notranslate"><span class="pre">REG_EXPAND_SZ</span></code></a>:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ExpandEnvironmentStrings</span><span class="p">(</span><span class="s1">&#39;%windir%&#39;</span><span class="p">)</span>
+<span class="go">&#39;C:\\Windows&#39;</span>
+</pre></div>
+</div>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.ExpandEnvironmentStrings</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">str</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.FlushKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">FlushKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.FlushKey" title="永久链接至目标">¶</a></dt>
+<dd><p>将某个键的所有属性写入注册表。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p>没有必要调用 <a class="reference internal" href="#winreg.FlushKey" title="winreg.FlushKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">FlushKey()</span></code></a> 去改动注册表键。注册表的变动是由其延迟刷新机制更新到磁盘的。在系统关机时，也会将注册表的变动写入磁盘。与  <a class="reference internal" href="#winreg.CloseKey" title="winreg.CloseKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">CloseKey()</span></code></a> 不同， <a class="reference internal" href="#winreg.FlushKey" title="winreg.FlushKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">FlushKey()</span></code></a> 方法只有等到所有数据都写入注册表后才会返回。只有需要绝对确认注册表变动已写入磁盘时，应用程序才应去调用 <a class="reference internal" href="#winreg.FlushKey" title="winreg.FlushKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">FlushKey()</span></code></a>。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>如果不知道是否要调用 <a class="reference internal" href="#winreg.FlushKey" title="winreg.FlushKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">FlushKey()</span></code></a> ，可能就是不需要。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.LoadKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">LoadKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.LoadKey" title="永久链接至目标">¶</a></dt>
+<dd><p>在指定键之下创建一个子键，并将指定文件中的注册表信息存入该子键中。</p>
+<p><em>key</em> 是由 <a class="reference internal" href="#winreg.ConnectRegistry" title="winreg.ConnectRegistry"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConnectRegistry()</span></code></a> 返回的句柄，或者是常量 <a class="reference internal" href="#winreg.HKEY_USERS" title="winreg.HKEY_USERS"><code class="xref py py-const docutils literal notranslate"><span class="pre">HKEY_USERS</span></code></a> 或 <a class="reference internal" href="#winreg.HKEY_LOCAL_MACHINE" title="winreg.HKEY_LOCAL_MACHINE"><code class="xref py py-const docutils literal notranslate"><span class="pre">HKEY_LOCAL_MACHINE</span></code></a>。</p>
+<p><em>sub_key</em> 是个字符串，用于标识需要载入的子键。</p>
+<p><em>file_name</em> 是要加载注册表数据的文件名。该文件必须是用 <a class="reference internal" href="#winreg.SaveKey" title="winreg.SaveKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">SaveKey()</span></code></a> 函数创建的。在文件分配表（FAT）文件系统中，文件名可能不带扩展名。</p>
+<p>如果调用 <a class="reference internal" href="#winreg.LoadKey" title="winreg.LoadKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">LoadKey()</span></code></a> 的进程没有 <code class="xref py py-const docutils literal notranslate"><span class="pre">SE_RESTORE_PRIVILEGE</span></code> 权限，则调用会失败。请注意，特权与权限不同 —— 更多细节请参阅 <a class="reference external" href="https://msdn.microsoft.com/en-us/library/ms724889%28v=VS.85%29.aspx">RegLoadKey 文档</a>。</p>
+<p>如果 <em>key</em> 是由 <a class="reference internal" href="#winreg.ConnectRegistry" title="winreg.ConnectRegistry"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConnectRegistry()</span></code></a> 返回的句柄，那么 <em>file_name</em> 指定的路径是相对于远程计算机而言的。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.LoadKey</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">file_name</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.OpenKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">OpenKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">KEY_READ</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.OpenKey" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="winreg.OpenKeyEx">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">OpenKeyEx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">KEY_READ</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.OpenKeyEx" title="永久链接至目标">¶</a></dt>
+<dd><p>打开指定的注册表键，返回 <a class="reference internal" href="#handle-object"><span class="std std-ref">handle对象</span></a>。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>sub_key</em> 是个字符串，标识了需要打开的子键。</p>
+<p><em>reserved</em> 是个保留整数，必须为零。默认值为零。</p>
+<p><em>access</em> 是个指定访问掩码的整数，掩码描述了注册表键所需的安全权限。 默认值为 <a class="reference internal" href="#winreg.KEY_READ" title="winreg.KEY_READ"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_READ</span></code></a>。 其他合法值参见 <a class="reference internal" href="#access-rights"><span class="std std-ref">访问权限</span></a>。</p>
+<p>返回结果为一个新句柄，指向指定的注册表键。</p>
+<p>如果调用失败，则会触发  <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 。</p>
+<p class="audit-hook">触发 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.OpenKey</span></code>，附带参数为 <code class="docutils literal notranslate"><span class="pre">key</span></code> 、<code class="docutils literal notranslate"><span class="pre">sub_key</span></code> 、 <code class="docutils literal notranslate"><span class="pre">access</span></code>。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.OpenKey/result</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>允许使用命名参数。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>参考 <a class="reference internal" href="#exception-changed"><span class="std std-ref">上文</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.QueryInfoKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">QueryInfoKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.QueryInfoKey" title="永久链接至目标">¶</a></dt>
+<dd><p>以元组形式返回某注册表键的信息。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p>结果为3元素的元组。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>索引</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>整数值，给出了此注册表键的子键数量。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>整数值，给出了此注册表键的值的数量。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p>整数值，给出了此注册表键的最后修改时间，单位为自 1601 年 1 月 1 日以来的 100 纳秒。</p></td>
+</tr>
+</tbody>
+</table>
+<p class="audit-hook">触发 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.QueryInfoKey</span></code>，附带参数为 <code class="docutils literal notranslate"><span class="pre">key</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.QueryValue">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">QueryValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.QueryValue" title="永久链接至目标">¶</a></dt>
+<dd><p>读取某键的未命名值，形式为字符串。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>sub_key</em> 是个字符串，用于保存与某个值相关的子键名称。如果本参数为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 或空，函数将读取由 <a class="reference internal" href="#winreg.SetValue" title="winreg.SetValue"><code class="xref py py-func docutils literal notranslate"><span class="pre">SetValue()</span></code></a> 方法为 <em>key</em> 键设置的值。</p>
+<p>注册表中的值包含名称、类型和数据。本方法将读取注册表键值的第一个名称为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 的数据。可是底层的 API 调用不会返回类型，所以只要有可能就一定要使用 <a class="reference internal" href="#winreg.QueryValueEx" title="winreg.QueryValueEx"><code class="xref py py-func docutils literal notranslate"><span class="pre">QueryValueEx()</span></code></a>。</p>
+<p class="audit-hook">触发 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.QueryValue</span></code>，附带参数为 <code class="docutils literal notranslate"><span class="pre">key</span></code>、 <code class="docutils literal notranslate"><span class="pre">sub_key</span></code> 、 <code class="docutils literal notranslate"><span class="pre">value_name</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.QueryValueEx">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">QueryValueEx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.QueryValueEx" title="永久链接至目标">¶</a></dt>
+<dd><p>读取已打开注册表键指定值名称的类型和数据。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>value_name</em> 是字符串，表示要查询的值。</p>
+<p>结果为二元组：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>索引</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>注册表项的值。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>整数值，给出该值的注册表类型（请查看文档中的表格了解 <a class="reference internal" href="#winreg.SetValueEx" title="winreg.SetValueEx"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SetValueEx()</span></code></a> ）。</p></td>
+</tr>
+</tbody>
+</table>
+<p class="audit-hook">触发 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.QueryValue</span></code>，附带参数为 <code class="docutils literal notranslate"><span class="pre">key</span></code>、 <code class="docutils literal notranslate"><span class="pre">sub_key</span></code> 、 <code class="docutils literal notranslate"><span class="pre">value_name</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.SaveKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">SaveKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.SaveKey" title="永久链接至目标">¶</a></dt>
+<dd><p>将指定注册表键及其所有子键存入指定的文件。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>file_name</em> 是要保存注册表数据的文件名。该文件不能已存在。如果文件名包括扩展名，也不能在文件分配表（FAT）文件系统中用于 <a class="reference internal" href="#winreg.LoadKey" title="winreg.LoadKey"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LoadKey()</span></code></a> 方法。</p>
+<p>如果 <em>key</em> 代表远程计算机的注册表键，那么 <em>file_name</em> 所描述的路径是相对于远程计算机的。本方法的调用者必须拥有 <code class="xref py py-const docutils literal notranslate"><span class="pre">SeBackupPrivilege</span></code> 特权。请注意，特权与权限是不同的 —— 更多细节请参见 <a class="reference external" href="https://msdn.microsoft.com/en-us/library/ms724878%28v=VS.85%29.aspx">用户权利和权限之间的冲突文档</a>。</p>
+<p>本函数将 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 传给 API 的 <em>security_attributes</em>。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.SaveKey</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">file_name</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.SetValue">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">SetValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.SetValue" title="永久链接至目标">¶</a></dt>
+<dd><p>将值与指定的注册表键关联。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>sub_key</em> 是个字符串，用于命名与该值相关的子键。</p>
+<p><em>type</em> 是个整数，用于指定数据的类型。目前这必须是 <a class="reference internal" href="#winreg.REG_SZ" title="winreg.REG_SZ"><code class="xref py py-const docutils literal notranslate"><span class="pre">REG_SZ</span></code></a> ，意味着只支持字符串。请用 <a class="reference internal" href="#winreg.SetValueEx" title="winreg.SetValueEx"><code class="xref py py-func docutils literal notranslate"><span class="pre">SetValueEx()</span></code></a> 函数支持其他的数据类型。</p>
+<p><em>value</em> 是设置新值的字符串。</p>
+<p>如果 <em>sub_key</em> 参数指定的注册表键不存在，SetValue 函数会创建一个。</p>
+<p>值的长度受到可用内存的限制。较长的值（超过 2048 字节）应存为文件，并将文件名存入配置注册表。这有助于提高注册表的使用效率。</p>
+<p>由 <em>key</em> 参数标识的注册表键，必须已用 <a class="reference internal" href="#winreg.KEY_SET_VALUE" title="winreg.KEY_SET_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_SET_VALUE</span></code></a> 方式打开。</p>
+<p class="audit-hook">触发 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.SetValue</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>、 <code class="docutils literal notranslate"><span class="pre">sub_key</span></code> 、 <code class="docutils literal notranslate"><span class="pre">type</span></code> 、 <code class="docutils literal notranslate"><span class="pre">value</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.SetValueEx">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">SetValueEx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.SetValueEx" title="永久链接至目标">¶</a></dt>
+<dd><p>将数据存入已打开的注册表键的值中。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p><em>value_name</em> 是个字符串，用于命名与值相关的子键。</p>
+<p><em>reserved</em> 可以是任意数据 —— 传给 API 的总是 0。</p>
+<p><em>type</em> 是个整数，用于指定数据的类型。请参阅 <a class="reference internal" href="#value-types"><span class="std std-ref">Value Types</span></a> 了解可用的类型。</p>
+<p><em>value</em> 是设置新值的字符串。</p>
+<p>本方法也可为指定的注册表键设置额外的值和类型信息。注册表键必须已用 <a class="reference internal" href="#winreg.KEY_SET_VALUE" title="winreg.KEY_SET_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_SET_VALUE</span></code></a> 方式打开。</p>
+<p>请用 <a class="reference internal" href="#winreg.CreateKey" title="winreg.CreateKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">CreateKey()</span></code></a> 或 <a class="reference internal" href="#winreg.OpenKey" title="winreg.OpenKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">OpenKey()</span></code></a> 方法打开注册表键。</p>
+<p>值的长度受到可用内存的限制。较长的值（超过 2048 字节）应存为文件，并将文件名存入配置注册表。这有助于提高注册表的使用效率。</p>
+<p class="audit-hook">触发 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.SetValue</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>、 <code class="docutils literal notranslate"><span class="pre">sub_key</span></code> 、 <code class="docutils literal notranslate"><span class="pre">type</span></code> 、 <code class="docutils literal notranslate"><span class="pre">value</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.DisableReflectionKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">DisableReflectionKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.DisableReflectionKey" title="永久链接至目标">¶</a></dt>
+<dd><p>禁用运行于 64 位操作系统的 32 位进程的注册表重定向。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p>如果在 32 位操作系统上执行，一般会触发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>。</p>
+<p>如果注册表键不在重定向列表中，函数会调用成功，但没有实际效果。禁用注册表键的重定向不会影响任何子键的重定向。</p>
+<p class="audit-hook">触发 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.DisableReflectionKey</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.EnableReflectionKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">EnableReflectionKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.EnableReflectionKey" title="永久链接至目标">¶</a></dt>
+<dd><p>恢复已禁用注册表键的重定向。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p>如果在 32 位操作系统上执行，一般会触发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>。</p>
+<p>恢复注册表键的重定向不会影响任何子键的重定向。</p>
+<p class="audit-hook">触发 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.EnableReflectionKey</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.QueryReflectionKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">QueryReflectionKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.QueryReflectionKey" title="永久链接至目标">¶</a></dt>
+<dd><p>确定给定注册表键的重定向状况。</p>
+<p><em>key</em> 为某个已经打开的键，或者预定义的 <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_* 常量</span></a> 之一。</p>
+<p>如果重定向已禁用则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<p>如果在 32 位操作系统上执行，一般会触发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.QueryReflectionKey</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>。</p>
+</dd></dl>
+
+</section>
+<section id="constants">
+<span id="id2"></span><h2>常量<a class="headerlink" href="#constants" title="永久链接至标题">¶</a></h2>
+<p>以下常量定义成可供很多 <code class="xref py py-mod docutils literal notranslate"><span class="pre">_winreg</span></code> 函数使用。</p>
+<section id="hkey-constants">
+<span id="id3"></span><h3>HKEY_* 常量<a class="headerlink" href="#hkey-constants" title="永久链接至标题">¶</a></h3>
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_CLASSES_ROOT">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_CLASSES_ROOT</span></span><a class="headerlink" href="#winreg.HKEY_CLASSES_ROOT" title="永久链接至目标">¶</a></dt>
+<dd><p>本注册表键下的注册表项定义了文件的类型（或类别）及相关属性。Shell 和 COM 应用程序将使用该注册表键下保存的信息。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_CURRENT_USER">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_CURRENT_USER</span></span><a class="headerlink" href="#winreg.HKEY_CURRENT_USER" title="永久链接至目标">¶</a></dt>
+<dd><p>属于该注册表键的表项定义了当前用户的偏好。这些偏好值包括环境变量设置、程序组数据、颜色、打印机、网络连接和应用程序参数。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_LOCAL_MACHINE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_LOCAL_MACHINE</span></span><a class="headerlink" href="#winreg.HKEY_LOCAL_MACHINE" title="永久链接至目标">¶</a></dt>
+<dd><p>属于该注册表键的表项定义了计算机的物理状态，包括总线类型、系统内存和已安装软硬件等数据。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_USERS">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_USERS</span></span><a class="headerlink" href="#winreg.HKEY_USERS" title="永久链接至目标">¶</a></dt>
+<dd><p>属于该注册表键的表项定义了当前计算机中新用户的默认配置和当前用户配置。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_PERFORMANCE_DATA">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_PERFORMANCE_DATA</span></span><a class="headerlink" href="#winreg.HKEY_PERFORMANCE_DATA" title="永久链接至目标">¶</a></dt>
+<dd><p>属于该注册表键的表项可用于读取性能数据。这些数据其实并不存放于注册表中；注册表提供功能让系统收集数据。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_CURRENT_CONFIG">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_CURRENT_CONFIG</span></span><a class="headerlink" href="#winreg.HKEY_CURRENT_CONFIG" title="永久链接至目标">¶</a></dt>
+<dd><p>包含有关本地计算机系统当前硬件配置的信息。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_DYN_DATA">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_DYN_DATA</span></span><a class="headerlink" href="#winreg.HKEY_DYN_DATA" title="永久链接至目标">¶</a></dt>
+<dd><p>Windows 98 以上版本不使用该注册表键。</p>
+</dd></dl>
+
+</section>
+<section id="access-rights">
+<span id="id4"></span><h3>访问权限<a class="headerlink" href="#access-rights" title="永久链接至标题">¶</a></h3>
+<p>更多信息，请参阅 <a class="reference external" href="https://msdn.microsoft.com/en-us/library/ms724878%28v=VS.85%29.aspx">注册表密钥安全和访问</a>。</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_ALL_ACCESS">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_ALL_ACCESS</span></span><a class="headerlink" href="#winreg.KEY_ALL_ACCESS" title="永久链接至目标">¶</a></dt>
+<dd><p>组合了 STANDARD_RIGHTS_REQUIRED 、<a class="reference internal" href="#winreg.KEY_QUERY_VALUE" title="winreg.KEY_QUERY_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_QUERY_VALUE</span></code></a> 、 <a class="reference internal" href="#winreg.KEY_SET_VALUE" title="winreg.KEY_SET_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_SET_VALUE</span></code></a> 、 <a class="reference internal" href="#winreg.KEY_CREATE_SUB_KEY" title="winreg.KEY_CREATE_SUB_KEY"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_CREATE_SUB_KEY</span></code></a> 、 <a class="reference internal" href="#winreg.KEY_ENUMERATE_SUB_KEYS" title="winreg.KEY_ENUMERATE_SUB_KEYS"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_ENUMERATE_SUB_KEYS</span></code></a> 、 <a class="reference internal" href="#winreg.KEY_NOTIFY" title="winreg.KEY_NOTIFY"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_NOTIFY</span></code></a> 和 <a class="reference internal" href="#winreg.KEY_CREATE_LINK" title="winreg.KEY_CREATE_LINK"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_CREATE_LINK</span></code></a> 访问权限。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_WRITE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_WRITE</span></span><a class="headerlink" href="#winreg.KEY_WRITE" title="永久链接至目标">¶</a></dt>
+<dd><p>组合了 STANDARD_RIGHTS_WRITE 、 <a class="reference internal" href="#winreg.KEY_SET_VALUE" title="winreg.KEY_SET_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_SET_VALUE</span></code></a> 和 <a class="reference internal" href="#winreg.KEY_CREATE_SUB_KEY" title="winreg.KEY_CREATE_SUB_KEY"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_CREATE_SUB_KEY</span></code></a> 访问权限。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_READ">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_READ</span></span><a class="headerlink" href="#winreg.KEY_READ" title="永久链接至目标">¶</a></dt>
+<dd><p>组合了 STANDARD_RIGHTS_READ 、 <a class="reference internal" href="#winreg.KEY_QUERY_VALUE" title="winreg.KEY_QUERY_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_QUERY_VALUE</span></code></a> 、 <a class="reference internal" href="#winreg.KEY_ENUMERATE_SUB_KEYS" title="winreg.KEY_ENUMERATE_SUB_KEYS"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_ENUMERATE_SUB_KEYS</span></code></a> 和 <a class="reference internal" href="#winreg.KEY_NOTIFY" title="winreg.KEY_NOTIFY"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_NOTIFY</span></code></a> 。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_EXECUTE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_EXECUTE</span></span><a class="headerlink" href="#winreg.KEY_EXECUTE" title="永久链接至目标">¶</a></dt>
+<dd><p>等价于  <a class="reference internal" href="#winreg.KEY_READ" title="winreg.KEY_READ"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_READ</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_QUERY_VALUE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_QUERY_VALUE</span></span><a class="headerlink" href="#winreg.KEY_QUERY_VALUE" title="永久链接至目标">¶</a></dt>
+<dd><p>查询注册表键值时需要用到。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_SET_VALUE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_SET_VALUE</span></span><a class="headerlink" href="#winreg.KEY_SET_VALUE" title="永久链接至目标">¶</a></dt>
+<dd><p>创建、删除或设置注册表值时需要用到。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_CREATE_SUB_KEY">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_CREATE_SUB_KEY</span></span><a class="headerlink" href="#winreg.KEY_CREATE_SUB_KEY" title="永久链接至目标">¶</a></dt>
+<dd><p>创建注册表键的子键时需要用到。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_ENUMERATE_SUB_KEYS">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_ENUMERATE_SUB_KEYS</span></span><a class="headerlink" href="#winreg.KEY_ENUMERATE_SUB_KEYS" title="永久链接至目标">¶</a></dt>
+<dd><p>枚举注册表键的子键时需要用到。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_NOTIFY">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_NOTIFY</span></span><a class="headerlink" href="#winreg.KEY_NOTIFY" title="永久链接至目标">¶</a></dt>
+<dd><p>为注册表键或子键请求修改通知时需要用到。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_CREATE_LINK">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_CREATE_LINK</span></span><a class="headerlink" href="#winreg.KEY_CREATE_LINK" title="永久链接至目标">¶</a></dt>
+<dd><p>保留给系统使用。</p>
+</dd></dl>
+
+<section id="bit-specific">
+<span id="bit-access-rights"></span><h4>64 位系统特有<a class="headerlink" href="#bit-specific" title="永久链接至标题">¶</a></h4>
+<p>详情请参阅 <a class="reference external" href="https://msdn.microsoft.com/en-us/library/aa384129(v=VS.85).aspx">Accessing an Alternate Registry View</a>。</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_WOW64_64KEY">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_WOW64_64KEY</span></span><a class="headerlink" href="#winreg.KEY_WOW64_64KEY" title="永久链接至目标">¶</a></dt>
+<dd><p>Indicates that an application on 64-bit Windows should operate on
+the 64-bit registry view. On 32-bit Windows, this constant is ignored.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_WOW64_32KEY">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_WOW64_32KEY</span></span><a class="headerlink" href="#winreg.KEY_WOW64_32KEY" title="永久链接至目标">¶</a></dt>
+<dd><p>Indicates that an application on 64-bit Windows should operate on
+the 32-bit registry view. On 32-bit Windows, this constant is ignored.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="value-types">
+<span id="id5"></span><h3>注册表值的类型<a class="headerlink" href="#value-types" title="永久链接至标题">¶</a></h3>
+<p>详情请参阅 <a class="reference external" href="https://msdn.microsoft.com/en-us/library/ms724884%28v=VS.85%29.aspx">Registry Value Types</a>。</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_BINARY">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_BINARY</span></span><a class="headerlink" href="#winreg.REG_BINARY" title="永久链接至目标">¶</a></dt>
+<dd><p>任意格式的二进制数据。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_DWORD">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_DWORD</span></span><a class="headerlink" href="#winreg.REG_DWORD" title="永久链接至目标">¶</a></dt>
+<dd><p>32 位数字。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_DWORD_LITTLE_ENDIAN">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_DWORD_LITTLE_ENDIAN</span></span><a class="headerlink" href="#winreg.REG_DWORD_LITTLE_ENDIAN" title="永久链接至目标">¶</a></dt>
+<dd><p>32 位低字节序格式的数字。相当于 <a class="reference internal" href="#winreg.REG_DWORD" title="winreg.REG_DWORD"><code class="xref py py-const docutils literal notranslate"><span class="pre">REG_DWORD</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_DWORD_BIG_ENDIAN">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_DWORD_BIG_ENDIAN</span></span><a class="headerlink" href="#winreg.REG_DWORD_BIG_ENDIAN" title="永久链接至目标">¶</a></dt>
+<dd><p>32 位高字节序格式的数字。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_EXPAND_SZ">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_EXPAND_SZ</span></span><a class="headerlink" href="#winreg.REG_EXPAND_SZ" title="永久链接至目标">¶</a></dt>
+<dd><p>包含环境变量（<code class="docutils literal notranslate"><span class="pre">%PATH%</span></code>）的字符串，以空字符结尾。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_LINK">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_LINK</span></span><a class="headerlink" href="#winreg.REG_LINK" title="永久链接至目标">¶</a></dt>
+<dd><p>Unicode 符号链接。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_MULTI_SZ">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_MULTI_SZ</span></span><a class="headerlink" href="#winreg.REG_MULTI_SZ" title="永久链接至目标">¶</a></dt>
+<dd><p>一串以空字符结尾的字符串，最后以两个空字符结尾。Python 会自动处理这种结尾形式。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_NONE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_NONE</span></span><a class="headerlink" href="#winreg.REG_NONE" title="永久链接至目标">¶</a></dt>
+<dd><p>未定义的类型。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_QWORD">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_QWORD</span></span><a class="headerlink" href="#winreg.REG_QWORD" title="永久链接至目标">¶</a></dt>
+<dd><p>64 位数字。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_QWORD_LITTLE_ENDIAN">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_QWORD_LITTLE_ENDIAN</span></span><a class="headerlink" href="#winreg.REG_QWORD_LITTLE_ENDIAN" title="永久链接至目标">¶</a></dt>
+<dd><p>64 位低字节序格式的数字。相当于 <a class="reference internal" href="#winreg.REG_QWORD" title="winreg.REG_QWORD"><code class="xref py py-const docutils literal notranslate"><span class="pre">REG_QWORD</span></code></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_RESOURCE_LIST">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_RESOURCE_LIST</span></span><a class="headerlink" href="#winreg.REG_RESOURCE_LIST" title="永久链接至目标">¶</a></dt>
+<dd><p>设备驱动程序资源列表。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_FULL_RESOURCE_DESCRIPTOR">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_FULL_RESOURCE_DESCRIPTOR</span></span><a class="headerlink" href="#winreg.REG_FULL_RESOURCE_DESCRIPTOR" title="永久链接至目标">¶</a></dt>
+<dd><p>硬件设置。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_RESOURCE_REQUIREMENTS_LIST">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_RESOURCE_REQUIREMENTS_LIST</span></span><a class="headerlink" href="#winreg.REG_RESOURCE_REQUIREMENTS_LIST" title="永久链接至目标">¶</a></dt>
+<dd><p>硬件资源列表。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_SZ">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_SZ</span></span><a class="headerlink" href="#winreg.REG_SZ" title="永久链接至目标">¶</a></dt>
+<dd><p>空字符结尾的字符串。</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="registry-handle-objects">
+<span id="handle-object"></span><h2>注册表句柄对象<a class="headerlink" href="#registry-handle-objects" title="永久链接至标题">¶</a></h2>
+<p>该对象封装了 Windows HKEY 对象，对象销毁时会自动关闭。为确保资源得以清理，可调用 <a class="reference internal" href="#winreg.PyHKEY.Close" title="winreg.PyHKEY.Close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Close()</span></code></a> 方法或 <a class="reference internal" href="#winreg.CloseKey" title="winreg.CloseKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">CloseKey()</span></code></a> 函数。</p>
+<p>本模块中的所有注册表函数都会返回注册表句柄对象。</p>
+<p>本模块中所有接受注册表句柄对象的注册表函数，也能接受一个整数，但鼓励大家使用句柄对象。</p>
+<p>注册表句柄对象支持 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__bool__()</span></code> 语义 —— 因此如果当前句柄有效（未关闭或断开连接）：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">handle</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yes&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>将会打印出 <code class="docutils literal notranslate"><span class="pre">Yes</span></code> 。</p>
+<p>句柄对象还支持比较语义，因此若多个句柄对象都引用了同一底层 Windows 句柄值，那么比较操作结果将为 True。</p>
+<p>句柄对象可转换为整数（如利用内置函数 <a class="reference internal" href="functions.html#int" title="int"><code class="xref py py-func docutils literal notranslate"><span class="pre">int()</span></code></a>），这时会返回底层的 Windows 句柄值。用 <a class="reference internal" href="#winreg.PyHKEY.Detach" title="winreg.PyHKEY.Detach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Detach()</span></code></a> 方法也可返回整数句柄，同时会断开与 Windows 句柄的连接。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="winreg.PyHKEY.Close">
+<span class="sig-prename descclassname"><span class="pre">PyHKEY.</span></span><span class="sig-name descname"><span class="pre">Close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#winreg.PyHKEY.Close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭底层的 Windows 句柄。</p>
+<p>如果句柄已关闭，不会引发错误。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="winreg.PyHKEY.Detach">
+<span class="sig-prename descclassname"><span class="pre">PyHKEY.</span></span><span class="sig-name descname"><span class="pre">Detach</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#winreg.PyHKEY.Detach" title="永久链接至目标">¶</a></dt>
+<dd><p>断开与 Windows 句柄的连接。</p>
+<p>结果为一个整数，存有被断开连接之前的句柄值。如果该句柄已断开连接或关闭，则返回 0。</p>
+<p>调用本函数后，注册表句柄将被迅速禁用，但并没有关闭。当需要底层的 Win32 句柄在句柄对象的生命周期之后仍然存在时，可以调用这个函数。</p>
+<p class="audit-hook">引发一条 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.PyHKEY.Detach</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">key</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="winreg.PyHKEY.__enter__">
+<span class="sig-prename descclassname"><span class="pre">PyHKEY.</span></span><span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#winreg.PyHKEY.__enter__" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="winreg.PyHKEY.__exit__">
+<span class="sig-prename descclassname"><span class="pre">PyHKEY.</span></span><span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">exc_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.PyHKEY.__exit__" title="永久链接至目标">¶</a></dt>
+<dd><p>HKEY 对象实现了 <a class="reference internal" href="../reference/datamodel.html#object.__enter__" title="object.__enter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__enter__()</span></code></a> 和 <a class="reference internal" href="../reference/datamodel.html#object.__exit__" title="object.__exit__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__exit__()</span></code></a> 方法，因此支持 <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句的上下文协议：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">OpenKey</span><span class="p">(</span><span class="n">HKEY_LOCAL_MACHINE</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">key</span><span class="p">:</span>
+    <span class="o">...</span>  <span class="c1"># work with key</span>
+</pre></div>
+</div>
+<p>在离开 <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句块时，<em>key</em> 会自动关闭。</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> --- 访问 Windows 注册表</a><ul>
+<li><a class="reference internal" href="#functions">函数</a></li>
+<li><a class="reference internal" href="#constants">常量</a><ul>
+<li><a class="reference internal" href="#hkey-constants">HKEY_* 常量</a></li>
+<li><a class="reference internal" href="#access-rights">访问权限</a><ul>
+<li><a class="reference internal" href="#bit-specific">64 位系统特有</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#value-types">注册表值的类型</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#registry-handle-objects">注册表句柄对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="msvcrt.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">msvcrt</span></code> --- 来自 MS VC++ 运行时的有用例程</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="winsound.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winsound</span></code> —— Windows 系统的音频播放接口</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/winreg.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="winsound.html" title="winsound —— Windows 系统的音频播放接口"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="msvcrt.html" title="msvcrt --- 来自 MS VC++ 运行时的有用例程"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="windows.html" >Windows系统相关模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> --- 访问 Windows 注册表</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

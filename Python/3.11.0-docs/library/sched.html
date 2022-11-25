@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>sched --- 事件调度器 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="queue --- 一个同步的队列类" href="queue.html" />
+    <link rel="prev" title="subprocess --- 子进程管理" href="subprocess.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/sched.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sched</span></code> --- 事件调度器</a><ul>
+<li><a class="reference internal" href="#scheduler-objects">调度器对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="subprocess.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">subprocess</span></code> --- 子进程管理</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="queue.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code> --- 一个同步的队列类</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/sched.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="queue.html" title="queue --- 一个同步的队列类"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="subprocess.html" title="subprocess --- 子进程管理"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concurrency.html" accesskey="U">并发执行</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">sched</span></code> --- 事件调度器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-sched">
+<span id="sched-event-scheduler"></span><h1><a class="reference internal" href="#module-sched" title="sched: General purpose event scheduler."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sched</span></code></a> --- 事件调度器<a class="headerlink" href="#module-sched" title="永久链接至标题">¶</a></h1>
+<p><strong>源码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/sched.py">Lib/sched.py</a></p>
+<hr class="docutils" id="index-0" />
+<p><a class="reference internal" href="#module-sched" title="sched: General purpose event scheduler."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sched</span></code></a> 模块定义了一个实现通用事件调度程序的类：</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sched.scheduler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sched.</span></span><span class="sig-name descname"><span class="pre">scheduler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timefunc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">time.monotonic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delayfunc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">time.sleep</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sched.scheduler" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#sched.scheduler" title="sched.scheduler"><code class="xref py py-class docutils literal notranslate"><span class="pre">scheduler</span></code></a> 类定义了一个调度事件的通用接口。 它需要两个函数来实际处理“外部世界” —— <em>timefunc</em> 应当不带参数地调用，并返回一个数字（“时间”，可以为任意单位）。 <em>delayfunc</em> 函数应当带一个参数调用，与 <em>timefunc</em> 的输出相兼容，并且应当延迟其所指定的时间单位。 每个事件运行后还将调用 <em>delayfunc</em> 并传入参数 <code class="docutils literal notranslate"><span class="pre">0</span></code> 以允许其他线程有机会在多线程应用中运行。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span><em>timefunc</em> 和 <em>delayfunc</em> 参数是可选的。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span><a class="reference internal" href="#sched.scheduler" title="sched.scheduler"><code class="xref py py-class docutils literal notranslate"><span class="pre">scheduler</span></code></a> 类可以安全的在多线程环境中使用。</p>
+</div>
+</dd></dl>
+
+<p>示例:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sched</span><span class="o">,</span> <span class="nn">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">sched</span><span class="o">.</span><span class="n">scheduler</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">print_time</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;From print_time&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span> <span class="n">a</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">print_some_times</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+<span class="gp">... </span>    <span class="n">s</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">print_time</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">s</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">print_time</span><span class="p">,</span> <span class="n">argument</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;positional&#39;</span><span class="p">,))</span>
+<span class="gp">... </span>    <span class="n">s</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">print_time</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;keyword&#39;</span><span class="p">})</span>
+<span class="gp">... </span>    <span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_some_times</span><span class="p">()</span>
+<span class="go">930343690.257</span>
+<span class="go">From print_time 930343695.274 positional</span>
+<span class="go">From print_time 930343695.275 keyword</span>
+<span class="go">From print_time 930343700.273 default</span>
+<span class="go">930343700.276</span>
+</pre></div>
+</div>
+<section id="scheduler-objects">
+<span id="id1"></span><h2>调度器对象<a class="headerlink" href="#scheduler-objects" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#sched.scheduler" title="sched.scheduler"><code class="xref py py-class docutils literal notranslate"><span class="pre">scheduler</span></code></a> 实例拥有以下方法和属性：</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sched.scheduler.enterabs">
+<span class="sig-prename descclassname"><span class="pre">scheduler.</span></span><span class="sig-name descname"><span class="pre">enterabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">argument</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sched.scheduler.enterabs" title="永久链接至目标">¶</a></dt>
+<dd><p>安排一个新事件。 <em>time</em> 参数应该有一个数字类型兼容的返回值，与传递给构造函数的 <em>timefunc</em> 函数的返回值兼容。 计划在相同 <em>time</em> 的事件将按其 <em>priority</em> 的顺序执行。 数字越小表示优先级越高。</p>
+<p>执行事件意为执行 <code class="docutils literal notranslate"><span class="pre">action(*argument,</span> <span class="pre">**kwargs)</span></code>。 <em>argument</em> 是包含有 <em>action</em> 的位置参数的序列。 <em>kwargs</em> 是包含 <em>action</em> 的关键字参数的字典。</p>
+<p>返回值是一个事件，可用于以后取消事件（ 参见 <a class="reference internal" href="#sched.scheduler.cancel" title="sched.scheduler.cancel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cancel()</span></code></a> ）。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span><em>argument</em> 参数是可选的。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>添加了 <em>kwargs</em> 形参。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sched.scheduler.enter">
+<span class="sig-prename descclassname"><span class="pre">scheduler.</span></span><span class="sig-name descname"><span class="pre">enter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">argument</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sched.scheduler.enter" title="永久链接至目标">¶</a></dt>
+<dd><p>安排延后 <em>delay</em> 时间单位的事件。 除了时间是相对的，其他参数、效果和返回值与 <a class="reference internal" href="#sched.scheduler.enterabs" title="sched.scheduler.enterabs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">enterabs()</span></code></a> 相同。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span><em>argument</em> 参数是可选的。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>添加了 <em>kwargs</em> 形参。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sched.scheduler.cancel">
+<span class="sig-prename descclassname"><span class="pre">scheduler.</span></span><span class="sig-name descname"><span class="pre">cancel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sched.scheduler.cancel" title="永久链接至目标">¶</a></dt>
+<dd><p>从队列中删除事件。 如果 <em>event</em> 不是当前队列中的事件，则此方法将引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sched.scheduler.empty">
+<span class="sig-prename descclassname"><span class="pre">scheduler.</span></span><span class="sig-name descname"><span class="pre">empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sched.scheduler.empty" title="永久链接至目标">¶</a></dt>
+<dd><p>如果事件队列为空则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sched.scheduler.run">
+<span class="sig-prename descclassname"><span class="pre">scheduler.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blocking</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sched.scheduler.run" title="永久链接至目标">¶</a></dt>
+<dd><p>运行所有预定事件。 此方法将等待（使用传递给构造函数的 <code class="xref py py-func docutils literal notranslate"><span class="pre">delayfunc()</span></code> 函数）进行下一个事件，然后执行它，依此类推，直到没有更多的计划事件。</p>
+<p>如果 <em>blocking</em> 为false，则执行最快到期（如果有）的预定事件，然后在调度程序中返回下一个预定调用的截止时间（如果有）。</p>
+<p><em>action</em> 或 <em>delayfunc</em> 都可以引发异常。 在任何一种情况下，调度程序都将保持一致状态并传播异常。 如果 <em>action</em> 引发异常，则在将来调用 <a class="reference internal" href="#sched.scheduler.run" title="sched.scheduler.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> 时不会尝试该事件。</p>
+<p>如果一系列事件的运行时间大于下一个事件发生前的可用时间，那么调度程序只会保持落后。 没有事件会被丢弃；调用代码负责取消不再相关的事件。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>添加了 <em>blocking</em> 形参。</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sched.scheduler.queue">
+<span class="sig-prename descclassname"><span class="pre">scheduler.</span></span><span class="sig-name descname"><span class="pre">queue</span></span><a class="headerlink" href="#sched.scheduler.queue" title="永久链接至目标">¶</a></dt>
+<dd><p>只读属性，按照计划运行的顺序返回即将发生的事件列表。 每个事件都显示为 <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">named tuple</span></a> ，包含以下字段：time、priority、action、argument、kwargs。</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sched</span></code> --- 事件调度器</a><ul>
+<li><a class="reference internal" href="#scheduler-objects">调度器对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="subprocess.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">subprocess</span></code> --- 子进程管理</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="queue.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code> --- 一个同步的队列类</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/sched.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="queue.html" title="queue --- 一个同步的队列类"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="subprocess.html" title="subprocess --- 子进程管理"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concurrency.html" >并发执行</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">sched</span></code> --- 事件调度器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

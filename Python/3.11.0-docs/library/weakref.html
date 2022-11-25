@@ -1,0 +1,681 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>weakref --- 弱引用 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="types --- 动态类型创建和内置类型名称" href="types.html" />
+    <link rel="prev" title="array --- 高效的数值数组" href="array.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/weakref.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code> --- 弱引用</a><ul>
+<li><a class="reference internal" href="#weak-reference-objects">弱引用对象</a></li>
+<li><a class="reference internal" href="#example">示例</a></li>
+<li><a class="reference internal" href="#finalizer-objects">终结器对象</a></li>
+<li><a class="reference internal" href="#comparing-finalizers-with-del-methods">比较终结器与 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__del__()</span></code> 方法</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="array.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">array</span></code> --- 高效的数值数组</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="types.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">types</span></code> --- 动态类型创建和内置类型名称</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/weakref.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="types --- 动态类型创建和内置类型名称"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="array.html" title="array --- 高效的数值数组"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="datatypes.html" accesskey="U">数据类型</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code> --- 弱引用</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-weakref">
+<span id="weakref-weak-references"></span><span id="mod-weakref"></span><h1><a class="reference internal" href="#module-weakref" title="weakref: Support for weak references and weak dictionaries."><code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code></a> --- 弱引用<a class="headerlink" href="#module-weakref" title="永久链接至标题">¶</a></h1>
+<p><strong>源码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/weakref.py">Lib/weakref.py</a></p>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-weakref" title="weakref: Support for weak references and weak dictionaries."><code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code></a> 模块允许Python程序员创建对象的 <em class="dfn">weak references</em> 。</p>
+<p>在下文中，术语 <em class="dfn">referent</em> 表示由弱引用引用的对象。</p>
+<p>对对象的弱引用不能保证对象存活：当对像的引用只剩弱引用时， <a class="reference internal" href="../glossary.html#term-garbage-collection"><span class="xref std std-term">garbage collection</span></a> 可以销毁引用并将其内存重用于其他内容。但是，在实际销毁对象之前，即使没有强引用，弱引用也一直能返回该对象。</p>
+<p>弱引用的主要用途是实现保存大对象的高速缓存或映射，但又不希望大对象仅仅因为它出现在高速缓存或映射中而保持存活。</p>
+<p>例如，如果您有许多大型二进制图像对象，则可能希望将名称与每个对象关联起来。如果您使用Python字典将名称映射到图像，或将图像映射到名称，则图像对象将保持活动状态，因为它们在字典中显示为值或键。 <a class="reference internal" href="#module-weakref" title="weakref: Support for weak references and weak dictionaries."><code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code></a> 模块提供的 <a class="reference internal" href="#weakref.WeakKeyDictionary" title="weakref.WeakKeyDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakKeyDictionary</span></code></a> 和 <a class="reference internal" href="#weakref.WeakValueDictionary" title="weakref.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakValueDictionary</span></code></a> 类可以替代Python字典，使用弱引用来构造映射，这些映射不会仅仅因为它们出现在映射对象中而使对象保持存活。例如，如果一个图像对象是 <a class="reference internal" href="#weakref.WeakValueDictionary" title="weakref.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakValueDictionary</span></code></a> 中的值，那么当对该图像对象的剩余引用是弱映射对象所持有的弱引用时，垃圾回收可以回收该对象并将其在弱映射对象中相应的条目删除。</p>
+<p><a class="reference internal" href="#weakref.WeakKeyDictionary" title="weakref.WeakKeyDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakKeyDictionary</span></code></a> 和 <a class="reference internal" href="#weakref.WeakValueDictionary" title="weakref.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakValueDictionary</span></code></a> 在它们的实现中使用弱引用，在弱引用上设置回调函数，当键或值被垃圾回收回收时通知弱字典。 <a class="reference internal" href="#weakref.WeakSet" title="weakref.WeakSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakSet</span></code></a> 实现了 <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a> 接口，但像 <a class="reference internal" href="#weakref.WeakKeyDictionary" title="weakref.WeakKeyDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakKeyDictionary</span></code></a> 一样，只持有其元素的弱引用。</p>
+<p><a class="reference internal" href="#weakref.finalize" title="weakref.finalize"><code class="xref py py-class docutils literal notranslate"><span class="pre">finalize</span></code></a> 提供了注册一个对象被垃圾收集时要调用的清理函数的方式。这比在原始弱引用上设置回调函数更简单，因为模块会自动确保对象被回收前终结器一直保持存活。</p>
+<p>这些弱容器类型之一或者 <a class="reference internal" href="#weakref.finalize" title="weakref.finalize"><code class="xref py py-class docutils literal notranslate"><span class="pre">finalize</span></code></a> 就是大多数程序所需要的 - 通常不需要直接创建自己的弱引用。<a class="reference internal" href="#module-weakref" title="weakref: Support for weak references and weak dictionaries."><code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code></a> 模块暴露了低级机制，以便于高级用途。</p>
+<p>Not all objects can be weakly referenced. Objects which support weak references
+include class instances, functions written in Python (but not in C), instance methods,
+sets, frozensets, some <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">file objects</span></a>, <a class="reference internal" href="../glossary.html#term-generator"><span class="xref std std-term">generators</span></a>,
+type objects, sockets, arrays, deques, regular expression pattern objects, and code
+objects.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>添加了对thread.lock，threading.Lock和代码对象的支持。</p>
+</div>
+<p>几个内建类型如 <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> 和 <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> 不直接支持弱引用，但可以通过子类化添加支持:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">obj</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>   <span class="c1"># this object is weak referenceable</span>
+</pre></div>
+</div>
+<div class="impl-detail compound">
+<p><strong>CPython 实现细节：</strong> 其他内置类型例如 <a class="reference internal" href="stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a> 和 <a class="reference internal" href="functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> 不支持弱引用，即使通过子类化也不支持。</p>
+</div>
+<p>Extension types can easily be made to support weak references; see
+<a class="reference internal" href="../extending/newtypes.html#weakref-support"><span class="std std-ref">弱引用支持</span></a>.</p>
+<p>当为某个给定类型定义了 <code class="docutils literal notranslate"><span class="pre">__slots__</span></code> 时，弱引用支持会被禁用，除非将 <code class="docutils literal notranslate"><span class="pre">'__weakref__'</span></code> 字符串也加入到 <code class="docutils literal notranslate"><span class="pre">__slots__</span></code> 声明的字符串序列中。 请参阅 <a class="reference internal" href="../reference/datamodel.html#slots"><span class="std std-ref">__slots__ 文档</span></a> 了解详情。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="weakref.ref">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#weakref.ref" title="永久链接至目标">¶</a></dt>
+<dd><p>返回对 <em>对象</em> 的弱引用。如果原始对象仍然存活，则可以通过调用引用对象来检索原始对象；如果引用的原始对象不再存在，则调用引用对象将得到 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a> 。如果提供了 <em>回调</em> 而且值不是 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a> ，并且返回的弱引用对象仍然存活，则在对象即将终结时将调用回调;弱引用对象将作为回调的唯一参数传递；指示物将不再可用。</p>
+<p>许多弱引用也允许针对相同对象来构建。 为每个弱引用注册的回调将按从最近注册的回调到最早注册的回调的顺序被调用。</p>
+<p>回调所引发的异常将记录于标准错误输出，但无法被传播；它们会按与对象的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__del__()</span></code> 方法所引发的异常相同的方式被处理。</p>
+<p>如果 <em>object</em> 可哈希，则弱引用也为 <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hashable</span></a>。 即使在 <em>object</em> 被删除之后它们仍将保持其哈希值。 如果 <a class="reference internal" href="functions.html#hash" title="hash"><code class="xref py py-func docutils literal notranslate"><span class="pre">hash()</span></code></a> 在 <em>object</em> 被删除之后才首次被调用，则该调用将引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+<p>弱引用支持相等检测，但不支持排序比较。 如果被引用对象仍然存在，两个引用具有与它们的被引用对象一致的相等关系（无论 <em>callback</em> 是否相同）。 如果删除了任一被引用对象，则仅在两个引用对象为同一对象时两者才相等。</p>
+<p>这是一个可子类化的类型而非一个工厂函数。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="weakref.ref.__callback__">
+<span class="sig-name descname"><span class="pre">__callback__</span></span><a class="headerlink" href="#weakref.ref.__callback__" title="永久链接至目标">¶</a></dt>
+<dd><p>这个只读属性会返回当前关联到弱引用的回调。 如果回调不存在或弱引用的被引用对象已不存在，则此属性的值为 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>添加了 <a class="reference internal" href="#weakref.ref.__callback__" title="weakref.ref.__callback__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__callback__</span></code></a> 属性。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="weakref.proxy">
+<span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">proxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#weakref.proxy" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em>object</em> 的一个使用弱引用的代理。 此函数支持在大多数上下文中使用代理，而不要求显式地对所使用的弱引用对象解除引用。 返回的对象类型将为 <code class="docutils literal notranslate"><span class="pre">ProxyType</span></code> 或 <code class="docutils literal notranslate"><span class="pre">CallableProxyType</span></code>，具体取决于 <em>object</em> 是否可调用。 Proxy 对象不是 <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hashable</span></a> 对象，无论被引用对象是否可哈希；这可避免与它们的基本可变性质相关的多种问题，并可防止它们被用作字典键。 <em>callback</em> 与 <a class="reference internal" href="#weakref.ref" title="weakref.ref"><code class="xref py py-func docutils literal notranslate"><span class="pre">ref()</span></code></a> 函数的同名形参含义相同。</p>
+<p>Accessing an attribute of the proxy object after the referent is
+garbage collected raises <a class="reference internal" href="exceptions.html#ReferenceError" title="ReferenceError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ReferenceError</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>扩展代理对象所支持的运算符，包括矩阵乘法运算符 <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&#64;=</span></code>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="weakref.getweakrefcount">
+<span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">getweakrefcount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#weakref.getweakrefcount" title="永久链接至目标">¶</a></dt>
+<dd><p>返回指向 <em>object</em> 的弱引用和代理的数量。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="weakref.getweakrefs">
+<span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">getweakrefs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#weakref.getweakrefs" title="永久链接至目标">¶</a></dt>
+<dd><p>返回由指向 <em>object</em> 的所有弱引用和代理构成的列表。</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="weakref.WeakKeyDictionary">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">WeakKeyDictionary</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">dict</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#weakref.WeakKeyDictionary" title="永久链接至目标">¶</a></dt>
+<dd><p>弱引用键的映射类。 当不再存在对键的强引用时，字典中的条目将被丢弃。 这可被用来将额外数据关联到一个应用中其他部分所拥有的对象而无需在那些对象中添加属性。 这对于重载了属性访问的对象来说特别有用。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>增加了对 <code class="docutils literal notranslate"><span class="pre">|</span></code> 和 <code class="docutils literal notranslate"><span class="pre">|=</span></code> 运算符的支持，相关说明见 <span class="target" id="index-6"></span><a class="pep reference external" href="https://peps.python.org/pep-0584/"><strong>PEP 584</strong></a>。</p>
+</div>
+</dd></dl>
+
+<p><a class="reference internal" href="#weakref.WeakKeyDictionary" title="weakref.WeakKeyDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakKeyDictionary</span></code></a> 对象具有一个额外方法可以直接公开内部引用。 这些引用不保证在它们被使用时仍然保持“存活”，因此这些引用的调用结果需要在使用前进行检测。 此方法可用于避免创建会导致垃圾回收器将保留键超出实际需要时长的引用。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="weakref.WeakKeyDictionary.keyrefs">
+<span class="sig-prename descclassname"><span class="pre">WeakKeyDictionary.</span></span><span class="sig-name descname"><span class="pre">keyrefs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#weakref.WeakKeyDictionary.keyrefs" title="永久链接至目标">¶</a></dt>
+<dd><p>返回包含对键的弱引用的可迭代对象。</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="weakref.WeakValueDictionary">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">WeakValueDictionary</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">dict</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#weakref.WeakValueDictionary" title="永久链接至目标">¶</a></dt>
+<dd><p>弱引用值的映射类。 当不再存在对该值的强引用时，字典中的条目将被丢弃。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>增加了对 <code class="docutils literal notranslate"><span class="pre">|</span></code> 和 <code class="docutils literal notranslate"><span class="pre">|=</span></code> 运算符的支持，相关说明见 <span class="target" id="index-7"></span><a class="pep reference external" href="https://peps.python.org/pep-0584/"><strong>PEP 584</strong></a>。</p>
+</div>
+</dd></dl>
+
+<p><a class="reference internal" href="#weakref.WeakValueDictionary" title="weakref.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakValueDictionary</span></code></a> 对象具有一个额外方法，此方法存在与 <a class="reference internal" href="#weakref.WeakKeyDictionary" title="weakref.WeakKeyDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakKeyDictionary</span></code></a> 对象的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">keyrefs()</span></code> 方法相同的问题。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="weakref.WeakValueDictionary.valuerefs">
+<span class="sig-prename descclassname"><span class="pre">WeakValueDictionary.</span></span><span class="sig-name descname"><span class="pre">valuerefs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#weakref.WeakValueDictionary.valuerefs" title="永久链接至目标">¶</a></dt>
+<dd><p>返回包含对值的弱引用的可迭代对象。</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="weakref.WeakSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">WeakSet</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">elements</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#weakref.WeakSet" title="永久链接至目标">¶</a></dt>
+<dd><p>保持对其元素弱引用的集合类。 当不再有对某个元素的强引用时元素将被丢弃。</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="weakref.WeakMethod">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">WeakMethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#weakref.WeakMethod" title="永久链接至目标">¶</a></dt>
+<dd><p>一个模拟对绑定方法（即在类中定义并在实例中查找的方法）进行弱引用的自定义 <a class="reference internal" href="#weakref.ref" title="weakref.ref"><code class="xref py py-class docutils literal notranslate"><span class="pre">ref</span></code></a> 子类。 由于绑定方法是临时性的，标准弱引用无法保持它。 <a class="reference internal" href="#weakref.WeakMethod" title="weakref.WeakMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakMethod</span></code></a> 包含特别代码用来重新创建绑定方法，直到对象或初始函数被销毁:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">C</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;method called!&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakMethod</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">()</span>
+<span class="go">&lt;bound method C.method of &lt;__main__.C object at 0x7fc859830220&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">()()</span>
+<span class="go">method called!</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">c</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="weakref.finalize">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">finalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#weakref.finalize" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个可调用的终结器对象，该对象将在 <em>obj</em> 作为垃圾回收时被调用。 与普通的弱引用不同，终结器将总是存活，直到引用对象被回收，这极大地简化了生存期管理。</p>
+<p>终结器总是被视为 <em>存活</em> 直到它被调用（显式调用或在垃圾回收时隐式调用），调用之后它将 <em>死亡</em>。 调用存活的终结器将返回 <code class="docutils literal notranslate"><span class="pre">func(*arg,</span> <span class="pre">**kwargs)</span></code> 的求值结果，而调用死亡的终结器将返回 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>。</p>
+<p>在垃圾收集期间由终结器回调所引发异常将显示于标准错误输出，但无法被传播。 它们会按与对象的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__del__()</span></code> 方法或弱引用的回调所引发异常相同的方式被处理。</p>
+<p>当程序退出时，剩余的存活终结器会被调用，除非它们的 <a class="reference internal" href="atexit.html#module-atexit" title="atexit: Register and execute cleanup functions."><code class="xref py py-attr docutils literal notranslate"><span class="pre">atexit</span></code></a> 属性已被设为假值。 它们会按与创建时相反的顺序被调用。</p>
+<p>终结器在 <a class="reference internal" href="../glossary.html#term-interpreter-shutdown"><span class="xref std std-term">interpreter shutdown</span></a> 的后期绝不会发起调用其回调函数，此时模块全局变量很可能已被替换为 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="weakref.finalize.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#weakref.finalize.__call__" title="永久链接至目标">¶</a></dt>
+<dd><p>如果 <em>self</em> 为存活状态则将其标记为已死亡，并返回调用 <code class="docutils literal notranslate"><span class="pre">func(*args,</span> <span class="pre">**kwargs)</span></code> 的结果。 如果 <em>self</em> 已死亡则返回 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="weakref.finalize.detach">
+<span class="sig-name descname"><span class="pre">detach</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#weakref.finalize.detach" title="永久链接至目标">¶</a></dt>
+<dd><p>如果 <em>self</em> 为存活状态则将其标记为已死亡，并返回元组 <code class="docutils literal notranslate"><span class="pre">(obj,</span> <span class="pre">func,</span> <span class="pre">args,</span> <span class="pre">kwargs)</span></code>。 如果 <em>self</em> 已死亡则返 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="weakref.finalize.peek">
+<span class="sig-name descname"><span class="pre">peek</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#weakref.finalize.peek" title="永久链接至目标">¶</a></dt>
+<dd><p>如果 <em>self</em> 为存活状态则返回元组 <code class="docutils literal notranslate"><span class="pre">(obj,</span> <span class="pre">func,</span> <span class="pre">args,</span> <span class="pre">kwargs)</span></code>。 如果 <em>self</em> 已死亡则返回 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="weakref.finalize.alive">
+<span class="sig-name descname"><span class="pre">alive</span></span><a class="headerlink" href="#weakref.finalize.alive" title="永久链接至目标">¶</a></dt>
+<dd><p>如果终结器为存活状态则该特征属性为真值，否则为假值。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="weakref.finalize.atexit">
+<span class="sig-name descname"><span class="pre">atexit</span></span><a class="headerlink" href="#weakref.finalize.atexit" title="永久链接至目标">¶</a></dt>
+<dd><p>一个可写的布尔型特征属性，默认为真值。 当程序退出时，它会调用所有 <a class="reference internal" href="#weakref.finalize.atexit" title="weakref.finalize.atexit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atexit</span></code></a> 为真值的剩余存活终结器。 它们会按与创建时相反的顺序被调用。</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>很重要的一点是确保 <em>func</em>, <em>args</em> 和 <em>kwargs</em> 不拥有任何对 <em>obj</em> 的引用，无论是直接的或是间接的，否则的话 <em>obj</em> 将永远不会被作为垃圾回收。 特别地，<em>func</em> 不应当是 <em>obj</em> 的一个绑定方法。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="weakref.ReferenceType">
+<span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">ReferenceType</span></span><a class="headerlink" href="#weakref.ReferenceType" title="永久链接至目标">¶</a></dt>
+<dd><p>弱引用对象的类型对象。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="weakref.ProxyType">
+<span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">ProxyType</span></span><a class="headerlink" href="#weakref.ProxyType" title="永久链接至目标">¶</a></dt>
+<dd><p>不可调用对象的代理的类型对象。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="weakref.CallableProxyType">
+<span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">CallableProxyType</span></span><a class="headerlink" href="#weakref.CallableProxyType" title="永久链接至目标">¶</a></dt>
+<dd><p>可调用对象的代理的类型对象。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="weakref.ProxyTypes">
+<span class="sig-prename descclassname"><span class="pre">weakref.</span></span><span class="sig-name descname"><span class="pre">ProxyTypes</span></span><a class="headerlink" href="#weakref.ProxyTypes" title="永久链接至目标">¶</a></dt>
+<dd><p>包含所有代理的类型对象的序列。 这可以用于更方便地检测一个对象是否是代理，而不必依赖于两种代理对象的名称。</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><span class="target" id="index-8"></span><a class="pep reference external" href="https://peps.python.org/pep-0205/"><strong>PEP 205</strong></a> - 弱引用</dt><dd><p>此特性的提议和理由，包括早期实现的链接和其他语言中类似特性的相关信息。</p>
+</dd>
+</dl>
+</div>
+<section id="weak-reference-objects">
+<span id="weakref-objects"></span><h2>弱引用对象<a class="headerlink" href="#weak-reference-objects" title="永久链接至标题">¶</a></h2>
+<p>弱引用对象没有 <a class="reference internal" href="#weakref.ref.__callback__" title="weakref.ref.__callback__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ref.__callback__</span></code></a> 以外的方法和属性。 一个弱引用对象如果存在，就允许通过调用它来获取引用:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">weakref</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Object</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">Object</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o2</span> <span class="o">=</span> <span class="n">r</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="ow">is</span> <span class="n">o2</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>如果引用已不存在，则调用引用对象将返回 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">o</span><span class="p">,</span> <span class="n">o2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">())</span>
+<span class="go">None</span>
+</pre></div>
+</div>
+<p>检测一个弱引用对象是否仍然存在应该使用表达式 <code class="docutils literal notranslate"><span class="pre">ref()</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">None</span></code>。 通常，需要使用引用对象的应用代码应当遵循这样的模式:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># r is a weak reference object</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">r</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">o</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># referent has been garbage collected</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Object has been deallocated; can&#39;t frobnicate.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Object is still live!&quot;</span><span class="p">)</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">do_something_useful</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>使用单独的“存活”测试会在多线程应用中制造竞争条件；其他线程可能导致某个弱引用在该弱引用被调用前就失效；上述的写法在多线程应用和单线程应用中都是安全的。</p>
+<p>特别版本的 <a class="reference internal" href="#weakref.ref" title="weakref.ref"><code class="xref py py-class docutils literal notranslate"><span class="pre">ref</span></code></a> 对象可以通过子类化来创建。 在 <a class="reference internal" href="#weakref.WeakValueDictionary" title="weakref.WeakValueDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeakValueDictionary</span></code></a> 的实现中就使用了这种方式来减少映射中每个条目的内存开销。 这对于将附加信息关联到引用的情况最为适用，但也可以被用于在调用中插入额外处理来提取引用。</p>
+<p>这个例子演示了如何将 <a class="reference internal" href="#weakref.ref" title="weakref.ref"><code class="xref py py-class docutils literal notranslate"><span class="pre">ref</span></code></a> 的一个子类用于存储有关对象的附加信息并在引用被访问时影响其所返回的值:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="k">class</span> <span class="nc">ExtendedRef</span><span class="p">(</span><span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ob</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">**</span><span class="n">annotations</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">ob</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">annotations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a pair containing the referent and the number of</span>
+<span class="sd">        times the reference has been called.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ob</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ob</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">ob</span> <span class="o">=</span> <span class="p">(</span><span class="n">ob</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__counter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ob</span>
+</pre></div>
+</div>
+</section>
+<section id="example">
+<span id="weakref-example"></span><h2>示例<a class="headerlink" href="#example" title="永久链接至标题">¶</a></h2>
+<p>这个简单的例子演示了一个应用如何使用对象 ID 来提取之前出现过的对象。 然后对象的 ID 可以在其它数据结构中使用，而无须强制对象保持存活，但处于存活状态的对象也仍然可以通过 ID 来提取。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="n">_id2obj_dict</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakValueDictionary</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">remember</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="n">oid</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="n">_id2obj_dict</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+    <span class="k">return</span> <span class="n">oid</span>
+
+<span class="k">def</span> <span class="nf">id2obj</span><span class="p">(</span><span class="n">oid</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_id2obj_dict</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="finalizer-objects">
+<span id="finalize-examples"></span><h2>终结器对象<a class="headerlink" href="#finalizer-objects" title="永久链接至标题">¶</a></h2>
+<p>使用 <a class="reference internal" href="#weakref.finalize" title="weakref.finalize"><code class="xref py py-class docutils literal notranslate"><span class="pre">finalize</span></code></a> 的主要好处在于它能更简便地注册回调函数，而无须保留所返回的终结器对象。 例如</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">weakref</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Object</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kenny</span> <span class="o">=</span> <span class="n">Object</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">weakref</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">kenny</span><span class="p">,</span> <span class="nb">print</span><span class="p">,</span> <span class="s2">&quot;You killed Kenny!&quot;</span><span class="p">)</span>  
+<span class="go">&lt;finalize object at ...; for &#39;Object&#39; at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">kenny</span>
+<span class="go">You killed Kenny!</span>
+</pre></div>
+</div>
+<p>终结器也可以被直接调用。 但是终结器最多只能对回调函数发起一次调用。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CALLBACK&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">Object</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">f</span><span class="o">.</span><span class="n">alive</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">f</span><span class="p">()</span> <span class="o">==</span> <span class="mi">6</span>
+<span class="go">CALLBACK</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="ow">not</span> <span class="n">f</span><span class="o">.</span><span class="n">alive</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">()</span>                     <span class="c1"># callback not called because finalizer dead</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">obj</span>                 <span class="c1"># callback not called because finalizer dead</span>
+</pre></div>
+</div>
+<p>你可以使用 <a class="reference internal" href="#weakref.finalize.detach" title="weakref.finalize.detach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">detach()</span></code></a> 方法来注销一个终结器。 该方法将销毁终结器并返回其被创建时传给构造器的参数。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">Object</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>                                           
+<span class="go">(&lt;...Object object ...&gt;, &lt;function callback ...&gt;, (1, 2), {&#39;z&#39;: 3})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newobj</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">_</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="ow">not</span> <span class="n">f</span><span class="o">.</span><span class="n">alive</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">newobj</span> <span class="ow">is</span> <span class="n">obj</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span>
+<span class="go">CALLBACK</span>
+</pre></div>
+</div>
+<p>除非你将 <a class="reference internal" href="#weakref.finalize.atexit" title="weakref.finalize.atexit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atexit</span></code></a> 属性设为 <a class="reference internal" href="constants.html#False" title="False"><code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code></a>，否则终结器在程序退出时如果仍然存活就将被调用。 例如</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">Object</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">weakref</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">print</span><span class="p">,</span> <span class="s2">&quot;obj dead or exiting&quot;</span><span class="p">)</span>
+<span class="go">&lt;finalize object at ...; for &#39;Object&#39; at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exit</span><span class="p">()</span>
+<span class="go">obj dead or exiting</span>
+</pre></div>
+</div>
+</section>
+<section id="comparing-finalizers-with-del-methods">
+<h2>比较终结器与 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__del__()</span></code> 方法<a class="headerlink" href="#comparing-finalizers-with-del-methods" title="永久链接至标题">¶</a></h2>
+<p>假设我们想创建一个类，用它的实例来代表临时目录。 当以下事件中的某一个发生时，这个目录应当与其内容一起被删除：</p>
+<ul class="simple">
+<li><p>对象被作为垃圾回收，</p></li>
+<li><p>对象的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">remove()</span></code> 方法被调用，或</p></li>
+<li><p>程序退出。</p></li>
+</ul>
+<p>我们可以尝试使用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__del__()</span></code> 方法来实现这个类，如下所示:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TempDir</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">removed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>从 Python 3.4 开始，<code class="xref py py-meth docutils literal notranslate"><span class="pre">__del__()</span></code> 方法不会再阻止循环引用被作为垃圾回收，并且模块全局变量在 <a class="reference internal" href="../glossary.html#term-interpreter-shutdown"><span class="xref std std-term">interpreter shutdown</span></a> 期间不会被强制设为 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>。 因此这段代码在 CPython 上应该会正常运行而不会出现任何问题。</p>
+<p>然而，<code class="xref py py-meth docutils literal notranslate"><span class="pre">__del__()</span></code> 方法的处理会严重地受到具体实现的影响，因为它依赖于解释器垃圾回收实现方式的内部细节。</p>
+<p>更健壮的替代方式可以是定义一个终结器，只引用它所需要的特定函数和对象，而不是获取对整个对象状态的访问权:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TempDir</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_finalizer</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_finalizer</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">removed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalizer</span><span class="o">.</span><span class="n">alive</span>
+</pre></div>
+</div>
+<p>像这样定义后，我们的终结器将只接受一个对其完成正确清理目录任务所需细节的引用。 如果对象一直未被作为垃圾回收，终结器仍会在退出时被调用。</p>
+<p>基于弱引用的终结器还具有另一项优势，就是它们可被用来为定义由第三方控制的类注册终结器，例如当一个模块被卸载时运行特定代码:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">weakref</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="k">def</span> <span class="nf">unloading_module</span><span class="p">():</span>
+    <span class="c1"># implicit reference to the module globals from the function body</span>
+<span class="n">weakref</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">],</span> <span class="n">unloading_module</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>如果当程序退出时你恰好在守护线程中创建终结器对象，则有可能该终结器不会在退出时被调用。 但是，在一个守护线程中 <a class="reference internal" href="atexit.html#atexit.register" title="atexit.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">atexit.register()</span></code></a>, <code class="docutils literal notranslate"><span class="pre">try:</span> <span class="pre">...</span> <span class="pre">finally:</span> <span class="pre">...</span></code> 和 <code class="docutils literal notranslate"><span class="pre">with:</span> <span class="pre">...</span></code> 同样不能保证执行清理。</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code> --- 弱引用</a><ul>
+<li><a class="reference internal" href="#weak-reference-objects">弱引用对象</a></li>
+<li><a class="reference internal" href="#example">示例</a></li>
+<li><a class="reference internal" href="#finalizer-objects">终结器对象</a></li>
+<li><a class="reference internal" href="#comparing-finalizers-with-del-methods">比较终结器与 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__del__()</span></code> 方法</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="array.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">array</span></code> --- 高效的数值数组</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="types.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">types</span></code> --- 动态类型创建和内置类型名称</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/weakref.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="types --- 动态类型创建和内置类型名称"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="array.html" title="array --- 高效的数值数组"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="datatypes.html" >数据类型</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code> --- 弱引用</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

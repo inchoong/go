@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>smtpd --- SMTP 服务器 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="sndhdr --- 推测声音文件的类型" href="sndhdr.html" />
+    <link rel="prev" title="pipes --- 终端管道接口" href="pipes.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/smtpd.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">smtpd</span></code> --- SMTP 服务器</a><ul>
+<li><a class="reference internal" href="#smtpserver-objects">SMTPServer 对象</a></li>
+<li><a class="reference internal" href="#debuggingserver-objects">DebuggingServer 对象</a></li>
+<li><a class="reference internal" href="#pureproxy-objects">PureProxy 对象</a></li>
+<li><a class="reference internal" href="#smtpchannel-objects">SMTPChannel 对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="pipes.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pipes</span></code> --- 终端管道接口</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="sndhdr.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sndhdr</span></code> --- 推测声音文件的类型</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/smtpd.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="sndhdr.html" title="sndhdr --- 推测声音文件的类型"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="pipes.html" title="pipes --- 终端管道接口"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" accesskey="U">被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">smtpd</span></code> --- SMTP 服务器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-smtpd">
+<span id="smtpd-smtp-server"></span><h1><a class="reference internal" href="#module-smtpd" title="smtpd: A SMTP server implementation in Python. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">smtpd</span></code></a> --- SMTP 服务器<a class="headerlink" href="#module-smtpd" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/smtpd.py">Lib/smtpd.py</a></p>
+<hr class="docutils" />
+<p>该模块提供了几个类来实现 SMTP （电子邮件）服务器。</p>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.6 开始标记为过时，将在版本 3.12 中移除。: </span>The <a class="reference internal" href="#module-smtpd" title="smtpd: A SMTP server implementation in Python. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">smtpd</span></code></a> module is deprecated
+(see <span class="target" id="index-0"></span><a class="pep reference external" href="https://peps.python.org/pep-0594/#smtpd"><strong>PEP 594</strong></a> for details).
+The <a class="reference external" href="https://aiosmtpd.readthedocs.io/">aiosmtpd</a> package is a recommended
+replacement for this module.  It is based on <a class="reference internal" href="asyncio.html#module-asyncio" title="asyncio: Asynchronous I/O."><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a> and provides a
+more straightforward API.</p>
+</div>
+<p>有几个服务器的实现；一个是通用的无为实现，可以被重写，而另外两个则提供特定的邮件发送策略。</p>
+<p>此外， SMTPChannel 可以被扩展以实现与 SMTP 客户端非常具体的交互行为。</p>
+<p>该代码支持 <span class="target" id="index-19"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5321.html"><strong>RFC 5321</strong></a> ，加上 <span class="target" id="index-20"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1870.html"><strong>RFC 1870</strong></a> SIZE和 <span class="target" id="index-21"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6531.html"><strong>RFC 6531</strong></a> SMTPUTF8 扩展。</p>
+<p class="availability"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: not Emscripten, not WASI.<p>This module does not work or is not available on WebAssembly platforms
+<code class="docutils literal notranslate"><span class="pre">wasm32-emscripten</span></code> and <code class="docutils literal notranslate"><span class="pre">wasm32-wasi</span></code>. See
+<a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">WebAssembly platforms</span></a> for more information.</p>
+</p>
+<section id="smtpserver-objects">
+<h2>SMTPServer 对象<a class="headerlink" href="#smtpserver-objects" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="smtpd.SMTPServer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smtpd.</span></span><span class="sig-name descname"><span class="pre">SMTPServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">localaddr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remoteaddr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_size_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">33554432</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_SMTPUTF8</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smtpd.SMTPServer" title="永久链接至目标">¶</a></dt>
+<dd><p>新建一个 <a class="reference internal" href="#smtpd.SMTPServer" title="smtpd.SMTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPServer</span></code></a> 对象，它会绑定到本机地址 <em>localaddr</em>。 它将把 <em>remoteaddr</em> 当作上游 SMTP 中继器。 <em>localaddr</em> 和 <em>remoteaddr</em> 都应当是 <a class="reference internal" href="socket.html#host-port"><span class="std std-ref">(host, port)</span></a> 元组。 该对象继承自 <a class="reference internal" href="asyncore.html#asyncore.dispatcher" title="asyncore.dispatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">asyncore.dispatcher</span></code></a>，因而会在实例化时将自己插入到 <a class="reference internal" href="asyncore.html#module-asyncore" title="asyncore: A base class for developing asynchronous socket handling services. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncore</span></code></a> 的事件循环。</p>
+<p><em>data_size_limit</em> 指定将在 <code class="docutils literal notranslate"><span class="pre">DATA</span></code> 命令中被接受的最大字节数。 值为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 或 <code class="docutils literal notranslate"><span class="pre">0</span></code> 表示无限制。</p>
+<p><em>map</em> 是用于连接的套接字映射（初始为空的字典是适当的值）。 如果未指定则会使用 <a class="reference internal" href="asyncore.html#module-asyncore" title="asyncore: A base class for developing asynchronous socket handling services. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncore</span></code></a> 全局套接字映射。</p>
+<p><em>enable_SMTPUTF8</em> 决定是否应当启用 <code class="docutils literal notranslate"><span class="pre">SMTPUTF8</span></code> 扩展（如 <span class="target" id="index-22"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6531.html"><strong>RFC 6531</strong></a> 所定义的。 默认值为 <code class="docutils literal notranslate"><span class="pre">False</span></code>。 当设为 <code class="docutils literal notranslate"><span class="pre">True</span></code> 时，会接受 <code class="docutils literal notranslate"><span class="pre">SMTPUTF8</span></code> 作为 <code class="docutils literal notranslate"><span class="pre">MAIL</span></code> 命令的形参并在被提供时将其传给 <code class="docutils literal notranslate"><span class="pre">kwargs['mail_options']</span></code> 列表中的 <a class="reference internal" href="#smtpd.SMTPServer.process_message" title="smtpd.SMTPServer.process_message"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_message()</span></code></a>。 <em>decode_data</em> 和 <em>enable_SMTPUTF8</em> 不可同时被设为 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<p><em>decode_data</em> 指明 SMTP 事务的数据部分是否应当使用 UTF-8 来解码。 当 <em>decode_data</em> 为 <code class="docutils literal notranslate"><span class="pre">False</span></code> 时（默认值），服务器会声明 <code class="docutils literal notranslate"><span class="pre">8BITMIME</span></code> 扩展 (<span class="target" id="index-23"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6152.html"><strong>RFC 6152</strong></a>)，接受来自 <code class="docutils literal notranslate"><span class="pre">MAIL</span></code> 命令的 <code class="docutils literal notranslate"><span class="pre">BODY=8BITMIME</span></code> 形参，并在该形参存在时将其传给 <code class="docutils literal notranslate"><span class="pre">kwargs['mail_options']</span></code> 列表中的 <a class="reference internal" href="#smtpd.SMTPServer.process_message" title="smtpd.SMTPServer.process_message"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_message()</span></code></a> 方法。 <em>decode_data</em> 和 <em>enable_SMTPUTF8</em> 不可同时被设为 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="smtpd.SMTPServer.process_message">
+<span class="sig-name descname"><span class="pre">process_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">peer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mailfrom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rcpttos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smtpd.SMTPServer.process_message" title="永久链接至目标">¶</a></dt>
+<dd><p>引发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> 异常。 请在子类中重载此方法以实际运用此消息。 在构造器中作为 <em>remoteaddr</em> 传入的任何东西都可以 <code class="xref py py-attr docutils literal notranslate"><span class="pre">_remoteaddr</span></code> 属性的形式来访问。 <em>peer</em> 是远程主机的地址，<em>mailfrom</em> 是封包的发送方，<em>rcpttos</em> 是封包的接收方而 <em>data</em> 是包含电子邮件内容的字符串（应该为 <span class="target" id="index-24"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5321.html"><strong>RFC 5321</strong></a> 格式）。</p>
+<p>如果构造器关键字参数 <em>decode_data</em> 被设为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则 <em>data</em> 参数将为 Unicode 字符串。 如果被设为 <code class="docutils literal notranslate"><span class="pre">False</span></code>，则将为字节串对象。</p>
+<p><em>kwargs</em> 是包含附加信息的字典。 如果给出 <code class="docutils literal notranslate"><span class="pre">decode_data=True</span></code> 作为初始参数则该字典为空，否则它会包含以下的键:</p>
+<blockquote>
+<div><dl class="simple">
+<dt><em>mail_options</em>:</dt><dd><p>由 <code class="docutils literal notranslate"><span class="pre">MAIL</span></code> 命令所接收的所有参数组成的列表 (其元素为大写形式的字符串；例如: <code class="docutils literal notranslate"><span class="pre">['BODY=8BITMIME',</span> <span class="pre">'SMTPUTF8']</span></code>)。</p>
+</dd>
+<dt><em>rcpt_options</em>:</dt><dd><p>与 <em>mail_options</em> 类似但是针对 <code class="docutils literal notranslate"><span class="pre">RCPT</span></code> 命令。 目前不支持任何 <code class="docutils literal notranslate"><span class="pre">RCPT</span> <span class="pre">TO</span></code> 选项，因此其值将总是为空列表。</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">process_message</span></code> 的实现应当使用 <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> 签名来接收任意关键字参数，因为未来的增强特性可能会向 kwargs 字典添加新键。</p>
+<p>返回 <code class="docutils literal notranslate"><span class="pre">None</span></code> 以请求一个正常的 <code class="docutils literal notranslate"><span class="pre">250</span> <span class="pre">Ok</span></code> 响应；在其他情况下则以 <span class="target" id="index-25"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5321.html"><strong>RFC 5321</strong></a> 格式返回所需的响应字符串。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPServer.channel_class">
+<span class="sig-name descname"><span class="pre">channel_class</span></span><a class="headerlink" href="#smtpd.SMTPServer.channel_class" title="永久链接至目标">¶</a></dt>
+<dd><p>重载这个子类以使用自定义的 <a class="reference internal" href="#smtpd.SMTPChannel" title="smtpd.SMTPChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPChannel</span></code></a> 来管理 SMTP 客户端。</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能: </span><em>map</em> 构造器参数。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span><em>localaddr</em> 和 <em>remoteaddr</em> 现在可以包含 IPv6 地址。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能: </span><em>decode_data</em> 和 <em>enable_SMTPUTF8</em> 构造器形参，以及当 <em>decode_data</em> 为 <code class="docutils literal notranslate"><span class="pre">False</span></code> 时传给 <a class="reference internal" href="#smtpd.SMTPServer.process_message" title="smtpd.SMTPServer.process_message"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_message()</span></code></a> 的 <em>kwargs</em> 形参。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>decode_data</em> 现在默认为 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="debuggingserver-objects">
+<h2>DebuggingServer 对象<a class="headerlink" href="#debuggingserver-objects" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="smtpd.DebuggingServer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smtpd.</span></span><span class="sig-name descname"><span class="pre">DebuggingServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">localaddr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remoteaddr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smtpd.DebuggingServer" title="永久链接至目标">¶</a></dt>
+<dd><p>创建一个新的调试服务器。 参数是针对每个 <a class="reference internal" href="#smtpd.SMTPServer" title="smtpd.SMTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPServer</span></code></a>。 消息将被丢弃，并在 stdout 上打印出来。</p>
+</dd></dl>
+
+</section>
+<section id="pureproxy-objects">
+<h2>PureProxy 对象<a class="headerlink" href="#pureproxy-objects" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="smtpd.PureProxy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smtpd.</span></span><span class="sig-name descname"><span class="pre">PureProxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">localaddr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remoteaddr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smtpd.PureProxy" title="永久链接至目标">¶</a></dt>
+<dd><p>创建一个新的纯代理服务器。 参数是针对每个 <a class="reference internal" href="#smtpd.SMTPServer" title="smtpd.SMTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPServer</span></code></a>。 一切都将被转发到 <em>remoteaddr</em>。 请注意运行此对象有很大的机会令你成为一个开放的中继站，所以需要小心。</p>
+</dd></dl>
+
+</section>
+<section id="smtpchannel-objects">
+<h2>SMTPChannel 对象<a class="headerlink" href="#smtpchannel-objects" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">smtpd.</span></span><span class="sig-name descname"><span class="pre">SMTPChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_size_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">33554432</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_SMTPUTF8</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smtpd.SMTPChannel" title="永久链接至目标">¶</a></dt>
+<dd><p>创建一个新的 <a class="reference internal" href="#smtpd.SMTPChannel" title="smtpd.SMTPChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPChannel</span></code></a> 对象，该对象会管理服务器和单个 SMTP 客户端之间的通信。</p>
+<p><em>conn</em> 和 <em>addr</em> 是针对下述的每个实例变量。</p>
+<p><em>data_size_limit</em> 指定将在 <code class="docutils literal notranslate"><span class="pre">DATA</span></code> 命令中被接受的最大字节数。 值为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 或 <code class="docutils literal notranslate"><span class="pre">0</span></code> 表示无限制。</p>
+<p><em>enable_SMTPUTF8</em> 确定 <code class="docutils literal notranslate"><span class="pre">SMTPUTF8</span></code> 扩展 (如 <span class="target" id="index-26"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6531.html"><strong>RFC 6531</strong></a> 所定义的) 是否应当被启用。 默认值为 <code class="docutils literal notranslate"><span class="pre">False</span></code>。 <em>decode_data</em> 和 <em>enable_SMTPUTF8</em> 不能被同时设为 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<p>可以在 <em>map</em> 中指定一个字典以避免使用全局套接字映射。</p>
+<p><em>decode_data</em> 指明 SMTP 事务的数据部分是否应当使用 UTF-8 来解码。 默认值为 <code class="docutils literal notranslate"><span class="pre">False</span></code>。 <em>decode_data</em> 和 <em>enable_SMTPUTF8</em> 不能被同时设为 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<p>要使用自定义的 SMTPChannel 实现你必须重载你的 <a class="reference internal" href="#smtpd.SMTPServer" title="smtpd.SMTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPServer</span></code></a> 的 <a class="reference internal" href="#smtpd.SMTPServer.channel_class" title="smtpd.SMTPServer.channel_class"><code class="xref py py-attr docutils literal notranslate"><span class="pre">SMTPServer.channel_class</span></code></a>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>添加了 <em>decode_data</em> 和 <em>enable_SMTPUTF8</em> 形参。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>decode_data</em> 现在默认为 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+</div>
+<p><a class="reference internal" href="#smtpd.SMTPChannel" title="smtpd.SMTPChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPChannel</span></code></a> 具有下列实例变量:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.smtp_server">
+<span class="sig-name descname"><span class="pre">smtp_server</span></span><a class="headerlink" href="#smtpd.SMTPChannel.smtp_server" title="永久链接至目标">¶</a></dt>
+<dd><p>存放生成此通道的 <a class="reference internal" href="#smtpd.SMTPServer" title="smtpd.SMTPServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPServer</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.conn">
+<span class="sig-name descname"><span class="pre">conn</span></span><a class="headerlink" href="#smtpd.SMTPChannel.conn" title="永久链接至目标">¶</a></dt>
+<dd><p>存放连接到客户端的套接字对象。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.addr">
+<span class="sig-name descname"><span class="pre">addr</span></span><a class="headerlink" href="#smtpd.SMTPChannel.addr" title="永久链接至目标">¶</a></dt>
+<dd><p>存放客户端的地址，<a class="reference internal" href="socket.html#socket.socket.accept" title="socket.socket.accept"><code class="xref py py-func docutils literal notranslate"><span class="pre">socket.accept</span></code></a> 所返回的第二个值。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.received_lines">
+<span class="sig-name descname"><span class="pre">received_lines</span></span><a class="headerlink" href="#smtpd.SMTPChannel.received_lines" title="永久链接至目标">¶</a></dt>
+<dd><p>存放从客户端接收的行字符串列表 (使用 UTF-8 解码)。 所有行的 <code class="docutils literal notranslate"><span class="pre">&quot;\r\n&quot;</span></code> 行结束符都会被转写为 <code class="docutils literal notranslate"><span class="pre">&quot;\n&quot;</span></code>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.smtp_state">
+<span class="sig-name descname"><span class="pre">smtp_state</span></span><a class="headerlink" href="#smtpd.SMTPChannel.smtp_state" title="永久链接至目标">¶</a></dt>
+<dd><p>存放通道的当前状态。 其初始值将为 <code class="xref py py-attr docutils literal notranslate"><span class="pre">COMMAND</span></code> 而在客户端发送 &quot;DATA&quot; 行后将为 <code class="xref py py-attr docutils literal notranslate"><span class="pre">DATA</span></code>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.seen_greeting">
+<span class="sig-name descname"><span class="pre">seen_greeting</span></span><a class="headerlink" href="#smtpd.SMTPChannel.seen_greeting" title="永久链接至目标">¶</a></dt>
+<dd><p>存放包含客户端在其 &quot;HELO&quot; 中发送的问候信息的字符串。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.mailfrom">
+<span class="sig-name descname"><span class="pre">mailfrom</span></span><a class="headerlink" href="#smtpd.SMTPChannel.mailfrom" title="永久链接至目标">¶</a></dt>
+<dd><p>存放包含客户端在 &quot;MAIL FROM:&quot; 行中标识的地址的字符串。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.rcpttos">
+<span class="sig-name descname"><span class="pre">rcpttos</span></span><a class="headerlink" href="#smtpd.SMTPChannel.rcpttos" title="永久链接至目标">¶</a></dt>
+<dd><p>存放包含客户端在 &quot;RCPT TO:&quot; 行中标识的地址的字符串。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.received_data">
+<span class="sig-name descname"><span class="pre">received_data</span></span><a class="headerlink" href="#smtpd.SMTPChannel.received_data" title="永久链接至目标">¶</a></dt>
+<dd><p>存放客户端在 DATA 状态期间发送的所有数据的字符串，直至但不包括末尾的 <code class="docutils literal notranslate"><span class="pre">&quot;\r\n.\r\n&quot;</span></code>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.fqdn">
+<span class="sig-name descname"><span class="pre">fqdn</span></span><a class="headerlink" href="#smtpd.SMTPChannel.fqdn" title="永久链接至目标">¶</a></dt>
+<dd><p>Holds the fully qualified domain name of the server as returned by
+<a class="reference internal" href="socket.html#socket.getfqdn" title="socket.getfqdn"><code class="xref py py-func docutils literal notranslate"><span class="pre">socket.getfqdn()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="smtpd.SMTPChannel.peer">
+<span class="sig-name descname"><span class="pre">peer</span></span><a class="headerlink" href="#smtpd.SMTPChannel.peer" title="永久链接至目标">¶</a></dt>
+<dd><p>存放由 <code class="docutils literal notranslate"><span class="pre">conn.getpeername()</span></code> 所返回的客户端对等方名称，其中 <code class="docutils literal notranslate"><span class="pre">conn</span></code> 为 <a class="reference internal" href="#smtpd.SMTPChannel.conn" title="smtpd.SMTPChannel.conn"><code class="xref py py-attr docutils literal notranslate"><span class="pre">conn</span></code></a>。</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#smtpd.SMTPChannel" title="smtpd.SMTPChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPChannel</span></code></a> 在接收到来自客户端的命令行时会通过发起调用名为 <code class="docutils literal notranslate"><span class="pre">smtp_&lt;command&gt;</span></code> 的方法来进行操作。 在基类 <a class="reference internal" href="#smtpd.SMTPChannel" title="smtpd.SMTPChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPChannel</span></code></a> 中具有用于处理下列命令（并对他们作出适当反应）的方法:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 89%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>命令</p></th>
+<th class="head"><p>所采取的行动</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>HELO</p></td>
+<td><p>接受来自客户端的问候语，并将其存储在 <a class="reference internal" href="#smtpd.SMTPChannel.seen_greeting" title="smtpd.SMTPChannel.seen_greeting"><code class="xref py py-attr docutils literal notranslate"><span class="pre">seen_greeting</span></code></a> 中。将服务器设置为基本命令模式。</p></td>
+</tr>
+<tr class="row-odd"><td><p>EHLO</p></td>
+<td><p>接受来自客户的问候并将其存储在 <a class="reference internal" href="#smtpd.SMTPChannel.seen_greeting" title="smtpd.SMTPChannel.seen_greeting"><code class="xref py py-attr docutils literal notranslate"><span class="pre">seen_greeting</span></code></a> 中。将服务器设置为扩展命令模式。</p></td>
+</tr>
+<tr class="row-even"><td><p>NOOP</p></td>
+<td><p>不采取任何行动。</p></td>
+</tr>
+<tr class="row-odd"><td><p>QUIT</p></td>
+<td><p>干净地关闭连接。</p></td>
+</tr>
+<tr class="row-even"><td><p>MAIL</p></td>
+<td><p>接受 &quot;MAIL FROM:&quot; 句法并将所提供的地址保存为 <a class="reference internal" href="#smtpd.SMTPChannel.mailfrom" title="smtpd.SMTPChannel.mailfrom"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mailfrom</span></code></a>。 在扩展命令模式下，还接受 <span class="target" id="index-27"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1870.html"><strong>RFC 1870</strong></a> SIZE 属性并根据 <em>data_size_limit</em> 的值作出适当返应。</p></td>
+</tr>
+<tr class="row-odd"><td><p>RCPT</p></td>
+<td><p>接受 &quot;RCPT TO:&quot; 句法并将所提供的地址保存在 <a class="reference internal" href="#smtpd.SMTPChannel.rcpttos" title="smtpd.SMTPChannel.rcpttos"><code class="xref py py-attr docutils literal notranslate"><span class="pre">rcpttos</span></code></a> 列表中。</p></td>
+</tr>
+<tr class="row-even"><td><p>RSET</p></td>
+<td><p>重置 <a class="reference internal" href="#smtpd.SMTPChannel.mailfrom" title="smtpd.SMTPChannel.mailfrom"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mailfrom</span></code></a>, <a class="reference internal" href="#smtpd.SMTPChannel.rcpttos" title="smtpd.SMTPChannel.rcpttos"><code class="xref py py-attr docutils literal notranslate"><span class="pre">rcpttos</span></code></a>, 和 <a class="reference internal" href="#smtpd.SMTPChannel.received_data" title="smtpd.SMTPChannel.received_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">received_data</span></code></a> ，但不重置问候语。</p></td>
+</tr>
+<tr class="row-odd"><td><p>DATA</p></td>
+<td><p>将内部状态设为 <code class="xref py py-attr docutils literal notranslate"><span class="pre">DATA</span></code> 并将来自客户端的剩余行保存在 <a class="reference internal" href="#smtpd.SMTPChannel.received_data" title="smtpd.SMTPChannel.received_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">received_data</span></code></a> 中直至接收到终止符 <code class="docutils literal notranslate"><span class="pre">&quot;\r\n.\r\n&quot;</span></code>。</p></td>
+</tr>
+<tr class="row-even"><td><p>HELP</p></td>
+<td><p>返回有关命令语法的最少信息</p></td>
+</tr>
+<tr class="row-odd"><td><p>VRFY</p></td>
+<td><p>返回代码252（服务器不知道该地址是否有效）</p></td>
+</tr>
+<tr class="row-even"><td><p>EXPN</p></td>
+<td><p>报告该命令未实现。</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">smtpd</span></code> --- SMTP 服务器</a><ul>
+<li><a class="reference internal" href="#smtpserver-objects">SMTPServer 对象</a></li>
+<li><a class="reference internal" href="#debuggingserver-objects">DebuggingServer 对象</a></li>
+<li><a class="reference internal" href="#pureproxy-objects">PureProxy 对象</a></li>
+<li><a class="reference internal" href="#smtpchannel-objects">SMTPChannel 对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="pipes.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pipes</span></code> --- 终端管道接口</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="sndhdr.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sndhdr</span></code> --- 推测声音文件的类型</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/smtpd.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="sndhdr.html" title="sndhdr --- 推测声音文件的类型"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="pipes.html" title="pipes --- 终端管道接口"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" >被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">smtpd</span></code> --- SMTP 服务器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>
