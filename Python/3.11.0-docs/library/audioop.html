@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>audioop --- 处理原始音频数据 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="cgi --- 通用网关接口支持" href="cgi.html" />
+    <link rel="prev" title="asyncore --- 异步套接字处理器" href="asyncore.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/audioop.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="asyncore.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncore</span></code> --- 异步套接字处理器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="cgi.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgi</span></code> --- 通用网关接口支持</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/audioop.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="cgi.html" title="cgi --- 通用网关接口支持"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="asyncore.html" title="asyncore --- 异步套接字处理器"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" accesskey="U">被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">audioop</span></code> --- 处理原始音频数据</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-audioop">
+<span id="audioop-manipulate-raw-audio-data"></span><h1><a class="reference internal" href="#module-audioop" title="audioop: Manipulate raw audio data. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">audioop</span></code></a> --- 处理原始音频数据<a class="headerlink" href="#module-audioop" title="永久链接至标题">¶</a></h1>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.11 开始标记为过时，将在版本 3.13 中移除。: </span><a class="reference internal" href="#module-audioop" title="audioop: Manipulate raw audio data. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">audioop</span></code></a> 模块已被弃用（请参阅 <span class="target" id="index-3"></span><a class="pep reference external" href="https://peps.python.org/pep-0594/#audioop"><strong>PEP 594</strong></a> 了解详情）。</p>
+</div>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-audioop" title="audioop: Manipulate raw audio data. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">audioop</span></code></a> 模块包含针对声音片段的一些有用操作。它操作的声音片段由 8、16、24 或 32 位宽的有符号整型采样值组成，存储在 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">类字节串对象</span></a> 中。除非特别说明，否则所有标量项目均为整数。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>增加了对 24 位采样的支持。现在，所有函数都接受任何 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">类字节串对象</span></a>。而传入字符串会立即导致错误。</p>
+</div>
+<p id="index-1">本模块提供对 a-LAW、u-LAW 和 Intel/DVI ADPCM 编码的支持。</p>
+<p>部分更复杂的操作仅接受 16 位采样，而其他操作始终需要采样大小（以字节为单位）作为该操作的参数。</p>
+<p>此模块定义了下列变量和函数：</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="audioop.error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#audioop.error" title="永久链接至目标">¶</a></dt>
+<dd><p>所有错误都会抛出此异常，比如采样值的字节数未知等等。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.add">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.add" title="永久链接至目标">¶</a></dt>
+<dd><p>两个采样作为参数传入，返回一个片段，该片段是两个采样的和。<em>width</em> 是采样位宽（以字节为单位），可以取 <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">3</span></code> 或 <code class="docutils literal notranslate"><span class="pre">4</span></code>。两个片段的长度应相同。如果发生溢出，较长的采样将被截断。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.adpcm2lin">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">adpcm2lin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adpcmfragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.adpcm2lin" title="永久链接至目标">¶</a></dt>
+<dd><p>将 Intel/DVI ADPCM 编码的片段解码为线性片段。关于 ADPCM 编码的详情请参阅 <a class="reference internal" href="#audioop.lin2adpcm" title="audioop.lin2adpcm"><code class="xref py py-func docutils literal notranslate"><span class="pre">lin2adpcm()</span></code></a> 的描述。返回一个元组 <code class="docutils literal notranslate"><span class="pre">(sample,</span> <span class="pre">newstate)</span></code>，其中 sample 的位宽由 <em>width</em> 指定。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.alaw2lin">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">alaw2lin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.alaw2lin" title="永久链接至目标">¶</a></dt>
+<dd><p>将 a-LAW 编码的声音片段转换为线性编码声音片段。由于 a-LAW 编码采样值始终为 8 位，因此这里的 <em>width</em> 仅指输出片段的采样位宽。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.avg">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">avg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.avg" title="永久链接至目标">¶</a></dt>
+<dd><p>返回片段中所有采样值的平均值。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.avgpp">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">avgpp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.avgpp" title="永久链接至目标">¶</a></dt>
+<dd><p>返回片段中所有采样值的平均峰峰值。由于没有进行过滤，因此该例程的实用性尚存疑。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.bias">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">bias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.bias" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个片段，该片段由原始片段中的每个采样值加上偏差组成。在溢出时采样值会回卷 (wrap around)。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.byteswap">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">byteswap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.byteswap" title="永久链接至目标">¶</a></dt>
+<dd><p>“按字节交换”片段中的所有采样值，返回修改后的片段。将大端序采样转换为小端序采样，反之亦然。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.cross">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.cross" title="永久链接至目标">¶</a></dt>
+<dd><p>将片段作为参数传入，返回其中过零点的数量。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.findfactor">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">findfactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.findfactor" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个系数 <em>F</em> 使得 <code class="docutils literal notranslate"><span class="pre">rms(add(fragment,</span> <span class="pre">mul(reference,</span> <span class="pre">-F)))</span></code> 最小，即返回的系数乘以 <em>reference</em> 后与 <em>fragment</em> 最匹配。两个片段都应包含 2 字节宽的采样。</p>
+<p>本例程所需的时间与 <code class="docutils literal notranslate"><span class="pre">len(fragment)</span></code> 成正比。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.findfit">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">findfit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.findfit" title="永久链接至目标">¶</a></dt>
+<dd><p>尽可能尝试让 <em>reference</em> 匹配 <em>fragment</em> 的一部分（<em>fragment</em> 应较长）。从概念上讲，完成这些靠从 <em>fragment</em> 中取出切片，使用 <a class="reference internal" href="#audioop.findfactor" title="audioop.findfactor"><code class="xref py py-func docutils literal notranslate"><span class="pre">findfactor()</span></code></a> 计算最佳匹配，并最小化结果。两个片段都应包含 2 字节宽的采样。返回一个元组 <code class="docutils literal notranslate"><span class="pre">(offset,</span> <span class="pre">factor)</span></code>，其中 <em>offset</em> 是在 <em>fragment</em> 中的偏移量（整数），表示从此处开始最佳匹配，而 <em>factor</em> 是由 <a class="reference internal" href="#audioop.findfactor" title="audioop.findfactor"><code class="xref py py-func docutils literal notranslate"><span class="pre">findfactor()</span></code></a> 定义的因数（浮点数）。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.findmax">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">findmax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.findmax" title="永久链接至目标">¶</a></dt>
+<dd><p>在 <em>fragment</em> 中搜索所有长度为 <em>length</em> 的采样切片（不是字节！）中，能量最大的那一个切片，即返回 <em>i</em> 使得 <code class="docutils literal notranslate"><span class="pre">rms(fragment[i*2:(i+length)*2])</span></code> 最大。两个片段都应包含 2 字节宽的采样。</p>
+<p>本例程所需的时间与 <code class="docutils literal notranslate"><span class="pre">len(fragment)</span></code> 成正比。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.getsample">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">getsample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.getsample" title="永久链接至目标">¶</a></dt>
+<dd><p>返回片段中采样值索引 <em>index</em> 的值。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.lin2adpcm">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">lin2adpcm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.lin2adpcm" title="永久链接至目标">¶</a></dt>
+<dd><p>将采样转换为 4 位 Intel/DVI ADPCM 编码。ADPCM 编码是一种自适应编码方案，其中每个 4 比特数字是一个采样值与下一个采样值之间的差除以（不定的）步长。IMA 已选择使用 Intel/DVI ADPCM 算法，因此它很可能成为标准。</p>
+<p><em>state</em> 是一个表示编码器状态的元组。编码器返回一个元组 <code class="docutils literal notranslate"><span class="pre">(adpcmfrag,</span> <span class="pre">newstate)</span></code>，而 <em>newstate</em> 要在下一次调用 <a class="reference internal" href="#audioop.lin2adpcm" title="audioop.lin2adpcm"><code class="xref py py-func docutils literal notranslate"><span class="pre">lin2adpcm()</span></code></a> 时传入。在初始调用中，可以将 <code class="docutils literal notranslate"><span class="pre">None</span></code> 作为 state 传递。<em>adpcmfrag</em> 是 ADPCM 编码的片段，每个字节打包了 2 个 4 比特值。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.lin2alaw">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">lin2alaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.lin2alaw" title="永久链接至目标">¶</a></dt>
+<dd><p>将音频片段中的采样值转换为 a-LAW 编码，并将其作为字节对象返回。a-LAW 是一种音频编码格式，仅使用 8 位采样即可获得大约 13 位的动态范围。Sun 音频硬件等使用该编码。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.lin2lin">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">lin2lin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newwidth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.lin2lin" title="永久链接至目标">¶</a></dt>
+<dd><p>将采样在 1、2、3 和 4 字节格式之间转换。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>在某些音频格式（如 .WAV 文件）中，16、24 和 32 位采样是有符号的，但 8 位采样是无符号的。因此，当将这些格式转换为 8 位宽采样时，还需使结果加上 128:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_frames</span> <span class="o">=</span> <span class="n">audioop</span><span class="o">.</span><span class="n">lin2lin</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">old_width</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">new_frames</span> <span class="o">=</span> <span class="n">audioop</span><span class="o">.</span><span class="n">bias</span><span class="p">(</span><span class="n">new_frames</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>反之，将 8 位宽的采样转换为 16、24 或 32 位时，必须采用相同的处理。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.lin2ulaw">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">lin2ulaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.lin2ulaw" title="永久链接至目标">¶</a></dt>
+<dd><p>将音频片段中的采样值转换为 u-LAW 编码，并将其作为字节对象返回。u-LAW 是一种音频编码格式，仅使用 8 位采样即可获得大约 14 位的动态范围。Sun 音频硬件等使用该编码。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.max">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.max" title="永久链接至目标">¶</a></dt>
+<dd><p>返回片段中所有采样值的最大 <em>绝对值</em>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.maxpp">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">maxpp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.maxpp" title="永久链接至目标">¶</a></dt>
+<dd><p>返回声音片段中的最大峰峰值。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.minmax">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">minmax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.minmax" title="永久链接至目标">¶</a></dt>
+<dd><p>返回声音片段中所有采样值的最小值和最大值组成的元组。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.mul">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">mul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.mul" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个片段，该片段由原始片段中的每个采样值乘以浮点值 <em>factor</em> 组成。如果发生溢出，采样将被截断。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.ratecv">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">ratecv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nchannels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inrate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outrate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">weightA</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">weightB</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#audioop.ratecv" title="永久链接至目标">¶</a></dt>
+<dd><p>转换输入片段的帧速率。</p>
+<p><em>state</em> 是一个表示转换器状态的元组。转换器返回一个元组 <code class="docutils literal notranslate"><span class="pre">(newfragment,</span> <span class="pre">newstate)</span></code>，而 <em>newstate</em> 要在下一次调用 <a class="reference internal" href="#audioop.ratecv" title="audioop.ratecv"><code class="xref py py-func docutils literal notranslate"><span class="pre">ratecv()</span></code></a> 时传入。初始调用应传入 <code class="docutils literal notranslate"><span class="pre">None</span></code> 作为 state。</p>
+<p>参数 <em>weightA</em> 和 <em>weightB</em> 是简单数字滤波器的参数，默认分别为 <code class="docutils literal notranslate"><span class="pre">1</span></code> 和 <code class="docutils literal notranslate"><span class="pre">0</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.reverse">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.reverse" title="永久链接至目标">¶</a></dt>
+<dd><p>将片段中的采样值反转，返回修改后的片段。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.rms">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">rms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.rms" title="永久链接至目标">¶</a></dt>
+<dd><p>返回片段的均方根值，即 <code class="docutils literal notranslate"><span class="pre">sqrt(sum(S_i^2)/n)</span></code>。</p>
+<p>测量音频信号的能量。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.tomono">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">tomono</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lfactor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rfactor</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.tomono" title="永久链接至目标">¶</a></dt>
+<dd><p>将立体声片段转换为单声道片段。左通道乘以 <em>lfactor</em>，右通道乘以 <em>rfactor</em>，然后两个通道相加得到单声道信号。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.tostereo">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">tostereo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lfactor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rfactor</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.tostereo" title="永久链接至目标">¶</a></dt>
+<dd><p>由单声道片段生成立体声片段。立体声片段中的两对采样都是从单声道计算而来的，即左声道是乘以 <em>lfactor</em>，右声道是乘以 <em>rfactor</em>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="audioop.ulaw2lin">
+<span class="sig-prename descclassname"><span class="pre">audioop.</span></span><span class="sig-name descname"><span class="pre">ulaw2lin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audioop.ulaw2lin" title="永久链接至目标">¶</a></dt>
+<dd><p>将 u-LAW 编码的声音片段转换为线性编码声音片段。由于 u-LAW 编码采样值始终为 8 位，因此这里的 <em>width</em> 仅指输出片段的采样位宽。</p>
+</dd></dl>
+
+<p>请注意，诸如 <a class="reference internal" href="#audioop.mul" title="audioop.mul"><code class="xref py py-func docutils literal notranslate"><span class="pre">mul()</span></code></a> 或 <a class="reference internal" href="#audioop.max" title="audioop.max"><code class="xref py py-func docutils literal notranslate"><span class="pre">max()</span></code></a> 之类的操作在单声道和立体声间没有区别，即所有采样都作相同处理。如果出现问题，应先将立体声片段拆分为两个单声道片段，之后再重组。以下是如何进行该操作的示例:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mul_stereo</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">lfactor</span><span class="p">,</span> <span class="n">rfactor</span><span class="p">):</span>
+    <span class="n">lsample</span> <span class="o">=</span> <span class="n">audioop</span><span class="o">.</span><span class="n">tomono</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">rsample</span> <span class="o">=</span> <span class="n">audioop</span><span class="o">.</span><span class="n">tomono</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">lsample</span> <span class="o">=</span> <span class="n">audioop</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">lsample</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">lfactor</span><span class="p">)</span>
+    <span class="n">rsample</span> <span class="o">=</span> <span class="n">audioop</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">rsample</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">rfactor</span><span class="p">)</span>
+    <span class="n">lsample</span> <span class="o">=</span> <span class="n">audioop</span><span class="o">.</span><span class="n">tostereo</span><span class="p">(</span><span class="n">lsample</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">rsample</span> <span class="o">=</span> <span class="n">audioop</span><span class="o">.</span><span class="n">tostereo</span><span class="p">(</span><span class="n">rsample</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">audioop</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">lsample</span><span class="p">,</span> <span class="n">rsample</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果使用 ADPCM 编码器构造网络数据包，并且希望协议是无状态的（即能够容忍数据包丢失），则不仅需要传输数据，还应该传输状态。请注意，必须将*初始*状态（传入 <a class="reference internal" href="#audioop.lin2adpcm" title="audioop.lin2adpcm"><code class="xref py py-func docutils literal notranslate"><span class="pre">lin2adpcm()</span></code></a> 的状态）发送给解码器，不能发送最终状态（编码器返回的状态）。如果要使用 <a class="reference internal" href="struct.html#struct.Struct" title="struct.Struct"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct.Struct</span></code></a> 以二进制保存状态，可以将第一个元素（预测值）用 16 位编码，将第二个元素（增量索引）用 8 位编码。</p>
+<p>本 ADPCM 编码器从不与其他 ADPCM 编码器对立，仅针对自身。本开发者可能会误读标准，这种情况下它们将无法与相应标准互操作。</p>
+<p>乍看之下 <code class="xref py py-func docutils literal notranslate"><span class="pre">find*()</span></code> 例程可能有些可笑。它们主要是用于回声消除，一种快速有效的方法是选取输出样本中能量最高的片段，在输入样本中定位该片段，然后从输入样本中减去整个输出样本:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">echocancel</span><span class="p">(</span><span class="n">outputdata</span><span class="p">,</span> <span class="n">inputdata</span><span class="p">):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">audioop</span><span class="o">.</span><span class="n">findmax</span><span class="p">(</span><span class="n">outputdata</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span>    <span class="c1"># one tenth second</span>
+    <span class="n">out_test</span> <span class="o">=</span> <span class="n">outputdata</span><span class="p">[</span><span class="n">pos</span><span class="o">*</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">in_test</span> <span class="o">=</span> <span class="n">inputdata</span><span class="p">[</span><span class="n">pos</span><span class="o">*</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">ipos</span><span class="p">,</span> <span class="n">factor</span> <span class="o">=</span> <span class="n">audioop</span><span class="o">.</span><span class="n">findfit</span><span class="p">(</span><span class="n">in_test</span><span class="p">,</span> <span class="n">out_test</span><span class="p">)</span>
+    <span class="c1"># Optional (for better cancellation):</span>
+    <span class="c1"># factor = audioop.findfactor(in_test[ipos*2:ipos*2+len(out_test)],</span>
+    <span class="c1">#              out_test)</span>
+    <span class="n">prefill</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span><span class="o">*</span><span class="p">(</span><span class="n">pos</span><span class="o">+</span><span class="n">ipos</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span>
+    <span class="n">postfill</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputdata</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">prefill</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">outputdata</span><span class="p">))</span>
+    <span class="n">outputdata</span> <span class="o">=</span> <span class="n">prefill</span> <span class="o">+</span> <span class="n">audioop</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">outputdata</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">factor</span><span class="p">)</span> <span class="o">+</span> <span class="n">postfill</span>
+    <span class="k">return</span> <span class="n">audioop</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span> <span class="n">outputdata</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="asyncore.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncore</span></code> --- 异步套接字处理器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="cgi.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgi</span></code> --- 通用网关接口支持</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/audioop.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="cgi.html" title="cgi --- 通用网关接口支持"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="asyncore.html" title="asyncore --- 异步套接字处理器"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" >被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">audioop</span></code> --- 处理原始音频数据</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

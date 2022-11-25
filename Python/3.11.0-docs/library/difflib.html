@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>difflib --- 计算差异的辅助工具 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="textwrap --- 文本自动换行与填充" href="textwrap.html" />
+    <link rel="prev" title="re --- 正则表达式操作" href="re.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/difflib.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">difflib</span></code> --- 计算差异的辅助工具</a><ul>
+<li><a class="reference internal" href="#sequencematcher-objects">SequenceMatcher 对象</a></li>
+<li><a class="reference internal" href="#sequencematcher-examples">SequenceMatcher 的示例</a></li>
+<li><a class="reference internal" href="#differ-objects">Differ 对象</a></li>
+<li><a class="reference internal" href="#differ-example">Differ 示例</a></li>
+<li><a class="reference internal" href="#a-command-line-interface-to-difflib">difflib 的命令行接口</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="re.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code> --- 正则表达式操作</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="textwrap.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">textwrap</span></code> --- 文本自动换行与填充</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/difflib.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="textwrap.html" title="textwrap --- 文本自动换行与填充"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="re.html" title="re --- 正则表达式操作"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" accesskey="U">文本处理服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">difflib</span></code> --- 计算差异的辅助工具</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-difflib">
+<span id="difflib-helpers-for-computing-deltas"></span><h1><a class="reference internal" href="#module-difflib" title="difflib: Helpers for computing differences between objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">difflib</span></code></a> --- 计算差异的辅助工具<a class="headerlink" href="#module-difflib" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/difflib.py">Lib/difflib.py</a></p>
+<hr class="docutils" />
+<p>此模块提供用于比较序列的类和函数。 例如，它可被用于比较文件，并可产生多种格式的不同文件差异信息，包括 HTML 和上下文以及统一的 diff 数据。 有关比较目录和文件，另请参阅 <a class="reference internal" href="filecmp.html#module-filecmp" title="filecmp: Compare files efficiently."><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code></a> 模块。</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">SequenceMatcher</span></span></dt>
+<dd><p>这是一个灵活的类，可用于比较任何类型的序列对，只要序列元素为 <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hashable</span></a> 对象。 其基本算法要早于由 Ratcliff 和 Obershelp 于 1980 年代末期发表并以“格式塔模式匹配”的夸张名称命名的算法，并且更加有趣一些。 其思路是找到不包含“垃圾”元素的最长连续匹配子序列；所谓“垃圾”元素是指其在某种意义上没有价值，例如空白行或空白符。 （处理垃圾元素是对 Ratcliff 和 Obershelp 算法的一个扩展。） 然后同样的思路将递归地应用于匹配序列的左右序列片段。 这并不能产生最小编辑序列，但确实能产生在人们看来“正确”的匹配。</p>
+<p><strong>耗时:</strong> 基本 Ratcliff-Obershelp 算法在最坏情况下为立方时间而在一般情况下为平方时间。 <a class="reference internal" href="#difflib.SequenceMatcher" title="difflib.SequenceMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceMatcher</span></code></a> 在最坏情况下为平方时间而在一般情况下的行为受到序列中有多少相同元素这一因素的微妙影响；在最佳情况下则为线性时间。</p>
+<p><strong>自动垃圾启发式计算:</strong> <a class="reference internal" href="#difflib.SequenceMatcher" title="difflib.SequenceMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceMatcher</span></code></a> 支持使用启发式计算来自动将特定序列项视为垃圾。 这种启发式计算会统计每个单独项在序列中出现的次数。 如果某一项（在第一项之后）的重复次数超过序列长度的 1% 并且序列长度至少有 200 项，该项会被标记为“热门”并被视为序列匹配中的垃圾。 这种启发式计算可以通过在创建 <a class="reference internal" href="#difflib.SequenceMatcher" title="difflib.SequenceMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceMatcher</span></code></a> 时将 <code class="docutils literal notranslate"><span class="pre">autojunk</span></code> 参数设为 <code class="docutils literal notranslate"><span class="pre">False</span></code> 来关闭。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能: </span><em>autojunk</em> 形参。</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="difflib.Differ">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">Differ</span></span><a class="headerlink" href="#difflib.Differ" title="永久链接至目标">¶</a></dt>
+<dd><p>这个类的作用是比较由文本行组成的序列，并产生可供人阅读的差异或增量信息。 Differ 统一使用 <a class="reference internal" href="#difflib.SequenceMatcher" title="difflib.SequenceMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceMatcher</span></code></a> 来完成行序列的比较以及相似（接近匹配）行内部字符序列的比较。</p>
+<p><a class="reference internal" href="#difflib.Differ" title="difflib.Differ"><code class="xref py py-class docutils literal notranslate"><span class="pre">Differ</span></code></a> 增量的每一行均以双字母代码打头：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 81%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>双字母代码</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'-</span> <span class="pre">'</span></code></p></td>
+<td><p>行为序列 1 所独有</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'+</span> <span class="pre">'</span></code></p></td>
+<td><p>行为序列 2 所独有</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'</span>&#160; <span class="pre">'</span></code></p></td>
+<td><p>行在两序列中相同</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'?</span> <span class="pre">'</span></code></p></td>
+<td><p>行不存在于任一输入序列</p></td>
+</tr>
+</tbody>
+</table>
+<p>以 '<code class="docutils literal notranslate"><span class="pre">?</span></code>' 打头的行尝试将视线引至行以外而不存在于任一输入序列的差异。 如果序列包含制表符则这些行可能会令人感到迷惑。</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="difflib.HtmlDiff">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">HtmlDiff</span></span><a class="headerlink" href="#difflib.HtmlDiff" title="永久链接至目标">¶</a></dt>
+<dd><p>这个类可用于创建 HTML 表格（或包含表格的完整 HTML 文件）以并排地逐行显示文本比较，行间与行外的更改将突出显示。 此表格可以基于完全或上下文差异模式来生成。</p>
+<p>这个类的构造函数：</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.HtmlDiff.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrapcolumn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linejunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charjunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">IS_CHARACTER_JUNK</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.HtmlDiff.__init__" title="永久链接至目标">¶</a></dt>
+<dd><p>初始化 <a class="reference internal" href="#difflib.HtmlDiff" title="difflib.HtmlDiff"><code class="xref py py-class docutils literal notranslate"><span class="pre">HtmlDiff</span></code></a> 的实例。</p>
+<p><em>tabsize</em> 是一个可选关键字参数，指定制表位的间隔，默认值为 <code class="docutils literal notranslate"><span class="pre">8</span></code>。</p>
+<p><em>wrapcolumn</em> 是一个可选关键字参数，指定行文本自动打断并换行的列位置，默认值为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 表示不自动换行。</p>
+<p><em>linejunk</em> 和 <em>charjunk</em> 均是可选关键字参数，会传入 <a class="reference internal" href="#difflib.ndiff" title="difflib.ndiff"><code class="xref py py-func docutils literal notranslate"><span class="pre">ndiff()</span></code></a> (被 <a class="reference internal" href="#difflib.HtmlDiff" title="difflib.HtmlDiff"><code class="xref py py-class docutils literal notranslate"><span class="pre">HtmlDiff</span></code></a> 用来生成并排显示的 HTML 差异)。 请参阅 <a class="reference internal" href="#difflib.ndiff" title="difflib.ndiff"><code class="xref py py-func docutils literal notranslate"><span class="pre">ndiff()</span></code></a> 文档了解参数默认值及其说明。</p>
+</dd></dl>
+
+<p>下列是公开的方法</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.HtmlDiff.make_file">
+<span class="sig-name descname"><span class="pre">make_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fromlines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromdesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">todesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numlines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.HtmlDiff.make_file" title="永久链接至目标">¶</a></dt>
+<dd><p>比较 <em>fromlines</em> 和 <em>tolines</em> (字符串列表) 并返回一个字符串，表示一个完整 HTML 文件，其中包含各行差异的表格，行间与行外的更改将突出显示。</p>
+<p><em>fromdesc</em> 和 <em>todesc</em> 均是可选关键字参数，指定来源/目标文件的列标题字符串（默认均为空白字符串）。</p>
+<p><em>context</em> 和 <em>numlines</em> 均是可选关键字参数。 当只要显示上下文差异时就将 <em>context</em> 设为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，否则默认值 <code class="docutils literal notranslate"><span class="pre">False</span></code> 为显示完整文件。 <em>numlines</em> 默认为 <code class="docutils literal notranslate"><span class="pre">5</span></code>。 当 <em>context</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code> 时 <em>numlines</em> 将控制围绕突出显示差异部分的上下文行数。 当 <em>context</em> 为 <code class="docutils literal notranslate"><span class="pre">False</span></code> 时 <em>numlines</em> 将控制在使用 &quot;next&quot; 超链接时突出显示差异部分之前所显示的行数（设为零则会导致 &quot;next&quot; 超链接将下一个突出显示差异部分放在浏览器顶端，不添加任何前导上下文）。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><em>fromdesc</em> 和 <em>todesc</em> 会被当作未转义的 HTML 来解读，当接收不可信来源的输入时应该适当地进行转义。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>增加了 <em>charset</em> 关键字参数。 HTML 文档的默认字符集从 <code class="docutils literal notranslate"><span class="pre">'ISO-8859-1'</span></code> 更改为 <code class="docutils literal notranslate"><span class="pre">'utf-8'</span></code>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.HtmlDiff.make_table">
+<span class="sig-name descname"><span class="pre">make_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fromlines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromdesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">todesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numlines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.HtmlDiff.make_table" title="永久链接至目标">¶</a></dt>
+<dd><p>比较 <em>fromlines</em> 和 <em>tolines</em> (字符串列表) 并返回一个字符串，表示一个包含各行差异的完整 HTML 表格，行间与行外的更改将突出显示。</p>
+<p>此方法的参数与 <a class="reference internal" href="#difflib.HtmlDiff.make_file" title="difflib.HtmlDiff.make_file"><code class="xref py py-meth docutils literal notranslate"><span class="pre">make_file()</span></code></a> 方法的相同。</p>
+</dd></dl>
+
+<p><code class="file docutils literal notranslate"><span class="pre">Tools/scripts/diff.py</span></code> 是这个类的命令行前端，其中包含一个很好的使用示例。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="difflib.context_diff">
+<span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">context_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineterm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.context_diff" title="永久链接至目标">¶</a></dt>
+<dd><p>比较 <em>a</em> 和 <em>b</em> (字符串列表)；返回上下文差异格式的增量信息 (一个产生增量行的 <a class="reference internal" href="../glossary.html#term-generator"><span class="xref std std-term">generator</span></a>)。</p>
+<p>所谓上下文差异是一种只显示有更改的行再加几个上下文行的紧凑形式。 更改被显示为之前/之后的样式。 上下文行数由 <em>n</em> 设定，默认为三行。</p>
+<p>默认情况下，差异控制行（以 <code class="docutils literal notranslate"><span class="pre">***</span></code> or <code class="docutils literal notranslate"><span class="pre">---</span></code> 表示）是通过末尾换行符来创建的。 这样做的好处是从 <a class="reference internal" href="io.html#io.IOBase.readlines" title="io.IOBase.readlines"><code class="xref py py-func docutils literal notranslate"><span class="pre">io.IOBase.readlines()</span></code></a> 创建的输入将得到适用于 <a class="reference internal" href="io.html#io.IOBase.writelines" title="io.IOBase.writelines"><code class="xref py py-func docutils literal notranslate"><span class="pre">io.IOBase.writelines()</span></code></a> 的差异信息，因为输入和输出都带有末尾换行符。</p>
+<p>对于没有末尾换行符的输入，应将 <em>lineterm</em> 参数设为 <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>，这样输出内容将统一不带换行符。</p>
+<p>上下文差异格式通常带有一个记录文件名和修改时间的标头。 这些信息的部分或全部可以使用字符串 <em>fromfile</em>, <em>tofile</em>, <em>fromfiledate</em> 和 <em>tofiledate</em> 来指定。 修改时间通常以 ISO 8601 格式表示。 如果未指定，这些字符串默认为空。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bacon</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;eggs</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;ham</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;guido</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;python</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;eggy</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;hamster</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;guido</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">context_diff</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">fromfile</span><span class="o">=</span><span class="s1">&#39;before.py&#39;</span><span class="p">,</span> <span class="n">tofile</span><span class="o">=</span><span class="s1">&#39;after.py&#39;</span><span class="p">))</span>
+<span class="go">*** before.py</span>
+<span class="go">--- after.py</span>
+<span class="go">***************</span>
+<span class="go">*** 1,4 ****</span>
+<span class="go">! bacon</span>
+<span class="go">! eggs</span>
+<span class="go">! ham</span>
+<span class="go">  guido</span>
+<span class="go">--- 1,4 ----</span>
+<span class="go">! python</span>
+<span class="go">! eggy</span>
+<span class="go">! hamster</span>
+<span class="go">  guido</span>
+</pre></div>
+</div>
+<p>请参阅 <a class="reference internal" href="#difflib-interface"><span class="std std-ref">difflib 的命令行接口</span></a> 获取更详细的示例。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="difflib.get_close_matches">
+<span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">get_close_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">possibilities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.get_close_matches" title="永久链接至目标">¶</a></dt>
+<dd><p>返回由最佳“近似”匹配构成的列表。 <em>word</em> 为一个指定目标近似匹配的序列（通常为字符串），<em>possibilities</em> 为一个由用于匹配 <em>word</em> 的序列构成的列表（通常为字符串列表）。</p>
+<p>可选参数 <em>n</em> (默认为 <code class="docutils literal notranslate"><span class="pre">3</span></code>) 指定最多返回多少个近似匹配； <em>n</em> 必须大于 <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<p>可选参数 <em>cutoff</em> (默认为 <code class="docutils literal notranslate"><span class="pre">0.6</span></code>) 是一个 [0, 1] 范围内的浮点数。 与 <em>word</em> 相似度得分未达到该值的候选匹配将被忽略。</p>
+<p>候选匹配中（不超过 <em>n</em> 个）的最佳匹配将以列表形式返回，按相似度得分排序，最相似的排在最前面。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_close_matches</span><span class="p">(</span><span class="s1">&#39;appel&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ape&#39;</span><span class="p">,</span> <span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;peach&#39;</span><span class="p">,</span> <span class="s1">&#39;puppy&#39;</span><span class="p">])</span>
+<span class="go">[&#39;apple&#39;, &#39;ape&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">keyword</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_close_matches</span><span class="p">(</span><span class="s1">&#39;wheel&#39;</span><span class="p">,</span> <span class="n">keyword</span><span class="o">.</span><span class="n">kwlist</span><span class="p">)</span>
+<span class="go">[&#39;while&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_close_matches</span><span class="p">(</span><span class="s1">&#39;pineapple&#39;</span><span class="p">,</span> <span class="n">keyword</span><span class="o">.</span><span class="n">kwlist</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_close_matches</span><span class="p">(</span><span class="s1">&#39;accept&#39;</span><span class="p">,</span> <span class="n">keyword</span><span class="o">.</span><span class="n">kwlist</span><span class="p">)</span>
+<span class="go">[&#39;except&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="difflib.ndiff">
+<span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">ndiff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linejunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charjunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">IS_CHARACTER_JUNK</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.ndiff" title="永久链接至目标">¶</a></dt>
+<dd><p>比较 <em>a</em> 和 <em>b</em> (字符串列表)；返回 <a class="reference internal" href="#difflib.Differ" title="difflib.Differ"><code class="xref py py-class docutils literal notranslate"><span class="pre">Differ</span></code></a> 形式的增量信息 (一个产生增量行的 <a class="reference internal" href="../glossary.html#term-generator"><span class="xref std std-term">generator</span></a>)。</p>
+<p>可选关键字形参 <em>linejunk</em> 和 <em>charjunk</em> 均为过滤函数 (或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>)：</p>
+<p><em>linejunk</em>: 此函数接受单个字符串参数，如果其为垃圾字符串则返回真值，否则返回假值。 默认为 <code class="docutils literal notranslate"><span class="pre">None</span></code>。 此外还有一个模块层级的函数 <a class="reference internal" href="#difflib.IS_LINE_JUNK" title="difflib.IS_LINE_JUNK"><code class="xref py py-func docutils literal notranslate"><span class="pre">IS_LINE_JUNK()</span></code></a>，它会过滤掉没有可见字符的行，除非该行添加了至多一个井号符 (<code class="docutils literal notranslate"><span class="pre">'#'</span></code>) -- 但是下层的 <a class="reference internal" href="#difflib.SequenceMatcher" title="difflib.SequenceMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceMatcher</span></code></a> 类会动态分析哪些行的重复频繁到足以形成噪音，这通常会比使用此函数的效果更好。</p>
+<p><em>charjunk</em>: 此函数接受一个字符（长度为 1 的字符串)，如果其为垃圾字符则返回真值，否则返回假值。 默认为模块层级的函数 <a class="reference internal" href="#difflib.IS_CHARACTER_JUNK" title="difflib.IS_CHARACTER_JUNK"><code class="xref py py-func docutils literal notranslate"><span class="pre">IS_CHARACTER_JUNK()</span></code></a>，它会过滤掉空白字符（空格符或制表符；但包含换行符可不是个好主意！）。</p>
+<p><code class="file docutils literal notranslate"><span class="pre">Tools/scripts/ndiff.py</span></code> 是这个函数的命令行前端。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diff</span> <span class="o">=</span> <span class="n">ndiff</span><span class="p">(</span><span class="s1">&#39;one</span><span class="se">\n</span><span class="s1">two</span><span class="se">\n</span><span class="s1">three</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="gp">... </span>             <span class="s1">&#39;ore</span><span class="se">\n</span><span class="s1">tree</span><span class="se">\n</span><span class="s1">emu</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">diff</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="go">- one</span>
+<span class="go">?  ^</span>
+<span class="go">+ ore</span>
+<span class="go">?  ^</span>
+<span class="go">- two</span>
+<span class="go">- three</span>
+<span class="go">?  -</span>
+<span class="go">+ tree</span>
+<span class="go">+ emu</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="difflib.restore">
+<span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">restore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">which</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.restore" title="永久链接至目标">¶</a></dt>
+<dd><p>返回两个序列中产生增量的那一个。</p>
+<p>给出一个由 <a class="reference internal" href="#difflib.Differ.compare" title="difflib.Differ.compare"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Differ.compare()</span></code></a> 或 <a class="reference internal" href="#difflib.ndiff" title="difflib.ndiff"><code class="xref py py-func docutils literal notranslate"><span class="pre">ndiff()</span></code></a> 产生的 <em>序列</em>，提取出来自文件 1 或 2 (<em>which</em> 形参) 的行，去除行前缀。</p>
+<p>示例:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diff</span> <span class="o">=</span> <span class="n">ndiff</span><span class="p">(</span><span class="s1">&#39;one</span><span class="se">\n</span><span class="s1">two</span><span class="se">\n</span><span class="s1">three</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="gp">... </span>             <span class="s1">&#39;ore</span><span class="se">\n</span><span class="s1">tree</span><span class="se">\n</span><span class="s1">emu</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diff</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="c1"># materialize the generated delta into a list</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">restore</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="go">one</span>
+<span class="go">two</span>
+<span class="go">three</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">restore</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="go">ore</span>
+<span class="go">tree</span>
+<span class="go">emu</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="difflib.unified_diff">
+<span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">unified_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineterm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.unified_diff" title="永久链接至目标">¶</a></dt>
+<dd><p>比较 <em>a</em> 和 <em>b</em> (字符串列表)；返回统一差异格式的增量信息 (一个产生增量行的 <a class="reference internal" href="../glossary.html#term-generator"><span class="xref std std-term">generator</span></a>)。</p>
+<p>所以统一差异是一种只显示有更改的行再加几个上下文行的紧凑形式。 更改被显示为内联的样式（而不是分开的之前/之后文本块）。 上下文行数由 <em>n</em> 设定，默认为三行。</p>
+<p>默认情况下，差异控制行 (以 <code class="docutils literal notranslate"><span class="pre">---</span></code>, <code class="docutils literal notranslate"><span class="pre">+++</span></code> 或 <code class="docutils literal notranslate"><span class="pre">&#64;&#64;</span></code> 表示) 是通过末尾换行符来创建的。 这样做的好处是从 <a class="reference internal" href="io.html#io.IOBase.readlines" title="io.IOBase.readlines"><code class="xref py py-func docutils literal notranslate"><span class="pre">io.IOBase.readlines()</span></code></a> 创建的输入将得到适用于 <a class="reference internal" href="io.html#io.IOBase.writelines" title="io.IOBase.writelines"><code class="xref py py-func docutils literal notranslate"><span class="pre">io.IOBase.writelines()</span></code></a> 的差异信息，因为输入和输出都带有末尾换行符。</p>
+<p>对于没有末尾换行符的输入，应将 <em>lineterm</em> 参数设为 <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>，这样输出内容将统一不带换行符。</p>
+<p>上下文差异格式通常带有一个记录文件名和修改时间的标头。 这些信息的部分或全部可以使用字符串 <em>fromfile</em>, <em>tofile</em>, <em>fromfiledate</em> 和 <em>tofiledate</em> 来指定。 修改时间通常以 ISO 8601 格式表示。 如果未指定，这些字符串默认为空。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bacon</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;eggs</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;ham</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;guido</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;python</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;eggy</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;hamster</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;guido</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">unified_diff</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">fromfile</span><span class="o">=</span><span class="s1">&#39;before.py&#39;</span><span class="p">,</span> <span class="n">tofile</span><span class="o">=</span><span class="s1">&#39;after.py&#39;</span><span class="p">))</span>
+<span class="go">--- before.py</span>
+<span class="go">+++ after.py</span>
+<span class="go">@@ -1,4 +1,4 @@</span>
+<span class="go">-bacon</span>
+<span class="go">-eggs</span>
+<span class="go">-ham</span>
+<span class="go">+python</span>
+<span class="go">+eggy</span>
+<span class="go">+hamster</span>
+<span class="go"> guido</span>
+</pre></div>
+</div>
+<p>请参阅 <a class="reference internal" href="#difflib-interface"><span class="std std-ref">difflib 的命令行接口</span></a> 获取更详细的示例。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="difflib.diff_bytes">
+<span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">diff_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineterm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b'\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.diff_bytes" title="永久链接至目标">¶</a></dt>
+<dd><p>使用 <em>dfunc</em> 比较 <em>a</em> 和 <em>b</em> (字节串对象列表)；产生以 <em>dfunc</em> 所返回格式表示的差异行列表（也是字节串）。 <em>dfunc</em> 必须是可调用对象，通常为 <a class="reference internal" href="#difflib.unified_diff" title="difflib.unified_diff"><code class="xref py py-func docutils literal notranslate"><span class="pre">unified_diff()</span></code></a> 或 <a class="reference internal" href="#difflib.context_diff" title="difflib.context_diff"><code class="xref py py-func docutils literal notranslate"><span class="pre">context_diff()</span></code></a>。</p>
+<p>允许你比较编码未知或不一致的数据。 除 <em>n</em> 之外的所有输入都必须为字节串对象而非字符串。 作用方式为无损地将所有输入 (除 <em>n</em> 之外) 转换为字符串，并调用 <code class="docutils literal notranslate"><span class="pre">dfunc(a,</span> <span class="pre">b,</span> <span class="pre">fromfile,</span> <span class="pre">tofile,</span> <span class="pre">fromfiledate,</span> <span class="pre">tofiledate,</span> <span class="pre">n,</span> <span class="pre">lineterm)</span></code>。 <em>dfunc</em> 的输出会被随即转换回字节串，这样你所得到的增量行将具有与 <em>a</em> 和 <em>b</em> 相同的未知/不一致编码。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="difflib.IS_LINE_JUNK">
+<span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">IS_LINE_JUNK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.IS_LINE_JUNK" title="永久链接至目标">¶</a></dt>
+<dd><p>对于可忽略的行返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。 如果 <em>line</em> 为空行或只包含单个 <code class="docutils literal notranslate"><span class="pre">'#'</span></code> 则 <em>line</em> 行就是可忽略的，否则就是不可忽略的。 此函数被用作较旧版本 <a class="reference internal" href="#difflib.ndiff" title="difflib.ndiff"><code class="xref py py-func docutils literal notranslate"><span class="pre">ndiff()</span></code></a> 中 <em>linejunk</em> 形参的默认值。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="difflib.IS_CHARACTER_JUNK">
+<span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">IS_CHARACTER_JUNK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.IS_CHARACTER_JUNK" title="永久链接至目标">¶</a></dt>
+<dd><p>对于可忽略的字符返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。 字符 <em>ch</em> 如果为空格符或制表符则 <em>ch</em> 就是可忽略的，否则就是不可忽略的。 此函数被用作 <a class="reference internal" href="#difflib.ndiff" title="difflib.ndiff"><code class="xref py py-func docutils literal notranslate"><span class="pre">ndiff()</span></code></a> 中 <em>charjunk</em> 形参的默认值。</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://www.drdobbs.com/database/pattern-matching-the-gestalt-approach/184407970">Pattern Matching: The Gestalt Approach</a></dt><dd><p>Discussion of a similar algorithm by John W. Ratcliff and D. E. Metzener. This
+was published in <a class="reference external" href="https://www.drdobbs.com/">Dr. Dobb's Journal</a> in July, 1988.</p>
+</dd>
+</dl>
+</div>
+<section id="sequencematcher-objects">
+<span id="sequence-matcher"></span><h2>SequenceMatcher 对象<a class="headerlink" href="#sequencematcher-objects" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#difflib.SequenceMatcher" title="difflib.SequenceMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceMatcher</span></code></a> 类具有这样的构造器：</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">SequenceMatcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isjunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autojunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher" title="永久链接至目标">¶</a></dt>
+<dd><p>可选参数 <em>isjunk</em> 必须为 <code class="docutils literal notranslate"><span class="pre">None</span></code> (默认值) 或为接受一个序列元素并当且仅当其为应忽略的“垃圾”元素时返回真值的单参数函数。 传入 <code class="docutils literal notranslate"><span class="pre">None</span></code> 作为 <em>isjunk</em> 的值就相当于传入 <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">False</span></code>；也就是说不忽略任何值。 例如，传入:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">in</span> <span class="s2">&quot; </span><span class="se">\t</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>如果你以字符序列的形式对行进行比较，并且不希望区分空格符或硬制表符。</p>
+<p>可选参数 <em>a</em> 和 <em>b</em> 为要比较的序列；两者默认为空字符串。 两个序列的元素都必须为 <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hashable</span></a>。</p>
+<p>可选参数 <em>autojunk</em> 可用于启用自动垃圾启发式计算。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能: </span><em>autojunk</em> 形参。</p>
+</div>
+<p>SequenceMatcher 对象接受三个数据属性: <em>bjunk</em> 是 <em>b</em> 当中 <em>isjunk</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code> 的元素集合；<em>bpopular</em> 是被启发式计算（如果其未被禁用）视为热门候选的非垃圾元素集合；<em>b2j</em> 是将 <em>b</em> 当中剩余元素映射到一个它们出现位置列表的字典。 所有三个数据属性将在 <em>b</em> 通过 <a class="reference internal" href="#difflib.SequenceMatcher.set_seqs" title="difflib.SequenceMatcher.set_seqs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_seqs()</span></code></a> 或 <a class="reference internal" href="#difflib.SequenceMatcher.set_seq2" title="difflib.SequenceMatcher.set_seq2"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_seq2()</span></code></a> 重置时被重置。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能: </span><em>bjunk</em> 和 <em>bpopular</em> 属性。</p>
+</div>
+<p><a class="reference internal" href="#difflib.SequenceMatcher" title="difflib.SequenceMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceMatcher</span></code></a> 对象具有以下方法：</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher.set_seqs">
+<span class="sig-name descname"><span class="pre">set_seqs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher.set_seqs" title="永久链接至目标">¶</a></dt>
+<dd><p>设置要比较的两个序列。</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#difflib.SequenceMatcher" title="difflib.SequenceMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceMatcher</span></code></a> 计算并缓存有关第二个序列的详细信息，这样如果你想要将一个序列与多个序列进行比较，可使用 <a class="reference internal" href="#difflib.SequenceMatcher.set_seq2" title="difflib.SequenceMatcher.set_seq2"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_seq2()</span></code></a> 一次性地设置该常用序列并重复地对每个其他序列各调用一次 <a class="reference internal" href="#difflib.SequenceMatcher.set_seq1" title="difflib.SequenceMatcher.set_seq1"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_seq1()</span></code></a>。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher.set_seq1">
+<span class="sig-name descname"><span class="pre">set_seq1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher.set_seq1" title="永久链接至目标">¶</a></dt>
+<dd><p>设置要比较的第一个序列。 要比较的第二个序列不会改变。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher.set_seq2">
+<span class="sig-name descname"><span class="pre">set_seq2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher.set_seq2" title="永久链接至目标">¶</a></dt>
+<dd><p>设置要比较的第二个序列。 要比较的第一个序列不会改变。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher.find_longest_match">
+<span class="sig-name descname"><span class="pre">find_longest_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ahi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bhi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher.find_longest_match" title="永久链接至目标">¶</a></dt>
+<dd><p>找出 <code class="docutils literal notranslate"><span class="pre">a[alo:ahi]</span></code> 和 <code class="docutils literal notranslate"><span class="pre">b[blo:bhi]</span></code> 中的最长匹配块。</p>
+<p>如果 <em>isjunk</em> 被省略或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，<a class="reference internal" href="#difflib.SequenceMatcher.find_longest_match" title="difflib.SequenceMatcher.find_longest_match"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_longest_match()</span></code></a> 将返回 <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j,</span> <span class="pre">k)</span></code> 使得 <code class="docutils literal notranslate"><span class="pre">a[i:i+k]</span></code> 等于 <code class="docutils literal notranslate"><span class="pre">b[j:j+k]</span></code>，其中 <code class="docutils literal notranslate"><span class="pre">alo</span> <span class="pre">&lt;=</span> <span class="pre">i</span> <span class="pre">&lt;=</span> <span class="pre">i+k</span> <span class="pre">&lt;=</span> <span class="pre">ahi</span></code> 并且 <code class="docutils literal notranslate"><span class="pre">blo</span> <span class="pre">&lt;=</span> <span class="pre">j</span> <span class="pre">&lt;=</span> <span class="pre">j+k</span> <span class="pre">&lt;=</span> <span class="pre">bhi</span></code>。 对于所有满足这些条件的 <code class="docutils literal notranslate"><span class="pre">(i',</span> <span class="pre">j',</span> <span class="pre">k')</span></code>，如果 <code class="docutils literal notranslate"><span class="pre">i</span> <span class="pre">==</span> <span class="pre">i'</span></code>, <code class="docutils literal notranslate"><span class="pre">j</span> <span class="pre">&lt;=</span> <span class="pre">j'</span></code> 也被满足，则附加条件 <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">&gt;=</span> <span class="pre">k'</span></code>, <code class="docutils literal notranslate"><span class="pre">i</span> <span class="pre">&lt;=</span> <span class="pre">i'</span></code>。 换句话说，对于所有最长匹配块，返回在 <em>a</em> 当中最先出现的一个，而对于在 <em>a</em> 当中最先出现的所有最长匹配块，则返回在 <em>b</em> 当中最先出现的一个。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot; abcd&quot;</span><span class="p">,</span> <span class="s2">&quot;abcd abcd&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">find_longest_match</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="go">Match(a=0, b=4, size=5)</span>
+</pre></div>
+</div>
+<p>如果提供了 <em>isjunk</em>，将按上述规则确定第一个最长匹配块，但额外附加不允许块内出现垃圾元素的限制。 然后将通过（仅）匹配两边的垃圾元素来尽可能地扩展该块。 这样结果块绝对不会匹配垃圾元素，除非同样的垃圾元素正好与有意义的匹配相邻。</p>
+<p>这是与之前相同的例子，但是将空格符视为垃圾。 这将防止 <code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">abcd'</span></code> 直接与第二个序列末尾的 <code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">abcd'</span></code> 相匹配。 而只可以匹配 <code class="docutils literal notranslate"><span class="pre">'abcd'</span></code>，并且是匹配第二个序列最左边的 <code class="docutils literal notranslate"><span class="pre">'abcd'</span></code>：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot; abcd&quot;</span><span class="p">,</span> <span class="s2">&quot;abcd abcd&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">find_longest_match</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="go">Match(a=1, b=0, size=4)</span>
+</pre></div>
+</div>
+<p>如果未找到匹配块，此方法将返回 <code class="docutils literal notranslate"><span class="pre">(alo,</span> <span class="pre">blo,</span> <span class="pre">0)</span></code>。</p>
+<p>此方法将返回一个 <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">named tuple</span></a> <code class="docutils literal notranslate"><span class="pre">Match(a,</span> <span class="pre">b,</span> <span class="pre">size)</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>加入默认参数。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher.get_matching_blocks">
+<span class="sig-name descname"><span class="pre">get_matching_blocks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher.get_matching_blocks" title="永久链接至目标">¶</a></dt>
+<dd><p>返回描述非重叠匹配子序列的三元组列表。 每个三元组的形式为 <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j,</span> <span class="pre">n)</span></code>，其含义为 <code class="docutils literal notranslate"><span class="pre">a[i:i+n]</span> <span class="pre">==</span> <span class="pre">b[j:j+n]</span></code>。 这些三元组按 <em>i</em> 和 <em>j</em> 单调递增排列。</p>
+<p>最后一个三元组用于占位，其值为 <code class="docutils literal notranslate"><span class="pre">(len(a),</span> <span class="pre">len(b),</span> <span class="pre">0)</span></code>。 它是唯一 <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">==</span> <span class="pre">0</span></code> 的三元组。 如果 <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j,</span> <span class="pre">n)</span></code> 和 <code class="docutils literal notranslate"><span class="pre">(i',</span> <span class="pre">j',</span> <span class="pre">n')</span></code> 是在列表中相邻的三元组，且后者不是列表中的最后一个三元组，则 <code class="docutils literal notranslate"><span class="pre">i+n</span> <span class="pre">&lt;</span> <span class="pre">i'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">j+n</span> <span class="pre">&lt;</span> <span class="pre">j'</span></code>；换句话说，相邻的三元组总是描述非相邻的相等块。</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;abxcd&quot;</span><span class="p">,</span> <span class="s2">&quot;abcd&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">get_matching_blocks</span><span class="p">()</span>
+<span class="go">[Match(a=0, b=0, size=2), Match(a=3, b=2, size=2), Match(a=5, b=4, size=0)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher.get_opcodes">
+<span class="sig-name descname"><span class="pre">get_opcodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher.get_opcodes" title="永久链接至目标">¶</a></dt>
+<dd><p>返回描述如何将 <em>a</em> 变为 <em>b</em> 的 5 元组列表，每个元组的形式为 <code class="docutils literal notranslate"><span class="pre">(tag,</span> <span class="pre">i1,</span> <span class="pre">i2,</span> <span class="pre">j1,</span> <span class="pre">j2)</span></code>。 在第一个元组中 <code class="docutils literal notranslate"><span class="pre">i1</span> <span class="pre">==</span> <span class="pre">j1</span> <span class="pre">==</span> <span class="pre">0</span></code>，而在其余的元组中 <em>i1</em> 等于前一个元组的 <em>i2</em>，并且 <em>j1</em> 也等于前一个元组的 <em>j2</em>。</p>
+<p><em>tag</em> 值为字符串，其含义如下：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>值</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'replace'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">a[i1:i2]</span></code> 应由 <code class="docutils literal notranslate"><span class="pre">b[j1:j2]</span></code> 替换。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'delete'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">a[i1:i2]</span></code> 应被删除。 请注意在此情况下 <code class="docutils literal notranslate"><span class="pre">j1</span> <span class="pre">==</span> <span class="pre">j2</span></code>。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'insert'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b[j1:j2]</span></code> 应插入到 <code class="docutils literal notranslate"><span class="pre">a[i1:i1]</span></code>。 请注意在此情况下 <code class="docutils literal notranslate"><span class="pre">i1</span> <span class="pre">==</span> <span class="pre">i2</span></code>。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'equal'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">a[i1:i2]</span> <span class="pre">==</span> <span class="pre">b[j1:j2]</span></code> (两个子序列相同)。</p></td>
+</tr>
+</tbody>
+</table>
+<p>例如：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;qabxcd&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="s2">&quot;abycdf&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">,</span> <span class="n">j1</span><span class="p">,</span> <span class="n">j2</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">get_opcodes</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:7}</span><span class="s1">   a[</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">] --&gt; b[</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">] </span><span class="si">{!r:&gt;8}</span><span class="s1"> --&gt; </span><span class="si">{!r}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">tag</span><span class="p">,</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">,</span> <span class="n">j1</span><span class="p">,</span> <span class="n">j2</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="n">i1</span><span class="p">:</span><span class="n">i2</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="n">j1</span><span class="p">:</span><span class="n">j2</span><span class="p">]))</span>
+<span class="go">delete    a[0:1] --&gt; b[0:0]      &#39;q&#39; --&gt; &#39;&#39;</span>
+<span class="go">equal     a[1:3] --&gt; b[0:2]     &#39;ab&#39; --&gt; &#39;ab&#39;</span>
+<span class="go">replace   a[3:4] --&gt; b[2:3]      &#39;x&#39; --&gt; &#39;y&#39;</span>
+<span class="go">equal     a[4:6] --&gt; b[3:5]     &#39;cd&#39; --&gt; &#39;cd&#39;</span>
+<span class="go">insert    a[6:6] --&gt; b[5:6]       &#39;&#39; --&gt; &#39;f&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher.get_grouped_opcodes">
+<span class="sig-name descname"><span class="pre">get_grouped_opcodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher.get_grouped_opcodes" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个带有最多 <em>n</em> 行上下文的分组的 <a class="reference internal" href="../glossary.html#term-generator"><span class="xref std std-term">generator</span></a>。</p>
+<p>从 <a class="reference internal" href="#difflib.SequenceMatcher.get_opcodes" title="difflib.SequenceMatcher.get_opcodes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_opcodes()</span></code></a> 所返回的组开始，此方法会拆分出较小的更改簇并消除没有更改的间隔区域。</p>
+<p>这些分组以与 <a class="reference internal" href="#difflib.SequenceMatcher.get_opcodes" title="difflib.SequenceMatcher.get_opcodes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_opcodes()</span></code></a> 相同的格式返回。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher.ratio">
+<span class="sig-name descname"><span class="pre">ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher.ratio" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个取值范围 [0, 1] 的浮点数作为序列相似性度量。</p>
+<p>其中 T 是两个序列中元素的总数量，M 是匹配的数量，即 2.0*M / T。 请注意如果两个序列完全相同则该值为 <code class="docutils literal notranslate"><span class="pre">1.0</span></code>，如果两者完全不同则为 <code class="docutils literal notranslate"><span class="pre">0.0</span></code>。</p>
+<p>如果 <a class="reference internal" href="#difflib.SequenceMatcher.get_matching_blocks" title="difflib.SequenceMatcher.get_matching_blocks"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_matching_blocks()</span></code></a> 或 <a class="reference internal" href="#difflib.SequenceMatcher.get_opcodes" title="difflib.SequenceMatcher.get_opcodes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_opcodes()</span></code></a> 尚未被调用则此方法运算消耗较大，在此情况下你可能需要先调用 <a class="reference internal" href="#difflib.SequenceMatcher.quick_ratio" title="difflib.SequenceMatcher.quick_ratio"><code class="xref py py-meth docutils literal notranslate"><span class="pre">quick_ratio()</span></code></a> 或 <a class="reference internal" href="#difflib.SequenceMatcher.real_quick_ratio" title="difflib.SequenceMatcher.real_quick_ratio"><code class="xref py py-meth docutils literal notranslate"><span class="pre">real_quick_ratio()</span></code></a> 来获取一个上界。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>注意: <a class="reference internal" href="#difflib.SequenceMatcher.ratio" title="difflib.SequenceMatcher.ratio"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ratio()</span></code></a> 调用的结果可能会取决于参数的顺序。 例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;tide&#39;</span><span class="p">,</span> <span class="s1">&#39;diet&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+<span class="go">0.25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;diet&#39;</span><span class="p">,</span> <span class="s1">&#39;tide&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+<span class="go">0.5</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher.quick_ratio">
+<span class="sig-name descname"><span class="pre">quick_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher.quick_ratio" title="永久链接至目标">¶</a></dt>
+<dd><p>相对快速地返回一个 <a class="reference internal" href="#difflib.SequenceMatcher.ratio" title="difflib.SequenceMatcher.ratio"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ratio()</span></code></a> 的上界。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.SequenceMatcher.real_quick_ratio">
+<span class="sig-name descname"><span class="pre">real_quick_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#difflib.SequenceMatcher.real_quick_ratio" title="永久链接至目标">¶</a></dt>
+<dd><p>非常快速地返回一个 <a class="reference internal" href="#difflib.SequenceMatcher.ratio" title="difflib.SequenceMatcher.ratio"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ratio()</span></code></a> 的上界。</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>这三个返回匹配部分占字符总数的比率的方法可能由于不同的近似级别而给出不一样的结果，但是 <code class="xref py py-meth docutils literal notranslate"><span class="pre">quick_ratio()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">real_quick_ratio()</span></code> 总是会至少与 <code class="xref py py-meth docutils literal notranslate"><span class="pre">ratio()</span></code> 一样大：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;abcd&quot;</span><span class="p">,</span> <span class="s2">&quot;bcde&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+<span class="go">0.75</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">quick_ratio</span><span class="p">()</span>
+<span class="go">0.75</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">real_quick_ratio</span><span class="p">()</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+</section>
+<section id="sequencematcher-examples">
+<span id="id1"></span><h2>SequenceMatcher 的示例<a class="headerlink" href="#sequencematcher-examples" title="永久链接至标题">¶</a></h2>
+<p>以下示例比较两个字符串，并将空格视为“垃圾”：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="s2">&quot;private Thread currentThread;&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="s2">&quot;private volatile Thread currentThread;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ratio()</span></code> 返回一个 [0, 1] 范围内的整数作为两个序列相似性的度量。 根据经验，<code class="xref py py-meth docutils literal notranslate"><span class="pre">ratio()</span></code> 值超过 0.6 就意味着两个序列是近似匹配的：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">ratio</span><span class="p">(),</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">0.866</span>
+</pre></div>
+</div>
+<p>如果你只对两个序列相匹配的位置感兴趣，则 <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_matching_blocks()</span></code> 就很方便：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">get_matching_blocks</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a[</span><span class="si">%d</span><span class="s2">] and b[</span><span class="si">%d</span><span class="s2">] match for </span><span class="si">%d</span><span class="s2"> elements&quot;</span> <span class="o">%</span> <span class="n">block</span><span class="p">)</span>
+<span class="go">a[0] and b[0] match for 8 elements</span>
+<span class="go">a[8] and b[17] match for 21 elements</span>
+<span class="go">a[29] and b[38] match for 0 elements</span>
+</pre></div>
+</div>
+<p>请注意 <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_matching_blocks()</span></code> 返回的最后一个元组总是只用于占位的 <code class="docutils literal notranslate"><span class="pre">(len(a),</span> <span class="pre">len(b),</span> <span class="pre">0)</span></code>，这也是元组末尾元素（匹配的元素数量）为 <code class="docutils literal notranslate"><span class="pre">0</span></code> 的唯一情况。</p>
+<p>如果你想要知道如何将第一个序列转成第二个序列，可以使用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_opcodes()</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">opcode</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">get_opcodes</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%6s</span><span class="s2"> a[</span><span class="si">%d</span><span class="s2">:</span><span class="si">%d</span><span class="s2">] b[</span><span class="si">%d</span><span class="s2">:</span><span class="si">%d</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="n">opcode</span><span class="p">)</span>
+<span class="go"> equal a[0:8] b[0:8]</span>
+<span class="go">insert a[8:8] b[8:17]</span>
+<span class="go"> equal a[8:29] b[17:38]</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<ul class="simple">
+<li><p>此模块中的 <a class="reference internal" href="#difflib.get_close_matches" title="difflib.get_close_matches"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_close_matches()</span></code></a> 函数显示了如何基于 <a class="reference internal" href="#difflib.SequenceMatcher" title="difflib.SequenceMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceMatcher</span></code></a> 构建简单的代码来执行有用的功能。</p></li>
+<li><p>使用 <a class="reference internal" href="#difflib.SequenceMatcher" title="difflib.SequenceMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceMatcher</span></code></a> 构建小型应用的 <a class="reference external" href="https://code.activestate.com/recipes/576729/">简易版本控制方案</a>。</p></li>
+</ul>
+</div>
+</section>
+<section id="differ-objects">
+<span id="id2"></span><h2>Differ 对象<a class="headerlink" href="#differ-objects" title="永久链接至标题">¶</a></h2>
+<p>请注意 <a class="reference internal" href="#difflib.Differ" title="difflib.Differ"><code class="xref py py-class docutils literal notranslate"><span class="pre">Differ</span></code></a> 所生成的增量并不保证是 <strong>最小</strong> 差异。 相反，最小差异往往是违反直觉的，因为它们会同步任何可能的地方，有时甚至意外产生相距 100 页的匹配。 将同步点限制为连续匹配保留了一些局部性概念，这偶尔会带来产生更长差异的代价。</p>
+<p><a class="reference internal" href="#difflib.Differ" title="difflib.Differ"><code class="xref py py-class docutils literal notranslate"><span class="pre">Differ</span></code></a> 类具有这样的构造器：</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">difflib.</span></span><span class="sig-name descname"><span class="pre">Differ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">linejunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charjunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>可选关键字形参 <em>linejunk</em> 和 <em>charjunk</em> 均为过滤函数 (或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>)：</p>
+<p><em>linejunk</em>: 接受单个字符串作为参数的函数，如果其为垃圾字符串则返回真值。 默认值为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，意味着没有任何行会被视为垃圾行。</p>
+<p><em>charjunk</em>: 接受单个字符（长度为 1 的字符串）作为参数的函数，如果其为垃圾字符则返回真值。 默认值为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，意味着没有任何字符会被视为垃圾字符。</p>
+<p>这些垃圾过滤函数可加快查找差异的匹配速度，并且不会导致任何差异行或字符被忽略。 请阅读 <a class="reference internal" href="#difflib.SequenceMatcher.find_longest_match" title="difflib.SequenceMatcher.find_longest_match"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_longest_match()</span></code></a> 方法的 <em>isjunk</em> 形参的描述了解详情。</p>
+<p><a class="reference internal" href="#difflib.Differ" title="difflib.Differ"><code class="xref py py-class docutils literal notranslate"><span class="pre">Differ</span></code></a> 对象是通过一个单独方法来使用（生成增量）的：</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="difflib.Differ.compare">
+<span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#difflib.Differ.compare" title="永久链接至目标">¶</a></dt>
+<dd><p>比较两个由行组成的序列，并生成增量（一个由行组成的序列）。</p>
+<p>每个序列必须包含一个以换行符结尾的单行字符串。 这样的序列可以通过文件类对象的 <a class="reference internal" href="io.html#io.IOBase.readlines" title="io.IOBase.readlines"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readlines()</span></code></a> 方法来获取。 所生成的增量同样由以换行符结尾的字符串构成，可以通过文件类对象的 <a class="reference internal" href="io.html#io.IOBase.writelines" title="io.IOBase.writelines"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writelines()</span></code></a> 方法原样打印出来。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="differ-example">
+<span id="differ-examples"></span><h2>Differ 示例<a class="headerlink" href="#differ-example" title="永久链接至标题">¶</a></h2>
+<p>此示例比较两段文本。 首先我们设置文本为以换行符结尾的单行字符串构成的序列（这样的序列也可以通过文件类对象的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">readlines()</span></code> 方法来获取）：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text1</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;  1. Beautiful is better than ugly.</span>
+<span class="gp">... </span><span class="s1">  2. Explicit is better than implicit.</span>
+<span class="gp">... </span><span class="s1">  3. Simple is better than complex.</span>
+<span class="gp">... </span><span class="s1">  4. Complex is better than complicated.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">text1</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text1</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">&#39;\n&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text2</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;  1. Beautiful is better than ugly.</span>
+<span class="gp">... </span><span class="s1">  3.   Simple is better than complex.</span>
+<span class="gp">... </span><span class="s1">  4. Complicated is better than complex.</span>
+<span class="gp">... </span><span class="s1">  5. Flat is better than nested.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>接下来我们实例化一个 Differ 对象：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Differ</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>请注意在实例化 <a class="reference internal" href="#difflib.Differ" title="difflib.Differ"><code class="xref py py-class docutils literal notranslate"><span class="pre">Differ</span></code></a> 对象时我们可以传入函数来过滤掉“垃圾”行和字符。 详情参见 <a class="reference internal" href="#difflib.Differ" title="difflib.Differ"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Differ()</span></code></a> 构造器说明。</p>
+<p>最后，我们比较两个序列：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">text1</span><span class="p">,</span> <span class="n">text2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">result</span></code> 是一个字符串列表，让我们将其美化打印出来：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="go">[&#39;    1. Beautiful is better than ugly.\n&#39;,</span>
+<span class="go"> &#39;-   2. Explicit is better than implicit.\n&#39;,</span>
+<span class="go"> &#39;-   3. Simple is better than complex.\n&#39;,</span>
+<span class="go"> &#39;+   3.   Simple is better than complex.\n&#39;,</span>
+<span class="go"> &#39;?     ++\n&#39;,</span>
+<span class="go"> &#39;-   4. Complex is better than complicated.\n&#39;,</span>
+<span class="go"> &#39;?            ^                     ---- ^\n&#39;,</span>
+<span class="go"> &#39;+   4. Complicated is better than complex.\n&#39;,</span>
+<span class="go"> &#39;?           ++++ ^                      ^\n&#39;,</span>
+<span class="go"> &#39;+   5. Flat is better than nested.\n&#39;]</span>
+</pre></div>
+</div>
+<p>作为单独的多行字符串显示出来则是这样：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="go">    1. Beautiful is better than ugly.</span>
+<span class="go">-   2. Explicit is better than implicit.</span>
+<span class="go">-   3. Simple is better than complex.</span>
+<span class="go">+   3.   Simple is better than complex.</span>
+<span class="go">?     ++</span>
+<span class="go">-   4. Complex is better than complicated.</span>
+<span class="go">?            ^                     ---- ^</span>
+<span class="go">+   4. Complicated is better than complex.</span>
+<span class="go">?           ++++ ^                      ^</span>
+<span class="go">+   5. Flat is better than nested.</span>
+</pre></div>
+</div>
+</section>
+<section id="a-command-line-interface-to-difflib">
+<span id="difflib-interface"></span><h2>difflib 的命令行接口<a class="headerlink" href="#a-command-line-interface-to-difflib" title="永久链接至标题">¶</a></h2>
+<p>这个实例演示了如何使用 difflib 来创建一个类似于 <code class="docutils literal notranslate"><span class="pre">diff</span></code> 的工具。 它同样包含在 Python 源码发布包中，文件名为 <code class="file docutils literal notranslate"><span class="pre">Tools/scripts/diff.py</span></code>。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot; Command line interface to difflib.py providing diffs in four formats:</span>
+
+<span class="sd">* ndiff:    lists every line and highlights interline changes.</span>
+<span class="sd">* context:  highlights clusters of changes in a before/after format.</span>
+<span class="sd">* unified:  highlights clusters of changes in an inline format.</span>
+<span class="sd">* html:     generates side by side comparison with change highlights.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">difflib</span><span class="o">,</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+
+<span class="k">def</span> <span class="nf">file_mtime</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">st_mtime</span><span class="p">,</span>
+                               <span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="n">astimezone</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Produce a context format diff (default)&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Produce a unified format diff&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Produce HTML side by side diff &#39;</span>
+                             <span class="s1">&#39;(can use -c and -l in conjunction)&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Produce a ndiff format diff&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="s1">&#39;--lines&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Set number of context lines (default 3)&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;fromfile&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;tofile&#39;</span><span class="p">)</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">lines</span>
+    <span class="n">fromfile</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">fromfile</span>
+    <span class="n">tofile</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">tofile</span>
+
+    <span class="n">fromdate</span> <span class="o">=</span> <span class="n">file_mtime</span><span class="p">(</span><span class="n">fromfile</span><span class="p">)</span>
+    <span class="n">todate</span> <span class="o">=</span> <span class="n">file_mtime</span><span class="p">(</span><span class="n">tofile</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fromfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+        <span class="n">fromlines</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tofile</span><span class="p">)</span> <span class="k">as</span> <span class="n">tf</span><span class="p">:</span>
+        <span class="n">tolines</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">u</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">unified_diff</span><span class="p">(</span><span class="n">fromlines</span><span class="p">,</span> <span class="n">tolines</span><span class="p">,</span> <span class="n">fromfile</span><span class="p">,</span> <span class="n">tofile</span><span class="p">,</span> <span class="n">fromdate</span><span class="p">,</span> <span class="n">todate</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">options</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">ndiff</span><span class="p">(</span><span class="n">fromlines</span><span class="p">,</span> <span class="n">tolines</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">options</span><span class="o">.</span><span class="n">m</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">HtmlDiff</span><span class="p">()</span><span class="o">.</span><span class="n">make_file</span><span class="p">(</span><span class="n">fromlines</span><span class="p">,</span><span class="n">tolines</span><span class="p">,</span><span class="n">fromfile</span><span class="p">,</span><span class="n">tofile</span><span class="p">,</span><span class="n">context</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="n">numlines</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">context_diff</span><span class="p">(</span><span class="n">fromlines</span><span class="p">,</span> <span class="n">tolines</span><span class="p">,</span> <span class="n">fromfile</span><span class="p">,</span> <span class="n">tofile</span><span class="p">,</span> <span class="n">fromdate</span><span class="p">,</span> <span class="n">todate</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">difflib</span></code> --- 计算差异的辅助工具</a><ul>
+<li><a class="reference internal" href="#sequencematcher-objects">SequenceMatcher 对象</a></li>
+<li><a class="reference internal" href="#sequencematcher-examples">SequenceMatcher 的示例</a></li>
+<li><a class="reference internal" href="#differ-objects">Differ 对象</a></li>
+<li><a class="reference internal" href="#differ-example">Differ 示例</a></li>
+<li><a class="reference internal" href="#a-command-line-interface-to-difflib">difflib 的命令行接口</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="re.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code> --- 正则表达式操作</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="textwrap.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">textwrap</span></code> --- 文本自动换行与填充</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/difflib.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="textwrap.html" title="textwrap --- 文本自动换行与填充"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="re.html" title="re --- 正则表达式操作"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" >文本处理服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">difflib</span></code> --- 计算差异的辅助工具</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

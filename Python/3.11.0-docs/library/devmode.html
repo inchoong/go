@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Python 开发模式 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="doctest --- 测试交互性的Python示例" href="doctest.html" />
+    <link rel="prev" title="pydoc --- 文档生成器和在线帮助系统" href="pydoc.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/devmode.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Python 开发模式</a></li>
+<li><a class="reference internal" href="#effects-of-the-python-development-mode">Python 开发模式的效果</a></li>
+<li><a class="reference internal" href="#resourcewarning-example">ResourceWarning 示例</a></li>
+<li><a class="reference internal" href="#bad-file-descriptor-error-example">文件描述符错误示例</a></li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="pydoc.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pydoc</span></code> --- 文档生成器和在线帮助系统</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="doctest.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">doctest</span></code> --- 测试交互性的Python示例</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/devmode.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="doctest.html" title="doctest --- 测试交互性的Python示例"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="pydoc.html" title="pydoc --- 文档生成器和在线帮助系统"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="development.html" accesskey="U">开发工具</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Python 开发模式</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="python-development-mode">
+<span id="devmode"></span><h1>Python 开发模式<a class="headerlink" href="#python-development-mode" title="永久链接至标题">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+<p>开发模式下的 Python 加入了额外的运行时检查，由于开销太大，并非默认启用的。如果代码能够正确执行，默认的调试级别足矣，不应再提高了；仅当觉察到问题时再提升警告触发的级别。</p>
+<p>使用 <a class="reference internal" href="../using/cmdline.html#cmdoption-X"><code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span> <span class="pre">dev</span></code></a> 命令行参数或将环境变量 <span class="target" id="index-12"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONDEVMODE"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONDEVMODE</span></code></a> 置为 <code class="docutils literal notranslate"><span class="pre">1</span></code> ，可以启用开发模式。</p>
+<p>另请参考 <a class="reference internal" href="../using/configure.html#debug-build"><span class="std std-ref">Python debug build</span></a> 。</p>
+</section>
+<section id="effects-of-the-python-development-mode">
+<h1>Python 开发模式的效果<a class="headerlink" href="#effects-of-the-python-development-mode" title="永久链接至标题">¶</a></h1>
+<p>启用 Python 开发模式后的效果，与以下命令类似，不过还有下面的额外效果：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">PYTHONMALLOC</span><span class="o">=</span><span class="n">debug</span> <span class="n">PYTHONASYNCIODEBUG</span><span class="o">=</span><span class="mi">1</span> <span class="n">python3</span> <span class="o">-</span><span class="n">W</span> <span class="n">default</span> <span class="o">-</span><span class="n">X</span> <span class="n">faulthandler</span>
+</pre></div>
+</div>
+<p>Python 开发模式的效果：</p>
+<ul>
+<li><p>加入 <code class="docutils literal notranslate"><span class="pre">default</span></code> <a class="reference internal" href="warnings.html#describing-warning-filters"><span class="std std-ref">warning filter</span></a> 。下述警告信息将会显示出来：</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="exceptions.html#DeprecationWarning" title="DeprecationWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">DeprecationWarning</span></code></a></p></li>
+<li><p><a class="reference internal" href="exceptions.html#ImportWarning" title="ImportWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ImportWarning</span></code></a></p></li>
+<li><p><a class="reference internal" href="exceptions.html#PendingDeprecationWarning" title="PendingDeprecationWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PendingDeprecationWarning</span></code></a></p></li>
+<li><p><a class="reference internal" href="exceptions.html#ResourceWarning" title="ResourceWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ResourceWarning</span></code></a></p></li>
+</ul>
+<p>通常上述警告是由默认的 <a class="reference internal" href="warnings.html#describing-warning-filters"><span class="std std-ref">warning filters</span></a> 负责处理的。</p>
+<p>效果类似于采用了 <a class="reference internal" href="../using/cmdline.html#cmdoption-W"><code class="xref std std-option docutils literal notranslate"><span class="pre">-W</span> <span class="pre">default</span></code></a> 命令行参数。</p>
+<p>使用命令行参数 <a class="reference internal" href="../using/cmdline.html#cmdoption-W"><code class="xref std std-option docutils literal notranslate"><span class="pre">-W</span> <span class="pre">error</span></code></a> 或将环境变量 <span class="target" id="index-13"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONWARNINGS"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONWARNINGS</span></code></a> 设为 <code class="docutils literal notranslate"><span class="pre">error</span></code>，可将警告视为错误。</p>
+</li>
+<li><p>在内存分配程序中安装调试钩子，用以查看：</p>
+<ul class="simple">
+<li><p>缓冲区下溢</p></li>
+<li><p>缓冲区上溢</p></li>
+<li><p>内存分配 API 冲突</p></li>
+<li><p>不安全的 GIL 调用</p></li>
+</ul>
+<p>参见 C 函数 <a class="reference internal" href="../c-api/memory.html#c.PyMem_SetupDebugHooks" title="PyMem_SetupDebugHooks"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_SetupDebugHooks()</span></code></a> 。</p>
+<p>效果如同将环境变量 <span class="target" id="index-14"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONMALLOC"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONMALLOC</span></code></a> 设为 <code class="docutils literal notranslate"><span class="pre">debug</span></code>。</p>
+<p>若要启用 Python 开发模式，却又不要在内存分配程序中安装调试钩子，请将 环境变量 <span class="target" id="index-15"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONMALLOC"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONMALLOC</span></code></a> 设为 <code class="docutils literal notranslate"><span class="pre">default</span></code>。</p>
+</li>
+<li><p>在启动 Python 时调用 <a class="reference internal" href="faulthandler.html#faulthandler.enable" title="faulthandler.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">faulthandler.enable()</span></code></a> ，会安装 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGSEGV</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGFPE</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGABRT</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGBUS</span></code> 和 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGILL</span></code> 信号的处理程序，以便在程序崩溃时将 Python 跟踪信息转储下来。</p>
+<p>其行为如同使用了 <a class="reference internal" href="../using/cmdline.html#cmdoption-X"><code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span> <span class="pre">faulthandler</span></code></a> 命令行选项或将 <span class="target" id="index-16"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONFAULTHANDLER"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONFAULTHANDLER</span></code></a> 环境变量设为 <code class="docutils literal notranslate"><span class="pre">1</span></code>。</p>
+</li>
+<li><p>启用 <a class="reference internal" href="asyncio-dev.html#asyncio-debug-mode"><span class="std std-ref">asyncio debug mode</span></a>。比如 <a class="reference internal" href="asyncio.html#module-asyncio" title="asyncio: Asynchronous I/O."><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a> 会检查没有等待的协程并记录下来。</p>
+<p>效果如同将环境变量 <span class="target" id="index-17"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONASYNCIODEBUG"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONASYNCIODEBUG</span></code></a> 设为 <code class="docutils literal notranslate"><span class="pre">1</span></code>。</p>
+</li>
+<li><p>检查字符串编码和解码函数的 <em>encoding</em> 和 <em>errors</em> 参数。例如： <a class="reference internal" href="functions.html#open" title="open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> 、 <a class="reference internal" href="stdtypes.html#str.encode" title="str.encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.encode()</span></code></a> 和 <a class="reference internal" href="stdtypes.html#bytes.decode" title="bytes.decode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bytes.decode()</span></code></a>。</p>
+<p>为了获得最佳性能，默认只会在第一次编码/解码错误时才会检查  <em>errors</em> 参数，有时 <em>encoding</em> 参数为空字符串时还会被忽略。</p>
+</li>
+<li><p><a class="reference internal" href="io.html#io.IOBase" title="io.IOBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.IOBase</span></code></a> 的析构函数会记录 <code class="docutils literal notranslate"><span class="pre">close()</span></code> 触发的异常。</p></li>
+<li><p>将 <a class="reference internal" href="sys.html#sys.flags" title="sys.flags"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sys.flags</span></code></a> 的 <code class="xref py py-attr docutils literal notranslate"><span class="pre">dev_mode</span></code> 属性设为 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p></li>
+</ul>
+<p>Python 开发模式下，默认不会启用 <a class="reference internal" href="tracemalloc.html#module-tracemalloc" title="tracemalloc: Trace memory allocations."><code class="xref py py-mod docutils literal notranslate"><span class="pre">tracemalloc</span></code></a> 模块，因为其性能和内存开销太大。启用 <a class="reference internal" href="tracemalloc.html#module-tracemalloc" title="tracemalloc: Trace memory allocations."><code class="xref py py-mod docutils literal notranslate"><span class="pre">tracemalloc</span></code></a> 模块后，能够提供有关错误来源的一些额外信息。例如，<a class="reference internal" href="exceptions.html#ResourceWarning" title="ResourceWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ResourceWarning</span></code></a> 记录了资源分配的跟踪信息，而缓冲区溢出错误记录了内存块分配的跟踪信息。</p>
+<p>Python 开发模式不会阻止命令行参数 <a class="reference internal" href="../using/cmdline.html#cmdoption-O"><code class="xref std std-option docutils literal notranslate"><span class="pre">-O</span></code></a> 删除 <a class="reference internal" href="../reference/simple_stmts.html#assert"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">assert</span></code></a> 语句，也不会阻止将 <a class="reference internal" href="constants.html#debug__" title="__debug__"><code class="xref py py-const docutils literal notranslate"><span class="pre">__debug__</span></code></a> 设为 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+<p>Python 开发模式只能在 Python 启动时启用。其参数值可从  <a class="reference internal" href="sys.html#sys.flags" title="sys.flags"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.flags.dev_mode</span></code></a> 读取。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>现在， <a class="reference internal" href="io.html#io.IOBase" title="io.IOBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.IOBase</span></code></a> 的析构函数会记录 <code class="docutils literal notranslate"><span class="pre">close()</span></code> 触发的异常。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>现在，字符串编码和解码操作时会检查 <em>encoding</em> 和 <em>errors</em> 参数。</p>
+</div>
+</section>
+<section id="resourcewarning-example">
+<h1>ResourceWarning 示例<a class="headerlink" href="#resourcewarning-example" title="永久链接至标题">¶</a></h1>
+<p>以下示例将统计由命令行指定的文本文件的行数：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">nlines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">nlines</span><span class="p">)</span>
+    <span class="c1"># The file is closed implicitly</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>上述代码没有显式关闭文件。默认情况下，Python 不会触发任何警告。下面用 README.txt 文件测试下，有 269 行：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3 script.py README.txt
+<span class="go">269</span>
+</pre></div>
+</div>
+<p>启用 Python 开发模式后，则会显示一条 <a class="reference internal" href="exceptions.html#ResourceWarning" title="ResourceWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ResourceWarning</span></code></a> 警告：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3 -X dev script.py README.txt
+<span class="go">269</span>
+<span class="go">script.py:10: ResourceWarning: unclosed file &lt;_io.TextIOWrapper name=&#39;README.rst&#39; mode=&#39;r&#39; encoding=&#39;UTF-8&#39;&gt;</span>
+<span class="go">  main()</span>
+<span class="go">ResourceWarning: Enable tracemalloc to get the object allocation traceback</span>
+</pre></div>
+</div>
+<p>启用 <a class="reference internal" href="tracemalloc.html#module-tracemalloc" title="tracemalloc: Trace memory allocations."><code class="xref py py-mod docutils literal notranslate"><span class="pre">tracemalloc</span></code></a> 后，则还会显示打开文件的那行代码：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3 -X dev -X <span class="nv">tracemalloc</span><span class="o">=</span><span class="m">5</span> script.py README.rst
+<span class="go">269</span>
+<span class="go">script.py:10: ResourceWarning: unclosed file &lt;_io.TextIOWrapper name=&#39;README.rst&#39; mode=&#39;r&#39; encoding=&#39;UTF-8&#39;&gt;</span>
+<span class="go">  main()</span>
+<span class="go">Object allocated at (most recent call last):</span>
+<span class="go">  File &quot;script.py&quot;, lineno 10</span>
+<span class="go">    main()</span>
+<span class="go">  File &quot;script.py&quot;, lineno 4</span>
+<span class="go">    fp = open(sys.argv[1])</span>
+</pre></div>
+</div>
+<p>修正方案就是显式关闭文件。下面用上下文管理器作为示例：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Close the file explicitly when exiting the with block</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="n">nlines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">nlines</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>未能显式关闭资源，会让资源打开时长远超预期；在退出 Python 时可能会导致严重问题。这在 CPython 中比较糟糕，但在 PyPy 中会更糟。显式关闭资源能让应用程序更加稳定可靠。</p>
+</section>
+<section id="bad-file-descriptor-error-example">
+<h1>文件描述符错误示例<a class="headerlink" href="#bad-file-descriptor-error-example" title="永久链接至标题">¶</a></h1>
+<p>显示自身的第一行代码：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+    <span class="n">firstline</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">firstline</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">fileno</span><span class="p">())</span>
+    <span class="c1"># The file is closed implicitly</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>默认情况下，Python 不会触发任何警告：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3 script.py
+<span class="go">import os</span>
+</pre></div>
+</div>
+<p>在 Python 开发模式下，会在析构文件对象时显示 <a class="reference internal" href="exceptions.html#ResourceWarning" title="ResourceWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ResourceWarning</span></code></a> 并记录 “Bad file descriptor” 错误。</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3 script.py
+<span class="go">import os</span>
+<span class="go">script.py:10: ResourceWarning: unclosed file &lt;_io.TextIOWrapper name=&#39;script.py&#39; mode=&#39;r&#39; encoding=&#39;UTF-8&#39;&gt;</span>
+<span class="go">  main()</span>
+<span class="go">ResourceWarning: Enable tracemalloc to get the object allocation traceback</span>
+<span class="go">Exception ignored in: &lt;_io.TextIOWrapper name=&#39;script.py&#39; mode=&#39;r&#39; encoding=&#39;UTF-8&#39;&gt;</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="go">  File &quot;script.py&quot;, line 10, in &lt;module&gt;</span>
+<span class="go">    main()</span>
+<span class="go">OSError: [Errno 9] Bad file descriptor</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">os.close(fp.fileno())</span></code> 会关闭文件描述符。当文件对象析构函数试图再次关闭文件描述符时会失败，并触发 <code class="docutils literal notranslate"><span class="pre">Bad</span> <span class="pre">file</span> <span class="pre">descriptor</span></code> 错误。每个文件描述符只允许关闭一次。在最坏的情况下，关闭两次会导致程序崩溃（示例可参见 <a class="reference external" href="https://bugs.python.org/issue?&#64;action=redirect&amp;bpo=18748">bpo-18748</a> ）。</p>
+<p>修正方案是删除 <code class="docutils literal notranslate"><span class="pre">os.close(fp.fileno())</span></code> 这一行，或者打开文件时带上 <code class="docutils literal notranslate"><span class="pre">closefd=False</span></code> 参数。</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Python 开发模式</a></li>
+<li><a class="reference internal" href="#effects-of-the-python-development-mode">Python 开发模式的效果</a></li>
+<li><a class="reference internal" href="#resourcewarning-example">ResourceWarning 示例</a></li>
+<li><a class="reference internal" href="#bad-file-descriptor-error-example">文件描述符错误示例</a></li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="pydoc.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pydoc</span></code> --- 文档生成器和在线帮助系统</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="doctest.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">doctest</span></code> --- 测试交互性的Python示例</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/devmode.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="doctest.html" title="doctest --- 测试交互性的Python示例"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="pydoc.html" title="pydoc --- 文档生成器和在线帮助系统"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="development.html" >开发工具</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Python 开发模式</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

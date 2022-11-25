@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>chunk --- 读取 IFF 分块数据 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="crypt —— 验证 Unix 口令的函数" href="crypt.html" />
+    <link rel="prev" title="cgitb --- 用于 CGI 脚本的回溯管理器" href="cgitb.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/chunk.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="cgitb.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgitb</span></code> --- 用于 CGI 脚本的回溯管理器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="crypt.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">crypt</span></code> —— 验证 Unix 口令的函数</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/chunk.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="crypt.html" title="crypt —— 验证 Unix 口令的函数"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="cgitb.html" title="cgitb --- 用于 CGI 脚本的回溯管理器"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" accesskey="U">被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">chunk</span></code> --- 读取 IFF 分块数据</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-chunk">
+<span id="chunk-read-iff-chunked-data"></span><h1><a class="reference internal" href="#module-chunk" title="chunk: Module to read IFF chunks. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chunk</span></code></a> --- 读取 IFF 分块数据<a class="headerlink" href="#module-chunk" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/chunk.py">Lib/chunk.py</a></p>
+<div class="deprecated-removed" id="index-0">
+<p><span class="versionmodified">从版本 3.11 开始标记为过时，将在版本 3.13 中移除。: </span><a class="reference internal" href="#module-chunk" title="chunk: Module to read IFF chunks. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chunk</span></code></a> 模块已被弃用（请参阅 <span class="target" id="index-3"></span><a class="pep reference external" href="https://peps.python.org/pep-0594/#chunk"><strong>PEP 594</strong></a> 了解详情）。</p>
+</div>
+<hr class="docutils" />
+<p>本模块提供了一个读取使用 EA IFF 85 分块的数据的接口chunks. <a class="footnote-reference brackets" href="#id2" id="id1">1</a>  这种格式使用的场合有 Audio Interchange File Format (AIFF/AIFF-C) 和 Real Media File Format (RMFF) 等。 与它们密切相关的 WAVE 音频文件也可使用此模块来读取。</p>
+<p>一个分块具有以下结构:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 17%" />
+<col style="width: 65%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>偏移</p></th>
+<th class="head"><p>长度</p></th>
+<th class="head"><p>目录</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>4</p></td>
+<td><p>区块ID</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>大端字节顺序的块大小，不包括头</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p><em>n</em></p></td>
+<td><p>数据字节，其中 <em>n</em> 是前一字段中给出的大小</p></td>
+</tr>
+<tr class="row-odd"><td><p>8 + <em>n</em></p></td>
+<td><p>0 或 1</p></td>
+<td><p>如果 <em>n</em> 为奇数且使用块对齐，则需要填充字节</p></td>
+</tr>
+</tbody>
+</table>
+<p>ID是一个4字节的字符串，用于标识块的类型。</p>
+<p>大小字段（32 位的值，使用大端字节序编码）给出分块数据的大小，不包括 8 字节的标头。</p>
+<p>使用由一个或更多分块组成的 IFF 类型文件。 此处定义的 <a class="reference internal" href="#chunk.Chunk" title="chunk.Chunk"><code class="xref py py-class docutils literal notranslate"><span class="pre">Chunk</span></code></a> 类的建议使用方式是在每个分块开始时实例化一个实例并从实例读取直到其末尾，在那之后可以再实例化新的实例。 到达文件末尾时，创建新实例将会失败并引发 <a class="reference internal" href="exceptions.html#EOFError" title="EOFError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">EOFError</span></code></a> 异常。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="chunk.Chunk">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chunk.</span></span><span class="sig-name descname"><span class="pre">Chunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bigendian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclheader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chunk.Chunk" title="永久链接至目标">¶</a></dt>
+<dd><p>代表一个分块的类。 <em>file</em> 参数预期为一个文件类对象。 特别地也允许该类的实例。 唯一必需的方法是 <code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code>。 如果存在 <a class="reference internal" href="io.html#io.IOBase.seek" title="io.IOBase.seek"><code class="xref py py-meth docutils literal notranslate"><span class="pre">seek()</span></code></a> 和 <a class="reference internal" href="io.html#io.IOBase.tell" title="io.IOBase.tell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tell()</span></code></a> 方法并且没有引发异常，它们也会被使用。 如果存在这些方法并且引发了异常，则它们不应改变目标对象。 如果可选参数 <em>align</em> 为真值，则分块应当以 2 字节边界对齐。 如果 <em>align</em> 为假值，则不使用对齐。 此参数默认为真值。 如果可选参数 <em>bigendian</em> 为假值，分块大小应当为小端序。 这对于 WAVE 音频文件是必须的。 此参数默认为真值。 如果可选参数 <em>inclheader</em> 为真值，则分块标头中给出的大小将包括标头的大小。 此参数默认为假值。</p>
+<p><a class="reference internal" href="#chunk.Chunk" title="chunk.Chunk"><code class="xref py py-class docutils literal notranslate"><span class="pre">Chunk</span></code></a> 对象支持下列方法：</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="chunk.Chunk.getname">
+<span class="sig-name descname"><span class="pre">getname</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chunk.Chunk.getname" title="永久链接至目标">¶</a></dt>
+<dd><p>返回分块的名称（ID）。 这是分块的头 4 个字节。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chunk.Chunk.getsize">
+<span class="sig-name descname"><span class="pre">getsize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chunk.Chunk.getsize" title="永久链接至目标">¶</a></dt>
+<dd><p>返回分块的大小。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chunk.Chunk.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chunk.Chunk.close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭并跳转到分块的末尾。 这不会关闭下层的文件。</p>
+</dd></dl>
+
+<p>在 <a class="reference internal" href="#chunk.Chunk.close" title="chunk.Chunk.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a> 方法已被调用后其余方法将会引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。 在 Python 3.3 之前，它们曾会引发 <a class="reference internal" href="exceptions.html#IOError" title="IOError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IOError</span></code></a>，现在这是 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 的一个别名。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="chunk.Chunk.isatty">
+<span class="sig-name descname"><span class="pre">isatty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chunk.Chunk.isatty" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chunk.Chunk.seek">
+<span class="sig-name descname"><span class="pre">seek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chunk.Chunk.seek" title="永久链接至目标">¶</a></dt>
+<dd><p>设置分块的当前位置。 <em>whence</em> 参数为可选项并且默认为 <code class="docutils literal notranslate"><span class="pre">0</span></code> (绝对文件定位)；其他值还有 <code class="docutils literal notranslate"><span class="pre">1</span></code> (相对当前位置查找) 和 <code class="docutils literal notranslate"><span class="pre">2</span></code> (相对文件末尾查找)。 没有返回值。 如果下层文件不支持查找，则只允许向前查找。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chunk.Chunk.tell">
+<span class="sig-name descname"><span class="pre">tell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chunk.Chunk.tell" title="永久链接至目标">¶</a></dt>
+<dd><p>将当前位置返回到分块。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chunk.Chunk.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chunk.Chunk.read" title="永久链接至目标">¶</a></dt>
+<dd><p>从分块读取至多 <em>size</em> 个字节（如果在获得 <em>size</em> 个字节之前已到达分块末尾则读取的字节会少于此数量）。 如果 <em>size</em> 参数为负值或被省略，则读取所有字节直到分块末尾。 当立即遇到分块末尾则返回空字节串对象。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chunk.Chunk.skip">
+<span class="sig-name descname"><span class="pre">skip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chunk.Chunk.skip" title="永久链接至目标">¶</a></dt>
+<dd><p>跳到分块末尾。此后对分块再次调用 <a class="reference internal" href="#chunk.Chunk.read" title="chunk.Chunk.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> 将返回 <code class="docutils literal notranslate"><span class="pre">b''</span></code>。 如果你对分块的内容不感兴趣，则应当调用此方法以使文件指向下一分块的开头。</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric">备注</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>&quot;EA IFF 85&quot; 交换格式文件标准, Jerry Morrison, Electronic Arts, 1985 年 1 月。</p>
+</dd>
+</dl>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="cgitb.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgitb</span></code> --- 用于 CGI 脚本的回溯管理器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="crypt.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">crypt</span></code> —— 验证 Unix 口令的函数</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/chunk.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="crypt.html" title="crypt —— 验证 Unix 口令的函数"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="cgitb.html" title="cgitb --- 用于 CGI 脚本的回溯管理器"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" >被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">chunk</span></code> --- 读取 IFF 分块数据</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

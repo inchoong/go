@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>crypt —— 验证 Unix 口令的函数 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="imghdr --- 推测图像类型" href="imghdr.html" />
+    <link rel="prev" title="chunk --- 读取 IFF 分块数据" href="chunk.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/crypt.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">crypt</span></code> —— 验证 Unix 口令的函数</a><ul>
+<li><a class="reference internal" href="#hashing-methods">哈希方法</a></li>
+<li><a class="reference internal" href="#module-attributes">模块属性</a></li>
+<li><a class="reference internal" href="#module-functions">模块函数</a></li>
+<li><a class="reference internal" href="#examples">例子</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="chunk.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chunk</span></code> --- 读取 IFF 分块数据</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="imghdr.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">imghdr</span></code> --- 推测图像类型</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/crypt.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="imghdr.html" title="imghdr --- 推测图像类型"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="chunk.html" title="chunk --- 读取 IFF 分块数据"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" accesskey="U">被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">crypt</span></code> —— 验证 Unix 口令的函数</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-crypt">
+<span id="crypt-function-to-check-unix-passwords"></span><h1><a class="reference internal" href="#module-crypt" title="crypt: The crypt() function used to check Unix passwords. (已移除) (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">crypt</span></code></a> —— 验证 Unix 口令的函数<a class="headerlink" href="#module-crypt" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/struct.py">Lib/struct.py</a></p>
+<div class="deprecated-removed" id="index-0">
+<p><span class="versionmodified">从版本 3.11 开始标记为过时，将在版本 3.13 中移除。: </span><a class="reference internal" href="#module-crypt" title="crypt: The crypt() function used to check Unix passwords. (已移除) (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">crypt</span></code></a> 模块已被弃用（请参阅 <span class="target" id="index-5"></span><a class="pep reference external" href="https://peps.python.org/pep-0594/#crypt"><strong>PEP 594</strong></a> 了解详情及其替代品）。 <a class="reference internal" href="hashlib.html#module-hashlib" title="hashlib: Secure hash and message digest algorithms."><code class="xref py py-mod docutils literal notranslate"><span class="pre">hashlib</span></code></a> 模块是针对特定用例的潜在替换选项。</p>
+</div>
+<hr class="docutils" />
+<p>本模块实现了连接 <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/crypt(3)">crypt(3)</a></em> 的接口，是一个基于改进 DES 算法的单向散列函数；更多细节请参阅 Unix man 手册。可能的用途包括保存经过哈希的口令，这样就可以在不存储实际口令的情况下对其进行验证，或者尝试用字典来破解 Unix 口令。</p>
+<p id="index-2">请注意，本模块的执行取决于当前系统中 <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/crypt(3)">crypt(3)</a></em> 的实际实现。 因此，当前实现版本可用的扩展均可在本模块使用。</p>
+<p class="availability"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: Unix, not VxWorks.</p>
+<p class="availability"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: not Emscripten, not WASI.<p>This module does not work or is not available on WebAssembly platforms
+<code class="docutils literal notranslate"><span class="pre">wasm32-emscripten</span></code> and <code class="docutils literal notranslate"><span class="pre">wasm32-wasi</span></code>. See
+<a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">WebAssembly platforms</span></a> for more information.</p>
+</p>
+<section id="hashing-methods">
+<h2>哈希方法<a class="headerlink" href="#hashing-methods" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+<p><a class="reference internal" href="#module-crypt" title="crypt: The crypt() function used to check Unix passwords. (已移除) (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">crypt</span></code></a> 模块定义了哈希方法的列表（不是所有的方法在所有平台上都可用）。</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="crypt.METHOD_SHA512">
+<span class="sig-prename descclassname"><span class="pre">crypt.</span></span><span class="sig-name descname"><span class="pre">METHOD_SHA512</span></span><a class="headerlink" href="#crypt.METHOD_SHA512" title="永久链接至目标">¶</a></dt>
+<dd><p>基于 SHA-512 哈希函数的模块化加密格式方法，具备 16 个字符的 salt 和 86个字符的哈希算法。这是最强的哈希算法。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="crypt.METHOD_SHA256">
+<span class="sig-prename descclassname"><span class="pre">crypt.</span></span><span class="sig-name descname"><span class="pre">METHOD_SHA256</span></span><a class="headerlink" href="#crypt.METHOD_SHA256" title="永久链接至目标">¶</a></dt>
+<dd><p>另一种基于 SHA-256 哈希函数的模块化加密格式方法，具备 16 个字符的 salt 和 43 个字符的哈希算法。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="crypt.METHOD_BLOWFISH">
+<span class="sig-prename descclassname"><span class="pre">crypt.</span></span><span class="sig-name descname"><span class="pre">METHOD_BLOWFISH</span></span><a class="headerlink" href="#crypt.METHOD_BLOWFISH" title="永久链接至目标">¶</a></dt>
+<dd><p>另一种基于 Blowfish 的模块化加密格式方法，有 22 个字符的 salt 和 31 个字符的哈希算法。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="crypt.METHOD_MD5">
+<span class="sig-prename descclassname"><span class="pre">crypt.</span></span><span class="sig-name descname"><span class="pre">METHOD_MD5</span></span><a class="headerlink" href="#crypt.METHOD_MD5" title="永久链接至目标">¶</a></dt>
+<dd><p>另一种基于 MD5 哈希函数的模块化加密格式方法，具备 8 个字符的 salt 和 22 个字符的哈希算法。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="crypt.METHOD_CRYPT">
+<span class="sig-prename descclassname"><span class="pre">crypt.</span></span><span class="sig-name descname"><span class="pre">METHOD_CRYPT</span></span><a class="headerlink" href="#crypt.METHOD_CRYPT" title="永久链接至目标">¶</a></dt>
+<dd><p>传统的方法，具备 2 个字符的 salt 和 13 个字符的哈希算法。这是最弱的方法。</p>
+</dd></dl>
+
+</section>
+<section id="module-attributes">
+<h2>模块属性<a class="headerlink" href="#module-attributes" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crypt.methods">
+<span class="sig-prename descclassname"><span class="pre">crypt.</span></span><span class="sig-name descname"><span class="pre">methods</span></span><a class="headerlink" href="#crypt.methods" title="永久链接至目标">¶</a></dt>
+<dd><p>可用口令哈希算法的列表，形式为 <code class="docutils literal notranslate"><span class="pre">crypt.METHOD_*</span></code> 对象。该列表从最强到最弱进行排序。</p>
+</dd></dl>
+
+</section>
+<section id="module-functions">
+<h2>模块函数<a class="headerlink" href="#module-functions" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#module-crypt" title="crypt: The crypt() function used to check Unix passwords. (已移除) (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">crypt</span></code></a> 模块定义了以下函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="crypt.crypt">
+<span class="sig-prename descclassname"><span class="pre">crypt.</span></span><span class="sig-name descname"><span class="pre">crypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">salt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crypt.crypt" title="永久链接至目标">¶</a></dt>
+<dd><p><em>word</em> 通常将是用户在提示符或图形界面上输入的口令。 可选参数 <em>salt</em> 要么是 <a class="reference internal" href="#crypt.mksalt" title="crypt.mksalt"><code class="xref py py-func docutils literal notranslate"><span class="pre">mksalt()</span></code></a> 所返回的字符串，即 <code class="docutils literal notranslate"><span class="pre">crypt.METHOD_*</span></code> 值之一（尽管不是在所有平台上都可用），要么就是一个包括 salt 的完全加密的口令，与本函数的返回值一样。 如果未给出 <em>salt</em>，则将使用 <a class="reference internal" href="#crypt.methods" title="crypt.methods"><code class="xref py py-attr docutils literal notranslate"><span class="pre">methods</span></code></a> 中提供的最强方法。</p>
+<p>查验口令通常是传入纯文本密码 <em>word</em> ，和之前 <a class="reference internal" href="#module-crypt" title="crypt: The crypt() function used to check Unix passwords. (已移除) (Unix)"><code class="xref py py-func docutils literal notranslate"><span class="pre">crypt()</span></code></a> 调用的结果进行比较，应该与本次调用的结果相同。</p>
+<p><em>salt</em> (随机的 2 或 16 个字符的字符串，可能带有 <code class="docutils literal notranslate"><span class="pre">$digit{TX-PL-LABEL}#x60;</span></code> 前缀以提示相关方法) 将被用来扰乱加密算法。  <em>salt</em> 中的字符必须在 <code class="docutils literal notranslate"><span class="pre">[./a-zA-Z0-9]</span></code> 集合中，但 Modular Crypt Format 除外，它会带有 <code class="docutils literal notranslate"><span class="pre">$digit{TX-PL-LABEL}#x60;</span></code> 前缀。</p>
+<p>返回哈希后的口令字符串，将由 salt 所在字母表中的字符组成。</p>
+<p id="index-3">由于有些 <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/crypt(3)">crypt(3)</a></em> 扩展可以接受各种大小的  <em>salt</em>  值，建议在查验口令时采用完整的加密后口令作为 salt。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>除了字符串之外， <em>salt</em> 还可接受 <code class="docutils literal notranslate"><span class="pre">crypt.METHOD_*</span></code> 值。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crypt.mksalt">
+<span class="sig-prename descclassname"><span class="pre">crypt.</span></span><span class="sig-name descname"><span class="pre">mksalt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crypt.mksalt" title="永久链接至目标">¶</a></dt>
+<dd><p>返回用指定方法随机生成的 salt 值。 如果没有给出 <em>method</em>，则会使用 <a class="reference internal" href="#crypt.methods" title="crypt.methods"><code class="xref py py-attr docutils literal notranslate"><span class="pre">methods</span></code></a> 中提供的最强方法。is used.</p>
+<p>返回一个字符串，可用作传入 <a class="reference internal" href="#module-crypt" title="crypt: The crypt() function used to check Unix passwords. (已移除) (Unix)"><code class="xref py py-func docutils literal notranslate"><span class="pre">crypt()</span></code></a> 的 <em>salt</em> 参数。</p>
+<p><em>rounds</em> 指定了 <code class="docutils literal notranslate"><span class="pre">METHOD_SHA256</span></code>, <code class="docutils literal notranslate"><span class="pre">METHOD_SHA512</span></code> 和 <code class="docutils literal notranslate"><span class="pre">METHOD_BLOWFISH</span></code> 的循环次数。 对于 <code class="docutils literal notranslate"><span class="pre">METHOD_SHA256</span></code> 和 <code class="docutils literal notranslate"><span class="pre">METHOD_SHA512</span></code> 而言，必须为介于 <code class="docutils literal notranslate"><span class="pre">1000</span></code> 和 <code class="docutils literal notranslate"><span class="pre">999_999_999</span></code> 之间的整数，默认值为 <code class="docutils literal notranslate"><span class="pre">5000</span></code>。 而对于 <code class="docutils literal notranslate"><span class="pre">METHOD_BLOWFISH</span></code>，则必须为 <code class="docutils literal notranslate"><span class="pre">16</span></code> (2<sup>4</sup>) 和 <code class="docutils literal notranslate"><span class="pre">2_147_483_648</span></code> (2<sup>31</sup>) 之间的二的幂，默认值为 <code class="docutils literal notranslate"><span class="pre">4096</span></code> (2<sup>12</sup>)。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>加入  <em>rounds</em> 参数。</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>例子<a class="headerlink" href="#examples" title="永久链接至标题">¶</a></h2>
+<p>以下简单示例演示了典型用法（需要一个时间固定的比较操作来限制留给计时攻击的暴露面。 <a class="reference internal" href="hmac.html#hmac.compare_digest" title="hmac.compare_digest"><code class="xref py py-func docutils literal notranslate"><span class="pre">hmac.compare_digest()</span></code></a> 即很适用）：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pwd</span>
+<span class="kn">import</span> <span class="nn">crypt</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">from</span> <span class="nn">hmac</span> <span class="kn">import</span> <span class="n">compare_digest</span> <span class="k">as</span> <span class="n">compare_hash</span>
+
+<span class="k">def</span> <span class="nf">login</span><span class="p">():</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Python login: &#39;</span><span class="p">)</span>
+    <span class="n">cryptedpasswd</span> <span class="o">=</span> <span class="n">pwd</span><span class="o">.</span><span class="n">getpwnam</span><span class="p">(</span><span class="n">username</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">cryptedpasswd</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cryptedpasswd</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span> <span class="ow">or</span> <span class="n">cryptedpasswd</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no support for shadow passwords&#39;</span><span class="p">)</span>
+        <span class="n">cleartext</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">compare_hash</span><span class="p">(</span><span class="n">crypt</span><span class="o">.</span><span class="n">crypt</span><span class="p">(</span><span class="n">cleartext</span><span class="p">,</span> <span class="n">cryptedpasswd</span><span class="p">),</span> <span class="n">cryptedpasswd</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>采用当前强度最高的方法生成哈希值，并与原口令进行核对：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">crypt</span>
+<span class="kn">from</span> <span class="nn">hmac</span> <span class="kn">import</span> <span class="n">compare_digest</span> <span class="k">as</span> <span class="n">compare_hash</span>
+
+<span class="n">hashed</span> <span class="o">=</span> <span class="n">crypt</span><span class="o">.</span><span class="n">crypt</span><span class="p">(</span><span class="n">plaintext</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">compare_hash</span><span class="p">(</span><span class="n">hashed</span><span class="p">,</span> <span class="n">crypt</span><span class="o">.</span><span class="n">crypt</span><span class="p">(</span><span class="n">plaintext</span><span class="p">,</span> <span class="n">hashed</span><span class="p">)):</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;hashed version doesn&#39;t validate against original&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">crypt</span></code> —— 验证 Unix 口令的函数</a><ul>
+<li><a class="reference internal" href="#hashing-methods">哈希方法</a></li>
+<li><a class="reference internal" href="#module-attributes">模块属性</a></li>
+<li><a class="reference internal" href="#module-functions">模块函数</a></li>
+<li><a class="reference internal" href="#examples">例子</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="chunk.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chunk</span></code> --- 读取 IFF 分块数据</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="imghdr.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">imghdr</span></code> --- 推测图像类型</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/crypt.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="imghdr.html" title="imghdr --- 推测图像类型"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="chunk.html" title="chunk --- 读取 IFF 分块数据"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" >被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">crypt</span></code> —— 验证 Unix 口令的函数</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

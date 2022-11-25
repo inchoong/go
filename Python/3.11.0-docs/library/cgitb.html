@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>cgitb --- 用于 CGI 脚本的回溯管理器 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="chunk --- 读取 IFF 分块数据" href="chunk.html" />
+    <link rel="prev" title="cgi --- 通用网关接口支持" href="cgi.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/cgitb.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="cgi.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgi</span></code> --- 通用网关接口支持</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="chunk.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chunk</span></code> --- 读取 IFF 分块数据</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/cgitb.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="chunk.html" title="chunk --- 读取 IFF 分块数据"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="cgi.html" title="cgi --- 通用网关接口支持"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" accesskey="U">被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgitb</span></code> --- 用于 CGI 脚本的回溯管理器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-cgitb">
+<span id="cgitb-traceback-manager-for-cgi-scripts"></span><h1><a class="reference internal" href="#module-cgitb" title="cgitb: Configurable traceback handler for CGI scripts. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgitb</span></code></a> --- 用于 CGI 脚本的回溯管理器<a class="headerlink" href="#module-cgitb" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/cgitb.py">Lib/cgitb.py</a></p>
+<div class="deprecated-removed" id="index-0">
+<p><span class="versionmodified">从版本 3.11 开始标记为过时，将在版本 3.13 中移除。: </span><a class="reference internal" href="#module-cgitb" title="cgitb: Configurable traceback handler for CGI scripts. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgitb</span></code></a> 模块已被弃用（请参阅 <span class="target" id="index-4"></span><a class="pep reference external" href="https://peps.python.org/pep-0594/#cgitb"><strong>PEP 594</strong></a> 了解详情）。</p>
+</div>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-cgitb" title="cgitb: Configurable traceback handler for CGI scripts. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgitb</span></code></a> 模块提供了用于 Python 脚本的特殊异常处理程序。 （这个名称有一点误导性。 它最初是设计用来显示 HTML 格式的 CGI 脚本详细回溯信息。 但后来被一般化为也可显示纯文本格式的回溯信息。） 激活这个模块之后，如果发生了未被捕获的异常，将会显示详细的已格式化的报告。 报告显示内容包括每个层级的源代码摘录，还有当前正在运行的函数的参数和局部变量值，以帮助你调试问题。 你也可以选择将此信息保存至文件而不是将其发送至浏览器。</p>
+<p>要启用此特性，只需简单地将此代码添加到你的 CGI 脚本的最顶端:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cgitb</span>
+<span class="n">cgitb</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#cgitb.enable" title="cgitb.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">enable()</span></code></a> 函数的选项可以控制是将报告显示在浏览器中，还是将报告记录到文件供以后进行分析。</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="cgitb.enable">
+<span class="sig-prename descclassname"><span class="pre">cgitb.</span></span><span class="sig-name descname"><span class="pre">enable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'html'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgitb.enable" title="永久链接至目标">¶</a></dt>
+<dd><p id="index-2">此函数可通过设置 <a class="reference internal" href="sys.html#sys.excepthook" title="sys.excepthook"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sys.excepthook</span></code></a> 的值以使 <a class="reference internal" href="#module-cgitb" title="cgitb: Configurable traceback handler for CGI scripts. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgitb</span></code></a> 模块接管解释器默认的异常处理机制。</p>
+<p>可选参数 <em>display</em> 默认为 <code class="docutils literal notranslate"><span class="pre">1</span></code> 并可被设为 <code class="docutils literal notranslate"><span class="pre">0</span></code> 来停止将回溯发送至浏览器。 如果给出了参数 <em>logdir</em>，则回溯会被写入文件。 <em>logdir</em> 的值应当是一个用于存放所写入文件的目录。 可选参数 <em>context</em> 是要在回溯中的当前源代码行前后显示的上下文行数；默认为 <code class="docutils literal notranslate"><span class="pre">5</span></code>。 如果可选参数 <em>format</em> 为 <code class="docutils literal notranslate"><span class="pre">&quot;html&quot;</span></code>，输出将为 HTML 格式。 任何其它值都会强制启用纯文本输出。 默认取值为 <code class="docutils literal notranslate"><span class="pre">&quot;html&quot;</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cgitb.text">
+<span class="sig-prename descclassname"><span class="pre">cgitb.</span></span><span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgitb.text" title="永久链接至目标">¶</a></dt>
+<dd><p>此函数用于处理 <em>info</em> (一个包含 <a class="reference internal" href="sys.html#sys.exc_info" title="sys.exc_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exc_info()</span></code></a> 返回结果的 3 元组) 所描述的异常，将其回溯格式化为文本并将结果作为字符串返回。 可选参数 <em>context</em> 是要在回溯中的当前源码行前后显示的上下文行数；默认为 <code class="docutils literal notranslate"><span class="pre">5</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cgitb.html">
+<span class="sig-prename descclassname"><span class="pre">cgitb.</span></span><span class="sig-name descname"><span class="pre">html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgitb.html" title="永久链接至目标">¶</a></dt>
+<dd><p>此函数用于处理 <em>info</em> (一个包含 <a class="reference internal" href="sys.html#sys.exc_info" title="sys.exc_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exc_info()</span></code></a> 返回结果的 3 元组) 所描述的异常，将其回溯格式化为 HTML 并将结果作为字符串返回。 可选参数 <em>context</em> 是要在回溯中的当前源码行前后显示的上下文行数；默认为 <code class="docutils literal notranslate"><span class="pre">5</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cgitb.handler">
+<span class="sig-prename descclassname"><span class="pre">cgitb.</span></span><span class="sig-name descname"><span class="pre">handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgitb.handler" title="永久链接至目标">¶</a></dt>
+<dd><p>此函数使用默认设置处理异常（即在浏览器中显示报告，但不记录到文件）。 当你捕获了一个异常并希望使用 <a class="reference internal" href="#module-cgitb" title="cgitb: Configurable traceback handler for CGI scripts. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgitb</span></code></a> 来报告它时可以使用此函数。 可选的 <em>info</em> 参数应为一个包含异常类型，异常值和回溯对象的 3 元组，与 <a class="reference internal" href="sys.html#sys.exc_info" title="sys.exc_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exc_info()</span></code></a> 所返回的元组完全一致。 如果未提供 <em>info</em> 参数，则会从 <a class="reference internal" href="sys.html#sys.exc_info" title="sys.exc_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exc_info()</span></code></a> 获取当前异常。</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="cgi.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgi</span></code> --- 通用网关接口支持</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="chunk.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chunk</span></code> --- 读取 IFF 分块数据</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/cgitb.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="chunk.html" title="chunk --- 读取 IFF 分块数据"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="cgi.html" title="cgi --- 通用网关接口支持"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" >被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">cgitb</span></code> --- 用于 CGI 脚本的回溯管理器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

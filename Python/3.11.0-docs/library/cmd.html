@@ -1,0 +1,571 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>cmd --- 支持面向行的命令解释器 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="shlex —— 简单的词法分析" href="shlex.html" />
+    <link rel="prev" title="turtle --- 海龟绘图" href="turtle.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/cmd.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code> --- 支持面向行的命令解释器</a><ul>
+<li><a class="reference internal" href="#cmd-objects">Cmd 对象</a></li>
+<li><a class="reference internal" href="#cmd-example">Cmd 例子</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="turtle.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">turtle</span></code> --- 海龟绘图</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="shlex.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">shlex</span></code> —— 简单的词法分析</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/cmd.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="shlex.html" title="shlex —— 简单的词法分析"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="turtle.html" title="turtle --- 海龟绘图"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="frameworks.html" accesskey="U">程序框架</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code> --- 支持面向行的命令解释器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-cmd">
+<span id="cmd-support-for-line-oriented-command-interpreters"></span><h1><a class="reference internal" href="#module-cmd" title="cmd: Build line-oriented command interpreters."><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code></a> --- 支持面向行的命令解释器<a class="headerlink" href="#module-cmd" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/cmd.py">Lib/cmd.py</a></p>
+<hr class="docutils" />
+<p><a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 类提供简单框架用于编写面向行的命令解释器。  这些通常对测试工具，管理工具和原型有用，这些工具随后将被包含在更复杂的接口中。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cmd.Cmd">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmd.</span></span><span class="sig-name descname"><span class="pre">Cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">completekey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd" title="永久链接至目标">¶</a></dt>
+<dd><p>一个 <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 实例或子类实例是面向行的解释器框架结构。 实例化 <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 本身是没有充分理由的， 它作为自定义解释器类的超类是非常有用的为了继承 <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 的方法并且封装动作方法。</p>
+<p>可选参数 <em>completekey</em> 是完成键的 <a class="reference internal" href="readline.html#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> 名称；默认是 <kbd class="kbd docutils literal notranslate">Tab</kbd> 。如果 <em>completekey</em> 不是 <a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a> 并且 <a class="reference internal" href="readline.html#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> 是可用的， 命令完成会自动完成。</p>
+<p>可选参数 <em>stdin</em> 和 <em>stdout</em> 指定了Cmd实例或子类实例将用于输入和输出的输入和输出文件对象。如果没有指定，他们将默认为 <a class="reference internal" href="sys.html#sys.stdin" title="sys.stdin"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdin</span></code></a> 和 <a class="reference internal" href="sys.html#sys.stdout" title="sys.stdout"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout</span></code></a> 。</p>
+<p>如果你想要使用一个给定的 <em>stdin</em> ，确保将实例的 <a class="reference internal" href="#cmd.Cmd.use_rawinput" title="cmd.Cmd.use_rawinput"><code class="xref py py-attr docutils literal notranslate"><span class="pre">use_rawinput</span></code></a> 属性设置为 <code class="docutils literal notranslate"><span class="pre">False</span></code> ，否则 <em>stdin</em> 将被忽略。</p>
+</dd></dl>
+
+<section id="cmd-objects">
+<span id="id1"></span><h2>Cmd 对象<a class="headerlink" href="#cmd-objects" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 实例有下列方法：</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.cmdloop">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">cmdloop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intro</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.cmdloop" title="永久链接至目标">¶</a></dt>
+<dd><p>反复发出提示，接受输入，从收到的输入中解析出一个初始前缀，并分派给操作方法，将其余的行作为参数传递给它们。</p>
+<p>可选参数是在第一个提示之前发布的横幅或介绍字符串（这将覆盖 <a class="reference internal" href="#cmd.Cmd.intro" title="cmd.Cmd.intro"><code class="xref py py-attr docutils literal notranslate"><span class="pre">intro</span></code></a> 类属性）。</p>
+<p>如果 <a class="reference internal" href="readline.html#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> 继承模块被加载，输入将自动继承类似 <strong class="program">bash</strong>的历史列表编辑（例如， <kbd class="kbd compound docutils literal notranslate"><kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">P</kbd></kbd> 滚动回到最后一个命令， <kbd class="kbd compound docutils literal notranslate"><kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">N</kbd></kbd> 转到下一个命令，以 <kbd class="kbd compound docutils literal notranslate"><kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">F</kbd></kbd> 非破坏性的方式向右 <kbd class="kbd compound docutils literal notranslate"><kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">B</kbd></kbd> 移动光标，破坏性地等）。</p>
+<p>输入的文件结束符被作为字符串传回 <code class="docutils literal notranslate"><span class="pre">'EOF'</span></code> 。</p>
+<p id="index-0">解释器实例将会识别命令名称 <code class="docutils literal notranslate"><span class="pre">foo</span></code> 当且仅当它有方法 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_foo()</span></code> 。有一个特殊情况，分派始于字符 <code class="docutils literal notranslate"><span class="pre">'?'</span></code> 的行到方法 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_help()</span></code> 。另一种特殊情况，分派始于字符 <code class="docutils literal notranslate"><span class="pre">'!'</span></code> 的行到方法 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_shell()</span></code> （如果定义了这个方法）</p>
+<p>这个方法将返回当 <a class="reference internal" href="#cmd.Cmd.postcmd" title="cmd.Cmd.postcmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">postcmd()</span></code></a> 方法返回一个真值 。参数 <em>stop</em> 到 <a class="reference internal" href="#cmd.Cmd.postcmd" title="cmd.Cmd.postcmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">postcmd()</span></code></a> 是命令对应的返回值 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_*()</span></code> 的方法。</p>
+<p>如果激活了完成，全部命令将会自动完成，并且通过调用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">complete_foo()</span></code> 参数 <em>text</em> , <em>line</em>, <em>begidx</em> ,和 <em>endidx</em> 完成全部命令参数。 <em>text</em> 是我们试图匹配的字符串前缀，所有返回的匹配项必须以它为开头。 <em>line</em> 是删除了前导空格的当前的输入行， <em>begidx</em> 和 <em>endidx</em> 是前缀文本的开始和结束索引。，可以用于根据参数位置提供不同的完成。</p>
+<p>所有 <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 的子类继承一个预定义 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_help()</span></code> 。 这个方法使用参数 <code class="docutils literal notranslate"><span class="pre">'bar'</span></code> 调用， 调用对应的方法 <code class="xref py py-meth docutils literal notranslate"><span class="pre">help_bar()</span></code> ，如果不存在，打印 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_bar()</span></code> 的文档字符串，如果可用。没有参数的情况下， <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_help()</span></code> 方法会列出所有可用的帮助主题 （即所有具有相应的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">help_*()</span></code> 方法或命令的 文档字符串），也会列举所有未被记录的命令。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.onecmd">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">onecmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.onecmd" title="永久链接至目标">¶</a></dt>
+<dd><p>解释该参数，就好像它是为响应提示而键入的一样。 这可能会被覆盖，但通常不应该被覆盖; 请参阅： <a class="reference internal" href="#cmd.Cmd.precmd" title="cmd.Cmd.precmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">precmd()</span></code></a> 和 <a class="reference internal" href="#cmd.Cmd.postcmd" title="cmd.Cmd.postcmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">postcmd()</span></code></a> 方法，用于执行有用的挂钩。 返回值是一个标志，指示解释器对命令的解释是否应该停止。 如果命令 <em>str</em> 有一个 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_*()</span></code> 方法，则返回该方法的返回值，否则返回 <a class="reference internal" href="#cmd.Cmd.default" title="cmd.Cmd.default"><code class="xref py py-meth docutils literal notranslate"><span class="pre">default()</span></code></a> 方法的返回值。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.emptyline">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">emptyline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.emptyline" title="永久链接至目标">¶</a></dt>
+<dd><p>在响应提示输入空行时调用的方法。如果此方法未被覆盖，则重复输入的最后一个非空命令。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.default">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.default" title="永久链接至目标">¶</a></dt>
+<dd><p>当命令前缀不能被识别的时候在输入行调用的方法。如果此方法未被覆盖，它将输出一个错误信息并返回。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.completedefault">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">completedefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">begidx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endidx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.completedefault" title="永久链接至目标">¶</a></dt>
+<dd><p>当没有特定于命令的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">complete_*()</span></code> 方法可用时，调用此方法完成输入行。默认情况下，它返回一个空列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.columnize">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">columnize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">displaywidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.columnize" title="永久链接至目标">¶</a></dt>
+<dd><p>Method called to display a list of strings as a compact set of columns.
+Each column is only as wide as necessary.
+Columns are separated by two spaces for readability.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.precmd">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">precmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.precmd" title="永久链接至目标">¶</a></dt>
+<dd><p>钩方法在命令行 <em>line</em> 被解释之前执行，但是在输入提示被生成和发出后。这个方法是一个在 <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 中的存根；它的存在是为了被子类覆盖。返回值被用作  <a class="reference internal" href="#cmd.Cmd.onecmd" title="cmd.Cmd.onecmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">onecmd()</span></code></a> 方法执行的命令； <a class="reference internal" href="#cmd.Cmd.precmd" title="cmd.Cmd.precmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">precmd()</span></code></a> 的实现或许会重写命令或者简单的返回 <em>line</em> 不变。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.postcmd">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">postcmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.postcmd" title="永久链接至目标">¶</a></dt>
+<dd><p>钩方法只在命令调度完成后执行。这个方法是一个在 <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 中的存根；它的存在是为了子类被覆盖。 <em>line</em> 是被执行的命令行， <em>stop</em> 是一个表示在调用 <a class="reference internal" href="#cmd.Cmd.postcmd" title="cmd.Cmd.postcmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">postcmd()</span></code></a> 之后是否终止执行的标志；这将作为 <a class="reference internal" href="#cmd.Cmd.onecmd" title="cmd.Cmd.onecmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">onecmd()</span></code></a> 方法的返回值。这个方法的返回值被用作与 <em>stop</em> 相关联的内部标志的新值；返回 false 将导致解释继续。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.preloop">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">preloop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.preloop" title="永久链接至目标">¶</a></dt>
+<dd><p>钩方法当 <a class="reference internal" href="#cmd.Cmd.cmdloop" title="cmd.Cmd.cmdloop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cmdloop()</span></code></a> 被调用时执行一次。方法是一个在 <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 中的存根；它的存在是为了被子类覆盖。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.postloop">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">postloop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.postloop" title="永久链接至目标">¶</a></dt>
+<dd><p>钩方法在 <a class="reference internal" href="#cmd.Cmd.cmdloop" title="cmd.Cmd.cmdloop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cmdloop()</span></code></a> 即将返回时执行一次。这个方法是一个在 <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 中的存根；它的存在是为了被子类覆盖。</p>
+</dd></dl>
+
+<p>Instances of <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> subclasses have some public instance variables:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.prompt">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">prompt</span></span><a class="headerlink" href="#cmd.Cmd.prompt" title="永久链接至目标">¶</a></dt>
+<dd><p>发出提示以请求输入。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.identchars">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">identchars</span></span><a class="headerlink" href="#cmd.Cmd.identchars" title="永久链接至目标">¶</a></dt>
+<dd><p>接受命令前缀的字符串。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.lastcmd">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">lastcmd</span></span><a class="headerlink" href="#cmd.Cmd.lastcmd" title="永久链接至目标">¶</a></dt>
+<dd><p>看到最后一个非空命令前缀。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.cmdqueue">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">cmdqueue</span></span><a class="headerlink" href="#cmd.Cmd.cmdqueue" title="永久链接至目标">¶</a></dt>
+<dd><p>排队的输入行列表。当需要新的输入时，在 <a class="reference internal" href="#cmd.Cmd.cmdloop" title="cmd.Cmd.cmdloop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cmdloop()</span></code></a> 中检查 cmdqueue 列表；如果它不是空的，它的元素将被按顺序处理，就像在提示符处输入一样。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.intro">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">intro</span></span><a class="headerlink" href="#cmd.Cmd.intro" title="永久链接至目标">¶</a></dt>
+<dd><p>要作为简介或横幅发出的字符串。 可以通过给 <a class="reference internal" href="#cmd.Cmd.cmdloop" title="cmd.Cmd.cmdloop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cmdloop()</span></code></a> 方法一个参数来覆盖它。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.doc_header">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">doc_header</span></span><a class="headerlink" href="#cmd.Cmd.doc_header" title="永久链接至目标">¶</a></dt>
+<dd><p>如果帮助输出具有记录命令的段落，则发出头文件。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.misc_header">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">misc_header</span></span><a class="headerlink" href="#cmd.Cmd.misc_header" title="永久链接至目标">¶</a></dt>
+<dd><p>如果帮助输出其他帮助主题的部分（即与 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_*()</span></code> 方法没有关联的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">help_*()</span></code> 方法），则发出头文件。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.undoc_header">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">undoc_header</span></span><a class="headerlink" href="#cmd.Cmd.undoc_header" title="永久链接至目标">¶</a></dt>
+<dd><p>如果帮助输出未被记录命令的部分（即与 <code class="xref py py-meth docutils literal notranslate"><span class="pre">help_*()</span></code> 方法没有关联的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_*()</span></code> 方法），则发出头文件。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.ruler">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">ruler</span></span><a class="headerlink" href="#cmd.Cmd.ruler" title="永久链接至目标">¶</a></dt>
+<dd><p>用于在帮助信息标题的下方绘制分隔符的字符，如果为空，则不绘制标尺线。这个字符默认是 <code class="docutils literal notranslate"><span class="pre">'='</span></code> 。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.use_rawinput">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">use_rawinput</span></span><a class="headerlink" href="#cmd.Cmd.use_rawinput" title="永久链接至目标">¶</a></dt>
+<dd><p>这是一个标志，默认为 true 。如果为 true ，, <a class="reference internal" href="#cmd.Cmd.cmdloop" title="cmd.Cmd.cmdloop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cmdloop()</span></code></a> 使用 <a class="reference internal" href="functions.html#input" title="input"><code class="xref py py-func docutils literal notranslate"><span class="pre">input()</span></code></a> 先是提示并且阅读下一个命令；如果为 false ， <code class="xref py py-meth docutils literal notranslate"><span class="pre">sys.stdout.write()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">sys.stdin.readline()</span></code> 被使用。（这意味着解释器将会自动支持类似于 <strong class="program">Emacs</strong>的行编辑和命令历史记录按键操作，通过导入 <a class="reference internal" href="readline.html#module-readline" title="readline: GNU readline support for Python. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> 在支持它的系统上。）</p>
+</dd></dl>
+
+</section>
+<section id="cmd-example">
+<span id="id2"></span><h2>Cmd 例子<a class="headerlink" href="#cmd-example" title="永久链接至标题">¶</a></h2>
+<p>The <a class="reference internal" href="#module-cmd" title="cmd: Build line-oriented command interpreters."><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code></a> module is mainly useful for building custom shells that let a
+user work with a program interactively.</p>
+<p>这部分提供了一个简单的例子来介绍如何使用一部分在 <a class="reference internal" href="turtle.html#module-turtle" title="turtle: An educational framework for simple graphics applications"><code class="xref py py-mod docutils literal notranslate"><span class="pre">turtle</span></code></a> 模块中的命令构建一个 shell 。</p>
+<p>基础的 turtle 命令比如 <a class="reference internal" href="turtle.html#turtle.forward" title="turtle.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code></a> 被添加进一个 <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> 子类，方法名为 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_forward()</span></code> 。参数被转换成数字并且分发至 turtle 模块中。 docstring 是 shell 提供的帮助实用程序。</p>
+<p>例子也包含使用 <a class="reference internal" href="#cmd.Cmd.precmd" title="cmd.Cmd.precmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">precmd()</span></code></a> 方法实现基础的记录和回放的功能，这个方法负责将输入转换为小写并且将命令写入文件。 <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_playback()</span></code> 方法读取文件并添加记录命令至 <code class="xref py py-attr docutils literal notranslate"><span class="pre">cmdqueue</span></code> 用于即时回放:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cmd</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">turtle</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">TurtleShell</span><span class="p">(</span><span class="n">cmd</span><span class="o">.</span><span class="n">Cmd</span><span class="p">):</span>
+    <span class="n">intro</span> <span class="o">=</span> <span class="s1">&#39;Welcome to the turtle shell.   Type help or ? to list commands.</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">&#39;(turtle) &#39;</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># ----- basic turtle commands -----</span>
+    <span class="k">def</span> <span class="nf">do_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Move the turtle forward by the specified distance:  FORWARD 10&#39;</span>
+        <span class="n">forward</span><span class="p">(</span><span class="o">*</span><span class="n">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">do_right</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Turn turtle right by given number of degrees:  RIGHT 20&#39;</span>
+        <span class="n">right</span><span class="p">(</span><span class="o">*</span><span class="n">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">do_left</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Turn turtle left by given number of degrees:  LEFT 90&#39;</span>
+        <span class="n">left</span><span class="p">(</span><span class="o">*</span><span class="n">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">do_goto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Move turtle to an absolute position with changing orientation.  GOTO 100 200&#39;</span>
+        <span class="n">goto</span><span class="p">(</span><span class="o">*</span><span class="n">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">do_home</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Return turtle to the home position:  HOME&#39;</span>
+        <span class="n">home</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">do_circle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Draw circle with given radius an options extent and steps:  CIRCLE 50&#39;</span>
+        <span class="n">circle</span><span class="p">(</span><span class="o">*</span><span class="n">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">do_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Print the current turtle position:  POSITION&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Current position is </span><span class="si">%d</span><span class="s1"> </span><span class="si">%d</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">position</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">do_heading</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Print the current turtle heading in degrees:  HEADING&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Current heading is </span><span class="si">%d</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">heading</span><span class="p">(),))</span>
+    <span class="k">def</span> <span class="nf">do_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Set the color:  COLOR BLUE&#39;</span>
+        <span class="n">color</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">do_undo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Undo (repeatedly) the last turtle action(s):  UNDO&#39;</span>
+    <span class="k">def</span> <span class="nf">do_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Clear the screen and return turtle to center:  RESET&#39;</span>
+        <span class="n">reset</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">do_bye</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Stop recording, close the turtle window, and exit:  BYE&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Thank you for using Turtle&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">bye</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># ----- record and playback -----</span>
+    <span class="k">def</span> <span class="nf">do_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Save future commands to filename:  RECORD rose.cmd&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">do_playback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">&#39;Playback commands from a file:  PLAYBACK rose.cmd&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmdqueue</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">precmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="ow">and</span> <span class="s1">&#39;playback&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">line</span>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+    <span class="s1">&#39;Convert a series of zero or more numbers to an argument tuple&#39;</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">TurtleShell</span><span class="p">()</span><span class="o">.</span><span class="n">cmdloop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>这是一个示例会话，其中 turtle shell 显示帮助功能，使用空行重复命令，以及简单的记录和回放功能：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Welcome to the turtle shell.   Type help or ? to list commands.
+
+(turtle) ?
+
+Documented commands (type help &lt;topic&gt;):
+========================================
+bye     color    goto     home  playback  record  right
+circle  forward  heading  left  position  reset   undo
+
+(turtle) help forward
+Move the turtle forward by the specified distance:  FORWARD 10
+(turtle) record spiral.cmd
+(turtle) position
+Current position is 0 0
+
+(turtle) heading
+Current heading is 0
+
+(turtle) reset
+(turtle) circle 20
+(turtle) right 30
+(turtle) circle 40
+(turtle) right 30
+(turtle) circle 60
+(turtle) right 30
+(turtle) circle 80
+(turtle) right 30
+(turtle) circle 100
+(turtle) right 30
+(turtle) circle 120
+(turtle) right 30
+(turtle) circle 120
+(turtle) heading
+Current heading is 180
+
+(turtle) forward 100
+(turtle)
+(turtle) right 90
+(turtle) forward 100
+(turtle)
+(turtle) right 90
+(turtle) forward 400
+(turtle) right 90
+(turtle) forward 500
+(turtle) right 90
+(turtle) forward 400
+(turtle) right 90
+(turtle) forward 300
+(turtle) playback spiral.cmd
+Current position is 0 0
+
+Current heading is 0
+
+Current heading is 180
+
+(turtle) bye
+Thank you for using Turtle
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code> --- 支持面向行的命令解释器</a><ul>
+<li><a class="reference internal" href="#cmd-objects">Cmd 对象</a></li>
+<li><a class="reference internal" href="#cmd-example">Cmd 例子</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="turtle.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">turtle</span></code> --- 海龟绘图</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="shlex.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">shlex</span></code> —— 简单的词法分析</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/cmd.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="shlex.html" title="shlex —— 简单的词法分析"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="turtle.html" title="turtle --- 海龟绘图"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="frameworks.html" >程序框架</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code> --- 支持面向行的命令解释器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

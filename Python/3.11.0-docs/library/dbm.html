@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>dbm --- Unix &#34;数据库&#34; 接口 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="sqlite3 --- SQLite 数据库 DB-API 2.0 接口模块" href="sqlite3.html" />
+    <link rel="prev" title="marshal --- 内部 Python 对象序列化" href="marshal.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/dbm.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm</span></code> --- Unix &quot;数据库&quot; 接口</a><ul>
+<li><a class="reference internal" href="#module-dbm.gnu"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.gnu</span></code> --- GNU 对 dbm 的重解析</a></li>
+<li><a class="reference internal" href="#module-dbm.ndbm"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.ndbm</span></code> --- 基于 ndbm 的接口</a></li>
+<li><a class="reference internal" href="#module-dbm.dumb"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.dumb</span></code> --- 便携式 DBM 实现</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="marshal.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">marshal</span></code> --- 内部 Python 对象序列化</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="sqlite3.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sqlite3</span></code> --- SQLite 数据库 DB-API 2.0 接口模块</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/dbm.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="sqlite3.html" title="sqlite3 --- SQLite 数据库 DB-API 2.0 接口模块"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="marshal.html" title="marshal --- 内部 Python 对象序列化"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="persistence.html" accesskey="U">数据持久化</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm</span></code> --- Unix &quot;数据库&quot; 接口</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-dbm">
+<span id="dbm-interfaces-to-unix-databases"></span><h1><a class="reference internal" href="#module-dbm" title="dbm: Interfaces to various Unix &quot;database&quot; formats."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm</span></code></a> --- Unix &quot;数据库&quot; 接口<a class="headerlink" href="#module-dbm" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/dbm/__init__.py">Lib/dbm/__init__.py</a></p>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-dbm" title="dbm: Interfaces to various Unix &quot;database&quot; formats."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm</span></code></a> 是一种泛用接口，针对各种 DBM 数据库 --- 包括 <a class="reference internal" href="#module-dbm.gnu" title="dbm.gnu: GNU's reinterpretation of dbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.gnu</span></code></a> 或 <a class="reference internal" href="#module-dbm.ndbm" title="dbm.ndbm: The standard &quot;database&quot; interface, based on ndbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.ndbm</span></code></a>。 如果未安装这些模块中的任何一种，则将使用 <a class="reference internal" href="#module-dbm.dumb" title="dbm.dumb: Portable implementation of the simple DBM interface."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.dumb</span></code></a> 模块中慢速但简单的实现。 还有一个适用于 Oracle Berkeley DB 的 <a class="reference external" href="https://www.jcea.es/programacion/pybsddb.htm">第三方接口</a>。</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="dbm.error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dbm.</span></span><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#dbm.error" title="永久链接至目标">¶</a></dt>
+<dd><p>一个元组，其中包含每个受支持的模块可引发的异常，另外还有一个名为 <a class="reference internal" href="#dbm.error" title="dbm.error"><code class="xref py py-exc docutils literal notranslate"><span class="pre">dbm.error</span></code></a> 的特殊异常作为第一项 --- 后者最在引发 <a class="reference internal" href="#dbm.error" title="dbm.error"><code class="xref py py-exc docutils literal notranslate"><span class="pre">dbm.error</span></code></a> 时被使用。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dbm.whichdb">
+<span class="sig-prename descclassname"><span class="pre">dbm.</span></span><span class="sig-name descname"><span class="pre">whichdb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dbm.whichdb" title="永久链接至目标">¶</a></dt>
+<dd><p>此函数会猜测各种简单数据库模块中的哪一个是可用的 --- <a class="reference internal" href="#module-dbm.gnu" title="dbm.gnu: GNU's reinterpretation of dbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.gnu</span></code></a>, <a class="reference internal" href="#module-dbm.ndbm" title="dbm.ndbm: The standard &quot;database&quot; interface, based on ndbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.ndbm</span></code></a> 还是 <a class="reference internal" href="#module-dbm.dumb" title="dbm.dumb: Portable implementation of the simple DBM interface."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.dumb</span></code></a> --- 应该被用来打开给定的文件。</p>
+<p>返回下列值中的一个：如果文件由于不可读或不存在而无法打开则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>；如果文件的格式无法猜测则返回空字符串 (<code class="docutils literal notranslate"><span class="pre">''</span></code>)；或是包含所需模块名称的字符串，例如 <code class="docutils literal notranslate"><span class="pre">'dbm.ndbm'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'dbm.gnu'</span></code>。</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>Accepts <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a> for filename.</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="dbm.open">
+<span class="sig-prename descclassname"><span class="pre">dbm.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0o666</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dbm.open" title="永久链接至目标">¶</a></dt>
+<dd><p>打开数据库文件 <em>file</em> 并返回一个相应的对象。</p>
+<p>如果数据库文件已存在，则使用 <a class="reference internal" href="#dbm.whichdb" title="dbm.whichdb"><code class="xref py py-func docutils literal notranslate"><span class="pre">whichdb()</span></code></a> 函数来确定其类型和要使用的适当模块；如果文件不存在，则会使用上述可导入模块中的第一个。</p>
+<p>可选的 <em>flag</em> 参数可以是：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>值</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'r'</span></code></p></td>
+<td><p>以只读方式打开现有数据库（默认）</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'w'</span></code></p></td>
+<td><p>以读写方式打开现有数据库</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'c'</span></code></p></td>
+<td><p>以读写方式打开数据库，如果不存在则创建它</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'n'</span></code></p></td>
+<td><p>始终创建一个新的空数据库，以读写方式打开</p></td>
+</tr>
+</tbody>
+</table>
+<p>可选的 <em>mode</em> 参数是文件的 Unix 模式，仅在要创建数据库时才会被使用。 其默认值为八进制数 <code class="docutils literal notranslate"><span class="pre">0o666</span></code> (并将被当前的 umask 所修改)。</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#dbm.open" title="dbm.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> 所返回的对象支持与字典相同的基本功能；可以存储、获取和删除键及其对应的值，并可使用 <a class="reference internal" href="../reference/expressions.html#in"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">in</span></code></a> 运算符和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">keys()</span></code> 方法，以及 <code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">setdefault()</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>现在 <code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">setdefault()</span></code> 在所有数据库模块中均可用。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>从只读数据库中删除键将引发数据库模块专属的错误而不是 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>Accepts <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a> for file.</p>
+</div>
+<p>键和值总是被存储为字节串。 这意味着当使用字符串时它们会在被存储之前隐式地转换至默认编码格式。</p>
+<p>这些对象也支持在 <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句中使用，当语句结束时将自动关闭它们。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>向 <a class="reference internal" href="#dbm.open" title="dbm.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> 所返回的对象添加了上下文管理协议的原生支持。</p>
+</div>
+<p>以下示例记录了一些主机名和对应的标题，随后将数据库的内容打印出来。:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dbm</span>
+
+<span class="c1"># Open database, creating it if necessary.</span>
+<span class="k">with</span> <span class="n">dbm</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;cache&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+
+    <span class="c1"># Record some values</span>
+    <span class="n">db</span><span class="p">[</span><span class="sa">b</span><span class="s1">&#39;hello&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;there&#39;</span>
+    <span class="n">db</span><span class="p">[</span><span class="s1">&#39;www.python.org&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Python Website&#39;</span>
+    <span class="n">db</span><span class="p">[</span><span class="s1">&#39;www.cnn.com&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Cable News Network&#39;</span>
+
+    <span class="c1"># Note that the keys are considered bytes now.</span>
+    <span class="k">assert</span> <span class="n">db</span><span class="p">[</span><span class="sa">b</span><span class="s1">&#39;www.python.org&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;Python Website&#39;</span>
+    <span class="c1"># Notice how the value is now in bytes.</span>
+    <span class="k">assert</span> <span class="n">db</span><span class="p">[</span><span class="s1">&#39;www.cnn.com&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;Cable News Network&#39;</span>
+
+    <span class="c1"># Often-used methods of the dict interface work too.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;python.org&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;not present&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Storing a non-string key or value will raise an exception (most</span>
+    <span class="c1"># likely a TypeError).</span>
+    <span class="n">db</span><span class="p">[</span><span class="s1">&#39;www.yahoo.com&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="c1"># db is automatically closed when leaving the with statement.</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>模块 <a class="reference internal" href="shelve.html#module-shelve" title="shelve: Python object persistence."><code class="xref py py-mod docutils literal notranslate"><span class="pre">shelve</span></code></a></dt><dd><p>存储非字符串数据的持久化模块。</p>
+</dd>
+</dl>
+</div>
+<p>以下部分描述了各个单独的子模块。</p>
+<section id="module-dbm.gnu">
+<span id="dbm-gnu-gnu-s-reinterpretation-of-dbm"></span><h2><a class="reference internal" href="#module-dbm.gnu" title="dbm.gnu: GNU's reinterpretation of dbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.gnu</span></code></a> --- GNU 对 dbm 的重解析<a class="headerlink" href="#module-dbm.gnu" title="永久链接至标题">¶</a></h2>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/dbm/gnu.py">Lib/dbm/gnu.py</a></p>
+<hr class="docutils" />
+<p>此模块与 <a class="reference internal" href="#module-dbm" title="dbm: Interfaces to various Unix &quot;database&quot; formats."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm</span></code></a> 模块很相似，但是改用 GNU 库 <code class="docutils literal notranslate"><span class="pre">gdbm</span></code> 来提供某些附加功能。 请注意由 <a class="reference internal" href="#module-dbm.gnu" title="dbm.gnu: GNU's reinterpretation of dbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.gnu</span></code></a> 与 <a class="reference internal" href="#module-dbm.ndbm" title="dbm.ndbm: The standard &quot;database&quot; interface, based on ndbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.ndbm</span></code></a> 所创建的文件格式是不兼容的。</p>
+<p><a class="reference internal" href="#module-dbm.gnu" title="dbm.gnu: GNU's reinterpretation of dbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.gnu</span></code></a> 模块提供了对 GNU DBM 库的接口。 <code class="docutils literal notranslate"><span class="pre">dbm.gnu.gdbm</span></code> 对象的行为类似于映射（字典），区别在于其键和值总是会在存储之前被转换为字节串。 打印 <code class="docutils literal notranslate"><span class="pre">gdbm</span></code> 对象不会打印出键和值，并且 <code class="xref py py-meth docutils literal notranslate"><span class="pre">items()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">values()</span></code> 等方法也不受支持。</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="dbm.gnu.error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dbm.gnu.</span></span><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#dbm.gnu.error" title="永久链接至目标">¶</a></dt>
+<dd><p>针对 <a class="reference internal" href="#module-dbm.gnu" title="dbm.gnu: GNU's reinterpretation of dbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.gnu</span></code></a> 专属错误例如 I/O 错误引发。 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 的引发则针对一般映射错误例如指定了不正确的键。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dbm.gnu.open">
+<span class="sig-prename descclassname"><span class="pre">dbm.gnu.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#dbm.gnu.open" title="永久链接至目标">¶</a></dt>
+<dd><p>打开一个 <code class="docutils literal notranslate"><span class="pre">gdbm</span></code> 数据库并返回 <code class="xref py py-class docutils literal notranslate"><span class="pre">gdbm</span></code> 对象。 <em>filename</em> 参数为数据库文件名称。</p>
+<p>可选的 <em>flag</em> 参数可以是：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>值</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'r'</span></code></p></td>
+<td><p>以只读方式打开现有数据库（默认）</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'w'</span></code></p></td>
+<td><p>以读写方式打开现有数据库</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'c'</span></code></p></td>
+<td><p>以读写方式打开数据库，如果不存在则创建它</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'n'</span></code></p></td>
+<td><p>始终创建一个新的空数据库，以读写方式打开</p></td>
+</tr>
+</tbody>
+</table>
+<p>下列附加字符可被添加至旗标以控制数据库的打开方式：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>值</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'f'</span></code></p></td>
+<td><p>以快速模式打开数据库。写入数据库将不会同步。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'s'</span></code></p></td>
+<td><p>同步模式。这将导致数据库的更改立即写入文件。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'u'</span></code></p></td>
+<td><p>不要锁定数据库。</p></td>
+</tr>
+</tbody>
+</table>
+<p>不是所有旗标都可用于所有版本的 <code class="docutils literal notranslate"><span class="pre">gdbm</span></code>。 模块常量 <code class="xref py py-const docutils literal notranslate"><span class="pre">open_flags</span></code> 为包含受支持旗标字符的字符串。 如果指定了无效的旗标则会引发 <a class="reference internal" href="#dbm.gnu.error" title="dbm.gnu.error"><code class="xref py py-exc docutils literal notranslate"><span class="pre">error</span></code></a>。</p>
+<p>可选的 <em>mode</em> 参数是文件的 Unix 模式，仅在要创建数据库时才会被使用。 其默认值为八进制数 <code class="docutils literal notranslate"><span class="pre">0o666</span></code>。</p>
+<p>除了与字典类似的方法，<code class="docutils literal notranslate"><span class="pre">gdbm</span></code> 对象还有以下方法：</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>Accepts <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a> for filename.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="dbm.gnu.gdbm.firstkey">
+<span class="sig-prename descclassname"><span class="pre">gdbm.</span></span><span class="sig-name descname"><span class="pre">firstkey</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dbm.gnu.gdbm.firstkey" title="永久链接至目标">¶</a></dt>
+<dd><p>使用此方法和 <a class="reference internal" href="#dbm.gnu.gdbm.nextkey" title="dbm.gnu.gdbm.nextkey"><code class="xref py py-meth docutils literal notranslate"><span class="pre">nextkey()</span></code></a> 方法可以循环遍历数据库中的每个键。 遍历的顺序是按照 <code class="docutils literal notranslate"><span class="pre">gdbm</span></code> 的内部哈希值，而不会根据键的值排序。 此方法将返回起始键。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dbm.gnu.gdbm.nextkey">
+<span class="sig-prename descclassname"><span class="pre">gdbm.</span></span><span class="sig-name descname"><span class="pre">nextkey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dbm.gnu.gdbm.nextkey" title="永久链接至目标">¶</a></dt>
+<dd><p>在遍历中返回 <em>key</em> 之后的的下一个键。 以下代码将打印数据库 <code class="docutils literal notranslate"><span class="pre">db</span></code> 中的每个键，而不会在内存中创建一个包含所有键的列表:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">firstkey</span><span class="p">()</span>
+<span class="k">while</span> <span class="n">k</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">nextkey</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dbm.gnu.gdbm.reorganize">
+<span class="sig-prename descclassname"><span class="pre">gdbm.</span></span><span class="sig-name descname"><span class="pre">reorganize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dbm.gnu.gdbm.reorganize" title="永久链接至目标">¶</a></dt>
+<dd><p>如果你进行了大量删除操作并且想要缩减 <code class="docutils literal notranslate"><span class="pre">gdbm</span></code> 文件所使用的空间，此例程将可重新组织数据库。 除非使用此重组功能否则 <code class="docutils literal notranslate"><span class="pre">gdbm</span></code> 对象不会缩减数据库文件大小；在其他情况下，被删除的文件空间将会保留并在添加新的 (键, 值) 对时被重用。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dbm.gnu.gdbm.sync">
+<span class="sig-prename descclassname"><span class="pre">gdbm.</span></span><span class="sig-name descname"><span class="pre">sync</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dbm.gnu.gdbm.sync" title="永久链接至目标">¶</a></dt>
+<dd><p>当以快速模式打开数据库时，此方法会将任何未写入数据强制写入磁盘。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dbm.gnu.gdbm.close">
+<span class="sig-prename descclassname"><span class="pre">gdbm.</span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dbm.gnu.gdbm.close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭 <code class="docutils literal notranslate"><span class="pre">gdbm</span></code> 数据库。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-dbm.ndbm">
+<span id="dbm-ndbm-interface-based-on-ndbm"></span><h2><a class="reference internal" href="#module-dbm.ndbm" title="dbm.ndbm: The standard &quot;database&quot; interface, based on ndbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.ndbm</span></code></a> --- 基于 ndbm 的接口<a class="headerlink" href="#module-dbm.ndbm" title="永久链接至标题">¶</a></h2>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/dbm/ndbm.py">Lib/dbm/ndbm.py</a></p>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-dbm.ndbm" title="dbm.ndbm: The standard &quot;database&quot; interface, based on ndbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.ndbm</span></code></a> 模块提供了对 Unix &quot;(n)dbm&quot; 库的接口。 Dbm 对象的行为类似于映射（字典），区别在于其键和值总是被存储为字节串。 打印 <code class="docutils literal notranslate"><span class="pre">dbm</span></code> 对象不会打印出键和值，并且 <code class="xref py py-meth docutils literal notranslate"><span class="pre">items()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">values()</span></code> 等方法也不受支持。</p>
+<p>此模块可与 &quot;经典classic&quot; ndbm 接口或 GNU GDBM 兼容接口一同使用。 在 Unix 上，<strong class="program">configure</strong> 脚本将尝试定位适当的头文件来简化此模块的构建。</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="dbm.ndbm.error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dbm.ndbm.</span></span><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#dbm.ndbm.error" title="永久链接至目标">¶</a></dt>
+<dd><p>针对 <a class="reference internal" href="#module-dbm.ndbm" title="dbm.ndbm: The standard &quot;database&quot; interface, based on ndbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.ndbm</span></code></a> 专属错误例如 I/O 错误引发。 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 的引发则针对一般映射错误例如指定了不正确的键。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dbm.ndbm.library">
+<span class="sig-prename descclassname"><span class="pre">dbm.ndbm.</span></span><span class="sig-name descname"><span class="pre">library</span></span><a class="headerlink" href="#dbm.ndbm.library" title="永久链接至目标">¶</a></dt>
+<dd><p>所使用的 <code class="docutils literal notranslate"><span class="pre">ndbm</span></code> 实现库的名称。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dbm.ndbm.open">
+<span class="sig-prename descclassname"><span class="pre">dbm.ndbm.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#dbm.ndbm.open" title="永久链接至目标">¶</a></dt>
+<dd><p>打开一个 dbm 数据库并返回 <code class="docutils literal notranslate"><span class="pre">ndbm</span></code> 对象。 <em>filename</em> 参数为数据库文件名称（不带 <code class="file docutils literal notranslate"><span class="pre">.dir</span></code> 或 <code class="file docutils literal notranslate"><span class="pre">.pag</span></code> 扩展名）。</p>
+<p>可选的 <em>flag</em> 参数必须是下列值之一：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>值</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'r'</span></code></p></td>
+<td><p>以只读方式打开现有数据库（默认）</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'w'</span></code></p></td>
+<td><p>以读写方式打开现有数据库</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'c'</span></code></p></td>
+<td><p>以读写方式打开数据库，如果不存在则创建它</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'n'</span></code></p></td>
+<td><p>始终创建一个新的空数据库，以读写方式打开</p></td>
+</tr>
+</tbody>
+</table>
+<p>可选的 <em>mode</em> 参数是文件的 Unix 模式，仅在要创建数据库时才会被使用。 其默认值为八进制数 <code class="docutils literal notranslate"><span class="pre">0o666</span></code> (并将被当前的 umask 所修改)。</p>
+<p>除了与字典类似的方法，<code class="docutils literal notranslate"><span class="pre">ndbm</span></code> 对象还有以下方法：</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>Accepts <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a> for filename.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="dbm.ndbm.ndbm.close">
+<span class="sig-prename descclassname"><span class="pre">ndbm.</span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dbm.ndbm.ndbm.close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭 <code class="docutils literal notranslate"><span class="pre">ndbm</span></code> 数据库。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-dbm.dumb">
+<span id="dbm-dumb-portable-dbm-implementation"></span><h2><a class="reference internal" href="#module-dbm.dumb" title="dbm.dumb: Portable implementation of the simple DBM interface."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.dumb</span></code></a> --- 便携式 DBM 实现<a class="headerlink" href="#module-dbm.dumb" title="永久链接至标题">¶</a></h2>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/dbm/dumb.py">Lib/dbm/dumb.py</a></p>
+<div class="admonition note" id="index-0">
+<p class="admonition-title">备注</p>
+<p><a class="reference internal" href="#module-dbm.dumb" title="dbm.dumb: Portable implementation of the simple DBM interface."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.dumb</span></code></a> 模块的目的是在更健壮的模块不可用时作为 <a class="reference internal" href="#module-dbm" title="dbm: Interfaces to various Unix &quot;database&quot; formats."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm</span></code></a> 模块的最终回退项。 <a class="reference internal" href="#module-dbm.dumb" title="dbm.dumb: Portable implementation of the simple DBM interface."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.dumb</span></code></a> 不是为高速运行而编写的，也不像其他数据库模块一样被经常使用。</p>
+</div>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-dbm.dumb" title="dbm.dumb: Portable implementation of the simple DBM interface."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.dumb</span></code></a> 模块提供了一个完全以 Python 编写的持久化字典类接口。 不同于 <a class="reference internal" href="#module-dbm.gnu" title="dbm.gnu: GNU's reinterpretation of dbm. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.gnu</span></code></a> 等其他模块，它不需要外部库。 与其他持久化映射一样，它的键和值也总是被存储为字节串。</p>
+<p>该模块定义以下内容：</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="dbm.dumb.error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dbm.dumb.</span></span><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#dbm.dumb.error" title="永久链接至目标">¶</a></dt>
+<dd><p>针对 <a class="reference internal" href="#module-dbm.dumb" title="dbm.dumb: Portable implementation of the simple DBM interface."><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.dumb</span></code></a> 专属错误例如 I/O 错误引发。  <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 的引发则针对一般映射例如指定了不正确的键。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dbm.dumb.open">
+<span class="sig-prename descclassname"><span class="pre">dbm.dumb.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#dbm.dumb.open" title="永久链接至目标">¶</a></dt>
+<dd><p>打开一个 <code class="docutils literal notranslate"><span class="pre">dumbdbm</span></code> 数据库并返回 dumbdbm 对象。 <em>filename</em> 参数为数据库文件的主名称（不带任何特定扩展名）。 创建一个 dumbdbm 数据库时将创建多个带有 <code class="file docutils literal notranslate"><span class="pre">.dat</span></code> 和 <code class="file docutils literal notranslate"><span class="pre">.dir</span></code> 扩展名的文件。</p>
+<p>可选的 <em>flag</em> 参数可以是：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>值</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'r'</span></code></p></td>
+<td><p>以只读方式打开现有数据库（默认）</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'w'</span></code></p></td>
+<td><p>以读写方式打开现有数据库</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'c'</span></code></p></td>
+<td><p>以读写方式打开数据库，如果不存在则创建它</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'n'</span></code></p></td>
+<td><p>始终创建一个新的空数据库，以读写方式打开</p></td>
+</tr>
+</tbody>
+</table>
+<p>可选的 <em>mode</em> 参数是文件的 Unix 模式，仅在要创建数据库时才会被使用。 其默认值为八进制数 <code class="docutils literal notranslate"><span class="pre">0o666</span></code> (并将被当前的 umask 所修改)。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>当载入包含足够巨大/复杂条目的数据库时有可能导致 Python 解释器的崩溃，这是由于 Python AST 编译器有栈深度限制。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span><a class="reference internal" href="#dbm.dumb.open" title="dbm.dumb.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> 在 flag 值为 <code class="docutils literal notranslate"><span class="pre">'n'</span></code> 时将总是创建一个新的数据库。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>附带 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> 旗标打开的数据库现在将是只读的。 附带 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'w'</span></code> 旗标的打开操作不会再创建数据库。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>Accepts <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a> for filename.</p>
+</div>
+<p>除了 <a class="reference internal" href="collections.abc.html#collections.abc.MutableMapping" title="collections.abc.MutableMapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.MutableMapping</span></code></a> 类所提供的方法，<code class="xref py py-class docutils literal notranslate"><span class="pre">dumbdbm</span></code> 对象还提供了以下方法：</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dbm.dumb.dumbdbm.sync">
+<span class="sig-prename descclassname"><span class="pre">dumbdbm.</span></span><span class="sig-name descname"><span class="pre">sync</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dbm.dumb.dumbdbm.sync" title="永久链接至目标">¶</a></dt>
+<dd><p>同步磁盘上的目录和数据文件。 此方法会由 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Shelve.sync()</span></code> 方法来调用。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dbm.dumb.dumbdbm.close">
+<span class="sig-prename descclassname"><span class="pre">dumbdbm.</span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dbm.dumb.dumbdbm.close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭 <code class="docutils literal notranslate"><span class="pre">dumbdbm</span></code> 数据库。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm</span></code> --- Unix &quot;数据库&quot; 接口</a><ul>
+<li><a class="reference internal" href="#module-dbm.gnu"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.gnu</span></code> --- GNU 对 dbm 的重解析</a></li>
+<li><a class="reference internal" href="#module-dbm.ndbm"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.ndbm</span></code> --- 基于 ndbm 的接口</a></li>
+<li><a class="reference internal" href="#module-dbm.dumb"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm.dumb</span></code> --- 便携式 DBM 实现</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="marshal.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">marshal</span></code> --- 内部 Python 对象序列化</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="sqlite3.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sqlite3</span></code> --- SQLite 数据库 DB-API 2.0 接口模块</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/dbm.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="sqlite3.html" title="sqlite3 --- SQLite 数据库 DB-API 2.0 接口模块"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="marshal.html" title="marshal --- 内部 Python 对象序列化"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="persistence.html" >数据持久化</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm</span></code> --- Unix &quot;数据库&quot; 接口</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

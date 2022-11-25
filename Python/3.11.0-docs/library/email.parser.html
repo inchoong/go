@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>email.parser: 解析电子邮件信息 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="email.generator: 生成 MIME 文档" href="email.generator.html" />
+    <link rel="prev" title="email.message: 表示一封电子邮件信息" href="email.message.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/email.parser.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code>: 解析电子邮件信息</a><ul>
+<li><a class="reference internal" href="#feedparser-api">FeedParser API</a></li>
+<li><a class="reference internal" href="#parser-api">Parser API</a></li>
+<li><a class="reference internal" href="#additional-notes">附加说明</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="email.message.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.message</span></code>: 表示一封电子邮件信息</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="email.generator.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.generator</span></code>: 生成 MIME 文档</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/email.parser.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="email.generator.html" title="email.generator: 生成 MIME 文档"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="email.message.html" title="email.message: 表示一封电子邮件信息"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" >互联网数据处理</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="email.html" accesskey="U"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> --- 电子邮件与 MIME 处理包</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code>: 解析电子邮件信息</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-email.parser">
+<span id="email-parser-parsing-email-messages"></span><h1><a class="reference internal" href="#module-email.parser" title="email.parser: Parse flat text email messages to produce a message object structure."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code></a>: 解析电子邮件信息<a class="headerlink" href="#module-email.parser" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码</strong>: <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/email/parser.py">Lib/email/parser.py</a></p>
+<hr class="docutils" />
+<p>使用以下两种方法的其中一种以创建消息对象结构：直接创建一个 <a class="reference internal" href="email.message.html#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 对象，使用字典接口添加消息头，并且使用 <a class="reference internal" href="email.message.html#email.message.EmailMessage.set_content" title="email.message.EmailMessage.set_content"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_content()</span></code></a> 和其他相关方法添加消息负载；或者通过解析一个电子邮件消息的序列化表达来创建消息对象结构。</p>
+<p><a class="reference internal" href="email.html#module-email" title="email: Package supporting the parsing, manipulating, and generating email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code></a> 包提供了一个可以理解包含 MIME 文档在内的绝大多数电子邮件文档结构的标准语法分析程序。 你可以传递给语法分析程序一个字节串、字符串或者文件对象，语法分析程序会返回给你对应于该对象结构的根 <a class="reference internal" href="email.message.html#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 实例。 对于简单的、非 MIME 的消息，这个根对象的负载很可能就是一个包含了该消息文字内容的字符串。 对于 MIME 消息，调用根对象的 <a class="reference internal" href="email.message.html#email.message.EmailMessage.is_multipart" title="email.message.EmailMessage.is_multipart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_multipart()</span></code></a> 方法会返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>，其子项可以通过负载操纵方法来进行访问，例如 <a class="reference internal" href="email.message.html#email.message.EmailMessage.get_body" title="email.message.EmailMessage.get_body"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_body()</span></code></a>、<a class="reference internal" href="email.message.html#email.message.EmailMessage.iter_parts" title="email.message.EmailMessage.iter_parts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">iter_parts()</span></code></a> 还有 <a class="reference internal" href="email.message.html#email.message.EmailMessage.walk" title="email.message.EmailMessage.walk"><code class="xref py py-meth docutils literal notranslate"><span class="pre">walk()</span></code></a>。</p>
+<p>事实上你可以使用的语法分析程序接口有两种: <a class="reference internal" href="#email.parser.Parser" title="email.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> API 和增量式的 <a class="reference internal" href="#email.parser.FeedParser" title="email.parser.FeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeedParser</span></code></a> API。当你的全部消息内容都在内存当中，或者整个消息都保存在文件系统内的一个文件当中的时候，<a class="reference internal" href="#email.parser.Parser" title="email.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> API非常有用。当你从可能会为了等待更多输入而阻塞的数据流当中读取消息（比如从套接字当中读取电子邮件消息）的时候，<a class="reference internal" href="#email.parser.FeedParser" title="email.parser.FeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeedParser</span></code></a> 会更合适。<a class="reference internal" href="#email.parser.FeedParser" title="email.parser.FeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeedParser</span></code></a> 会增量读取并解析消息，并且只有在你关闭语法分析程序的时候才会返回根对象。</p>
+<p>请注意，语法分析程序可以进行有限的拓展，你当然也可以完全从零开始实现你自己的语法分析程序。将 <a class="reference internal" href="email.html#module-email" title="email: Package supporting the parsing, manipulating, and generating email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code></a> 包中内置的语法分析程序和 <a class="reference internal" href="email.message.html#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 类连接起来的所有逻辑代码都包含在 <code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code> 类当中，所以如有必要，自定义的语法分析程序可以通过实现自定义的对应 <code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code> 方法来创建对应的消息对象树。</p>
+<section id="feedparser-api">
+<h2>FeedParser API<a class="headerlink" href="#feedparser-api" title="永久链接至标题">¶</a></h2>
+<p>从 <code class="xref py py-mod docutils literal notranslate"><span class="pre">email.feedparser</span></code> 模块导入的 <a class="reference internal" href="#email.parser.BytesFeedParser" title="email.parser.BytesFeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesFeedParser</span></code></a>  类提供了一个适合于增量解析电子邮件消息的API，比如说在从一个可能会阻塞（例如套接字）的源当中读取消息文字的场合中它就会变得很有用。当然， <a class="reference internal" href="#email.parser.BytesFeedParser" title="email.parser.BytesFeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesFeedParser</span></code></a> 也可以用来解析一个已经完整包含在一个 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 、字符串或文件内的电子邮件消息，但是在这些场合下使用 <a class="reference internal" href="#email.parser.BytesParser" title="email.parser.BytesParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesParser</span></code></a> API可能会更加方便。这两个语法分析程序API的语义和最终结果是一致的。</p>
+<p><a class="reference internal" href="#email.parser.BytesFeedParser" title="email.parser.BytesFeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesFeedParser</span></code></a> 的API十分简洁易懂：你创建一个语法分析程序的实例，向它不断输入大量的字节直到尽头，然后关闭这个语法分析程序就可以拿到根消息对象了。 在处理符合标准的消息的时候 <a class="reference internal" href="#email.parser.BytesFeedParser" title="email.parser.BytesFeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesFeedParser</span></code></a> 非常准确；在处理不符合标准的消息的时候它做的也不差，但这视消息损坏的程度而定。它会向消息对象的 <a class="reference internal" href="email.message.html#email.message.EmailMessage.defects" title="email.message.EmailMessage.defects"><code class="xref py py-attr docutils literal notranslate"><span class="pre">defects</span></code></a> 属性中写入它从消息中找到的问题列表。关于它能找到的所有问题类型的列表，详见 <a class="reference internal" href="email.errors.html#module-email.errors" title="email.errors: The exception classes used by the email package."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.errors</span></code></a> 模块。</p>
+<p>这里是 <a class="reference internal" href="#email.parser.BytesFeedParser" title="email.parser.BytesFeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesFeedParser</span></code></a> 的 API：</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="email.parser.BytesFeedParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">email.parser.</span></span><span class="sig-name descname"><span class="pre">BytesFeedParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">policy.compat32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.BytesFeedParser" title="永久链接至目标">¶</a></dt>
+<dd><p>创建一个 <a class="reference internal" href="#email.parser.BytesFeedParser" title="email.parser.BytesFeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesFeedParser</span></code></a> 实例。可选的 <em>_factory</em> 参数是一个不带参数的可调用对象；如果没有被指定，就会使用 <em>policy</em> 参数的 <a class="reference internal" href="email.policy.html#email.policy.Policy.message_factory" title="email.policy.Policy.message_factory"><code class="xref py py-attr docutils literal notranslate"><span class="pre">message_factory</span></code></a> 属性。 每当需要一个新的消息对象的时候，<em>_factory</em> 都会被调用。</p>
+<p>如果指定了 <em>policy</em> 参数，它就会使用这个参数所指定的规则来更新消息的表达方式。 如果没有设定 <em>policy</em> 参数，它就会使用 <a class="reference internal" href="email.policy.html#email.policy.Compat32" title="email.policy.Compat32"><code class="xref py py-class docutils literal notranslate"><span class="pre">compat32</span></code></a> 策略。 这个策略维持了对 Python 3.2 版本的 email 包的后向兼容性，并且使用 <a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 作为默认的工厂。 其他策略使用 <a class="reference internal" href="email.message.html#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 作为默认的 <em>_factory</em>。 关于 <em>policy</em> 还会控制什么，参见 <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code></a> 的文档。</p>
+<p>注: <strong>一定要指定policy关键字</strong>。 在未来版本的 Python 当中，它的默认值会变成 <a class="reference internal" href="email.policy.html#email.policy.default" title="email.policy.default"><code class="xref py py-data docutils literal notranslate"><span class="pre">email.policy.default</span></code></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>添加了 <em>policy</em> 关键字。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>_factory</em> 默认为策略 <code class="docutils literal notranslate"><span class="pre">message_factory</span></code>。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="email.parser.BytesFeedParser.feed">
+<span class="sig-name descname"><span class="pre">feed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.BytesFeedParser.feed" title="永久链接至目标">¶</a></dt>
+<dd><p>向语法分析程序输入更多数据。<em>data</em> 应当是一个包含一行或多行内容的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>。 行内容可以是不完整的，语法分析程序会妥善的将这些不完整的行缝合在一起。每一行可以使用以下三种常见的终止符号的其中一种：回车符、换行符或回车符加换行符（三者甚至可以混合使用）。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.parser.BytesFeedParser.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.BytesFeedParser.close" title="永久链接至目标">¶</a></dt>
+<dd><p>完成之前输入的所有数据的解析并返回根消息对象。 如果在这个方法被调用之后仍然调用 <a class="reference internal" href="#email.parser.BytesFeedParser.feed" title="email.parser.BytesFeedParser.feed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">feed()</span></code></a> 方法，结果是未定义的。</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="email.parser.FeedParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">email.parser.</span></span><span class="sig-name descname"><span class="pre">FeedParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">policy.compat32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.FeedParser" title="永久链接至目标">¶</a></dt>
+<dd><p>行为跟 <a class="reference internal" href="#email.parser.BytesFeedParser" title="email.parser.BytesFeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesFeedParser</span></code></a> 类一致，只不过向 <a class="reference internal" href="#email.parser.BytesFeedParser.feed" title="email.parser.BytesFeedParser.feed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">feed()</span></code></a> 方法输入的内容必须是字符串。它的实用性有限，因为这种消息只有在其只含有ASCII文字，或者 <code class="xref py py-attr docutils literal notranslate"><span class="pre">utf8</span></code> 被设置为 <code class="docutils literal notranslate"><span class="pre">True</span></code> 且没有二进制格式的附件的时候，才会有效。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>添加了 <em>policy</em> 关键字。</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="parser-api">
+<h2>Parser API<a class="headerlink" href="#parser-api" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#email.parser.BytesParser" title="email.parser.BytesParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesParser</span></code></a> 类从 <a class="reference internal" href="#module-email.parser" title="email.parser: Parse flat text email messages to produce a message object structure."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code></a> 模块导入，当消息的完整内容包含在一个 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 或文件中时它提供了可用于解析消息的 API。 <a class="reference internal" href="#module-email.parser" title="email.parser: Parse flat text email messages to produce a message object structure."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code></a> 模块还提供了 <a class="reference internal" href="#email.parser.Parser" title="email.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> 用来解析字符串，以及只用来解析消息头的 <a class="reference internal" href="#email.parser.BytesHeaderParser" title="email.parser.BytesHeaderParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesHeaderParser</span></code></a> 和 <a class="reference internal" href="#email.parser.HeaderParser" title="email.parser.HeaderParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeaderParser</span></code></a>，如果你只对消息头感兴趣就可以使用后两者。 在这种场合下 <a class="reference internal" href="#email.parser.BytesHeaderParser" title="email.parser.BytesHeaderParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesHeaderParser</span></code></a> 和 <a class="reference internal" href="#email.parser.HeaderParser" title="email.parser.HeaderParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeaderParser</span></code></a> 速度非常快，因为它们并不会尝试解析消息体，而是将载荷设为原始数据。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="email.parser.BytesParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">email.parser.</span></span><span class="sig-name descname"><span class="pre">BytesParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">policy.compat32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.BytesParser" title="永久链接至目标">¶</a></dt>
+<dd><p>创建一个 <a class="reference internal" href="#email.parser.BytesParser" title="email.parser.BytesParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesParser</span></code></a> 实例。 <em>_class</em> 和 <em>policy</em> 参数在含义和语义上与 <a class="reference internal" href="#email.parser.BytesFeedParser" title="email.parser.BytesFeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesFeedParser</span></code></a> 的 <em>_factory</em> 和 <em>policy</em> 参数一致。</p>
+<p>注: <strong>一定要指定policy关键字</strong>。 在未来版本的 Python 当中，它的默认值会变成 <a class="reference internal" href="email.policy.html#email.policy.default" title="email.policy.default"><code class="xref py py-data docutils literal notranslate"><span class="pre">email.policy.default</span></code></a>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>移除了在2.4版本中被弃用的 <em>strict</em> 参数。新增了 <em>policy</em> 关键字。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>_class</em> 默认为策略 <code class="docutils literal notranslate"><span class="pre">message_factory</span></code>。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="email.parser.BytesParser.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headersonly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.BytesParser.parse" title="永久链接至目标">¶</a></dt>
+<dd><p>从二进制的类文件对象 <em>fp</em> 中读取全部数据、解析其字节内容、并返回消息对象。 <em>fp</em> 必须同时支持 <a class="reference internal" href="io.html#io.IOBase.readline" title="io.IOBase.readline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readline()</span></code></a> 方法和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code> 方法。</p>
+<p><em>fp</em> 内包含的字节内容必须是一块遵循 <span class="target" id="index-4"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5322.html"><strong>RFC 5322</strong></a> （如果 <code class="xref py py-attr docutils literal notranslate"><span class="pre">utf8</span></code> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则为 <span class="target" id="index-5"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6532.html"><strong>RFC 6532</strong></a> ）格式风格的消息头和消息头延续行，并可能紧跟一个信封头。 头块要么以数据结束，要么以一个空行为终止。 跟着头块的是消息体（消息体内可能包含 MIME 编码的子部分，这也包括 <em class="mailheader">Content-Transfer-Encoding</em> 字段为 <code class="docutils literal notranslate"><span class="pre">8bit</span></code> 的子部分）。</p>
+<p>可选的 <em>headersonly</em> 指示了是否应当在读取完消息头后就终止。默认值为 <code class="docutils literal notranslate"><span class="pre">False</span></code> ，意味着它会解析整个文件的全部内容。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.parser.BytesParser.parsebytes">
+<span class="sig-name descname"><span class="pre">parsebytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headersonly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.BytesParser.parsebytes" title="永久链接至目标">¶</a></dt>
+<dd><p>与 <a class="reference internal" href="#email.parser.BytesParser.parse" title="email.parser.BytesParser.parse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse()</span></code></a> 方法类似，只不过它要求输入为一个 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 而不是类文件对象。于一个 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 调用此方法相当于先将这些字节包装于一个 <a class="reference internal" href="io.html#io.BytesIO" title="io.BytesIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesIO</span></code></a> 实例中，然后调用 <a class="reference internal" href="#email.parser.BytesParser.parse" title="email.parser.BytesParser.parse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse()</span></code></a> 方法。</p>
+<p>可选的 <em>headersonly</em> 与 <a class="reference internal" href="#email.parser.BytesParser.parse" title="email.parser.BytesParser.parse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse()</span></code></a> 方法中的 <em>headersonly</em> 是一致的。</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="email.parser.BytesHeaderParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">email.parser.</span></span><span class="sig-name descname"><span class="pre">BytesHeaderParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">policy.compat32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.BytesHeaderParser" title="永久链接至目标">¶</a></dt>
+<dd><p>除了 <em>headersonly</em> 默认为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，其他与 <a class="reference internal" href="#email.parser.BytesParser" title="email.parser.BytesParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesParser</span></code></a> 类完全一样。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="email.parser.Parser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">email.parser.</span></span><span class="sig-name descname"><span class="pre">Parser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">policy.compat32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.Parser" title="永久链接至目标">¶</a></dt>
+<dd><p>这个类与 <a class="reference internal" href="#email.parser.BytesParser" title="email.parser.BytesParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesParser</span></code></a> 一样，但是处理字符串输入。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>移除了 <em>strict</em> 参数。添加了 <em>policy</em> 关键字。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>_class</em> 默认为策略 <code class="docutils literal notranslate"><span class="pre">message_factory</span></code>。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="email.parser.Parser.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headersonly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.Parser.parse" title="永久链接至目标">¶</a></dt>
+<dd><p>从文本模式的文件类对象 <em>fp</em> 读取所有数据，解析所读取的文本，并返回根消息对象。 <em>fp</em> 必须同时支持文件类对象上的 <a class="reference internal" href="io.html#io.TextIOBase.readline" title="io.TextIOBase.readline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readline()</span></code></a> 和 <a class="reference internal" href="io.html#io.TextIOBase.read" title="io.TextIOBase.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> 方法。</p>
+<p>除了文字模式的要求外，这个方法跟 <a class="reference internal" href="#email.parser.BytesParser.parse" title="email.parser.BytesParser.parse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">BytesParser.parse()</span></code></a> 的运行方式一致。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.parser.Parser.parsestr">
+<span class="sig-name descname"><span class="pre">parsestr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headersonly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.Parser.parsestr" title="永久链接至目标">¶</a></dt>
+<dd><p>与 <a class="reference internal" href="#email.parser.Parser.parse" title="email.parser.Parser.parse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse()</span></code></a> 方法类似，只不过它要求输入为一个字符串而不是类文件对象。于一个字符串对象调用此方法相当于先将 <em>text</em> 包装于一个 <a class="reference internal" href="io.html#io.StringIO" title="io.StringIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">StringIO</span></code></a> 实例中，然后调用 <a class="reference internal" href="#email.parser.Parser.parse" title="email.parser.Parser.parse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse()</span></code></a>  方法。</p>
+<p>可选的 <em>headersonly</em> 与 <a class="reference internal" href="#email.parser.Parser.parse" title="email.parser.Parser.parse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse()</span></code></a> 方法中的 <em>headersonly</em> 是一致的。</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="email.parser.HeaderParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">email.parser.</span></span><span class="sig-name descname"><span class="pre">HeaderParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">policy.compat32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.parser.HeaderParser" title="永久链接至目标">¶</a></dt>
+<dd><p>除了 <em>headersonly</em> 默认为 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，其他与 <a class="reference internal" href="#email.parser.Parser" title="email.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> 类完全一样。</p>
+</dd></dl>
+
+<p>考虑到从一个字符串或一个文件对象中创建一个消息对象是非常常见的任务，我们提供了四个方便的函数。它们于顶层 <a class="reference internal" href="email.html#module-email" title="email: Package supporting the parsing, manipulating, and generating email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code></a> 包命名空间内可用。</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="email.message_from_bytes">
+<span class="sig-prename descclassname"><span class="pre">email.</span></span><span class="sig-name descname"><span class="pre">message_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">policy.compat32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.message_from_bytes" title="永久链接至目标">¶</a></dt>
+<dd><p>从一个 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 中返回消息对象。 这与 <code class="docutils literal notranslate"><span class="pre">BytesParser().parsebytes(s)</span></code> 等价。 可选的 <em>_class</em> 和 <em>policy</em> 参数与 <a class="reference internal" href="#email.parser.BytesParser" title="email.parser.BytesParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesParser</span></code></a> 类的构造函数的参数含义一致。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>移除了 <em>strict</em> 参数。添加了 <em>policy</em> 关键字。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="email.message_from_binary_file">
+<span class="sig-prename descclassname"><span class="pre">email.</span></span><span class="sig-name descname"><span class="pre">message_from_binary_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">policy.compat32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.message_from_binary_file" title="永久链接至目标">¶</a></dt>
+<dd><p>从打开的二进制 <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">file object</span></a> 中返回消息对象。 这与 <code class="docutils literal notranslate"><span class="pre">BytesParser().parse(fp)</span></code> 等价。 <em>_class</em> 和 <em>policy</em> 参数与 <a class="reference internal" href="#email.parser.BytesParser" title="email.parser.BytesParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesParser</span></code></a> 类的构造函数的参数含义一致。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>移除了 <em>strict</em> 参数。添加了 <em>policy</em> 关键字。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="email.message_from_string">
+<span class="sig-prename descclassname"><span class="pre">email.</span></span><span class="sig-name descname"><span class="pre">message_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">policy.compat32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.message_from_string" title="永久链接至目标">¶</a></dt>
+<dd><p>从一个字符串中返回消息对象。 这与 <code class="docutils literal notranslate"><span class="pre">Parser().parsestr(s)</span></code> 等价。 <em>_class</em> 和 <em>policy</em> 参数与 <a class="reference internal" href="#email.parser.Parser" title="email.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> 类的构造函数的参数含义一致。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>移除了 <em>strict</em> 参数。添加了 <em>policy</em> 关键字。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="email.message_from_file">
+<span class="sig-prename descclassname"><span class="pre">email.</span></span><span class="sig-name descname"><span class="pre">message_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">policy.compat32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.message_from_file" title="永久链接至目标">¶</a></dt>
+<dd><p>从一个打开的 <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">file object</span></a> 中返回消息对象。 这与 <code class="docutils literal notranslate"><span class="pre">Parser().parse(fp)</span></code> 等价。 <em>_class</em> 和 <em>policy</em> 参数与 <a class="reference internal" href="#email.parser.Parser" title="email.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> 类的构造函数的参数含义一致。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>移除了 <em>strict</em> 参数。添加了 <em>policy</em> 关键字。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>_class</em> 默认为策略 <code class="docutils literal notranslate"><span class="pre">message_factory</span></code>。</p>
+</div>
+</dd></dl>
+
+<p>这里是一个展示了你如何在Python交互式命令行中使用 <a class="reference internal" href="#email.message_from_bytes" title="email.message_from_bytes"><code class="xref py py-func docutils literal notranslate"><span class="pre">message_from_bytes()</span></code></a> 的例子：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">email</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg</span> <span class="o">=</span> <span class="n">email</span><span class="o">.</span><span class="n">message_from_bytes</span><span class="p">(</span><span class="n">myBytes</span><span class="p">)</span>  
+</pre></div>
+</div>
+</section>
+<section id="additional-notes">
+<h2>附加说明<a class="headerlink" href="#additional-notes" title="永久链接至标题">¶</a></h2>
+<p>在解析语义的时候请注意：</p>
+<ul class="simple">
+<li><p>大多数非 <em class="mimetype">multipart</em> 类型的消息都会被解析为一个带有字符串负载的消息对象。这些对象在调用 <a class="reference internal" href="email.message.html#email.message.EmailMessage.is_multipart" title="email.message.EmailMessage.is_multipart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_multipart()</span></code></a> 的时候会返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> ，调用 <a class="reference internal" href="email.message.html#email.message.EmailMessage.iter_parts" title="email.message.EmailMessage.iter_parts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">iter_parts()</span></code></a> 的时候会产生一个空列表。</p></li>
+<li><p>所有 <em class="mimetype">multipart</em> 类型的消息都会被解析成一个容器消息对象。该对象的负载是一个子消息对象列表。外层的容器消息在调用 <a class="reference internal" href="email.message.html#email.message.EmailMessage.is_multipart" title="email.message.EmailMessage.is_multipart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_multipart()</span></code></a> 的时候会返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，在调用 <a class="reference internal" href="email.message.html#email.message.EmailMessage.iter_parts" title="email.message.EmailMessage.iter_parts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">iter_parts()</span></code></a> 的时候会产生一个子部分列表。</p></li>
+<li><p>大多数内容类型为 <em class="mimetype">message/*</em> （例如 <em class="mimetype">message/delivery-status</em> 和 <em class="mimetype">message/rfc822</em> ）的消息也会被解析为一个负载是长度为1的列表的容器对象。在它们身上调用 <a class="reference internal" href="email.message.html#email.message.EmailMessage.is_multipart" title="email.message.EmailMessage.is_multipart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_multipart()</span></code></a> 方法会返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，调用 <a class="reference internal" href="email.message.html#email.message.EmailMessage.iter_parts" title="email.message.EmailMessage.iter_parts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">iter_parts()</span></code></a> 所产生的单个元素会是一个子消息对象。</p></li>
+<li><p>一些不遵循标准的消息在其内部关于它是否为 <em class="mimetype">multipart</em> 类型前后不一。这些消息可能在消息头的 <em class="mailheader">Content-Type</em> 字段中写明为 <em class="mimetype">multipart</em> ，但它们的 <a class="reference internal" href="email.message.html#email.message.EmailMessage.is_multipart" title="email.message.EmailMessage.is_multipart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_multipart()</span></code></a> 方法的返回值可能是 <code class="docutils literal notranslate"><span class="pre">False</span></code> 。如果这种消息被 <a class="reference internal" href="#email.parser.FeedParser" title="email.parser.FeedParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeedParser</span></code></a> 类解析，它们的 <em>defects</em> 属性列表当中会有一个 <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipartInvariantViolationDefect</span></code> 类的实例。关于更多信息，详见 <a class="reference internal" href="email.errors.html#module-email.errors" title="email.errors: The exception classes used by the email package."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.errors</span></code></a> 。</p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code>: 解析电子邮件信息</a><ul>
+<li><a class="reference internal" href="#feedparser-api">FeedParser API</a></li>
+<li><a class="reference internal" href="#parser-api">Parser API</a></li>
+<li><a class="reference internal" href="#additional-notes">附加说明</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="email.message.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.message</span></code>: 表示一封电子邮件信息</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="email.generator.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.generator</span></code>: 生成 MIME 文档</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/email.parser.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="email.generator.html" title="email.generator: 生成 MIME 文档"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="email.message.html" title="email.message: 表示一封电子邮件信息"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" >互联网数据处理</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="email.html" ><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> --- 电子邮件与 MIME 处理包</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code>: 解析电子邮件信息</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

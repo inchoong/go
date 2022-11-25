@@ -1,0 +1,777 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>2to3 --- Automated Python 2 to 3 code translation &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="test --- Python 回归测试包" href="test.html" />
+    <link rel="prev" title="unittest.mock --- 上手指南" href="unittest.mock-examples.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/2to3.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">2to3 --- Automated Python 2 to 3 code translation</a><ul>
+<li><a class="reference internal" href="#using-2to3">使用 2to3</a></li>
+<li><a class="reference internal" href="#fixers">修复器</a></li>
+<li><a class="reference internal" href="#module-lib2to3"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lib2to3</span></code> --- 2to3's library</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="unittest.mock-examples.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">unittest.mock</span></code> --- 上手指南</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="test.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">test</span></code> ---  Python 回归测试包</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/2to3.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="test.html" title="test --- Python 回归测试包"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="unittest.mock-examples.html" title="unittest.mock --- 上手指南"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="development.html" accesskey="U">开发工具</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">2to3 --- Automated Python 2 to 3 code translation</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="to3-automated-python-2-to-3-code-translation">
+<span id="to3-reference"></span><h1>2to3 --- Automated Python 2 to 3 code translation<a class="headerlink" href="#to3-automated-python-2-to-3-code-translation" title="永久链接至标题">¶</a></h1>
+<p>2to3 是一个 Python 程序，它可以读取 Python 2.x 的源代码并使用一系列的 <em>修复器</em> 来将其转换为合法的 Python 3.x 代码。 标准库已包含了丰富的修复器，这足以处理几乎所有代码。 不过 2to3 的支持库 <a class="reference internal" href="#module-lib2to3" title="lib2to3: The 2to3 library"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lib2to3</span></code></a> 是一个很灵活通用的库，所以还可以编写你自己的 2to3 修复器。</p>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.11 开始标记为过时，将在版本 3.13 中移除。: </span>The <code class="docutils literal notranslate"><span class="pre">lib2to3</span></code> module was marked pending for deprecation in Python 3.9
+(raising <a class="reference internal" href="exceptions.html#PendingDeprecationWarning" title="PendingDeprecationWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PendingDeprecationWarning</span></code></a> on import) and fully deprecated
+in Python 3.11 (raising <a class="reference internal" href="exceptions.html#DeprecationWarning" title="DeprecationWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">DeprecationWarning</span></code></a>).  The <code class="docutils literal notranslate"><span class="pre">2to3</span></code> tool is
+part of that.  It will be removed in Python 3.13.</p>
+</div>
+<section id="using-2to3">
+<span id="to3-using"></span><h2>使用 2to3<a class="headerlink" href="#using-2to3" title="永久链接至标题">¶</a></h2>
+<p>2to3 通常会作为脚本和 Python 解释器一起安装，你可以在 Python 根目录的 <code class="file docutils literal notranslate"><span class="pre">Tools/scripts</span></code> 文件夹下找到它。</p>
+<p>2to3 的基本调用参数是一个需要转换的文件或目录列表。对于目录，会递归地寻找其中的 Python 源码。</p>
+<p>这里有一个 Python 2.x 的源码文件，<code class="file docutils literal notranslate"><span class="pre">example.py</span></code>：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="s2">&quot;Hello, </span><span class="si">{0}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s2">&quot;What&#39;s your name?&quot;</span>
+<span class="n">name</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">()</span>
+<span class="n">greet</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>它可以在命令行中使用 2to3 转换成 Python 3.x 版本的代码：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>2to3 example.py
+</pre></div>
+</div>
+<p>这个命令会打印出和源文件的区别。通过传入 <code class="xref std std-option docutils literal notranslate"><span class="pre">-w</span></code> 参数，2to3 也可以把需要的修改写回到原文件中（除非传入了 <code class="xref std std-option docutils literal notranslate"><span class="pre">-n</span></code> 参数，否则会为原始文件创建一个副本）：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>2to3 -w example.py
+</pre></div>
+</div>
+<p>在转换完成后，<code class="file docutils literal notranslate"><span class="pre">example.py</span></code> 看起来像是这样：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, </span><span class="si">{0}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;What&#39;s your name?&quot;</span><span class="p">)</span>
+<span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+<span class="n">greet</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>注释和缩进都会在转换过程中保持不变。</p>
+<p>默认情况下，2to3 会执行 <a class="reference internal" href="#to3-fixers"><span class="std std-ref">预定义修复器</span></a> 的集合。使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">-l</span></code> 参数可以列出所有可用的修复器。使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">-f</span></code> 参数可以明确指定需要使用的修复器集合。而使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">-x</span></code> 参数则可以明确指定不使用的修复器。下面的例子会只使用 <code class="docutils literal notranslate"><span class="pre">imports</span></code> 和 <code class="docutils literal notranslate"><span class="pre">has_key</span></code> 修复器运行：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>2to3 -f imports -f has_key example.py
+</pre></div>
+</div>
+<p>这个命令会执行除了 <code class="docutils literal notranslate"><span class="pre">apply</span></code> 之外的所有修复器：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>2to3 -x apply example.py
+</pre></div>
+</div>
+<p>有一些修复器是需要 <em>显式指定</em> 的，它们默认不会执行，必须在命令行中列出才会执行。比如下面的例子，除了默认的修复器以外，还会执行 <code class="docutils literal notranslate"><span class="pre">idioms</span></code> 修复器：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>2to3 -f all -f idioms example.py
+</pre></div>
+</div>
+<p>注意这里使用 <code class="docutils literal notranslate"><span class="pre">all</span></code> 来启用所有默认的修复器。</p>
+<p>有些情况下 2to3 会找到源码中有一些需要修改，但是无法自动处理的代码。在这种情况下，2to3 会在差异处下面打印一个警告信息。你应该定位到相应的代码并对其进行修改，以使其兼容 Python 3.x。</p>
+<p>2to3 也可以重构 doctests。使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">-d</span></code> 开启这个模式。需要注意*只有* doctests 会被重构。这种模式下不需要文件是合法的 Python 代码。举例来说，reST 文档中类似 doctests 的示例也可以使用这个选项进行重构。</p>
+<p><code class="xref std std-option docutils literal notranslate"><span class="pre">-v</span></code> 选项可以输出更多转换程序的详细信息。</p>
+<p>由于某些 print 语句可被解读为函数调用或是语句，2to3 并不总能读取包含 print 函数的文件。 当 2to3 检测到存在 <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">print_function</span></code> 编译器指令时，会修改其内部语法将 <a class="reference internal" href="functions.html#print" title="print"><code class="xref py py-func docutils literal notranslate"><span class="pre">print()</span></code></a> 解读为函数。 这一变动也可以使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">-p</span></code> 旗标手动开启。 使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">-p</span></code> 来为已转换过 print 语句的代码运行修复器。 也可以使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">-e</span></code> 将 <a class="reference internal" href="functions.html#exec" title="exec"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> 解读为函数。</p>
+<p><code class="xref std std-option docutils literal notranslate"><span class="pre">-o</span></code> 或 <code class="xref std std-option docutils literal notranslate"><span class="pre">--output-dir</span></code> 选项可以指定将转换后的文件写入其他目录中。由于这种情况下不会覆写原始文件，所以创建副本文件毫无意义，因此也需要使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">-n</span></code> 选项来禁用创建副本。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2.3 新版功能: </span>增加了 <code class="xref std std-option docutils literal notranslate"><span class="pre">-o</span></code> 选项。</p>
+</div>
+<p><code class="xref std std-option docutils literal notranslate"><span class="pre">-W</span></code> 或 <code class="xref std std-option docutils literal notranslate"><span class="pre">--write-unchanged-files</span></code> 选项用来告诉 2to3 始终需要输出文件，即使没有任何改动。这在使用 <code class="xref std std-option docutils literal notranslate"><span class="pre">-o</span></code> 参数时十分有用，这样就可以将整个 Python 源码包完整地转换到另一个目录。这个选项隐含了 <code class="xref std std-option docutils literal notranslate"><span class="pre">-w</span></code> 选项，否则等于没有作用。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2.3 新版功能: </span>增加了 <code class="xref std std-option docutils literal notranslate"><span class="pre">-W</span></code> 选项。</p>
+</div>
+<p><code class="xref std std-option docutils literal notranslate"><span class="pre">--add-suffix</span></code> 选项接受一个字符串，用来作为后缀附加在输出文件名后面的后面。由于写入的文件名与原始文件不同，所以没有必要创建副本，因此 <code class="xref std std-option docutils literal notranslate"><span class="pre">-n</span></code> 选项也是必要的。举个例子：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>2to3 -n -W --add-suffix<span class="o">=</span><span class="m">3</span> example.py
+</pre></div>
+</div>
+<p>这样会把转换后的文件写入 <code class="docutils literal notranslate"><span class="pre">example.py3</span></code> 文件。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2.3 新版功能: </span>增加了 <code class="xref std std-option docutils literal notranslate"><span class="pre">--add-suffix</span></code> 选项。</p>
+</div>
+<p>将整个项目从一个目录转换到另一个目录可以用这样的命令：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>2to3 --output-dir<span class="o">=</span>python3-version/mycode -W -n python2-version/mycode
+</pre></div>
+</div>
+</section>
+<section id="fixers">
+<span id="to3-fixers"></span><h2>修复器<a class="headerlink" href="#fixers" title="永久链接至标题">¶</a></h2>
+<p>转换代码的每一个步骤都封装在修复器中。可以使用 <code class="docutils literal notranslate"><span class="pre">2to3</span> <span class="pre">-l</span></code> 来列出可用的修复器。<a class="reference internal" href="#to3-using"><span class="std std-ref">之前已经提到</span></a>，每个修复器都可以独立地打开或是关闭。下面会对各个修复器做更详细的描述。</p>
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-apply">
+<span id="2to3fixer-apply"></span><span class="sig-name descname"><span class="pre">apply</span></span><a class="headerlink" href="#to3fixer-apply" title="永久链接至目标">¶</a></dt>
+<dd><p>移除对 <code class="xref py py-func docutils literal notranslate"><span class="pre">apply()</span></code> 的使用，举例来说，<code class="docutils literal notranslate"><span class="pre">apply(function,</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span></code> 会被转换成 <code class="docutils literal notranslate"><span class="pre">function(*args,</span> <span class="pre">**kwargs)</span></code>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-asserts">
+<span id="2to3fixer-asserts"></span><span class="sig-name descname"><span class="pre">asserts</span></span><a class="headerlink" href="#to3fixer-asserts" title="永久链接至目标">¶</a></dt>
+<dd><p>将已弃用的 <a class="reference internal" href="unittest.html#module-unittest" title="unittest: Unit testing framework for Python."><code class="xref py py-mod docutils literal notranslate"><span class="pre">unittest</span></code></a> 方法替换为正确的。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>从</p></th>
+<th class="head"><p>到</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">failUnlessEqual(a,</span> <span class="pre">b)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertEqual" title="unittest.TestCase.assertEqual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertEqual(a,</span> <span class="pre">b)</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">assertEquals(a,</span> <span class="pre">b)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertEqual" title="unittest.TestCase.assertEqual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertEqual(a,</span> <span class="pre">b)</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">failIfEqual(a,</span> <span class="pre">b)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertNotEqual" title="unittest.TestCase.assertNotEqual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertNotEqual(a,</span> <span class="pre">b)</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">assertNotEquals(a,</span> <span class="pre">b)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertNotEqual" title="unittest.TestCase.assertNotEqual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertNotEqual(a,</span> <span class="pre">b)</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">failUnless(a)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertTrue" title="unittest.TestCase.assertTrue"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertTrue(a)</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">assert_(a)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertTrue" title="unittest.TestCase.assertTrue"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertTrue(a)</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">failIf(a)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertFalse" title="unittest.TestCase.assertFalse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertFalse(a)</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">failUnlessRaises(exc,</span> <span class="pre">cal)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertRaises" title="unittest.TestCase.assertRaises"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertRaises(exc,</span> <span class="pre">cal)</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">failUnlessAlmostEqual(a,</span> <span class="pre">b)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertAlmostEqual" title="unittest.TestCase.assertAlmostEqual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertAlmostEqual(a,</span> <span class="pre">b)</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">assertAlmostEquals(a,</span> <span class="pre">b)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertAlmostEqual" title="unittest.TestCase.assertAlmostEqual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertAlmostEqual(a,</span> <span class="pre">b)</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">failIfAlmostEqual(a,</span> <span class="pre">b)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertNotAlmostEqual" title="unittest.TestCase.assertNotAlmostEqual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertNotAlmostEqual(a,</span> <span class="pre">b)</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">assertNotAlmostEquals(a,</span> <span class="pre">b)</span></code></p></td>
+<td><p><a class="reference internal" href="unittest.html#unittest.TestCase.assertNotAlmostEqual" title="unittest.TestCase.assertNotAlmostEqual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assertNotAlmostEqual(a,</span> <span class="pre">b)</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-basestring">
+<span id="2to3fixer-basestring"></span><span class="sig-name descname"><span class="pre">basestring</span></span><a class="headerlink" href="#to3fixer-basestring" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code> 转换为 <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-buffer">
+<span id="2to3fixer-buffer"></span><span class="sig-name descname"><span class="pre">buffer</span></span><a class="headerlink" href="#to3fixer-buffer" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-class docutils literal notranslate"><span class="pre">buffer</span></code> 转换为 <a class="reference internal" href="stdtypes.html#memoryview" title="memoryview"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code></a>。这个修复器是可选的，因为 <a class="reference internal" href="stdtypes.html#memoryview" title="memoryview"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code></a> API 和 <code class="xref py py-class docutils literal notranslate"><span class="pre">buffer</span></code> 很相似，但不完全一样。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-dict">
+<span id="2to3fixer-dict"></span><span class="sig-name descname"><span class="pre">dict</span></span><a class="headerlink" href="#to3fixer-dict" title="永久链接至目标">¶</a></dt>
+<dd><p>修复字典迭代方法。<code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.iteritems()</span></code> 会转换成 <a class="reference internal" href="stdtypes.html#dict.items" title="dict.items"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.items()</span></code></a>，<code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.iterkeys()</span></code> 会转换成 <a class="reference internal" href="stdtypes.html#dict.keys" title="dict.keys"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.keys()</span></code></a>，<code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.itervalues()</span></code> 会转换成 <a class="reference internal" href="stdtypes.html#dict.values" title="dict.values"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.values()</span></code></a>。类似的，<code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.viewitems()</span></code>，<code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.viewkeys()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.viewvalues()</span></code> 会分别转换成 <a class="reference internal" href="stdtypes.html#dict.items" title="dict.items"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.items()</span></code></a>，<a class="reference internal" href="stdtypes.html#dict.keys" title="dict.keys"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.keys()</span></code></a> 和 <a class="reference internal" href="stdtypes.html#dict.values" title="dict.values"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.values()</span></code></a>。另外也会将原有的 <a class="reference internal" href="stdtypes.html#dict.items" title="dict.items"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.items()</span></code></a>，<a class="reference internal" href="stdtypes.html#dict.keys" title="dict.keys"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.keys()</span></code></a> 和  <a class="reference internal" href="stdtypes.html#dict.values" title="dict.values"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.values()</span></code></a> 方法调用用 <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> 包装一层。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-except">
+<span id="2to3fixer-except"></span><span class="sig-name descname"><span class="pre">except</span></span><a class="headerlink" href="#to3fixer-except" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="docutils literal notranslate"><span class="pre">except</span> <span class="pre">X,</span> <span class="pre">T</span></code> 转换为 <code class="docutils literal notranslate"><span class="pre">except</span> <span class="pre">X</span> <span class="pre">as</span> <span class="pre">T</span></code>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-exec">
+<span id="2to3fixer-exec"></span><span class="sig-name descname"><span class="pre">exec</span></span><a class="headerlink" href="#to3fixer-exec" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="docutils literal notranslate"><span class="pre">exec</span></code> 语句转换为 <a class="reference internal" href="functions.html#exec" title="exec"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> 函数调用。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-execfile">
+<span id="2to3fixer-execfile"></span><span class="sig-name descname"><span class="pre">execfile</span></span><a class="headerlink" href="#to3fixer-execfile" title="永久链接至目标">¶</a></dt>
+<dd><p>移除 <code class="xref py py-func docutils literal notranslate"><span class="pre">execfile()</span></code> 的使用。<code class="xref py py-func docutils literal notranslate"><span class="pre">execfile()</span></code> 的实参会使用 <a class="reference internal" href="functions.html#open" title="open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a>，<a class="reference internal" href="functions.html#compile" title="compile"><code class="xref py py-func docutils literal notranslate"><span class="pre">compile()</span></code></a> 和 <a class="reference internal" href="functions.html#exec" title="exec"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> 包装。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-exitfunc">
+<span id="2to3fixer-exitfunc"></span><span class="sig-name descname"><span class="pre">exitfunc</span></span><a class="headerlink" href="#to3fixer-exitfunc" title="永久链接至目标">¶</a></dt>
+<dd><p>将对 <code class="xref py py-attr docutils literal notranslate"><span class="pre">sys.exitfunc</span></code> 的赋值改为使用 <a class="reference internal" href="atexit.html#module-atexit" title="atexit: Register and execute cleanup functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">atexit</span></code></a> 模块代替。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-filter">
+<span id="2to3fixer-filter"></span><span class="sig-name descname"><span class="pre">filter</span></span><a class="headerlink" href="#to3fixer-filter" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <a class="reference internal" href="functions.html#filter" title="filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">filter()</span></code></a> 函数用 <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> 包装一层。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-funcattrs">
+<span id="2to3fixer-funcattrs"></span><span class="sig-name descname"><span class="pre">funcattrs</span></span><a class="headerlink" href="#to3fixer-funcattrs" title="永久链接至目标">¶</a></dt>
+<dd><p>修复已经重命名的函数属性。比如 <code class="docutils literal notranslate"><span class="pre">my_function.func_closure</span></code> 会被转换为 <code class="docutils literal notranslate"><span class="pre">my_function.__closure__</span></code>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-future">
+<span id="2to3fixer-future"></span><span class="sig-name descname"><span class="pre">future</span></span><a class="headerlink" href="#to3fixer-future" title="永久链接至目标">¶</a></dt>
+<dd><p>移除 <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">new_feature</span></code> 语句。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-getcwdu">
+<span id="2to3fixer-getcwdu"></span><span class="sig-name descname"><span class="pre">getcwdu</span></span><a class="headerlink" href="#to3fixer-getcwdu" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-func docutils literal notranslate"><span class="pre">os.getcwdu()</span></code> 重命名为 <a class="reference internal" href="os.html#os.getcwd" title="os.getcwd"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.getcwd()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-has_key">
+<span id="2to3fixer-has_key"></span><span class="sig-name descname"><span class="pre">has_key</span></span><a class="headerlink" href="#to3fixer-has_key" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="docutils literal notranslate"><span class="pre">dict.has_key(key)</span></code> 转换为 <code class="docutils literal notranslate"><span class="pre">key</span> <span class="pre">in</span> <span class="pre">dict</span></code>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-idioms">
+<span id="2to3fixer-idioms"></span><span class="sig-name descname"><span class="pre">idioms</span></span><a class="headerlink" href="#to3fixer-idioms" title="永久链接至目标">¶</a></dt>
+<dd><p>这是一个可选的修复器，会进行多种转换，将 Python 代码变成更加常见的写法。类似 <code class="docutils literal notranslate"><span class="pre">type(x)</span> <span class="pre">is</span> <span class="pre">SomeClass</span></code> 和 <code class="docutils literal notranslate"><span class="pre">type(x)</span> <span class="pre">==</span> <span class="pre">SomeClass</span></code> 的类型对比会被转换成 <code class="docutils literal notranslate"><span class="pre">isinstance(x,</span> <span class="pre">SomeClass)</span></code>。<code class="docutils literal notranslate"><span class="pre">while</span> <span class="pre">1</span></code> 转换成 <code class="docutils literal notranslate"><span class="pre">while</span> <span class="pre">True</span></code>。这个修复器还会在合适的地方使用 <a class="reference internal" href="functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> 函数。举个例子，这样的代码块：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">some_iterable</span><span class="p">)</span>
+<span class="n">L</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>会被转换为：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">some_iterable</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-import">
+<span id="2to3fixer-import"></span><span class="sig-name descname"><span class="pre">import</span></span><a class="headerlink" href="#to3fixer-import" title="永久链接至目标">¶</a></dt>
+<dd><p>检测 sibling imports，并将其转换成相对 import。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-imports">
+<span id="2to3fixer-imports"></span><span class="sig-name descname"><span class="pre">imports</span></span><a class="headerlink" href="#to3fixer-imports" title="永久链接至目标">¶</a></dt>
+<dd><p>处理标准库模块的重命名。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-imports2">
+<span id="2to3fixer-imports2"></span><span class="sig-name descname"><span class="pre">imports2</span></span><a class="headerlink" href="#to3fixer-imports2" title="永久链接至目标">¶</a></dt>
+<dd><p>处理标准库中其他模块的重命名。这个修复器由于一些技术上的限制，因此和 <a class="reference internal" href="#to3fixer-imports"><code class="xref std std-2to3fixer docutils literal notranslate"><span class="pre">imports</span></code></a> 拆分开了。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-input">
+<span id="2to3fixer-input"></span><span class="sig-name descname"><span class="pre">input</span></span><a class="headerlink" href="#to3fixer-input" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="docutils literal notranslate"><span class="pre">input(prompt)</span></code> 转换为 <code class="docutils literal notranslate"><span class="pre">eval(input(prompt))</span></code>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-intern">
+<span id="2to3fixer-intern"></span><span class="sig-name descname"><span class="pre">intern</span></span><a class="headerlink" href="#to3fixer-intern" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-func docutils literal notranslate"><span class="pre">intern()</span></code> 转换为 <a class="reference internal" href="sys.html#sys.intern" title="sys.intern"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.intern()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-isinstance">
+<span id="2to3fixer-isinstance"></span><span class="sig-name descname"><span class="pre">isinstance</span></span><a class="headerlink" href="#to3fixer-isinstance" title="永久链接至目标">¶</a></dt>
+<dd><p>修复 <a class="reference internal" href="functions.html#isinstance" title="isinstance"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a> 函数第二个实参中重复的类型。举例来说，<code class="docutils literal notranslate"><span class="pre">isinstance(x,</span> <span class="pre">(int,</span> <span class="pre">int))</span></code> 会转换为 <code class="docutils literal notranslate"><span class="pre">isinstance(x,</span> <span class="pre">int)</span></code>, <code class="docutils literal notranslate"><span class="pre">isinstance(x,</span> <span class="pre">(int,</span> <span class="pre">float,</span> <span class="pre">int))</span></code> 会转换为 <code class="docutils literal notranslate"><span class="pre">isinstance(x,</span> <span class="pre">(int,</span> <span class="pre">float))</span></code>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-itertools_imports">
+<span id="2to3fixer-itertools_imports"></span><span class="sig-name descname"><span class="pre">itertools_imports</span></span><a class="headerlink" href="#to3fixer-itertools_imports" title="永久链接至目标">¶</a></dt>
+<dd><p>移除 <code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.ifilter()</span></code>，<code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.izip()</span></code> 以及 <code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.imap()</span></code> 的 import。对 <code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.ifilterfalse()</span></code> 的 import 也会替换成 <a class="reference internal" href="itertools.html#itertools.filterfalse" title="itertools.filterfalse"><code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.filterfalse()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-itertools">
+<span id="2to3fixer-itertools"></span><span class="sig-name descname"><span class="pre">itertools</span></span><a class="headerlink" href="#to3fixer-itertools" title="永久链接至目标">¶</a></dt>
+<dd><p>修改 <code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.ifilter()</span></code>，<code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.izip()</span></code> 和 <code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.imap()</span></code> 的调用为对应的内建实现。<code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.ifilterfalse()</span></code> 会替换成 <a class="reference internal" href="itertools.html#itertools.filterfalse" title="itertools.filterfalse"><code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.filterfalse()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-long">
+<span id="2to3fixer-long"></span><span class="sig-name descname"><span class="pre">long</span></span><a class="headerlink" href="#to3fixer-long" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-class docutils literal notranslate"><span class="pre">long</span></code> 重命名为 <a class="reference internal" href="functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-map">
+<span id="2to3fixer-map"></span><span class="sig-name descname"><span class="pre">map</span></span><a class="headerlink" href="#to3fixer-map" title="永久链接至目标">¶</a></dt>
+<dd><p>用 <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> 包装 <a class="reference internal" href="functions.html#map" title="map"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a>。同时也会将 <code class="docutils literal notranslate"><span class="pre">map(None,</span> <span class="pre">x)</span></code> 替换为 <code class="docutils literal notranslate"><span class="pre">list(x)</span></code>。使用 <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">future_builtins</span> <span class="pre">import</span> <span class="pre">map</span></code> 禁用这个修复器。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-metaclass">
+<span id="2to3fixer-metaclass"></span><span class="sig-name descname"><span class="pre">metaclass</span></span><a class="headerlink" href="#to3fixer-metaclass" title="永久链接至目标">¶</a></dt>
+<dd><p>将老的元类语法（类体中的 <code class="docutils literal notranslate"><span class="pre">__metaclass__</span> <span class="pre">=</span> <span class="pre">Meta</span></code>）替换为新的（<code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">X(metaclass=Meta)</span></code>）。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-methodattrs">
+<span id="2to3fixer-methodattrs"></span><span class="sig-name descname"><span class="pre">methodattrs</span></span><a class="headerlink" href="#to3fixer-methodattrs" title="永久链接至目标">¶</a></dt>
+<dd><p>修复老的方法属性名。例如 <code class="docutils literal notranslate"><span class="pre">meth.im_func</span></code> 会被转换为 <code class="docutils literal notranslate"><span class="pre">meth.__func__</span></code>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-ne">
+<span id="2to3fixer-ne"></span><span class="sig-name descname"><span class="pre">ne</span></span><a class="headerlink" href="#to3fixer-ne" title="永久链接至目标">¶</a></dt>
+<dd><p>转换老的不等语法，将 <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> 转为 <code class="docutils literal notranslate"><span class="pre">!=</span></code>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-next">
+<span id="2to3fixer-next"></span><span class="sig-name descname"><span class="pre">next</span></span><a class="headerlink" href="#to3fixer-next" title="永久链接至目标">¶</a></dt>
+<dd><p>将迭代器的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">next()</span></code> 方法调用转为 <a class="reference internal" href="functions.html#next" title="next"><code class="xref py py-func docutils literal notranslate"><span class="pre">next()</span></code></a> 函数。也会将 <a class="reference internal" href="functions.html#next" title="next"><code class="xref py py-meth docutils literal notranslate"><span class="pre">next()</span></code></a> 方法重命名为 <a class="reference internal" href="stdtypes.html#iterator.__next__" title="iterator.__next__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__next__()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-nonzero">
+<span id="2to3fixer-nonzero"></span><span class="sig-name descname"><span class="pre">nonzero</span></span><a class="headerlink" href="#to3fixer-nonzero" title="永久链接至目标">¶</a></dt>
+<dd><p>将被调用的方法定义 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__nonzero__()</span></code> 改名为 <a class="reference internal" href="../reference/datamodel.html#object.__bool__" title="object.__bool__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__bool__()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-numliterals">
+<span id="2to3fixer-numliterals"></span><span class="sig-name descname"><span class="pre">numliterals</span></span><a class="headerlink" href="#to3fixer-numliterals" title="永久链接至目标">¶</a></dt>
+<dd><p>将八进制字面量转为新的语法。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-operator">
+<span id="2to3fixer-operator"></span><span class="sig-name descname"><span class="pre">operator</span></span><a class="headerlink" href="#to3fixer-operator" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <a class="reference internal" href="operator.html#module-operator" title="operator: Functions corresponding to the standard operators."><code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code></a> 模块中的许多方法调用转为其他的等效函数调用。如果有需要，会添加适当的 <code class="docutils literal notranslate"><span class="pre">import</span></code> 语句，比如 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">collections.abc</span></code>。有以下转换映射：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>从</p></th>
+<th class="head"><p>到</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">operator.isCallable(obj)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">callable(obj)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">operator.sequenceIncludes(obj)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">operator.contains(obj)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">operator.isSequenceType(obj)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">isinstance(obj,</span> <span class="pre">collections.abc.Sequence)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">operator.isMappingType(obj)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">isinstance(obj,</span> <span class="pre">collections.abc.Mapping)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">operator.isNumberType(obj)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">isinstance(obj,</span> <span class="pre">numbers.Number)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">operator.repeat(obj,</span> <span class="pre">n)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">operator.mul(obj,</span> <span class="pre">n)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">operator.irepeat(obj,</span> <span class="pre">n)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">operator.imul(obj,</span> <span class="pre">n)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-paren">
+<span id="2to3fixer-paren"></span><span class="sig-name descname"><span class="pre">paren</span></span><a class="headerlink" href="#to3fixer-paren" title="永久链接至目标">¶</a></dt>
+<dd><p>在列表生成式中增加必须的括号。例如将 <code class="docutils literal notranslate"><span class="pre">[x</span> <span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">1,</span> <span class="pre">2]</span></code> 转换为 <code class="docutils literal notranslate"><span class="pre">[x</span> <span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">(1,</span> <span class="pre">2)]</span></code>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-print">
+<span id="2to3fixer-print"></span><span class="sig-name descname"><span class="pre">print</span></span><a class="headerlink" href="#to3fixer-print" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="docutils literal notranslate"><span class="pre">print</span></code> 语句转换为 <a class="reference internal" href="functions.html#print" title="print"><code class="xref py py-func docutils literal notranslate"><span class="pre">print()</span></code></a> 函数。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-raise">
+<span id="2to3fixer-raise"></span><span class="sig-name descname"><span class="pre">raise</span></span><a class="headerlink" href="#to3fixer-raise" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="docutils literal notranslate"><span class="pre">raise</span> <span class="pre">E,</span> <span class="pre">V</span></code> 转换为 <code class="docutils literal notranslate"><span class="pre">raise</span> <span class="pre">E(V)</span></code>，将 <code class="docutils literal notranslate"><span class="pre">raise</span> <span class="pre">E,</span> <span class="pre">V,</span> <span class="pre">T</span></code> 转换为 <code class="docutils literal notranslate"><span class="pre">raise</span> <span class="pre">E(V).with_traceback(T)</span></code>。如果 <code class="docutils literal notranslate"><span class="pre">E</span></code> 是元组，这样的转换是不正确的，因为用元组代替异常的做法在 3.0 中已经移除了。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-raw_input">
+<span id="2to3fixer-raw_input"></span><span class="sig-name descname"><span class="pre">raw_input</span></span><a class="headerlink" href="#to3fixer-raw_input" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-func docutils literal notranslate"><span class="pre">raw_input()</span></code> 转换为 <a class="reference internal" href="functions.html#input" title="input"><code class="xref py py-func docutils literal notranslate"><span class="pre">input()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-reduce">
+<span id="2to3fixer-reduce"></span><span class="sig-name descname"><span class="pre">reduce</span></span><a class="headerlink" href="#to3fixer-reduce" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-func docutils literal notranslate"><span class="pre">reduce()</span></code> 转换为 <a class="reference internal" href="functools.html#functools.reduce" title="functools.reduce"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.reduce()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-reload">
+<span id="2to3fixer-reload"></span><span class="sig-name descname"><span class="pre">reload</span></span><a class="headerlink" href="#to3fixer-reload" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-func docutils literal notranslate"><span class="pre">reload()</span></code> 转换为 <a class="reference internal" href="importlib.html#importlib.reload" title="importlib.reload"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.reload()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-renames">
+<span id="2to3fixer-renames"></span><span class="sig-name descname"><span class="pre">renames</span></span><a class="headerlink" href="#to3fixer-renames" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.maxint</span></code> 转换为 <a class="reference internal" href="sys.html#sys.maxsize" title="sys.maxsize"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.maxsize</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-repr">
+<span id="2to3fixer-repr"></span><span class="sig-name descname"><span class="pre">repr</span></span><a class="headerlink" href="#to3fixer-repr" title="永久链接至目标">¶</a></dt>
+<dd><p>将反引号 repr 表达式替换为 <a class="reference internal" href="functions.html#repr" title="repr"><code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code></a> 函数。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-set_literal">
+<span id="2to3fixer-set_literal"></span><span class="sig-name descname"><span class="pre">set_literal</span></span><a class="headerlink" href="#to3fixer-set_literal" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a> 构造函数替换为 set literals 写法。这个修复器是可选的。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-standarderror">
+<span id="2to3fixer-standarderror"></span><span class="sig-name descname"><span class="pre">standarderror</span></span><a class="headerlink" href="#to3fixer-standarderror" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-exc docutils literal notranslate"><span class="pre">StandardError</span></code> 重命名为 <a class="reference internal" href="exceptions.html#Exception" title="Exception"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Exception</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-sys_exc">
+<span id="2to3fixer-sys_exc"></span><span class="sig-name descname"><span class="pre">sys_exc</span></span><a class="headerlink" href="#to3fixer-sys_exc" title="永久链接至目标">¶</a></dt>
+<dd><p>将弃用的 <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.exc_value</span></code>，<code class="xref py py-data docutils literal notranslate"><span class="pre">sys.exc_type</span></code>，<code class="xref py py-data docutils literal notranslate"><span class="pre">sys.exc_traceback</span></code> 替换为 <a class="reference internal" href="sys.html#sys.exc_info" title="sys.exc_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exc_info()</span></code></a> 的用法。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-throw">
+<span id="2to3fixer-throw"></span><span class="sig-name descname"><span class="pre">throw</span></span><a class="headerlink" href="#to3fixer-throw" title="永久链接至目标">¶</a></dt>
+<dd><p>修复生成器的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">throw()</span></code> 方法的 API 变更。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-tuple_params">
+<span id="2to3fixer-tuple_params"></span><span class="sig-name descname"><span class="pre">tuple_params</span></span><a class="headerlink" href="#to3fixer-tuple_params" title="永久链接至目标">¶</a></dt>
+<dd><p>移除隐式的元组参数解包。这个修复器会插入临时变量。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-types">
+<span id="2to3fixer-types"></span><span class="sig-name descname"><span class="pre">types</span></span><a class="headerlink" href="#to3fixer-types" title="永久链接至目标">¶</a></dt>
+<dd><p>修复 <a class="reference internal" href="functions.html#type" title="type"><code class="xref py py-mod docutils literal notranslate"><span class="pre">type</span></code></a> 模块中一些成员的移除引起的代码问题。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-unicode">
+<span id="2to3fixer-unicode"></span><span class="sig-name descname"><span class="pre">unicode</span></span><a class="headerlink" href="#to3fixer-unicode" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-class docutils literal notranslate"><span class="pre">unicode</span></code> 重命名为 <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-urllib">
+<span id="2to3fixer-urllib"></span><span class="sig-name descname"><span class="pre">urllib</span></span><a class="headerlink" href="#to3fixer-urllib" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <a class="reference internal" href="urllib.html#module-urllib" title="urllib"><code class="xref py py-mod docutils literal notranslate"><span class="pre">urllib</span></code></a> 和 <code class="xref py py-mod docutils literal notranslate"><span class="pre">urllib2</span></code> 重命名为 <a class="reference internal" href="urllib.html#module-urllib" title="urllib"><code class="xref py py-mod docutils literal notranslate"><span class="pre">urllib</span></code></a> 包。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-ws_comma">
+<span id="2to3fixer-ws_comma"></span><span class="sig-name descname"><span class="pre">ws_comma</span></span><a class="headerlink" href="#to3fixer-ws_comma" title="永久链接至目标">¶</a></dt>
+<dd><p>移除逗号分隔的元素之间多余的空白。这个修复器是可选的。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-xrange">
+<span id="2to3fixer-xrange"></span><span class="sig-name descname"><span class="pre">xrange</span></span><a class="headerlink" href="#to3fixer-xrange" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="xref py py-func docutils literal notranslate"><span class="pre">xrange()</span></code> 重命名为 <a class="reference internal" href="stdtypes.html#range" title="range"><code class="xref py py-func docutils literal notranslate"><span class="pre">range()</span></code></a>，并用 <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> 包装原有的 <a class="reference internal" href="stdtypes.html#range" title="range"><code class="xref py py-func docutils literal notranslate"><span class="pre">range()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-xreadlines">
+<span id="2to3fixer-xreadlines"></span><span class="sig-name descname"><span class="pre">xreadlines</span></span><a class="headerlink" href="#to3fixer-xreadlines" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">file.xreadlines()</span></code> 转换为 <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">file</span></code>。</p>
+</dd></dl>
+
+<dl class="std 2to3fixer">
+<dt class="sig sig-object std" id="to3fixer-zip">
+<span id="2to3fixer-zip"></span><span class="sig-name descname"><span class="pre">zip</span></span><a class="headerlink" href="#to3fixer-zip" title="永久链接至目标">¶</a></dt>
+<dd><p>用 <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> 包装 <a class="reference internal" href="functions.html#zip" title="zip"><code class="xref py py-func docutils literal notranslate"><span class="pre">zip()</span></code></a>。如果使用了 <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">future_builtins</span> <span class="pre">import</span> <span class="pre">zip</span></code> 的话会禁用。</p>
+</dd></dl>
+
+</section>
+<section id="module-lib2to3">
+<span id="lib2to3-2to3-s-library"></span><h2><a class="reference internal" href="#module-lib2to3" title="lib2to3: The 2to3 library"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lib2to3</span></code></a> --- 2to3's library<a class="headerlink" href="#module-lib2to3" title="永久链接至标题">¶</a></h2>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/lib2to3/">Lib/lib2to3/</a></p>
+<hr class="docutils" />
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.11 开始标记为过时，将在版本 3.13 中移除。: </span>Python 3.9 已切换至 PEG 解析器 (参见 <span class="target" id="index-4"></span><a class="pep reference external" href="https://peps.python.org/pep-0617/"><strong>PEP 617</strong></a>) 而 lib2to3 是使用不够灵活的 LL(1) 解析器。 Python 3.10 包括了 lib2to3 的 LL(1) 解析器所无法解析的新增语言特性 (参见 <span class="target" id="index-5"></span><a class="pep reference external" href="https://peps.python.org/pep-0634/"><strong>PEP 634</strong></a>)。 <code class="docutils literal notranslate"><span class="pre">lib2to3</span></code> 模块已在 Python 3.9 中被标记为即将弃用 (在导入时会引发 <a class="reference internal" href="exceptions.html#PendingDeprecationWarning" title="PendingDeprecationWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PendingDeprecationWarning</span></code></a>) 并会在 Python 3.11 中被正式弃用 (会引发 <a class="reference internal" href="exceptions.html#DeprecationWarning" title="DeprecationWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">DeprecationWarning</span></code></a>)。 它将在 Python 3.13 中被移出标准库。 请考虑使用 <a class="reference external" href="https://libcst.readthedocs.io/">LibCST</a> 或 <a class="reference external" href="https://parso.readthedocs.io/">parso</a> 等第三方替代品。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><a class="reference internal" href="#module-lib2to3" title="lib2to3: The 2to3 library"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lib2to3</span></code></a> API 并不稳定，并可能在未来大幅修改。</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">2to3 --- Automated Python 2 to 3 code translation</a><ul>
+<li><a class="reference internal" href="#using-2to3">使用 2to3</a></li>
+<li><a class="reference internal" href="#fixers">修复器</a></li>
+<li><a class="reference internal" href="#module-lib2to3"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lib2to3</span></code> --- 2to3's library</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="unittest.mock-examples.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">unittest.mock</span></code> --- 上手指南</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="test.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">test</span></code> ---  Python 回归测试包</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/2to3.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="test.html" title="test --- Python 回归测试包"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="unittest.mock-examples.html" title="unittest.mock --- 上手指南"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="development.html" >开发工具</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">2to3 --- Automated Python 2 to 3 code translation</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

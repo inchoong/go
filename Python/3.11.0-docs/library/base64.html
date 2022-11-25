@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>base64 --- Base16, Base32, Base64, Base85 数据编码 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="binascii --- 二进制和 ASCII 码互转" href="binascii.html" />
+    <link rel="prev" title="mimetypes --- 映射文件名到 MIME 类型" href="mimetypes.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/base64.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">base64</span></code> --- Base16, Base32, Base64, Base85 数据编码</a><ul>
+<li><a class="reference internal" href="#security-considerations">安全考量</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="mimetypes.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mimetypes</span></code> --- 映射文件名到 MIME 类型</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="binascii.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">binascii</span></code> --- 二进制和 ASCII 码互转</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/base64.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="binascii.html" title="binascii --- 二进制和 ASCII 码互转"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="mimetypes.html" title="mimetypes --- 映射文件名到 MIME 类型"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" accesskey="U">互联网数据处理</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">base64</span></code> --- Base16, Base32, Base64, Base85 数据编码</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-base64">
+<span id="base64-base16-base32-base64-base85-data-encodings"></span><h1><a class="reference internal" href="#module-base64" title="base64: RFC 4648: Base16, Base32, Base64 Data Encodings; Base85 and Ascii85"><code class="xref py py-mod docutils literal notranslate"><span class="pre">base64</span></code></a> --- Base16, Base32, Base64, Base85 数据编码<a class="headerlink" href="#module-base64" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/base64.py">Lib/base64.py</a></p>
+<hr class="docutils" id="index-0" />
+<p>此模块提供了将二进制数据编码为可打印的 ASCII 字符以及将这种编码格式解码回二进制数据的函数。 它为 <span class="target" id="index-25"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4648.html"><strong>RFC 4648</strong></a> 所定义的 Base16, Base32 和 Base64 算法及已成为事实标准的 Ascii85 和 Base85 编码格式提供了编码和解码函数。</p>
+<p><span class="target" id="index-26"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4648.html"><strong>RFC 4648</strong></a> 中的编码格式适用于编码二进制数据使得它能安全地通过电子邮件发送、用作 URL 的一部分，或者包括在 HTTP POST 请求之中。 此编码格式算法与 <strong class="program">uuencode</strong> 程序并不相同。</p>
+<p>此模块提供了两个接口。 较新的接口支持将 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">字节类对象</span></a> 编码为 ASCII <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>，以及将 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">字节类对象</span></a> 或包含 ASCII 的字符串解码为 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。 在 <span class="target" id="index-27"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4648.html"><strong>RFC 4648</strong></a> 中定义的几种 base-64 字母表（普通的以及 URL 和文件系统安全的）都受到支持。</p>
+<p>旧的接口不提供从字符串的解码操作，但提供了操作 <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">文件对象</span></a> 的编码和解码函数。旧接口只支持标准的 Base64 字母表，并且按照 <span class="target" id="index-28"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2045.html"><strong>RFC 2045</strong></a> 的规范每 76 个字符增加一个换行符。注意：如果你需要支持 <span class="target" id="index-29"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2045.html"><strong>RFC 2045</strong></a>，那么使用 <a class="reference internal" href="email.html#module-email" title="email: Package supporting the parsing, manipulating, and generating email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code></a> 模块可能更加合适。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>新的接口提供的解码函数现在已经支持只包含 ASCII 的 Unicode 字符串。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>所有 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">类字节对象</span></a> 现在已经被所有编码和解码函数接受。添加了对 Ascii85/Base85 的支持。</p>
+</div>
+<p>新的接口提供：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.b64encode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">b64encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altchars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.b64encode" title="永久链接至目标">¶</a></dt>
+<dd><p>对 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>s</em> 进行 Base64 编码，并返回编码后的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。</p>
+<p>可选项 <em>altchars</em> 必须是一个长 2 字节的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>，它指定了用于替换 <code class="docutils literal notranslate"><span class="pre">+</span></code> 和 <code class="docutils literal notranslate"><span class="pre">/</span></code> 的字符。这允许应用程序生成 URL 或文件系统安全的 Base64 字符串。默认值是 <code class="docutils literal notranslate"><span class="pre">None</span></code>，使用标准 Base64 字母表。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.b64decode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">b64decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altchars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.b64decode" title="永久链接至目标">¶</a></dt>
+<dd><p>解码 Base64 编码过的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 或 ASCII 字符串 <em>s</em> 并返回解码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。</p>
+<p>可选项 <em>altchars</em> 必须是一个长 2 字节的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>，它指定了用于替换 <code class="docutils literal notranslate"><span class="pre">+</span></code> 和 <code class="docutils literal notranslate"><span class="pre">/</span></code> 的字符。</p>
+<p>如果 <em>s</em> 被不正确地填写，一个 <a class="reference internal" href="binascii.html#binascii.Error" title="binascii.Error"><code class="xref py py-exc docutils literal notranslate"><span class="pre">binascii.Error</span></code></a> 错误将被抛出。</p>
+<p>如果 <em>validate</em> 值为 <code class="docutils literal notranslate"><span class="pre">False</span></code> （默认情况），则在填充检查前，将丢弃既不在标准 base-64 字母表之中也不在备用字母表中的字符。如果 <em>validate</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，这些非 base64 字符将导致 <a class="reference internal" href="binascii.html#binascii.Error" title="binascii.Error"><code class="xref py py-exc docutils literal notranslate"><span class="pre">binascii.Error</span></code></a>。</p>
+<p>For more information about the strict base64 check, see <a class="reference internal" href="binascii.html#binascii.a2b_base64" title="binascii.a2b_base64"><code class="xref py py-func docutils literal notranslate"><span class="pre">binascii.a2b_base64()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.standard_b64encode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">standard_b64encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.standard_b64encode" title="永久链接至目标">¶</a></dt>
+<dd><p>编码 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>s</em>，使用标准 Base64 字母表并返回编码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.standard_b64decode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">standard_b64decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.standard_b64decode" title="永久链接至目标">¶</a></dt>
+<dd><p>解码 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 或 ASCII 字符串 <em>s</em>，使用标准 Base64 字母表并返回编码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.urlsafe_b64encode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">urlsafe_b64encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.urlsafe_b64encode" title="永久链接至目标">¶</a></dt>
+<dd><p>编码 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>s</em>，使用 URL 与文件系统安全的字母表，使用 <code class="docutils literal notranslate"><span class="pre">-</span></code> 以及 <code class="docutils literal notranslate"><span class="pre">_</span></code> 代替标准 Base64 字母表中的 <code class="docutils literal notranslate"><span class="pre">+</span></code> 和 <code class="docutils literal notranslate"><span class="pre">/</span></code>。返回编码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。结果中可能包含 <code class="docutils literal notranslate"><span class="pre">=</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.urlsafe_b64decode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">urlsafe_b64decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.urlsafe_b64decode" title="永久链接至目标">¶</a></dt>
+<dd><p>解码 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 或 ASCII 字符串 <em>s</em>，使用 URL 与文件系统安全的字母表，使用 <code class="docutils literal notranslate"><span class="pre">-</span></code> 以及 <code class="docutils literal notranslate"><span class="pre">_</span></code> 代替标准 Base64 字母表中的 <code class="docutils literal notranslate"><span class="pre">+</span></code> 和 <code class="docutils literal notranslate"><span class="pre">/</span></code>。返回解码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.b32encode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">b32encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.b32encode" title="永久链接至目标">¶</a></dt>
+<dd><p>用 Base32 编码 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>s</em> 并返回编码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.b32decode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">b32decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">casefold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map01</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.b32decode" title="永久链接至目标">¶</a></dt>
+<dd><p>解码 Base32 编码过的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 或 ASCII 字符串 <em>s</em> 并返回解码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。</p>
+<p>可选的 <em>casefold</em> 是一个指定小写字幕是否可接受为输入的标志。为了安全考虑，默认值为 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+<p><span class="target" id="index-30"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4648.html"><strong>RFC 4648</strong></a> 允许可以选择将数码 0 (zero) 映射为字母 O (oh)，并可以选择将数码 1 (one) 映射为字母 I (eye) 或字母 L (el)。 可选参数 <em>map01</em> 在不为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 时，指定数码 1 应当映射为哪个字母 (当 <em>map01</em> 不为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 时，数码 0 总是被映射为字母 O)。 出于安全考虑其默认值为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，因而在输入中不允许 0 和 1。</p>
+<p>如果 <em>s</em> 被错误地填写或输入中存在字母表之外的字符，将抛出 <a class="reference internal" href="binascii.html#binascii.Error" title="binascii.Error"><code class="xref py py-exc docutils literal notranslate"><span class="pre">binascii.Error</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.b32hexencode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">b32hexencode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.b32hexencode" title="永久链接至目标">¶</a></dt>
+<dd><p>类似于 <a class="reference internal" href="#base64.b32encode" title="base64.b32encode"><code class="xref py py-func docutils literal notranslate"><span class="pre">b32encode()</span></code></a> 但是使用 Extended Hex Alphabet，如 <span class="target" id="index-31"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4648.html"><strong>RFC 4648</strong></a> 所定义。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.10 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.b32hexdecode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">b32hexdecode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">casefold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.b32hexdecode" title="永久链接至目标">¶</a></dt>
+<dd><p>类似于 <a class="reference internal" href="#base64.b32decode" title="base64.b32decode"><code class="xref py py-func docutils literal notranslate"><span class="pre">b32decode()</span></code></a> 但是使用 Extended Hex Alphabet，如 <span class="target" id="index-32"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4648.html"><strong>RFC 4648</strong></a> 所定义。</p>
+<p>这个版本不允许数字 0（零）与字母 O（oh）和数字 1（一）与字母 I（eye）或字母 L （el）的映射，所有这些字符都包含在扩展的十六进制字母表中，不能互换。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.10 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.b16encode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">b16encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.b16encode" title="永久链接至目标">¶</a></dt>
+<dd><p>用 Base16 编码 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>s</em> 并返回编码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.b16decode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">b16decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">casefold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.b16decode" title="永久链接至目标">¶</a></dt>
+<dd><p>解码 Base16 编码过的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 或 ASCII 字符串 <em>s</em> 并返回解码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。</p>
+<p>可选的 <em>casefold</em> 是一个指定小写字幕是否可接受为输入的标志。为了安全考虑，默认值为 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+<p>如果 <em>s</em> 被错误地填写或输入中存在字母表之外的字符，将抛出 <a class="reference internal" href="binascii.html#binascii.Error" title="binascii.Error"><code class="xref py py-exc docutils literal notranslate"><span class="pre">binascii.Error</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.a85encode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">a85encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">foldspaces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrapcol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adobe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.a85encode" title="永久链接至目标">¶</a></dt>
+<dd><p>用 Ascii85 编码 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>s</em> 并返回编码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a></p>
+<p><em>foldspaces</em> 是一个可选的标志，使用特殊的短序列 'y' 代替 'btoa' 提供的 4 个连续空格 (ASCII 0x20)。这个特性不被 &quot;标准&quot; Ascii85 编码支持。</p>
+<p><em>wrapcol</em> 控制了输出是否包含换行符 (<code class="docutils literal notranslate"><span class="pre">b'\n'</span></code>). 如果该值非零, 则每一行只有该值所限制的字符长度.</p>
+<p><em>pad</em> 控制在编码之前输入是否填充为4的倍数。请注意，<code class="docutils literal notranslate"><span class="pre">btoa</span></code> 实现总是填充。</p>
+<p><em>adobe</em> 控制编码后的字节序列是否要加上 <code class="docutils literal notranslate"><span class="pre">&lt;~</span></code> 和 <code class="docutils literal notranslate"><span class="pre">~&gt;</span></code>，这是 Adobe 实现所使用的。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.a85decode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">a85decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">foldspaces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adobe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignorechars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b'</span> <span class="pre">\t\n\r\x0b'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.a85decode" title="永久链接至目标">¶</a></dt>
+<dd><p>解码 Ascii85 编码过的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 或 ASCII 字符串 <em>s</em> 并返回解码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。</p>
+<p><em>foldspaces</em> 旗标指明是否应接受 'y' 短序列作为 4 个连续空格 (ASCII 0x20) 的快捷方式。 此特性不被 &quot;标准&quot; Ascii85 编码格式所支持。</p>
+<p><em>adobe</em> 控制输入序列是否为 Adobe Ascii85 格式 (即附加 &lt;~ 和 ~&gt;)。</p>
+<p><em>ignorechars</em> 应当是一个 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 或 ASCII 字符串，其中包含要从输入中忽略的字符。 这应当只包含空白字符，并且默认包含 ASCII 中所有的空白字符。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.b85encode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">b85encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.b85encode" title="永久链接至目标">¶</a></dt>
+<dd><p>用 base85（如 git 风格的二进制 diff 数据所用格式）编码 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>b</em> 并返回编码后的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。</p>
+<p>如果 <em>pad</em> 为真值，输入将以 <code class="docutils literal notranslate"><span class="pre">b'\0'</span></code> 填充以使其编码前长度为 4 字节的倍数。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.b85decode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">b85decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.b85decode" title="永久链接至目标">¶</a></dt>
+<dd><p>解码 base85 编码过的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 或 ASCII 字符串 <em>b</em> 并返回解码过的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。 如有必要，填充会被隐式地移除。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>旧式接口:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.decode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.decode" title="永久链接至目标">¶</a></dt>
+<dd><p>解码二进制 <em>input</em> 文件的内容并将结果二进制数据写入 <em>output</em> 文件。 <em>input</em> 和 <em>output</em> 必须为 <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">文件对象</span></a>. <em>input</em> 将被读取直至 <code class="docutils literal notranslate"><span class="pre">input.readline()</span></code> 返回空字节串对象。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.decodebytes">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">decodebytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.decodebytes" title="永久链接至目标">¶</a></dt>
+<dd><p>解码 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>s</em>，该对象必须包含一行或多行 base64 编码的数据，并返回已解码的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.1 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.encode">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.encode" title="永久链接至目标">¶</a></dt>
+<dd><p>编码二进制 <em>input</em> 文件的内容并将经 base64 编码的数据写入 <em>output</em> 文件。 <em>input</em> 和 <em>output</em> 必须为 <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">文件对象</span></a>。 <em>input</em> 将被读取直到 <code class="docutils literal notranslate"><span class="pre">input.read()</span></code> 返回空字节串对象。 <a class="reference internal" href="#base64.encode" title="base64.encode"><code class="xref py py-func docutils literal notranslate"><span class="pre">encode()</span></code></a> 会在每输出 76 个字节之后插入一个换行符 (<code class="docutils literal notranslate"><span class="pre">b'\n'</span></code>)，并会确保输出总是以换行符来结束，如 <span class="target" id="index-33"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2045.html"><strong>RFC 2045</strong></a> (MIME) 所规定的那样。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="base64.encodebytes">
+<span class="sig-prename descclassname"><span class="pre">base64.</span></span><span class="sig-name descname"><span class="pre">encodebytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base64.encodebytes" title="永久链接至目标">¶</a></dt>
+<dd><p>编码 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>s</em>，其中可以包含任意二进制数据，并返回包含经 base64 编码数据的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>，每输出 76 个字节之后将带一个换行符 (<code class="docutils literal notranslate"><span class="pre">b'\n'</span></code>)，并会确保在末尾也有一个换行符，如 <span class="target" id="index-34"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2045.html"><strong>RFC 2045</strong></a> (MIME) 所规定的那样。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.1 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>此模块的一个使用示例:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoded</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;data to be encoded&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoded</span>
+<span class="go">b&#39;ZGF0YSB0byBiZSBlbmNvZGVk&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">b&#39;data to be encoded&#39;</span>
+</pre></div>
+</div>
+<section id="security-considerations">
+<span id="base64-security"></span><h2>安全考量<a class="headerlink" href="#security-considerations" title="永久链接至标题">¶</a></h2>
+<p>在 <span class="target" id="index-35"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4648.html"><strong>RFC 4648</strong></a> 中新增了安全事项部分（第 12 节）；对于要部署到生产环境的任何代码都建议充分考虑此安全事项部分。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>模块 <a class="reference internal" href="binascii.html#module-binascii" title="binascii: Tools for converting between binary and various ASCII-encoded binary representations."><code class="xref py py-mod docutils literal notranslate"><span class="pre">binascii</span></code></a></dt><dd><p>支持模块，包含ASCII到二进制和二进制到ASCII转换。</p>
+</dd>
+<dt><span class="target" id="index-36"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1521.html"><strong>RFC 1521</strong></a> - MIME (Multipurpose Internet Mail Extensions) 第一部分：规定并描述因特网消息体的格式的机制。</dt><dd><p>第 5.2 节，“Base64 内容转换编码格式” 提供了 base64 编码格式的定义。</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">base64</span></code> --- Base16, Base32, Base64, Base85 数据编码</a><ul>
+<li><a class="reference internal" href="#security-considerations">安全考量</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="mimetypes.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mimetypes</span></code> --- 映射文件名到 MIME 类型</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="binascii.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">binascii</span></code> --- 二进制和 ASCII 码互转</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/base64.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="binascii.html" title="binascii --- 二进制和 ASCII 码互转"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="mimetypes.html" title="mimetypes --- 映射文件名到 MIME 类型"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" >互联网数据处理</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">base64</span></code> --- Base16, Base32, Base64, Base85 数据编码</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>
