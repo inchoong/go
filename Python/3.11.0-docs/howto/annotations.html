@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>对象注解属性的最佳实践 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="Isolating Extension Modules" href="isolating-extensions.html" />
+    <link rel="prev" title="使用 DTrace 和 SystemTap 检测CPython" href="instrumentation.html" />
+    <link rel="canonical" href="https://docs.python.org/3/howto/annotations.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">对象注解属性的最佳实践</a><ul>
+<li><a class="reference internal" href="#accessing-the-annotations-dict-of-an-object-in-python-3-10-and-newer">在 Python 3.10 以上版本中访问对象的注解字典</a></li>
+<li><a class="reference internal" href="#accessing-the-annotations-dict-of-an-object-in-python-3-9-and-older">在 Python 3.9 及更早的版本中访问对象的注解字典</a></li>
+<li><a class="reference internal" href="#manually-un-stringizing-stringized-annotations">解析字符串形式的注解</a></li>
+<li><a class="reference internal" href="#best-practices-for-annotations-in-any-python-version">任何版本 Python 中使用 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 的最佳实践</a></li>
+<li><a class="reference internal" href="#annotations-quirks"><code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 的坑</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="instrumentation.html"
+                          title="上一章">使用 DTrace 和 SystemTap 检测CPython</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="isolating-extensions.html"
+                          title="下一章">Isolating Extension Modules</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/howto/annotations.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="isolating-extensions.html" title="Isolating Extension Modules"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="instrumentation.html" title="使用 DTrace 和 SystemTap 检测CPython"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python 常用指引</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">对象注解属性的最佳实践</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="annotations-best-practices">
+<span id="annotations-howto"></span><h1>对象注解属性的最佳实践<a class="headerlink" href="#annotations-best-practices" title="永久链接至标题">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">作者</dt>
+<dd class="field-odd"><p>Larry Hastings</p>
+</dd>
+</dl>
+<div class="topic">
+<p class="topic-title">摘要</p>
+<p>本文意在汇聚对象的注解字典用法的最佳实践。 如果 Python 代码会去查看 Python 对象的 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 属性，建议遵循以下准则。</p>
+<p>本文分为四个部分：在 Python 3.10 以上版本中访问对象注解的最佳实践、在Python 3.9 以上版本中访问对象注解的最佳实践、适用于任何 Python 版本的其他 <code class="docutils literal notranslate"><span class="pre">`__annotations__</span></code> 最佳实践、<code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 的特别之处。</p>
+<p>请注意，本文是专门介绍 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 的，而不是介绍注解的用法。若要了解“类型提示”的使用信息，请参阅 <a class="reference internal" href="../library/typing.html#module-typing" title="typing: Support for type hints (see :pep:`484`)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">typing</span></code></a> 模块。</p>
+</div>
+<section id="accessing-the-annotations-dict-of-an-object-in-python-3-10-and-newer">
+<h2>在 Python 3.10 以上版本中访问对象的注解字典<a class="headerlink" href="#accessing-the-annotations-dict-of-an-object-in-python-3-10-and-newer" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>Python 3.10 在标准库中加入了一个新函数：<a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a>。在 Python 3.10 以上的版本中，调用该函数就是访问对象注解字典的最佳做法。该函数还可以“解析”字符串形式的注解。</p>
+<p>有时会因为某些原因看不到 <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> ，也可以直接访问 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 数据成员。这方面的最佳实践在 Python 3.10 中也发生了变化：从 Python 3.10 开始，Python 函数、类和模块的 <code class="docutils literal notranslate"><span class="pre">o.__annotations__</span></code> <em>保证</em> 可用。如果确定是要查看这三种对象，只要利用 <code class="docutils literal notranslate"><span class="pre">o.__annotations__</span></code> 读取对象的注释字典即可。</p>
+<p>不过其他类型的可调用对象可能就没有定义 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 属性，比如由 <a class="reference internal" href="../library/functools.html#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a> 创建的可调用对象。当访问某个未知对象的``__annotations__`` 时，Python 3.10 以上版本的最佳做法是带三个参数去调用 <a class="reference internal" href="../library/functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> ，比如 <code class="docutils literal notranslate"><span class="pre">getattr(o,</span> <span class="pre">'__annotations__',</span> <span class="pre">None)</span></code>。</p>
+</div></blockquote>
+</section>
+<section id="accessing-the-annotations-dict-of-an-object-in-python-3-9-and-older">
+<h2>在 Python 3.9 及更早的版本中访问对象的注解字典<a class="headerlink" href="#accessing-the-annotations-dict-of-an-object-in-python-3-9-and-older" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>在 Python 3.9 及之前的版本中，访问对象的注解字典要比新版本中复杂得多。这个是 Python 低版本的一个设计缺陷，特别是访问类的注解时。</p>
+<p>要访问其他对象——函数、可调用对象和模块——的注释字典，最佳做法与 3.10 版本相同，假定不想调用 <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a>：你应该用三个参数调用 <a class="reference internal" href="../library/functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> ，以访问对象的 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 属性。</p>
+<p>不幸的是，对于类而言，这并不是最佳做法。因为 <code class="docutils literal notranslate"><span class="pre">`__annotations__</span></code> 是类的可选属性，并且类可以从基类继承属性，访问某个类的 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 属性可能会无意间返回 <em>基类</em> 的注解数据。例如：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Base</span><span class="p">:</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">b</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span>
+
+<span class="k">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Derived</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如此会打印出 <code class="docutils literal notranslate"><span class="pre">Base</span></code> 的注解字典，而非 <code class="docutils literal notranslate"><span class="pre">Derived</span></code> 的。</p>
+<p>若要查看的对象是个类（<code class="docutils literal notranslate"><span class="pre">isinstance(o,</span> <span class="pre">type)</span></code>），代码不得不另辟蹊径。这时的最佳做法依赖于 Python 3.9 及之前版本的一处细节：若某个类定义了注解，则会存放于字典 <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> 中。由于类不一定会定义注解，最好的做法是在类的 dict 上调用 <code class="docutils literal notranslate"><span class="pre">get</span></code> 方法。</p>
+<p>综上所述，下面给出一些示例代码，可以在 Python 3.9 及之前版本安全地访问任意对象的 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 属性：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+    <span class="n">ann</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__annotations__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">ann</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="s1">&#39;__annotations__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>运行之后，<code class="docutils literal notranslate"><span class="pre">ann</span></code> 应为一个字典对象或 <code class="docutils literal notranslate"><span class="pre">None</span></code>。建议在继续之前，先用 <a class="reference internal" href="../library/functions.html#isinstance" title="isinstance"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a> 再次检查 <code class="docutils literal notranslate"><span class="pre">ann</span></code> 的类型。</p>
+<p>请注意，有些特殊的或畸形的类型对象可能没有 <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> 属性，为了以防万一，可能还需要用 <a class="reference internal" href="../library/functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> 来访问 <code class="docutils literal notranslate"><span class="pre">__dict__</span></code>。</p>
+</div></blockquote>
+</section>
+<section id="manually-un-stringizing-stringized-annotations">
+<h2>解析字符串形式的注解<a class="headerlink" href="#manually-un-stringizing-stringized-annotations" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>有时注释可能会被“字符串化”，解析这些字符串可以求得其所代表的 Python 值，最好是调用 <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> 来完成这项工作。</p>
+<p>如果是 Python 3.9 及之前的版本，或者由于某种原因无法使用  <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> ，那就需要重现其代码逻辑。建议查看一下当前 Python 版本中 <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> 的实现代码，并遵照实现。</p>
+<p>简而言之，假设要对任一对象解析其字符串化的注释 <code class="docutils literal notranslate"><span class="pre">o</span></code> ：</p>
+<ul class="simple">
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">o</span></code> 是个模块，在调用 <a class="reference internal" href="../library/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> 时，<code class="docutils literal notranslate"><span class="pre">o.__dict__</span></code>  可视为 <code class="docutils literal notranslate"><span class="pre">globals</span></code> 。</p></li>
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">o</span></code> 是一个类，在调用 <a class="reference internal" href="../library/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> 时，<code class="docutils literal notranslate"><span class="pre">sys.modules[o.__module__].__dict__</span></code> 视作  <code class="docutils literal notranslate"><span class="pre">globals</span></code>，<code class="docutils literal notranslate"><span class="pre">dict(vars(o))</span></code> 视作 <code class="docutils literal notranslate"><span class="pre">locals</span></code> 。</p></li>
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">o</span></code> 是一个用 <a class="reference internal" href="../library/functools.html#functools.update_wrapper" title="functools.update_wrapper"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.update_wrapper()</span></code></a> 、 <a class="reference internal" href="../library/functools.html#functools.wraps" title="functools.wraps"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.wraps()</span></code></a> 或 <a class="reference internal" href="../library/functools.html#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a> 封装的可调用对象，可酌情访问 <code class="docutils literal notranslate"><span class="pre">o.__wrapped__</span></code> 或 <code class="docutils literal notranslate"><span class="pre">o.func</span></code> 进行反复解包，直到你找到未经封装的根函数。</p></li>
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">o</span></code> 是个可调用对象（但不是一个类），在调用 <a class="reference internal" href="../library/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> 时，<code class="docutils literal notranslate"><span class="pre">o.__dict__</span></code>  可视为 <code class="docutils literal notranslate"><span class="pre">globals</span></code> 。</p></li>
+</ul>
+<p>但并不是所有注解字符串都可以通过 <a class="reference internal" href="../library/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> 成功地转化为 Python 值。理论上，注解字符串中可以包含任何合法字符串，确实有一些类型提示的场合，需要用到特殊的 <em>无法</em> 被解析的字符串来作注解。比如：</p>
+<ul class="simple">
+<li><p>在 Python 3.10 加入支持之前，<span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0604/"><strong>PEP 604</strong></a> 联合类型用到了 <code class="docutils literal notranslate"><span class="pre">|</span></code>。</p></li>
+<li><p>运行时用不到的定义，只在 <a class="reference internal" href="../library/typing.html#typing.TYPE_CHECKING" title="typing.TYPE_CHECKING"><code class="xref py py-const docutils literal notranslate"><span class="pre">typing.TYPE_CHECKING</span></code></a> 为 True 时才会导入。</p></li>
+</ul>
+<p>如果 <a class="reference internal" href="../library/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> 试图求值，将会失败并触发异常。因此，当要设计一个可采用注解的库 API ，建议只在调用方显式请求的时才对字符串求值。</p>
+</div></blockquote>
+</section>
+<section id="best-practices-for-annotations-in-any-python-version">
+<h2>任何版本 Python 中使用 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 的最佳实践<a class="headerlink" href="#best-practices-for-annotations-in-any-python-version" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>应避免直接给对象的 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 成员赋值。请让 Python 来管理``__annotations__``。</p></li>
+<li><p>如果直接给某对象的 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 成员赋值，应该确保设成一个``dict`` 对象。</p></li>
+<li><p>如果直接访问某个对象的 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 成员，在解析其值之前，应先确认其为字典类型。</p></li>
+<li><p>应避免修改 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 字典。</p></li>
+<li><p>应避免删除对象的 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 属性。</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="annotations-quirks">
+<h2><code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 的坑<a class="headerlink" href="#annotations-quirks" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>在 Python 3 的所有版本中，如果对象没有定义注解，函数对象就会直接创建一个注解字典对象。用 <code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">fn.__annotations__</span></code> 可删除 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 属性，但如果后续再访问 <code class="docutils literal notranslate"><span class="pre">fn.__annotations__</span></code>，该对象将新建一个空的字典对象，用于存放并返回注解。在函数直接创建注解字典前，删除注解操作会抛出 <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code> 异常；连续两次调用 <code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">fn.__annotations__</span></code> 一定会抛出一次 <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code> 异常。</p>
+<p>以上同样适用于 Python 3.10 以上版本中的类和模块对象。</p>
+<p>所有版本的 Python 3 中，均可将函数对象的 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 设为 <code class="docutils literal notranslate"><span class="pre">None</span></code>。但后续用 <code class="docutils literal notranslate"><span class="pre">fn.__annotations__</span></code> 访问该对象的注解时，会像本节第一段所述那样，直接创建一个空字典。但在任何 Python 版本中，模块和类均非如此，他们允许将 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 设为任意 Python 值，并且会留存所设值。</p>
+<p>如果 Python 会对注解作字符串化处理（用 <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">annotations</span></code> ），并且注解本身就是一个字符串，那么将会为其加上引号。实际效果就是，注解加了 <em>两次</em> 引号。例如：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="s2">&quot;str&quot;</span><span class="p">):</span> <span class="k">pass</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这会打印出 <code class="docutils literal notranslate"><span class="pre">{'a':</span> <span class="pre">&quot;'str'&quot;}</span></code>。这不应算是个“坑”；只是因为可能会让人吃惊，所以才提一下。</p>
+</div></blockquote>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">对象注解属性的最佳实践</a><ul>
+<li><a class="reference internal" href="#accessing-the-annotations-dict-of-an-object-in-python-3-10-and-newer">在 Python 3.10 以上版本中访问对象的注解字典</a></li>
+<li><a class="reference internal" href="#accessing-the-annotations-dict-of-an-object-in-python-3-9-and-older">在 Python 3.9 及更早的版本中访问对象的注解字典</a></li>
+<li><a class="reference internal" href="#manually-un-stringizing-stringized-annotations">解析字符串形式的注解</a></li>
+<li><a class="reference internal" href="#best-practices-for-annotations-in-any-python-version">任何版本 Python 中使用 <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 的最佳实践</a></li>
+<li><a class="reference internal" href="#annotations-quirks"><code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> 的坑</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="instrumentation.html"
+                          title="上一章">使用 DTrace 和 SystemTap 检测CPython</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="isolating-extensions.html"
+                          title="下一章">Isolating Extension Modules</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/howto/annotations.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="isolating-extensions.html" title="Isolating Extension Modules"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="instrumentation.html" title="使用 DTrace 和 SystemTap 检测CPython"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 常用指引</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">对象注解属性的最佳实践</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,1402 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Argument Clinic 的用法 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="使用 DTrace 和 SystemTap 检测CPython" href="instrumentation.html" />
+    <link rel="prev" title="ipaddress模块介绍" href="ipaddress.html" />
+    <link rel="canonical" href="https://docs.python.org/3/howto/clinic.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Argument Clinic 的用法</a><ul>
+<li><a class="reference internal" href="#the-goals-of-argument-clinic">Argument Clinic 的设计目标</a></li>
+<li><a class="reference internal" href="#basic-concepts-and-usage">基本概念和用法</a></li>
+<li><a class="reference internal" href="#converting-your-first-function">函数的转换</a></li>
+<li><a class="reference internal" href="#advanced-topics">进阶</a><ul>
+<li><a class="reference internal" href="#symbolic-default-values">符号化默认值</a></li>
+<li><a class="reference internal" href="#renaming-the-c-functions-and-variables-generated-by-argument-clinic">对 Argument Clinic 生成的 C 函数和变量进行重命名</a></li>
+<li><a class="reference internal" href="#converting-functions-using-pyarg-unpacktuple">函数转换会用到 PyArg_UnpackTuple</a></li>
+<li><a class="reference internal" href="#optional-groups">可选参数组</a></li>
+<li><a class="reference internal" href="#using-real-argument-clinic-converters-instead-of-legacy-converters">采用真正的 Argument Clinic 转换器，而不是 “传统转换器”</a></li>
+<li><a class="reference internal" href="#py-buffer">Py_buffer</a></li>
+<li><a class="reference internal" href="#advanced-converters">高级转换器</a></li>
+<li><a class="reference internal" href="#parameter-default-values">参数的默认值</a></li>
+<li><a class="reference internal" href="#the-null-default-value">默认值 <code class="docutils literal notranslate"><span class="pre">NULL</span></code></a></li>
+<li><a class="reference internal" href="#expressions-specified-as-default-values">设为默认值的表达式</a></li>
+<li><a class="reference internal" href="#using-a-return-converter">返回值转换器</a></li>
+<li><a class="reference internal" href="#cloning-existing-functions">克隆已有的函数</a></li>
+<li><a class="reference internal" href="#calling-python-code">调用 Python 代码</a></li>
+<li><a class="reference internal" href="#using-a-self-converter">self 转换器的用法</a></li>
+<li><a class="reference internal" href="#using-a-defining-class-converter">“定义类”转换器</a></li>
+<li><a class="reference internal" href="#writing-a-custom-converter">编写自定义转换器</a></li>
+<li><a class="reference internal" href="#writing-a-custom-return-converter">编写自定义的返回值转换器</a></li>
+<li><a class="reference internal" href="#meth-o-and-meth-noargs">METH_O 和 METH_NOARGS</a></li>
+<li><a class="reference internal" href="#tp-new-and-tp-init-functions">tp_new 和 tp_init functions</a></li>
+<li><a class="reference internal" href="#changing-and-redirecting-clinic-s-output">改变和重定向 Clinic 的输出</a></li>
+<li><a class="reference internal" href="#the-ifdef-trick">#ifdef 使用技巧</a></li>
+<li><a class="reference internal" href="#using-argument-clinic-in-python-files">在 Python 文件中使用 Argument Clinic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="ipaddress.html"
+                          title="上一章">ipaddress模块介绍</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="instrumentation.html"
+                          title="下一章">使用 DTrace 和 SystemTap 检测CPython</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/howto/clinic.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="instrumentation.html" title="使用 DTrace 和 SystemTap 检测CPython"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="ipaddress.html" title="ipaddress模块介绍"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python 常用指引</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Argument Clinic 的用法</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="argument-clinic-how-to">
+<span id="howto-clinic"></span><h1>Argument Clinic 的用法<a class="headerlink" href="#argument-clinic-how-to" title="永久链接至标题">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">作者</dt>
+<dd class="field-odd"><p>Larry Hastings</p>
+</dd>
+</dl>
+<div class="topic">
+<p class="topic-title">摘要</p>
+<p>Argument Clinic 是 CPython 的一个 C 文件预处理器。旨在自动处理所有与“内置”参数解析有关的代码。本文展示了将 C 函数转换为配合 Argument Clinic 工作的做法，还介绍了一些关于 Argument Clinic 用法的进阶内容。</p>
+<p>目前 Argument Clinic 视作仅供 CPython 内部使用。不支持在 CPython 之外的文件中使用，也不保证未来版本会向下兼容。换句话说：如果维护的是 CPython 的外部 C 语言扩展，欢迎在自己的代码中试用 Argument Clinic。但 Argument Clinic 与新版 CPython 中的版本 <em>可能</em> 完全不兼容，且会打乱全部代码。</p>
+</div>
+<section id="the-goals-of-argument-clinic">
+<h2>Argument Clinic 的设计目标<a class="headerlink" href="#the-goals-of-argument-clinic" title="永久链接至标题">¶</a></h2>
+<p>Argument Clinic 的主要目标，是接管 CPython 中的所有参数解析代码。这意味着，如果要把某个函数转换为配合 Argument Clinic一起工作，则该函数不应再作任何参数解析工作——Argument Clinic 生成的代码应该是个“黑盒”，CPython 会在顶部发起调用，底部则调用自己的代码， <code class="docutils literal notranslate"><span class="pre">PyObject</span> <span class="pre">*args</span></code> （也许还有 <code class="docutils literal notranslate"><span class="pre">PyObject</span> <span class="pre">*kwargs</span></code> ）会神奇地转换成所需的 C 变量和类型。</p>
+<p>Argument Clinic 为了能完成主要目标，用起来必须方便。目前，使用 CPython 的参数解析库是一件苦差事，需要在很多地方维护冗余信息。如果使用 Argument Clinic，则不必再重复代码了。</p>
+<p>显然，除非 Argument Clinic 解决了自身的问题，且没有产生新的问题，否则没有人会愿意用它。所以，Argument Clinic 最重要的事情就是生成正确的代码。如果能加速代码的运行当然更好，但至少不应引入明显的减速。（最终 Argument Clinic <em>应该</em> 可以实现较大的速度提升——代码生成器可以重写一下，以产生量身定做的参数解析代码，而不是调用通用的 CPython 参数解析库。 这会让参数解析达到最佳速度！）</p>
+<p>此外，Argument Clinic 必须足够灵活，能够与任何参数解析的方法一起工作。Python 有一些函数具备一些非常奇怪的解析行为；Argument Clinic 的目标是支持所有这些函数。</p>
+<p>最后，Argument Clinic 的初衷是为 CPython 内置程序提供内省“签名”。以前如果传入一个内置函数，内省查询函数会抛出异常。有了 Argument Clinic，再不会发生这种问题了！</p>
+<p>在与 Argument Clinic 合作时，应该牢记一个理念：给它的信息越多，它做得就会越好。诚然，Argument Clinic 现在还比较简单。但会演变得越来越复杂，应该能够利用给出的全部信息干很多聪明而有趣的事情。</p>
+</section>
+<section id="basic-concepts-and-usage">
+<h2>基本概念和用法<a class="headerlink" href="#basic-concepts-and-usage" title="永久链接至标题">¶</a></h2>
+<p>Argument Clinic 与 CPython 一起提供，位于 <code class="docutils literal notranslate"><span class="pre">Tools/clinic/clinic.py</span></code> 。若要运行它，请指定一个 C 文件作为参数。</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3 Tools/clinic/clinic.py foo.c
+</pre></div>
+</div>
+<p>Argument Clinic 会扫描 C 文件，精确查找以下代码：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/*[clinic input]
+</pre></div>
+</div>
+<p>一旦找到一条后，就会读取所有内容，直至遇到以下代码：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[clinic start generated code]*/
+</pre></div>
+</div>
+<p>这两行之间的所有内容都是 Argument Clinic 的输入。所有行，包括开始和结束的注释行，统称为 Argument Clinic “块”。</p>
+<p>Argument Clinic 在解析某一块时，会生成输出信息。输出信息会紧跟着该块写入 C 文件中，后面还会跟着包含校验和的注释。现在 Argument Clinic 块看起来应如下所示：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/*[clinic input]
+... clinic input goes here ...
+[clinic start generated code]*/
+... clinic output goes here ...
+/*[clinic end generated code: checksum=...]*/
+</pre></div>
+</div>
+<p>如果对同一文件第二次运行 Argument Clinic，则它会丢弃之前的输出信息，并写入带有新校验行的输出信息。不过如果输入没有变化，则输出也不会有变化。</p>
+<p>不应去改动 Argument Clinic 块的输出部分。而应去修改输入，直到生成所需的输出信息。（这就是校验和的用途——检测是否有人改动了输出信息，因为在 Argument Clinic 下次写入新的输出时，这些改动都会丢失）。</p>
+<p>为了清晰起见，下面列出了 Argument Clinic 用到的术语：</p>
+<ul class="simple">
+<li><p>注释的第一行 <code class="docutils literal notranslate"><span class="pre">/*[clinic</span> <span class="pre">input]</span></code> 是 <em>起始行</em> 。</p></li>
+<li><p>注释（<code class="docutils literal notranslate"><span class="pre">[clinic</span> <span class="pre">start</span> <span class="pre">generated</span> <span class="pre">code]*/</span></code>）的最后一行是 <em>结束行</em>。</p></li>
+<li><p>最后一行（<code class="docutils literal notranslate"><span class="pre">/*[clinic</span> <span class="pre">end</span> <span class="pre">generated</span> <span class="pre">code:</span> <span class="pre">checksum=...]*/</span></code>）是 <em>校验和行</em> 。</p></li>
+<li><p>在起始行和结束行之间是 <em>输入数据</em>。</p></li>
+<li><p>在结束行和校验和行之间是 <em>输出数据</em> 。</p></li>
+<li><p>从开始行到校验和行的所有文本，都是 <em>块</em>。（Argument Clinic 尚未处理成功的块，没有输出或校验和行，但仍视作一个块）。</p></li>
+</ul>
+</section>
+<section id="converting-your-first-function">
+<h2>函数的转换<a class="headerlink" href="#converting-your-first-function" title="永久链接至标题">¶</a></h2>
+<p>要想了解 Argument Clinic 是如何工作的，最好的方式就是转换一个函数与之合作。下面介绍需遵循的最基本步骤。请注意，若真的准备在 CPython 中进行检查，则应进行更深入的转换，使用一些本文后续会介绍到的高级概念（比如 “返回转换” 和 “自转换”）。但以下例子将维持简单，以供学习。</p>
+<p>就此开始</p>
+<ol class="arabic" start="0">
+<li><p>请确保 CPython 是最新的已签出版本。</p></li>
+<li><p>找到一个调用 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 或 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a> ，且未被转换为采用 Argument Clinic 的 Python 内置程序。这里用了 <code class="docutils literal notranslate"><span class="pre">_pickle.Pickler.dump()</span></code>。</p></li>
+<li><p>如果对 <code class="docutils literal notranslate"><span class="pre">PyArg_Parse</span></code> 函数的调用采用了以下格式化单元：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>O&amp;
+O!
+es
+es#
+et
+et#
+</pre></div>
+</div>
+<p>或者多次调用 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a>，则应再选一个函数。Argument Clinic <em>确实</em> 支持上述这些状况。 但这些都是高阶内容——第一次就简单一些吧。</p>
+<p>此外，如果多次调用 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 或 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a> 且同一参数需支持不同的类型，或者用到 PyArg_Parse 以外的函数来解析参数，则可能不适合转换为 Argument Clinic 形式。 Argument Clinic 不支持通用函数或多态参数。</p>
+</li>
+<li><p>在函数上方添加以下模板，创建块：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>剪下文档字符串并粘贴到 <code class="docutils literal notranslate"><span class="pre">[clinic]</span></code> 行之间，去除所有的无用字符，使其成为一个正确引用的 C 字符串。最有应该只留下带有左侧缩进的文本，且行宽不大于 80 个字符。（参数 Clinic 将保留文档字符串中的缩进。）</p>
+<p>如果文档字符串的第一行看起来像是函数的签名，就把这一行去掉吧。（(文档串不再需要用到它——将来对内置函数调用 <code class="docutils literal notranslate"><span class="pre">help()</span></code> 时，第一行将根据函数的签名自动建立。）</p>
+<p>示例：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">Write a pickled representation of obj to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>如果文档字符串中没有“摘要”行，Argument Clinic 会报错。所以应确保带有摘要行。 “摘要”行应为在文档字符串开头的一个段落，由一个80列的单行构成。</p>
+<p>（示例的文档字符串只包括一个摘要行，所以示例代码这一步不需改动）。</p>
+</li>
+<li><p>在文档字符串上方，输入函数的名称，后面是空行。这应是函数的 Python 名称，而且应是句点分隔的完整路径——以模块的名称开始，包含所有子模块名，若函数为类方法则还应包含类名。</p>
+<p>示例：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">_pickle.Pickler.dump</span>
+
+<span class="cm">Write a pickled representation of obj to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>如果是第一次在此 C 文件中用到 Argument Clinic 的模块或类，必须对其进行声明。清晰的 Argument Clinic 写法应于 C 文件顶部附近的某个单独块中声明这些，就像 include 文件和 statics 放在顶部一样。（在这里的示例代码中，将这两个块相邻给出。)</p>
+<p>类和模块的名称应与暴露给 Python 的相同。请适时检查 <a class="reference internal" href="../c-api/module.html#c.PyModuleDef" title="PyModuleDef"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyModuleDef</span></code></a> 或 <a class="reference internal" href="../c-api/type.html#c.PyTypeObject" title="PyTypeObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyTypeObject</span></code></a> 中定义的名称。</p>
+<p>在声明某个类时，还必须指定其 C 语言类型的两个部分：用于指向该类实例的指针的类型声明，和指向该类 <a class="reference internal" href="../c-api/type.html#c.PyTypeObject" title="PyTypeObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyTypeObject</span></code></a> 的指针。</p>
+<p>示例：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">module _pickle</span>
+<span class="cm">class _pickle.Pickler &quot;PicklerObject *&quot; &quot;&amp;Pickler_Type&quot;</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+
+<span class="cm">/*[clinic input]</span>
+<span class="cm">_pickle.Pickler.dump</span>
+
+<span class="cm">Write a pickled representation of obj to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>声明函数的所有参数。每个参数都应另起一行。所有的参数行都应对齐函数名和文档字符串进行缩进。</p>
+<p>这些参数行的常规形式如下：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>name_of_parameter: converter
+</pre></div>
+</div>
+<p>如果参数带有缺省值，请加在转换器之后：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>name_of_parameter: converter = default_value
+</pre></div>
+</div>
+<p>Argument Clinic 对 “缺省值” 的支持方式相当复杂；更多信息请参见 <a class="reference internal" href="#default-values"><span class="std std-ref">关于缺省值的部分</span></a> 。</p>
+<p>在参数行下面添加一个空行。</p>
+<p>What's a &quot;converter&quot;?  It establishes both the type
+of the variable used in C, and the method to convert the Python
+value into a C value at runtime.
+For now you're going to use what's called a &quot;legacy converter&quot;—a
+convenience syntax intended to make porting old code into Argument
+Clinic easier.</p>
+<p>每个参数都要从``PyArg_Parse()`` 格式参数中复制其 “格式单元”，并以带引号字符串的形式指定其转换器。（“格式单元”是 <code class="docutils literal notranslate"><span class="pre">format</span></code> 参数的1-3个字符的正式名称，用于让参数解析函数知晓该变量的类型及转换方法。关于格式单位的更多信息，请参阅 <a class="reference internal" href="../c-api/arg.html#arg-parsing"><span class="std std-ref">解析参数并构建值变量</span></a> ）。</p>
+<p>对于像 <code class="docutils literal notranslate"><span class="pre">z#</span></code> 这样的多字符格式单元，要使用2-3个字符组成的整个字符串。</p>
+<p>示例：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="cm">/*[clinic input]</span>
+<span class="cm"> module _pickle</span>
+<span class="cm"> class _pickle.Pickler &quot;PicklerObject *&quot; &quot;&amp;Pickler_Type&quot;</span>
+<span class="cm"> [clinic start generated code]*/</span><span class="w"></span>
+
+<span class="w"> </span><span class="cm">/*[clinic input]</span>
+<span class="cm"> _pickle.Pickler.dump</span>
+
+<span class="cm">    obj: &#39;O&#39;</span>
+
+<span class="cm">Write a pickled representation of obj to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>如果函数的格式字符串包含 <code class="docutils literal notranslate"><span class="pre">|</span></code>，意味着有些参数带有缺省值，这可以忽略。Argument Clinic 根据参数是否有缺省值来推断哪些参数是可选的。</p>
+<p>如果函数的格式字符串中包含 $，意味着只接受关键字参数，请在第一个关键字参数之前单独给出一行 <code class="docutils literal notranslate"><span class="pre">*</span></code>，缩进与参数行对齐。</p>
+<p>（<code class="docutils literal notranslate"><span class="pre">_pickle.Pickler.dump</span></code> 两种格式字符串都没有，所以这里的示例不用改动。）</p>
+</li>
+<li><p>如果 C 函数调用的是 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> (而不是 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a>)，那么其所有参数均是仅限位置参数。</p>
+<p>若要在 Argument Clinic 中把所有参数都标记为只认位置，请在最后一个参数后面一行加入一个 <code class="docutils literal notranslate"><span class="pre">/</span></code>，缩进程度与参数行对齐。</p>
+<p>目前这个标记是全体生效；要么所有参数都是只认位置，要么都不是。（以后 Argument Clinic 可能会放宽这一限制。）</p>
+<p>示例：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">module _pickle</span>
+<span class="cm">class _pickle.Pickler &quot;PicklerObject *&quot; &quot;&amp;Pickler_Type&quot;</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+
+<span class="cm">/*[clinic input]</span>
+<span class="cm">_pickle.Pickler.dump</span>
+
+<span class="cm">    obj: &#39;O&#39;</span>
+<span class="cm">    /</span>
+
+<span class="cm">Write a pickled representation of obj to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>为每个参数都编写一个文档字符串，这很有意义。但这是可选项；可以跳过这一步。</p>
+<p>下面介绍如何添加逐参数的文档字符串。逐参数文档字符串的第一行必须比参数定义多缩进一层。第一行的左边距即确定了所有逐参数文档字符串的左边距；所有文档字符串文本都要同等缩进。文本可以用多行编写。</p>
+<p>示例：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">module _pickle</span>
+<span class="cm">class _pickle.Pickler &quot;PicklerObject *&quot; &quot;&amp;Pickler_Type&quot;</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+
+<span class="cm">/*[clinic input]</span>
+<span class="cm">_pickle.Pickler.dump</span>
+
+<span class="cm">    obj: &#39;O&#39;</span>
+<span class="cm">        The object to be pickled.</span>
+<span class="cm">    /</span>
+
+<span class="cm">Write a pickled representation of obj to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>保存并关闭该文件，然后运行 <code class="docutils literal notranslate"><span class="pre">Tools/clinic/clinic.py</span></code> 。 运气好的话就万事大吉——程序块现在有了输出信息，并且生成了一个 <code class="docutils literal notranslate"><span class="pre">.c.h</span></code> 文件！在文本编辑器中重新打开该文件，可以看到：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">_pickle.Pickler.dump</span>
+
+<span class="cm">    obj: &#39;O&#39;</span>
+<span class="cm">        The object to be pickled.</span>
+<span class="cm">    /</span>
+
+<span class="cm">Write a pickled representation of obj to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+
+<span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="n">_pickle_Pickler_dump</span><span class="p">(</span><span class="n">PicklerObject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">obj</span><span class="p">)</span><span class="w"></span>
+<span class="cm">/*[clinic end generated code: output=87ecad1261e02ac7 input=552eb1c0f52260d9]*/</span><span class="w"></span>
+</pre></div>
+</div>
+<p>显然，如果 Argument Clinic 未产生任何输出，那是因为在输入信息中发现了错误。继续修正错误并重试，直至 Argument Clinic 正确地处理好文件。</p>
+<p>为了便于阅读，大部分“胶水”代码已写入 <code class="docutils literal notranslate"><span class="pre">.c.h</span></code> 文件中。需在原 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 文件中包含这个文件，通常是在 clinic  模块之后：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;clinic/_pickle.c.h&quot;</span><span class="cp"></span>
+</pre></div>
+</div>
+</li>
+<li><p>请仔细检查 Argument Clinic 生成的参数解析代码，是否与原有代码基本相同。</p>
+<p>首先，确保两种代码使用相同的参数解析函数。原有代码必须调用  <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 或 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a> ；确保 Argument Clinic 生成的代码调用 <em>完全</em> 相同的函数。</p>
+<p>其次，传给 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 或 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a> 的格式字符串应该 <em>完全</em> 与原有函数中的相同，直到冒号或分号为止。</p>
+<p>（Argument Clinic 生成的格式串一定是函数名后跟着 <code class="docutils literal notranslate"><span class="pre">:</span></code>。如果现有代码的格式串以 <code class="docutils literal notranslate"><span class="pre">;</span></code> 结尾，这种改动不会影响使用，因此不必担心。）</p>
+<p>第三，如果格式单元需要指定两个参数（比如长度、编码字符串或指向转换函数的指针），请确保第二个参数在两次调用时 <em>完全</em> 相同。</p>
+<p>第四，在输出部分会有一个预处理器宏，为该内置函数定义合适的静态 <a class="reference internal" href="../c-api/structures.html#c.PyMethodDef" title="PyMethodDef"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyMethodDef</span></code></a> 结构：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define __PICKLE_PICKLER_DUMP_METHODDEF    \</span>
+<span class="cp">{&quot;dump&quot;, (PyCFunction)__pickle_Pickler_dump, METH_O, __pickle_Pickler_dump__doc__},</span>
+</pre></div>
+</div>
+<p>此静态结构应与本内置函数现有的静态结构 <a class="reference internal" href="../c-api/structures.html#c.PyMethodDef" title="PyMethodDef"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyMethodDef</span></code></a> <em>完全</em> 相同。</p>
+<p>只要上述这几点存在不一致，请调整 Argument Clinic 函数定义，并重新运行 <code class="docutils literal notranslate"><span class="pre">Tools/clinic/clinic.py</span></code> ，直至 <em>完全</em> 相同。</p>
+</li>
+<li><p>注意，输出部分的最后一行是“实现”函数的声明。也就是该内置函数的实现代码所在。删除需要修改的函数的现有原型，但保留开头的大括号。再删除其参数解析代码和输入变量的所有声明。注意现在 Python 所见的参数即为此实现函数的参数；如果实现代码给这些变量采用了不同的命名，请进行修正。</p>
+<p>因为稍显怪异，所以还是重申一下。现在的代码应该如下所示：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">return_type</span><span class="w"></span>
+<span class="nf">your_function_impl</span><span class="p">(...)</span><span class="w"></span>
+<span class="cm">/*[clinic end generated code: checksum=...]*/</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+</pre></div>
+</div>
+<p>上面是 Argument Clinic 生成的校验值和函数原型。函数应该带有闭合的大括号，实现代码位于其中。</p>
+<p>示例：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">module _pickle</span>
+<span class="cm">class _pickle.Pickler &quot;PicklerObject *&quot; &quot;&amp;Pickler_Type&quot;</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+<span class="cm">/*[clinic end generated code: checksum=da39a3ee5e6b4b0d3255bfef95601890afd80709]*/</span><span class="w"></span>
+
+<span class="cm">/*[clinic input]</span>
+<span class="cm">_pickle.Pickler.dump</span>
+
+<span class="cm">    obj: &#39;O&#39;</span>
+<span class="cm">        The object to be pickled.</span>
+<span class="cm">    /</span>
+
+<span class="cm">Write a pickled representation of obj to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+
+<span class="n">PyDoc_STRVAR</span><span class="p">(</span><span class="n">__pickle_Pickler_dump__doc__</span><span class="p">,</span><span class="w"></span>
+<span class="s">&quot;Write a pickled representation of obj to the open file.</span><span class="se">\n</span><span class="s">&quot;</span><span class="w"></span>
+<span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="n">_pickle_Pickler_dump_impl</span><span class="p">(</span><span class="n">PicklerObject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">obj</span><span class="p">)</span><span class="w"></span>
+<span class="cm">/*[clinic end generated code: checksum=3bd30745bf206a48f8b576a1da3d90f55a0a4187]*/</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Check whether the Pickler was initialized correctly (issue3664).</span>
+<span class="cm">       Developers often forget to call __init__() in their subclasses, which</span>
+<span class="cm">       would trigger a segfault without this check. */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">write</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">PyErr_Format</span><span class="p">(</span><span class="n">PicklingError</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="s">&quot;Pickler.__init__() was not called by %s.__init__()&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="n">Py_TYPE</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">tp_name</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_Pickler_ClearBuffer</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">...</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>还记得用到 <a class="reference internal" href="../c-api/structures.html#c.PyMethodDef" title="PyMethodDef"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyMethodDef</span></code></a> 结构的宏吧？找到函数中已有的  <a class="reference internal" href="../c-api/structures.html#c.PyMethodDef" title="PyMethodDef"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyMethodDef</span></code></a> 结构，并替换为宏的引用。（如果函数是模块级的，可能会在文件的末尾附近；如果函数是个类方法，则可能会在靠近实现代码的下方。)</p>
+<p>注意，宏尾部带有一个逗号。所以若用宏替换已有的静态结构  <a class="reference internal" href="../c-api/structures.html#c.PyMethodDef" title="PyMethodDef"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyMethodDef</span></code></a> 时，<em>请勿</em> 在结尾添加逗号了。</p>
+<p>示例：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyMethodDef</span><span class="w"> </span><span class="n">Pickler_methods</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">__PICKLE_PICKLER_DUMP_METHODDEF</span><span class="w"></span>
+<span class="w">    </span><span class="n">__PICKLE_PICKLER_CLEAR_MEMO_METHODDEF</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">}</span><span class="w">                </span><span class="cm">/* sentinel */</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>Compile, then run the relevant portions of the regression-test suite.
+This change should not introduce any new compile-time warnings or errors,
+and there should be no externally visible change to Python's behavior.</p>
+<p>差别只有一个，即 <code class="docutils literal notranslate"><span class="pre">inspect.signature()</span></code> 运行于新的函数上，现在应该新提供一个有效的签名！</p>
+<p>祝贺你，现在已经用 Argument Clinic 移植了第一个函数。</p>
+</li>
+</ol>
+</section>
+<section id="advanced-topics">
+<h2>进阶<a class="headerlink" href="#advanced-topics" title="永久链接至标题">¶</a></h2>
+<p>现在 Argument Clinic 的使用经验已具备了一些，该介绍一些高级内容了。</p>
+<section id="symbolic-default-values">
+<h3>符号化默认值<a class="headerlink" href="#symbolic-default-values" title="永久链接至标题">¶</a></h3>
+<p>提供给参数的默认值不能是表达式。目前明确支持以下形式：</p>
+<ul class="simple">
+<li><p>数值型常数（整数和浮点数）。</p></li>
+<li><p>字符串常量</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code> 、 <code class="docutils literal notranslate"><span class="pre">False</span></code> 和 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。</p></li>
+<li><p>以模块名开头的简单符号常量，如 <code class="docutils literal notranslate"><span class="pre">sys.maxsize</span></code>。</p></li>
+</ul>
+<p>（未来可能需要加以细化，以便可以采用 <code class="docutils literal notranslate"><span class="pre">CONSTANT</span> <span class="pre">-</span> <span class="pre">1</span></code> 之类的完整表达式。）</p>
+</section>
+<section id="renaming-the-c-functions-and-variables-generated-by-argument-clinic">
+<h3>对 Argument Clinic 生成的 C 函数和变量进行重命名<a class="headerlink" href="#renaming-the-c-functions-and-variables-generated-by-argument-clinic" title="永久链接至标题">¶</a></h3>
+<p>Argument Clinic 会自动为其生成的函数命名。如果生成的名称与现有的 C 函数冲突，这偶尔可能会造成问题，有一个简单的解决方案：覆盖 C 函数的名称。只要在函数声明中加入关键字 <code class="docutils literal notranslate"><span class="pre">&quot;as&quot;</span></code> ，然后再加上要使用的函数名。Argument Clinic 将以该函数名为基础作为（生成的）函数名，然后在后面加上 <code class="docutils literal notranslate"><span class="pre">&quot;_impl&quot;</span></code>，并用作实现函数的名称。</p>
+<p>例如，若对 <code class="docutils literal notranslate"><span class="pre">pickle.Pickler.dump</span></code> 生成的 C 函数进行重命名，应如下所示：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">pickle.Pickler.dump as pickler_dumper</span>
+
+<span class="cm">...</span>
+</pre></div>
+</div>
+<p>原函数会被命名为 <code class="docutils literal notranslate"><span class="pre">pickler_dumper()</span></code>，而实现函数现在被命名为``pickler_dumper_impl()``。</p>
+<p>同样的问题依然会出现：想给某个参数取个 Python 用名，但在 C 语言中可能用不了。Argument Clinic 允许在 Python 和 C 中为同一个参数取不同的名字，依然是利用 <code class="docutils literal notranslate"><span class="pre">&quot;as&quot;</span></code> 语法：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">pickle.Pickler.dump</span>
+
+<span class="cm">    obj: object</span>
+<span class="cm">    file as file_obj: object</span>
+<span class="cm">    protocol: object = NULL</span>
+<span class="cm">    *</span>
+<span class="cm">    fix_imports: bool = True</span>
+</pre></div>
+</div>
+<p>这里 Python（签名和 <code class="docutils literal notranslate"><span class="pre">keywords</span></code> 数组中）中用的名称是 <code class="docutils literal notranslate"><span class="pre">file</span></code>，而 C 语言中的变量命名为 <code class="docutils literal notranslate"><span class="pre">file_obj</span></code>。</p>
+<p><code class="docutils literal notranslate"><span class="pre">self</span></code> 参数也可以进行重命名。</p>
+</section>
+<section id="converting-functions-using-pyarg-unpacktuple">
+<h3>函数转换会用到 PyArg_UnpackTuple<a class="headerlink" href="#converting-functions-using-pyarg-unpacktuple" title="永久链接至标题">¶</a></h3>
+<p>若要将函数转换为采用 <a class="reference internal" href="../c-api/arg.html#c.PyArg_UnpackTuple" title="PyArg_UnpackTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_UnpackTuple()</span></code></a> 解析其参数，只需写出所有参数，并将每个参数定义为 <code class="docutils literal notranslate"><span class="pre">object</span></code>。可以指定 <code class="docutils literal notranslate"><span class="pre">type</span></code> 参数，以便能转换为合适的类型。所有参数都应标记为只认位置（在最后一个参数后面加上 <code class="docutils literal notranslate"><span class="pre">/</span></code>）。</p>
+<p>目前，所生成的代码将会用到 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> ，但很快会做出改动。</p>
+</section>
+<section id="optional-groups">
+<h3>可选参数组<a class="headerlink" href="#optional-groups" title="永久链接至标题">¶</a></h3>
+<p>有些过时的函数用到了一种让人头疼的函数解析方式：计算位置参数的数量，据此用 <code class="docutils literal notranslate"><span class="pre">switch</span></code> 语句进行各个不同的 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 调用。（这些函数不能接受只认关键字的参数。）在没有 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a> 之前，这种方式曾被用于模拟可选参数。</p>
+<p>虽然这种函数通常可以转换为采用  <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a> 、可选参数和默认值的方式，但并不是全都可以做到。这些过时函数中， <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTupleAndKeywords" title="PyArg_ParseTupleAndKeywords"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTupleAndKeywords()</span></code></a> 并不能直接支持某些功能。最明显的例子是内置函数 <code class="docutils literal notranslate"><span class="pre">range()</span></code>，它的必需参数的 <em>左</em> 边存在一个可选参数！另一个例子是 <code class="docutils literal notranslate"><span class="pre">curses.window.addch()</span></code>，它的两个参数是一组，必须同时指定。（参数名为 <code class="docutils literal notranslate"><span class="pre">x</span></code> 和 <code class="docutils literal notranslate"><span class="pre">y</span></code>；如果调用函数时传入了 <code class="docutils literal notranslate"><span class="pre">x</span></code>，则必须同时传入``y``；如果未传入 <code class="docutils literal notranslate"><span class="pre">x</span></code> ，则也不能传入 <code class="docutils literal notranslate"><span class="pre">y</span></code>）。</p>
+<p>不管怎么说，Argument Clinic 的目标就是在不改变语义的情况下支持所有现有 CPython 内置参数的解析。因此，Argument Clinic 采用所谓的 <em>可选组</em> 方案来支持这种解析方式。可选组是必须一起传入的参数组。他们可以在必需参数的左边或右边，<em>只能</em> 用于只认位置的参数。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>可选组 <em>仅</em> 适用于多次调用 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 的函数！采用 <em>任何</em> 其他方式解析参数的函数，应该 <em>几乎不</em> 采用可选组转换为 Argument Clinic 解析。目前，采用可选组的函数在 Python 中无法获得准确的签名，因为 Python 不能理解这个概念。请尽可能避免使用可选组。</p>
+</div>
+<p>若要定义可选组，可在要分组的参数前面加上 <code class="docutils literal notranslate"><span class="pre">[</span></code>，在这些参数后加上``]`` ，要在同一行上。举个例子，下面是 <code class="docutils literal notranslate"><span class="pre">curses.window.addch</span></code> 采用可选组的用法，前两个参数和最后一个参数可选：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+
+<span class="cm">curses.window.addch</span>
+
+<span class="cm">    [</span>
+<span class="cm">    x: int</span>
+<span class="cm">      X-coordinate.</span>
+<span class="cm">    y: int</span>
+<span class="cm">      Y-coordinate.</span>
+<span class="cm">    ]</span>
+
+<span class="cm">    ch: object</span>
+<span class="cm">      Character to add.</span>
+
+<span class="cm">    [</span>
+<span class="cm">    attr: long</span>
+<span class="cm">      Attributes for the character.</span>
+<span class="cm">    ]</span>
+<span class="cm">    /</span>
+
+<span class="cm">...</span>
+</pre></div>
+</div>
+<p>注：</p>
+<ul class="simple">
+<li><p>每一个可选组，都会额外传入一个代表分组的参数。 参数为 int 型，名为 <code class="docutils literal notranslate"><span class="pre">group_{direction}_{number}</span></code>，其中 <code class="docutils literal notranslate"><span class="pre">{direction}</span></code> 取决于此参数组位于必需参数 <code class="docutils literal notranslate"><span class="pre">right</span></code> 还是 <code class="docutils literal notranslate"><span class="pre">left</span></code>，而 <code class="docutils literal notranslate"><span class="pre">{number}</span></code> 是一个递增数字（从 1 开始），表示此参数组与必需参数之间的距离。 在调用函数时，若未用到此参数组则此参数将设为零，若用到了参数组则该参数为非零。 所谓的用到或未用到，是指在本次调用中形参是否收到了实参。</p></li>
+<li><p>如果不存在必需参数，可选组的行为等同于出现在必需参数的右侧。</p></li>
+<li><p>在模棱两可的情况下，参数解析代码更倾向于参数左侧（在必需参数之前）。</p></li>
+<li><p>可选组只能包含只认位置的参数。</p></li>
+<li><p>可选组 <em>仅限</em> 用于过时代码。请勿在新的代码中使用可选组。</p></li>
+</ul>
+</section>
+<section id="using-real-argument-clinic-converters-instead-of-legacy-converters">
+<h3>采用真正的 Argument Clinic 转换器，而不是 “传统转换器”<a class="headerlink" href="#using-real-argument-clinic-converters-instead-of-legacy-converters" title="永久链接至标题">¶</a></h3>
+<p>为了节省时间，尽量减少要学习的内容，实现第一次适用 Argument Clinic 的移植，上述练习简述的是“传统转换器”的用法。“传统转换器”只是一种简便用法，目的就是更容易地让现有代码移植为适用于 Argument Clinic 。说白了，在移植 Python 3.4 的代码时，可以考虑采用。</p>
+<p>不过从长远来看，可能希望所有代码块都采用真正的 Argument Clinic 转换器语法。原因如下：</p>
+<ul class="simple">
+<li><p>合适的转换器可读性更好，意图也更清晰。</p></li>
+<li><p>有些格式单元是“传统转换器”无法支持的，因为这些格式需要带上参数，而传统转换器的语法不支持指定参数。</p></li>
+<li><p>后续可能会有新版的参数解析库，提供超过 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 支持的功能；而这种灵活性将无法适用于传统转换器转换的参数。</p></li>
+</ul>
+<p>因此，若是不介意多花一点精力，请使用正常的转换器，而不是传统转换器。</p>
+<p>简而言之，Argument Clinic（非传统）转换器的语法看起来像是 Python 函数调用。但如果函数没有明确的参数（所有函数都取默认值），则可以省略括号。因此 <code class="docutils literal notranslate"><span class="pre">bool</span></code> 和 <code class="docutils literal notranslate"><span class="pre">bool()</span></code> 是完全相同的转换器。</p>
+<p>Argument Clinic 转换器的所有参数都只认关键字。所有 Argument Clinic 转换器均可接受以下参数：</p>
+<blockquote>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">c_default</span></code></dt><dd><p>该参数在 C 语言中的默认值。具体来说，将是在“解析函数”中声明的变量的初始化器。用法参见 <a class="reference internal" href="#default-values"><span class="std std-ref">the section on default values</span></a> 。定义为字符串。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">annotation</span></code></dt><dd><p>参数的注解值。目前尚不支持，因为 <span class="target" id="index-4"></span><a class="pep reference external" href="https://peps.python.org/pep-0008/"><strong>PEP 8</strong></a> 规定 Python 库不得使用注解。</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>此外，某些转换器还可接受额外的参数。下面列出了这些额外参数及其含义：</p>
+<blockquote>
+<div><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">accept</span></code></dt><dd><p>一些 Python 类型的集合（可能还有伪类型）；用于限制只接受这些类型的 Python 参数。（并非通用特性；只支持传统转换器列表中给出的类型）。</p>
+<p>若要能接受 <code class="docutils literal notranslate"><span class="pre">None</span></code>，请在集合中添加 <code class="docutils literal notranslate"><span class="pre">NoneType</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bitwise</span></code></dt><dd><p>仅用于无符号整数。写入形参的将是 Python 实参的原生整数值，不做任何越界检查，即便是负值也一样。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">converter</span></code></dt><dd><p>仅用于 <code class="docutils literal notranslate"><span class="pre">object</span></code> 转换器。为某个 <a class="reference internal" href="../c-api/arg.html#o-ampersand"><span class="std std-ref">C 转换函数</span></a> 指定名称，用于将对象转换为原生类型。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">encoding</span></code></dt><dd><p>仅用于字符串。指定将 Python str(Unicode) 转换为 C 语言的 <code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*</span></code> 时应该采用的编码。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">subclass_of</span></code></dt><dd><p>仅用于 <code class="docutils literal notranslate"><span class="pre">object</span></code> 转换器。要求 Python 值是 Python 类型的子类，用 C 语言表示。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>仅用于 <code class="docutils literal notranslate"><span class="pre">object</span></code> 和 <code class="docutils literal notranslate"><span class="pre">self</span></code> 转换器。指定用于声明变量的 C 类型。 默认值是 <code class="docutils literal notranslate"><span class="pre">&quot;PyObject</span> <span class="pre">*&quot;</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">zeroes</span></code></dt><dd><p>仅用于字符串。如果为 True，则允许在值中嵌入 NUL 字节（<code class="docutils literal notranslate"><span class="pre">'\\0'</span></code>）。字符串的长度将通过名为 <code class="docutils literal notranslate"><span class="pre">&lt;parameter_name&gt;_length</span></code> 的参数传入，跟在字符串参数的后面。</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>请注意，并不是所有参数的组合都能正常生效。通常这些参数是由相应的 <code class="docutils literal notranslate"><span class="pre">PyArg_ParseTuple</span></code> <em>格式单元</em> 实现的，行为是固定的。比如目前不能不指定 <code class="docutils literal notranslate"><span class="pre">bitwise=True</span></code> 就去调用 <code class="docutils literal notranslate"><span class="pre">unsigned_short</span></code>。虽然完全有理由认为这样可行，但这些语义并没有映射到任何现有的格式单元。所以 Argument Clinic 并不支持。（或者说，至少目前还不支持。）</p>
+<p>下表列出了传统转换器与真正的 Argument Clinic 转换器之间的映射关系。左边是传统的转换器，右边是应该换成的文本。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'B'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned_char(bitwise=True)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'b'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned_char</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'c'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">char</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'C'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int(accept={str})</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'d'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'D'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Py_complex</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'es'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str(encoding='name_of_encoding')</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'es#'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str(encoding='name_of_encoding',</span> <span class="pre">zeroes=True)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'et'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str(encoding='name_of_encoding',</span> <span class="pre">accept={bytes,</span> <span class="pre">bytearray,</span> <span class="pre">str})</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'et#'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str(encoding='name_of_encoding',</span> <span class="pre">accept={bytes,</span> <span class="pre">bytearray,</span> <span class="pre">str},</span> <span class="pre">zeroes=True)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'f'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'h'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">short</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'H'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned_short(bitwise=True)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'i'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'I'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned_int(bitwise=True)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'k'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned_long(bitwise=True)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'K'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned_long_long(bitwise=True)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'l'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">long</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'L'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'n'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'O'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'O!'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">object(subclass_of='&amp;PySomething_Type')</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'O&amp;'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">object(converter='name_of_c_function')</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'p'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'S'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PyBytesObject</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'s'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'s#'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str(zeroes=True)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'s*'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Py_buffer(accept={buffer,</span> <span class="pre">str})</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'U'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unicode</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'u'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'u#'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Py_UNICODE(zeroes=True)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'w*'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Py_buffer(accept={rwbuffer})</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'Y'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PyByteArrayObject</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'y'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str(accept={bytes})</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'y#'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str(accept={robuffer},</span> <span class="pre">zeroes=True)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'y*'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Py_buffer</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'Z'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Py_UNICODE(accept={str,</span> <span class="pre">NoneType})</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'Z#'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Py_UNICODE(accept={str,</span> <span class="pre">NoneType},</span> <span class="pre">zeroes=True)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'z'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str(accept={str,</span> <span class="pre">NoneType})</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'z#'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str(accept={str,</span> <span class="pre">NoneType},</span> <span class="pre">zeroes=True)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'z*'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Py_buffer(accept={buffer,</span> <span class="pre">str,</span> <span class="pre">NoneType})</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>举个例子，下面是采用合适的转换器的例子 <code class="docutils literal notranslate"><span class="pre">pickle.Pickler.dump</span></code>：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">pickle.Pickler.dump</span>
+
+<span class="cm">    obj: object</span>
+<span class="cm">        The object to be pickled.</span>
+<span class="cm">    /</span>
+
+<span class="cm">Write a pickled representation of obj to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+<p>真正的转换器有一个优点，就是比传统的转换器更加灵活。例如，<code class="docutils literal notranslate"><span class="pre">unsigned_int</span></code> 转换器（以及所有 <code class="docutils literal notranslate"><span class="pre">unsigned_</span></code> 转换器）可以不设置 <code class="docutils literal notranslate"><span class="pre">bitwise=True</span></code> 。 他们默认会对数值进行范围检查，而且不会接受负数。 用传统转换器就做不到这一点。</p>
+<p>Argument Clinic 会列明其全部转换器。每个转换器都会给出可接受的全部参数，以及每个参数的默认值。只要运行 <code class="docutils literal notranslate"><span class="pre">Tools/clinic/clinic.py</span> <span class="pre">--converters</span></code> 就能得到完整的列表。</p>
+</section>
+<section id="py-buffer">
+<h3>Py_buffer<a class="headerlink" href="#py-buffer" title="永久链接至标题">¶</a></h3>
+<p>在使用 <code class="docutils literal notranslate"><span class="pre">Py_buffer</span></code> 转换器（或者 <code class="docutils literal notranslate"><span class="pre">'s*'</span></code>、<code class="docutils literal notranslate"><span class="pre">'w*'</span></code>、<code class="docutils literal notranslate"><span class="pre">'*y'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'z*'</span></code> 传统转换器）时，<em>不可</em> 在所提供的缓冲区上调用 <a class="reference internal" href="../c-api/buffer.html#c.PyBuffer_Release" title="PyBuffer_Release"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyBuffer_Release()</span></code></a>。 Argument Clinic 生成的代码会自动完成此操作（在解析函数中）。</p>
+</section>
+<section id="advanced-converters">
+<h3>高级转换器<a class="headerlink" href="#advanced-converters" title="永久链接至标题">¶</a></h3>
+<p>还记得编写第一个函数时跳过的那些格式单元吗，因为他们是高级内容？下面就来介绍这些内容。</p>
+<p>其实诀窍在于，这些格式单元都需要给出参数——要么是转换函数，要么是类型，要么是指定编码的字符串。（但 “传统转换器”不支持参数。这就是为什么第一个函数要跳过这些内容）。为格式单元指定的参数于是就成了转换器的参数；参数可以是 <code class="docutils literal notranslate"><span class="pre">converter``（对于</span> <span class="pre">``O&amp;</span></code>）、<code class="docutils literal notranslate"><span class="pre">subclass_of``（对于</span> <span class="pre">``O!</span></code>），或者是 <code class="docutils literal notranslate"><span class="pre">encoding</span></code> （对于 <code class="docutils literal notranslate"><span class="pre">e</span></code> 开头的格式单元）。</p>
+<p>在使用 <code class="docutils literal notranslate"><span class="pre">subclass_of</span></code> 时，可能还需要用到 <code class="docutils literal notranslate"><span class="pre">object()</span></code> 的另一个自定义参数：<code class="docutils literal notranslate"><span class="pre">type</span></code>，用于设置参数的实际类型。例如，为了确保对象是 <code class="docutils literal notranslate"><span class="pre">PyUnicode_Type</span></code> 的子类，可能想采用转换器 <code class="docutils literal notranslate"><span class="pre">object(type='PyUnicodeObject</span> <span class="pre">*',</span> <span class="pre">subclass_of='&amp;PyUnicode_Type')</span></code>。</p>
+<p>Argument Clinic 用起来可能存在一个问题：丧失了 <code class="docutils literal notranslate"><span class="pre">e</span></code> 开头的格式单位的一些灵活性。在手工编写 <code class="docutils literal notranslate"><span class="pre">PyArg_Parse</span></code> 调用时，理论上可以在运行时决定传给 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 的编码字符串。但现在这个字符串必须在 Argument-Clinic 预处理时进行硬编码。这个限制是故意设置的；以便简化对这种格式单元的支持，并允许以后进行优化。这个限制似乎并不合理；CPython 本身总是为 <code class="docutils literal notranslate"><span class="pre">e</span></code> 开头的格式单位参数传入静态的硬编码字符串。</p>
+</section>
+<section id="parameter-default-values">
+<span id="default-values"></span><h3>参数的默认值<a class="headerlink" href="#parameter-default-values" title="永久链接至标题">¶</a></h3>
+<p>参数的默认值可以是多个值中的一个。最简单的可以是字符串、int 或 float 字面量。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>foo: str = &quot;abc&quot;
+bar: int = 123
+bat: float = 45.6
+</pre></div>
+</div>
+<p>还可以使用 Python 的任何内置常量。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>yep:  bool = True
+nope: bool = False
+nada: object = None
+</pre></div>
+</div>
+<p>对默认值 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 和简单表达式还提供特别的支持，下面将一一介绍。</p>
+</section>
+<section id="the-null-default-value">
+<h3>默认值 <code class="docutils literal notranslate"><span class="pre">NULL</span></code><a class="headerlink" href="#the-null-default-value" title="永久链接至标题">¶</a></h3>
+<p>对于字符串和对象参数而言，可以设为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，表示没有默认值。但这意味着会将 C 变量初始化为 <code class="docutils literal notranslate"><span class="pre">Py_None</span></code>。为了方便起见，提供了一个特殊值``NULL``，目的就是为了让 Python 认为默认值就是 <code class="docutils literal notranslate"><span class="pre">None</span></code>，而 C 变量则会初始化为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</section>
+<section id="expressions-specified-as-default-values">
+<h3>设为默认值的表达式<a class="headerlink" href="#expressions-specified-as-default-values" title="永久链接至标题">¶</a></h3>
+<p>参数的默认值不仅可以是字面量。还可以是一个完整的表达式，可采用数学运算符及对象的属性。但这种支持并没有那么简单，因为存在一些不明显的语义。</p>
+<p>请考虑以下例子：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>foo: Py_ssize_t = sys.maxsize - 1
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">sys.maxsize</span></code> 在不同的系统平台可能有不同的值。因此，Argument Clinic 不能简单地在本底环境对表达式求值并用 C 语言硬编码。所以默认值将用表达式的方式存储下来，运行的时候在请求函数签名时会被求值。</p>
+<p>在对表达式进行求值时，可以使用什么命名空间呢？求值过程运行于内置模块的上下文中。 因此，如果模块带有名为 <code class="docutils literal notranslate"><span class="pre">max_widgets</span></code> 的属性，直接引用即可。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>foo: Py_ssize_t = max_widgets
+</pre></div>
+</div>
+<p>如果表达式不在当前模块中，就会去 <code class="docutils literal notranslate"><span class="pre">sys.modules</span></code> 查找。比如 <code class="docutils literal notranslate"><span class="pre">sys.maxsize</span></code> 就是如此找到的。（因为事先不知道用户会加载哪些模块到解释器中，所以最好只用到 Python 会预加载的模块。）</p>
+<p>仅当运行时才对缺省值求值，意味着 Argument Clinic 无法计算出正确的 C 缺省值。所以需显式给出。在使用表达式时，必须同时用转换器的``c_default`` 参数指定 C 语言中的等价表达式。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>foo: Py_ssize_t(c_default=&quot;PY_SSIZE_T_MAX - 1&quot;) = sys.maxsize - 1
+</pre></div>
+</div>
+<p>还有一个问题也比较复杂。Argument Clinic 无法事先知道表达式是否有效。 解析只能保证看起来是有效值，但无法 <em>实际</em> 知晓。在用表达式时须十分小心，确保在运行时能得到有效值。</p>
+<p>最后一点，由于表达式必须能表示为静态的 C 语言值，所以存在许多限制。 以下列出了不得使用的 Python 特性：</p>
+<ul class="simple">
+<li><p>功能</p></li>
+<li><p>行内 if 语句（<code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">if</span> <span class="pre">foo</span> <span class="pre">else</span> <span class="pre">5</span></code> ）</p></li>
+<li><p>序列类自动解包（<code class="docutils literal notranslate"><span class="pre">*[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code>）</p></li>
+<li><p>列表、集合、字典的解析和生成器表达式。</p></li>
+<li><p>元组、列表、集合、字典的字面量</p></li>
+</ul>
+</section>
+<section id="using-a-return-converter">
+<h3>返回值转换器<a class="headerlink" href="#using-a-return-converter" title="永久链接至标题">¶</a></h3>
+<p>Argument Clinic 生成的植入函数默认会返回 <code class="docutils literal notranslate"><span class="pre">PyObject</span> <span class="pre">*</span></code>。但是通常 C 函数的任务是要对某些 C 类型进行计算，然后将其转换为 <code class="docutils literal notranslate"><span class="pre">PyObject</span> <span class="pre">*</span></code> 作为结果。Argument Clinic 可以将输入参数由 Python 类型转换为本地 C 类型——为什么不让它将返回值由本地 C 类型转换为 Python 类型呢？</p>
+<p>这就是“返回值转换器”的用途。它将植入函数修改成返回某种 C 语言类型，然后在生成的（非植入）函数中添加代码，以便将 C 语言值转换为合适的 <code class="docutils literal notranslate"><span class="pre">PyObject</span> <span class="pre">*</span></code>。</p>
+<p>返回值转换器的语法与参数转换器的类似。返回值转换器的定义方式，类似于函数返回值的注解。返回值转换器的行为与参数转换器基本相同，接受参数，参数只认关键字，如果不修改默认参数则可省略括号。</p>
+<p>（如果函数同时用到了 <code class="docutils literal notranslate"><span class="pre">&quot;as&quot;</span></code> 和返回值转换器， <code class="docutils literal notranslate"><span class="pre">&quot;as&quot;</span></code> 应位于返回值转换器之前。）</p>
+<p>返回值转换器还存在一个复杂的问题：出错信息如何表示？通常函数在执行成功时会返回一个有效（非 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>）指针，失败则返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。但如果使用了整数的返回值转换器，所有整数都是有效值。Argument Clinic 怎么检测错误呢？解决方案是：返回值转换器会隐含寻找一个代表错误的特殊值。如果返回该特殊值，且设置了出错标记（ <code class="docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code> 返回 True），那么生成的代码会传递该错误。否则，会对返回值进行正常编码。</p>
+<p>目前 Argument Clinic 只支持少数几种返回值转换器。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bool
+int
+unsigned int
+long
+unsigned int
+size_t
+Py_ssize_t
+float
+double
+DecodeFSDefault
+</pre></div>
+</div>
+<p>这些转换器都不需要参数。前3个转换器如果返回 -1 则表示出错。<code class="docutils literal notranslate"><span class="pre">DecodeFSDefault</span></code> 的返回值类型是 <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*</span></code>；若返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 指针则表示出错。</p>
+<p>（还有一个 <code class="docutils literal notranslate"><span class="pre">NoneType</span></code> 转换器是实验性质的，成功时返回 <code class="docutils literal notranslate"><span class="pre">Py_None</span></code> ，失败则返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，且不会增加 <code class="docutils literal notranslate"><span class="pre">Py_None</span></code> 的引用计数。此转换器是否值得适用，尚不明确）。</p>
+<p>只要运行 <code class="docutils literal notranslate"><span class="pre">Tools/clinic/clinic.py</span> <span class="pre">--converters</span></code> ，即可查看 Argument Clinic 支持的所有返回值转换器，包括其参数。</p>
+</section>
+<section id="cloning-existing-functions">
+<h3>克隆已有的函数<a class="headerlink" href="#cloning-existing-functions" title="永久链接至标题">¶</a></h3>
+<p>如果已有一些函数比较相似，或许可以采用 Clinic 的“克隆”功能。 克隆之后能够复用以下内容：</p>
+<ul class="simple">
+<li><p>参数，包括：</p>
+<ul>
+<li><p>名称</p></li>
+<li><p>转换器（带有全部参数）</p></li>
+<li><p>默认值</p></li>
+<li><p>参数前的文档字符串</p></li>
+<li><p><em>类别</em> （只认位置、位置或关键字、只认关键字）</p></li>
+</ul>
+</li>
+<li><p>返回值转换器</p></li>
+</ul>
+<p>唯一不从原函数中复制的是文档字符串；这样就能指定一个新的文档串。</p>
+<p>下面是函数的克隆方法：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">module.class.new_function [as c_basename] = module.class.existing_function</span>
+
+<span class="cm">Docstring for new_function goes here.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+<p>（原函数可以位于不同的模块或类中。示例中的 <code class="docutils literal notranslate"><span class="pre">module.class</span></code> 只是为了说明，<em>两个</em> 函数都必须使用全路径）。</p>
+<p>Sorry, there's no syntax for partially cloning a function, or cloning a function
+then modifying it.  Cloning is an all-or nothing proposition.</p>
+<p>另外，要克隆的函数必须在当前文件中已有定义。</p>
+</section>
+<section id="calling-python-code">
+<h3>调用 Python 代码<a class="headerlink" href="#calling-python-code" title="永久链接至标题">¶</a></h3>
+<p>下面的高级内容需要编写 Python 代码，存于 C 文件中，并修改 Argument Clinic 的运行状态。其实很简单：只需定义一个 Python 块。</p>
+<p>Python 块的分隔线与 Argument Clinic 函数块不同。如下所示：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[python input]</span>
+<span class="cm"># python code goes here</span>
+<span class="cm">[python start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python 块内的所有代码都会在解析时执行。块内写入 stdout 的所有文本都被重定向到块后的“输出”部分。</p>
+<p>以下例子包含了 Python 块，用于在 C 代码中添加一个静态整数变量：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[python input]</span>
+<span class="cm">print(&#39;static int __ignored_unused_variable__ = 0;&#39;)</span>
+<span class="cm">[python start generated code]*/</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__ignored_unused_variable__</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="cm">/*[python checksum:...]*/</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="using-a-self-converter">
+<h3>self 转换器的用法<a class="headerlink" href="#using-a-self-converter" title="永久链接至标题">¶</a></h3>
+<p>Argument Clinic 用一个默认的转换器自动添加一个“self”参数。自动将 self 参数的 <code class="docutils literal notranslate"><span class="pre">type</span></code> 设为声明类型时指定的“指向实例的指针”。不过 Argument Clinic 的转换器可被覆盖，也即自己指定一个转换器。只要将自己的 <code class="docutils literal notranslate"><span class="pre">self</span></code> 参数作为块的第一个参数即可，并确保其转换器是 <code class="docutils literal notranslate"><span class="pre">self_converter</span></code> 的实例或其子类。</p>
+<p>这有什么用呢？可用于覆盖 <code class="docutils literal notranslate"><span class="pre">self</span></code> 的类型，或为其给个不同的默认名称。</p>
+<p>如何指定 <code class="docutils literal notranslate"><span class="pre">self</span></code> 对应的自定义类型呢？如果只有 <code class="docutils literal notranslate"><span class="pre">self</span></code> 类型相同的一两个函数，可以直接使用 Argument Clinic 现有的 <code class="docutils literal notranslate"><span class="pre">self</span></code> 转换器，把要用的类型作为 <code class="docutils literal notranslate"><span class="pre">type</span></code> 参数传入：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+
+<span class="cm">_pickle.Pickler.dump</span>
+
+<span class="cm">  self: self(type=&quot;PicklerObject *&quot;)</span>
+<span class="cm">  obj: object</span>
+<span class="cm">  /</span>
+
+<span class="cm">Write a pickled representation of the given object to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+<p>如果有很多函数将使用同一类型的 <code class="docutils literal notranslate"><span class="pre">self</span></code>，则最好创建自己的转换器，继承自 <code class="docutils literal notranslate"><span class="pre">self_converter</span></code> 类但要覆盖其 <code class="docutils literal notranslate"><span class="pre">type</span></code> 成员：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[python input]</span>
+<span class="cm">class PicklerObject_converter(self_converter):</span>
+<span class="cm">    type = &quot;PicklerObject *&quot;</span>
+<span class="cm">[python start generated code]*/</span><span class="w"></span>
+
+<span class="cm">/*[clinic input]</span>
+
+<span class="cm">_pickle.Pickler.dump</span>
+
+<span class="cm">  self: PicklerObject</span>
+<span class="cm">  obj: object</span>
+<span class="cm">  /</span>
+
+<span class="cm">Write a pickled representation of the given object to the open file.</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="using-a-defining-class-converter">
+<h3>“定义类”转换器<a class="headerlink" href="#using-a-defining-class-converter" title="永久链接至标题">¶</a></h3>
+<p>Argument Clinic 为访问方法定义所在的类提供了便利。因为 <a class="reference internal" href="../c-api/typeobj.html#heap-types"><span class="std std-ref">heap type</span></a> 方法需要获取模块级的运行状态，所以就十分有用。<a class="reference internal" href="../c-api/type.html#c.PyType_FromModuleAndSpec" title="PyType_FromModuleAndSpec"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_FromModuleAndSpec()</span></code></a> 会将堆类型与模块关联起来。然后类就可用 <a class="reference internal" href="../c-api/type.html#c.PyType_GetModuleState" title="PyType_GetModuleState"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_GetModuleState()</span></code></a> 获取模块状态了，比如利用模块的方法进行获取。</p>
+<p>示例来自 <code class="docutils literal notranslate"><span class="pre">Modules/zlibmodule.c</span></code>。首先，在 clinic 的输入块添加 <code class="docutils literal notranslate"><span class="pre">defining_class</span></code> ：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">zlib.Compress.compress</span>
+
+<span class="cm">  cls: defining_class</span>
+<span class="cm">  data: Py_buffer</span>
+<span class="cm">    Binary data to be compressed.</span>
+<span class="cm">  /</span>
+</pre></div>
+</div>
+<p>运行 Argument Clinic 工具后，会生成以下函数签名：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic start generated code]*/</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="n">zlib_Compress_compress_impl</span><span class="p">(</span><span class="n">compobject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">PyTypeObject</span><span class="w"> </span><span class="o">*</span><span class="n">cls</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="n">Py_buffer</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="cm">/*[clinic end generated code: output=6731b3f0ff357ca6 input=04d00f65ab01d260]*/</span><span class="w"></span>
+</pre></div>
+</div>
+<p>现在，以下代码可以用 <code class="docutils literal notranslate"><span class="pre">PyType_GetModuleState(cls)</span></code> 获取模块状态了：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">zlibstate</span><span class="w"> </span><span class="o">*</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyType_GetModuleState</span><span class="p">(</span><span class="n">cls</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>每个方法只能有一个参数用到转换器，且须位于 <code class="docutils literal notranslate"><span class="pre">self</span></code> 之后 ，若未用到 <code class="docutils literal notranslate"><span class="pre">self</span></code> 则为第一个参数。该参数的类型为 <code class="docutils literal notranslate"><span class="pre">PyTypeObject</span> <span class="pre">*</span></code>。<code class="docutils literal notranslate"><span class="pre">__text_signature__</span></code> 中不会包含该参数。</p>
+<p><code class="docutils literal notranslate"><span class="pre">defining_class</span></code> 转换器与 <code class="docutils literal notranslate"><span class="pre">__init__</span></code> 及 <code class="docutils literal notranslate"><span class="pre">__new__</span></code>  方法不兼容，他们不能使用 <code class="docutils literal notranslate"><span class="pre">METH_METHOD</span></code> 。</p>
+<p>It is not possible to use <code class="docutils literal notranslate"><span class="pre">defining_class</span></code> with slot methods.  In order to
+fetch the module state from such methods, use <a class="reference internal" href="../c-api/type.html#c.PyType_GetModuleByDef" title="PyType_GetModuleByDef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_GetModuleByDef()</span></code></a>
+to look up the module and then <a class="reference internal" href="../c-api/module.html#c.PyModule_GetState" title="PyModule_GetState"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyModule_GetState()</span></code></a> to fetch the module
+state.  Example from the <code class="docutils literal notranslate"><span class="pre">setattro</span></code> slot method in
+<code class="docutils literal notranslate"><span class="pre">Modules/_threadmodule.c</span></code>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"></span>
+<span class="nf">local_setattro</span><span class="p">(</span><span class="n">localobject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyType_GetModuleByDef</span><span class="p">(</span><span class="n">Py_TYPE</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">thread_module</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">thread_module_state</span><span class="w"> </span><span class="o">*</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_thread_state</span><span class="p">(</span><span class="n">module</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>参见  <span class="target" id="index-5"></span><a class="pep reference external" href="https://peps.python.org/pep-0573/"><strong>PEP 573</strong></a>。</p>
+</section>
+<section id="writing-a-custom-converter">
+<h3>编写自定义转换器<a class="headerlink" href="#writing-a-custom-converter" title="永久链接至标题">¶</a></h3>
+<p>上一节中已有提及……可以编写自己的转换器！转换器就是一个继承自``CConverter`` 的 Python 类。假如有个参数采用了 <code class="docutils literal notranslate"><span class="pre">O&amp;</span></code> 格式，对此参数进行解析就会去调用某个“转换器函数” <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> ，也就会用到自定义转换器。</p>
+<p>自定义转换器类应命名为 <code class="docutils literal notranslate"><span class="pre">*something*_converter</span></code>。只要按此规则命名，自定义转换器类就会在 Argument Clinic 中自动注册；转换器的名称就是去除了 <code class="docutils literal notranslate"><span class="pre">_converter</span></code> 后缀的类名。（通过元类完成）。</p>
+<p>不得由 <code class="docutils literal notranslate"><span class="pre">CConverter.__init__</span></code> 派生子类。而应编写一个 <code class="docutils literal notranslate"><span class="pre">converter_init()</span></code> 函数。<code class="docutils literal notranslate"><span class="pre">converter_init()</span></code> 必须能接受一个 <code class="docutils literal notranslate"><span class="pre">self</span></code> 参数；所有后续的其他参数 <em>必须</em> 是只认关键字的参数。传给 Argument Clinic 转换器的所有参数都会传入自定义 <code class="docutils literal notranslate"><span class="pre">converter_init()</span></code> 函数。</p>
+<p><code class="docutils literal notranslate"><span class="pre">CConverter</span></code> 的其他一些成员，可能需要在自定义子类中定义。下面列出了目前的成员：</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>变量要采用的 C 语言数据类型。<code class="docutils literal notranslate"><span class="pre">type</span></code> 应为 <code class="docutils literal notranslate"><span class="pre">int</span></code> 之类的 Python 字符串，用于指定变量的类型。若为指针类型，则字符串应以 <code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">*'</span></code> 结尾。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">default</span></code></dt><dd><p>该参数的缺省值，为 Python 数据类型。若无缺省值，则为 <code class="docutils literal notranslate"><span class="pre">unspecified</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">py_default</span></code></dt><dd><p>用 Python 代码表示的 <code class="docutils literal notranslate"><span class="pre">default</span></code> ，为字符串类型。若无缺省值，则为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">c_default</span></code></dt><dd><p>用 C 代码表示的 <code class="docutils literal notranslate"><span class="pre">default</span></code>， 为字符串类型。若无缺省值，则为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">c_ignored_default</span></code></dt><dd><p>The default value used to initialize the C variable when
+there is no default, but not specifying a default may
+result in an &quot;uninitialized variable&quot; warning.  This can
+easily happen when using option groups—although
+properly written code will never actually use this value,
+the variable does get passed in to the impl, and the
+C compiler will complain about the &quot;use&quot; of the
+uninitialized value.  This value should always be a
+non-empty string.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">converter</span></code></dt><dd><p>C 转换器的名称，字符串类型。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">impl_by_reference</span></code></dt><dd><p>布尔值。如果为 True，则 Argument Clinic 在将变量传入 impl 函数时，会在其名称前加上一个 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">parse_by_reference</span></code></dt><dd><p>一个布尔值。 如果为真，则 Argument Clinic 在将其传入 <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a> 时将在变量名之前添加一个 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>。</p>
+</dd>
+</dl>
+<p>下面是最简单的自定义转换器示例，取自 <code class="docutils literal notranslate"><span class="pre">Modules/zlibmodule.c</span></code> ：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[python input]</span>
+
+<span class="cm">class ssize_t_converter(CConverter):</span>
+<span class="cm">    type = &#39;Py_ssize_t&#39;</span>
+<span class="cm">    converter = &#39;ssize_t_converter&#39;</span>
+
+<span class="cm">[python start generated code]*/</span><span class="w"></span>
+<span class="cm">/*[python end generated code: output=da39a3ee5e6b4b0d input=35521e4e733823c7]*/</span><span class="w"></span>
+</pre></div>
+</div>
+<p>这个代码块为 Argument Clinic 添加了一个名为 <code class="docutils literal notranslate"><span class="pre">ssize_t</span></code> 的转换器。 声明为 <code class="docutils literal notranslate"><span class="pre">ssize_t</span></code> 的形参将被声明为 <a class="reference internal" href="../c-api/intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a> 类型，并将由 <code class="docutils literal notranslate"><span class="pre">'O&amp;'</span></code> 格式单元来解析，它将调用 <code class="docutils literal notranslate"><span class="pre">ssize_t_converter</span></code> 转换器函数。 <code class="docutils literal notranslate"><span class="pre">ssize_t</span></code> 变量会自动支持默认值。</p>
+<p>更复杂些的自定义转换器，可以插入自定义 C 代码来进行初始化和清理工作。可以在 CPython 源码中看到自定义转换器的更多例子；只要在 C 文件中搜索字符串 <code class="docutils literal notranslate"><span class="pre">CConverter</span></code> 即可。</p>
+</section>
+<section id="writing-a-custom-return-converter">
+<h3>编写自定义的返回值转换器<a class="headerlink" href="#writing-a-custom-return-converter" title="永久链接至标题">¶</a></h3>
+<p>自定义的返回值转换器的写法，与自定义的转换器十分类似。因为返回值转换器本身就很简单，编写起来就简单一些。</p>
+<p>返回值转换器必须是 <code class="docutils literal notranslate"><span class="pre">CReturnConverter</span></code> 的子类。因为自定义的返回值转换器还没有广泛应用，目前还没有示例。若要编写返回值转换器，请阅读``Tools/clinic/clinic.py`` ，特别是 <code class="docutils literal notranslate"><span class="pre">CReturnConverter</span></code> 及其所有子类的实现代码。</p>
+</section>
+<section id="meth-o-and-meth-noargs">
+<h3>METH_O 和 METH_NOARGS<a class="headerlink" href="#meth-o-and-meth-noargs" title="永久链接至标题">¶</a></h3>
+<p>若要用 <code class="docutils literal notranslate"><span class="pre">METH_O</span></code> 对函数进行转换，请确保对该函数的单个参数使用 <code class="docutils literal notranslate"><span class="pre">object</span></code> 转换器，并将参数标为只认位置的：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*[clinic input]</span>
+<span class="cm">meth_o_sample</span>
+
+<span class="cm">     argument: object</span>
+<span class="cm">     /</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+</pre></div>
+</div>
+<p>若要用 <code class="docutils literal notranslate"><span class="pre">METH_NOARGS</span></code> 对函数进行转换，只需不定义参数即可。</p>
+<p>依然可以采用一个 self 转换器、一个返回值转换器，并为 <code class="docutils literal notranslate"><span class="pre">METH_O</span></code> 的对象转换器指定一个 <code class="docutils literal notranslate"><span class="pre">type</span></code> 参数。</p>
+</section>
+<section id="tp-new-and-tp-init-functions">
+<h3>tp_new 和 tp_init functions<a class="headerlink" href="#tp-new-and-tp-init-functions" title="永久链接至标题">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">tp_new</span></code> 和 <code class="docutils literal notranslate"><span class="pre">tp_init</span></code> 函数也可以转换。只要命名为 <code class="docutils literal notranslate"><span class="pre">__new__</span></code> 或 <code class="docutils literal notranslate"><span class="pre">__init__</span></code> 即可。注意：</p>
+<ul class="simple">
+<li><p>为转换 <code class="docutils literal notranslate"><span class="pre">__new__</span></code> 而生成的函数名不会以其默认名称结尾。只会是转换为合法 C 标识符的类名。</p></li>
+<li><p>转换这些函数不会生成 <code class="docutils literal notranslate"><span class="pre">PyMethodDef</span></code> 、<code class="docutils literal notranslate"><span class="pre">#define</span></code>。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__init__</span></code> 函数将返回 <code class="docutils literal notranslate"><span class="pre">int</span></code> ，而不是 <code class="docutils literal notranslate"><span class="pre">PyObject</span> <span class="pre">*</span></code> 。</p></li>
+<li><p>将文档字符串用作类文档字符串。</p></li>
+<li><p>虽然 <code class="docutils literal notranslate"><span class="pre">__new__</span></code> 和 <code class="docutils literal notranslate"><span class="pre">__init__</span></code> 函数必须以 <code class="docutils literal notranslate"><span class="pre">args``和</span> <span class="pre">``kwargs</span></code> 对象作为参数，但在转换时可按个人喜好定义函数签名。（如果原函数不支持关键字参数，则生成的解析函数在收到关键字参数时会抛出异常）。</p></li>
+</ul>
+</section>
+<section id="changing-and-redirecting-clinic-s-output">
+<h3>改变和重定向 Clinic 的输出<a class="headerlink" href="#changing-and-redirecting-clinic-s-output" title="永久链接至标题">¶</a></h3>
+<p>若是让 Clinic 的输出与传统的手写 C 代码交织在一起，可能会不方便阅读。 幸好可以对 Clinic 进行配置：可以将输出结果缓存起来以供输出，或将输出结果写入文件中。针对 Clinic 生成的输出结果，还可以为每一行都加上前缀或后缀。</p>
+<p>虽然修改 Clinic 的输出提升了可读性，但可能会导致 Clinic 代码使用了未经定义的类型，或者会提前用到 Clinic 生成的代码。通过重新安排声明在代码文件的位置，或将 Clinic 生成的代码移个位置，即可轻松解决上述问题。（这就是 Clinic 默认是全部输出到当前代码块的原因；虽然许多人认为降低了可读性，但这样就根本不用重新编排代码来解决提前引用的问题）。</p>
+<p>就从定义一些术语开始吧：</p>
+<dl>
+<dt>** 区块（field）**</dt><dd><p>在当前上下文中，区块是指 Clinic 输出的一个小节。例如，<code class="docutils literal notranslate"><span class="pre">PyMethodDef</span></code> 结构的 <code class="docutils literal notranslate"><span class="pre">#define</span></code> 是一个区块，名为 <code class="docutils literal notranslate"><span class="pre">methoddef_define</span></code>。Clinic 可为每个函数定义输出7个区块。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>docstring_prototype
+docstring_definition
+methoddef_define
+impl_prototype
+parser_prototype
+parser_definition
+impl_definition
+</pre></div>
+</div>
+<p>区块均以 <code class="docutils literal notranslate"><span class="pre">&quot;&lt;a&gt;_&lt;b&gt;&quot;</span></code> 形式命名，其中 <code class="docutils literal notranslate"><span class="pre">&quot;&lt;a&gt;&quot;</span></code> 是所代表的语义对象（解析函数、impl 函数、文档字符串或 methoddef 结构），<code class="docutils literal notranslate"><span class="pre">&quot;&lt;b&gt;&quot;</span></code> 表示该区块的类别。以 <code class="docutils literal notranslate"><span class="pre">&quot;_prototype&quot;</span></code> 结尾的区块名表示这只是个前向声明，没有实际的函数体或数据；以 <code class="docutils literal notranslate"><span class="pre">&quot;_definition&quot;</span></code> 结尾的区块名则表示这是实际的函数定义，包含了函数体和数据。（<code class="docutils literal notranslate"><span class="pre">&quot;methoddef&quot;</span></code> 比较特殊，是唯一一个以 <code class="docutils literal notranslate"><span class="pre">&quot;_define&quot;</span></code> 结尾的区块名，表明这是一个预处理器 #define。）</p>
+</dd>
+<dt>** 输出目标（destination）**</dt><dd><p>输出目标是 Clinic 可以进行输出的地方。内置的输出目标有5种：</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">block</span></code></dt><dd><p>默认的输出目标：在 Clinic 当前代码块的输出区域进行输出。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">buffer</span></code></dt><dd><p>文本缓冲区，可将文本保存起来以便后续使用。输出的文本会加入现有文本的末尾。如果 Clinic 处理完文件后缓冲区中还留有文本，则会报错。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">file</span></code></dt><dd><p>单独的 “Clinic 文件”，由 Clinic 自动创建。文件名会是``{basename}.clinic{extension}`` ，这里的 <code class="docutils literal notranslate"><span class="pre">basename</span></code> 和 <code class="docutils literal notranslate"><span class="pre">extension</span></code> 即为对当前文件运行 <code class="docutils literal notranslate"><span class="pre">os.path.splitext()</span></code> 后的结果。（比如：<code class="docutils literal notranslate"><span class="pre">_pickle.c</span></code> 的 <code class="docutils literal notranslate"><span class="pre">file</span></code> 目的地将会是 <code class="docutils literal notranslate"><span class="pre">_pickle.clinic.c</span></code>)。</p>
+<p><strong>重点：若要使用 ** ``file`` ** 作为输出目标，你 ** *必须签入* ** 生成的文件！</strong></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">two-pass</span></code></dt><dd><p>类似于 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 的缓冲区。不过 two-pass 缓冲区只能转储一次，将会输出处理过程中发送给它的所有文本，甚至包括转储点**之后**的 Clinic 块。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">suppress</span></code></dt><dd><p>禁止输出文本——抛弃输出。</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Clinic 定义了5个新的指令，以便修改输出方式。</p>
+<p>第一个新指令是 <code class="docutils literal notranslate"><span class="pre">dump</span></code>：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>dump &lt;destination&gt;
+</pre></div>
+</div>
+<p>将指定输出目标的当前内容转储到当前块的输出中，并清空输出目标。仅适用于 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 和 <code class="docutils literal notranslate"><span class="pre">two-pass</span></code> 目标。</p>
+<p>第二个新指令是 <code class="docutils literal notranslate"><span class="pre">output</span></code>。<code class="docutils literal notranslate"><span class="pre">output</span></code> 最简单的格式如下所示：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>output &lt;field&gt; &lt;destination&gt;
+</pre></div>
+</div>
+<p>这会通知 Clinic 将指定**field**输出到指定**destination**中去。<code class="docutils literal notranslate"><span class="pre">output</span></code> 还支持一个特殊的元目标 <code class="docutils literal notranslate"><span class="pre">everything</span></code>，通知 Clinic 将**所有**区块都输出到该**目标**。</p>
+<p><code class="docutils literal notranslate"><span class="pre">output</span></code> 还包含一些函数：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>output push
+output pop
+output preset &lt;preset&gt;
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">push</span></code> 和 <code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">pop</span></code> 能在内部的配置栈中压入和弹出配置，这样就可以临时修改输出配置，然后再轻松恢复之前的配置。只需在修改前入栈保存当前配置，在恢复配置时再弹出即可。</p>
+<p><code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">preset</span></code> 将 Clinic 的输出目标设为内置预设目标之一，如下所示：</p>
+<blockquote>
+<div><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">block</span></code></dt><dd><p>Clinic 的初始设置。输入块后面紧接着写入所有内容。</p>
+<p>关闭 <code class="docutils literal notranslate"><span class="pre">parser_prototype</span></code> 和 <code class="docutils literal notranslate"><span class="pre">docstring_prototype</span></code>，并将其他所有内容写入 <code class="docutils literal notranslate"><span class="pre">block</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">file</span></code></dt><dd><p>目的是全部输出至 “Clinic 文件”中。然后在文件顶部附近 <code class="docutils literal notranslate"><span class="pre">#include</span></code> 该文件。可能需要重新调整代码顺序才能正常运行，通常只要为  <code class="docutils literal notranslate"><span class="pre">typedef``和``PyTypeObject</span></code> 定义创建前向声明即可。</p>
+<p>关闭 <code class="docutils literal notranslate"><span class="pre">parser_prototype</span></code> 和 <code class="docutils literal notranslate"><span class="pre">docstring_prototype</span></code> ，将 <code class="docutils literal notranslate"><span class="pre">impl_definition</span></code> 写入 <code class="docutils literal notranslate"><span class="pre">block</span></code>，其他内容写入 <code class="docutils literal notranslate"><span class="pre">file</span></code> 。</p>
+<p>默认文件名为 <code class="docutils literal notranslate"><span class="pre">&quot;{dirname}/clinic/{basename}.h&quot;</span></code> 。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">buffer</span></code></dt><dd><p>将 Clinic 的大部分输出保存起来，在快结束时写入文件。如果 Python 文件存放的是编写模块或内置类型的代码，建议紧挨着模块或内置类型的静态结构之前对缓冲区进行转储；这些结构通常位于结尾附近。如果在文件的中间位置定义了静态 <code class="docutils literal notranslate"><span class="pre">PyMethodDef</span></code> 数组，采用 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 输出所需的代码编辑工作可能比用 <code class="docutils literal notranslate"><span class="pre">file</span></code> 要多些。</p>
+<p>关闭 <code class="docutils literal notranslate"><span class="pre">parser_prototype</span></code> 、<code class="docutils literal notranslate"><span class="pre">impl_prototype</span></code> 和 <code class="docutils literal notranslate"><span class="pre">docstring_prototype</span></code>，将 <code class="docutils literal notranslate"><span class="pre">impl_definition</span></code> 写入 <code class="docutils literal notranslate"><span class="pre">block</span></code>，其他输出都写入 <code class="docutils literal notranslate"><span class="pre">file</span></code>。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">two-pass</span></code></dt><dd><p>类似于预设的  <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 输出，但会把前向声明写入``two-pass`` 缓冲区，将函数定义写入 <code class="docutils literal notranslate"><span class="pre">buffer</span></code>。这与预设的 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 类似，但所需的代码编辑工作可能会减少。将 <code class="docutils literal notranslate"><span class="pre">two-pass</span></code> 缓冲区转储到文件的顶部，将 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 转储到文件末尾，就像预设的 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 一样。</p>
+<p>关闭 <code class="docutils literal notranslate"><span class="pre">impl_prototype</span></code> ，将 <code class="docutils literal notranslate"><span class="pre">impl_definition</span></code> 写入 <code class="docutils literal notranslate"><span class="pre">block</span></code> ，将 <code class="docutils literal notranslate"><span class="pre">docstring_prototype</span></code> 、<code class="docutils literal notranslate"><span class="pre">methoddef_define</span></code> 和 <code class="docutils literal notranslate"><span class="pre">parser_prototype</span></code> 写入``two-pass``，其他输出都写入 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">partial-buffer</span></code></dt><dd><p>与预设的 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 类似，但会向 <code class="docutils literal notranslate"><span class="pre">block</span></code> 写入更多内容，而只向 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 写入真正大块的生成代码。这样能完全避免 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 的提前引用问题，代价是输出到代码块中的内容会稍有增加。在快结束时会转储 <code class="docutils literal notranslate"><span class="pre">buffer</span></code>，就像采用预设的 <code class="docutils literal notranslate"><span class="pre">buffer</span></code> 配置一样。</p>
+<p>关闭 <code class="docutils literal notranslate"><span class="pre">impl_prototype</span></code>，将 <code class="docutils literal notranslate"><span class="pre">docstring_definition</span></code> 和 <code class="docutils literal notranslate"><span class="pre">parser_definition</span></code> 写入 <code class="docutils literal notranslate"><span class="pre">buffer</span></code>，其他输出都写入 <code class="docutils literal notranslate"><span class="pre">block</span></code>。</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>第三个新指令是 <code class="docutils literal notranslate"><span class="pre">destination</span></code>：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>destination &lt;name&gt; &lt;command&gt; [...]
+</pre></div>
+</div>
+<p>向名为 <code class="docutils literal notranslate"><span class="pre">name</span></code> 的目标执行输出。</p>
+<p>定义了两个子命令：<code class="docutils literal notranslate"><span class="pre">new</span></code> 和 <code class="docutils literal notranslate"><span class="pre">clear</span></code>。</p>
+<p>子命令 <code class="docutils literal notranslate"><span class="pre">new</span></code> 工作方式如下：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>destination &lt;name&gt; new &lt;type&gt;
+</pre></div>
+</div>
+<p>新建一个目标，名称为 <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>，类型为``&lt;type&gt;`` 。</p>
+<p>输出目标的类型有5种：</p>
+<blockquote>
+<div><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">suppress</span></code></dt><dd><p>忽略文本。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">block</span></code></dt><dd><p>将文本写入当前代码块中。 这就是 Clinic 原来的做法。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">buffer</span></code></dt><dd><p>简单的文本缓冲区，就像上述的内置 “buffer” 目标。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">file</span></code></dt><dd><p>文本文件。文件目标多了一个参数，模板用于生成文件名，类似于：</p>
+<blockquote>
+<div><p>destination &lt;name&gt; new &lt;type&gt; &lt;file_template&gt;</p>
+</div></blockquote>
+<p>模版可以引用3个内部字符串，将会用文件名的对应部分替代：</p>
+<blockquote>
+<div><dl class="simple">
+<dt>{path}</dt><dd><p>文件的全路径，包含文件夹和完整的文件名。</p>
+</dd>
+<dt>{dirname}</dt><dd><p>文件所在文件夹名。</p>
+</dd>
+<dt>{basename}</dt><dd><p>只有文件名，不含文件夹。</p>
+</dd>
+<dt>{basename_root}</dt><dd><p>去除了扩展名后的文件名（不含最后一个“.”）。</p>
+</dd>
+<dt>{basename_extension}</dt><dd><p>包含最后一个“.”及后面的字符。如果文件名中不含句点，则为空字符串。</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>如果文件名中不含句点符，{basename} 和 {basename_root} 是一样的，而 {basename_extension} 则为空。“{basename_root}{basename_extension}” 与“{basename}”一定是完全相同的。（英文原文貌似有误）</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">two-pass</span></code></dt><dd><p>two-pass 缓冲区，类似于上述的内置“two-pass”输出目标。</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>子命令 <code class="docutils literal notranslate"><span class="pre">clear</span></code> 的工作方式如下：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>destination &lt;name&gt; clear
+</pre></div>
+</div>
+<p>清空输出目标中所有文本。（不知用途何在，但也许做实验时会有用吧。)</p>
+<p>第4个新指令是 <code class="docutils literal notranslate"><span class="pre">set</span></code> ：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set line_prefix &quot;string&quot;
+set line_suffix &quot;string&quot;
+</pre></div>
+</div>
+<p><cite>set' 能设置 Clinic 的两个内部变量值。``line_prefix`</cite> 是 Clinic 每行输出的前缀字符串；<code class="docutils literal notranslate"><span class="pre">line_suffix</span></code> 是 Clinic 每行输出的后缀字符串。</p>
+<p>两者都支持两种格式字符串：</p>
+<blockquote>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">{block</span> <span class="pre">comment</span> <span class="pre">start}</span></code></dt><dd><p>转成字符串 <code class="docutils literal notranslate"><span class="pre">/*</span></code>，是 C 文件的注释起始标记。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">{block</span> <span class="pre">comment</span> <span class="pre">end}</span></code></dt><dd><p>转成字符串 <code class="docutils literal notranslate"><span class="pre">*/</span></code>，是 C 文件的注释结束标记。</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>最后一个新指令是无需直接使用的 <code class="docutils literal notranslate"><span class="pre">preserve</span></code>。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>preserve
+</pre></div>
+</div>
+<p>通知 Clinic 输出内容应保持原样。这是在转储至 <code class="docutils literal notranslate"><span class="pre">file</span></code> 文件中时，供 Clinic 内部使用的；以便 Clinic 能利用已有的校验函数，确保文件在被覆盖之前没进行人工修改过。</p>
+</section>
+<section id="the-ifdef-trick">
+<h3>#ifdef 使用技巧<a class="headerlink" href="#the-ifdef-trick" title="永久链接至标题">¶</a></h3>
+<p>若要转换的函数并非通用于所有平台，可以采用一个技巧。当前代码可能如下所示：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifdef HAVE_FUNCTIONNAME</span>
+<span class="k">static</span><span class="w"> </span><span class="n">module_functionname</span><span class="p">(...)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="cp">#endif </span><span class="cm">/* HAVE_FUNCTIONNAME */</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>在底部的 <code class="docutils literal notranslate"><span class="pre">PyMethodDef</span></code> 结构中，当前代码如下：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#ifdef HAVE_FUNCTIONNAME
+{&#39;functionname&#39;, ... },
+#endif /* HAVE_FUNCTIONNAME */
+</pre></div>
+</div>
+<p>这时应将 impl 函数体用 <code class="docutils literal notranslate"><span class="pre">#ifdef</span></code> 包裹起来，如下所示：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifdef HAVE_FUNCTIONNAME</span>
+<span class="cm">/*[clinic input]</span>
+<span class="cm">module.functionname</span>
+<span class="cm">...</span>
+<span class="cm">[clinic start generated code]*/</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="n">module_functionname</span><span class="p">(...)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="cp">#endif </span><span class="cm">/* HAVE_FUNCTIONNAME */</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>然后，从 <code class="docutils literal notranslate"><span class="pre">PyMethodDef</span></code> 结构中删除以下3行，替换成 Argument Clinic 生成的宏：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>MODULE_FUNCTIONNAME_METHODDEF
+</pre></div>
+</div>
+<p>（在生成的代码中可找到宏的真实名称。或者可以自行求一下值：块的第一行定义的函数名，句点改为下划线，全部大写，并在末尾加上 <code class="docutils literal notranslate"><span class="pre">&quot;_METHODDEF&quot;</span></code> ）</p>
+<p>如果 <code class="docutils literal notranslate"><span class="pre">HAVE_FUNCTIONNAME</span></code> 未定义怎么办？ 那么``MODULE_FUNCTIONNAME_METHODDEF`` 宏也不会定义。</p>
+<p>这正是 Argument Clinic 变聪明的地方。它其实能检测到 <code class="docutils literal notranslate"><span class="pre">#ifdef</span></code> 屏蔽了Argument Clinic 块。于是会额外生成一小段代码，如下所示：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef MODULE_FUNCTIONNAME_METHODDEF</span>
+<span class="w">    </span><span class="cp">#define MODULE_FUNCTIONNAME_METHODDEF</span>
+<span class="cp">#endif </span><span class="cm">/* !defined(MODULE_FUNCTIONNAME_METHODDEF) */</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>这样宏总是会生效。如果定义了函数，则会转换为正确的结构，包括尾部的逗号。如果函数未定义，就不做什么转换。</p>
+<p>不过，这导致了一个棘手的问题：当使用 &quot;block&quot; 输出预设时 Argument Clinic 应该把额外的代码放到哪里呢？ 它不能放在输出代码块中，因为它可能会被 <code class="docutils literal notranslate"><span class="pre">#ifdef</span></code> 停用。 （它的作用就是这个！）</p>
+<p>在此情况下，Argument Clinic 会将额外的代码的写入目标设为 &quot;buffer&quot;。 这意味着你可能会收到来自 Argument Clinic 的抱怨:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Warning in file &quot;Modules/posixmodule.c&quot; on line 12357:
+Destination buffer &#39;buffer&#39; not empty at end of file, emptying.
+</pre></div>
+</div>
+<p>当发生这种问题时，只需打开你的文件，找到由 Argument Clinic 添加到你的文件的 <code class="docutils literal notranslate"><span class="pre">dump</span> <span class="pre">buffer</span></code> 代码块（它将位于文件末尾），并将其移到使用了那个宏的 <code class="docutils literal notranslate"><span class="pre">PyMethodDef</span></code> 结构体之上。</p>
+</section>
+<section id="using-argument-clinic-in-python-files">
+<h3>在 Python 文件中使用 Argument Clinic<a class="headerlink" href="#using-argument-clinic-in-python-files" title="永久链接至标题">¶</a></h3>
+<p>实际上使用 Argument Clinic 来预处理 Python 文件也是可行的。 当然使用 Argument Clinic 代码块并没有什么意义，因为其输出对于 Python 解释器来说是没有意义的。 但是使用 Argument Clinic 来运行 Python 代码块可以让你将 Python 当作 Python 预处理器来使用！</p>
+<p>由于 Python 注释不同于 C 注释，嵌入到 Python 文件的 Argument Clinic 代码块看起来会有一点不同。 它们看起来像是这样:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#/*[python input]</span>
+<span class="c1">#print(&quot;def foo(): pass&quot;)</span>
+<span class="c1">#[python start generated code]*/</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">():</span> <span class="k">pass</span>
+<span class="c1">#/*[python checksum:...]*/</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Argument Clinic 的用法</a><ul>
+<li><a class="reference internal" href="#the-goals-of-argument-clinic">Argument Clinic 的设计目标</a></li>
+<li><a class="reference internal" href="#basic-concepts-and-usage">基本概念和用法</a></li>
+<li><a class="reference internal" href="#converting-your-first-function">函数的转换</a></li>
+<li><a class="reference internal" href="#advanced-topics">进阶</a><ul>
+<li><a class="reference internal" href="#symbolic-default-values">符号化默认值</a></li>
+<li><a class="reference internal" href="#renaming-the-c-functions-and-variables-generated-by-argument-clinic">对 Argument Clinic 生成的 C 函数和变量进行重命名</a></li>
+<li><a class="reference internal" href="#converting-functions-using-pyarg-unpacktuple">函数转换会用到 PyArg_UnpackTuple</a></li>
+<li><a class="reference internal" href="#optional-groups">可选参数组</a></li>
+<li><a class="reference internal" href="#using-real-argument-clinic-converters-instead-of-legacy-converters">采用真正的 Argument Clinic 转换器，而不是 “传统转换器”</a></li>
+<li><a class="reference internal" href="#py-buffer">Py_buffer</a></li>
+<li><a class="reference internal" href="#advanced-converters">高级转换器</a></li>
+<li><a class="reference internal" href="#parameter-default-values">参数的默认值</a></li>
+<li><a class="reference internal" href="#the-null-default-value">默认值 <code class="docutils literal notranslate"><span class="pre">NULL</span></code></a></li>
+<li><a class="reference internal" href="#expressions-specified-as-default-values">设为默认值的表达式</a></li>
+<li><a class="reference internal" href="#using-a-return-converter">返回值转换器</a></li>
+<li><a class="reference internal" href="#cloning-existing-functions">克隆已有的函数</a></li>
+<li><a class="reference internal" href="#calling-python-code">调用 Python 代码</a></li>
+<li><a class="reference internal" href="#using-a-self-converter">self 转换器的用法</a></li>
+<li><a class="reference internal" href="#using-a-defining-class-converter">“定义类”转换器</a></li>
+<li><a class="reference internal" href="#writing-a-custom-converter">编写自定义转换器</a></li>
+<li><a class="reference internal" href="#writing-a-custom-return-converter">编写自定义的返回值转换器</a></li>
+<li><a class="reference internal" href="#meth-o-and-meth-noargs">METH_O 和 METH_NOARGS</a></li>
+<li><a class="reference internal" href="#tp-new-and-tp-init-functions">tp_new 和 tp_init functions</a></li>
+<li><a class="reference internal" href="#changing-and-redirecting-clinic-s-output">改变和重定向 Clinic 的输出</a></li>
+<li><a class="reference internal" href="#the-ifdef-trick">#ifdef 使用技巧</a></li>
+<li><a class="reference internal" href="#using-argument-clinic-in-python-files">在 Python 文件中使用 Argument Clinic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="ipaddress.html"
+                          title="上一章">ipaddress模块介绍</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="instrumentation.html"
+                          title="下一章">使用 DTrace 和 SystemTap 检测CPython</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/howto/clinic.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="instrumentation.html" title="使用 DTrace 和 SystemTap 检测CPython"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="ipaddress.html" title="ipaddress模块介绍"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 常用指引</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Argument Clinic 的用法</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

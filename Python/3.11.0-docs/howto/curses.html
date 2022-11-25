@@ -1,0 +1,581 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>用 Python 进行 Curses 编程 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="描述器使用指南" href="descriptor.html" />
+    <link rel="prev" title="将扩展模块移植到 Python 3" href="cporting.html" />
+    <link rel="canonical" href="https://docs.python.org/3/howto/curses.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">用 Python 进行 Curses 编程</a><ul>
+<li><a class="reference internal" href="#what-is-curses">curses 是什么？</a><ul>
+<li><a class="reference internal" href="#the-python-curses-module">Python 的 curses 模块</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#starting-and-ending-a-curses-application">开始和结束 curses 应用程序</a></li>
+<li><a class="reference internal" href="#windows-and-pads">窗口和面板</a></li>
+<li><a class="reference internal" href="#displaying-text">显示文字</a><ul>
+<li><a class="reference internal" href="#attributes-and-color">属性和颜色</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#user-input">用户输入</a></li>
+<li><a class="reference internal" href="#for-more-information">更多的信息</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="cporting.html"
+                          title="上一章">将扩展模块移植到 Python 3</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="descriptor.html"
+                          title="下一章">描述器使用指南</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/howto/curses.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="descriptor.html" title="描述器使用指南"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="cporting.html" title="将扩展模块移植到 Python 3"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python 常用指引</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">用 Python 进行 Curses 编程</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="curses-programming-with-python">
+<span id="curses-howto"></span><h1>用 Python 进行 Curses 编程<a class="headerlink" href="#curses-programming-with-python" title="永久链接至标题">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">作者</dt>
+<dd class="field-odd"><p>A.M. Kuchling, Eric S. Raymond</p>
+</dd>
+<dt class="field-even">发布版本</dt>
+<dd class="field-even"><p>2.04</p>
+</dd>
+</dl>
+<div class="topic">
+<p class="topic-title">摘要</p>
+<p>本文档介绍了如何使用 <a class="reference internal" href="../library/curses.html#module-curses" title="curses: An interface to the curses library, providing portable terminal handling. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">curses</span></code></a> 扩展模块控制文本模式的显示。</p>
+</div>
+<section id="what-is-curses">
+<h2>curses 是什么？<a class="headerlink" href="#what-is-curses" title="永久链接至标题">¶</a></h2>
+<p>curses 库为基于文本的终端提供了独立于终端的屏幕绘制和键盘处理功能；这些终端包括 VT100，Linux 控制台以及各种程序提供的模拟终端。显示终端支持各种控制代码以执行常见的操作，例如移动光标，滚动屏幕和擦除区域。不同的终端使用相差很大的代码，并且往往有自己的小怪癖。</p>
+<p>在普遍使用图形显示的世界中，人们可能会问“为什么自找要麻烦”？毕竟字符单元显示终端确实是一种过时的技术，但是在某些领域中，能够用它们做花哨的事情仍然很有价值。一个小众市场是在不运行 X server 的小型或嵌入式 Unix 上。另一个是在提供图形支持之前，可能需要运行的工具，例如操作系统安装程序和内核配置程序。</p>
+<p>curses 库提供了相当基础的功能，为程序员提供了包含多个非重叠文本窗口的显示的抽象。窗口的内容可以通过多种方式更改---添加文本，擦除文本，更改其外观---以及curses库将确定需要向终端发送哪些控制代码以产生正确的输出。 curses并没有提供诸多用户界面概念，例如按钮，复选框或对话框。如果需要这些功能，请考虑用户界面库，例如 <a class="reference external" href="https://pypi.org/project/urwid/">Urwid</a> 。</p>
+<p>curses 库最初是为BSD Unix 编写的。 后来 AT&amp;T 的Unix System V 版本加入了许多增强功能和新功能。如今BSD curses已不再维护，被ncurses取代，ncurses是 AT&amp;T 接口的开源实现。如果使用的是 Linux 或 FreeBSD 等开源Unix系统，则几乎肯定会使用ncurses。由于大多数当前的商业Unix版本都基于System V代码，因此这里描述的所有功能可能都可用。但是，某些专有Unix所带来的较早版本的curses可能无法支持所有功能。</p>
+<p>Python 的 Windows 版不包括 <a class="reference internal" href="../library/curses.html#module-curses" title="curses: An interface to the curses library, providing portable terminal handling. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">curses</span></code></a> 模块。 一个可用的移植版本是 <a class="reference external" href="https://pypi.org/project/UniCurses">UniCurses</a>。</p>
+<section id="the-python-curses-module">
+<h3>Python 的 curses 模块<a class="headerlink" href="#the-python-curses-module" title="永久链接至标题">¶</a></h3>
+<p>此 Python 模块相当简单地封装了 curses 提供的 C 函数；如果你已经熟悉在 C 语言中使用 curses 编程，把这些知识转移的 Python 是非常容易的。最大的差异在于 Python 中的接口通过把不同的 C 函数合并来让事情变得更简单，比如 <code class="xref c c-func docutils literal notranslate"><span class="pre">addstr()</span></code>、<code class="xref c c-func docutils literal notranslate"><span class="pre">mvaddstr()</span></code> 和 <code class="xref c c-func docutils literal notranslate"><span class="pre">mvwaddstr()</span></code> 三个 C 函数被并入 <a class="reference internal" href="../library/curses.html#curses.window.addstr" title="curses.window.addstr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addstr()</span></code></a> 这一个方法。下文中会描述更多的细节。</p>
+<p>本 HOWTO 是关于使用 curses 和 Python 编写文本模式程序的概述。它并不被设计为一个 curses API 的完整指南；如需完整指南，请参见 ncurses 的 Python 库指南章节和 ncurses 的 C 手册页。相对地，本 HOWTO 将会给你一些基本思路。</p>
+</section>
+</section>
+<section id="starting-and-ending-a-curses-application">
+<h2>开始和结束 curses 应用程序<a class="headerlink" href="#starting-and-ending-a-curses-application" title="永久链接至标题">¶</a></h2>
+<p>在做任何事情之前，curses 必须先被初始化。可以通过调用函数 <a class="reference internal" href="../library/curses.html#curses.initscr" title="curses.initscr"><code class="xref py py-func docutils literal notranslate"><span class="pre">initscr()</span></code></a> 来实现，它将查明终端的类型，向终端发送任何必须的设置代码，并创建多种内部数据结构。如果此操作成功，<code class="xref py py-func docutils literal notranslate"><span class="pre">initscr()</span></code> 将会返回一个代表整个屏幕的窗口对象；它通常会遵循对应的 C 变量名被称作 <code class="docutils literal notranslate"><span class="pre">stdscr</span></code>：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">curses</span>
+<span class="n">stdscr</span> <span class="o">=</span> <span class="n">curses</span><span class="o">.</span><span class="n">initscr</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>使用 curses 的应用程序通常会关闭按键自动上屏，目的是读取按键并只在特定情况下展示它们。这需要调用函数 <a class="reference internal" href="../library/curses.html#curses.noecho" title="curses.noecho"><code class="xref py py-func docutils literal notranslate"><span class="pre">noecho()</span></code></a>：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">curses</span><span class="o">.</span><span class="n">noecho</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>应用程序也会广泛地需要立即响应按键，而不需要按下回车键；这被称为 “cbreak” 模式，与通常的缓冲输入模式相对：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">curses</span><span class="o">.</span><span class="n">cbreak</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>终端通常会以多字节转义序列的形式返回特殊按键，比如光标键和导航键比如 Page Up 键和 Home 键。尽管你可以编写你的程序来应对这些序列，curses 能够代替你做到这件事，返回一个特殊值比如 <code class="xref py py-const docutils literal notranslate"><span class="pre">curses.KEY_LEFT</span></code>。为了让 curses 做这项工作，你需要启用 keypad 模式：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">stdscr</span><span class="o">.</span><span class="n">keypad</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>终止一个 curses 应用程序比建立一个容易得多，你只需要调用：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">curses</span><span class="o">.</span><span class="n">nocbreak</span><span class="p">()</span>
+<span class="n">stdscr</span><span class="o">.</span><span class="n">keypad</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">curses</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>来还原对终端作出的 curses 友好设置。然后，调用函数 <a class="reference internal" href="../library/curses.html#curses.endwin" title="curses.endwin"><code class="xref py py-func docutils literal notranslate"><span class="pre">endwin()</span></code></a> 来将终端还原到它的原始操作模式：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">curses</span><span class="o">.</span><span class="n">endwin</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>调试一个 curses 应用程序时常会发生，一个应用程序还未能还原终端到原本的状态就意外退出了，这会搅乱你的终端。在 Python 中这常常会发生在你的代码中有 bug 并引发了一个未捕获的异常。当你尝试输入时按键不会上屏，这使得使用终端变得困难。</p>
+<p>在 Python 中你可以避免这些复杂问题并让调试变得更简单，只需要导入 <a class="reference internal" href="../library/curses.html#curses.wrapper" title="curses.wrapper"><code class="xref py py-func docutils literal notranslate"><span class="pre">curses.wrapper()</span></code></a> 函数并像这样使用它：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">curses</span> <span class="kn">import</span> <span class="n">wrapper</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">stdscr</span><span class="p">):</span>
+    <span class="c1"># Clear screen</span>
+    <span class="n">stdscr</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="c1"># This raises ZeroDivisionError when i == 10.</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">10</span>
+        <span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;10 divided by </span><span class="si">{}</span><span class="s1"> is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">10</span><span class="o">/</span><span class="n">v</span><span class="p">))</span>
+
+    <span class="n">stdscr</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+    <span class="n">stdscr</span><span class="o">.</span><span class="n">getkey</span><span class="p">()</span>
+
+<span class="n">wrapper</span><span class="p">(</span><span class="n">main</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>函数 <a class="reference internal" href="../library/curses.html#curses.wrapper" title="curses.wrapper"><code class="xref py py-func docutils literal notranslate"><span class="pre">wrapper()</span></code></a> 接受一个可调用对象并首先进行上述初始化过程，在终端支持着色时还会初始化颜色。接着 <code class="xref py py-func docutils literal notranslate"><span class="pre">wrapper()</span></code> 运行你提供的可调用对象。当该可调用对象返回时，<code class="xref py py-func docutils literal notranslate"><span class="pre">wrapper()</span></code> 会还原终端到初始状态。该可调用对象会在 <a class="reference internal" href="../reference/compound_stmts.html#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a>...<a class="reference internal" href="../reference/compound_stmts.html#except"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code></a> 这样的结构内被调用，当它捕获到异常时，会先还原终端再重新引发这个异常。所以你的终端不会因为异常而被留在一个搞笑的状态，你也可以正常阅读异常消息和回溯信息。</p>
+</section>
+<section id="windows-and-pads">
+<h2>窗口和面板<a class="headerlink" href="#windows-and-pads" title="永久链接至标题">¶</a></h2>
+<p>窗口是 curses 中的基本抽象。一个窗口对象表示了屏幕上的一个矩形区域，并且提供方法来显示文本、擦除文本、允许用户输入字符串等等。</p>
+<p>函数 <a class="reference internal" href="../library/curses.html#curses.initscr" title="curses.initscr"><code class="xref py py-func docutils literal notranslate"><span class="pre">initscr()</span></code></a> 返回的 <code class="docutils literal notranslate"><span class="pre">stdscr</span></code> 对象覆盖整个屏幕。许多程序可能只需要这一个窗口，但你可能希望把屏幕分割为多个更小的窗口，来分别重绘或者清除它们。函数 <a class="reference internal" href="../library/curses.html#curses.newwin" title="curses.newwin"><code class="xref py py-func docutils literal notranslate"><span class="pre">newwin()</span></code></a> 根据给定的尺寸创建一个新窗口，并返回这个新的窗口对象：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">begin_x</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="n">begin_y</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">height</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">win</span> <span class="o">=</span> <span class="n">curses</span><span class="o">.</span><span class="n">newwin</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">begin_y</span><span class="p">,</span> <span class="n">begin_x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>注意 curses 使用的坐标系统与寻常的不同。坐标始终是以 <em>y,x</em> 的顺序传递，并且左上角是坐标 (0,0)。这打破了正常的坐标处理约定，即 <em>x</em> 坐标在前。这是一个与其他计算机应用程序糟糕的差异，但这从 curses 最初被编写出来就已是它的一部分，现在想要修改它已为时已晚。</p>
+<p>你的应用程序能够查明屏幕的尺寸，<code class="xref py py-data docutils literal notranslate"><span class="pre">curses.LINES</span></code> 和 <code class="xref py py-data docutils literal notranslate"><span class="pre">curses.COLS</span></code> 分别代表了 <em>y</em> 和 <em>x</em> 方向上的尺寸。合理的坐标应位于 <code class="docutils literal notranslate"><span class="pre">(0,0)</span></code> 到 <code class="docutils literal notranslate"><span class="pre">(curses.LINES</span> <span class="pre">-</span> <span class="pre">1,</span> <span class="pre">curses.COLS</span> <span class="pre">-</span> <span class="pre">1)</span></code> 范围内。</p>
+<p>当你调用一个方法来显示或擦除文本时，效果并不会立即显示。相反，你必须调用窗口对象的 <a class="reference internal" href="../library/curses.html#curses.window.refresh" title="curses.window.refresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code></a> 方法来更新屏幕。</p>
+<p>这是因为 curses 最初是为 300 波特的龟速终端连接编写的；在这些终端上，压制重绘屏幕的时间就非常重要。相对地，当你调用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code> 时，curses 会累积屏幕的修改并以效率最高的方式显示它们。打个比方，如果你的程序在一个窗口内显示一些文本然后清楚了这个窗口，那么这些原始文本不需要被发送，因为它们甚至不曾能被看见。</p>
+<p>在实践中，显式地告诉 curses 来重绘一个窗口并不会太复杂化 curses 编程。大部分程序会显示一堆内容然后等待按键或者其他某些用户侧动作。你要做的事情就是，保证屏幕在暂停并等待用户输入前被重绘，只需要先调用 <code class="docutils literal notranslate"><span class="pre">stdscr.refresh()</span></code> 或者其他相关窗口的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code> 方法。</p>
+<p>一个面板是一种特殊的窗口，它可以比实际的显示屏幕更大，并且能只显示它的一部分。创建面板需要指定面板的高度和宽度，但刷新一个面板需要给出屏幕坐标和面板的需要显示的局部。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">pad</span> <span class="o">=</span> <span class="n">curses</span><span class="o">.</span><span class="n">newpad</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="c1"># These loops fill the pad with letters; addch() is</span>
+<span class="c1"># explained in the next section</span>
+<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">99</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">99</span><span class="p">):</span>
+        <span class="n">pad</span><span class="o">.</span><span class="n">addch</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">,</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="p">)</span> <span class="o">%</span> <span class="mi">26</span><span class="p">)</span>
+
+<span class="c1"># Displays a section of the pad in the middle of the screen.</span>
+<span class="c1"># (0,0) : coordinate of upper-left corner of pad area to display.</span>
+<span class="c1"># (5,5) : coordinate of upper-left corner of window area to be filled</span>
+<span class="c1">#         with pad content.</span>
+<span class="c1"># (20, 75) : coordinate of lower-right corner of window area to be</span>
+<span class="c1">#          : filled with pad content.</span>
+<span class="n">pad</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span><span class="mi">75</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>此 <code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code> 调用会在屏幕坐标 (5,5) 到坐标 (20,75) 的矩形范围内显示面板的一个部分，被显示的部分在面板上的坐标是 (0,0)。除了上述差异，面板与常规的窗口相同，也支持相同的方法。</p>
+<p>如果你在屏幕上有多个窗口和面板，有一个更有效率的方法来更新窗口，避免每个部分单独更新时烦人的屏幕闪烁。<code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code> 实际上做了两件事：</p>
+<ol class="arabic simple">
+<li><p>调用每个窗口的  <a class="reference internal" href="../library/curses.html#curses.window.noutrefresh" title="curses.window.noutrefresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">noutrefresh()</span></code></a> 方法来更新一个表达屏幕期望状态的底层的数据结构。</p></li>
+<li><p>调用函数 <a class="reference internal" href="../library/curses.html#curses.doupdate" title="curses.doupdate"><code class="xref py py-func docutils literal notranslate"><span class="pre">doupdate()</span></code></a> 来改变物理屏幕来符合这个数据结构中记录的期望状态。</p></li>
+</ol>
+<p>你可以改为调用在多个窗口上 <code class="xref py py-meth docutils literal notranslate"><span class="pre">noutrefresh()</span></code> 方法来更新该数据结构，然后调用函数 <code class="xref py py-func docutils literal notranslate"><span class="pre">doupdate()</span></code> 来更新屏幕。</p>
+</section>
+<section id="displaying-text">
+<h2>显示文字<a class="headerlink" href="#displaying-text" title="永久链接至标题">¶</a></h2>
+<p>从一名 C 语言程序员的视角来看，curses 有时看起来就像是一堆略有差异的函数组成的扭曲迷宫。举个例子，<code class="xref c c-func docutils literal notranslate"><span class="pre">addstr()</span></code> 在 <code class="docutils literal notranslate"><span class="pre">stdscr</span></code> 窗口的当前光标位置显示一个字符串，而 <code class="xref c c-func docutils literal notranslate"><span class="pre">mvaddstr()</span></code> 则是先移动到一个给定的 y,x 坐标再显示字符串。<code class="xref c c-func docutils literal notranslate"><span class="pre">waddstr()</span></code> 与 <code class="xref c c-func docutils literal notranslate"><span class="pre">addstr()</span></code> 类似，但允许指定一个窗口而非默认的 <code class="docutils literal notranslate"><span class="pre">stdscr</span></code>。<code class="xref c c-func docutils literal notranslate"><span class="pre">mvwaddstr()</span></code> 允许同时指定一个窗口和一个坐标。</p>
+<p>幸运的是，Python 接口隐藏了所有这些细节。<code class="docutils literal notranslate"><span class="pre">stdscr</span></code> 和其他任何窗口一样是一个窗口对象，并且诸如 <a class="reference internal" href="../library/curses.html#curses.window.addstr" title="curses.window.addstr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addstr()</span></code></a> 之类的方法接受多种参数形式。通常有四种形式。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>形式</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><em>str</em> 或 <em>ch</em></p></td>
+<td><p>在当前位置显示字符串 <em>str</em> 或字符 <em>ch</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><em>str</em> 或 <em>ch</em>, <em>attr</em></p></td>
+<td><p>在当前位置使用 <em>attr</em> 属性显示字符串 <em>str</em> 或字符 <em>ch</em></p></td>
+</tr>
+<tr class="row-even"><td><p><em>y</em>, <em>x</em>, <em>str</em> 或 <em>ch</em></p></td>
+<td><p>移动到窗口内的 <em>y,x</em> 位置，并显示 <em>str</em> 或 <em>ch</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><em>y</em>, <em>x</em>, <em>str</em> 或 <em>ch</em>, <em>attr</em></p></td>
+<td><p>移至窗口内的 <em>y,x</em> 位置，并使用 <em>attr</em> 属性显示 <em>str</em> 或 <em>ch</em></p></td>
+</tr>
+</tbody>
+</table>
+<p>属性允许以突出显示形态显示文本，比如加粗、下划线、反相或添加颜色。这些属性将来下一小节细说。</p>
+<p>The <a class="reference internal" href="../library/curses.html#curses.window.addstr" title="curses.window.addstr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addstr()</span></code></a> method takes a Python string or
+bytestring as the value to be displayed.  The contents of bytestrings
+are sent to the terminal as-is.  Strings are encoded to bytes using
+the value of the window's <code class="xref py py-attr docutils literal notranslate"><span class="pre">encoding</span></code> attribute; this defaults to
+the default system encoding as returned by <a class="reference internal" href="../library/locale.html#locale.getencoding" title="locale.getencoding"><code class="xref py py-func docutils literal notranslate"><span class="pre">locale.getencoding()</span></code></a>.</p>
+<p>方法 <a class="reference internal" href="../library/curses.html#curses.window.addch" title="curses.window.addch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addch()</span></code></a> 接受一个字符，可以是长度为 1 的字符串，长度为 1 的字节串或者一个整数。</p>
+<p>对于特殊扩展字符有一些常量，这些常量是大于 255 的整数。比如，<code class="xref py py-const docutils literal notranslate"><span class="pre">ACS_PLMINUS</span></code> 是一个 “加减” 符号，<code class="xref py py-const docutils literal notranslate"><span class="pre">ACS_ULCORNER</span></code> 是一个框的左上角（方便绘制边界）。你也可以使用正确的 Unicode 字符。</p>
+<p>窗口会记住上次操作之后光标所在位置，所以如果你忽略 <em>y,x</em> 坐标，字符串和字符会出现在上次操作结束的位置。你也可以通过 <code class="docutils literal notranslate"><span class="pre">move(y,x)</span></code> 的方法来移动光标。因为一些终端始终会显示一个闪烁的光标，你可能会想要保证光标处于一些不会让人感到分心的位置。在看似随机的位置出现一个闪烁的光标会令人非常迷惑。</p>
+<p>如果你的应用程序完全不需要一个闪烁的光标，你可以调用 <code class="docutils literal notranslate"><span class="pre">curs_set(False)</span></code> 来使它隐形。为与旧版本 curses 的兼容性的关系，有函数 <code class="docutils literal notranslate"><span class="pre">leaveok(bool)</span></code> 作为 <a class="reference internal" href="../library/curses.html#curses.curs_set" title="curses.curs_set"><code class="xref py py-func docutils literal notranslate"><span class="pre">curs_set()</span></code></a> 的等价替换。如果 <em>bool</em> 是真值，curses 库会尝试移除闪烁光标，并且你也不必担心它会留在一些奇怪的位置。</p>
+<section id="attributes-and-color">
+<h3>属性和颜色<a class="headerlink" href="#attributes-and-color" title="永久链接至标题">¶</a></h3>
+<p>字符可以以不同的方式显示。基于文本的应用程序常常以反相显示状态行，一个文本查看器可能需要突出显示某些单词。为了支持这种用法，curses 允许你为屏幕上的每个单元指定一个属性值。</p>
+<p>属性值是一个整数，它的每一个二进制位代表一个不同的属性。你可以尝试以多种不属性位组合来显示文本，但 curses 不保证所有的组合都是有效的，或者看上去有明显不同。这一点取决于用户终端的能力，所以最稳妥的方式是只采用最常见的有效属性，见下表。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 63%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">A_BLINK</span></code></p></td>
+<td><p>闪烁文本</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">A_BOLD</span></code></p></td>
+<td><p>超亮或粗体文本</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">A_DIM</span></code></p></td>
+<td><p>半明亮文本</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">A_REVERSE</span></code></p></td>
+<td><p>反相显示文本</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">A_STANDOUT</span></code></p></td>
+<td><p>可用的最佳突出显示模式</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">A_UNDERLINE</span></code></p></td>
+<td><p>带下划线的文本</p></td>
+</tr>
+</tbody>
+</table>
+<p>所以，为了在屏幕顶部显示一个反相的状态行，你可以这么编写：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Current mode: Typing mode&quot;</span><span class="p">,</span>
+              <span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
+<span class="n">stdscr</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>curses 库还支持在提供了颜色功能的终端上显示颜色的功能。最常见的提供颜色的终端很可能是 Linux 控制台，采用了 xterms 配色方案。</p>
+<p>为了使用颜色，你必须在调用完函数 <a class="reference internal" href="../library/curses.html#curses.initscr" title="curses.initscr"><code class="xref py py-func docutils literal notranslate"><span class="pre">initscr()</span></code></a> 后尽快调用函数 <a class="reference internal" href="../library/curses.html#curses.start_color" title="curses.start_color"><code class="xref py py-func docutils literal notranslate"><span class="pre">start_color()</span></code></a>，来初始化默认颜色集 (<a class="reference internal" href="../library/curses.html#curses.wrapper" title="curses.wrapper"><code class="xref py py-func docutils literal notranslate"><span class="pre">curses.wrapper()</span></code></a> 函数自动完成了这一点)。 当它完成后，如果使用中的终端支持显示颜色， <a class="reference internal" href="../library/curses.html#curses.has_colors" title="curses.has_colors"><code class="xref py py-func docutils literal notranslate"><span class="pre">has_colors()</span></code></a> 会返回真值。 （注意：curses 使用美式拼写 “color”，而不是英式／加拿大拼写 “colour”。如果你习惯了英式拼写，你需要避免自己在这些函数上拼写错误。）</p>
+<p>curses 库维护一个有限数量的颜色对，包括一个前景（文本）色和一个背景色。你可以使用函数  <a class="reference internal" href="../library/curses.html#curses.color_pair" title="curses.color_pair"><code class="xref py py-func docutils literal notranslate"><span class="pre">color_pair()</span></code></a> 获得一个颜色对对应的属性值。它可以通过按位或运算与其他属性，比如 <code class="xref py py-const docutils literal notranslate"><span class="pre">A_REVERSE</span></code> 组合。但再说明一遍，这种组合并不保证在所有终端上都有效。</p>
+<p>一个样例，用 1 号颜色对显示一行文本：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="s2">&quot;Pretty text&quot;</span><span class="p">,</span> <span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">stdscr</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>如前所述， 颜色对由前景色和背景色组成。  <code class="docutils literal notranslate"><span class="pre">init_pair(n,</span> <span class="pre">f,</span> <span class="pre">b)</span></code> 函数可改变颜色对 <em>n</em> 的定义 为前景色 f 和背景色 b。 颜色对 0 硬编码为黑底白字，不能改变。</p>
+<p>颜色已经被编号，并且当其激活 color 模式时 <code class="xref py py-func docutils literal notranslate"><span class="pre">start_color()</span></code> 会初始化 8 种基本颜色。 它们是: 0:black, 1:red, 2:green, 3:yellow, 4:blue, 5:magenta, 6:cyan 和 7:white。 <a class="reference internal" href="../library/curses.html#module-curses" title="curses: An interface to the curses library, providing portable terminal handling. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">curses</span></code></a> 模块为这些颜色定义了相应的名称常量: <code class="xref py py-const docutils literal notranslate"><span class="pre">curses.COLOR_BLACK</span></code>, <code class="xref py py-const docutils literal notranslate"><span class="pre">curses.COLOR_RED</span></code> 等等。</p>
+<p>让我们来做个综合练习。 要将颜色 1 改为红色文本白色背景，你应当调用:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">curses</span><span class="o">.</span><span class="n">init_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">curses</span><span class="o">.</span><span class="n">COLOR_RED</span><span class="p">,</span> <span class="n">curses</span><span class="o">.</span><span class="n">COLOR_WHITE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>当你改变一个颜色对时，任何已经使用该颜色对来显示的文本将会更改为新的颜色。 你还可以这样来显示新颜色的文本:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;RED ALERT!&quot;</span><span class="p">,</span> <span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>某些非常花哨的终端可以将实际颜色定义修改为给定的 RGB 值。 这允许你将通常为红色的 1 号颜色改成紫色或蓝色或者任何你喜欢的颜色。 不幸的是，Linux 控制台不支持此特性，所以我无法尝试它，也无法提供任何示例。 想要检查你的终端是否能做到你可以调用 <a class="reference internal" href="../library/curses.html#curses.can_change_color" title="curses.can_change_color"><code class="xref py py-func docutils literal notranslate"><span class="pre">can_change_color()</span></code></a>，如果有此功能则它将返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。 如果你幸运地拥有一个如此优秀的终端，请查询你的系统的帮助页面来了解详情。</p>
+</section>
+</section>
+<section id="user-input">
+<h2>用户输入<a class="headerlink" href="#user-input" title="永久链接至标题">¶</a></h2>
+<p>C curses 库提供了非常简单的输入机制。 Python 的 <a class="reference internal" href="../library/curses.html#module-curses" title="curses: An interface to the curses library, providing portable terminal handling. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">curses</span></code></a> 模块添加了一个基本的文本输入控件。 （其他的库例如 <a class="reference external" href="https://pypi.org/project/urwid/">Urwid</a> 拥有更丰富的控件集。）</p>
+<p>有两个方法可以从窗口获取输入:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../library/curses.html#curses.window.getch" title="curses.window.getch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getch()</span></code></a> 会刷新屏幕然后等待用户按键，如果之前调用过 <a class="reference internal" href="../library/curses.html#curses.echo" title="curses.echo"><code class="xref py py-func docutils literal notranslate"><span class="pre">echo()</span></code></a> 还会显示所按的键。 你还可以选择指定一个坐标以便在暂停之前让光标移动到那里。</p></li>
+<li><p><a class="reference internal" href="../library/curses.html#curses.window.getkey" title="curses.window.getkey"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getkey()</span></code></a> 将做同样的事但是会把整数转换为字符串。 每个字符将返回为长度为 1 个字符的字符串，特殊键例如函数键将返回包含键名的较长字符串例如 <code class="docutils literal notranslate"><span class="pre">KEY_UP</span></code> 或 <code class="docutils literal notranslate"><span class="pre">^G</span></code>。</p></li>
+</ul>
+<p>使用 <a class="reference internal" href="../library/curses.html#curses.window.nodelay" title="curses.window.nodelay"><code class="xref py py-meth docutils literal notranslate"><span class="pre">nodelay()</span></code></a> 窗口方法可以做到不等待用户。 在 <code class="docutils literal notranslate"><span class="pre">nodelay(True)</span></code> 之后，窗口的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">getch()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">getkey()</span></code> 将成为非阻塞的。 为表明输入未就绪，<code class="xref py py-meth docutils literal notranslate"><span class="pre">getch()</span></code> 会返回 <code class="docutils literal notranslate"><span class="pre">curses.ERR</span></code> (值为 -1) 而 <code class="xref py py-meth docutils literal notranslate"><span class="pre">getkey()</span></code> 会引发异常。 此外还有 <a class="reference internal" href="../library/curses.html#curses.halfdelay" title="curses.halfdelay"><code class="xref py py-func docutils literal notranslate"><span class="pre">halfdelay()</span></code></a> 函数，它可被用来（实际地）在每个 <code class="xref py py-meth docutils literal notranslate"><span class="pre">getch()</span></code> 上设置一个计时器；如果在指定的延迟内没有输入可用（以十分之一秒为单位），curses 将引发异常。</p>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">getch()</span></code> 方法返回一个整数；如果数值在 0 到 255 之间，它代表所按下键的 ASCII 码。 大于 255 的值为特殊键例如 Page Up, Home 或方向键等。 你可以将返回的值与 <code class="xref py py-const docutils literal notranslate"><span class="pre">curses.KEY_PPAGE</span></code>, <code class="xref py py-const docutils literal notranslate"><span class="pre">curses.KEY_HOME</span></code> 或 <code class="xref py py-const docutils literal notranslate"><span class="pre">curses.KEY_LEFT</span></code> 等常量做比较。 你的程序主循环看起来可能是这样:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">stdscr</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">):</span>
+        <span class="n">PrintDocument</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+        <span class="k">break</span>  <span class="c1"># Exit the while loop</span>
+    <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="n">curses</span><span class="o">.</span><span class="n">KEY_HOME</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../library/curses.ascii.html#module-curses.ascii" title="curses.ascii: Constants and set-membership functions for ASCII characters."><code class="xref py py-mod docutils literal notranslate"><span class="pre">curses.ascii</span></code></a> 模块提供了一些 ASCII 类成员函数，它们接受整数或长度为 1 个字符的字符串参数；这些函数在为这样的循环编写更具可读性的测试时可能会很有用。 它还提供了一些转换函数，它们接受整数或长度为 1 个字符的字符串参数并返回同样的类型。 例如，<a class="reference internal" href="../library/curses.ascii.html#curses.ascii.ctrl" title="curses.ascii.ctrl"><code class="xref py py-func docutils literal notranslate"><span class="pre">curses.ascii.ctrl()</span></code></a> 返回与其参数相对应的控制字符。</p>
+<p>还有一个可以提取整个字符串的方法 <a class="reference internal" href="../library/curses.html#curses.window.getstr" title="curses.window.getstr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getstr()</span></code></a>。 它并不经常被使用，因为它的功能相当受限；可用的编辑键只有 Backspace 和 Enter 键，它们会结束字符串。 也可以选择限制为固定数量的字符。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">curses</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>            <span class="c1"># Enable echoing of characters</span>
+
+<span class="c1"># Get a 15-character string, with the cursor on the top line</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">stdscr</span><span class="o">.</span><span class="n">getstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../library/curses.html#module-curses.textpad" title="curses.textpad: Emacs-like input editing in a curses window."><code class="xref py py-mod docutils literal notranslate"><span class="pre">curses.textpad</span></code></a> 模块提供了一个文本框，它支持类似 Emacs 的键绑定集。 <a class="reference internal" href="../library/curses.html#curses.textpad.Textbox" title="curses.textpad.Textbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Textbox</span></code></a> 类的各种方法支持带输入验证的编辑及包含或不包含末尾空格地收集编辑结果。 下面是一个例子:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">curses</span>
+<span class="kn">from</span> <span class="nn">curses.textpad</span> <span class="kn">import</span> <span class="n">Textbox</span><span class="p">,</span> <span class="n">rectangle</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">stdscr</span><span class="p">):</span>
+    <span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Enter IM message: (hit Ctrl-G to send)&quot;</span><span class="p">)</span>
+
+    <span class="n">editwin</span> <span class="o">=</span> <span class="n">curses</span><span class="o">.</span><span class="n">newwin</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">rectangle</span><span class="p">(</span><span class="n">stdscr</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="mi">5</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="mi">30</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">stdscr</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+
+    <span class="n">box</span> <span class="o">=</span> <span class="n">Textbox</span><span class="p">(</span><span class="n">editwin</span><span class="p">)</span>
+
+    <span class="c1"># Let the user edit until Ctrl-G is struck.</span>
+    <span class="n">box</span><span class="o">.</span><span class="n">edit</span><span class="p">()</span>
+
+    <span class="c1"># Get resulting contents</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">gather</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>请查看 <a class="reference internal" href="../library/curses.html#module-curses.textpad" title="curses.textpad: Emacs-like input editing in a curses window."><code class="xref py py-mod docutils literal notranslate"><span class="pre">curses.textpad</span></code></a> 的库文档了解更多细节。</p>
+</section>
+<section id="for-more-information">
+<h2>更多的信息<a class="headerlink" href="#for-more-information" title="永久链接至标题">¶</a></h2>
+<p>本 HOWTO 没有涵盖一些进阶主题，例如读取屏幕的内容或从 xterm 实例捕获鼠标事件等，但是 <a class="reference internal" href="../library/curses.html#module-curses" title="curses: An interface to the curses library, providing portable terminal handling. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">curses</span></code></a> 模块的 Python 库文档页面现在已相当完善。 接下来你应当去浏览一下其中的内容。</p>
+<p>如果你对 curses 函数的细节行为有疑问，请查看你的 curses 实现版本的说明页面，不论它是 ncurses 还是特定 Unix 厂商的版本。 说明页面将记录任何具体问题，并提供所有函数、属性以及可用 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACS_*</span></code> 字符的完整列表。</p>
+<p>由于 curses API 是如此的庞大，某些函数并不被 Python 接口所支持。 这往往不是因为它们难以实现，而是因为还没有人需要它们。 此外，Python 尚不支持与 ncurses 相关联的菜单库。 欢迎提供添加这些功能的补丁；请参阅 <a class="reference external" href="https://devguide.python.org/">Python 开发者指南</a> 了解有关为 Python 提交补丁的详情。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://invisible-island.net/ncurses/ncurses-intro.html">Writing Programs with NCURSES</a>:
+a lengthy tutorial for C programmers.</p></li>
+<li><p>ncurses 手册主页 &lt;<a class="reference external" href="https://linux.die.net/man/3/ncurses">https://linux.die.net/man/3/ncurses</a>&gt;`_</p></li>
+<li><p><a class="reference external" href="https://invisible-island.net/ncurses/ncurses.faq.html">The ncurses FAQ</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=eN1eZtjLEnU">&quot;使用 curses... 请勿爆粗&quot;</a>: 一场有关使用 curses 或 Urwid 来控制终端的 PyCon 2013 演讲的视频。</p></li>
+<li><p><a class="reference external" href="https://pyvideo.org/video/1568/console-applications-with-urwid">&quot;Console Applications with Urwid&quot;</a>:
+video of a PyCon CA 2012 talk demonstrating some applications written using
+Urwid.</p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">用 Python 进行 Curses 编程</a><ul>
+<li><a class="reference internal" href="#what-is-curses">curses 是什么？</a><ul>
+<li><a class="reference internal" href="#the-python-curses-module">Python 的 curses 模块</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#starting-and-ending-a-curses-application">开始和结束 curses 应用程序</a></li>
+<li><a class="reference internal" href="#windows-and-pads">窗口和面板</a></li>
+<li><a class="reference internal" href="#displaying-text">显示文字</a><ul>
+<li><a class="reference internal" href="#attributes-and-color">属性和颜色</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#user-input">用户输入</a></li>
+<li><a class="reference internal" href="#for-more-information">更多的信息</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="cporting.html"
+                          title="上一章">将扩展模块移植到 Python 3</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="descriptor.html"
+                          title="下一章">描述器使用指南</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/howto/curses.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="descriptor.html" title="描述器使用指南"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="cporting.html" title="将扩展模块移植到 Python 3"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 常用指引</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">用 Python 进行 Curses 编程</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

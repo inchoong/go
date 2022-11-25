@@ -1,0 +1,498 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>排序指南 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="Unicode 指南" href="unicode.html" />
+    <link rel="prev" title="套接字编程指南" href="sockets.html" />
+    <link rel="canonical" href="https://docs.python.org/3/howto/sorting.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">排序指南</a><ul>
+<li><a class="reference internal" href="#sorting-basics">基本排序</a></li>
+<li><a class="reference internal" href="#key-functions">关键函数</a></li>
+<li><a class="reference internal" href="#operator-module-functions">Operator 模块函数</a></li>
+<li><a class="reference internal" href="#ascending-and-descending">升序和降序</a></li>
+<li><a class="reference internal" href="#sort-stability-and-complex-sorts">排序稳定性和排序复杂度</a></li>
+<li><a class="reference internal" href="#decorate-sort-undecorate">Decorate-Sort-Undecorate</a></li>
+<li><a class="reference internal" href="#comparison-functions">Comparison Functions</a></li>
+<li><a class="reference internal" href="#odds-and-ends">Odds and Ends</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="sockets.html"
+                          title="上一章">套接字编程指南</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="unicode.html"
+                          title="下一章">Unicode 指南</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/howto/sorting.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="unicode.html" title="Unicode 指南"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="sockets.html" title="套接字编程指南"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python 常用指引</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">排序指南</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sorting-how-to">
+<span id="sortinghowto"></span><h1>排序指南<a class="headerlink" href="#sorting-how-to" title="永久链接至标题">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">作者</dt>
+<dd class="field-odd"><p>Andrew Dalke 和 Raymond Hettinger</p>
+</dd>
+<dt class="field-even">发布版本</dt>
+<dd class="field-even"><p>0.1</p>
+</dd>
+</dl>
+<p>Python 列表有一个内置的 <a class="reference internal" href="../library/stdtypes.html#list.sort" title="list.sort"><code class="xref py py-meth docutils literal notranslate"><span class="pre">list.sort()</span></code></a> 方法可以直接修改列表。还有一个 <a class="reference internal" href="../library/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> 内置函数，它会从一个可迭代对象构建一个新的排序列表。</p>
+<p>在本文档中，我们将探索使用Python对数据进行排序的各种技术。</p>
+<section id="sorting-basics">
+<h2>基本排序<a class="headerlink" href="#sorting-basics" title="永久链接至标题">¶</a></h2>
+<p>简单的升序排序非常简单：只需调用 <a class="reference internal" href="../library/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> 函数。它返回一个新的排序后列表：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="go">[1, 2, 3, 4, 5]</span>
+</pre></div>
+</div>
+<p>你也可以使用 <a class="reference internal" href="../library/stdtypes.html#list.sort" title="list.sort"><code class="xref py py-func docutils literal notranslate"><span class="pre">list.sort()</span></code></a> 方法，它会直接修改原列表（并返回 <code class="docutils literal notranslate"><span class="pre">None</span></code> 以避免混淆），通常来说它不如 <a class="reference internal" href="../library/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> 方便 ——— 但如果你不需要原列表，它会更有效率。</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[1, 2, 3, 4, 5]</span>
+</pre></div>
+</div>
+<p>另外一个区别是， <a class="reference internal" href="../library/stdtypes.html#list.sort" title="list.sort"><code class="xref py py-meth docutils literal notranslate"><span class="pre">list.sort()</span></code></a> 方法只是为列表定义的，而 <a class="reference internal" href="../library/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> 函数可以接受任何可迭代对象。</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;A&#39;</span><span class="p">})</span>
+<span class="go">[1, 2, 3, 4, 5]</span>
+</pre></div>
+</div>
+</section>
+<section id="key-functions">
+<h2>关键函数<a class="headerlink" href="#key-functions" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="../library/stdtypes.html#list.sort" title="list.sort"><code class="xref py py-meth docutils literal notranslate"><span class="pre">list.sort()</span></code></a> 和 <a class="reference internal" href="../library/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> 都有一个 <em>key</em> 形参用来指定在进行比较前要在每个列表元素上调用的函数（或其他可调用对象）。</p>
+<p>例如，下面是一个不区分大小写的字符串比较：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="s2">&quot;This is a test string from Andrew&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
+<span class="go">[&#39;a&#39;, &#39;Andrew&#39;, &#39;from&#39;, &#39;is&#39;, &#39;string&#39;, &#39;test&#39;, &#39;This&#39;]</span>
+</pre></div>
+</div>
+<p><em>key</em> 形参的值应该是个函数（或其他可调用对象），它接受一个参数并返回一个用于排序的键。 这种机制速度很快，因为对于每个输入记录只会调用一次键函数。</p>
+<p>一种常见的模式是使用对象的一些索引作为键对复杂对象进行排序。例如：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">student_tuples</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s1">&#39;john&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s1">&#39;jane&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s1">&#39;dave&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">student_tuples</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">student</span><span class="p">:</span> <span class="n">student</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>   <span class="c1"># sort by age</span>
+<span class="go">[(&#39;dave&#39;, &#39;B&#39;, 10), (&#39;jane&#39;, &#39;B&#39;, 12), (&#39;john&#39;, &#39;A&#39;, 15)]</span>
+</pre></div>
+</div>
+<p>同样的技术也适用于具有命名属性的对象。例如：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">grade</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">grade</span> <span class="o">=</span> <span class="n">grade</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">repr</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grade</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="p">))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">student_objects</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="n">Student</span><span class="p">(</span><span class="s1">&#39;john&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">Student</span><span class="p">(</span><span class="s1">&#39;jane&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">Student</span><span class="p">(</span><span class="s1">&#39;dave&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">student_objects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">student</span><span class="p">:</span> <span class="n">student</span><span class="o">.</span><span class="n">age</span><span class="p">)</span>   <span class="c1"># sort by age</span>
+<span class="go">[(&#39;dave&#39;, &#39;B&#39;, 10), (&#39;jane&#39;, &#39;B&#39;, 12), (&#39;john&#39;, &#39;A&#39;, 15)]</span>
+</pre></div>
+</div>
+</section>
+<section id="operator-module-functions">
+<h2>Operator 模块函数<a class="headerlink" href="#operator-module-functions" title="永久链接至标题">¶</a></h2>
+<p>上面显示的键函数模式非常常见，因此 Python 提供了便利功能，使访问器功能更容易，更快捷。  <a class="reference internal" href="../library/operator.html#module-operator" title="operator: Functions corresponding to the standard operators."><code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code></a> 模块有 <a class="reference internal" href="../library/operator.html#operator.itemgetter" title="operator.itemgetter"><code class="xref py py-func docutils literal notranslate"><span class="pre">itemgetter()</span></code></a> 、 <a class="reference internal" href="../library/operator.html#operator.attrgetter" title="operator.attrgetter"><code class="xref py py-func docutils literal notranslate"><span class="pre">attrgetter()</span></code></a> 和 <a class="reference internal" href="../library/operator.html#operator.methodcaller" title="operator.methodcaller"><code class="xref py py-func docutils literal notranslate"><span class="pre">methodcaller()</span></code></a> 函数。</p>
+<p>使用这些函数，上述示例变得更简单，更快捷：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span><span class="p">,</span> <span class="n">attrgetter</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">student_tuples</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">[(&#39;dave&#39;, &#39;B&#39;, 10), (&#39;jane&#39;, &#39;B&#39;, 12), (&#39;john&#39;, &#39;A&#39;, 15)]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">student_objects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">))</span>
+<span class="go">[(&#39;dave&#39;, &#39;B&#39;, 10), (&#39;jane&#39;, &#39;B&#39;, 12), (&#39;john&#39;, &#39;A&#39;, 15)]</span>
+</pre></div>
+</div>
+<p>Operator 模块功能允许多级排序。 例如，按 <em>grade</em> 排序，然后按 <em>age</em> 排序：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">student_tuples</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">[(&#39;john&#39;, &#39;A&#39;, 15), (&#39;dave&#39;, &#39;B&#39;, 10), (&#39;jane&#39;, &#39;B&#39;, 12)]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">student_objects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">))</span>
+<span class="go">[(&#39;john&#39;, &#39;A&#39;, 15), (&#39;dave&#39;, &#39;B&#39;, 10), (&#39;jane&#39;, &#39;B&#39;, 12)]</span>
+</pre></div>
+</div>
+</section>
+<section id="ascending-and-descending">
+<h2>升序和降序<a class="headerlink" href="#ascending-and-descending" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="../library/stdtypes.html#list.sort" title="list.sort"><code class="xref py py-meth docutils literal notranslate"><span class="pre">list.sort()</span></code></a> 和 <a class="reference internal" href="../library/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> 接受布尔值的 <em>reverse</em> 参数。这用于标记降序排序。 例如，要以反向 <em>age</em> 顺序获取学生数据：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">student_tuples</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">[(&#39;john&#39;, &#39;A&#39;, 15), (&#39;jane&#39;, &#39;B&#39;, 12), (&#39;dave&#39;, &#39;B&#39;, 10)]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">student_objects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">[(&#39;john&#39;, &#39;A&#39;, 15), (&#39;jane&#39;, &#39;B&#39;, 12), (&#39;dave&#39;, &#39;B&#39;, 10)]</span>
+</pre></div>
+</div>
+</section>
+<section id="sort-stability-and-complex-sorts">
+<h2>排序稳定性和排序复杂度<a class="headerlink" href="#sort-stability-and-complex-sorts" title="永久链接至标题">¶</a></h2>
+<p>排序保证是 <a class="reference external" href="https://en.wikipedia.org/wiki/Sorting_algorithm#Stability">稳定</a> 的。 这意味着当多个记录具有相同的键值时，将保留其原始顺序。</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">[(&#39;blue&#39;, 1), (&#39;blue&#39;, 2), (&#39;red&#39;, 1), (&#39;red&#39;, 2)]</span>
+</pre></div>
+</div>
+<p>注意 <em>blue</em> 的两个记录如何保留它们的原始顺序，以便 <code class="docutils literal notranslate"><span class="pre">('blue',</span> <span class="pre">1)</span></code> 保证在 <code class="docutils literal notranslate"><span class="pre">('blue',</span> <span class="pre">2)</span></code> 之前。</p>
+<p>这个美妙的属性允许你在一系列排序步骤中构建复杂的排序。例如，要按 <em>grade</em> 降序然后 <em>age</em> 升序对学生数据进行排序，请先 <em>age</em> 排序，然后再使用 <em>grade</em> 排序：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">student_objects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">))</span>     <span class="c1"># sort on secondary key</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>       <span class="c1"># now sort on primary key, descending</span>
+<span class="go">[(&#39;dave&#39;, &#39;B&#39;, 10), (&#39;jane&#39;, &#39;B&#39;, 12), (&#39;john&#39;, &#39;A&#39;, 15)]</span>
+</pre></div>
+</div>
+<p>这可以被抽象为一个包装函数，该函数能接受一个列表以及字段和顺序的元组，以对它们进行多重排序。</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">multisort</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">specs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">reverse</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">specs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">xs</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">xs</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">multisort</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">student_objects</span><span class="p">),</span> <span class="p">((</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)))</span>
+<span class="go">[(&#39;dave&#39;, &#39;B&#39;, 10), (&#39;jane&#39;, &#39;B&#39;, 12), (&#39;john&#39;, &#39;A&#39;, 15)]</span>
+</pre></div>
+</div>
+<p>Python 中使用的 <a class="reference external" href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> 算法可以有效地进行多种排序，因为它可以利用数据集中已存在的任何排序。</p>
+</section>
+<section id="decorate-sort-undecorate">
+<h2>Decorate-Sort-Undecorate<a class="headerlink" href="#decorate-sort-undecorate" title="永久链接至标题">¶</a></h2>
+<p>这个三个步骤被称为 Decorate-Sort-Undecorate ：</p>
+<ul class="simple">
+<li><p>首先，初始列表使用控制排序顺序的新值进行修饰。</p></li>
+<li><p>然后，装饰列表已排序。</p></li>
+<li><p>最后，删除装饰，创建一个仅包含新排序中初始值的列表。</p></li>
+</ul>
+<p>例如，要使用DSU方法按 <em>grade</em> 对学生数据进行排序：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">decorated</span> <span class="o">=</span> <span class="p">[(</span><span class="n">student</span><span class="o">.</span><span class="n">grade</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">student</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">student</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">student_objects</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">decorated</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">student</span> <span class="k">for</span> <span class="n">grade</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">student</span> <span class="ow">in</span> <span class="n">decorated</span><span class="p">]</span>               <span class="c1"># undecorate</span>
+<span class="go">[(&#39;john&#39;, &#39;A&#39;, 15), (&#39;jane&#39;, &#39;B&#39;, 12), (&#39;dave&#39;, &#39;B&#39;, 10)]</span>
+</pre></div>
+</div>
+<p>这方法语有效是因为元组按字典顺序进行比较，先比较第一项；如果它们相同则比较第二个项目，依此类推。</p>
+<p>不一定在所有情况下都要在装饰列表中包含索引 <em>i</em> ，但包含它有两个好处：</p>
+<ul class="simple">
+<li><p>排序是稳定的——如果两个项具有相同的键，它们的顺序将保留在排序列表中。</p></li>
+<li><p>原始项目不必具有可比性，因为装饰元组的排序最多由前两项决定。 因此，例如原始列表可能包含无法直接排序的复数。</p></li>
+</ul>
+<p>这个方法的另一个名字是 Randal L. Schwartz 在 Perl 程序员中推广的 <a class="reference external" href="https://en.wikipedia.org/wiki/Schwartzian_transform">Schwartzian transform</a>。</p>
+<p>既然 Python 排序提供了键函数，那么通常不需要这种技术。</p>
+</section>
+<section id="comparison-functions">
+<h2>Comparison Functions<a class="headerlink" href="#comparison-functions" title="永久链接至标题">¶</a></h2>
+<p>Unlike key functions that return an absolute value for sorting, a comparison
+function computes the relative ordering for two inputs.</p>
+<p>For example, a <a class="reference external" href="https://upload.wikimedia.org/wikipedia/commons/1/17/Balance_à_tabac_1850.JPG">balance scale</a>
+compares two samples giving a relative ordering: lighter, equal, or heavier.
+Likewise, a comparison function such as <code class="docutils literal notranslate"><span class="pre">cmp(a,</span> <span class="pre">b)</span></code> will return a negative
+value for less-than, zero if the inputs are equal, or a positive value for
+greater-than.</p>
+<p>It is common to encounter comparison functions when translating algorithms from
+other languages.  Also, some libraries provide comparison functions as part of
+their API.  For example, <a class="reference internal" href="../library/locale.html#locale.strcoll" title="locale.strcoll"><code class="xref py py-func docutils literal notranslate"><span class="pre">locale.strcoll()</span></code></a> is a comparison function.</p>
+<p>To accommodate those situations, Python provides
+<a class="reference internal" href="../library/functools.html#functools.cmp_to_key" title="functools.cmp_to_key"><code class="xref py py-class docutils literal notranslate"><span class="pre">functools.cmp_to_key</span></code></a> to wrap the comparison function
+to make it usable as a key function:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">cmp_to_key</span><span class="p">(</span><span class="n">strcoll</span><span class="p">))</span>  <span class="c1"># locale-aware sort order</span>
+</pre></div>
+</div>
+</section>
+<section id="odds-and-ends">
+<h2>Odds and Ends<a class="headerlink" href="#odds-and-ends" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p>For locale aware sorting, use <a class="reference internal" href="../library/locale.html#locale.strxfrm" title="locale.strxfrm"><code class="xref py py-func docutils literal notranslate"><span class="pre">locale.strxfrm()</span></code></a> for a key function or
+<a class="reference internal" href="../library/locale.html#locale.strcoll" title="locale.strcoll"><code class="xref py py-func docutils literal notranslate"><span class="pre">locale.strcoll()</span></code></a> for a comparison function.  This is necessary
+because &quot;alphabetical&quot; sort orderings can vary across cultures even
+if the underlying alphabet is the same.</p></li>
+<li><p><em>reverse</em> 参数仍然保持排序稳定性（因此具有相等键的记录保留原始顺序）。 有趣的是，通过使用内置的 <a class="reference internal" href="../library/functions.html#reversed" title="reversed"><code class="xref py py-func docutils literal notranslate"><span class="pre">reversed()</span></code></a> 函数两次，可以在没有参数的情况下模拟该效果：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">standard_way</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">double_reversed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">))))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">standard_way</span> <span class="o">==</span> <span class="n">double_reversed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">standard_way</span>
+<span class="go">[(&#39;red&#39;, 1), (&#39;red&#39;, 2), (&#39;blue&#39;, 1), (&#39;blue&#39;, 2)]</span>
+</pre></div>
+</div>
+</li>
+<li><p>在对两个对象进行比较时，排序例程使用 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 。因此，通过定义一个 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__lt__()</span></code> 方法，很容易为一个类添加一个标准的排序顺序。</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Student</span><span class="o">.</span><span class="fm">__lt__</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">age</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">student_objects</span><span class="p">)</span>
+<span class="go">[(&#39;dave&#39;, &#39;B&#39;, 10), (&#39;jane&#39;, &#39;B&#39;, 12), (&#39;john&#39;, &#39;A&#39;, 15)]</span>
+</pre></div>
+</div>
+<p>然而，请注意，如果 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__gt__()</span></code> 没有实现，<code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 可以退回到使用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__lt__()</span></code> （见 <a class="reference internal" href="../reference/datamodel.html#object.__lt__" title="object.__lt__"><code class="xref py py-func docutils literal notranslate"><span class="pre">object.__lt__()</span></code></a> ）。</p>
+</li>
+<li><p>键函数不需要直接依赖于被排序的对象。键函数还可以访问外部资源。例如，如果学生成绩存储在字典中，则可以使用它们对单独的学生姓名列表进行排序：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">students</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dave&#39;</span><span class="p">,</span> <span class="s1">&#39;john&#39;</span><span class="p">,</span> <span class="s1">&#39;jane&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newgrades</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;john&#39;</span><span class="p">:</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;jane&#39;</span><span class="p">:</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;dave&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">newgrades</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">)</span>
+<span class="go">[&#39;jane&#39;, &#39;dave&#39;, &#39;john&#39;]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">排序指南</a><ul>
+<li><a class="reference internal" href="#sorting-basics">基本排序</a></li>
+<li><a class="reference internal" href="#key-functions">关键函数</a></li>
+<li><a class="reference internal" href="#operator-module-functions">Operator 模块函数</a></li>
+<li><a class="reference internal" href="#ascending-and-descending">升序和降序</a></li>
+<li><a class="reference internal" href="#sort-stability-and-complex-sorts">排序稳定性和排序复杂度</a></li>
+<li><a class="reference internal" href="#decorate-sort-undecorate">Decorate-Sort-Undecorate</a></li>
+<li><a class="reference internal" href="#comparison-functions">Comparison Functions</a></li>
+<li><a class="reference internal" href="#odds-and-ends">Odds and Ends</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="sockets.html"
+                          title="上一章">套接字编程指南</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="unicode.html"
+                          title="下一章">Unicode 指南</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/howto/sorting.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="unicode.html" title="Unicode 指南"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="sockets.html" title="套接字编程指南"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 常用指引</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">排序指南</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>
