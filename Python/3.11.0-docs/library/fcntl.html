@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>fcntl —— 系统调用 fcntl 和 ioctl &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="resource --- 资源使用信息" href="resource.html" />
+    <link rel="prev" title="pty --- 伪终端工具" href="pty.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/fcntl.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="pty.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code> --- 伪终端工具</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="resource.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource</span></code> --- 资源使用信息</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/fcntl.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="resource.html" title="resource --- 资源使用信息"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="pty.html" title="pty --- 伪终端工具"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="unix.html" accesskey="U">Unix 专有服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> —— 系统调用 <code class="docutils literal notranslate"><span class="pre">fcntl</span></code> 和 <code class="docutils literal notranslate"><span class="pre">ioctl</span></code></a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-fcntl">
+<span id="fcntl-the-fcntl-and-ioctl-system-calls"></span><h1><a class="reference internal" href="#module-fcntl" title="fcntl: The fcntl() and ioctl() system calls. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code></a> —— 系统调用 <code class="docutils literal notranslate"><span class="pre">fcntl</span></code> 和 <code class="docutils literal notranslate"><span class="pre">ioctl</span></code><a class="headerlink" href="#module-fcntl" title="永久链接至标题">¶</a></h1>
+<hr class="docutils" id="index-0" />
+<p>本模块基于文件描述符来进行文件控制和 I/O 控制。它是 Unix 系统调用  <code class="xref c c-func docutils literal notranslate"><span class="pre">fcntl()</span></code> 和 <code class="xref c c-func docutils literal notranslate"><span class="pre">ioctl()</span></code> 的接口。关于这些调用的完整描述，请参阅 Unix 手册的 <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/fcntl(2)">fcntl(2)</a></em> 和 <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/ioctl(2)">ioctl(2)</a></em> 页面。</p>
+<p class="availability"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: not Emscripten, not WASI.<p>This module does not work or is not available on WebAssembly platforms
+<code class="docutils literal notranslate"><span class="pre">wasm32-emscripten</span></code> and <code class="docutils literal notranslate"><span class="pre">wasm32-wasi</span></code>. See
+<a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">WebAssembly platforms</span></a> for more information.</p>
+</p>
+<p>本模块的所有函数都接受文件描述符 <em>fd</em> 作为第一个参数。可以是一个整数形式的文件描述符，比如 <code class="docutils literal notranslate"><span class="pre">sys.stdin.fileno()</span></code> 的返回结果，或为 <a class="reference internal" href="io.html#io.IOBase" title="io.IOBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.IOBase</span></code></a> 对象，比如 <code class="docutils literal notranslate"><span class="pre">sys.stdin</span></code> 提供一个 <a class="reference internal" href="io.html#io.IOBase.fileno" title="io.IOBase.fileno"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code></a>，可返回一个真正的文件描述符。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>本模块的操作以前触发的是 <a class="reference internal" href="exceptions.html#IOError" title="IOError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IOError</span></code></a>，现在则会触发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>fcntl 模块现在有了 <code class="docutils literal notranslate"><span class="pre">F_ADD_SEALS</span></code> 、<code class="docutils literal notranslate"><span class="pre">F_GET_SEALS</span></code>  和 <code class="docutils literal notranslate"><span class="pre">F_SEAL_*</span></code> 常量，用于文件描述符 <a class="reference internal" href="os.html#os.memfd_create" title="os.memfd_create"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.memfd_create()</span></code></a> 的封装。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>在 macOS 上，fcntl 模块提供了 <code class="docutils literal notranslate"><span class="pre">F_GETPATH</span></code> 常量，从文件描述符获取文件的路径。 在 Linux(&gt;=3.15) 上，fcntl 模块提供了 <code class="docutils literal notranslate"><span class="pre">F_OFD_GETLK</span></code>, <code class="docutils literal notranslate"><span class="pre">F_OFD_SETLK</span></code> 和 <code class="docutils literal notranslate"><span class="pre">F_OFD_SETLKW</span></code> 常量，它们将在处理打开文件描述锁时被使用。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>在 Linux 2.6.11 以上版本中，fcntl 模块提供了 <code class="docutils literal notranslate"><span class="pre">F_GETPIPE_SZ</span></code> 和``F_SETPIPE_SZ`` 常量，分别用于检查和修改管道的大小。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>On FreeBSD, the fcntl module exposes the <code class="docutils literal notranslate"><span class="pre">F_DUP2FD</span></code> and <code class="docutils literal notranslate"><span class="pre">F_DUP2FD_CLOEXEC</span></code>
+constants, which allow to duplicate a file descriptor, the latter setting
+<code class="docutils literal notranslate"><span class="pre">FD_CLOEXEC</span></code> flag in addition.</p>
+</div>
+<p>这个模块定义了以下函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="fcntl.fcntl">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">fcntl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fcntl.fcntl" title="永久链接至目标">¶</a></dt>
+<dd><p>对文件描述符 <em>fd</em> 执行 <em>cmd</em> 操作（能够提供 <a class="reference internal" href="io.html#io.IOBase.fileno" title="io.IOBase.fileno"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code></a> 方法的文件对象也可以接受）。 <em>cmd</em> 可用的值与操作系统有关，在 <a class="reference internal" href="#module-fcntl" title="fcntl: The fcntl() and ioctl() system calls. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code></a> 模块中可作为常量使用，名称与相关 C 语言头文件中的一样。参数 <em>arg</em> 可以是整数或 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象。若为整数值，则本函数的返回值是 C 语言  <code class="xref c c-func docutils literal notranslate"><span class="pre">fcntl()</span></code> 调用的整数返回值。若为字节串，则其代表一个二进制结构，比如由 <a class="reference internal" href="struct.html#struct.pack" title="struct.pack"><code class="xref py py-func docutils literal notranslate"><span class="pre">struct.pack()</span></code></a> 创建的数据。该二进制数据将被复制到一个缓冲区，缓冲区地址传给 C 调用 <code class="xref c c-func docutils literal notranslate"><span class="pre">fcntl()</span></code>。调用成功后的返回值位于缓冲区内，转换为一个 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象。返回的对象长度将与 <em>arg</em> 参数的长度相同。上限为 1024 字节。如果操作系统在缓冲区中返回的信息大于 1024 字节，很可能导致内存段冲突，或更为不易察觉的数据错误。</p>
+<p>如果 <code class="xref c c-func docutils literal notranslate"><span class="pre">fcntl()</span></code> 调用失败，会触发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 。</p>
+<p class="audit-hook">引发一条 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">auditing 事件</span></a> <code class="docutils literal notranslate"><span class="pre">fcntl.fcntl</span></code>，参数为 <code class="docutils literal notranslate"><span class="pre">fd</span></code> 、<code class="docutils literal notranslate"><span class="pre">cmd</span></code>、<code class="docutils literal notranslate"><span class="pre">arg</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fcntl.ioctl">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">ioctl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutate_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fcntl.ioctl" title="永久链接至目标">¶</a></dt>
+<dd><p>本函数与 <a class="reference internal" href="#fcntl.fcntl" title="fcntl.fcntl"><code class="xref py py-func docutils literal notranslate"><span class="pre">fcntl()</span></code></a> 函数相同，只是参数的处理更加复杂。</p>
+<p><em>request</em> 参数的上限是 32位。<a class="reference internal" href="termios.html#module-termios" title="termios: POSIX style tty control. (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">termios</span></code></a> 模块中包含了可用作 <em>request</em> 参数其他常量，名称与相关 C 头文件中定义的相同。</p>
+<p>参数 <em>arg</em> 可为整数、支持只读缓冲区接口的对象（如 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> ）或支持读写缓冲区接口的对象（如 <a class="reference internal" href="stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> ）。</p>
+<p>除了最后一种情况，其他情况下的行为都与 <a class="reference internal" href="#fcntl.fcntl" title="fcntl.fcntl"><code class="xref py py-func docutils literal notranslate"><span class="pre">fcntl()</span></code></a> 函数一样。</p>
+<p>如果传入的是个可变缓冲区，那么行为就由 <em>mutate_flag</em> 参数决定。</p>
+<p>如果 <em>mutate_flag</em>  为 False，缓冲区的可变性将被忽略，行为与只读缓冲区一样，只是没有了上述 1024 字节的上限——只要传入的缓冲区能容纳操作系统放入的数据即可。</p>
+<p>如果 <em>mutate_flag</em> 为 True（默认值），那么缓冲区（实际上）会传给底层的 系统调用 <a class="reference internal" href="#fcntl.ioctl" title="fcntl.ioctl"><code class="xref py py-func docutils literal notranslate"><span class="pre">ioctl()</span></code></a> ，其返回代码则会回传给调用它的 Python，而缓冲区的新数据则反映了 <a class="reference internal" href="#fcntl.ioctl" title="fcntl.ioctl"><code class="xref py py-func docutils literal notranslate"><span class="pre">ioctl()</span></code></a> 的运行结果。这里做了一点简化，因为若是给出的缓冲区少于 1024 字节，首先会被复制到一个 1024 字节长的静态缓冲区再传给  <a class="reference internal" href="#fcntl.ioctl" title="fcntl.ioctl"><code class="xref py py-func docutils literal notranslate"><span class="pre">ioctl()</span></code></a> ，然后把结果复制回给出的缓冲区去。</p>
+<p>如果 <code class="xref c c-func docutils literal notranslate"><span class="pre">ioctl()</span></code> 调用失败，则会触发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 异常。</p>
+<p>举个例子：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">array</span><span class="o">,</span> <span class="nn">fcntl</span><span class="o">,</span> <span class="nn">struct</span><span class="o">,</span> <span class="nn">termios</span><span class="o">,</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">getpgrp</span><span class="p">()</span>
+<span class="go">13341</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">ioctl</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">termios</span><span class="o">.</span><span class="n">TIOCGPGRP</span><span class="p">,</span> <span class="s2">&quot;  &quot;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">13341</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buf</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fcntl</span><span class="o">.</span><span class="n">ioctl</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">termios</span><span class="o">.</span><span class="n">TIOCGPGRP</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buf</span>
+<span class="go">array(&#39;h&#39;, [13341])</span>
+</pre></div>
+</div>
+<p class="audit-hook">触发一条 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">auditing 事件</span></a> <code class="docutils literal notranslate"><span class="pre">fcntl.ioctl</span></code>，参数为 <code class="docutils literal notranslate"><span class="pre">fd</span></code> 、<code class="docutils literal notranslate"><span class="pre">request</span></code> 、<code class="docutils literal notranslate"><span class="pre">arg</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fcntl.flock">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">flock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fcntl.flock" title="永久链接至目标">¶</a></dt>
+<dd><p>在文件描述符 <em>fd</em> 上执行加锁操作 <em>operation</em> (也接受能提供 <a class="reference internal" href="io.html#io.IOBase.fileno" title="io.IOBase.fileno"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code></a> 方法的文件对象)。 详见 Unix 手册  <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/flock(2)">flock(2)</a></em>。 (在某些系统中，此函数是用 <code class="xref c c-func docutils literal notranslate"><span class="pre">fcntl()</span></code> 模拟出来的。)</p>
+<p>如果 <code class="xref c c-func docutils literal notranslate"><span class="pre">flock()</span></code> 调用失败，就会触发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 异常。</p>
+<p class="audit-hook">触发一条 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">fcntl.flock</span></code>，参数为 <code class="docutils literal notranslate"><span class="pre">fd</span></code> 、<code class="docutils literal notranslate"><span class="pre">operation</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fcntl.lockf">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">lockf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fcntl.lockf" title="永久链接至目标">¶</a></dt>
+<dd><p>本质上是对 <a class="reference internal" href="#fcntl.fcntl" title="fcntl.fcntl"><code class="xref py py-func docutils literal notranslate"><span class="pre">fcntl()</span></code></a> 加锁调用的封装。<em>fd</em> 是要加解锁的文件描述符（也接受能提供 <a class="reference internal" href="io.html#io.IOBase.fileno" title="io.IOBase.fileno"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code></a> 方法的文件对象），<em>cmd</em> 是以下值之一：</p>
+<ul class="simple">
+<li><p><code class="xref py py-const docutils literal notranslate"><span class="pre">LOCK_UN</span></code> ——解锁</p></li>
+<li><p><code class="xref py py-const docutils literal notranslate"><span class="pre">LOCK_SH</span></code> —— 获取一个共享锁</p></li>
+<li><p><code class="xref py py-const docutils literal notranslate"><span class="pre">LOCK_EX</span></code> —— 获取一个独占锁</p></li>
+</ul>
+<p>如果 <em>cmd</em> 为 <code class="xref py py-const docutils literal notranslate"><span class="pre">LOCK_SH</span></code> 或 <code class="xref py py-const docutils literal notranslate"><span class="pre">LOCK_EX</span></code>，则还可以与 <code class="xref py py-const docutils literal notranslate"><span class="pre">LOCK_NB</span></code> 进行按位或运算，以避免在获取锁时出现阻塞。 如果用了 <code class="xref py py-const docutils literal notranslate"><span class="pre">LOCK_NB</span></code>，无法获取锁时将触发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>，此异常的 <em>errno</em> 属性将被设为 <code class="xref py py-const docutils literal notranslate"><span class="pre">EACCES</span></code> 或 <code class="xref py py-const docutils literal notranslate"><span class="pre">EAGAIN</span></code> (视操作系统而定；为了保证可移植性，请检查这两个值)。 至少在某些系统上，只有当文件描述符指向需要写入而打开的文件时，才可以使用 <code class="xref py py-const docutils literal notranslate"><span class="pre">LOCK_EX</span></code>。</p>
+<p><em>len</em> 是要锁定的字节数，<em>start</em> 是自 <em>whence</em> 开始锁定的字节偏移量，<em>whence</em> 与 <a class="reference internal" href="io.html#io.IOBase.seek" title="io.IOBase.seek"><code class="xref py py-func docutils literal notranslate"><span class="pre">io.IOBase.seek()</span></code></a> 的定义一样。</p>
+<ul class="simple">
+<li><p><code class="xref py py-const docutils literal notranslate"><span class="pre">0</span></code> —— 自文件起始位置（<a class="reference internal" href="os.html#os.SEEK_SET" title="os.SEEK_SET"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.SEEK_SET</span></code></a>）。</p></li>
+<li><p><code class="xref py py-const docutils literal notranslate"><span class="pre">1</span></code> —— 自缓冲区当前位置（ <a class="reference internal" href="os.html#os.SEEK_CUR" title="os.SEEK_CUR"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.SEEK_CUR</span></code></a> ）</p></li>
+<li><p><code class="xref py py-const docutils literal notranslate"><span class="pre">2</span></code>—— 自文件末尾（<a class="reference internal" href="os.html#os.SEEK_END" title="os.SEEK_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.SEEK_END</span></code></a>)</p></li>
+</ul>
+<p><em>start</em> 的默认值为 0，表示从文件起始位置开始。<em>len</em> 的默认值是 0，表示加锁至文件末尾。 <em>whence</em> 的默认值也是 0。</p>
+<p class="audit-hook">触发一条 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">fcntl.lockf</span></code>，参数为 <code class="docutils literal notranslate"><span class="pre">fd</span></code> 、 <code class="docutils literal notranslate"><span class="pre">cmd</span></code>、 <code class="docutils literal notranslate"><span class="pre">len</span></code>、 <code class="docutils literal notranslate"><span class="pre">start</span></code>、 <code class="docutils literal notranslate"><span class="pre">whence</span></code>。</p>
+</dd></dl>
+
+<p>示例（都是运行于符合 SVR4 的系统）：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">struct</span><span class="o">,</span> <span class="nn">fcntl</span><span class="o">,</span> <span class="nn">os</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">fcntl</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">F_SETFL</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_NDELAY</span><span class="p">)</span>
+
+<span class="n">lockdata</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;hhllhh&#39;</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">F_WRLCK</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">fcntl</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">F_SETLKW</span><span class="p">,</span> <span class="n">lockdata</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>注意，在第一个例子中，返回值变量 <em>rv</em> 将存有整数；在第二个例子中，该变量中将存有一个 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象。<em>lockdata</em> 变量的结构布局视系统而定——因此采用 <a class="reference internal" href="#fcntl.flock" title="fcntl.flock"><code class="xref py py-func docutils literal notranslate"><span class="pre">flock()</span></code></a> 调用可能会更好。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>模块 <a class="reference internal" href="os.html#module-os" title="os: Miscellaneous operating system interfaces."><code class="xref py py-mod docutils literal notranslate"><span class="pre">os</span></code></a></dt><dd><p>如果 <a class="reference internal" href="os.html#module-os" title="os: Miscellaneous operating system interfaces."><code class="xref py py-mod docutils literal notranslate"><span class="pre">os</span></code></a> 模块中存在加锁标志 <a class="reference internal" href="os.html#os.O_SHLOCK" title="os.O_SHLOCK"><code class="xref py py-data docutils literal notranslate"><span class="pre">O_SHLOCK</span></code></a> 和 <a class="reference internal" href="os.html#os.O_EXLOCK" title="os.O_EXLOCK"><code class="xref py py-data docutils literal notranslate"><span class="pre">O_EXLOCK</span></code></a> （仅在BSD上），那么 <a class="reference internal" href="os.html#os.open" title="os.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.open()</span></code></a> 函数提供了 <a class="reference internal" href="#fcntl.lockf" title="fcntl.lockf"><code class="xref py py-func docutils literal notranslate"><span class="pre">lockf()</span></code></a> 和 <a class="reference internal" href="#fcntl.flock" title="fcntl.flock"><code class="xref py py-func docutils literal notranslate"><span class="pre">flock()</span></code></a> 函数的替代方案。</p>
+</dd>
+</dl>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="pty.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code> --- 伪终端工具</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="resource.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource</span></code> --- 资源使用信息</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/fcntl.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="resource.html" title="resource --- 资源使用信息"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="pty.html" title="pty --- 伪终端工具"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="unix.html" >Unix 专有服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> —— 系统调用 <code class="docutils literal notranslate"><span class="pre">fcntl</span></code> 和 <code class="docutils literal notranslate"><span class="pre">ioctl</span></code></a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

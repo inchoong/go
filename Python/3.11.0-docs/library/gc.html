@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>gc --- 垃圾回收器接口 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="inspect --- 检查对象" href="inspect.html" />
+    <link rel="prev" title="__future__ --- Future 语句定义" href="__future__.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/gc.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="__future__.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">__future__</span></code> --- Future 语句定义</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="inspect.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code> --- 检查对象</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/gc.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="inspect.html" title="inspect --- 检查对象"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="__future__.html" title="__future__ --- Future 语句定义"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" accesskey="U">Python运行时服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">gc</span></code> --- 垃圾回收器接口</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-gc">
+<span id="gc-garbage-collector-interface"></span><h1><a class="reference internal" href="#module-gc" title="gc: Interface to the cycle-detecting garbage collector."><code class="xref py py-mod docutils literal notranslate"><span class="pre">gc</span></code></a> --- 垃圾回收器接口<a class="headerlink" href="#module-gc" title="永久链接至标题">¶</a></h1>
+<hr class="docutils" />
+<p>此模块提供可选的垃圾回收器的接口，提供的功能包括：关闭收集器、调整收集频率、设置调试选项。它同时提供对回收器找到但是无法释放的不可达对象的访问。由于 Python 使用了带有引用计数的回收器，如果你确定你的程序不会产生循环引用，你可以关闭回收器。可以通过调用 <code class="docutils literal notranslate"><span class="pre">gc.disable()</span></code> 关闭自动垃圾回收。若要调试一个存在内存泄漏的程序，调用 <code class="docutils literal notranslate"><span class="pre">gc.set_debug(gc.DEBUG_LEAK)</span></code> ；需要注意的是，它包含 <code class="docutils literal notranslate"><span class="pre">gc.DEBUG_SAVEALL</span></code> ，使得被垃圾回收的对象会被存放在 gc.garbage 中以待检查。</p>
+<p><a class="reference internal" href="#module-gc" title="gc: Interface to the cycle-detecting garbage collector."><code class="xref py py-mod docutils literal notranslate"><span class="pre">gc</span></code></a> 模块提供下列函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.enable">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">enable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.enable" title="永久链接至目标">¶</a></dt>
+<dd><p>启用自动垃圾回收</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.disable">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">disable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.disable" title="永久链接至目标">¶</a></dt>
+<dd><p>停用自动垃圾回收</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.isenabled">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">isenabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.isenabled" title="永久链接至目标">¶</a></dt>
+<dd><p>如果启用了自动回收则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.collect">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">collect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gc.collect" title="永久链接至目标">¶</a></dt>
+<dd><p>若被调用时不包含参数，则启动完全的垃圾回收。可选的参数 <em>generation</em> 可以是一个整数，指明需要回收哪一代（从 0 到 2 ）的垃圾。当参数 <em>generation</em> 无效时，会引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> 异常。返回发现的不可达对象的数目。</p>
+<p>每当运行完整收集或最高代 (2) 收集时，为多个内置类型所维护的空闲列表会被清空。 由于特定类型特别是 <a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> 的实现，在某些空闲列表中并非所有项都会被释放。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.set_debug">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">set_debug</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gc.set_debug" title="永久链接至目标">¶</a></dt>
+<dd><p>设置垃圾回收器的调试标识位。调试信息会被写入 <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code> 。此文档末尾列出了各个标志位及其含义；可以使用位操作对多个标志位进行设置以控制调试器。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.get_debug">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">get_debug</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.get_debug" title="永久链接至目标">¶</a></dt>
+<dd><p>返回当前调试标识位。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.get_objects">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">get_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gc.get_objects" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个收集器所跟踪的所有对象的列表，所返回的列表除外。 如果 <em>generation</em> 不为 None，则只返回收集器所跟踪的属于该生成的对象。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>新的 <em>generation</em> 形参。</p>
+</div>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">gc.get_objects</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">generation</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.get_stats">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">get_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.get_stats" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个包含三个字典对象的列表，每个字典分别包含对应代的从解释器开始运行的垃圾回收统计数据。字典的键的数目在将来可能发生改变，目前每个字典包含以下内容：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">collections</span></code> 是该代被回收的次数；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">collected</span></code> 是该代中被回收的对象总数；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">uncollectable</span></code> 是在这一代中被发现无法收集的对象总数 （因此被移动到 <a class="reference internal" href="#gc.garbage" title="gc.garbage"><code class="xref py py-data docutils literal notranslate"><span class="pre">garbage</span></code></a> 列表中）。</p></li>
+</ul>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.set_threshold">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">set_threshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold0</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">threshold1</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">threshold2</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.set_threshold" title="永久链接至目标">¶</a></dt>
+<dd><p>设置垃圾回收阈值（收集频率）。 将 <em>threshold0</em> 设为零会禁用回收。</p>
+<p>垃圾回收器把所有对象分类为三代，其依据是对象在多少次垃圾回收后幸存。 新建对象会被放在最年轻代（第 <code class="docutils literal notranslate"><span class="pre">0</span></code> 代）。 如果一个对象在一次垃圾回收后幸存，它会被移入下一个较老代。 由于第 <code class="docutils literal notranslate"><span class="pre">2</span></code> 代是最老代，这一代的对象在一次垃圾回收后仍会保留原样。 为了确定何时要运行，垃圾回收器会跟踪自上一次回收后对象分配和释放的数量。 当分配数量减去释放数量的结果值大于 <em>threshold0</em> 时，垃圾回收就会开始。 初始时只有第 <code class="docutils literal notranslate"><span class="pre">0</span></code> 代会被检查。 如果自第 <code class="docutils literal notranslate"><span class="pre">1</span></code> 代被检查后第 <code class="docutils literal notranslate"><span class="pre">0</span></code> 代已被检查超过 <em>threshold1</em> 次，则第 <code class="docutils literal notranslate"><span class="pre">1</span></code> 也会被检查。 对于第三代来说情况还会更复杂，请参阅 <a class="reference external" href="https://devguide.python.org/garbage_collector/#collecting-the-oldest-generation">Collecting the oldest generation</a> 来了解详情。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.get_count">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">get_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.get_count" title="永久链接至目标">¶</a></dt>
+<dd><p>将当前回收计数以形为 <code class="docutils literal notranslate"><span class="pre">(count0,</span> <span class="pre">count1,</span> <span class="pre">count2)</span></code> 的元组返回。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.get_threshold">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">get_threshold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.get_threshold" title="永久链接至目标">¶</a></dt>
+<dd><p>将当前回收阈值以形为 <code class="docutils literal notranslate"><span class="pre">(threshold0,</span> <span class="pre">threshold1,</span> <span class="pre">threshold2)</span></code> 的元组返回。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.get_referrers">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">get_referrers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">objs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gc.get_referrers" title="永久链接至目标">¶</a></dt>
+<dd><p>返回直接引用任意一个 <em>objs</em> 的对象列表。这个函数只定位支持垃圾回收的容器；引用了其它对象但不支持垃圾回收的扩展类型不会被找到。</p>
+<p>需要注意的是，已经解除对 <em>objs</em> 引用的对象，但仍存在于循环引用中未被回收时，仍然会被作为引用者出现在返回的列表当中。若要获取当前正在引用 <em>objs</em> 的对象，需要调用 <a class="reference internal" href="#gc.collect" title="gc.collect"><code class="xref py py-func docutils literal notranslate"><span class="pre">collect()</span></code></a> 然后再调用 <a class="reference internal" href="#gc.get_referrers" title="gc.get_referrers"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_referrers()</span></code></a> 。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>在使用 <a class="reference internal" href="#gc.get_referrers" title="gc.get_referrers"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_referrers()</span></code></a> 返回的对象时必须要小心，因为其中一些对象可能仍在构造中因此处于暂时的无效状态。不要把 <a class="reference internal" href="#gc.get_referrers" title="gc.get_referrers"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_referrers()</span></code></a> 用于调试以外的其它目的。</p>
+</div>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">gc.get_referrers</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">objs</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.get_referents">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">get_referents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">objs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gc.get_referents" title="永久链接至目标">¶</a></dt>
+<dd><p>返回被任意一个参数中的对象直接引用的对象的列表。返回的被引用对象是被参数中的对象的C语言级别方法（若存在） <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_traverse" title="PyTypeObject.tp_traverse"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_traverse</span></code></a> 访问到的对象，可能不是所有的实际直接可达对象。只有支持垃圾回收的对象支持 <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_traverse" title="PyTypeObject.tp_traverse"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_traverse</span></code></a>  方法，并且此方法只会在需要访问涉及循环引用的对象时使用。因此，可以有以下例子：一个整数对其中一个参数是直接可达的，这个整数有可能出现或不出现在返回的结果列表当中。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">gc.get_referents</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">objs</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.is_tracked">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">is_tracked</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gc.is_tracked" title="永久链接至目标">¶</a></dt>
+<dd><p>当对象正在被垃圾回收器监控时返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> 。一般来说，原子类的实例不会被监控，而非原子类（如容器、用户自定义的对象）会被监控。然而，会有一些特定类型的优化以便减少垃圾回收器在简单实例（如只含有原子性的键和值的字典）上的消耗。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">is_tracked</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">is_tracked</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">is_tracked</span><span class="p">([])</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">is_tracked</span><span class="p">({})</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">is_tracked</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">is_tracked</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.1 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.is_finalized">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">is_finalized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gc.is_finalized" title="永久链接至目标">¶</a></dt>
+<dd><p>如果给定对象已被垃圾回收器终结则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Lazarus</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">global</span> <span class="n">x</span>
+<span class="gp">... </span>        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lazarus</span> <span class="o">=</span> <span class="n">Lazarus</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">is_finalized</span><span class="p">(</span><span class="n">lazarus</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">lazarus</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">is_finalized</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.9 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.freeze">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">freeze</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.freeze" title="永久链接至目标">¶</a></dt>
+<dd><p>冻结 gc 所跟踪的所有对象 —— 将它们移至永久代并忽略所有未来的集合。 这可以在 POSIX fork() 调用之前使用以便令对写入复制保持友好或加速收集。 并且在 POSIX fork() 调用之前的收集也可以释放页面以供未来分配，这也可能导致写入时复制，因此建议在主进程中禁用 gc 并在 fork 之前冻结，而在子进程中启用 gc。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.unfreeze">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">unfreeze</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.unfreeze" title="永久链接至目标">¶</a></dt>
+<dd><p>解冻永久代中的对象，并将它们放回到年老代中。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gc.get_freeze_count">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">get_freeze_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gc.get_freeze_count" title="永久链接至目标">¶</a></dt>
+<dd><p>返回永久代中的对象数量。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>提供以下变量仅供只读访问（你可以修改但不应该重绑定它们）：</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="gc.garbage">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">garbage</span></span><a class="headerlink" href="#gc.garbage" title="永久链接至目标">¶</a></dt>
+<dd><p>一个回收器发现不可达而又无法被释放的对象（不可回收对象）列表。 从 Python 3.4 开始，该列表在大多数时候都应该是空的，除非使用了含有非 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> <code class="docutils literal notranslate"><span class="pre">tp_del</span></code> 空位的 C 扩展类型的实例。</p>
+<p>如果设置了 <a class="reference internal" href="#gc.DEBUG_SAVEALL" title="gc.DEBUG_SAVEALL"><code class="xref py py-const docutils literal notranslate"><span class="pre">DEBUG_SAVEALL</span></code></a> ，则所有不可访问对象将被添加至该列表而不会被释放。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>当 <a class="reference internal" href="../glossary.html#term-interpreter-shutdown"><span class="xref std std-term">interpreter shutdown</span></a> 即解释器关闭时，若此列表非空，会产生 <a class="reference internal" href="exceptions.html#ResourceWarning" title="ResourceWarning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ResourceWarning</span></code></a> ，即资源警告，在默认情况下此警告不会被提醒。如果设置了 <a class="reference internal" href="#gc.DEBUG_UNCOLLECTABLE" title="gc.DEBUG_UNCOLLECTABLE"><code class="xref py py-const docutils literal notranslate"><span class="pre">DEBUG_UNCOLLECTABLE</span></code></a> ，所有无法被回收的对象会被打印。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>根据 <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0442/"><strong>PEP 442</strong></a> ，带有 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__del__()</span></code> 方法的对象最终不再会进入 <a class="reference internal" href="#gc.garbage" title="gc.garbage"><code class="xref py py-attr docutils literal notranslate"><span class="pre">gc.garbage</span></code></a> 。</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="gc.callbacks">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">callbacks</span></span><a class="headerlink" href="#gc.callbacks" title="永久链接至目标">¶</a></dt>
+<dd><p>在垃圾回收器开始前和完成后会被调用的一系列回调函数。这些回调函数在被调用时使用两个参数： <em>phase</em> 和 <em>info</em> 。</p>
+<p><em>phase</em> 可为以下两值之一：</p>
+<blockquote>
+<div><p>&quot;start&quot;: 垃圾回收即将开始。</p>
+<p>&quot;stop&quot;: 垃圾回收已结束。</p>
+</div></blockquote>
+<p><em>info</em> is a dict providing more information for the callback.  The following
+keys are currently defined:</p>
+<blockquote>
+<div><p>&quot;generation&quot;（代） ：正在被回收的最久远的一代。</p>
+<p>&quot;collected&quot;（已回收的 ）: 当*phase* 为 &quot;stop&quot; 时，被成功回收的对象的数目。</p>
+<p>&quot;uncollectable&quot;（不可回收的）: 当 <em>phase</em> 为 &quot;stop&quot; 时，不能被回收并被放入 <a class="reference internal" href="#gc.garbage" title="gc.garbage"><code class="xref py py-data docutils literal notranslate"><span class="pre">garbage</span></code></a> 的对象的数目。</p>
+</div></blockquote>
+<p>应用程序可以把他们自己的回调函数加入此列表。主要的使用场景有：</p>
+<blockquote>
+<div><p>统计垃圾回收的数据，如：不同代的回收频率、回收所花费的时间。</p>
+<p>使应用程序可以识别和清理他们自己的在 <a class="reference internal" href="#gc.garbage" title="gc.garbage"><code class="xref py py-data docutils literal notranslate"><span class="pre">garbage</span></code></a> 中的不可回收类型的对象。</p>
+</div></blockquote>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>以下常量被用于 <a class="reference internal" href="#gc.set_debug" title="gc.set_debug"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_debug()</span></code></a> ：</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="gc.DEBUG_STATS">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">DEBUG_STATS</span></span><a class="headerlink" href="#gc.DEBUG_STATS" title="永久链接至目标">¶</a></dt>
+<dd><p>在回收完成后打印统计信息。当回收频率设置较高时，这些信息会比较有用。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="gc.DEBUG_COLLECTABLE">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">DEBUG_COLLECTABLE</span></span><a class="headerlink" href="#gc.DEBUG_COLLECTABLE" title="永久链接至目标">¶</a></dt>
+<dd><p>当发现可回收对象时打印信息。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="gc.DEBUG_UNCOLLECTABLE">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">DEBUG_UNCOLLECTABLE</span></span><a class="headerlink" href="#gc.DEBUG_UNCOLLECTABLE" title="永久链接至目标">¶</a></dt>
+<dd><p>打印找到的不可回收对象的信息（指不能被回收器回收的不可达对象）。这些对象会被添加到 <code class="docutils literal notranslate"><span class="pre">garbage</span></code> 列表中。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>当 <a class="reference internal" href="../glossary.html#term-interpreter-shutdown"><span class="xref std std-term">interpreter shutdown</span></a> 时，即解释器关闭时，若 <a class="reference internal" href="#gc.garbage" title="gc.garbage"><code class="xref py py-data docutils literal notranslate"><span class="pre">garbage</span></code></a> 列表中存在对象，这些对象也会被打印输出。</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="gc.DEBUG_SAVEALL">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">DEBUG_SAVEALL</span></span><a class="headerlink" href="#gc.DEBUG_SAVEALL" title="永久链接至目标">¶</a></dt>
+<dd><p>设置后，所有回收器找到的不可达对象会被添加进 <em>garbage</em> 而不是直接被释放。这在调试一个内存泄漏的程序时会很有用。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="gc.DEBUG_LEAK">
+<span class="sig-prename descclassname"><span class="pre">gc.</span></span><span class="sig-name descname"><span class="pre">DEBUG_LEAK</span></span><a class="headerlink" href="#gc.DEBUG_LEAK" title="永久链接至目标">¶</a></dt>
+<dd><p>调试内存泄漏的程序时，使回收器打印信息的调试标识位。（等价于 <code class="docutils literal notranslate"><span class="pre">DEBUG_COLLECTABLE</span> <span class="pre">|</span> <span class="pre">DEBUG_UNCOLLECTABLE</span> <span class="pre">|</span> <span class="pre">DEBUG_SAVEALL</span></code> ）。</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="__future__.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">__future__</span></code> --- Future 语句定义</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="inspect.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code> --- 检查对象</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/gc.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="inspect.html" title="inspect --- 检查对象"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="__future__.html" title="__future__ --- Future 语句定义"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" >Python运行时服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">gc</span></code> --- 垃圾回收器接口</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>getopt --- C 风格的命令行选项解析器 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="logging --- Python 的日志记录工具" href="logging.html" />
+    <link rel="prev" title="argparse --- 命令行选项、参数和子命令解析器" href="argparse.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/getopt.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="argparse.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">argparse</span></code> --- 命令行选项、参数和子命令解析器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="logging.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code> --- Python 的日志记录工具</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/getopt.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="logging.html" title="logging --- Python 的日志记录工具"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="argparse.html" title="argparse --- 命令行选项、参数和子命令解析器"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="allos.html" accesskey="U">通用操作系统服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">getopt</span></code> --- C 风格的命令行选项解析器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-getopt">
+<span id="getopt-c-style-parser-for-command-line-options"></span><h1><a class="reference internal" href="#module-getopt" title="getopt: Portable parser for command line options; support both short and long option names."><code class="xref py py-mod docutils literal notranslate"><span class="pre">getopt</span></code></a> --- C 风格的命令行选项解析器<a class="headerlink" href="#module-getopt" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/getopt.py">Lib/getopt.py</a></p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><a class="reference internal" href="#module-getopt" title="getopt: Portable parser for command line options; support both short and long option names."><code class="xref py py-mod docutils literal notranslate"><span class="pre">getopt</span></code></a> 模块是一个命令行选项解析器，其 API 设计会让 C <code class="xref c c-func docutils literal notranslate"><span class="pre">getopt()</span></code> 函数的用户感到熟悉。 不熟悉 C <code class="xref c c-func docutils literal notranslate"><span class="pre">getopt()</span></code> 函数或者希望写更少代码并获得更完善帮助和错误消息的用户应当考虑改用 <a class="reference internal" href="argparse.html#module-argparse" title="argparse: Command-line option and argument parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">argparse</span></code></a> 模块。</p>
+</div>
+<hr class="docutils" />
+<p>此模块可协助脚本解析 <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code> 中的命令行参数。 它支持与 Unix <code class="xref c c-func docutils literal notranslate"><span class="pre">getopt()</span></code> 函数相同的惯例（包括形式如 '<code class="docutils literal notranslate"><span class="pre">-</span></code>' 与 '<code class="docutils literal notranslate"><span class="pre">--</span></code>' 的参数的特殊含义）。 也能通过可选的第三个参数来使用与 GNU 软件所支持形式相类似的长选项。</p>
+<p>此模块提供了两个函数和一个异常:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="getopt.getopt">
+<span class="sig-prename descclassname"><span class="pre">getopt.</span></span><span class="sig-name descname"><span class="pre">getopt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shortopts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longopts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#getopt.getopt" title="永久链接至目标">¶</a></dt>
+<dd><p>解析命令行选项与形参列表。 <em>args</em> 为要解析的参数列表，不包含最开头的对正在运行的程序的引用。 通常这意味着 <code class="docutils literal notranslate"><span class="pre">sys.argv[1:]</span></code>。 <em>shortopts</em> 为脚本所要识别的字母选项，包含要求后缀一个冒号 (<code class="docutils literal notranslate"><span class="pre">':'</span></code>；即与 Unix <code class="xref c c-func docutils literal notranslate"><span class="pre">getopt()</span></code> 所用的格式相同) 的选项。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>与 GNU <code class="xref c c-func docutils literal notranslate"><span class="pre">getopt()</span></code> 不同，在非选项参数之后，所有后续参数都会被视为非选项。 这类似于非 GNU Unix 系统的运作方式。</p>
+</div>
+<p>如果指定了 <em>longopts</em>，则必须为一个由应当被支持的长选项名称组成的列表。 开头的 <code class="docutils literal notranslate"><span class="pre">'--'</span></code> 字符不应被包括在选项名称中。 要求参数的长选项后应当带一个等号 (<code class="docutils literal notranslate"><span class="pre">'='</span></code>)。 可选参数不被支持。 如果想仅接受长选项，则 <em>shortopts</em> 应为一个空字符串。 命令行中的长选项只要提供了恰好能匹配可接受选项之一的选项名称前缀即可被识别。 举例来说，如果 <em>longopts</em> 为 <code class="docutils literal notranslate"><span class="pre">['foo',</span> <span class="pre">'frob']</span></code>，则选项 <code class="docutils literal notranslate"><span class="pre">--fo</span></code> 将匹配为 <code class="docutils literal notranslate"><span class="pre">--foo</span></code>，但 <code class="docutils literal notranslate"><span class="pre">--f</span></code> 将不能得到唯一匹配，因此将引发 <a class="reference internal" href="#getopt.GetoptError" title="getopt.GetoptError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">GetoptError</span></code></a>。</p>
+<p>返回值由两个元素组成：第一个是 <code class="docutils literal notranslate"><span class="pre">(option,</span> <span class="pre">value)</span></code> 对的列表；第二个是在去除该选项列表后余下的程序参数列表（这也就是 <em>args</em> 的尾部切片）。每个被返回的选项与值对的第一个元素是选项，短选项前缀一个连字符 (例如 <code class="docutils literal notranslate"><span class="pre">'-x'</span></code>)，长选项则前缀两个连字符 (例如 <code class="docutils literal notranslate"><span class="pre">'--long-option'</span></code>)，第二个元素是选项参数，如果选项不带参数则为空字符串。 列表中选项的排列顺序与它们被解析的顺序相同，因此允许多次出现。 长选项与短选项可以混用。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="getopt.gnu_getopt">
+<span class="sig-prename descclassname"><span class="pre">getopt.</span></span><span class="sig-name descname"><span class="pre">gnu_getopt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shortopts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longopts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#getopt.gnu_getopt" title="永久链接至目标">¶</a></dt>
+<dd><p>此函数与 <a class="reference internal" href="#module-getopt" title="getopt: Portable parser for command line options; support both short and long option names."><code class="xref py py-func docutils literal notranslate"><span class="pre">getopt()</span></code></a> 类似，区别在于它默认使用 GNU 风格的扫描模式。 这意味着选项和非选项参数可能会混在一起。 <a class="reference internal" href="#module-getopt" title="getopt: Portable parser for command line options; support both short and long option names."><code class="xref py py-func docutils literal notranslate"><span class="pre">getopt()</span></code></a> 函数将在遇到非选项参数时立即停止处理选项。</p>
+<p>如果选项字符串的第一个字符为 <code class="docutils literal notranslate"><span class="pre">'+'</span></code>，或者如果设置了环境变量 <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">POSIXLY_CORRECT</span></code>，则选项处理会在遇到非选项参数时立即停止。</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="getopt.GetoptError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">getopt.</span></span><span class="sig-name descname"><span class="pre">GetoptError</span></span><a class="headerlink" href="#getopt.GetoptError" title="永久链接至目标">¶</a></dt>
+<dd><p>This is raised当参数列表中出现不可识别的选项或者当一个需要参数的选项未带参数时将引发此异常。 此异常的参数是一个指明错误原因的字符串。 对于长选项，将一个参数传给不需要参数的选项也将导致引发此异常。 <code class="xref py py-attr docutils literal notranslate"><span class="pre">msg</span></code> 和 <code class="xref py py-attr docutils literal notranslate"><span class="pre">opt</span></code> 属性会给出错误消息和关联的选项；如果没有关联到异常的特定选项，则 <code class="xref py py-attr docutils literal notranslate"><span class="pre">opt</span></code> 将为空字符串。</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="getopt.error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">getopt.</span></span><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#getopt.error" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#getopt.GetoptError" title="getopt.GetoptError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">GetoptError</span></code></a> 的别名；用于向后兼容。</p>
+</dd></dl>
+
+<p>一个仅使用 Unix 风格选项的例子:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">getopt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span> <span class="o">=</span> <span class="s1">&#39;-a -b -cfoo -d bar a1 a2&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">[&#39;-a&#39;, &#39;-b&#39;, &#39;-cfoo&#39;, &#39;-d&#39;, &#39;bar&#39;, &#39;a1&#39;, &#39;a2&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;abc:d:&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span>
+<span class="go">[(&#39;-a&#39;, &#39;&#39;), (&#39;-b&#39;, &#39;&#39;), (&#39;-c&#39;, &#39;foo&#39;), (&#39;-d&#39;, &#39;bar&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">[&#39;a1&#39;, &#39;a2&#39;]</span>
+</pre></div>
+</div>
+<p>使用长选项名也同样容易:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;--condition=foo --testing --output-file abc.def -x a1 a2&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">[&#39;--condition=foo&#39;, &#39;--testing&#39;, &#39;--output-file&#39;, &#39;abc.def&#39;, &#39;-x&#39;, &#39;a1&#39;, &#39;a2&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="s1">&#39;condition=&#39;</span><span class="p">,</span> <span class="s1">&#39;output-file=&#39;</span><span class="p">,</span> <span class="s1">&#39;testing&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span>
+<span class="go">[(&#39;--condition&#39;, &#39;foo&#39;), (&#39;--testing&#39;, &#39;&#39;), (&#39;--output-file&#39;, &#39;abc.def&#39;), (&#39;-x&#39;, &#39;&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">[&#39;a1&#39;, &#39;a2&#39;]</span>
+</pre></div>
+</div>
+<p>在脚本中，典型的用法类似这样:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">getopt</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">opts</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;ho:v&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;output=&quot;</span><span class="p">])</span>
+    <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="c1"># print help information and exit:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>  <span class="c1"># will print something like &quot;option -a not recognized&quot;</span>
+        <span class="n">usage</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">o</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="s2">&quot;-v&quot;</span><span class="p">:</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-h&quot;</span><span class="p">,</span> <span class="s2">&quot;--help&quot;</span><span class="p">):</span>
+            <span class="n">usage</span><span class="p">()</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;unhandled option&quot;</span>
+    <span class="c1"># ...</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>请注意通过 <a class="reference internal" href="argparse.html#module-argparse" title="argparse: Command-line option and argument parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">argparse</span></code></a> 模块可以使用更少的代码并附带更详细的帮助与错误消息生成等价的命令行接口:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-v&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;verbose&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="c1"># ... do something with args.output ...</span>
+    <span class="c1"># ... do something with args.verbose ..</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>模块 <a class="reference internal" href="argparse.html#module-argparse" title="argparse: Command-line option and argument parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">argparse</span></code></a></dt><dd><p>替代的命令行选项和参数解析库。</p>
+</dd>
+</dl>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="argparse.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">argparse</span></code> --- 命令行选项、参数和子命令解析器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="logging.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code> --- Python 的日志记录工具</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/getopt.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="logging.html" title="logging --- Python 的日志记录工具"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="argparse.html" title="argparse --- 命令行选项、参数和子命令解析器"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="allos.html" >通用操作系统服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">getopt</span></code> --- C 风格的命令行选项解析器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

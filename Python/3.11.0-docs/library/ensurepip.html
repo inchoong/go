@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ensurepip --- 引导 pip 安装器 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="venv --- 创建虚拟环境" href="venv.html" />
+    <link rel="prev" title="distutils --- 构建和安装 Python 模块" href="distutils.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/ensurepip.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code> --- 引导 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 安装器</a><ul>
+<li><a class="reference internal" href="#command-line-interface">命令行界面</a></li>
+<li><a class="reference internal" href="#module-api">模块 API</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="distutils.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">distutils</span></code> --- 构建和安装 Python 模块</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="venv.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> --- 创建虚拟环境</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/ensurepip.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="venv.html" title="venv --- 创建虚拟环境"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="distutils.html" title="distutils --- 构建和安装 Python 模块"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="distribution.html" accesskey="U">软件打包和分发</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code> --- 引导 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 安装器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-ensurepip">
+<span id="ensurepip-bootstrapping-the-pip-installer"></span><h1><a class="reference internal" href="#module-ensurepip" title="ensurepip: Bootstrapping the &quot;pip&quot; installer into an existing Python installation or virtual environment."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code></a> --- 引导 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 安装器<a class="headerlink" href="#module-ensurepip" title="永久链接至标题">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-ensurepip" title="ensurepip: Bootstrapping the &quot;pip&quot; installer into an existing Python installation or virtual environment."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code></a> 包为在已有的Python安装实例或虚拟环境中引导 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 安装器提供了支持。需要使用引导才能使用pip的这一事实也正好反映了 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 是一个独立的项目，有其自己的发布周期，其最新版本随CPython解释器的维护版本和新特性版本一同捆绑。</p>
+<p>在大多数情况下，Python的终端使用者不需要直接调用这个模块（ <code class="docutils literal notranslate"><span class="pre">pip</span></code> 默认应该已被引导），不过，如果在安装Python（或创建虚拟环境）之时跳过了安装 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 步骤，或者日后特意卸载了 <code class="docutils literal notranslate"><span class="pre">pip</span></code> ，则需要使用这个模块。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>这个模块 <em>无需</em> 访问互联网。引导启动 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 所需的全部组件均包含在包的内部。</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference internal" href="../installing/index.html#installing-index"><span class="std std-ref">安装 Python 模块</span></a></dt><dd><p>安装Python包的终端使用者教程</p>
+</dd>
+<dt><span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0453/"><strong>PEP 453</strong></a>: 在Python安装实例中显式引导启动pip</dt><dd><p>这个模块的原始缘由以及规范文档</p>
+</dd>
+</dl>
+</div>
+<p class="availability"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: not Emscripten, not WASI.<p>This module does not work or is not available on WebAssembly platforms
+<code class="docutils literal notranslate"><span class="pre">wasm32-emscripten</span></code> and <code class="docutils literal notranslate"><span class="pre">wasm32-wasi</span></code>. See
+<a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">WebAssembly platforms</span></a> for more information.</p>
+</p>
+<section id="command-line-interface">
+<h2>命令行界面<a class="headerlink" href="#command-line-interface" title="永久链接至标题">¶</a></h2>
+<p>使用解释器的 <code class="docutils literal notranslate"><span class="pre">-m</span></code> 参数调用命令行接口。</p>
+<p>最简单的调用方式为：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ensurepip</span>
+</pre></div>
+</div>
+<p>该调用会在当前未安装 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 的情况下安装 <code class="docutils literal notranslate"><span class="pre">pip</span></code> ，如已安装则无事发生。如要确保安装的 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 版本至少为 <code class="docutils literal notranslate"><span class="pre">ensurepip</span></code> 所支援的最新版本，传入 <code class="docutils literal notranslate"><span class="pre">--upgrade</span></code> 参数：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ensurepip</span> <span class="o">--</span><span class="n">upgrade</span>
+</pre></div>
+</div>
+<p>在默认情况下，<code class="docutils literal notranslate"><span class="pre">pip</span></code> 会被安装到当前虚拟环境（如果激活了虚拟环境）或系统的包目录（如果未激活虚拟环境）。 安装位置可通过两个额外的命令行选项来控制:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--root</span> <span class="pre">1</span></code>: 相对于给定的根目录而不是当前已激活虚拟环境（如果存在）的根目录或当前 Python 安装版的默认根目录来安装 <code class="docutils literal notranslate"><span class="pre">pip</span></code>。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--user</span></code>: 将 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 安装到用户包目录而不是全局安装到当前 Python 安装版（此选项不允许在已激活虚拟环境中使用）。</p></li>
+</ul>
+<p>在默认情况下，脚本 <code class="docutils literal notranslate"><span class="pre">pipX</span></code> 和 <code class="docutils literal notranslate"><span class="pre">pipX.Y</span></code> 将被安装（其中 X.Y 表示被用来发起调用 <code class="docutils literal notranslate"><span class="pre">ensurepip</span></code> 的 Python 的版本）。 所安装的脚本可通过两个额外的命令行选项来控制:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--altinstall</span></code>: 如果请求了一个替代安装版，则 <code class="docutils literal notranslate"><span class="pre">pipX</span></code> 脚本将 <em>不会</em> 被安装。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--default-pip</span></code>: 如果请求了一个 &quot;默认的 pip&quot; 安装版，则除了两个常规脚本之外还将安装 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 脚本。</p></li>
+</ul>
+<p>同时提供这两个脚本选择选项将会触发异常。</p>
+</section>
+<section id="module-api">
+<h2>模块 API<a class="headerlink" href="#module-api" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#module-ensurepip" title="ensurepip: Bootstrapping the &quot;pip&quot; installer into an existing Python installation or virtual environment."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code></a> 暴露了两个函数用于编程:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ensurepip.version">
+<span class="sig-prename descclassname"><span class="pre">ensurepip.</span></span><span class="sig-name descname"><span class="pre">version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ensurepip.version" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个指明在初始创建环境时将被安装的可用 pip 版本的字符串。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ensurepip.bootstrap">
+<span class="sig-prename descclassname"><span class="pre">ensurepip.</span></span><span class="sig-name descname"><span class="pre">bootstrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upgrade</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altinstall</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_pip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ensurepip.bootstrap" title="永久链接至目标">¶</a></dt>
+<dd><p>初始创建 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 到当前的或指定的环境中。</p>
+<p><em>root</em> 指明要作为相对安装路径的替代根目录。 如果 <em>root</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则安装会使用当前环境的默认安装位置。</p>
+<p><em>upgrade</em> 指明是否要将一个现有的较早版本的 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 的安装版升级到可用的新版本。</p>
+<p><em>user</em> 指明是否使用针对用户的安装方案而不是全局安装。</p>
+<p>在默认情况下，将会安装 <code class="docutils literal notranslate"><span class="pre">pipX</span></code> 和 <code class="docutils literal notranslate"><span class="pre">pipX.Y</span></code> 脚本（其中 X.Y 表示 Python 的当前版本）。</p>
+<p>如果设置了 <em>altinstall</em>，则 <code class="docutils literal notranslate"><span class="pre">pipX</span></code> 将 <em>不会</em> 被安装。</p>
+<p>如果设置了 <em>default_pip</em>，则除了两个常规脚本外还将安装 <code class="docutils literal notranslate"><span class="pre">pip</span></code>。</p>
+<p>同时设置 <em>altinstall</em> 和 <em>default_pip</em> 将触发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+<p><em>verbosity</em> 控制初始创建操作对 <a class="reference internal" href="sys.html#sys.stdout" title="sys.stdout"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout</span></code></a> 的输出信息级别。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">ensurepip.bootstrap</span></code> 附带参数 <code class="docutils literal notranslate"><span class="pre">root</span></code>。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>创建创建过程对于 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> 和 <code class="docutils literal notranslate"><span class="pre">os.environ</span></code> 都会有附带影响。 改为在子进程中发起调用命令行接口可以避免这些附带影响。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>初始创建过程可能会安装 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 所需的额外模块，但其他软件不应假定这些依赖将总是会默认存在（因为这些依赖可能会在未来的 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 版本中被移除）。</p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code> --- 引导 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 安装器</a><ul>
+<li><a class="reference internal" href="#command-line-interface">命令行界面</a></li>
+<li><a class="reference internal" href="#module-api">模块 API</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="distutils.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">distutils</span></code> --- 构建和安装 Python 模块</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="venv.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> --- 创建虚拟环境</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/ensurepip.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="venv.html" title="venv --- 创建虚拟环境"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="distutils.html" title="distutils --- 构建和安装 Python 模块"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="distribution.html" >软件打包和分发</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">ensurepip</span></code> --- 引导 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 安装器</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

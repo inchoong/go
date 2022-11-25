@@ -1,0 +1,1238 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>logging.handlers --- 日志处理程序 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="getpass --- 便携式密码输入工具" href="getpass.html" />
+    <link rel="prev" title="logging.config --- 日志记录配置" href="logging.config.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/logging.handlers.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code> --- 日志处理程序</a><ul>
+<li><a class="reference internal" href="#streamhandler">StreamHandler</a></li>
+<li><a class="reference internal" href="#filehandler">FileHandler</a></li>
+<li><a class="reference internal" href="#nullhandler">NullHandler</a></li>
+<li><a class="reference internal" href="#watchedfilehandler">WatchedFileHandler</a></li>
+<li><a class="reference internal" href="#baserotatinghandler">BaseRotatingHandler</a></li>
+<li><a class="reference internal" href="#rotatingfilehandler">RotatingFileHandler</a></li>
+<li><a class="reference internal" href="#timedrotatingfilehandler">TimedRotatingFileHandler</a></li>
+<li><a class="reference internal" href="#sockethandler">SocketHandler</a></li>
+<li><a class="reference internal" href="#datagramhandler">DatagramHandler</a></li>
+<li><a class="reference internal" href="#sysloghandler">SysLogHandler</a></li>
+<li><a class="reference internal" href="#nteventloghandler">NTEventLogHandler</a></li>
+<li><a class="reference internal" href="#smtphandler">SMTPHandler</a></li>
+<li><a class="reference internal" href="#memoryhandler">MemoryHandler</a></li>
+<li><a class="reference internal" href="#httphandler">HTTPHandler</a></li>
+<li><a class="reference internal" href="#queuehandler">QueueHandler</a></li>
+<li><a class="reference internal" href="#queuelistener">QueueListener</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="logging.config.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.config</span></code> --- 日志记录配置</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="getpass.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">getpass</span></code> --- 便携式密码输入工具</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/logging.handlers.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="getpass.html" title="getpass --- 便携式密码输入工具"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="logging.config.html" title="logging.config --- 日志记录配置"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="allos.html" accesskey="U">通用操作系统服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code> --- 日志处理程序</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-logging.handlers">
+<span id="logging-handlers-logging-handlers"></span><h1><a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> --- 日志处理程序<a class="headerlink" href="#module-logging.handlers" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/logging/handlers.py">Lib/logging/handlers.py</a></p>
+<aside class="sidebar">
+<p class="sidebar-title">Important</p>
+<p>此页面仅包含参考信息。有关教程，请参阅</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../howto/logging.html#logging-basic-tutorial"><span class="std std-ref">基础教程</span></a></p></li>
+<li><p><a class="reference internal" href="../howto/logging.html#logging-advanced-tutorial"><span class="std std-ref">进阶教程</span></a></p></li>
+<li><p><a class="reference internal" href="../howto/logging-cookbook.html#logging-cookbook"><span class="std std-ref">日志记录操作手册</span></a></p></li>
+</ul>
+</aside>
+<hr class="docutils" />
+<p>这个包提供了以下有用的处理程序。 请注意有三个处理程序类 (<a class="reference internal" href="#logging.StreamHandler" title="logging.StreamHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamHandler</span></code></a>, <a class="reference internal" href="#logging.FileHandler" title="logging.FileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileHandler</span></code></a> 和 <a class="reference internal" href="#logging.NullHandler" title="logging.NullHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullHandler</span></code></a>) 实际上是在 <a class="reference internal" href="logging.html#module-logging" title="logging: Flexible event logging system for applications."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a> 模块本身定义的，但其文档与其他处理程序一同记录在此。</p>
+<section id="streamhandler">
+<span id="stream-handler"></span><h2>StreamHandler<a class="headerlink" href="#streamhandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.StreamHandler" title="logging.StreamHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamHandler</span></code></a> 类位于核心 <a class="reference internal" href="logging.html#module-logging" title="logging: Flexible event logging system for applications."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a> 包，它可将日志记录输出发送到数据流例如 <em>sys.stdout</em>, <em>sys.stderr</em> 或任何文件类对象（或者更精确地说，任何支持 <code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code> 方法的对象）。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.StreamHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.</span></span><span class="sig-name descname"><span class="pre">StreamHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.StreamHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个新的 <a class="reference internal" href="#logging.StreamHandler" title="logging.StreamHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamHandler</span></code></a> 类。 如果指定了 <em>stream</em>，则实例将用它作为日志记录输出；在其他情况下将使用 <em>sys.stderr</em>。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.StreamHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.StreamHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>如果指定了一个格式化器，它会被用来格式化记录。 随后记录会被写入到 <a class="reference internal" href="#logging.StreamHandler.terminator" title="logging.StreamHandler.terminator"><code class="xref py py-attr docutils literal notranslate"><span class="pre">terminator</span></code></a> 之后的流中。 如果存在异常信息，则会使用 <a class="reference internal" href="traceback.html#traceback.print_exception" title="traceback.print_exception"><code class="xref py py-func docutils literal notranslate"><span class="pre">traceback.print_exception()</span></code></a> 来格式化并添加到流中。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.StreamHandler.flush">
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.StreamHandler.flush" title="永久链接至目标">¶</a></dt>
+<dd><p>通过调用流的 <a class="reference internal" href="#logging.StreamHandler.flush" title="logging.StreamHandler.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a> 方法来刷新它。 请注意 <code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code> 方法是继承自 <a class="reference internal" href="logging.html#logging.Handler" title="logging.Handler"><code class="xref py py-class docutils literal notranslate"><span class="pre">Handler</span></code></a> 的所以没有输出，因此有时可能需要显式地调用 <a class="reference internal" href="#logging.StreamHandler.flush" title="logging.StreamHandler.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.StreamHandler.setStream">
+<span class="sig-name descname"><span class="pre">setStream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.StreamHandler.setStream" title="永久链接至目标">¶</a></dt>
+<dd><p>将实例的流设为指定值，如果两者不一致的话。 旧的流会在设置新的流之前被刷新。</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>stream</strong> -- 处理程序应当使用的流。</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>旧的流，如果流已被改变的话，如果未被改变则为 <em>None</em>。</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="logging.StreamHandler.terminator">
+<span class="sig-name descname"><span class="pre">terminator</span></span><a class="headerlink" href="#logging.StreamHandler.terminator" title="永久链接至目标">¶</a></dt>
+<dd><p>当将已格式化的记录写入到流时被用作终止符的字符串。 默认值为 <code class="docutils literal notranslate"><span class="pre">'\n'</span></code>。</p>
+<p>如果你不希望以换行符终止，你可以将处理程序类实例的 <code class="docutils literal notranslate"><span class="pre">terminator</span></code> 属性设为空字符串。</p>
+<p>在较早的版本中，终止符被硬编码为 <code class="docutils literal notranslate"><span class="pre">'\n'</span></code>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="filehandler">
+<span id="file-handler"></span><h2>FileHandler<a class="headerlink" href="#filehandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.FileHandler" title="logging.FileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileHandler</span></code></a> 类位于核心 <a class="reference internal" href="logging.html#module-logging" title="logging: Flexible event logging system for applications."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a> 包，它可将日志记录输出到磁盘文件中。 它从 <a class="reference internal" href="#logging.StreamHandler" title="logging.StreamHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamHandler</span></code></a> 继承了输出功能。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.FileHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.</span></span><span class="sig-name descname"><span class="pre">FileHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'a'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.FileHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.FileHandler" title="logging.FileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileHandler</span></code></a> 类的新实例。 将打开指定的文件并将其用作日志记录流。 如果未指定 <em>mode</em>，则会使用 <code class="xref py py-const docutils literal notranslate"><span class="pre">'a'</span></code>。 如果 <em>encoding</em> 不为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会将其用作打开文件的编码格式。 如果 <em>delay</em> 为真值，则文件打开会被推迟至第一次调用 <a class="reference internal" href="#logging.FileHandler.emit" title="logging.FileHandler.emit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">emit()</span></code></a> 时。 默认情况下，文件会无限增长。 如果指定了 <em>errors</em>，它会被用于确定编码格式错误的处理方式。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>除了字符串值，也接受 <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> 对象作为 <em>filename</em> 参数。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>增加了 <em>errors</em> 形参。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.FileHandler.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.FileHandler.close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭文件。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.FileHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.FileHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>将记录输出到文件。</p>
+<p>请注意如果文件因日志记录在退出后终止而被关闭并且文件打开模式为 'w'，则记录将不会被发送 (参见 <a class="reference external" href="https://bugs.python.org/issue?&#64;action=redirect&amp;bpo=42378">bpo-42378</a>)。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="nullhandler">
+<span id="null-handler"></span><h2>NullHandler<a class="headerlink" href="#nullhandler" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">3.1 新版功能.</span></p>
+</div>
+<p><a class="reference internal" href="#logging.NullHandler" title="logging.NullHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullHandler</span></code></a> 类位于核心 <a class="reference internal" href="logging.html#module-logging" title="logging: Flexible event logging system for applications."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a> 包，它不执行任何格式化或输出。 它实际上是一个供库开发者使用的‘无操作’处理程序。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.NullHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.</span></span><span class="sig-name descname"><span class="pre">NullHandler</span></span><a class="headerlink" href="#logging.NullHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.NullHandler" title="logging.NullHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullHandler</span></code></a> 类的新实例。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.NullHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.NullHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>此方法不执行任何操作。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.NullHandler.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.NullHandler.handle" title="永久链接至目标">¶</a></dt>
+<dd><p>此方法不执行任何操作。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.NullHandler.createLock">
+<span class="sig-name descname"><span class="pre">createLock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.NullHandler.createLock" title="永久链接至目标">¶</a></dt>
+<dd><p>此方法会对锁返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>，因为没有下层 I/O 的访问需要被序列化。</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>请参阅 <a class="reference internal" href="../howto/logging.html#library-config"><span class="std std-ref">配置库的日志记录</span></a> 了解有关如何使用 <a class="reference internal" href="#logging.NullHandler" title="logging.NullHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullHandler</span></code></a> 的更多信息。</p>
+</section>
+<section id="watchedfilehandler">
+<span id="watched-file-handler"></span><h2>WatchedFileHandler<a class="headerlink" href="#watchedfilehandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.WatchedFileHandler" title="logging.handlers.WatchedFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">WatchedFileHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，这个 <code class="xref py py-class docutils literal notranslate"><span class="pre">FileHandler</span></code> 用于监视它所写入日志记录的文件。 如果文件发生变化，它会被关闭并使用文件名重新打开。</p>
+<p>发生文件更改可能是由于使用了执行文件轮换的程序例如 <em>newsyslog</em> 和 <em>logrotate</em>。 这个处理程序在 Unix/Linux 下使用，它会监视文件来查看自上次发出数据后是否有更改。 （如果文件的设备或 inode 发生变化就认为已被更改。） 如果文件被更改，则会关闭旧文件流，并再打开文件以获得新文件流。</p>
+<p>这个处理程序不适合在 Windows 下使用，因为在 Windows 下打开的日志文件无法被移动或改名 —— 日志记录会使用排他的锁来打开文件 —— 因此这样的处理程序是没有必要的。 此外，<em>ST_INO</em> 在 Windows 下不受支持；<a class="reference internal" href="os.html#os.stat" title="os.stat"><code class="xref py py-func docutils literal notranslate"><span class="pre">stat()</span></code></a> 将总是为该值返回零。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.WatchedFileHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">WatchedFileHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'a'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.WatchedFileHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.WatchedFileHandler" title="logging.handlers.WatchedFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">WatchedFileHandler</span></code></a> 类的新实例。 将打开指定的文件并将其用作日志记录流。 如果未指定 <em>mode</em>，则会使用 <code class="xref py py-const docutils literal notranslate"><span class="pre">'a'</span></code>。 如果 <em>encoding</em> 不为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会将其用作打开文件的编码格式。 如果 <em>delay</em> 为真值，则文件打开会被推迟至第一次调用 <a class="reference internal" href="#logging.handlers.WatchedFileHandler.emit" title="logging.handlers.WatchedFileHandler.emit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">emit()</span></code></a> 时。 默认情况下，文件会无限增长。 如果提供了 <em>errors</em>，它会被用于确定编码格式错误的处理方式。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>除了字符串值，也接受 <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> 对象作为 <em>filename</em> 参数。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>增加了 <em>errors</em> 形参。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.WatchedFileHandler.reopenIfNeeded">
+<span class="sig-name descname"><span class="pre">reopenIfNeeded</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.WatchedFileHandler.reopenIfNeeded" title="永久链接至目标">¶</a></dt>
+<dd><p>检查文件是否已更改。 如果已更改，则会刷新并关闭现有流然后重新打开文件，这通常是将记录输出到文件的先导操作。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.WatchedFileHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.WatchedFileHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>将记录输出到文件，但如果文件已更改则会先调用 <a class="reference internal" href="#logging.handlers.WatchedFileHandler.reopenIfNeeded" title="logging.handlers.WatchedFileHandler.reopenIfNeeded"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reopenIfNeeded()</span></code></a> 来重新打开它。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="baserotatinghandler">
+<span id="base-rotating-handler"></span><h2>BaseRotatingHandler<a class="headerlink" href="#baserotatinghandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.BaseRotatingHandler" title="logging.handlers.BaseRotatingHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRotatingHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块中，它是轮换文件处理程序类 <a class="reference internal" href="#logging.handlers.RotatingFileHandler" title="logging.handlers.RotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">RotatingFileHandler</span></code></a> 和 <a class="reference internal" href="#logging.handlers.TimedRotatingFileHandler" title="logging.handlers.TimedRotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimedRotatingFileHandler</span></code></a> 的基类。 你不需要实例化此类，但它具有你可能需要重载的属性和方法。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.BaseRotatingHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">BaseRotatingHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.BaseRotatingHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>类的形参与 <code class="xref py py-class docutils literal notranslate"><span class="pre">FileHandler</span></code> 的相同。 其属性有:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="logging.handlers.BaseRotatingHandler.namer">
+<span class="sig-name descname"><span class="pre">namer</span></span><a class="headerlink" href="#logging.handlers.BaseRotatingHandler.namer" title="永久链接至目标">¶</a></dt>
+<dd><p>如果此属性被设为一个可调用对象，则 <a class="reference internal" href="#logging.handlers.BaseRotatingHandler.rotation_filename" title="logging.handlers.BaseRotatingHandler.rotation_filename"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rotation_filename()</span></code></a> 方法会委托给该可调用对象。 传给该可调用对象的形参与传给 <a class="reference internal" href="#logging.handlers.BaseRotatingHandler.rotation_filename" title="logging.handlers.BaseRotatingHandler.rotation_filename"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rotation_filename()</span></code></a> 的相同。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>namer 函数会在轮换期间被多次调用，因此它应当尽可能的简单快速。 它还应当对给定的输入每次都返回相同的输出，否则轮换行为可能无法按预期工作。</p>
+<p>还有一点值得注意的是当使用命名器来保存文件名中要在轮换中使用的特定属性时必须小心处理。 例如，<a class="reference internal" href="#logging.handlers.RotatingFileHandler" title="logging.handlers.RotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">RotatingFileHandler</span></code></a> 会要求有一组名称中包含连续整数的日志文件，以便轮换的效果能满足预期，而 <a class="reference internal" href="#logging.handlers.TimedRotatingFileHandler" title="logging.handlers.TimedRotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimedRotatingFileHandler</span></code></a> 会通过确定要删除的最旧文件（根据传递纵使中处理句柄的初始化器的 <code class="docutils literal notranslate"><span class="pre">backupCount</span></code> 形参）来删除旧的日志文件。 为了达成这样的效果，文件名应当是可以使用文件名的日期/时间部分来排序的，而且命名器需要遵循此排序。 （如果想使用不遵循此规则的命名器，则需要在一个重载了 <a class="reference internal" href="#logging.handlers.TimedRotatingFileHandler.getFilesToDelete" title="logging.handlers.TimedRotatingFileHandler.getFilesToDelete"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getFilesToDelete()</span></code></a> 方法的 <a class="reference internal" href="#logging.handlers.TimedRotatingFileHandler" title="logging.handlers.TimedRotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimedRotatingFileHandler</span></code></a> 的子类中使用它以便与自定义的命名规则进行配合。）</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="logging.handlers.BaseRotatingHandler.rotator">
+<span class="sig-name descname"><span class="pre">rotator</span></span><a class="headerlink" href="#logging.handlers.BaseRotatingHandler.rotator" title="永久链接至目标">¶</a></dt>
+<dd><p>如果此属性被设为一个可调用对象，则 <a class="reference internal" href="#logging.handlers.BaseRotatingHandler.rotate" title="logging.handlers.BaseRotatingHandler.rotate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rotate()</span></code></a> 方法会委托给该可调用对象。 传给该可调用对象的形参与传给 <a class="reference internal" href="#logging.handlers.BaseRotatingHandler.rotate" title="logging.handlers.BaseRotatingHandler.rotate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rotate()</span></code></a> 的相同。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.BaseRotatingHandler.rotation_filename">
+<span class="sig-name descname"><span class="pre">rotation_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.BaseRotatingHandler.rotation_filename" title="永久链接至目标">¶</a></dt>
+<dd><p>当轮换时修改日志文件的文件名。</p>
+<p>提供该属性以便可以提供自定义文件名。</p>
+<p>默认实现会调用处理程序的 'namer' 属性，如果它是可调用对象的话，并传给它默认的名称。 如果该属性不是可调用对象 (默认值为 <code class="docutils literal notranslate"><span class="pre">None</span></code>)，则将名称原样返回。</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>default_name</strong> -- 日志文件的默认名称。</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.BaseRotatingHandler.rotate">
+<span class="sig-name descname"><span class="pre">rotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.BaseRotatingHandler.rotate" title="永久链接至目标">¶</a></dt>
+<dd><p>当执行轮换时，轮换当前日志。</p>
+<p>默认实现会调用处理程序的 'rotator' 属性，如果它是可调用对象的话，并传给它 source 和 dest 参数。 如果该属性不是可调用对象 (默认值为 <code class="docutils literal notranslate"><span class="pre">None</span></code>)，则将源简单地重命名为目标。</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> -- 源文件名。 这通常为基本文件名，例如 'test.log'。</p></li>
+<li><p><strong>dest</strong> -- 目标文件名。 这通常是源被轮换后的名称，例如 'test.log.1'。</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<p>该属性存在的理由是让你不必进行子类化 —— 你可以使用与 <a class="reference internal" href="#logging.handlers.RotatingFileHandler" title="logging.handlers.RotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">RotatingFileHandler</span></code></a> 和 <a class="reference internal" href="#logging.handlers.TimedRotatingFileHandler" title="logging.handlers.TimedRotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimedRotatingFileHandler</span></code></a> 的实例相同的可调用对象。 如果 namer 或 rotator 可调用对象引发了异常，将会按照与 <code class="xref py py-meth docutils literal notranslate"><span class="pre">emit()</span></code> 调用期间的任何其他异常相同的方式来处理，例如通过处理程序的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">handleError()</span></code> 方法。</p>
+<p>如果你需要对轮换进程执行更多的修改，你可以重载这些方法。</p>
+<p>请参阅 <a class="reference internal" href="../howto/logging-cookbook.html#cookbook-rotator-namer"><span class="std std-ref">利用 rotator 和 namer 自定义日志轮换操作</span></a> 获取具体示例。</p>
+</section>
+<section id="rotatingfilehandler">
+<span id="rotating-file-handler"></span><h2>RotatingFileHandler<a class="headerlink" href="#rotatingfilehandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.RotatingFileHandler" title="logging.handlers.RotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">RotatingFileHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它支持磁盘日志文件的轮换。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.RotatingFileHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">RotatingFileHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'a'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxBytes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backupCount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.RotatingFileHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.RotatingFileHandler" title="logging.handlers.RotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">RotatingFileHandler</span></code></a> 类的新实例。 将打开指定的文件并将其用作日志记录流。 如果未指定 <em>mode</em>，则会使用 <code class="docutils literal notranslate"><span class="pre">'a'</span></code>。 如果 <em>encoding</em> 不为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会将其用作打开文件的编码格式。 如果 <em>delay</em> 为真值，则文件打开会被推迟至第一次调用 <a class="reference internal" href="#logging.handlers.RotatingFileHandler.emit" title="logging.handlers.RotatingFileHandler.emit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">emit()</span></code></a>。 默认情况下，文件会无限增长。 如果提供了 <em>errors</em>，它会被用于确定编码格式错误的处理方式。</p>
+<p>你可以使用 <em>maxBytes</em> 和 <em>backupCount</em> 值来允许文件以预定的大小执行 <em class="dfn">rollover</em>。 当即将超出预定大小时，将关闭旧文件并打开一个新文件用于输出。 只要当前日志文件长度接近 <em>maxBytes</em> 就会发生轮换；但是如果 <em>maxBytes</em> 或 <em>backupCount</em> 两者之一的值为零，就不会发生轮换，因此你通常要设置 <em>backupCount</em> 至少为 1，而 <em>maxBytes</em> 不能为零。 当 <em>backupCount</em> 为非零值时，系统将通过为原文件名添加扩展名 '.1', '.2' 等来保存旧日志文件。 例如，当 <em>backupCount</em> 为 5 而基本文件名为 <code class="file docutils literal notranslate"><span class="pre">app.log</span></code> 时，你将得到 <code class="file docutils literal notranslate"><span class="pre">app.log</span></code>, <code class="file docutils literal notranslate"><span class="pre">app.log.1</span></code>, <code class="file docutils literal notranslate"><span class="pre">app.log.2</span></code> 直至 <code class="file docutils literal notranslate"><span class="pre">app.log.5</span></code>。 当前被写入的文件总是 <code class="file docutils literal notranslate"><span class="pre">app.log</span></code>。 当此文件写满时，它会被关闭并重户名为 <code class="file docutils literal notranslate"><span class="pre">app.log.1</span></code>，而如果文件 <code class="file docutils literal notranslate"><span class="pre">app.log.1</span></code>, <code class="file docutils literal notranslate"><span class="pre">app.log.2</span></code> 等存在，则它们会被分别重命名为 <code class="file docutils literal notranslate"><span class="pre">app.log.2</span></code>, <code class="file docutils literal notranslate"><span class="pre">app.log.3</span></code> 等等。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>除了字符串值，也接受 <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> 对象作为 <em>filename</em> 参数。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>增加了 <em>errors</em> 形参。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.RotatingFileHandler.doRollover">
+<span class="sig-name descname"><span class="pre">doRollover</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.RotatingFileHandler.doRollover" title="永久链接至目标">¶</a></dt>
+<dd><p>执行上文所描述的轮换。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.RotatingFileHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.RotatingFileHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>将记录输出到文件，以适应上文所描述的轮换。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="timedrotatingfilehandler">
+<span id="timed-rotating-file-handler"></span><h2>TimedRotatingFileHandler<a class="headerlink" href="#timedrotatingfilehandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.TimedRotatingFileHandler" title="logging.handlers.TimedRotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimedRotatingFileHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它支持基于特定时间间隔的磁盘日志文件轮换。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.TimedRotatingFileHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">TimedRotatingFileHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">when</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'h'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backupCount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atTime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.TimedRotatingFileHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个新的 <a class="reference internal" href="#logging.handlers.TimedRotatingFileHandler" title="logging.handlers.TimedRotatingFileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimedRotatingFileHandler</span></code></a> 类实例。 指定的文件会被打开并用作日志记录的流。 对于轮换操作它还会设置文件名前缀。 轮换的发生是基于 <em>when</em> 和 <em>interval</em> 的积。</p>
+<p>你可以使用 <em>when</em> 来指定 <em>interval</em> 的类型。 可能的值列表如下。 请注意它们不是大小写敏感的。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 41%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>值</p></th>
+<th class="head"><p>间隔类型</p></th>
+<th class="head"><p>如果/如何使用 <em>atTime</em></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'S'</span></code></p></td>
+<td><p>秒</p></td>
+<td><p>忽略</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'M'</span></code></p></td>
+<td><p>分钟</p></td>
+<td><p>忽略</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'H'</span></code></p></td>
+<td><p>小时</p></td>
+<td><p>忽略</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'D'</span></code></p></td>
+<td><p>天</p></td>
+<td><p>忽略</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'W0'-'W6'</span></code></p></td>
+<td><p>工作日(0=星期一)</p></td>
+<td><p>用于计算初始轮换时间</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'midnight'</span></code></p></td>
+<td><p>如果未指定 <em>atTime</em> 则在午夜执行轮换，否则将使用 <em>atTime</em>。</p></td>
+<td><p>用于计算初始轮换时间</p></td>
+</tr>
+</tbody>
+</table>
+<p>当使用基于星期的轮换时，星期一为 'W0'，星期二为 'W1'，以此类推直至星期日为 'W6'。 在这种情况下，传入的 <em>interval</em> 值不会被使用。</p>
+<p>系统将通过为文件名添加扩展名来保存旧日志文件。 扩展名是基于日期和时间的，根据轮换间隔的长短使用 strftime 格式 <code class="docutils literal notranslate"><span class="pre">%Y-%m-%d_%H-%M-%S</span></code> 或是其中有变动的部分。</p>
+<p>当首次计算下次轮换的时间时（即当处理程序被创建时），现有日志文件的上次被修改时间或者当前时间会被用来计算下次轮换的发生时间。</p>
+<p>如果 <em>utc</em> 参数为真值，将使用 UTC 时间；否则会使用本地时间。</p>
+<p>如果 <em>backupCount</em> 不为零，则最多将保留 <em>backupCount</em> 个文件，而如果当轮换发生时创建了更多的文件，则最旧的文件会被删除。 删除逻辑使用间隔时间来确定要删除的文件，因此改变间隔时间可能导致旧文件被继续保留。</p>
+<p>如果 <em>delay</em> 为真值，则会将文件打开延迟到首次调用 <a class="reference internal" href="#logging.handlers.TimedRotatingFileHandler.emit" title="logging.handlers.TimedRotatingFileHandler.emit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">emit()</span></code></a> 的时候。</p>
+<p>如果 <em>atTime</em> 不为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则它必须是一个 <code class="docutils literal notranslate"><span class="pre">datetime.time</span></code> 的实例，该实例指定轮换在一天内的发生时间，用于轮换被设为“在午夜”或“在每星期的某一天”之类的情况。 请注意在这些情况下，<em>atTime</em> 值实际上会被用于计算 <em>初始</em> 轮换，而后续轮换将会通过正常的间隔时间计算来得出。</p>
+<p>如果指定了 <em>errors</em>，它会被用来确定编码错误的处理方式。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>初始轮换时间的计算是在处理程序被初始化时执行的。 后续轮换时间的计算则仅在轮换发生时执行，而只有当提交输出时轮换才会发生。 如果不记住这一点，你就可能会感到困惑。 例如，如果设置时间间隔为“每分钟”，那并不意味着你总会看到（文件名中）带有间隔一分钟时间的日志文件；如果在应用程序执行期间，日志记录输出的生成频率高于每分钟一次，<em>那么</em> 你可以预期看到间隔一分钟时间的日志文件。 另一方面，如果（假设）日志记录消息每五分钟才输出一次，那么文件时间将会存在对应于没有输出（因而没有轮换）的缺失。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>添加了 <em>atTime</em> 形参。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>除了字符串值，也接受 <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> 对象作为 <em>filename</em> 参数。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>增加了 <em>errors</em> 形参。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.TimedRotatingFileHandler.doRollover">
+<span class="sig-name descname"><span class="pre">doRollover</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.TimedRotatingFileHandler.doRollover" title="永久链接至目标">¶</a></dt>
+<dd><p>执行上文所描述的轮换。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.TimedRotatingFileHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.TimedRotatingFileHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>将记录输出到文件，以适应上文所描述的轮换。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.TimedRotatingFileHandler.getFilesToDelete">
+<span class="sig-name descname"><span class="pre">getFilesToDelete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.TimedRotatingFileHandler.getFilesToDelete" title="永久链接至目标">¶</a></dt>
+<dd><p>返回由应当作为轮转的一部分被删除的文件名组成的列表。 它们是由处理程序写入的最旧的备份日志文件的绝对路径。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="sockethandler">
+<span id="socket-handler"></span><h2>SocketHandler<a class="headerlink" href="#sockethandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.SocketHandler" title="logging.handlers.SocketHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SocketHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它会将日志记录输出发送到网络套接字。 基类所使用的是 TCP 套接字。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.SocketHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">SocketHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SocketHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.SocketHandler" title="logging.handlers.SocketHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SocketHandler</span></code></a> 类的新实例，该实例旨在与使用 <em>host</em> 与 <em>port</em> 给定地址的远程主机进行通信。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>如果 <code class="docutils literal notranslate"><span class="pre">port</span></code> 指定为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，会使用 <code class="docutils literal notranslate"><span class="pre">host</span></code> 中的值来创建一个 Unix 域套接字 —— 在其他情况下，则会创建一个 TCP 套接字。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SocketHandler.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SocketHandler.close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭套接字。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SocketHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SocketHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>对记录的属性字典执行封存并以二进制格式将其写入套接字。 如果套接字存在错误，则静默地丢弃数据包。 如果连接在此之前丢失，则重新建立连接。 要在接收端将记录解封并输出到 <a class="reference internal" href="logging.html#logging.LogRecord" title="logging.LogRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogRecord</span></code></a>，请使用 <a class="reference internal" href="logging.html#logging.makeLogRecord" title="logging.makeLogRecord"><code class="xref py py-func docutils literal notranslate"><span class="pre">makeLogRecord()</span></code></a> 函数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SocketHandler.handleError">
+<span class="sig-name descname"><span class="pre">handleError</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SocketHandler.handleError" title="永久链接至目标">¶</a></dt>
+<dd><p>处理在 <a class="reference internal" href="#logging.handlers.SocketHandler.emit" title="logging.handlers.SocketHandler.emit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">emit()</span></code></a> 期间发生的错误。 最可能的原因是连接丢失。 关闭套接字以便我们能在下次事件时重新尝试。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SocketHandler.makeSocket">
+<span class="sig-name descname"><span class="pre">makeSocket</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SocketHandler.makeSocket" title="永久链接至目标">¶</a></dt>
+<dd><p>这是一个工厂方法，它允许子类定义它们想要的套接字的准确类型。 默认实现会创建一个 TCP 套接字 (<a class="reference internal" href="socket.html#socket.SOCK_STREAM" title="socket.SOCK_STREAM"><code class="xref py py-const docutils literal notranslate"><span class="pre">socket.SOCK_STREAM</span></code></a>)。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SocketHandler.makePickle">
+<span class="sig-name descname"><span class="pre">makePickle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SocketHandler.makePickle" title="永久链接至目标">¶</a></dt>
+<dd><p>将记录的属性字典封存为带有长度前缀的二进制格式，并将其返回以准备通过套接字进行传输。 此操作在细节上相当于:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">record_attr_dict</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">datalen</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&gt;L&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="k">return</span> <span class="n">datalen</span> <span class="o">+</span> <span class="n">data</span>
+</pre></div>
+</div>
+<p>请注意封存操作不是绝对安全的。 如果你关心安全问题，你可能会想要重载此方法以实现更安全的机制。 例如，你可以使用 HMAC 对封存对象进行签名然后在接收端验证它们，或者你也可以在接收端禁用全局对象的解封操作。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SocketHandler.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">packet</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SocketHandler.send" title="永久链接至目标">¶</a></dt>
+<dd><p>将封存后的字节串 <em>packet</em> 发送到套接字。 所发送字节串的格式与 <a class="reference internal" href="#logging.handlers.SocketHandler.makePickle" title="logging.handlers.SocketHandler.makePickle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">makePickle()</span></code></a> 文档中的描述一致。</p>
+<p>此函数允许部分发送，这可能会在网络繁忙时发生。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SocketHandler.createSocket">
+<span class="sig-name descname"><span class="pre">createSocket</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SocketHandler.createSocket" title="永久链接至目标">¶</a></dt>
+<dd><p>尝试创建一个套接字；失败时将使用指数化回退算法处理。 在失败初次发生时，处理程序将丢弃它正尝试发送的消息。 当后续消息交由同一实例处理时，它将不会尝试连接直到经过一段时间以后。 默认形参设置为初始延迟一秒，如果在延迟之后连接仍然无法建立，处理程序将每次把延迟翻倍直至达到 30 秒的最大值。</p>
+<p>此行为由下列处理程序属性控制:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">retryStart</span></code> (初始延迟，默认为 1.0 秒)。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">retryFactor</span></code> (倍数，默认为 2.0)。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">retryMax</span></code> (最大延迟，默认为 30.0 秒)。</p></li>
+</ul>
+<p>这意味着如果远程监听器在处理程序被使用 <em>之后</em> 启动，你可能会丢失消息（因为处理程序在延迟结束之前甚至不会尝试连接，而在延迟期间静默地丢弃消息）。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="datagramhandler">
+<span id="datagram-handler"></span><h2>DatagramHandler<a class="headerlink" href="#datagramhandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.DatagramHandler" title="logging.handlers.DatagramHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">DatagramHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它继承自 <a class="reference internal" href="#logging.handlers.SocketHandler" title="logging.handlers.SocketHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SocketHandler</span></code></a>，支持通过 UDP 套接字发送日志记录消息。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.DatagramHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">DatagramHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.DatagramHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.DatagramHandler" title="logging.handlers.DatagramHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">DatagramHandler</span></code></a> 类的新实例，该实例旨在与使用 <em>host</em> 与 <em>port</em> 给定地址的远程主机进行通信。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>As UDP is not a streaming protocol, there is no persistent connection
+between an instance of this handler and <em>host</em>. For this reason, when using a
+network socket, a DNS lookup might have to be made each time an event is
+logged, which can introduce some latency into the system. If this affects you,
+you can do a lookup yourself and initialize this handler using the looked-up IP
+address rather than the hostname.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>如果 <code class="docutils literal notranslate"><span class="pre">port</span></code> 指定为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，会使用 <code class="docutils literal notranslate"><span class="pre">host</span></code> 中的值来创建一个 Unix 域套接字 —— 在其他情况下，则会创建一个 UDP 套接字。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.DatagramHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.DatagramHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>对记录的属性字典执行封存并以二进制格式将其写入套接字。 如果套接字存在错误，则静默地丢弃数据包。 要在接收端将记录解封并输出到 <a class="reference internal" href="logging.html#logging.LogRecord" title="logging.LogRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogRecord</span></code></a>，请使用 <a class="reference internal" href="logging.html#logging.makeLogRecord" title="logging.makeLogRecord"><code class="xref py py-func docutils literal notranslate"><span class="pre">makeLogRecord()</span></code></a> 函数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.DatagramHandler.makeSocket">
+<span class="sig-name descname"><span class="pre">makeSocket</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.DatagramHandler.makeSocket" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#logging.handlers.SocketHandler" title="logging.handlers.SocketHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SocketHandler</span></code></a> 的工厂方法会在此被重载以创建一个 UDP 套接字 (<a class="reference internal" href="socket.html#socket.SOCK_DGRAM" title="socket.SOCK_DGRAM"><code class="xref py py-const docutils literal notranslate"><span class="pre">socket.SOCK_DGRAM</span></code></a>)。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.DatagramHandler.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.DatagramHandler.send" title="永久链接至目标">¶</a></dt>
+<dd><p>将封存后的字节串发送到套接字。 所发送字节串的格式与 <a class="reference internal" href="#logging.handlers.SocketHandler.makePickle" title="logging.handlers.SocketHandler.makePickle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SocketHandler.makePickle()</span></code></a> 文档中的描述一致。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="sysloghandler">
+<span id="syslog-handler"></span><h2>SysLogHandler<a class="headerlink" href="#sysloghandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.SysLogHandler" title="logging.handlers.SysLogHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SysLogHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它支持将日志记录消息发送到远程或本地 Unix syslog。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.SysLogHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">SysLogHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('localhost',</span> <span class="pre">SYSLOG_UDP_PORT)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facility</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">LOG_USER</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">socktype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">socket.SOCK_DGRAM</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SysLogHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.SysLogHandler" title="logging.handlers.SysLogHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SysLogHandler</span></code></a> 类的新实例用来与通过 <em>address</em> 以 <code class="docutils literal notranslate"><span class="pre">(host,</span> <span class="pre">port)</span></code> 元组形式给出地址的远程 Unix 机器进行通讯。 如果未指定 <em>address</em>，则使用 <code class="docutils literal notranslate"><span class="pre">('localhost',</span> <span class="pre">514)</span></code>。 该地址会被用于打开套接字。 提供 <code class="docutils literal notranslate"><span class="pre">(host,</span> <span class="pre">port)</span></code> 元组的一种替代方式是提供字符串形式的地址，例如 '/dev/log'。 在这种情况下，会使用 Unix 域套接字将消息发送到 syslog。 如果未指定 <em>facility</em>，则使用 <code class="xref py py-const docutils literal notranslate"><span class="pre">LOG_USER</span></code>。 打开的套接字类型取决于 <em>socktype</em> 参数，该参数的默认值为 <a class="reference internal" href="socket.html#socket.SOCK_DGRAM" title="socket.SOCK_DGRAM"><code class="xref py py-const docutils literal notranslate"><span class="pre">socket.SOCK_DGRAM</span></code></a> 即打开一个 UDP 套接字。 要打开一个 TCP 套接字（用来配合较新的 syslog 守护程序例如 rsyslog 使用），请指定值为 <a class="reference internal" href="socket.html#socket.SOCK_STREAM" title="socket.SOCK_STREAM"><code class="xref py py-const docutils literal notranslate"><span class="pre">socket.SOCK_STREAM</span></code></a>。</p>
+<p>请注意如果你的服务器不是在 UDP 端口 514 上进行侦听，则 <a class="reference internal" href="#logging.handlers.SysLogHandler" title="logging.handlers.SysLogHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SysLogHandler</span></code></a> 可能无法正常工作。 在这种情况下，请检查你应当为域套接字所使用的地址 —— 它依赖于具体的系统。 例如，在 Linux 上通常为 '/dev/log' 而在 OS/X 上则为 '/var/run/syslog'。 你需要检查你的系统平台并使用适当的地址（如果你的应用程序需要在多个平台上运行则可能需要在运行时进行这样的检查）。 在 Windows 上，你大概必须要使用 UDP 选项。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>On macOS 12.x (Monterey), Apple has changed the behaviour of their
+syslog daemon - it no longer listens on a domain socket. Therefore, you cannot
+expect <a class="reference internal" href="#logging.handlers.SysLogHandler" title="logging.handlers.SysLogHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SysLogHandler</span></code></a> to work on this system.</p>
+<p>See <a class="reference external" href="https://github.com/python/cpython/issues/91070">gh-91070</a> for more information.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>添加了 <em>socktype</em>。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SysLogHandler.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SysLogHandler.close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭连接远程主机的套接字。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SysLogHandler.createSocket">
+<span class="sig-name descname"><span class="pre">createSocket</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SysLogHandler.createSocket" title="永久链接至目标">¶</a></dt>
+<dd><p>Tries to create a socket and, if it's not a datagram socket, connect it
+to the other end. This method is called during handler initialization,
+but it's not regarded as an error if the other end isn't listening at
+this point - the method will be called again when emitting an event, if
+but it's not regarded as an error if the other end isn't listening yet
+--- the method will be called again when emitting an event,
+if there is no socket at that point.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SysLogHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SysLogHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>记录会被格式化，然后发送到 syslog 服务器。 如果存在异常信息，则它 <em>不会</em> 被发送到服务器。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2.1 版更改: </span>(参见: <a class="reference external" href="https://bugs.python.org/issue?&#64;action=redirect&amp;bpo=12168">bpo-12168</a>。) 在较早的版本中，发送至 syslog 守护程序的消息总是以一个 NUL 字节结束，因为守护程序的早期版本期望接收一个以 NUL 结束的消息 —— 即使它不包含于对应的规范说明 (<span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5424.html"><strong>RFC 5424</strong></a>)。 这些守护程序的较新版本不再期望接收 NUL 字节，如果其存在则会将其去除，而最新的守护程序（更紧密地遵循 RFC 5424）会将 NUL 字节作为消息的一部分传递出去。</p>
+<p>为了在面对所有这些不同守护程序行为时能够更方便地处理 syslog 消息，通过使用类层级属性 <code class="docutils literal notranslate"><span class="pre">append_nul</span></code>，添加 NUL 字节的操作已被作为可配置项。 该属性默认为 <code class="docutils literal notranslate"><span class="pre">True</span></code> (保留现有行为) 但可在 <code class="docutils literal notranslate"><span class="pre">SysLogHandler</span></code> 实例上设为 <code class="docutils literal notranslate"><span class="pre">False</span></code> 以便让实例 <em>不会</em> 添加 NUL 结束符。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>(参见: <a class="reference external" href="https://bugs.python.org/issue?&#64;action=redirect&amp;bpo=12419">bpo-12419</a>。) 在较早的版本中，没有 &quot;ident&quot; 或 &quot;tag&quot; 前缀工具可以用来标识消息的来源。 现在则可以使用一个类层级属性来设置它，该属性默认为 <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> 表示保留现有行为，但可在 <code class="docutils literal notranslate"><span class="pre">SysLogHandler</span></code> 实例上重载以便让实例不会为所处理的每条消息添加标识。 请注意所提供的标识必须为文本而非字节串，并且它会被原封不动地添加到消息中。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SysLogHandler.encodePriority">
+<span class="sig-name descname"><span class="pre">encodePriority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">facility</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SysLogHandler.encodePriority" title="永久链接至目标">¶</a></dt>
+<dd><p>将功能和优先级编码为一个整数。 你可以传入字符串或者整数 —— 如果传入的是字符串，则会使用内部的映射字典将其转换为整数。</p>
+<p>符号 <code class="docutils literal notranslate"><span class="pre">LOG_</span></code> 的值在 <a class="reference internal" href="#logging.handlers.SysLogHandler" title="logging.handlers.SysLogHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SysLogHandler</span></code></a> 中定义并且是 <code class="docutils literal notranslate"><span class="pre">sys/syslog.h</span></code> 头文件中所定义值的镜像。</p>
+<p><strong>优先级</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 63%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>名称（字符串）</p></th>
+<th class="head"><p>符号值</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">alert</span></code></p></td>
+<td><p>LOG_ALERT</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">crit</span></code> 或 <code class="docutils literal notranslate"><span class="pre">critical</span></code></p></td>
+<td><p>LOG_CRIT</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">debug</span></code></p></td>
+<td><p>LOG_DEBUG</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">emerg</span></code> 或 <code class="docutils literal notranslate"><span class="pre">panic</span></code></p></td>
+<td><p>LOG_EMERG</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">err</span></code> 或 <code class="docutils literal notranslate"><span class="pre">error</span></code></p></td>
+<td><p>LOG_ERR</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">info</span></code></p></td>
+<td><p>LOG_INFO</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">notice</span></code></p></td>
+<td><p>LOG_NOTICE</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">warn</span></code> 或 <code class="docutils literal notranslate"><span class="pre">warning</span></code></p></td>
+<td><p>LOG_WARNING</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>设备</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>名称（字符串）</p></th>
+<th class="head"><p>符号值</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">auth</span></code></p></td>
+<td><p>LOG_AUTH</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">authpriv</span></code></p></td>
+<td><p>LOG_AUTHPRIV</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cron</span></code></p></td>
+<td><p>LOG_CRON</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">daemon</span></code></p></td>
+<td><p>LOG_DAEMON</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ftp</span></code></p></td>
+<td><p>LOG_FTP</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kern</span></code></p></td>
+<td><p>LOG_KERN</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lpr</span></code></p></td>
+<td><p>LOG_LPR</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mail</span></code></p></td>
+<td><p>LOG_MAIL</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">news</span></code></p></td>
+<td><p>LOG_NEWS</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">syslog</span></code></p></td>
+<td><p>LOG_SYSLOG</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">user</span></code></p></td>
+<td><p>LOG_USER</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uucp</span></code></p></td>
+<td><p>LOG_UUCP</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">local0</span></code></p></td>
+<td><p>LOG_LOCAL0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">local1</span></code></p></td>
+<td><p>LOG_LOCAL1</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">local2</span></code></p></td>
+<td><p>LOG_LOCAL2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">local3</span></code></p></td>
+<td><p>LOG_LOCAL3</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">local4</span></code></p></td>
+<td><p>LOG_LOCAL4</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">local5</span></code></p></td>
+<td><p>LOG_LOCAL5</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">local6</span></code></p></td>
+<td><p>LOG_LOCAL6</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">local7</span></code></p></td>
+<td><p>LOG_LOCAL7</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SysLogHandler.mapPriority">
+<span class="sig-name descname"><span class="pre">mapPriority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levelname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SysLogHandler.mapPriority" title="永久链接至目标">¶</a></dt>
+<dd><p>将日志记录级别名称映射到 syslog 优先级名称。 如果你使用自定义级别，或者如果默认算法不适合你的需要，你可能需要重载此方法。 默认算法将 <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code>, <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>, <code class="docutils literal notranslate"><span class="pre">ERROR</span></code> 和 <code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code> 映射到等价的 syslog 名称，并将所有其他级别名称映射到 'warning'。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="nteventloghandler">
+<span id="nt-eventlog-handler"></span><h2>NTEventLogHandler<a class="headerlink" href="#nteventloghandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.NTEventLogHandler" title="logging.handlers.NTEventLogHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NTEventLogHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它支持将日志记录消息发送到本地 Windows NT, Windows 2000 或 Windows XP 事件日志。 在你使用它之前，你需要安装 Mark Hammond 的 Python Win32 扩展。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.NTEventLogHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">NTEventLogHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dllname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Application'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.NTEventLogHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.NTEventLogHandler" title="logging.handlers.NTEventLogHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NTEventLogHandler</span></code></a> 类的新实例。 <em>appname</em> 用来定义出现在事件日志中的应用名称。 将使用此名称创建适当的注册表条目。 <em>dllname</em> 应当给出要包含在日志中的消息定义的 .dll 或 .exe 的完整限定路径名称（如未指定则会使用 <code class="docutils literal notranslate"><span class="pre">'win32service.pyd'</span></code> —— 此文件随 Win32 扩展安装且包含一些基本的消息定义占位符。 请注意使用这些占位符将使你的事件日志变得很大，因为整个消息源都会被放入日志。 如果你希望有较小的日志，你必须自行传入包含你想要在事件日志中使用的消息定义的 .dll 或 .exe 名称）。 <em>logtype</em> 为 <code class="docutils literal notranslate"><span class="pre">'Application'</span></code>, <code class="docutils literal notranslate"><span class="pre">'System'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'Security'</span></code> 之一，且默认值为 <code class="docutils literal notranslate"><span class="pre">'Application'</span></code>。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.NTEventLogHandler.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.NTEventLogHandler.close" title="永久链接至目标">¶</a></dt>
+<dd><p>这时，你就可以从注册表中移除作为事件日志条目来源的应用名称。 但是，如果你这样做，你将无法如你所预期的那样在事件日志查看器中看到这些事件 —— 它必须能访问注册表来获取 .dll 名称。 当前版本并不会这样做。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.NTEventLogHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.NTEventLogHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>确定消息 ID，事件类别和事件类型，然后将消息记录到 NT 事件日志中。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.NTEventLogHandler.getEventCategory">
+<span class="sig-name descname"><span class="pre">getEventCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.NTEventLogHandler.getEventCategory" title="永久链接至目标">¶</a></dt>
+<dd><p>返回记录的事件类别。 如果你希望指定你自己的类别就要重载此方法。 此版本将返回 0。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.NTEventLogHandler.getEventType">
+<span class="sig-name descname"><span class="pre">getEventType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.NTEventLogHandler.getEventType" title="永久链接至目标">¶</a></dt>
+<dd><p>返回记录的事件类型。 如果你希望指定你自己的类型就要重载此方法。 此版本将使用处理程序的 typemap 属性来执行映射，该属性在 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code> 被设置为一个字典，其中包含 <code class="xref py py-const docutils literal notranslate"><span class="pre">DEBUG</span></code>, <code class="xref py py-const docutils literal notranslate"><span class="pre">INFO</span></code>, <code class="xref py py-const docutils literal notranslate"><span class="pre">WARNING</span></code>, <code class="xref py py-const docutils literal notranslate"><span class="pre">ERROR</span></code> 和 <code class="xref py py-const docutils literal notranslate"><span class="pre">CRITICAL</span></code> 的映射。 如果你使用你自己的级别，你将需要重载此方法或者在处理程序的 <em>typemap</em> 属性中放置一个合适的字典。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.NTEventLogHandler.getMessageID">
+<span class="sig-name descname"><span class="pre">getMessageID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.NTEventLogHandler.getMessageID" title="永久链接至目标">¶</a></dt>
+<dd><p>返回记录的消息 ID。 如果你使用你自己的消息，你可以通过将 <em>msg</em> 传给日志记录器作为 ID 而非格式字符串实现此功能。 然后，你可以在这里使用字典查找来获取消息 ID。 此版本将返回 1，是 <code class="file docutils literal notranslate"><span class="pre">win32service.pyd</span></code> 中的基本消息 ID。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="smtphandler">
+<span id="smtp-handler"></span><h2>SMTPHandler<a class="headerlink" href="#smtphandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.SMTPHandler" title="logging.handlers.SMTPHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它支持将日志记录消息通过 SMTP 发送到一个电子邮件地址。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.SMTPHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">SMTPHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mailhost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromaddr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toaddrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credentials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SMTPHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.SMTPHandler" title="logging.handlers.SMTPHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPHandler</span></code></a> 类的新实例。 该实例使用电子邮件的发件人、收件人地址和主题行进行初始化。 <em>toaddrs</em> 应当为字符串列表。 要指定一个非标准 SMTP 端口，请使用 (host, port) 元组格式作为 <em>mailhost</em> 参数。 如果你使用一个字符串，则会使用标准 SMTP 端口。 如果你的 SMTP 服务器要求验证，你可以指定一个 (username, password) 元组作为 <em>credentials</em> 参数。</p>
+<p>要指定使用安全协议 (TLS)，请传入一个元组作为 <em>secure</em> 参数。 这将仅在提供了验证凭据时才能被使用。 元组应当或是一个空元组，或是一个包含密钥文件名的单值元组，或是一个包含密钥文件和证书文件的 2 值元组。 （此元组会被传给 <a class="reference internal" href="smtplib.html#smtplib.SMTP.starttls" title="smtplib.SMTP.starttls"><code class="xref py py-meth docutils literal notranslate"><span class="pre">smtplib.SMTP.starttls()</span></code></a> 方法。）</p>
+<p>可以使用 <em>timeout</em> 参数为与 SMTP 服务器的通信指定超时限制。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能: </span>增加了 <em>timeout</em> 参数。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SMTPHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SMTPHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>对记录执行格式化并将其发送到指定的地址。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.SMTPHandler.getSubject">
+<span class="sig-name descname"><span class="pre">getSubject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.SMTPHandler.getSubject" title="永久链接至目标">¶</a></dt>
+<dd><p>如果你想要指定一个基于记录的主题行，请重载此方法。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="memoryhandler">
+<span id="memory-handler"></span><h2>MemoryHandler<a class="headerlink" href="#memoryhandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.MemoryHandler" title="logging.handlers.MemoryHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">MemoryHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它支持在内存中缓冲日志记录，并定期将其刷新到 <em class="dfn">target</em> 处理程序中。 刷新会在缓冲区满的时候，或是在遇到特定或更高严重程度事件的时候发生。</p>
+<p><a class="reference internal" href="#logging.handlers.MemoryHandler" title="logging.handlers.MemoryHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">MemoryHandler</span></code></a> 是更通用的 <a class="reference internal" href="#logging.handlers.BufferingHandler" title="logging.handlers.BufferingHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BufferingHandler</span></code></a> 的子类，后者属于抽象类。 它会在内存中缓冲日志记录。 当每条记录被添加到缓冲区时，会通过调用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">shouldFlush()</span></code> 来检查缓冲区是否应当刷新。 如果应当刷新，则要使用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code> 来执行刷新。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.BufferingHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">BufferingHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capacity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.BufferingHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>使用指定容量的缓冲区初始化处理程序。 这里，<em>capacity</em> 是指缓冲的日志记录数量。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.BufferingHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.BufferingHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>将记录添加到缓冲区。 如果 <a class="reference internal" href="#logging.handlers.BufferingHandler.shouldFlush" title="logging.handlers.BufferingHandler.shouldFlush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">shouldFlush()</span></code></a> 返回真值，则会调用 <a class="reference internal" href="#logging.handlers.BufferingHandler.flush" title="logging.handlers.BufferingHandler.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a> 来处理缓冲区。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.BufferingHandler.flush">
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.BufferingHandler.flush" title="永久链接至目标">¶</a></dt>
+<dd><p>你可以重载此方法来实现自定义的刷新行为。 此版本只是将缓冲区清空。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.BufferingHandler.shouldFlush">
+<span class="sig-name descname"><span class="pre">shouldFlush</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.BufferingHandler.shouldFlush" title="永久链接至目标">¶</a></dt>
+<dd><p>如果缓冲区容量已满则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。 可以重载此方法以实现自定义的刷新策略。</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.MemoryHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">MemoryHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capacity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flushLevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ERROR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flushOnClose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.MemoryHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.MemoryHandler" title="logging.handlers.MemoryHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">MemoryHandler</span></code></a> 类的新实例。 该实例使用 <em>capacity</em> 指定的缓冲区大小（要缓冲的记录数量）来初始化。 如果 <em>flushLevel</em> 未指定，则使用 <code class="xref py py-const docutils literal notranslate"><span class="pre">ERROR</span></code>。 如果未指定 <em>target</em>，则需要在此处理程序执行任何实际操作之前使用 <a class="reference internal" href="#logging.handlers.MemoryHandler.setTarget" title="logging.handlers.MemoryHandler.setTarget"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setTarget()</span></code></a> 来设置目标。 如果 <em>flushOnClose</em> 指定为 <code class="docutils literal notranslate"><span class="pre">False</span></code>，则当处理程序被关闭时 <em>不会</em> 刷新缓冲区。 如果未指定或指定为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则当处理程序被关闭时将会发生之前的缓冲区刷新行为。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>增加了 <em>flushOnClose</em> 形参。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.MemoryHandler.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.MemoryHandler.close" title="永久链接至目标">¶</a></dt>
+<dd><p>调用 <a class="reference internal" href="#logging.handlers.MemoryHandler.flush" title="logging.handlers.MemoryHandler.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a>，设置目标为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 并清空缓冲区。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.MemoryHandler.flush">
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.MemoryHandler.flush" title="永久链接至目标">¶</a></dt>
+<dd><p>对于 <a class="reference internal" href="#logging.handlers.MemoryHandler" title="logging.handlers.MemoryHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">MemoryHandler</span></code></a>，刷新是指将缓冲的记录发送到目标，如果存在目标的话。 当此行为发生时缓冲区也将被清空。 如果你想要不同的行为请重载此方法。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.MemoryHandler.setTarget">
+<span class="sig-name descname"><span class="pre">setTarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.MemoryHandler.setTarget" title="永久链接至目标">¶</a></dt>
+<dd><p>设置此处理程序的目标处理程序。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.MemoryHandler.shouldFlush">
+<span class="sig-name descname"><span class="pre">shouldFlush</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.MemoryHandler.shouldFlush" title="永久链接至目标">¶</a></dt>
+<dd><p>检测缓冲区是否已满或是有记录为 <em>flushLevel</em> 或更高级别。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="httphandler">
+<span id="http-handler"></span><h2>HTTPHandler<a class="headerlink" href="#httphandler" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#logging.handlers.HTTPHandler" title="logging.handlers.HTTPHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它支持使用 <code class="docutils literal notranslate"><span class="pre">GET</span></code> 或 <code class="docutils literal notranslate"><span class="pre">POST</span></code> 语义将日志记录消息发送到 Web 服务器。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.HTTPHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">HTTPHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'GET'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credentials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.HTTPHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.HTTPHandler" title="logging.handlers.HTTPHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPHandler</span></code></a> 类的新实例。 <em>host</em> 可以为 <code class="docutils literal notranslate"><span class="pre">host:port</span></code> 的形式，如果你需要使用指定端口号的话。 如果没有指定 <em>method</em>，则会使用 <code class="docutils literal notranslate"><span class="pre">GET</span></code>。 如果 <em>secure</em> 为真值，则将使用 HTTPS 连接。 <em>context</em> 形参可以设为一个 <a class="reference internal" href="ssl.html#ssl.SSLContext" title="ssl.SSLContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ssl.SSLContext</span></code></a> 实例以配置用于 HTTPS 连接的 SSL 设置。 如果指定了 <em>credentials</em>，它应当为包含 userid 和 password 的二元组，该元组将被放入使用 Basic 验证的 HTTP 'Authorization' 标头中。 如果你指定了 credentials，你还应当指定 secure=True 这样你的 userid 和 password 就不会以明文在线路上传输。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>增加了 <em>context</em> 形参。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.HTTPHandler.mapLogRecord">
+<span class="sig-name descname"><span class="pre">mapLogRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.HTTPHandler.mapLogRecord" title="永久链接至目标">¶</a></dt>
+<dd><p>基于 <code class="docutils literal notranslate"><span class="pre">record</span></code> 提供一个字典，它将被执行 URL 编码并发送至 Web 服务器。 默认实现仅返回 <code class="docutils literal notranslate"><span class="pre">record.__dict__</span></code>。 在只需将 <a class="reference internal" href="logging.html#logging.LogRecord" title="logging.LogRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogRecord</span></code></a> 的某个子集发送至 Web 服务器，或者需要对发送至服务器的内容进行更多定制时可以重载此方法。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.HTTPHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.HTTPHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>将记录以 URL 编码字典的形式发送至 Web 服务器。 <a class="reference internal" href="#logging.handlers.HTTPHandler.mapLogRecord" title="logging.handlers.HTTPHandler.mapLogRecord"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mapLogRecord()</span></code></a> 方法会被用来将要发送的记录转换为字典。</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>由于记录发送至 Web 服务器所需的预处理与通用的格式化操作不同，使用 <a class="reference internal" href="logging.html#logging.Handler.setFormatter" title="logging.Handler.setFormatter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setFormatter()</span></code></a> 来指定一个 <a class="reference internal" href="logging.html#logging.Formatter" title="logging.Formatter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Formatter</span></code></a> 用于 <a class="reference internal" href="#logging.handlers.HTTPHandler" title="logging.handlers.HTTPHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPHandler</span></code></a> 是没有效果的。 此处理程序不会调用 <a class="reference internal" href="logging.html#logging.Handler.format" title="logging.Handler.format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">format()</span></code></a>，而是调用 <a class="reference internal" href="#logging.handlers.HTTPHandler.mapLogRecord" title="logging.handlers.HTTPHandler.mapLogRecord"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mapLogRecord()</span></code></a> 然后再调用 <a class="reference internal" href="urllib.parse.html#urllib.parse.urlencode" title="urllib.parse.urlencode"><code class="xref py py-func docutils literal notranslate"><span class="pre">urllib.parse.urlencode()</span></code></a> 来以适合发送至 Web 服务器的形式对字典进行编码。</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="queuehandler">
+<span id="queue-handler"></span><h2>QueueHandler<a class="headerlink" href="#queuehandler" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+<p><a class="reference internal" href="#logging.handlers.QueueHandler" title="logging.handlers.QueueHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueHandler</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它支持将日志记录消息发送到一个队列，例如在 <a class="reference internal" href="queue.html#module-queue" title="queue: A synchronized queue class."><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a> 或 <a class="reference internal" href="multiprocessing.html#module-multiprocessing" title="multiprocessing: Process-based parallelism."><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code></a> 模块中实现的队列。</p>
+<p>配合 <a class="reference internal" href="#logging.handlers.QueueListener" title="logging.handlers.QueueListener"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueListener</span></code></a> 类使用，<a class="reference internal" href="#logging.handlers.QueueHandler" title="logging.handlers.QueueHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueHandler</span></code></a> 可被用来使处理程序在与执行日志记录的线程不同的线程上完成工作。 这对 Web 应用程序以及其他服务于客户端的线程需要尽可能快地响应的服务应用程序来说很重要，任何潜在的慢速操作（例如通过 <a class="reference internal" href="#logging.handlers.SMTPHandler" title="logging.handlers.SMTPHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPHandler</span></code></a> 发送邮件）都要在单独的线程上完成。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.QueueHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">QueueHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueHandler" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.QueueHandler" title="logging.handlers.QueueHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueHandler</span></code></a> 类的新实例。 该实例使用队列来初始化以向其发送消息。 <em>queue</em> 可以为任何队列类对象；它由 <a class="reference internal" href="#logging.handlers.QueueHandler.enqueue" title="logging.handlers.QueueHandler.enqueue"><code class="xref py py-meth docutils literal notranslate"><span class="pre">enqueue()</span></code></a> 方法来使用，该方法需要知道如何向其发送消息。 队列 <em>不要求</em> 具有任务跟踪 API，这意味着你可以为 <em>queue</em> 使用 <a class="reference internal" href="queue.html#queue.SimpleQueue" title="queue.SimpleQueue"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleQueue</span></code></a> 实例。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>If you are using <a class="reference internal" href="multiprocessing.html#module-multiprocessing" title="multiprocessing: Process-based parallelism."><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code></a>, you should avoid using
+<a class="reference internal" href="queue.html#queue.SimpleQueue" title="queue.SimpleQueue"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleQueue</span></code></a> and instead use <a class="reference internal" href="multiprocessing.html#multiprocessing.Queue" title="multiprocessing.Queue"><code class="xref py py-class docutils literal notranslate"><span class="pre">multiprocessing.Queue</span></code></a>.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.QueueHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueHandler.emit" title="永久链接至目标">¶</a></dt>
+<dd><p>将准备 LogRecord 的结果排入队列。 如果发生了异常（例如由于有界队列已满），则会调用 <a class="reference internal" href="logging.html#logging.Handler.handleError" title="logging.Handler.handleError"><code class="xref py py-meth docutils literal notranslate"><span class="pre">handleError()</span></code></a> 方法来处理错误。 这可能导致记录被静默地丢弃 (如果 <code class="xref py py-attr docutils literal notranslate"><span class="pre">logging.raiseExceptions</span></code> 为 <code class="docutils literal notranslate"><span class="pre">False</span></code>) 或者消息被打印到 <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code> (如果 <code class="xref py py-attr docutils literal notranslate"><span class="pre">logging.raiseExceptions</span></code> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>)。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.QueueHandler.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueHandler.prepare" title="永久链接至目标">¶</a></dt>
+<dd><p>准备用于队列的记录。 此方法返回的对象会被排入队列。</p>
+<p>The base implementation formats the record to merge the message,
+arguments, exception and stack information, if present.  It also removes
+unpickleable items from the record in-place. Specifically, it overwrites
+the record's <code class="xref py py-attr docutils literal notranslate"><span class="pre">msg</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">message</span></code> attributes with the merged
+message (obtained by calling the handler's <a class="reference internal" href="functions.html#format" title="format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">format()</span></code></a> method), and
+sets the <code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">exc_info</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">exc_text</span></code> attributes
+to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>如果你想要将记录转换为 dict 或 JSON 字符串，或者发送记录被修改后的副本而让初始记录保持原样，则你可能会想要重载此方法。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>The base implementation formats the message with arguments, sets
+the <code class="docutils literal notranslate"><span class="pre">message</span></code> and <code class="docutils literal notranslate"><span class="pre">msg</span></code> attributes to the formatted message and
+sets the <code class="docutils literal notranslate"><span class="pre">args</span></code> and <code class="docutils literal notranslate"><span class="pre">exc_text</span></code> attributes to <code class="docutils literal notranslate"><span class="pre">None</span></code> to allow
+pickling and to prevent further attempts at formatting. This means
+that a handler on the <a class="reference internal" href="#logging.handlers.QueueListener" title="logging.handlers.QueueListener"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueListener</span></code></a> side won't have the
+information to do custom formatting, e.g. of exceptions. You may wish
+to subclass <code class="docutils literal notranslate"><span class="pre">QueueHandler</span></code> and override this method to e.g. avoid
+setting <code class="docutils literal notranslate"><span class="pre">exc_text</span></code> to <code class="docutils literal notranslate"><span class="pre">None</span></code>. Note that the <code class="docutils literal notranslate"><span class="pre">message</span></code> / <code class="docutils literal notranslate"><span class="pre">msg</span></code>
+/ <code class="docutils literal notranslate"><span class="pre">args</span></code> changes are related to ensuring the record is pickleable,
+and you might or might not be able to avoid doing that depending on
+whether your <code class="docutils literal notranslate"><span class="pre">args</span></code> are pickleable. (Note that you may have to
+consider not only your own code but also code in any libraries that
+you use.)</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.QueueHandler.enqueue">
+<span class="sig-name descname"><span class="pre">enqueue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueHandler.enqueue" title="永久链接至目标">¶</a></dt>
+<dd><p>使用 <code class="docutils literal notranslate"><span class="pre">put_nowait()</span></code> 将记录排入队列；如果你想要使用阻塞行为，或超时设置，或自定义的队列实现，则你可能会想要重载此方法。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="queuelistener">
+<span id="queue-listener"></span><h2>QueueListener<a class="headerlink" href="#queuelistener" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+<p><a class="reference internal" href="#logging.handlers.QueueListener" title="logging.handlers.QueueListener"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueListener</span></code></a> 类位于 <a class="reference internal" href="#module-logging.handlers" title="logging.handlers: Handlers for the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code></a> 模块，它支持从一个队列接收日志记录消息，例如在 <a class="reference internal" href="queue.html#module-queue" title="queue: A synchronized queue class."><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a> 或 <a class="reference internal" href="multiprocessing.html#module-multiprocessing" title="multiprocessing: Process-based parallelism."><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code></a> 模块中实现的队列。 消息是在内部线程中从队列接收并在同一线程上传递到一个或多个处理程序进行处理的。 尽管 <a class="reference internal" href="#logging.handlers.QueueListener" title="logging.handlers.QueueListener"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueListener</span></code></a> 本身并不是一个处理程序，但由于它要与 <a class="reference internal" href="#logging.handlers.QueueHandler" title="logging.handlers.QueueHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueHandler</span></code></a> 配合工作，因此也在此处介绍。</p>
+<p>配合 <a class="reference internal" href="#logging.handlers.QueueHandler" title="logging.handlers.QueueHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueHandler</span></code></a> 类使用，<a class="reference internal" href="#logging.handlers.QueueListener" title="logging.handlers.QueueListener"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueListener</span></code></a> 可被用来使处理程序在与执行日志记录的线程不同的线程上完成工作。 这对 Web 应用程序以及其他服务于客户端的线程需要尽可能快地响应的服务应用程序来说很重要，任何潜在的慢速动作（例如通过 <a class="reference internal" href="#logging.handlers.SMTPHandler" title="logging.handlers.SMTPHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMTPHandler</span></code></a> 发送邮件）都要在单独的线程上完成。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="logging.handlers.QueueListener">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logging.handlers.</span></span><span class="sig-name descname"><span class="pre">QueueListener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queue</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">handlers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">respect_handler_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueListener" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#logging.handlers.QueueListener" title="logging.handlers.QueueListener"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueueListener</span></code></a> 类的新实例。 该实例初始化时要传入一个队列以向其发送消息，还要传入一个处理程序列表用来处理放置在队列中的条目。 队列可以是任何队列类对象；它会被原样传给 <a class="reference internal" href="#logging.handlers.QueueListener.dequeue" title="logging.handlers.QueueListener.dequeue"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dequeue()</span></code></a> 方法，该方法需要知道如何从其获取消息。 队列 <em>不要求</em> 具有任务跟踪 API（但如提供则会使用它），这意味着你可以为 <em>queue</em> 使用 <a class="reference internal" href="queue.html#queue.SimpleQueue" title="queue.SimpleQueue"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleQueue</span></code></a> 实例。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>If you are using <a class="reference internal" href="multiprocessing.html#module-multiprocessing" title="multiprocessing: Process-based parallelism."><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code></a>, you should avoid using
+<a class="reference internal" href="queue.html#queue.SimpleQueue" title="queue.SimpleQueue"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleQueue</span></code></a> and instead use <a class="reference internal" href="multiprocessing.html#multiprocessing.Queue" title="multiprocessing.Queue"><code class="xref py py-class docutils literal notranslate"><span class="pre">multiprocessing.Queue</span></code></a>.</p>
+</div>
+<p>如果 <code class="docutils literal notranslate"><span class="pre">respect_handler_level</span></code> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则在决定是否将消息传递给处理程序之前会遵循处理程序的级别（与消息的级别进行比较）；在其他情况下，其行为与之前的 Python 版本一致 —— 总是将每条消息传递给每个处理程序。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>增加了 <code class="docutils literal notranslate"><span class="pre">respect_handler_level</span></code> 参数。</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.QueueListener.dequeue">
+<span class="sig-name descname"><span class="pre">dequeue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueListener.dequeue" title="永久链接至目标">¶</a></dt>
+<dd><p>从队列移出一条记录并将其返回，可以选择阻塞。</p>
+<p>基本实现使用 <code class="docutils literal notranslate"><span class="pre">get()</span></code>。 如果你想要使用超时设置或自定义的队列实现，则你可能会想要重载此方法。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.QueueListener.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueListener.prepare" title="永久链接至目标">¶</a></dt>
+<dd><p>准备一条要处理的记录。</p>
+<p>该实现只是返回传入的记录。 如果你想要对记录执行任何自定义的 marshal 操作或在将其传给处理程序之前进行调整，则你可能会想要重载此方法。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.QueueListener.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueListener.handle" title="永久链接至目标">¶</a></dt>
+<dd><p>处理一条记录。</p>
+<p>此方法简单地循环遍历处理程序，向它们提供要处理的记录。 实际传给处理程序的对象就是从 <a class="reference internal" href="#logging.handlers.QueueListener.prepare" title="logging.handlers.QueueListener.prepare"><code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code></a> 返回的对象。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.QueueListener.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueListener.start" title="永久链接至目标">¶</a></dt>
+<dd><p>启动监听器。</p>
+<p>此方法启动一个后台线程来监视 LogRecords 队列以进行处理。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.QueueListener.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueListener.stop" title="永久链接至目标">¶</a></dt>
+<dd><p>停止监听器。</p>
+<p>此方法要求线程终止，然后等待它完成终止操作。 请注意在你的应用程序退出之前如果你没有调用此方法，则可能会有一些记录在留在队列中，它们将不会被处理。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="logging.handlers.QueueListener.enqueue_sentinel">
+<span class="sig-name descname"><span class="pre">enqueue_sentinel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logging.handlers.QueueListener.enqueue_sentinel" title="永久链接至目标">¶</a></dt>
+<dd><p>将一个标记写入队列以通知监听器退出。 此实现会使用 <code class="docutils literal notranslate"><span class="pre">put_nowait()</span></code>。 如果你想要使得超时设置或自定义的队列实现，则你可能会想要重载此方法。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>模块 <a class="reference internal" href="logging.html#module-logging" title="logging: Flexible event logging system for applications."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a></dt><dd><p>日志记录模块的 API 参考。</p>
+</dd>
+<dt><a class="reference internal" href="logging.config.html#module-logging.config" title="logging.config: Configuration of the logging module."><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.config</span></code></a> 模块</dt><dd><p>日志记录模块的配置 API 。</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code> --- 日志处理程序</a><ul>
+<li><a class="reference internal" href="#streamhandler">StreamHandler</a></li>
+<li><a class="reference internal" href="#filehandler">FileHandler</a></li>
+<li><a class="reference internal" href="#nullhandler">NullHandler</a></li>
+<li><a class="reference internal" href="#watchedfilehandler">WatchedFileHandler</a></li>
+<li><a class="reference internal" href="#baserotatinghandler">BaseRotatingHandler</a></li>
+<li><a class="reference internal" href="#rotatingfilehandler">RotatingFileHandler</a></li>
+<li><a class="reference internal" href="#timedrotatingfilehandler">TimedRotatingFileHandler</a></li>
+<li><a class="reference internal" href="#sockethandler">SocketHandler</a></li>
+<li><a class="reference internal" href="#datagramhandler">DatagramHandler</a></li>
+<li><a class="reference internal" href="#sysloghandler">SysLogHandler</a></li>
+<li><a class="reference internal" href="#nteventloghandler">NTEventLogHandler</a></li>
+<li><a class="reference internal" href="#smtphandler">SMTPHandler</a></li>
+<li><a class="reference internal" href="#memoryhandler">MemoryHandler</a></li>
+<li><a class="reference internal" href="#httphandler">HTTPHandler</a></li>
+<li><a class="reference internal" href="#queuehandler">QueueHandler</a></li>
+<li><a class="reference internal" href="#queuelistener">QueueListener</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="logging.config.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.config</span></code> --- 日志记录配置</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="getpass.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">getpass</span></code> --- 便携式密码输入工具</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/logging.handlers.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="getpass.html" title="getpass --- 便携式密码输入工具"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="logging.config.html" title="logging.config --- 日志记录配置"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="allos.html" >通用操作系统服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging.handlers</span></code> --- 日志处理程序</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

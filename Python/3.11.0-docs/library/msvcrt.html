@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>msvcrt --- 来自 MS VC++ 运行时的有用例程 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="winreg --- 访问 Windows 注册表" href="winreg.html" />
+    <link rel="prev" title="Windows系统相关模块" href="windows.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/msvcrt.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">msvcrt</span></code> --- 来自 MS VC++ 运行时的有用例程</a><ul>
+<li><a class="reference internal" href="#file-operations">文件操作</a></li>
+<li><a class="reference internal" href="#console-i-o">控制台 I/O</a></li>
+<li><a class="reference internal" href="#other-functions">其他函数</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="windows.html"
+                          title="上一章">Windows系统相关模块</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="winreg.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> --- 访问 Windows 注册表</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/msvcrt.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="winreg.html" title="winreg --- 访问 Windows 注册表"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="windows.html" title="Windows系统相关模块"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="windows.html" accesskey="U">Windows系统相关模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">msvcrt</span></code> --- 来自 MS VC++ 运行时的有用例程</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-msvcrt">
+<span id="msvcrt-useful-routines-from-the-ms-vc-runtime"></span><h1><a class="reference internal" href="#module-msvcrt" title="msvcrt: Miscellaneous useful routines from the MS VC++ runtime. (Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">msvcrt</span></code></a> --- 来自 MS VC++ 运行时的有用例程<a class="headerlink" href="#module-msvcrt" title="永久链接至标题">¶</a></h1>
+<hr class="docutils" />
+<p>这些函数提供了对 Windows 平台上一些有用功能的访问。一些更高级别的模块使用这些函数来构建其服务的 Windows 实现。 例如， <a class="reference internal" href="getpass.html#module-getpass" title="getpass: Portable reading of passwords and retrieval of the userid."><code class="xref py py-mod docutils literal notranslate"><span class="pre">getpass</span></code></a> 模块在实现 <a class="reference internal" href="getpass.html#module-getpass" title="getpass: Portable reading of passwords and retrieval of the userid."><code class="xref py py-func docutils literal notranslate"><span class="pre">getpass()</span></code></a> 函数时使用了这些函数。</p>
+<p>关于这些函数的更多信息可以在平台 API 文档中找到。</p>
+<p>该模块实现了控制台 I/O API 的普通和宽字符变体。普通的 API 只处理ASCII字符，国际化应用受限。应该尽可能地使用宽字符 API 。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>此模块中过去会引发 <a class="reference internal" href="exceptions.html#IOError" title="IOError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IOError</span></code></a> 的操作现在将引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+</div>
+<section id="file-operations">
+<span id="msvcrt-files"></span><h2>文件操作<a class="headerlink" href="#file-operations" title="永久链接至标题">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.locking">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">locking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbytes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.locking" title="永久链接至目标">¶</a></dt>
+<dd><p>基于文件描述符 <em>fd</em> 从 C 运行时锁定文件的某一部分。 失败时引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。 锁定的文件区域从当前文件位置开始扩展 <em>nbytes</em> 个字节，并可能持续到超出文件末尾。 <em>mode</em> 必须为下面列出的 <code class="xref py py-const docutils literal notranslate"><span class="pre">LK_*</span></code> 之一。 一个文件中的多个区域可以被同时锁定，但是不能重叠。 相邻区域不会被合并；它们必须单独被解锁。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">msvcrt.locking</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">fd</span></code>, <code class="docutils literal notranslate"><span class="pre">mode</span></code>, <code class="docutils literal notranslate"><span class="pre">nbytes</span></code>。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="msvcrt.LK_LOCK">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">LK_LOCK</span></span><a class="headerlink" href="#msvcrt.LK_LOCK" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="msvcrt.LK_RLCK">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">LK_RLCK</span></span><a class="headerlink" href="#msvcrt.LK_RLCK" title="永久链接至目标">¶</a></dt>
+<dd><p>锁定指定的字节数据。 如果字节数据无法被锁定，程序会在 1 秒之后立即重试。 如果在 10 次尝试后字节数据仍无法被锁定，则会引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="msvcrt.LK_NBLCK">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">LK_NBLCK</span></span><a class="headerlink" href="#msvcrt.LK_NBLCK" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="msvcrt.LK_NBRLCK">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">LK_NBRLCK</span></span><a class="headerlink" href="#msvcrt.LK_NBRLCK" title="永久链接至目标">¶</a></dt>
+<dd><p>锁定指定的字节数据。 如果字节数据无法被锁定，则会引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="msvcrt.LK_UNLCK">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">LK_UNLCK</span></span><a class="headerlink" href="#msvcrt.LK_UNLCK" title="永久链接至目标">¶</a></dt>
+<dd><p>解锁指定的字节数据，该对象必须在之前被锁定。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.setmode">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">setmode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.setmode" title="永久链接至目标">¶</a></dt>
+<dd><p>设置文件描述符 <em>fd</em> 的行结束符转写模式。 要将其设为文本模式，则 <em>flags</em> 应当为 <a class="reference internal" href="os.html#os.O_TEXT" title="os.O_TEXT"><code class="xref py py-const docutils literal notranslate"><span class="pre">os.O_TEXT</span></code></a>；设为二进制模式，则应当为 <a class="reference internal" href="os.html#os.O_BINARY" title="os.O_BINARY"><code class="xref py py-const docutils literal notranslate"><span class="pre">os.O_BINARY</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.open_osfhandle">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">open_osfhandle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.open_osfhandle" title="永久链接至目标">¶</a></dt>
+<dd><p>基于文件句柄 <em>handle</em> 创建一个 C 运行时文件描述符。 <em>flags</em> 形参应当 <a class="reference internal" href="os.html#os.O_APPEND" title="os.O_APPEND"><code class="xref py py-const docutils literal notranslate"><span class="pre">os.O_APPEND</span></code></a>, <a class="reference internal" href="os.html#os.O_RDONLY" title="os.O_RDONLY"><code class="xref py py-const docutils literal notranslate"><span class="pre">os.O_RDONLY</span></code></a> 和 <a class="reference internal" href="os.html#os.O_TEXT" title="os.O_TEXT"><code class="xref py py-const docutils literal notranslate"><span class="pre">os.O_TEXT</span></code></a> 按位 OR 的结果。 返回的文件描述符可以被用作 <a class="reference internal" href="os.html#os.fdopen" title="os.fdopen"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.fdopen()</span></code></a> 的形参以创建一个文件对象。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">msvcrt.open_osfhandle</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">handle</span></code>, <code class="docutils literal notranslate"><span class="pre">flags</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.get_osfhandle">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">get_osfhandle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.get_osfhandle" title="永久链接至目标">¶</a></dt>
+<dd><p>返回文件描述符 <em>fd</em> 的文件句柄。 如果 <em>fd</em> 不能被识别则会引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">msvcrt.get_osfhandle</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">fd</span></code>。</p>
+</dd></dl>
+
+</section>
+<section id="console-i-o">
+<span id="msvcrt-console"></span><h2>控制台 I/O<a class="headerlink" href="#console-i-o" title="永久链接至标题">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.kbhit">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">kbhit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.kbhit" title="永久链接至目标">¶</a></dt>
+<dd><p>如果有某个按键正在等待被读取则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.getch">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">getch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.getch" title="永久链接至目标">¶</a></dt>
+<dd><p>读取一个按键并将结果字符返回为一个字节串。 不会有内容回显到缝制台。 如果还没有任何键被按下此调用将会阻塞，但它将不会等待 <kbd class="kbd docutils literal notranslate">Enter</kbd> 被按下。 如果按下的键是一个特殊功能键，此函数将返回 <code class="docutils literal notranslate"><span class="pre">'\000'</span></code> 或 <code class="docutils literal notranslate"><span class="pre">'\xe0'</span></code>；下一次调用将返回键代码。 <kbd class="kbd compound docutils literal notranslate"><kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd></kbd> 按钮无法使用此函数来读取。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.getwch">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">getwch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.getwch" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#msvcrt.getch" title="msvcrt.getch"><code class="xref py py-func docutils literal notranslate"><span class="pre">getch()</span></code></a> 的宽字符版本，返回一个 Unicode 值。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.getche">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">getche</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.getche" title="永久链接至目标">¶</a></dt>
+<dd><p>类似于 <a class="reference internal" href="#msvcrt.getch" title="msvcrt.getch"><code class="xref py py-func docutils literal notranslate"><span class="pre">getch()</span></code></a>，但按键如果表示一个可打印字符则它将被回显。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.getwche">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">getwche</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.getwche" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#msvcrt.getche" title="msvcrt.getche"><code class="xref py py-func docutils literal notranslate"><span class="pre">getche()</span></code></a> 的宽字符版本，返回一个 Unicode 值。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.putch">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">putch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">char</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.putch" title="永久链接至目标">¶</a></dt>
+<dd><p>将字符串 <em>char</em> 打印到终端，不使用缓冲区。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.putwch">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">putwch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode_char</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.putwch" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#msvcrt.putch" title="msvcrt.putch"><code class="xref py py-func docutils literal notranslate"><span class="pre">putch()</span></code></a> 的宽字符版本，接受一个 Unicode 值。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.ungetch">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">ungetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">char</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.ungetch" title="永久链接至目标">¶</a></dt>
+<dd><p>使得字节串 <em>char</em> 被“推回”终端缓冲区；它将是被 <a class="reference internal" href="#msvcrt.getch" title="msvcrt.getch"><code class="xref py py-func docutils literal notranslate"><span class="pre">getch()</span></code></a> 或 <a class="reference internal" href="#msvcrt.getche" title="msvcrt.getche"><code class="xref py py-func docutils literal notranslate"><span class="pre">getche()</span></code></a> 读取的下一个字符。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.ungetwch">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">ungetwch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode_char</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.ungetwch" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#msvcrt.ungetch" title="msvcrt.ungetch"><code class="xref py py-func docutils literal notranslate"><span class="pre">ungetch()</span></code></a> 的宽字符版本，接受一个 Unicode 值。</p>
+</dd></dl>
+
+</section>
+<section id="other-functions">
+<span id="msvcrt-other"></span><h2>其他函数<a class="headerlink" href="#other-functions" title="永久链接至标题">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="msvcrt.heapmin">
+<span class="sig-prename descclassname"><span class="pre">msvcrt.</span></span><span class="sig-name descname"><span class="pre">heapmin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#msvcrt.heapmin" title="永久链接至目标">¶</a></dt>
+<dd><p>强制 <code class="xref c c-func docutils literal notranslate"><span class="pre">malloc()</span></code> 堆清空自身并将未使用的块返回给操作系统。 失败时，这将引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">msvcrt</span></code> --- 来自 MS VC++ 运行时的有用例程</a><ul>
+<li><a class="reference internal" href="#file-operations">文件操作</a></li>
+<li><a class="reference internal" href="#console-i-o">控制台 I/O</a></li>
+<li><a class="reference internal" href="#other-functions">其他函数</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="windows.html"
+                          title="上一章">Windows系统相关模块</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="winreg.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> --- 访问 Windows 注册表</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/msvcrt.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="winreg.html" title="winreg --- 访问 Windows 注册表"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="windows.html" title="Windows系统相关模块"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="windows.html" >Windows系统相关模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">msvcrt</span></code> --- 来自 MS VC++ 运行时的有用例程</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

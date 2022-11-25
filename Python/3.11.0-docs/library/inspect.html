@@ -1,0 +1,1738 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>inspect --- 检查对象 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="site —— 指定域的配置钩子" href="site.html" />
+    <link rel="prev" title="gc --- 垃圾回收器接口" href="gc.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/inspect.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code> --- 检查对象</a><ul>
+<li><a class="reference internal" href="#types-and-members">类型和成员</a></li>
+<li><a class="reference internal" href="#retrieving-source-code">获取源代码</a></li>
+<li><a class="reference internal" href="#introspecting-callables-with-the-signature-object">使用 Signature 对象对可调用对象进行内省</a></li>
+<li><a class="reference internal" href="#classes-and-functions">类与函数</a></li>
+<li><a class="reference internal" href="#the-interpreter-stack">解释器栈</a></li>
+<li><a class="reference internal" href="#fetching-attributes-statically">静态地获取属性</a></li>
+<li><a class="reference internal" href="#current-state-of-generators-and-coroutines">生成器和协程的当前状态</a></li>
+<li><a class="reference internal" href="#code-objects-bit-flags">代码对象位标志</a></li>
+<li><a class="reference internal" href="#command-line-interface">命令行界面</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="gc.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gc</span></code> --- 垃圾回收器接口</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="site.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code> —— 指定域的配置钩子</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/inspect.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="site.html" title="site —— 指定域的配置钩子"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="gc.html" title="gc --- 垃圾回收器接口"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" accesskey="U">Python运行时服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code> --- 检查对象</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-inspect">
+<span id="inspect-inspect-live-objects"></span><h1><a class="reference internal" href="#module-inspect" title="inspect: Extract information and source code from live objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code></a> --- 检查对象<a class="headerlink" href="#module-inspect" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/inspect.py">Lib/inspect.py</a></p>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-inspect" title="inspect: Extract information and source code from live objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code></a> 模块提供了一些有用的函数帮助获取对象的信息，例如模块、类、方法、函数、回溯、帧对象以及代码对象。例如它可以帮助你检查类的内容，获取某个方法的源代码，取得并格式化某个函数的参数列表，或者获取你需要显示的回溯的详细信息。</p>
+<p>该模块提供了4种主要的功能：类型检查、获取源代码、检查类与函数、检查解释器的调用堆栈。</p>
+<section id="types-and-members">
+<span id="inspect-types"></span><h2>类型和成员<a class="headerlink" href="#types-and-members" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#inspect.getmembers" title="inspect.getmembers"><code class="xref py py-func docutils literal notranslate"><span class="pre">getmembers()</span></code></a> 函数获取对象的成员，例如类或模块。函数名以&quot;is&quot;开始的函数主要作为 <a class="reference internal" href="#inspect.getmembers" title="inspect.getmembers"><code class="xref py py-func docutils literal notranslate"><span class="pre">getmembers()</span></code></a> 的第2个参数使用。它们也可用于判定某对象是否有如下的特殊属性:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 33%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>类型</p></th>
+<th class="head"><p>属性</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>module -- 模块</p></td>
+<td><p>__doc__</p></td>
+<td><p>文档字符串</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__file__</p></td>
+<td><p>文件名(内置模块没有文件名)</p></td>
+</tr>
+<tr class="row-even"><td><p>class -- 类</p></td>
+<td><p>__doc__</p></td>
+<td><p>文档字符串</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__name__</p></td>
+<td><p>类定义时所使用的名称</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>__qualname__</p></td>
+<td><p>qualified name -- 限定名称</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__module__</p></td>
+<td><p>该类型被定义时所在的模块的名称</p></td>
+</tr>
+<tr class="row-even"><td><p>method -- 方法</p></td>
+<td><p>__doc__</p></td>
+<td><p>文档字符串</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__name__</p></td>
+<td><p>该方法定义时所使用的名称</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>__qualname__</p></td>
+<td><p>qualified name -- 限定名称</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__func__</p></td>
+<td><p>实现该方法的函数对象</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>__self__</p></td>
+<td><p>该方法被绑定的实例，若没有绑定则为 <code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__module__</p></td>
+<td><p>定义此方法的模块的名称</p></td>
+</tr>
+<tr class="row-even"><td><p>function -- 函数</p></td>
+<td><p>__doc__</p></td>
+<td><p>文档字符串</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__name__</p></td>
+<td><p>用于定义此函数的名称</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>__qualname__</p></td>
+<td><p>qualified name -- 限定名称</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__code__</p></td>
+<td><p>包含已编译函数的代码对象 <a class="reference internal" href="../glossary.html#term-bytecode"><span class="xref std std-term">bytecode</span></a></p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>__defaults__</p></td>
+<td><p>所有位置或关键字参数的默认值的元组</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__kwdefaults__</p></td>
+<td><p>保存仅关键字参数的所有默认值的映射</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>__globals__</p></td>
+<td><p>此函数定义所在的全局命名空间</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__builtins__</p></td>
+<td><p>builtins 命名空间</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>__annotations__</p></td>
+<td><p>参数名称到注解的映射；保留键 <code class="docutils literal notranslate"><span class="pre">&quot;return&quot;</span></code> 用于返回值注解。</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__module__</p></td>
+<td><p>此函数定义所在的模块名称</p></td>
+</tr>
+<tr class="row-even"><td><p>traceback -- 回溯</p></td>
+<td><p>tb_frame</p></td>
+<td><p>此层的帧对象</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>tb_lasti</p></td>
+<td><p>在字节码中最后尝试的指令的索引</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>tb_lineno</p></td>
+<td><p>当前行在 Python 源代码中的行号</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>tb_next</p></td>
+<td><p>下一个内部回溯对象（由本层调用）</p></td>
+</tr>
+<tr class="row-even"><td><p>frame -- 帧</p></td>
+<td><p>f_back</p></td>
+<td><p>下一个外部帧对象（此帧的调用者）</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>f_builtins</p></td>
+<td><p>此帧执行时所在的 builtins 命名空间</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>f_code</p></td>
+<td><p>在此帧中执行的代码对象</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>f_globals</p></td>
+<td><p>此帧执行时所在的全局命名空间</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>f_lasti</p></td>
+<td><p>在字节码中最后尝试的指令的索引</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>f_lineno</p></td>
+<td><p>当前行在 Python 源代码中的行号</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>f_locals</p></td>
+<td><p>此帧所看到的局部命名空间</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>f_trace</p></td>
+<td><p>此帧的追踪函数，或``None``</p></td>
+</tr>
+<tr class="row-even"><td><p>code -- 代码</p></td>
+<td><p>co_argcount</p></td>
+<td><p>参数数量（不包括仅关键字参数、* 或 ** 参数）</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>co_code</p></td>
+<td><p>字符串形式的原始字节码</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>co_cellvars</p></td>
+<td><p>单元变量名称的元组(通过包含作用域引用)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>co_consts</p></td>
+<td><p>字节码中使用的常量元组</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>co_filename</p></td>
+<td><p>创建此代码对象的文件的名称</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>co_firstlineno</p></td>
+<td><p>第一行在Python源代码中的行号</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>co_flags</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CO_*</span></code> 标志的位图，详见 <a class="reference internal" href="#inspect-module-co-flags"><span class="std std-ref">此处</span></a></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>co_lnotab</p></td>
+<td><p>编码的行号到字节码索引的映射</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>co_freevars</p></td>
+<td><p>自由变量的名字组成的元组（通过函数闭包引用）</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>co_posonlyargcount</p></td>
+<td><p>仅限位置参数的数量</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>co_kwonlyargcount</p></td>
+<td><p>仅限关键字参数的数量（不包括 ** 参数）</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>co_name</p></td>
+<td><p>定义此代码对象的名称</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>co_qualname</p></td>
+<td><p>fully qualified name with
+which this code object
+was defined</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>co_names</p></td>
+<td><p>除参数和函数局部变量之外的名称元组</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>co_nlocals</p></td>
+<td><p>局部变量的数量</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>co_stacksize</p></td>
+<td><p>需要虚拟机堆栈空间</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>co_varnames</p></td>
+<td><p>参数名和局部变量的元组</p></td>
+</tr>
+<tr class="row-odd"><td><p>generator -- 生成器</p></td>
+<td><p>__name__</p></td>
+<td><p>名称</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>__qualname__</p></td>
+<td><p>qualified name -- 限定名称</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>gi_frame</p></td>
+<td><p>frame -- 帧</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>gi_running</p></td>
+<td><p>生成器在运行吗？</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>gi_code</p></td>
+<td><p>code -- 代码</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>gi_yieldfrom</p></td>
+<td><p>通过``yield from``迭代的对象，或``None``</p></td>
+</tr>
+<tr class="row-odd"><td><p>coroutine -- 协程</p></td>
+<td><p>__name__</p></td>
+<td><p>名称</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>__qualname__</p></td>
+<td><p>qualified name -- 限定名称</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>cr_await</p></td>
+<td><p>正在等待的对象，或``None``</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>cr_frame</p></td>
+<td><p>frame -- 帧</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>cr_running</p></td>
+<td><p>这个协程正在运行吗？</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>cr_code</p></td>
+<td><p>code -- 代码</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>cr_origin</p></td>
+<td><p>协程被创建的位置，或``None``。参见 <a class="reference internal" href="sys.html#sys.set_coroutine_origin_tracking_depth" title="sys.set_coroutine_origin_tracking_depth"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.set_coroutine_origin_tracking_depth()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>builtin</p></td>
+<td><p>__doc__</p></td>
+<td><p>文档字符串</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__name__</p></td>
+<td><p>此函数或方法的原始名称</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>__qualname__</p></td>
+<td><p>qualified name -- 限定名称</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>__self__</p></td>
+<td><p>方法绑定到的实例，或``None``</p></td>
+</tr>
+</tbody>
+</table>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>为生成器添加``__qualname__``和``gi_yieldfrom``属性。</p>
+<p>生成器的``__name__``属性现在由函数名称设置，而不是代码对象名称，并且现在可以被修改。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>为协程添加``cr_origin``属性。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>为函数添加``__builtins__``属性。</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getmembers">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getmembers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getmembers" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个对象上的所有成员，组成以 <code class="docutils literal notranslate"><span class="pre">(名称,</span> <span class="pre">值)</span></code> 对为元素的列表，按名称排序。如果提供了可选的 <em>predicate</em> 参数（会对每个成员的 <code class="docutils literal notranslate"><span class="pre">值</span></code> 对象进行一次调用），则仅包含该断言为真的成员。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>如果要让 <a class="reference internal" href="#inspect.getmembers" title="inspect.getmembers"><code class="xref py py-func docutils literal notranslate"><span class="pre">getmembers()</span></code></a> 返回元类中定义的类属性，那么实参须为一个类且这些属性在元类的自定义方法 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__dir__()</span></code> 中列出。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getmembers_static">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getmembers_static</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getmembers_static" title="永久链接至目标">¶</a></dt>
+<dd><p>Return all the members of an object in a list of <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">value)</span></code>
+pairs sorted by name without triggering dynamic lookup via the descriptor
+protocol, __getattr__ or __getattribute__. Optionally, only return members
+that satisfy a given predicate.</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><a class="reference internal" href="#inspect.getmembers_static" title="inspect.getmembers_static"><code class="xref py py-func docutils literal notranslate"><span class="pre">getmembers_static()</span></code></a> may not be able to retrieve all members
+that getmembers can fetch (like dynamically created attributes)
+and may find members that getmembers can't (like descriptors
+that raise AttributeError). It can also return descriptor objects
+instead of instance members in some cases.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getmodulename">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getmodulename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getmodulename" title="永久链接至目标">¶</a></dt>
+<dd><p>返回由文件名 <em>path</em> 表示的模块名字，但不包括外层的包名。文件扩展名会检查是否在 <a class="reference internal" href="importlib.html#importlib.machinery.all_suffixes" title="importlib.machinery.all_suffixes"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.machinery.all_suffixes()</span></code></a> 列出的条目中。如果符合，则文件路径的最后一个组成部分会去掉后缀名后被返回；否则返回``None``。</p>
+<p>值得注意的是，这个函数 <em>仅</em> 返回可以作为 Python 模块的名字，而有可能指向一个 Python 包的路径仍然会返回``None``。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>该函数直接基于 <a class="reference internal" href="importlib.html#module-importlib" title="importlib: The implementation of the import machinery."><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.ismodule">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">ismodule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.ismodule" title="永久链接至目标">¶</a></dt>
+<dd><p>当该对象是一个模块时返回``True``。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isclass">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isclass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isclass" title="永久链接至目标">¶</a></dt>
+<dd><p>当该对象是一个类时返回``True``，无论是内置类或者 Python 代码中定义的类。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.ismethod">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">ismethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.ismethod" title="永久链接至目标">¶</a></dt>
+<dd><p>当该对象是一个 Python 写成的绑定方法时返回``True``。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isfunction">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isfunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isfunction" title="永久链接至目标">¶</a></dt>
+<dd><p>当该对象是一个 Python 函数时（包括使用 <a class="reference internal" href="../glossary.html#term-lambda"><span class="xref std std-term">lambda</span></a> 表达式创造的函数），返回``True``。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isgeneratorfunction">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isgeneratorfunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isgeneratorfunction" title="永久链接至目标">¶</a></dt>
+<dd><p>当该对象是一个 Python 生成器函数时返回``True``。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>对于使用 <a class="reference internal" href="functools.html#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a> 封装的函数，如果被封装的函数是一个 Python 生成器函数，现在也会返回``True``。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isgenerator">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isgenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isgenerator" title="永久链接至目标">¶</a></dt>
+<dd><p>当该对象是一个生成器时返回``True``。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.iscoroutinefunction">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">iscoroutinefunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.iscoroutinefunction" title="永久链接至目标">¶</a></dt>
+<dd><p>当该对象是一个 <a class="reference internal" href="../glossary.html#term-coroutine-function"><span class="xref std std-term">协程函数</span></a> （通过 <a class="reference internal" href="../reference/compound_stmts.html#async-def"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span></code></a> 语法定义的函数）时返回``True``。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>对于使用 <a class="reference internal" href="functools.html#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a> 封装的函数，如果被封装的函数是一个 <a class="reference internal" href="../glossary.html#term-coroutine-function"><span class="xref std std-term">协程函数</span></a> ，现在也会返回``True``。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.iscoroutine">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">iscoroutine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.iscoroutine" title="永久链接至目标">¶</a></dt>
+<dd><p>当该对象是一个由 <a class="reference internal" href="../reference/compound_stmts.html#async-def"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span></code></a> 函数创建的 <a class="reference internal" href="../glossary.html#term-coroutine"><span class="xref std std-term">协程</span></a> 时返回``True``。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isawaitable">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isawaitable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isawaitable" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象可以在 <a class="reference internal" href="../reference/expressions.html#await"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">await</span></code></a> 表达式中使用时返回``True``。</p>
+<p>也可以用于区分基于生成器的协程和常规的生成器：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
+    <span class="k">yield</span>
+<span class="nd">@types</span><span class="o">.</span><span class="n">coroutine</span>
+<span class="k">def</span> <span class="nf">gen_coro</span><span class="p">():</span>
+    <span class="k">yield</span>
+
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">isawaitable</span><span class="p">(</span><span class="n">gen</span><span class="p">())</span>
+<span class="k">assert</span> <span class="n">isawaitable</span><span class="p">(</span><span class="n">gen_coro</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isasyncgenfunction">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isasyncgenfunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isasyncgenfunction" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个 <a class="reference internal" href="../glossary.html#term-asynchronous-generator"><span class="xref std std-term">异步生成器</span></a> 函数则返回``True``，例如：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">async</span> <span class="k">def</span> <span class="nf">agen</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">yield</span> <span class="mi">1</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inspect</span><span class="o">.</span><span class="n">isasyncgenfunction</span><span class="p">(</span><span class="n">agen</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>对于使用 <a class="reference internal" href="functools.html#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a> 封装的函数，如果被封装的函数是一个 <a class="reference internal" href="../glossary.html#term-asynchronous-generator"><span class="xref std std-term">异步生成器</span></a> ，现在也会返回``True``。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isasyncgen">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isasyncgen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isasyncgen" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个由 <a class="reference internal" href="../glossary.html#term-asynchronous-generator"><span class="xref std std-term">异步生成器</span></a> 函数创建的 <a class="reference internal" href="../glossary.html#term-asynchronous-generator-iterator"><span class="xref std std-term">异步生成器迭代器</span></a>，则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.istraceback">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">istraceback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.istraceback" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个回溯则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isframe">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isframe" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个帧对象则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.iscode">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">iscode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.iscode" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个代码对象则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isbuiltin">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isbuiltin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isbuiltin" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个内置函数或一个绑定的内置方法，则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.ismethodwrapper">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">ismethodwrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.ismethodwrapper" title="永久链接至目标">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the type of object is a <a class="reference internal" href="types.html#types.MethodWrapperType" title="types.MethodWrapperType"><code class="xref py py-class docutils literal notranslate"><span class="pre">MethodWrapperType</span></code></a>.</p>
+<p>These are instances of <a class="reference internal" href="types.html#types.MethodWrapperType" title="types.MethodWrapperType"><code class="xref py py-class docutils literal notranslate"><span class="pre">MethodWrapperType</span></code></a>, such as <a class="reference internal" href="../reference/datamodel.html#object.__str__" title="object.__str__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__()</span></code></a>,
+<a class="reference internal" href="../reference/datamodel.html#object.__eq__" title="object.__eq__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__eq__()</span></code></a> and <a class="reference internal" href="../reference/datamodel.html#object.__repr__" title="object.__repr__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__repr__()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isroutine">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isroutine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isroutine" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个用户定义的或内置的函数或者方法，则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isabstract">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isabstract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isabstract" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个抽象基类则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.ismethoddescriptor">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">ismethoddescriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.ismethoddescriptor" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个方法描述器，但 <a class="reference internal" href="#inspect.ismethod" title="inspect.ismethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">ismethod()</span></code></a> 、 <a class="reference internal" href="#inspect.isclass" title="inspect.isclass"><code class="xref py py-func docutils literal notranslate"><span class="pre">isclass()</span></code></a> 、 <a class="reference internal" href="#inspect.isfunction" title="inspect.isfunction"><code class="xref py py-func docutils literal notranslate"><span class="pre">isfunction()</span></code></a> 及 <a class="reference internal" href="#inspect.isbuiltin" title="inspect.isbuiltin"><code class="xref py py-func docutils literal notranslate"><span class="pre">isbuiltin()</span></code></a> 均不为真，则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<p>例如，该函数对于 <code class="docutils literal notranslate"><span class="pre">int.__add__</span></code> 为真。一个通过此测试的对象可以有 <a class="reference internal" href="../reference/datamodel.html#object.__get__" title="object.__get__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__get__()</span></code></a> 方法，但不能有 <a class="reference internal" href="../reference/datamodel.html#object.__set__" title="object.__set__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__set__()</span></code></a> 方法，除此以外的属性集合是可变的。一个 <a class="reference internal" href="stdtypes.html#definition.__name__" title="definition.__name__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__name__</span></code></a> 属性通常是合理的，而 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__doc__</span></code> 属性常常也是。</p>
+<p>即使是通过描述器实现的函数，如果通过其他某一个测试，则  <a class="reference internal" href="#inspect.ismethoddescriptor" title="inspect.ismethoddescriptor"><code class="xref py py-func docutils literal notranslate"><span class="pre">ismethoddescriptor()</span></code></a> 测试则会返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。这单纯是因为其他测试提供了更多保证。比如，当一个对象通过 <a class="reference internal" href="#inspect.ismethod" title="inspect.ismethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">ismethod()</span></code></a> 测试时，你可以使用 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__func__</span></code> 等属性。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isdatadescriptor">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isdatadescriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isdatadescriptor" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个数据描述器则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<p>数据描述器拥有 <a class="reference internal" href="../reference/datamodel.html#object.__set__" title="object.__set__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__set__</span></code></a> 或 <a class="reference internal" href="../reference/datamodel.html#object.__delete__" title="object.__delete__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__delete__</span></code></a> 方法。比如属性（通过 Python 定义）、getset 和成员。后二者是通过 C 定义的，并且也有对应的更具体的测试，并且在不同的 Python 实现中也是健壮的。典型地，数据描述器会拥有 <a class="reference internal" href="stdtypes.html#definition.__name__" title="definition.__name__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__name__</span></code></a> 和 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__doc__</span></code> 属性（属性、getset 和成员都包含这两个属性），但这并无保证。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.isgetsetdescriptor">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">isgetsetdescriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.isgetsetdescriptor" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个 getset 描述器则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<div class="impl-detail compound">
+<p><strong>CPython 实现细节：</strong> getset 是在扩展模块中通过 <a class="reference internal" href="../c-api/structures.html#c.PyGetSetDef" title="PyGetSetDef"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyGetSetDef</span></code></a> 结构体定义的属性。对于不包含这种类型的 Python 实现，这个方法将永远返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.ismemberdescriptor">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">ismemberdescriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.ismemberdescriptor" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该对象是一个成员描述器则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<div class="impl-detail compound">
+<p><strong>CPython 实现细节：</strong> 成员描述器是在扩展模块中通过 <a class="reference internal" href="../c-api/structures.html#c.PyMemberDef" title="PyMemberDef"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyMemberDef</span></code></a> 结构体定义的属性。对于不包含这种类型的 Python 实现，这个方法将永远返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="retrieving-source-code">
+<span id="inspect-source"></span><h2>获取源代码<a class="headerlink" href="#retrieving-source-code" title="永久链接至标题">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getdoc">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getdoc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getdoc" title="永久链接至目标">¶</a></dt>
+<dd><p>获取对象的文档字符串并通过 <a class="reference internal" href="#inspect.cleandoc" title="inspect.cleandoc"><code class="xref py py-func docutils literal notranslate"><span class="pre">cleandoc()</span></code></a> 进行清理。如果对象本身并未提供文档字符串并且这个对象是一个类、一个方法、一个特性或者一个描述器，将通过继承层次结构获取文档字符串。如果文档字符串无效或缺失，则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>文档字符串没有被重写的话现在会被继承。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getcomments">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getcomments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getcomments" title="永久链接至目标">¶</a></dt>
+<dd><p>任意多行注释作为单一一个字符串返回。对于类、函数和方法，选取紧贴在该对象的源代码之前的注释；对于模块，选取 Python 源文件顶部的注释。如果对象的源代码不可获得，返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。这可能是因为对象是 C 语言中或者是在交互式命令行中定义的。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getfile">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getfile" title="永久链接至目标">¶</a></dt>
+<dd><p>返回定义了这个对象的文件名（包括文本文件或二进制文件）。如果该对象是一个内置模块、类或函数则会失败并引发一个 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getmodule">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getmodule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getmodule" title="永久链接至目标">¶</a></dt>
+<dd><p>尝试猜测一个对象是在哪个模块中定义的。 如果无法确定模块则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getsourcefile">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getsourcefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getsourcefile" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个对象定义所在 Python 源文件的名称，如果无法获取源文件则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。 如果对象是一个内置模块、类或函数则将失败并引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getsourcelines">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getsourcelines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getsourcelines" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个源代码行的列表和对象的起始行。实参可以是一个模块、类、方法、函数、回溯、帧或者代码对象。与该对象相关的源代码会按行构成一个列表，并且会有一个行号表示其中第一行代码出现在源文件的第几行。如果源代码不能被获取，则会引发一个 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>现在会引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 而不是 <a class="reference internal" href="exceptions.html#IOError" title="IOError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IOError</span></code></a>，后者现在是前者的一个别名。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getsource">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getsource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getsource" title="永久链接至目标">¶</a></dt>
+<dd><p>返回对象的源代码文本。实参可以是一个模块、类、方法、函数、回溯、帧或者代码对象。源代码会作为单一一个字符串被返回。如果源代码不能被获取，则会引发一个 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>现在会引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> 而不是 <a class="reference internal" href="exceptions.html#IOError" title="IOError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IOError</span></code></a>，后者现在是前者的一个别名。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.cleandoc">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">cleandoc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.cleandoc" title="永久链接至目标">¶</a></dt>
+<dd><p>清理文档字符串中为对齐当前代码块进行的缩进</p>
+<p>第一行的所有前缀空白符会被移除。从第二行开始所有可以被统一去除的空白符也会被去除。之后，首尾的空白行也会被移除。同时，所有制表符会被展开到空格。</p>
+</dd></dl>
+
+</section>
+<section id="introspecting-callables-with-the-signature-object">
+<span id="inspect-signature-object"></span><h2>使用 Signature 对象对可调用对象进行内省<a class="headerlink" href="#introspecting-callables-with-the-signature-object" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+<p>Signature 对象代表了一个可调用对象的调用签名和返回值标注。要获取一个 Signature 对象，使用 <a class="reference internal" href="#inspect.signature" title="inspect.signature"><code class="xref py py-func docutils literal notranslate"><span class="pre">signature()</span></code></a> 函数。</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.signature">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_wrapped</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.signature" title="永久链接至目标">¶</a></dt>
+<dd><p>返回给定的 <code class="docutils literal notranslate"><span class="pre">callable</span></code> 的一个 <a class="reference internal" href="#inspect.Signature" title="inspect.Signature"><code class="xref py py-class docutils literal notranslate"><span class="pre">Signature</span></code></a> 对象：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+<span class="go">&#39;(a, *, b:int, **kwargs)&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="go">&#39;b:int&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">annotation</span>
+<span class="go">&lt;class &#39;int&#39;&gt;</span>
+</pre></div>
+</div>
+<p>接受各类的 Python 可调用对象，包括单纯的函数、类，到 <a class="reference internal" href="functools.html#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a> 对象。</p>
+<p>对于在字符串化标注模块（<code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">annotations</span></code>）中定义的对象， <a class="reference internal" href="#inspect.signature" title="inspect.signature"><code class="xref py py-func docutils literal notranslate"><span class="pre">signature()</span></code></a> 会尝试使用 <a class="reference internal" href="#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> 自动地反字符串化这些标注。参数 <code class="docutils literal notranslate"><span class="pre">global</span></code> <code class="docutils literal notranslate"><span class="pre">locals</span></code> 和 <code class="docutils literal notranslate"><span class="pre">eval_str</span></code> 会在分析标注时被传入 <a class="reference internal" href="#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> 。如何运用这些参数请参见 <a class="reference internal" href="#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> 的文档。</p>
+<p>如果没有签名可以提供，则引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>；如果不支持该对象类型，则引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。同时，如果标注被反字符串化，并且 <code class="docutils literal notranslate"><span class="pre">eval_str</span></code> 不是假值，则 <code class="docutils literal notranslate"><span class="pre">eval()</span></code> 会被调用以反字符串化，此时有可能引发任何种类的异常。</p>
+<p>函数签名中的斜杠（/）表示在它之前的参数是仅限位置的。详见 <a class="reference internal" href="../faq/programming.html#faq-positional-only-arguments"><span class="std std-ref">编程常见问题中关于仅限位置参数的条目</span></a></p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能: </span><code class="docutils literal notranslate"><span class="pre">follow_wrapped</span></code> 形参。传递 <code class="docutils literal notranslate"><span class="pre">False</span></code> 来获得特定关于 <code class="docutils literal notranslate"><span class="pre">callable</span></code> 的签名（<code class="docutils literal notranslate"><span class="pre">callable.__wrapped__</span></code> 将不会用来解包被修饰的可调用对象）。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.10 新版功能: </span>添加参数 <code class="docutils literal notranslate"><span class="pre">globals</span></code> 、 <code class="docutils literal notranslate"><span class="pre">locals</span></code> 和 <code class="docutils literal notranslate"><span class="pre">eval_str</span></code>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>一些可调用对象可能在特定 Python 实现中无法被内省。例如，在 CPython 中，部分通过 C 语言定义的内置函数不提供关于其参数的元数据。</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="inspect.Signature">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">Signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_annotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Signature.empty</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.Signature" title="永久链接至目标">¶</a></dt>
+<dd><p>一个 Signature 对象代表了一个函数的调用签名和返回值标注。对于函数接受的每个参数，它对应地在自身的 <a class="reference internal" href="#inspect.Signature.parameters" title="inspect.Signature.parameters"><code class="xref py py-attr docutils literal notranslate"><span class="pre">parameters</span></code></a> 容器中存储一个 <a class="reference internal" href="#inspect.Parameter" title="inspect.Parameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code></a> 对象。</p>
+<p>可选参数 <em>parameters</em> 是一个 <a class="reference internal" href="#inspect.Parameter" title="inspect.Parameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code></a> 对象组成的序列，它会在之后被验证不存在名字重复的参数，并且参数处于正确的顺序，即仅限位置参数最前，之后紧接着可位置可关键字参数，并且有默认值参数在无默认值参数之前。</p>
+<p>可选参数 <em>return_annotation</em> 可以是任意 Python 对象，是该可调用对象中“返回值”的标注。</p>
+<p> Signature 对象是 <em>不可变</em> 的。使用 <a class="reference internal" href="#inspect.Signature.replace" title="inspect.Signature.replace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Signature.replace()</span></code></a> 来构造一个修改后的副本。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span> Signature 对象既可封存（pickle）又可哈希。</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Signature.empty">
+<span class="sig-name descname"><span class="pre">empty</span></span><a class="headerlink" href="#inspect.Signature.empty" title="永久链接至目标">¶</a></dt>
+<dd><p>该类的一个特殊标记来明确指出返回值标注缺失。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Signature.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#inspect.Signature.parameters" title="永久链接至目标">¶</a></dt>
+<dd><p>一个参数名字到对应 <a class="reference internal" href="#inspect.Parameter" title="inspect.Parameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code></a> 对象的有序映射。参数以严格的定义顺序出现，包括仅关键字参数。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>Python 从 3.7 版起才显式地保证了它保持仅关键字参数的定义顺序，尽管实践上在 Python 3 中一直保持了这个顺序。</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Signature.return_annotation">
+<span class="sig-name descname"><span class="pre">return_annotation</span></span><a class="headerlink" href="#inspect.Signature.return_annotation" title="永久链接至目标">¶</a></dt>
+<dd><p>可调用对象的“返回值”标注。如果可调用对象没有“返回值”标注，这个属性会被设置为 <a class="reference internal" href="#inspect.Signature.empty" title="inspect.Signature.empty"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Signature.empty</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inspect.Signature.bind">
+<span class="sig-name descname"><span class="pre">bind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.Signature.bind" title="永久链接至目标">¶</a></dt>
+<dd><p>构造一个位置和关键字实参到形参的映射。如果 <code class="docutils literal notranslate"><span class="pre">*args</span></code> 和 <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> 符合签名，则返回一个 <a class="reference internal" href="#inspect.BoundArguments" title="inspect.BoundArguments"><code class="xref py py-class docutils literal notranslate"><span class="pre">BoundArguments</span></code></a>；否则引发一个 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inspect.Signature.bind_partial">
+<span class="sig-name descname"><span class="pre">bind_partial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.Signature.bind_partial" title="永久链接至目标">¶</a></dt>
+<dd><p>与 <a class="reference internal" href="#inspect.Signature.bind" title="inspect.Signature.bind"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Signature.bind()</span></code></a> 作用方式相同，但允许省略部分必要的参数（模仿 <a class="reference internal" href="functools.html#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a> 的行为）。返回 <a class="reference internal" href="#inspect.BoundArguments" title="inspect.BoundArguments"><code class="xref py py-class docutils literal notranslate"><span class="pre">BoundArguments</span></code></a>，或者在传入参数不符合签名的情况下，引发一个 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inspect.Signature.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*[,</span> <span class="pre">parameters][,</span> <span class="pre">return_annotation]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.Signature.replace" title="永久链接至目标">¶</a></dt>
+<dd><p>基于 replace 函数被调用的目标，创建一个新的 Signature 实例。可以传递不同的 <code class="docutils literal notranslate"><span class="pre">parameters</span></code> 和/或 <code class="docutils literal notranslate"><span class="pre">return_annotation</span></code> 来覆盖原本签名的对应的属性。要从复制的 Signature 中移除 return_annotation，可以传入 <a class="reference internal" href="#inspect.Signature.empty" title="inspect.Signature.empty"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Signature.empty</span></code></a> 。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_sig</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">return_annotation</span><span class="o">=</span><span class="s2">&quot;new return anno&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">new_sig</span><span class="p">)</span>
+<span class="go">&quot;(a, b) -&gt; &#39;new return anno&#39;&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inspect.Signature.from_callable">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_callable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_wrapped</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globalns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.Signature.from_callable" title="永久链接至目标">¶</a></dt>
+<dd><p>返回给定可调用对象 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 的 <a class="reference internal" href="#inspect.Signature" title="inspect.Signature"><code class="xref py py-class docutils literal notranslate"><span class="pre">Signature</span></code></a> 对象（或其子类）。传入 <code class="docutils literal notranslate"><span class="pre">follow_wrapped=False</span></code> 来直接得到 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 的签名，而不通过 <code class="docutils literal notranslate"><span class="pre">__wrapped__</span></code> 链来解析包装。在解析标注时会将 <code class="docutils literal notranslate"><span class="pre">globalns</span></code> 和 <code class="docutils literal notranslate"><span class="pre">localns</span></code> 用作命名空间。</p>
+<p>该函数简化了创建 <a class="reference internal" href="#inspect.Signature" title="inspect.Signature"><code class="xref py py-class docutils literal notranslate"><span class="pre">Signature</span></code></a> 的子类的过程：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MySignature</span><span class="p">(</span><span class="n">Signature</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">MySignature</span><span class="o">.</span><span class="n">from_callable</span><span class="p">(</span><span class="nb">min</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">MySignature</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.10 新版功能: </span>添加了参数 <code class="docutils literal notranslate"><span class="pre">globalns</span></code> 和 <code class="docutils literal notranslate"><span class="pre">localns</span></code>。</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="inspect.Parameter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Parameter.empty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Parameter.empty</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.Parameter" title="永久链接至目标">¶</a></dt>
+<dd><p> Parameter 对象是 <em>不可变</em> 的。不要直接修改 Parameter 对象，而是通过 <a class="reference internal" href="#inspect.Parameter.replace" title="inspect.Parameter.replace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Parameter.replace()</span></code></a> 来创建一个修改后的副本。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span> Parameter 对象既可封存（pickle）又可哈希。</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Parameter.empty">
+<span class="sig-name descname"><span class="pre">empty</span></span><a class="headerlink" href="#inspect.Parameter.empty" title="永久链接至目标">¶</a></dt>
+<dd><p>该类的一个特殊标记来明确指出默认值和标注的缺失。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Parameter.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#inspect.Parameter.name" title="永久链接至目标">¶</a></dt>
+<dd><p>参数的名字字符串。这个名字必须是一个合法的 Python 标识符。</p>
+<div class="impl-detail compound">
+<p class="compound-first"><strong>CPython 实现细节：</strong> CPython 会为用于实现推导式和生成器表达式的代码对象构造形如 <code class="docutils literal notranslate"><span class="pre">.0</span></code> 的隐式形参名。</p>
+<div class="compound-last versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>这些形参名会被此模块暴露为形如 <code class="docutils literal notranslate"><span class="pre">implicit0</span></code> 一样的名字。</p>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Parameter.default">
+<span class="sig-name descname"><span class="pre">default</span></span><a class="headerlink" href="#inspect.Parameter.default" title="永久链接至目标">¶</a></dt>
+<dd><p>该参数的默认值。如果该参数没有默认值，这个属性会被设置为 <a class="reference internal" href="#inspect.Parameter.empty" title="inspect.Parameter.empty"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Parameter.empty</span></code></a> 。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Parameter.annotation">
+<span class="sig-name descname"><span class="pre">annotation</span></span><a class="headerlink" href="#inspect.Parameter.annotation" title="永久链接至目标">¶</a></dt>
+<dd><p>该参数的标注。如果该参数没有标注，这个属性会被设置为 <a class="reference internal" href="#inspect.Parameter.empty" title="inspect.Parameter.empty"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Parameter.empty</span></code></a> 。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Parameter.kind">
+<span class="sig-name descname"><span class="pre">kind</span></span><a class="headerlink" href="#inspect.Parameter.kind" title="永久链接至目标">¶</a></dt>
+<dd><p>描述实参值会如何绑定到形参。可能的取值（可以通过 <a class="reference internal" href="#inspect.Parameter" title="inspect.Parameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code></a> 获得，比如 <code class="docutils literal notranslate"><span class="pre">Parameter.KEYWORD_ONLY</span></code> ）：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 66%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>名称</p></th>
+<th class="head"><p>含意</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><em>POSITIONAL_ONLY</em></p></td>
+<td><p>值必须以位置参数的方式提供。仅限位置参数是在函数定义中出现在 <code class="docutils literal notranslate"><span class="pre">/</span></code> 之前（如果有）的条目。</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>POSITIONAL_OR_KEYWORD</em></p></td>
+<td><p>值既可以以关键字参数的形式提供，也可以以位置参数的形式提供（这是 Python 写成的函数的标准绑定行为的）。</p></td>
+</tr>
+<tr class="row-even"><td><p><em>VAR_POSITIONAL</em></p></td>
+<td><p>没有绑定到其他形参的位置实参组成的元组。这对应于 Python 函数定义中的 <code class="docutils literal notranslate"><span class="pre">*args</span></code> 形参。</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>KEYWORD_ONLY</em></p></td>
+<td><p>值必须以关键字参数的形式提供。仅限关键字形参是在 Python 函数定义中出现在 <code class="docutils literal notranslate"><span class="pre">*</span></code> 或 <code class="docutils literal notranslate"><span class="pre">*args</span></code> 之后的条目。</p></td>
+</tr>
+<tr class="row-even"><td><p><em>VAR_KEYWORD</em></p></td>
+<td><p>一个未绑定到其他形参的关键字参数的字典。这对应于 Python 函数定义中的 <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> 形参。</p></td>
+</tr>
+</tbody>
+</table>
+<p>例如，打印所有没有默认值的仅关键字参数：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">param</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span> <span class="ow">and</span>
+<span class="gp">... </span>                       <span class="n">param</span><span class="o">.</span><span class="n">default</span> <span class="ow">is</span> <span class="n">param</span><span class="o">.</span><span class="n">empty</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Parameter:&#39;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+<span class="go">Parameter: c</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Parameter.kind.description">
+<span class="sig-prename descclassname"><span class="pre">kind.</span></span><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#inspect.Parameter.kind.description" title="永久链接至目标">¶</a></dt>
+<dd><p>描述 Parameter.kind 的枚举值。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.8 新版功能.</span></p>
+</div>
+<p>例子：打印所有参数的描述：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">kind</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+<span class="go">positional or keyword</span>
+<span class="go">positional or keyword</span>
+<span class="go">keyword-only</span>
+<span class="go">keyword-only</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inspect.Parameter.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*[,</span> <span class="pre">name][,</span> <span class="pre">kind][,</span> <span class="pre">default][,</span> <span class="pre">annotation]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.Parameter.replace" title="永久链接至目标">¶</a></dt>
+<dd><p>基于 replace 函数被调用的目标，创建一个新的 Parameter 实例。要覆写 <a class="reference internal" href="#inspect.Parameter" title="inspect.Parameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code></a> 的属性，传递对应的参数。要移除 Parameter 的默认值和/或标注，传递 <a class="reference internal" href="#inspect.Parameter.empty" title="inspect.Parameter.empty"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Parameter.empty</span></code></a>。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">param</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+<span class="go">&#39;foo=42&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">replace</span><span class="p">())</span> <span class="c1"># Will create a shallow copy of &#39;param&#39;</span>
+<span class="go">&#39;foo=42&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span><span class="p">,</span> <span class="n">annotation</span><span class="o">=</span><span class="s1">&#39;spam&#39;</span><span class="p">))</span>
+<span class="go">&quot;foo:&#39;spam&#39;&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>在 Python 3.3 中， Parameter 对象当 <code class="docutils literal notranslate"><span class="pre">kind</span></code> 为 <code class="docutils literal notranslate"><span class="pre">POSITIONAL_ONLY</span></code> 时允许 <code class="docutils literal notranslate"><span class="pre">name</span></code> 被设置为 <code class="docutils literal notranslate"><span class="pre">None</span></code>。这现在已不再被允许。</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="inspect.BoundArguments">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">BoundArguments</span></span><a class="headerlink" href="#inspect.BoundArguments" title="永久链接至目标">¶</a></dt>
+<dd><p>调用 <a class="reference internal" href="#inspect.Signature.bind" title="inspect.Signature.bind"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Signature.bind()</span></code></a> 或 <a class="reference internal" href="#inspect.Signature.bind_partial" title="inspect.Signature.bind_partial"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Signature.bind_partial()</span></code></a> 的结果。容纳实参到函数的形参的映射。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.BoundArguments.arguments">
+<span class="sig-name descname"><span class="pre">arguments</span></span><a class="headerlink" href="#inspect.BoundArguments.arguments" title="永久链接至目标">¶</a></dt>
+<dd><p>一个形参名到实参值的可变映射。仅包含显式绑定的参数。对 <a class="reference internal" href="#inspect.BoundArguments.arguments" title="inspect.BoundArguments.arguments"><code class="xref py py-attr docutils literal notranslate"><span class="pre">arguments</span></code></a> 的修改会反映到 <a class="reference internal" href="#inspect.BoundArguments.args" title="inspect.BoundArguments.args"><code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code></a> 和 <a class="reference internal" href="#inspect.BoundArguments.kwargs" title="inspect.BoundArguments.kwargs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">kwargs</span></code></a> 上。</p>
+<p>应当在任何参数处理目的中与 <a class="reference internal" href="#inspect.Signature.parameters" title="inspect.Signature.parameters"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Signature.parameters</span></code></a> 结合使用。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p> <a class="reference internal" href="#inspect.Signature.bind" title="inspect.Signature.bind"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Signature.bind()</span></code></a> 和 <a class="reference internal" href="#inspect.Signature.bind_partial" title="inspect.Signature.bind_partial"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Signature.bind_partial()</span></code></a> 中采用默认值的参数被跳过。然而，如果有需要的话，可以使用 <a class="reference internal" href="#inspect.BoundArguments.apply_defaults" title="inspect.BoundArguments.apply_defaults"><code class="xref py py-meth docutils literal notranslate"><span class="pre">BoundArguments.apply_defaults()</span></code></a> 来添加它们。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9 版更改: </span> <a class="reference internal" href="#inspect.BoundArguments.arguments" title="inspect.BoundArguments.arguments"><code class="xref py py-attr docutils literal notranslate"><span class="pre">arguments</span></code></a> 现在的类型是 <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>。之前，它的类型是 <a class="reference internal" href="collections.html#collections.OrderedDict" title="collections.OrderedDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.BoundArguments.args">
+<span class="sig-name descname"><span class="pre">args</span></span><a class="headerlink" href="#inspect.BoundArguments.args" title="永久链接至目标">¶</a></dt>
+<dd><p>位置参数的值的元组。由 <a class="reference internal" href="#inspect.BoundArguments.arguments" title="inspect.BoundArguments.arguments"><code class="xref py py-attr docutils literal notranslate"><span class="pre">arguments</span></code></a> 属性动态计算。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.BoundArguments.kwargs">
+<span class="sig-name descname"><span class="pre">kwargs</span></span><a class="headerlink" href="#inspect.BoundArguments.kwargs" title="永久链接至目标">¶</a></dt>
+<dd><p>关键字参数值的字典。由 <a class="reference internal" href="#inspect.BoundArguments.arguments" title="inspect.BoundArguments.arguments"><code class="xref py py-attr docutils literal notranslate"><span class="pre">arguments</span></code></a> 属性动态计算。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.BoundArguments.signature">
+<span class="sig-name descname"><span class="pre">signature</span></span><a class="headerlink" href="#inspect.BoundArguments.signature" title="永久链接至目标">¶</a></dt>
+<dd><p>向所属 <a class="reference internal" href="#inspect.Signature" title="inspect.Signature"><code class="xref py py-class docutils literal notranslate"><span class="pre">Signature</span></code></a> 对象的一个引用。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inspect.BoundArguments.apply_defaults">
+<span class="sig-name descname"><span class="pre">apply_defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#inspect.BoundArguments.apply_defaults" title="永久链接至目标">¶</a></dt>
+<dd><p>设置缺失的参数的默认值。</p>
+<p>对于变长位置参数（<code class="docutils literal notranslate"><span class="pre">*args</span></code>），默认值是一个空元组。</p>
+<p>对于变长关键字参数（<code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>）默认值是一个空字典。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;ham&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ba</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;spam&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ba</span><span class="o">.</span><span class="n">apply_defaults</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ba</span><span class="o">.</span><span class="n">arguments</span>
+<span class="go">{&#39;a&#39;: &#39;spam&#39;, &#39;b&#39;: &#39;ham&#39;, &#39;args&#39;: ()}</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p> <a class="reference internal" href="#inspect.BoundArguments.args" title="inspect.BoundArguments.args"><code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code></a> 和 <a class="reference internal" href="#inspect.BoundArguments.kwargs" title="inspect.BoundArguments.kwargs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">kwargs</span></code></a> 属性可以被用于调用函数：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="n">sig</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<span class="n">ba</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="o">*</span><span class="n">ba</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">ba</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><span class="target" id="index-8"></span><a class="pep reference external" href="https://peps.python.org/pep-0362/"><strong>PEP 362</strong></a> - 函数签名对象。</dt><dd><p>包含具体的规范，实现细节和样例。</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="classes-and-functions">
+<span id="inspect-classes-functions"></span><h2>类与函数<a class="headerlink" href="#classes-and-functions" title="永久链接至标题">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getclasstree">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getclasstree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getclasstree" title="永久链接至目标">¶</a></dt>
+<dd><p>将给定的类的列表组织成嵌套列表的层级结构。每当一个内层列表出现时，它包含的类均派生自紧接着该列表之前的条目的类。每个条目均是一个二元组，包含一个类和它的基类组成的元组。如果 <em>unique</em> 参数为真值，则给定列表中的每个类将恰有一个对应条目。否则，运用了多重继承的类和它们的后代将出现多次。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getfullargspec">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getfullargspec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getfullargspec" title="永久链接至目标">¶</a></dt>
+<dd><p>获取一个 Python 函数的形参的名字和默认值。将返回一个 <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">具名元组</span></a>：</p>
+<p><code class="docutils literal notranslate"><span class="pre">FullArgSpec(args,</span> <span class="pre">varargs,</span> <span class="pre">varkw,</span> <span class="pre">defaults,</span> <span class="pre">kwonlyargs,</span> <span class="pre">kwonlydefaults,</span>
+<span class="pre">annotations)</span></code></p>
+<p><em>args</em> 是一个位置参数的名字的列表。 <em>varargs</em> 是 <code class="docutils literal notranslate"><span class="pre">*</span></code> 形参的名字或 <code class="docutils literal notranslate"><span class="pre">None</span></code> 表示不接受任意长位置参数时。 <em>varkw</em> 是 <code class="docutils literal notranslate"><span class="pre">**</span></code> 参数的名字，或 <code class="docutils literal notranslate"><span class="pre">None</span></code> 表示不接受任意关键字参数。 <em>defaults</em> 是一个包含了默认参数值的 <em>n</em> 元组分别对应最后 <em>n</em> 个位置参数，或 <code class="docutils literal notranslate"><span class="pre">None</span></code> 则表示没有默认值。 <em>kwonlyargs</em> 是一个仅关键词参数列表，保持定义时的顺序。 <em>kwonlydefaults</em> 是一个字典映射自 <em>kwonlyargs</em> 中包含的形参名。 <em>annotations</em> 是一个字典，包含形参值到标注的映射。其中包含一个特殊的键 <code class="docutils literal notranslate"><span class="pre">&quot;return&quot;</span></code> 代表函数返回值的标注（如果有的话）。</p>
+<p>注意： <a class="reference internal" href="#inspect.signature" title="inspect.signature"><code class="xref py py-func docutils literal notranslate"><span class="pre">signature()</span></code></a> 和 <a class="reference internal" href="#inspect-signature-object"><span class="std std-ref">Signature 对象</span></a> 提供可调用对象内省更推荐的 API，并且支持扩展模块 API 中可能出现的额外的行为（比如仅限位置参数）。该函数被保留的主要原因是保持兼容 Python 2 的 <code class="docutils literal notranslate"><span class="pre">inspect</span></code> 模块 API。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>该函数现在基于 <a class="reference internal" href="#inspect.signature" title="inspect.signature"><code class="xref py py-func docutils literal notranslate"><span class="pre">signature()</span></code></a> 但仍然忽略 <code class="docutils literal notranslate"><span class="pre">__wrapped__</span></code> 属性，并且在签名中包含绑定方法中的第一个绑定参数。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>该方法在 Python 3.5 中曾因 <a class="reference internal" href="#inspect.signature" title="inspect.signature"><code class="xref py py-func docutils literal notranslate"><span class="pre">signature()</span></code></a> 被文档归为弃用。但该决定已被推翻以恢复一个明确受支持的标准接口，以便运用一份源码通用 Python 2/3 间遗留的 <code class="xref py py-func docutils literal notranslate"><span class="pre">getargspec()</span></code> API 的迁移。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>Python 从 3.7 版起才显式地保证了它保持仅关键字参数的定义顺序，尽管实践上在 Python 3 中一直保持了这个顺序。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getargvalues">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getargvalues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getargvalues" title="永久链接至目标">¶</a></dt>
+<dd><p>获取传入特定的帧的实参的信息。将返回一个 <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">具名元组</span></a> <code class="docutils literal notranslate"><span class="pre">ArgInfo(args,</span> <span class="pre">varargs,</span> <span class="pre">keywords,</span> <span class="pre">locals)</span></code>。 <em>args</em> 是一个参数名字的列表。 <em>varargs</em> 和 <em>keyword</em> 是 <code class="docutils literal notranslate"><span class="pre">*</span></code> 和 <code class="docutils literal notranslate"><span class="pre">**</span></code> 参数的名字或 <code class="docutils literal notranslate"><span class="pre">None</span></code>。 <em>locals</em> 是给定的帧的局部环境字典。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>该函数因疏忽在 Python 3.5 中被错误地标记为弃用。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.formatargvalues">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">formatargvalues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">varargs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varkw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatarg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatvarargs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatvarkw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatvalue</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#inspect.formatargvalues" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <a class="reference internal" href="#inspect.getargvalues" title="inspect.getargvalues"><code class="xref py py-func docutils literal notranslate"><span class="pre">getargvalues()</span></code></a> 返回的四个值格式化为美观的参数规格。 format* 的参数是对应的可选格式化函数以转化名字和值为字符串。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>该函数因疏忽在 Python 3.5 中被错误地标记为弃用。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getmro">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getmro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getmro" title="永久链接至目标">¶</a></dt>
+<dd><p>返回由类 cls 的全部基类按方法解析顺序组成的元组，包括 cls 本身。所有类不会在此元组中出现多于一次。注意方法解析顺序取决于 cls 的类型。除非使用一个非常奇怪的用户定义元类型，否则 cls 会是元组的第一个元素。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getcallargs">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getcallargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getcallargs" title="永久链接至目标">¶</a></dt>
+<dd><p>仿照调用方式绑定 <em>args</em> 和 <em>kwds</em> 到 Python 函数或方法 <em>func</em> 参数名。对于绑定方法，也绑定第一个参数（通常命名为 <code class="docutils literal notranslate"><span class="pre">self</span></code>）到关联的实例。返回一个字典，映射自参数名（包括可能存在的 <code class="docutils literal notranslate"><span class="pre">*</span></code> 和 <code class="docutils literal notranslate"><span class="pre">**</span></code> 参数）到他们对应于 <em>args</em> 和 <em>kwds</em> 中的值。假使 <em>func</em> 被错误地调用，即是说 <code class="docutils literal notranslate"><span class="pre">func(*args,</span> <span class="pre">**kwds)</span></code> 会因函数签名不一致引发一个异常，那么也会引发一个相同种类的异常，并附上相同或类似的消息。例如：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getcallargs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">pos</span><span class="p">,</span> <span class="o">**</span><span class="n">named</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getcallargs</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;named&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,)}</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getcallargs</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;named&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="p">()}</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getcallargs</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">TypeError</span>: <span class="n">f() missing 1 required positional argument: &#39;a&#39;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.5 版后已移除: </span>改使用 <a class="reference internal" href="#inspect.Signature.bind" title="inspect.Signature.bind"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Signature.bind()</span></code></a> 和 <a class="reference internal" href="#inspect.Signature.bind_partial" title="inspect.Signature.bind_partial"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Signature.bind_partial()</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getclosurevars">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getclosurevars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getclosurevars" title="永久链接至目标">¶</a></dt>
+<dd><p>获取自 Python 函数或方法 <em>func</em> 引用的外部名字到它们的值的映射。返回一个 <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">具名元组</span></a> <code class="docutils literal notranslate"><span class="pre">ClosureVars(nonlocals,</span> <span class="pre">globals,</span> <span class="pre">builtins,</span> <span class="pre">unbound)</span></code>。 <em>nonlocals</em> 映射引用的名字到词法闭包变量，<em>globals</em> 映射到函数的模块级全局， <em>builtins</em> 映射到函数体内可见的内置变量。 <em>unbound</em> 是在函数中引用但不能解析到给定的模块全局和内置变量的名字的集合。</p>
+<p>如果 <em>func</em> 不是 Python 函数或方法，将引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.unwrap">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">unwrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.unwrap" title="永久链接至目标">¶</a></dt>
+<dd><p>获取 <em>func</em> 所包装的对象。它追踪 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__wrapped__</span></code> 属性链并返回最后一个对象。</p>
+<p><em>stop</em> 是一个可选的回调，接受包装链的一个对象作为唯一参数，以允许通过让回调返回真值使解包装更早中止。如果回调不曾返回一个真值，将如常返回链中的最后一个对象。例如， <a class="reference internal" href="#inspect.signature" title="inspect.signature"><code class="xref py py-func docutils literal notranslate"><span class="pre">signature()</span></code></a> 使用该参数来在遇到具有 <code class="docutils literal notranslate"><span class="pre">__signature__</span></code> 参数的对象时停止解包装。</p>
+<p>如果遇到循环，则引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.get_annotations">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">get_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.get_annotations" title="永久链接至目标">¶</a></dt>
+<dd><p>计算一个对象的标注字典。</p>
+<p> <code class="docutils literal notranslate"><span class="pre">obj</span></code> 可以是一个可调用对象、类或模块。传入其他类型的对象将引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+<p>返回一个字典。 <code class="docutils literal notranslate"><span class="pre">get_annotations()</span></code> 每次调用均返回一个新的字典；对同一个对象调用两次将获得两个不同但相等的字典。</p>
+<p>该函数帮助你处理若干细节：</p>
+<ul class="simple">
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">eval_str</span></code> 为真， <code class="docutils literal notranslate"><span class="pre">str</span></code> 类型的值将会通过 <a class="reference internal" href="functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> 来反字符串化。这被设计用于字符串化标注（<code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">annotations</span></code>）。</p></li>
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 不包含一个标注字典，返回一个空字典。（函数和方法永远包含一个标注字典；类、模块和其他类型的可调用对象则可能没有。）</p></li>
+<li><p>对于类，忽略继承而来的标注。如果一个类不包含自己的标注字典，返回一个空字典。</p></li>
+<li><p>因安全原因，所有对于对象成员和字典值的访问将通过 <code class="docutils literal notranslate"><span class="pre">getattr()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">dict.get()</span></code> 完成。</p></li>
+<li><p>Always, always, always returns a freshly created dict.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">eval_str</span></code> 控制 <code class="docutils literal notranslate"><span class="pre">str</span></code> 类型的值是否应该替换为对其调用 <a class="reference internal" href="functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> 的结果：</p>
+<ul class="simple">
+<li><p>如果 eval_str 为真， <a class="reference internal" href="functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> 会被调用于 <code class="docutils literal notranslate"><span class="pre">str</span></code> 类型。（注意 <code class="docutils literal notranslate"><span class="pre">get_annotations</span></code> 并不捕获异常；如果 <a class="reference internal" href="functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> 返回一个错误，它会将栈展开跳过 <code class="docutils literal notranslate"><span class="pre">get_annotations</span></code> 调用。）</p></li>
+<li><p>如果 eval_str 为假（默认值）， <code class="docutils literal notranslate"><span class="pre">str</span></code> 类型的值将不会被改变。</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">globals</span></code> 和 <code class="docutils literal notranslate"><span class="pre">locals</span></code> 会被直接传入函数 <a class="reference internal" href="functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a>，详见 <a class="reference internal" href="functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> 的文档。如果 <code class="docutils literal notranslate"><span class="pre">globals</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">locals</span></code> 是 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则改函数视 <code class="docutils literal notranslate"><span class="pre">type(obj)</span></code> 而定，可能将相应的值替换为一个上下文有关的默认值。</p>
+<ul class="simple">
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 是一个模块， <code class="docutils literal notranslate"><span class="pre">globals</span></code> 默认为 <code class="docutils literal notranslate"><span class="pre">obj.__dict__</span></code>。</p></li>
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 是一个类， <code class="docutils literal notranslate"><span class="pre">globals</span></code> 默认值为 <code class="docutils literal notranslate"><span class="pre">sys.modules[obj.__module__].__dict__</span></code> 并且 <code class="docutils literal notranslate"><span class="pre">locals</span></code> 默认值为 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 的类命名空间。</p></li>
+<li><p>如果 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 是一个可调用对象， <code class="docutils literal notranslate"><span class="pre">globals</span></code> 默认为 <code class="docutils literal notranslate"><span class="pre">obj.__globals__</span></code>，而如果 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 是一个包装过的函数，则它会先被解包装。</p></li>
+</ul>
+<p>调用 <code class="docutils literal notranslate"><span class="pre">get_annotations</span></code> 是获取任何对象的标注字典的最佳实践。关于标注的最佳实践的更多信息，参见 <a class="reference internal" href="../howto/annotations.html#annotations-howto"><span class="std std-ref">对象注解属性的最佳实践</span></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.10 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="the-interpreter-stack">
+<span id="inspect-stack"></span><h2>解释器栈<a class="headerlink" href="#the-interpreter-stack" title="永久链接至标题">¶</a></h2>
+<p>Some of the following functions return
+<a class="reference internal" href="#inspect.FrameInfo" title="inspect.FrameInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code></a> objects. For backwards compatibility these objects allow
+tuple-like operations on all attributes except <code class="docutils literal notranslate"><span class="pre">positions</span></code>. This behavior
+is considered deprecated and may be removed in the future.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="inspect.FrameInfo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">FrameInfo</span></span><a class="headerlink" href="#inspect.FrameInfo" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.FrameInfo.frame">
+<span class="sig-name descname"><span class="pre">frame</span></span><a class="headerlink" href="#inspect.FrameInfo.frame" title="永久链接至目标">¶</a></dt>
+<dd><p>The <a class="reference internal" href="../reference/datamodel.html#frame-objects"><span class="std std-ref">frame object</span></a> that the record corresponds to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.FrameInfo.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#inspect.FrameInfo.filename" title="永久链接至目标">¶</a></dt>
+<dd><p>The file name associated with the code being executed by the frame this record
+corresponds to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.FrameInfo.lineno">
+<span class="sig-name descname"><span class="pre">lineno</span></span><a class="headerlink" href="#inspect.FrameInfo.lineno" title="永久链接至目标">¶</a></dt>
+<dd><p>The line number of the current line associated with the code being
+executed by the frame this record corresponds to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.FrameInfo.function">
+<span class="sig-name descname"><span class="pre">function</span></span><a class="headerlink" href="#inspect.FrameInfo.function" title="永久链接至目标">¶</a></dt>
+<dd><p>The function name that is being executed by the frame this record corresponds to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.FrameInfo.code_context">
+<span class="sig-name descname"><span class="pre">code_context</span></span><a class="headerlink" href="#inspect.FrameInfo.code_context" title="永久链接至目标">¶</a></dt>
+<dd><p>A list of lines of context from the source code that's being executed by the frame
+this record corresponds to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.FrameInfo.index">
+<span class="sig-name descname"><span class="pre">index</span></span><a class="headerlink" href="#inspect.FrameInfo.index" title="永久链接至目标">¶</a></dt>
+<dd><p>The index of the current line being executed in the <a class="reference internal" href="#inspect.FrameInfo.code_context" title="inspect.FrameInfo.code_context"><code class="xref py py-attr docutils literal notranslate"><span class="pre">code_context</span></code></a> list.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.FrameInfo.positions">
+<span class="sig-name descname"><span class="pre">positions</span></span><a class="headerlink" href="#inspect.FrameInfo.positions" title="永久链接至目标">¶</a></dt>
+<dd><p>A <a class="reference internal" href="dis.html#dis.Positions" title="dis.Positions"><code class="xref py py-class docutils literal notranslate"><span class="pre">dis.Positions</span></code></a> object containing the start line number, end line
+number, start column offset, and end column offset associated with the
+instruction being executed by the frame this record corresponds to.</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>Return a <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">named tuple</span></a> instead of a <a class="reference internal" href="stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code> is now a class instance
+(that is backwards compatible with the previous <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">named tuple</span></a>).</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="inspect.Traceback">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">Traceback</span></span><a class="headerlink" href="#inspect.Traceback" title="永久链接至目标">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Traceback.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#inspect.Traceback.filename" title="永久链接至目标">¶</a></dt>
+<dd><p>The file name associated with the code being executed by the frame this traceback
+corresponds to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Traceback.lineno">
+<span class="sig-name descname"><span class="pre">lineno</span></span><a class="headerlink" href="#inspect.Traceback.lineno" title="永久链接至目标">¶</a></dt>
+<dd><p>The line number of the current line associated with the code being
+executed by the frame this traceback corresponds to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Traceback.function">
+<span class="sig-name descname"><span class="pre">function</span></span><a class="headerlink" href="#inspect.Traceback.function" title="永久链接至目标">¶</a></dt>
+<dd><p>The function name that is being executed by the frame this traceback corresponds to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Traceback.code_context">
+<span class="sig-name descname"><span class="pre">code_context</span></span><a class="headerlink" href="#inspect.Traceback.code_context" title="永久链接至目标">¶</a></dt>
+<dd><p>A list of lines of context from the source code that's being executed by the frame
+this traceback corresponds to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Traceback.index">
+<span class="sig-name descname"><span class="pre">index</span></span><a class="headerlink" href="#inspect.Traceback.index" title="永久链接至目标">¶</a></dt>
+<dd><p>The index of the current line being executed in the <a class="reference internal" href="#inspect.Traceback.code_context" title="inspect.Traceback.code_context"><code class="xref py py-attr docutils literal notranslate"><span class="pre">code_context</span></code></a> list.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inspect.Traceback.positions">
+<span class="sig-name descname"><span class="pre">positions</span></span><a class="headerlink" href="#inspect.Traceback.positions" title="永久链接至目标">¶</a></dt>
+<dd><p>A <a class="reference internal" href="dis.html#dis.Positions" title="dis.Positions"><code class="xref py py-class docutils literal notranslate"><span class="pre">dis.Positions</span></code></a> object containing the start line number, end
+line number, start column offset, and end column offset associated with
+the instruction being executed by the frame this traceback corresponds
+to.</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Traceback</span></code> is now a class instance
+(that is backwards compatible with the previous <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">named tuple</span></a>).</p>
+</div>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>保留帧对象的引用（可见于这些函数返回的帧记录的第一个元素）会导致你的程序产生循环引用。每当一个循环引用被创建，所有可从产生循环的对象访问的对象的生命周期将会被大幅度延长，即便 Python 的可选的循环检测器被启用。如果这类循环必须被创建，确保它们会被显式地打破以避免对象销毁被延迟从而导致占用内存增加。</p>
+<p>尽管循环检测器能够处理这种情况，这些帧（包括其局部变量）的销毁可以通过在 <a class="reference internal" href="../reference/compound_stmts.html#finally"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code></a> 子句中移除循环来产生确定的行为。对于循环检测器在编译 Python 时被禁用或者使用 <a class="reference internal" href="gc.html#gc.disable" title="gc.disable"><code class="xref py py-func docutils literal notranslate"><span class="pre">gc.disable()</span></code></a> 时，这样处理更加尤为重要。比如：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">handle_stackframe_without_leak</span><span class="p">():</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># do something with the frame</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">frame</span>
+</pre></div>
+</div>
+<p>如果你希望保持帧更长的时间（比如在之后打印回溯），你也可以通过 <a class="reference internal" href="../reference/datamodel.html#frame.clear" title="frame.clear"><code class="xref py py-meth docutils literal notranslate"><span class="pre">frame.clear()</span></code></a> 方法打破循环引用。</p>
+</div>
+<p>大部分这些函数支持的可选的 <em>context</em> 参数指定返回时包含的上下文的行数，以当前行为中心。</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getframeinfo">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getframeinfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getframeinfo" title="永久链接至目标">¶</a></dt>
+<dd><p>Get information about a frame or traceback object.  A <a class="reference internal" href="#inspect.Traceback" title="inspect.Traceback"><code class="xref py py-class docutils literal notranslate"><span class="pre">Traceback</span></code></a> object
+is returned.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>A <a class="reference internal" href="#inspect.Traceback" title="inspect.Traceback"><code class="xref py py-class docutils literal notranslate"><span class="pre">Traceback</span></code></a> object is returned instead of a named tuple.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getouterframes">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getouterframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getouterframes" title="永久链接至目标">¶</a></dt>
+<dd><p>Get a list of <a class="reference internal" href="#inspect.FrameInfo" title="inspect.FrameInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code></a> objects for a frame and all outer frames.
+These frames represent the calls that lead to the creation of <em>frame</em>. The
+first entry in the returned list represents <em>frame</em>; the last entry
+represents the outermost call on <em>frame</em>'s stack.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>返回一个 <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">具名元组</span></a> <code class="docutils literal notranslate"><span class="pre">FrameInfo(frame,</span> <span class="pre">filename,</span> <span class="pre">lineno,</span> <span class="pre">function,</span> <span class="pre">code_context,</span> <span class="pre">index)</span></code> 的列表。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>A list of <a class="reference internal" href="#inspect.FrameInfo" title="inspect.FrameInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code></a> objects is returned.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getinnerframes">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getinnerframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traceback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getinnerframes" title="永久链接至目标">¶</a></dt>
+<dd><p>Get a list of <a class="reference internal" href="#inspect.FrameInfo" title="inspect.FrameInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code></a> objects for a traceback's frame and all
+inner frames.  These frames represent calls made as a consequence of <em>frame</em>.
+The first entry in the list represents <em>traceback</em>; the last entry represents
+where the exception was raised.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>返回一个 <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">具名元组</span></a> <code class="docutils literal notranslate"><span class="pre">FrameInfo(frame,</span> <span class="pre">filename,</span> <span class="pre">lineno,</span> <span class="pre">function,</span> <span class="pre">code_context,</span> <span class="pre">index)</span></code> 的列表。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>A list of <a class="reference internal" href="#inspect.FrameInfo" title="inspect.FrameInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code></a> objects is returned.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.currentframe">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">currentframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#inspect.currentframe" title="永久链接至目标">¶</a></dt>
+<dd><p>返回调用者的栈帧对应的帧对象。</p>
+<div class="impl-detail compound">
+<p><strong>CPython 实现细节：</strong> 该函数依赖于 Python 解释器对于栈帧的支持，这并非在 Python 的所有实现中被保证。该函数在不支持Python 栈帧的实现中运行会返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.stack">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.stack" title="永久链接至目标">¶</a></dt>
+<dd><p>Return a list of <a class="reference internal" href="#inspect.FrameInfo" title="inspect.FrameInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code></a> objects for the caller's stack.  The
+first entry in the returned list represents the caller; the last entry
+represents the outermost call on the stack.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>返回一个 <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">具名元组</span></a> <code class="docutils literal notranslate"><span class="pre">FrameInfo(frame,</span> <span class="pre">filename,</span> <span class="pre">lineno,</span> <span class="pre">function,</span> <span class="pre">code_context,</span> <span class="pre">index)</span></code> 的列表。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>A list of <a class="reference internal" href="#inspect.FrameInfo" title="inspect.FrameInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code></a> objects is returned.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.trace">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.trace" title="永久链接至目标">¶</a></dt>
+<dd><p>Return a list of <a class="reference internal" href="#inspect.FrameInfo" title="inspect.FrameInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code></a> objects for the stack between the current
+frame and the frame in which an exception currently being handled was raised
+in.  The first entry in the list represents the caller; the last entry
+represents where the exception was raised.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>返回一个 <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">具名元组</span></a> <code class="docutils literal notranslate"><span class="pre">FrameInfo(frame,</span> <span class="pre">filename,</span> <span class="pre">lineno,</span> <span class="pre">function,</span> <span class="pre">code_context,</span> <span class="pre">index)</span></code> 的列表。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>A list of <a class="reference internal" href="#inspect.FrameInfo" title="inspect.FrameInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code></a> objects is returned.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="fetching-attributes-statically">
+<h2>静态地获取属性<a class="headerlink" href="#fetching-attributes-statically" title="永久链接至标题">¶</a></h2>
+<p> <a class="reference internal" href="functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> 和 <a class="reference internal" href="functions.html#hasattr" title="hasattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">hasattr()</span></code></a> 都可能会在获取或者判断属性是否存在时触发代码执行。描述符，就和特性一样，会被调用， <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattr__()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattribute__()</span></code> 可能会被调用。</p>
+<p>对于你想要静态地内省的情况，比如文档工具，这会显得不方便。 <a class="reference internal" href="#inspect.getattr_static" title="inspect.getattr_static"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr_static()</span></code></a> 拥有与 <a class="reference internal" href="functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> 相同的签名，但避免了获取属性时执行代码。</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getattr_static">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getattr_static</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getattr_static" title="永久链接至目标">¶</a></dt>
+<dd><p>获取属性而不触发描述器协议的动态查找能力 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattr__()</span></code> 或 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattribute__()</span></code>。</p>
+<p>注意：该函数可能无法获取 getattr 能获取的全部的属性（比如动态地创建的属性），并且可能发现一些 getattr 无法找到的属性（比如描述器会引发 AttributeError）。它也能够返回描述器对象本身而非实例成员。</p>
+<p>如果实例的 <a class="reference internal" href="stdtypes.html#object.__dict__" title="object.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a> 被其他成员遮盖（比如一个特性）则该函数无法找到实例成员。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p> <a class="reference internal" href="#inspect.getattr_static" title="inspect.getattr_static"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr_static()</span></code></a> 不解析描述器。比如槽描述器或 C 语言中实现的 getset 描述器。该描述器对象会被直接返回，而不处理底层属性。</p>
+<p>你可以用类似下方的代码的方法处理此事。注意，对于任意 getset 描述符，使用这段代码仍可能触发代码执行。</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># example code for resolving the builtin descriptor types</span>
+<span class="k">class</span> <span class="nc">_foo</span><span class="p">:</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span>
+
+<span class="n">slot_descriptor</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">_foo</span><span class="o">.</span><span class="n">foo</span><span class="p">)</span>
+<span class="n">getset_descriptor</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="n">wrapper_descriptor</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;__add__&#39;</span><span class="p">])</span>
+<span class="n">descriptor_types</span> <span class="o">=</span> <span class="p">(</span><span class="n">slot_descriptor</span><span class="p">,</span> <span class="n">getset_descriptor</span><span class="p">,</span> <span class="n">wrapper_descriptor</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">getattr_static</span><span class="p">(</span><span class="n">some_object</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="ow">in</span> <span class="n">descriptor_types</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="fm">__get__</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="c1"># descriptors can raise AttributeError to</span>
+        <span class="c1"># indicate there is no underlying value</span>
+        <span class="c1"># in which case the descriptor itself will</span>
+        <span class="c1"># have to do</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+<section id="current-state-of-generators-and-coroutines">
+<h2>生成器和协程的当前状态<a class="headerlink" href="#current-state-of-generators-and-coroutines" title="永久链接至标题">¶</a></h2>
+<p>当实现协程调度器或其他更高级的生成器用途时，判断一个生成器是正在执行、等待启动或继续或执行，又或者已经被终止是非常有用的。 <a class="reference internal" href="#inspect.getgeneratorstate" title="inspect.getgeneratorstate"><code class="xref py py-func docutils literal notranslate"><span class="pre">getgeneratorstate()</span></code></a> 允许方便地判断一个生成器的当前状态。</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getgeneratorstate">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getgeneratorstate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getgeneratorstate" title="永久链接至目标">¶</a></dt>
+<dd><p>获取生成器迭代器的当前状态。</p>
+<dl class="simple">
+<dt>可能的状态是：</dt><dd><ul class="simple">
+<li><p>GEN_CREATED：等待开始执行。</p></li>
+<li><p>GEN_RUNNING：正在被解释器执行。</p></li>
+<li><p>GEN_SUSPENDED：当前挂起于一个 yield 表达式。</p></li>
+<li><p>GEN_CLOSED：执行已经完成。</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getcoroutinestate">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getcoroutinestate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coroutine</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getcoroutinestate" title="永久链接至目标">¶</a></dt>
+<dd><p>获取协程对象的当前状态。该函数设计为用于使用 <a class="reference internal" href="../reference/compound_stmts.html#async-def"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span></code></a> 函数创建的协程函数，但也能接受任何包括 <code class="docutils literal notranslate"><span class="pre">cr_running</span></code> 和 <code class="docutils literal notranslate"><span class="pre">cr_frame</span></code> 的类似协程的对象。</p>
+<dl class="simple">
+<dt>可能的状态是：</dt><dd><ul class="simple">
+<li><p>CORO_CREATED：等待开始执行。</p></li>
+<li><p>CORO_RUNNING：当前正在被解释器执行。</p></li>
+<li><p>CORO_SUSPENDED：当前挂起于一个 await 表达式。</p></li>
+<li><p>CORO_CLOSED：执行已经完成。</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>生成器当前的内部状态也可以被查询。这通常在测试目的中最为有用，来保证内部状态如预期一样被更新：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getgeneratorlocals">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getgeneratorlocals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getgeneratorlocals" title="永久链接至目标">¶</a></dt>
+<dd><p>获取 <em>generator</em> 里的实时局部变量到当前值的映射。返回一个由名字映射到值的字典。这与在生成器的主体内调用 <a class="reference internal" href="functions.html#locals" title="locals"><code class="xref py py-func docutils literal notranslate"><span class="pre">locals()</span></code></a> 是等效的，并且相同的警告也适用。</p>
+<p>如果 <em>generator</em> 是一个没有关联帧的 <a class="reference internal" href="../glossary.html#term-generator"><span class="xref std std-term">生成器</span></a>，则返回一个空字典。如果 <em>generator</em> 不是一个 Python 生成器对象，则引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+<div class="impl-detail compound">
+<p><strong>CPython 实现细节：</strong> 该函数依赖于生成器为内省暴露一个 Python 栈帧，这并非在 Python 的所有实现中被保证。在这种情况下，该函数将永远返回一个空字典。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inspect.getcoroutinelocals">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">getcoroutinelocals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coroutine</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inspect.getcoroutinelocals" title="永久链接至目标">¶</a></dt>
+<dd><p>该函数可类比于 <a class="reference internal" href="#inspect.getgeneratorlocals" title="inspect.getgeneratorlocals"><code class="xref py py-func docutils literal notranslate"><span class="pre">getgeneratorlocals()</span></code></a>，只是作用于由 <a class="reference internal" href="../reference/compound_stmts.html#async-def"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span></code></a> 函数创建的协程。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="code-objects-bit-flags">
+<span id="inspect-module-co-flags"></span><h2>代码对象位标志<a class="headerlink" href="#code-objects-bit-flags" title="永久链接至标题">¶</a></h2>
+<p>Python 代码对象有一个 <code class="docutils literal notranslate"><span class="pre">co_flags</span></code> 属性，它是下列标志的位图。</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="inspect.CO_OPTIMIZED">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">CO_OPTIMIZED</span></span><a class="headerlink" href="#inspect.CO_OPTIMIZED" title="永久链接至目标">¶</a></dt>
+<dd><p>代码对象已经经过优化，会采用快速局部变量。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="inspect.CO_NEWLOCALS">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">CO_NEWLOCALS</span></span><a class="headerlink" href="#inspect.CO_NEWLOCALS" title="永久链接至目标">¶</a></dt>
+<dd><p>如果被置位，当代码对象被执行时会创建一个新的字典作为帧的 <code class="docutils literal notranslate"><span class="pre">f_locals</span></code>。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="inspect.CO_VARARGS">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">CO_VARARGS</span></span><a class="headerlink" href="#inspect.CO_VARARGS" title="永久链接至目标">¶</a></dt>
+<dd><p>代码对象拥有一个变长位置形参（类似 <code class="docutils literal notranslate"><span class="pre">*args</span></code>）。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="inspect.CO_VARKEYWORDS">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">CO_VARKEYWORDS</span></span><a class="headerlink" href="#inspect.CO_VARKEYWORDS" title="永久链接至目标">¶</a></dt>
+<dd><p>代码对象拥有一个可变关键字形参 (类似 <code class="docutils literal notranslate"><span class="pre">**kwrags</span></code>)。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="inspect.CO_NESTED">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">CO_NESTED</span></span><a class="headerlink" href="#inspect.CO_NESTED" title="永久链接至目标">¶</a></dt>
+<dd><p>该标志当代码对象是一个嵌套函数时被置位。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="inspect.CO_GENERATOR">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">CO_GENERATOR</span></span><a class="headerlink" href="#inspect.CO_GENERATOR" title="永久链接至目标">¶</a></dt>
+<dd><p>当代码对象是一个生成器函数，即调用时会返回一个生成器对象，则该标志被置位。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="inspect.CO_COROUTINE">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">CO_COROUTINE</span></span><a class="headerlink" href="#inspect.CO_COROUTINE" title="永久链接至目标">¶</a></dt>
+<dd><p>当代码对象是一个协程函数时被置位。当代码对象被执行时它返回一个协程。详见 <span class="target" id="index-9"></span><a class="pep reference external" href="https://peps.python.org/pep-0492/"><strong>PEP 492</strong></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="inspect.CO_ITERABLE_COROUTINE">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">CO_ITERABLE_COROUTINE</span></span><a class="headerlink" href="#inspect.CO_ITERABLE_COROUTINE" title="永久链接至目标">¶</a></dt>
+<dd><p>该标志被用于将生成器转变为基于生成器的协程。包含此标志的生成器对象可以被用于 <code class="docutils literal notranslate"><span class="pre">await</span></code> 表达式，并可以 <code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span></code> 协程对象。详见 <span class="target" id="index-10"></span><a class="pep reference external" href="https://peps.python.org/pep-0492/"><strong>PEP 492</strong></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="inspect.CO_ASYNC_GENERATOR">
+<span class="sig-prename descclassname"><span class="pre">inspect.</span></span><span class="sig-name descname"><span class="pre">CO_ASYNC_GENERATOR</span></span><a class="headerlink" href="#inspect.CO_ASYNC_GENERATOR" title="永久链接至目标">¶</a></dt>
+<dd><p>当代码对象是一个异步生成器函数时该标志被置位。当代码对象被运行时它将返回一个异步生成器对象。详见 <span class="target" id="index-11"></span><a class="pep reference external" href="https://peps.python.org/pep-0525/"><strong>PEP 525</strong></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>这些标志特指于 CPython，并且在其他 Python 实现中可能从未被定义。更进一步地说，这些标志是一种实现细节，并且可能在将来的 Python 发行中被移除或弃用。推荐使用 <a class="reference internal" href="#module-inspect" title="inspect: Extract information and source code from live objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code></a> 模块的公共 API 来进行任何内省需求。</p>
+</div>
+</section>
+<section id="command-line-interface">
+<span id="inspect-module-cli"></span><h2>命令行界面<a class="headerlink" href="#command-line-interface" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#module-inspect" title="inspect: Extract information and source code from live objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code></a> 模块也提供一个从命令行使用基本的内省能力。</p>
+<p>默认地，命令行接受一个模块的名字并打印模块的源代码。也可通过后缀一个冒号和目标对象的限定名称来打印一个类或者一个函数。</p>
+<dl class="std cmdoption">
+<dt class="sig sig-object std" id="cmdoption-inspect-details">
+<span class="sig-name descname"><span class="pre">--details</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-inspect-details" title="永久链接至目标">¶</a></dt>
+<dd><p>打印特定对象的信息而非源码。</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code> --- 检查对象</a><ul>
+<li><a class="reference internal" href="#types-and-members">类型和成员</a></li>
+<li><a class="reference internal" href="#retrieving-source-code">获取源代码</a></li>
+<li><a class="reference internal" href="#introspecting-callables-with-the-signature-object">使用 Signature 对象对可调用对象进行内省</a></li>
+<li><a class="reference internal" href="#classes-and-functions">类与函数</a></li>
+<li><a class="reference internal" href="#the-interpreter-stack">解释器栈</a></li>
+<li><a class="reference internal" href="#fetching-attributes-statically">静态地获取属性</a></li>
+<li><a class="reference internal" href="#current-state-of-generators-and-coroutines">生成器和协程的当前状态</a></li>
+<li><a class="reference internal" href="#code-objects-bit-flags">代码对象位标志</a></li>
+<li><a class="reference internal" href="#command-line-interface">命令行界面</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="gc.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gc</span></code> --- 垃圾回收器接口</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="site.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code> —— 指定域的配置钩子</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/inspect.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="site.html" title="site —— 指定域的配置钩子"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="gc.html" title="gc --- 垃圾回收器接口"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" >Python运行时服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">inspect</span></code> --- 检查对象</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

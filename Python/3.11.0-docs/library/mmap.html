@@ -1,0 +1,588 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>mmap --- 内存映射文件支持 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="互联网数据处理" href="netdata.html" />
+    <link rel="prev" title="signal --- 设置异步事件处理程序" href="signal.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/mmap.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mmap</span></code> --- 内存映射文件支持</a><ul>
+<li><a class="reference internal" href="#madv-constants">MADV_* 常量</a></li>
+<li><a class="reference internal" href="#map-constants">MAP_* 常量</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="signal.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">signal</span></code> --- 设置异步事件处理程序</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="netdata.html"
+                          title="下一章">互联网数据处理</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/mmap.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="netdata.html" title="互联网数据处理"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="signal.html" title="signal --- 设置异步事件处理程序"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" accesskey="U">网络和进程间通信</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">mmap</span></code> --- 内存映射文件支持</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-mmap">
+<span id="mmap-memory-mapped-file-support"></span><h1><a class="reference internal" href="#module-mmap" title="mmap: Interface to memory-mapped files for Unix and Windows."><code class="xref py py-mod docutils literal notranslate"><span class="pre">mmap</span></code></a> --- 内存映射文件支持<a class="headerlink" href="#module-mmap" title="永久链接至标题">¶</a></h1>
+<hr class="docutils" />
+<p class="availability"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Availability</span></a>: not Emscripten, not WASI.<p>This module does not work or is not available on WebAssembly platforms
+<code class="docutils literal notranslate"><span class="pre">wasm32-emscripten</span></code> and <code class="docutils literal notranslate"><span class="pre">wasm32-wasi</span></code>. See
+<a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">WebAssembly platforms</span></a> for more information.</p>
+</p>
+<p>内存映射文件对象的行为既像 <a class="reference internal" href="stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> 又像 <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">文件对象</span></a>。 你可以在大部分接受 <a class="reference internal" href="stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> 的地方使用 mmap 对象；例如，你可以使用 <a class="reference internal" href="re.html#module-re" title="re: Regular expression operations."><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code></a> 模块来搜索一个内存映射文件。 你也可以通过执行 <code class="docutils literal notranslate"><span class="pre">obj[index]</span> <span class="pre">=</span> <span class="pre">97</span></code> 来修改单个字节，或者通过对切片赋值来修改一个子序列: <code class="docutils literal notranslate"><span class="pre">obj[i1:i2]</span> <span class="pre">=</span> <span class="pre">b'...'</span></code>。 你还可以在文件的当前位置开始读取和写入数据，并使用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">seek()</span></code> 前往另一个位置。</p>
+<p>内存映射文件是由 <a class="reference internal" href="#mmap.mmap" title="mmap.mmap"><code class="xref py py-class docutils literal notranslate"><span class="pre">mmap</span></code></a> 构造函数创建的，其在 Unix 和 Windows 上是不同的。 无论哪种情况，你都必须为一个打开的文件提供文件描述符以进行更新。 如果你希望映射一个已有的 Python 文件对象，请使用该对象的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code> 方法来获取 <em>fileno</em> 参数的正确值。 否则，你可以使用 <a class="reference internal" href="os.html#os.open" title="os.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.open()</span></code></a> 函数来打开这个文件，这会直接返回一个文件描述符（结束时仍然需要关闭该文件）。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>如果要为可写的缓冲文件创建内存映射，则应当首先 <a class="reference internal" href="io.html#io.IOBase.flush" title="io.IOBase.flush"><code class="xref py py-func docutils literal notranslate"><span class="pre">flush()</span></code></a> 该文件。 这确保了对缓冲区的本地修改在内存映射中可用。</p>
+</div>
+<p>对于 Unix 和 Windows 版本的构造函数，可以将 <em>access</em> 指定为可选的关键字参数。 <em>access</em> 接受以下四个值之一： <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_READ</span></code> ， <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_WRITE</span></code> 或 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_COPY</span></code> 分别指定只读，直写或写时复制内存，或 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_DEFAULT</span></code> 推迟到 <em>prot</em> 。 <em>access</em> 可以在 Unix 和 Windows 上使用。如果未指定 <em>access</em> ，则 Windows mmap 返回直写映射。这三种访问类型的初始内存值均取自指定的文件。向 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_READ</span></code> 内存映射赋值会引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 异常。 向 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_WRITE</span></code> 内存映射赋值会影响内存和底层的文件。 向 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_COPY</span></code> 内存映射赋值会影响内存，但不会更新底层的文件。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>添加了 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_DEFAULT</span></code> 常量。</p>
+</div>
+<p>要映射匿名内存，应将 -1 作为 fileno 和 length 一起传递。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mmap.mmap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">mmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileno</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tagname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access=ACCESS_DEFAULT</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap" title="永久链接至目标">¶</a></dt>
+<dd><p><strong>（ Windows 版本）</strong> 映射被文件句柄 <em>fileno</em> 指定的文件的 <em>length</em> 个字节，并创建一个 mmap 对象。如果 <em>length</em> 大于当前文件大小，则文件将扩展为包含 <em>length</em> 个字节。如果 <em>length</em> 为 <code class="docutils literal notranslate"><span class="pre">0</span></code>，则映射的最大长度为当前文件大小。如果文件为空， Windows 会引发异常（你无法在Windows上创建空映射）。</p>
+<p>如果 <em>tagname</em> 被指定且不是 <code class="docutils literal notranslate"><span class="pre">None</span></code> ，则是为映射提供标签名称的字符串。 Windows 允许你对同一文件拥有许多不同的映射。如果指定现有标签的名称，则会打开该标签，否则将创建该名称的新标签。如果省略此参数或设置为 <code class="docutils literal notranslate"><span class="pre">None</span></code> ，则创建的映射不带名称。避免使用 tag 参数将有助于使代码在Unix和Windows之间可移植。</p>
+<p><em>offset</em> 可以被指定为非负整数偏移量。 mmap 引用将相对于从文件开头的偏移。 <em>offset</em> 默认为0。 <em>offeset</em> 必须是 <code class="xref py py-const docutils literal notranslate"><span class="pre">ALLOCATIONGRANULARITY</span></code> 的倍数。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">mmap.__new__</span></code> 附带参数 <code class="docutils literal notranslate"><span class="pre">fileno</span></code>, <code class="docutils literal notranslate"><span class="pre">length</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>, <code class="docutils literal notranslate"><span class="pre">offset</span></code>。</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">mmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileno</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags=MAP_SHARED</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prot=PROT_WRITE|PROT_READ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access=ACCESS_DEFAULT</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="optional">]</span><span class="sig-paren">)</span></dt>
+<dd><p><strong>(Unix 版本)</strong> 映射文件描述符 <em>fileno</em> 指定的文件的 <em>length</em> 个字节，并返回一个 mmap 对象。如果 <em>length</em> 为 <code class="docutils literal notranslate"><span class="pre">0</span></code> ，则当调用 <a class="reference internal" href="#mmap.mmap" title="mmap.mmap"><code class="xref py py-class docutils literal notranslate"><span class="pre">mmap</span></code></a> 时，映射的最大长度将为文件的当前大小。</p>
+<p><em>flags</em> 指明映射的性质。 <a class="reference internal" href="#mmap.MAP_PRIVATE" title="mmap.MAP_PRIVATE"><code class="xref py py-const docutils literal notranslate"><span class="pre">MAP_PRIVATE</span></code></a> 会创建私有的写入时拷贝映射，因此对 mmap 对象内容的修改将为该进程所私有。 而 <a class="reference internal" href="#mmap.MAP_SHARED" title="mmap.MAP_SHARED"><code class="xref py py-const docutils literal notranslate"><span class="pre">MAP_SHARED</span></code></a> 会创建与其他映射同一文件区域的进程所共享的映射。 默认值为 <a class="reference internal" href="#mmap.MAP_SHARED" title="mmap.MAP_SHARED"><code class="xref py py-const docutils literal notranslate"><span class="pre">MAP_SHARED</span></code></a>。 某些系统还具有额外的可用旗标，完整列表会在 <a class="reference internal" href="#map-constants"><span class="std std-ref">MAP_* 常量</span></a> 中指明。</p>
+<p>如果指明了 <em>prot</em>，它将给出所需的内存保护方式；最有用的两个值是 <code class="xref py py-const docutils literal notranslate"><span class="pre">PROT_READ</span></code> 和 <code class="xref py py-const docutils literal notranslate"><span class="pre">PROT_WRITE</span></code>，分别指明页面为可读或可写。 <em>prot</em> 默认为 <code class="xref py py-const docutils literal notranslate"><span class="pre">PROT_READ</span> <span class="pre">|</span> <span class="pre">PROT_WRITE</span></code>。</p>
+<p>可以指定 <em>access</em> 作为替代 <em>flags</em> 和 <em>prot</em> 的可选关键字形参。 同时指定 <em>flags</em>, <em>prot</em> 和 <em>access</em> 将导致错误。 请参阅上文中 <em>access</em> 的描述了解有关如何使用此形参的信息。</p>
+<p><em>offset</em> 可以被指定为非负整数偏移量。 mmap 引用将相对于从文件开头的偏移。 <em>offset</em> 默认为 0。 <em>offset</em> 必须是 <code class="xref py py-const docutils literal notranslate"><span class="pre">ALLOCATIONGRANULARITY</span></code> 的倍数，它在 Unix 系统上等价于 <code class="xref py py-const docutils literal notranslate"><span class="pre">PAGESIZE</span></code>。</p>
+<p>为了确保已创建内存映射的有效性，描述符 <em>fileno</em> 所指定的文件在 macOS 上会与物理后备存储进行内部自动同步。</p>
+<p>这个例子演示了使用 <a class="reference internal" href="#mmap.mmap" title="mmap.mmap"><code class="xref py py-class docutils literal notranslate"><span class="pre">mmap</span></code></a> 的简单方式:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mmap</span>
+
+<span class="c1"># write a simple example file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;hello.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Hello Python!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;hello.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r+b&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="c1"># memory-map the file, size 0 means whole file</span>
+    <span class="n">mm</span> <span class="o">=</span> <span class="n">mmap</span><span class="o">.</span><span class="n">mmap</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">fileno</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># read content via standard file methods</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">mm</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>  <span class="c1"># prints b&quot;Hello Python!\n&quot;</span>
+    <span class="c1"># read content via slice notation</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">mm</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>  <span class="c1"># prints b&quot;Hello&quot;</span>
+    <span class="c1"># update content using slice notation;</span>
+    <span class="c1"># note that new content must have same size</span>
+    <span class="n">mm</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot; world!</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="c1"># ... and read again using standard file methods</span>
+    <span class="n">mm</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">mm</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>  <span class="c1"># prints b&quot;Hello  world!\n&quot;</span>
+    <span class="c1"># close the map</span>
+    <span class="n">mm</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#mmap.mmap" title="mmap.mmap"><code class="xref py py-class docutils literal notranslate"><span class="pre">mmap</span></code></a> 也可以在 <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句中被用作上下文管理器:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mmap</span>
+
+<span class="k">with</span> <span class="n">mmap</span><span class="o">.</span><span class="n">mmap</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span> <span class="k">as</span> <span class="n">mm</span><span class="p">:</span>
+    <span class="n">mm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Hello world!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能: </span>上下文管理器支持。</p>
+</div>
+<p>下面的例子演示了如何创建一个匿名映射并在父进程和子进程之间交换数据。:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mmap</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">mm</span> <span class="o">=</span> <span class="n">mmap</span><span class="o">.</span><span class="n">mmap</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">mm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Hello world!&quot;</span><span class="p">)</span>
+
+<span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">pid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># In a child process</span>
+    <span class="n">mm</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">mm</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
+
+    <span class="n">mm</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">mmap.__new__</span></code> 附带参数 <code class="docutils literal notranslate"><span class="pre">fileno</span></code>, <code class="docutils literal notranslate"><span class="pre">length</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>, <code class="docutils literal notranslate"><span class="pre">offset</span></code>。</p>
+<p>映射内存的文件对象支持以下方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.close" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭 mmap。 后续调用该对象的其他方法将导致引发 ValueError 异常。 此方法将不会关闭打开的文件。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mmap.mmap.closed">
+<span class="sig-name descname"><span class="pre">closed</span></span><a class="headerlink" href="#mmap.mmap.closed" title="永久链接至目标">¶</a></dt>
+<dd><p>如果文件已关闭则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.find" title="永久链接至目标">¶</a></dt>
+<dd><p>返回子序列 <em>sub</em> 在对象内被找到的最小索引号，使得 <em>sub</em> 被包含在 [<em>start</em>, <em>end</em>] 范围中。 可选参数 <em>start</em> 和 <em>end</em> 会被解读为切片表示法。 如果未找到则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>现在接受可写的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">字节类对象</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.flush">
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.flush" title="永久链接至目标">¶</a></dt>
+<dd><p>将对文件的内存副本的修改刷新至磁盘。 如果不使用此调用则无法保证在对象被销毁前将修改写回存储。 如果指定了 <em>offset</em> 和 <em>size</em>，则只将对指定范围内字节的修改刷新至磁盘；在其他情况下，映射的全部范围都会被刷新。 <em>offset</em> 必须为 <code class="xref py py-const docutils literal notranslate"><span class="pre">PAGESIZE</span></code> 或 <code class="xref py py-const docutils literal notranslate"><span class="pre">ALLOCATIONGRANULARITY</span></code> 的倍数。</p>
+<p>返回 <code class="docutils literal notranslate"><span class="pre">None</span></code> 以表示成功。 当调用失败时将引发异常。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>在之前版本中，成功时将返回非零值；在 Windows 下当发生错误时将返回零。 在 Unix 下 成功时将返回零值；当发生错误时将引发异常。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.madvise">
+<span class="sig-name descname"><span class="pre">madvise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.madvise" title="永久链接至目标">¶</a></dt>
+<dd><p>将有关内存区域的建议 <em>option</em> 发送至内核，从 <em>start</em> 开始扩展 <em>length</em> 个字节。 <em>option</em> 必须为系统中可用的 <a class="reference internal" href="#madvise-constants"><span class="std std-ref">MADV_* 常量</span></a> 之一。 如果省略 <em>start</em> 和 <em>length</em>，则会包含整个映射。 在某些系统中（包括 Linux），<em>start</em> 必须为 <code class="xref py py-const docutils literal notranslate"><span class="pre">PAGESIZE</span></code> 的倍数。</p>
+<p>可用性: 具有 <code class="docutils literal notranslate"><span class="pre">madvise()</span></code> 系统调用的系统。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.8 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.move" title="永久链接至目标">¶</a></dt>
+<dd><p>将从偏移量 <em>src</em> 开始的 <em>count</em> 个字节拷贝到目标索引号 <em>dest</em>。 如果 mmap 创建时设置了 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_READ</span></code>，则调用 move 将引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 异常。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.read" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>，其中包含从当前文件位置开始的至多 <em>n</em> 个字节。 如果参数省略，为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 或负数，则返回从当前文件位置开始直至映射结尾的所有字节。 文件位置会被更新为返回字节数据之后的位置。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>参数可被省略或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.read_byte">
+<span class="sig-name descname"><span class="pre">read_byte</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.read_byte" title="永久链接至目标">¶</a></dt>
+<dd><p>将当前文件位置上的一个字节以整数形式返回，并让文件位置前进 1。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.readline">
+<span class="sig-name descname"><span class="pre">readline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.readline" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个单独的行，从当前文件位置开始直到下一个换行符。 文件位置会被更新为返回字节数据之后的位置。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.resize">
+<span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newsize</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.resize" title="永久链接至目标">¶</a></dt>
+<dd><p>改变映射以及下层文件的大小，如果存在的话。 如果 mmap 创建时设置了 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_READ</span></code> 或 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_COPY</span></code>，则改变映射大小将引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 异常。</p>
+<p><strong>On Windows</strong>: Resizing the map will raise an <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> if there are other
+maps against the same named file. Resizing an anonymous map (ie against the
+pagefile) will silently create a new map with the original data copied over
+up to the length of the new size.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>Correctly fails if attempting to resize when another map is held
+Allows resize against an anonymous map on Windows</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.rfind">
+<span class="sig-name descname"><span class="pre">rfind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.rfind" title="永久链接至目标">¶</a></dt>
+<dd><p>返回子序列 <em>sub</em> 在对象内被找到的最大索引号，使得 <em>sub</em> 被包含在 [<em>start</em>, <em>end</em>] 范围中。 可选参数 <em>start</em> 和 <em>end</em> 会被解读为切片表示法。 如果未找到则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>现在接受可写的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">字节类对象</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.seek">
+<span class="sig-name descname"><span class="pre">seek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">whence</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.seek" title="永久链接至目标">¶</a></dt>
+<dd><p>设置文件的当前位置。 <em>whence</em> 参数为可选项并且默认为 <code class="docutils literal notranslate"><span class="pre">os.SEEK_SET</span></code> 或 <code class="docutils literal notranslate"><span class="pre">0</span></code> (绝对文件定位)；其他值还有 <code class="docutils literal notranslate"><span class="pre">os.SEEK_CUR</span></code> 或 <code class="docutils literal notranslate"><span class="pre">1</span></code> (相对当前位置查找) 和 <code class="docutils literal notranslate"><span class="pre">os.SEEK_END</span></code> 或 <code class="docutils literal notranslate"><span class="pre">2</span></code> (相对文件末尾查找)。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.size">
+<span class="sig-name descname"><span class="pre">size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.size" title="永久链接至目标">¶</a></dt>
+<dd><p>返回文件的长度，该数值可以大于内存映射区域的大小。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.tell">
+<span class="sig-name descname"><span class="pre">tell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.tell" title="永久链接至目标">¶</a></dt>
+<dd><p>返回文件指针的当前位置。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.write" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>bytes</em> 中的字节数据写入文件指针当前位置的内存并返回写入的字节总数 (一定不小于 <code class="docutils literal notranslate"><span class="pre">len(bytes)</span></code>，因为如果写入失败，将会引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>)。 在字节数据被写入后文件位置将会更新。 如果 mmap 创建时设置了 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_READ</span></code>，则向其写入将引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 异常。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>现在接受可写的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">字节类对象</span></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>现在会返回写入的字节总数。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mmap.mmap.write_byte">
+<span class="sig-name descname"><span class="pre">write_byte</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">byte</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mmap.mmap.write_byte" title="永久链接至目标">¶</a></dt>
+<dd><p>将整数值 <em>byte</em> 写入文件指针当前位置的内存；文件位置前进 <code class="docutils literal notranslate"><span class="pre">1</span></code>。 如果 mmap 创建时设置了 <code class="xref py py-const docutils literal notranslate"><span class="pre">ACCESS_READ</span></code>，则向其写入将引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 异常。</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="madv-constants">
+<span id="madvise-constants"></span><h2>MADV_* 常量<a class="headerlink" href="#madv-constants" title="永久链接至标题">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="mmap.MADV_NORMAL">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_NORMAL</span></span><a class="headerlink" href="#mmap.MADV_NORMAL" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_RANDOM">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_RANDOM</span></span><a class="headerlink" href="#mmap.MADV_RANDOM" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_SEQUENTIAL">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_SEQUENTIAL</span></span><a class="headerlink" href="#mmap.MADV_SEQUENTIAL" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_WILLNEED">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_WILLNEED</span></span><a class="headerlink" href="#mmap.MADV_WILLNEED" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_DONTNEED">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_DONTNEED</span></span><a class="headerlink" href="#mmap.MADV_DONTNEED" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_REMOVE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_REMOVE</span></span><a class="headerlink" href="#mmap.MADV_REMOVE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_DONTFORK">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_DONTFORK</span></span><a class="headerlink" href="#mmap.MADV_DONTFORK" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_DOFORK">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_DOFORK</span></span><a class="headerlink" href="#mmap.MADV_DOFORK" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_HWPOISON">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_HWPOISON</span></span><a class="headerlink" href="#mmap.MADV_HWPOISON" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_MERGEABLE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_MERGEABLE</span></span><a class="headerlink" href="#mmap.MADV_MERGEABLE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_UNMERGEABLE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_UNMERGEABLE</span></span><a class="headerlink" href="#mmap.MADV_UNMERGEABLE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_SOFT_OFFLINE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_SOFT_OFFLINE</span></span><a class="headerlink" href="#mmap.MADV_SOFT_OFFLINE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_HUGEPAGE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_HUGEPAGE</span></span><a class="headerlink" href="#mmap.MADV_HUGEPAGE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_NOHUGEPAGE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_NOHUGEPAGE</span></span><a class="headerlink" href="#mmap.MADV_NOHUGEPAGE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_DONTDUMP">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_DONTDUMP</span></span><a class="headerlink" href="#mmap.MADV_DONTDUMP" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_DODUMP">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_DODUMP</span></span><a class="headerlink" href="#mmap.MADV_DODUMP" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_FREE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_FREE</span></span><a class="headerlink" href="#mmap.MADV_FREE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_NOSYNC">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_NOSYNC</span></span><a class="headerlink" href="#mmap.MADV_NOSYNC" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_AUTOSYNC">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_AUTOSYNC</span></span><a class="headerlink" href="#mmap.MADV_AUTOSYNC" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_NOCORE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_NOCORE</span></span><a class="headerlink" href="#mmap.MADV_NOCORE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_CORE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_CORE</span></span><a class="headerlink" href="#mmap.MADV_CORE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_PROTECT">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_PROTECT</span></span><a class="headerlink" href="#mmap.MADV_PROTECT" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_FREE_REUSABLE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_FREE_REUSABLE</span></span><a class="headerlink" href="#mmap.MADV_FREE_REUSABLE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MADV_FREE_REUSE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MADV_FREE_REUSE</span></span><a class="headerlink" href="#mmap.MADV_FREE_REUSE" title="永久链接至目标">¶</a></dt>
+<dd><p>这些选项可被传给 <a class="reference internal" href="#mmap.mmap.madvise" title="mmap.mmap.madvise"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mmap.madvise()</span></code></a>。 不是每个选项都存在于每个系统中。</p>
+<p>可用性: 具有 madvise() 系统调用的系统。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.8 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="map-constants">
+<span id="id1"></span><h2>MAP_* 常量<a class="headerlink" href="#map-constants" title="永久链接至标题">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="mmap.MAP_SHARED">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MAP_SHARED</span></span><a class="headerlink" href="#mmap.MAP_SHARED" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MAP_PRIVATE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MAP_PRIVATE</span></span><a class="headerlink" href="#mmap.MAP_PRIVATE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MAP_DENYWRITE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MAP_DENYWRITE</span></span><a class="headerlink" href="#mmap.MAP_DENYWRITE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MAP_EXECUTABLE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MAP_EXECUTABLE</span></span><a class="headerlink" href="#mmap.MAP_EXECUTABLE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MAP_ANON">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MAP_ANON</span></span><a class="headerlink" href="#mmap.MAP_ANON" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MAP_ANONYMOUS">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MAP_ANONYMOUS</span></span><a class="headerlink" href="#mmap.MAP_ANONYMOUS" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MAP_POPULATE">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MAP_POPULATE</span></span><a class="headerlink" href="#mmap.MAP_POPULATE" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mmap.MAP_STACK">
+<span class="sig-prename descclassname"><span class="pre">mmap.</span></span><span class="sig-name descname"><span class="pre">MAP_STACK</span></span><a class="headerlink" href="#mmap.MAP_STACK" title="永久链接至目标">¶</a></dt>
+<dd><p>这些是可被传给 <a class="reference internal" href="#mmap.mmap" title="mmap.mmap"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mmap.mmap()</span></code></a> 的各种旗标。 请注意某些选项在某些系统上可能不存在。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>增加了 MAP_POPULATE 常量。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能: </span>Added MAP_STACK constant.</p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mmap</span></code> --- 内存映射文件支持</a><ul>
+<li><a class="reference internal" href="#madv-constants">MADV_* 常量</a></li>
+<li><a class="reference internal" href="#map-constants">MAP_* 常量</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="signal.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">signal</span></code> --- 设置异步事件处理程序</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="netdata.html"
+                          title="下一章">互联网数据处理</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/mmap.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="netdata.html" title="互联网数据处理"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="signal.html" title="signal --- 设置异步事件处理程序"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" >网络和进程间通信</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">mmap</span></code> --- 内存映射文件支持</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

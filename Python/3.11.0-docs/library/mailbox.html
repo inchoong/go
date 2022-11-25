@@ -1,0 +1,1807 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>mailbox --- 操作多种格式的邮箱 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="mimetypes --- 映射文件名到 MIME 类型" href="mimetypes.html" />
+    <link rel="prev" title="json --- JSON 编码和解码器" href="json.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/mailbox.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code> --- 操作多种格式的邮箱</a><ul>
+<li><a class="reference internal" href="#mailbox-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code> 对象</a><ul>
+<li><a class="reference internal" href="#maildir"><code class="xref py py-class docutils literal notranslate"><span class="pre">Maildir</span></code></a></li>
+<li><a class="reference internal" href="#mbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">mbox</span></code></a></li>
+<li><a class="reference internal" href="#mh"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a></li>
+<li><a class="reference internal" href="#babyl"><code class="xref py py-class docutils literal notranslate"><span class="pre">Babyl</span></code></a></li>
+<li><a class="reference internal" href="#mmdf"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDF</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#message-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code> 对象</a><ul>
+<li><a class="reference internal" href="#maildirmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a></li>
+<li><a class="reference internal" href="#mboxmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a></li>
+<li><a class="reference internal" href="#mhmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a></li>
+<li><a class="reference internal" href="#babylmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a></li>
+<li><a class="reference internal" href="#mmdfmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exceptions">异常</a></li>
+<li><a class="reference internal" href="#examples">例子</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="json.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">json</span></code> --- JSON 编码和解码器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="mimetypes.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mimetypes</span></code> --- 映射文件名到 MIME 类型</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/mailbox.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="mimetypes.html" title="mimetypes --- 映射文件名到 MIME 类型"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="json.html" title="json --- JSON 编码和解码器"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" accesskey="U">互联网数据处理</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code> --- 操作多种格式的邮箱</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-mailbox">
+<span id="mailbox-manipulate-mailboxes-in-various-formats"></span><h1><a class="reference internal" href="#module-mailbox" title="mailbox: Manipulate mailboxes in various formats"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code></a> --- 操作多种格式的邮箱<a class="headerlink" href="#module-mailbox" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/mailbox.py">Lib/mailbox.py</a></p>
+<hr class="docutils" />
+<p>本模块定义了两个类，<a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 和 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a>，用于访问和操作磁盘中的邮箱及其所包含的电子邮件。 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 提供了类似字典的从键到消息的映射。 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 为 <a class="reference internal" href="email.message.html#module-email.message" title="email.message: The base class representing email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.message</span></code></a> 模块的 <a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 类增加了特定格式专属的状态和行为。 支持的邮箱格式有 Maildir, mbox, MH, Babyl 以及 MMDF。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>模块 <a class="reference internal" href="email.html#module-email" title="email: Package supporting the parsing, manipulating, and generating email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code></a></dt><dd><p>表示和操作邮件消息。</p>
+</dd>
+</dl>
+</div>
+<section id="mailbox-objects">
+<span id="id1"></span><h2><a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 对象<a class="headerlink" href="#mailbox-objects" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.Mailbox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">Mailbox</span></span><a class="headerlink" href="#mailbox.Mailbox" title="永久链接至目标">¶</a></dt>
+<dd><p>一个邮箱，它可以被检视和修改。</p>
+<p><a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 类定义了一个接口并且它不应被实例化。 而是应该让格式专属的子类继承 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 并且你的代码应当实例化一个特定的子类。</p>
+<p><a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 接口类似于字典，其中每个小键都有对应的消息。 键是由 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例发出的，它们将由实例来使用并且只对该 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例有意义。 键会持续标识一条消息，即使对应的消息已被修改，例如被另一条消息所替代。</p>
+<p>可以使用 set 型方法 <a class="reference internal" href="#mailbox.Mailbox.add" title="mailbox.Mailbox.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a> 将消息添加到 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 并可以使用 <code class="docutils literal notranslate"><span class="pre">del</span></code> 语句或 set 型方法 <a class="reference internal" href="#mailbox.Mailbox.remove" title="mailbox.Mailbox.remove"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove()</span></code></a> 和 <a class="reference internal" href="#mailbox.Mailbox.discard" title="mailbox.Mailbox.discard"><code class="xref py py-meth docutils literal notranslate"><span class="pre">discard()</span></code></a> 将其移除。</p>
+<p><a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 接口语义在某些值得注意的方面与字典语义有所不同。 每次请求消息时，都会基于邮箱的当前状态生成一个新的表示形式（通常为 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 实例）。 类似地，当向 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例添加消息时，所提供的消息表示形式的内容将被复制。 无论在哪种情况下 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例都不会保留对消息表示形式的引用。</p>
+<p>默认的 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 迭代器会迭代消息表示形式，而不像默认的字典迭代器那样迭代键。 此外，在迭代期间修改邮箱是安全且有明确定义的。 在创建迭代器之后被添加到邮箱的消息将对该迭代不可见。 在迭代器产出消息之前被从邮箱移除的消息将被静默地跳过，但是使用来自迭代器的键也有可能导致 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常，如果对应的消息后来被移除的话。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>在修改可能同时被其他某个进程修改的邮箱时要非常小心。 用于此种任务的最安全邮箱格式是 Maildir；请尽量避免使用 mbox 之类的单文件格式进行并发写入。 如果你正在修改一个邮箱，你 <em>必须</em> 在读取文件中的任何消息或者执行添加或删除消息等修改操作 <em>之前</em> 通过调用 <a class="reference internal" href="#mailbox.Mailbox.lock" title="mailbox.Mailbox.lock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">lock()</span></code></a> 以及 <a class="reference internal" href="#mailbox.Mailbox.unlock" title="mailbox.Mailbox.unlock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unlock()</span></code></a> 方法来锁定它。 如果未锁定邮箱则将导致丢失消息或损坏整个邮箱的风险。</p>
+</div>
+<p><a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例具有下列方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.add" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>message</em> 添加到邮箱并返回分配给它的键。</p>
+<p>形参 <em>message</em> 可以是 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 实例、<a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">email.message.Message</span></code></a> 实例、字符串、字节串或文件类对象（应当以二进制模式打开）。 如果 <em>message</em> 是适当的格式专属 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 子类的实例（举例来说，如果它是一个 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 实例而这是一个 <a class="reference internal" href="#mailbox.mbox" title="mailbox.mbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">mbox</span></code></a> 实例），将使用其格式专属的信息。 在其他情况下，则会使用合理的默认值作为格式专属的信息。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>增加了对二进制输入的支持。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.remove" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Mailbox.__delitem__">
+<span class="sig-name descname"><span class="pre">__delitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.__delitem__" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Mailbox.discard">
+<span class="sig-name descname"><span class="pre">discard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.discard" title="永久链接至目标">¶</a></dt>
+<dd><p>从邮箱中删除对应于 <em>key</em> 的消息。</p>
+<p>当消息不存在时，如果此方法是作为 <a class="reference internal" href="#mailbox.Mailbox.remove" title="mailbox.Mailbox.remove"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove()</span></code></a> 或 <a class="reference internal" href="#mailbox.Mailbox.__delitem__" title="mailbox.Mailbox.__delitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__delitem__()</span></code></a> 调用则会引发 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常，而如果此方法是作为 <a class="reference internal" href="#mailbox.Mailbox.discard" title="mailbox.Mailbox.discard"><code class="xref py py-meth docutils literal notranslate"><span class="pre">discard()</span></code></a> 调用则不会引发异常。 如果下层邮箱格式支持来自其他进程的并发修改则 <a class="reference internal" href="#mailbox.Mailbox.discard" title="mailbox.Mailbox.discard"><code class="xref py py-meth docutils literal notranslate"><span class="pre">discard()</span></code></a> 的行为可能是更为适合的。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.__setitem__">
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.__setitem__" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>key</em> 所对应的消息替换为 <em>message</em>。 如果没有与 <em>key</em> 所对应的消息则会引发 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常。</p>
+<p>与 <a class="reference internal" href="#mailbox.Mailbox.add" title="mailbox.Mailbox.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a> 一样，形参 <em>message</em> 可以是 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 实例、<a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">email.message.Message</span></code></a> 实例、字符串、字节串或文件类对象（应当以二进制模式打开）。 如果 <em>message</em> 是适当的格式专属 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 子类的实例（举例来说，如果它是一个 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 实例而这是一个 <a class="reference internal" href="#mailbox.mbox" title="mailbox.mbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">mbox</span></code></a> 实例），将使用其格式专属的信息。 在其他情况下，当前与 <em>key</em> 所对应的消息的格式专属信息则会保持不变。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.iterkeys">
+<span class="sig-name descname"><span class="pre">iterkeys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.iterkeys" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Mailbox.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.keys" title="永久链接至目标">¶</a></dt>
+<dd><p>如果通过 <a class="reference internal" href="#mailbox.Mailbox.iterkeys" title="mailbox.Mailbox.iterkeys"><code class="xref py py-meth docutils literal notranslate"><span class="pre">iterkeys()</span></code></a> 调用则返回一个迭代所有键的迭代器，或者如果通过 <a class="reference internal" href="#mailbox.Mailbox.keys" title="mailbox.Mailbox.keys"><code class="xref py py-meth docutils literal notranslate"><span class="pre">keys()</span></code></a> 调用则返回一个键列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.itervalues">
+<span class="sig-name descname"><span class="pre">itervalues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.itervalues" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Mailbox.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.__iter__" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Mailbox.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.values" title="永久链接至目标">¶</a></dt>
+<dd><p>如果通过 <a class="reference internal" href="#mailbox.Mailbox.itervalues" title="mailbox.Mailbox.itervalues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">itervalues()</span></code></a> 或 <a class="reference internal" href="#mailbox.Mailbox.__iter__" title="mailbox.Mailbox.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a> 调用则返回一个迭代所有消息的表示形式的迭代器，或者如果通过 <a class="reference internal" href="#mailbox.Mailbox.values" title="mailbox.Mailbox.values"><code class="xref py py-meth docutils literal notranslate"><span class="pre">values()</span></code></a> 调用则返回一个由这些表示形式组成的列表。 消息会被表示为适当的格式专属 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 子类的实例，除非当 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例被初始化时指定了自定义的消息工厂函数。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><a class="reference internal" href="#mailbox.Mailbox.__iter__" title="mailbox.Mailbox.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a> 的行为与字典不同，后者是对键进行迭代。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.iteritems">
+<span class="sig-name descname"><span class="pre">iteritems</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.iteritems" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Mailbox.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.items" title="永久链接至目标">¶</a></dt>
+<dd><p>如果通过 <a class="reference internal" href="#mailbox.Mailbox.iteritems" title="mailbox.Mailbox.iteritems"><code class="xref py py-meth docutils literal notranslate"><span class="pre">iteritems()</span></code></a> 调用则返回一个迭代 (<em>key</em>, <em>message</em>) 对的迭代器，其中 <em>key</em> 为键而 <em>message</em> 为消息的表示形式，或者如果通过 <a class="reference internal" href="#mailbox.Mailbox.items" title="mailbox.Mailbox.items"><code class="xref py py-meth docutils literal notranslate"><span class="pre">items()</span></code></a> 调用则返回一个由这种键值对组成的列表。 消息会被表示为适当的格式专属 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 子类的实例，除非当 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例被初始化时指定了自定义的消息工厂函数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.get" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Mailbox.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.__getitem__" title="永久链接至目标">¶</a></dt>
+<dd><p>返回对应于 <em>key</em> 的消息的表示形式。 当对应的消息不存在时，如果通过 <a class="reference internal" href="#mailbox.Mailbox.get" title="mailbox.Mailbox.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> 调用则返回 <em>default</em> 而如果通过 <a class="reference internal" href="#mailbox.Mailbox.__getitem__" title="mailbox.Mailbox.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a> 调用此方法则会引发 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常。 消息会被表示为适当的格式专属 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 子类的实例，除非当 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例被初始化时指定了自定义的消息工厂函数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.get_message">
+<span class="sig-name descname"><span class="pre">get_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.get_message" title="永久链接至目标">¶</a></dt>
+<dd><p>将对应于 <em>key</em> 的消息的表示形式作为适当的格式专属 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 子类的实例返回，或者如果对应的消息不存在则会引发 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.get_bytes">
+<span class="sig-name descname"><span class="pre">get_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.get_bytes" title="永久链接至目标">¶</a></dt>
+<dd><p>返回对应于 <em>key</em> 的消息的字节表示形式，或者如果对应的消息不存在则会引发 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.get_string">
+<span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.get_string" title="永久链接至目标">¶</a></dt>
+<dd><p>返回对应于 <em>key</em> 的消息的字符串表示形式，或者如果对应的消息不存在则会引发 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常。 消息是通过 <a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">email.message.Message</span></code></a> 处理来将其转换为纯 7bit 表示形式的。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.get_file">
+<span class="sig-name descname"><span class="pre">get_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.get_file" title="永久链接至目标">¶</a></dt>
+<dd><p>返回对应于 <em>key</em> 的消息的文件类表示形式，或者如果对应的消息不存在则会引发 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常。 文件类对象的行为相当于以二进制模式打开。 当不再需要此文件时应当将其关闭。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>此文件对象实际上是二进制文件；之前它被不正确地以文本模式返回。 并且，此文件类对象现在还支持上下文管理协议：你可以使用 <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句来自动关闭它。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>不同于其他消息表示形式，文件类表示形式并不一定独立于创建它们的 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例或下层的邮箱。 每个子类都会提供更具体的文档。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.__contains__">
+<span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.__contains__" title="永久链接至目标">¶</a></dt>
+<dd><p>如果 <em>key</em> 有对应的消息则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.__len__" title="永久链接至目标">¶</a></dt>
+<dd><p>返回邮箱中消息的数量。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.clear" title="永久链接至目标">¶</a></dt>
+<dd><p>从邮箱中删除所有消息。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.pop">
+<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.pop" title="永久链接至目标">¶</a></dt>
+<dd><p>返回对应于 <em>key</em> 的消息的表示形式并删除该消息。 如果对应的消息不存在则返回 <em>default</em>。 消息会被表示为适当的格式专属 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 子类的实例，除非当 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例被初始化时指定了自定义的消息工厂函数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.popitem">
+<span class="sig-name descname"><span class="pre">popitem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.popitem" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个任意的 (<em>key</em>, <em>message</em>) 对，其中 <em>key</em> 为键而 <em>message</em> 为消息的表示形式，并删除对应的消息。 如果邮箱为空，则会引发 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常。 消息会被表示为适当的格式专属 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 子类的实例，除非当 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例被初始化时指定了自定义的消息工厂函数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.update" title="永久链接至目标">¶</a></dt>
+<dd><p>形参 <em>arg</em> 应当是 <em>key</em> 到 <em>message</em> 的映射或 (<em>key</em>, <em>message</em>) 对的可迭代对象。 用来更新邮箱以使得对于每个给定的 <em>key</em> 和 <em>message</em>，与 <em>key</em> 相对应的消息会被设为 <em>message</em>，就像通过使用 <a class="reference internal" href="#mailbox.Mailbox.__setitem__" title="mailbox.Mailbox.__setitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__setitem__()</span></code></a> 一样。 类似于 <a class="reference internal" href="#mailbox.Mailbox.__setitem__" title="mailbox.Mailbox.__setitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__setitem__()</span></code></a>，每个 <em>key</em> 都必须在邮箱中有一个对应的消息否则将会引发 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常，因此在通常情况下将 <em>arg</em> 设为 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例是不正确的。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>与字典不同，关键字参数是不受支持的。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.flush">
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.flush" title="永久链接至目标">¶</a></dt>
+<dd><p>将所有待定的更改写入到文件系统。 对于某些 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 子类来说，更改总是被立即写入因而 <a class="reference internal" href="#mailbox.Mailbox.flush" title="mailbox.Mailbox.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a> 并不会做任何事，但您仍然应当养成调用此方法的习惯。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.lock" title="永久链接至目标">¶</a></dt>
+<dd><p>在邮箱上获取一个独占式咨询锁以使其他进程知道不能修改它。 如果锁无法被获取则会引发 <a class="reference internal" href="#mailbox.ExternalClashError" title="mailbox.ExternalClashError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ExternalClashError</span></code></a>。 所使用的具体锁机制取决于邮箱的格式。 在对邮箱内容进行任何修改之前你应当 <em>总是</em> 锁定它。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.unlock">
+<span class="sig-name descname"><span class="pre">unlock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.unlock" title="永久链接至目标">¶</a></dt>
+<dd><p>释放邮箱上的锁，如果存在的话。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Mailbox.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Mailbox.close" title="永久链接至目标">¶</a></dt>
+<dd><p>刷新邮箱，如果必要则将其解锁。 并关闭所有打开的文件。 对于某些 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 子类来说，此方法并不会做任何事。</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="maildir">
+<span id="mailbox-maildir"></span><h3><a class="reference internal" href="#mailbox.Maildir" title="mailbox.Maildir"><code class="xref py py-class docutils literal notranslate"><span class="pre">Maildir</span></code></a><a class="headerlink" href="#maildir" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.Maildir">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">Maildir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 的一个子类，用于 Maildir 格式的邮箱。 形参 <em>factory</em> 是一个可调用对象，它接受一个文件类消息表示形式（其行为相当于以二进制模式打开）并返回一个自定义的表示形式。 如果 <em>factory</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会使用 <a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 作为默认的消息表示形式。 如果 <em>create</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则当邮箱不存在时会创建它。</p>
+<p>如果 <em>create</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code> 且 <em>dirname</em> 路径存在，它将被视为已有的 maildir 而无需尝试验证其目录布局。</p>
+<p>使用 <em>dirname</em> 这个名称而不使用 <em>path</em> 是出于历史原因。</p>
+<p>Maildir 是一种基于目录的邮箱格式，它是针对 qmail 邮件传输代理而发明的，现在也得到了其他程序的广泛支持。 Maildir 邮箱中的消息存储在一个公共目录结构中的单独文件内。 这样的设计允许 Maildir 邮箱被多个彼此无关的程序访问和修改而不会导致数据损坏，因此文件锁定操作是不必要的。</p>
+<p>Maildir 邮箱包含三个子目录，分别是: <code class="file docutils literal notranslate"><span class="pre">tmp</span></code>, <code class="file docutils literal notranslate"><span class="pre">new</span></code> 和 <code class="file docutils literal notranslate"><span class="pre">cur</span></code>。 消息会不时地在 <code class="file docutils literal notranslate"><span class="pre">tmp</span></code> 子目录中创建然后移至 <code class="file docutils literal notranslate"><span class="pre">new</span></code> 子目录来结束投递。 后续电子邮件客户端可能将消息移至 <code class="file docutils literal notranslate"><span class="pre">cur</span></code> 子目录并将有关消息状态的信息存储在附带到其文件名的特殊 &quot;info&quot; 小节中。</p>
+<p>Courier 电子邮件传输代理所引入的文件夹风格也是受支持的。 主邮箱中任何子目录只要其名称的第一个字符是 <code class="docutils literal notranslate"><span class="pre">'.'</span></code> 就会被视为文件夹。 文件夹名称会被 <a class="reference internal" href="#mailbox.Maildir" title="mailbox.Maildir"><code class="xref py py-class docutils literal notranslate"><span class="pre">Maildir</span></code></a> 表示为不带前缀 <code class="docutils literal notranslate"><span class="pre">'.'</span></code> 的形式。 每个文件夹自身都是一个 Maildir 邮箱但不应包含其他文件夹。 逻辑嵌套关系是使用 <code class="docutils literal notranslate"><span class="pre">'.'</span></code> 来划定层级，例如 &quot;Archived.2005.07&quot;。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>Maildir 规范要求使用在特定消息文件名中使用冒号 (<code class="docutils literal notranslate"><span class="pre">':'</span></code>)。 但是，某些操作系统不允许将此字符用于文件名，如果你希望在这些操作系统上使用类似 Maildir 的格式，你应当指定改用另一个字符。 叹号 (<code class="docutils literal notranslate"><span class="pre">'!'</span></code>) 是一个受欢迎的选择。 例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mailbox</span>
+<span class="n">mailbox</span><span class="o">.</span><span class="n">Maildir</span><span class="o">.</span><span class="n">colon</span> <span class="o">=</span> <span class="s1">&#39;!&#39;</span>
+</pre></div>
+</div>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">colon</span></code> 属性也可以在每个实例上分别设置。</p>
+</div>
+<p><a class="reference internal" href="#mailbox.Maildir" title="mailbox.Maildir"><code class="xref py py-class docutils literal notranslate"><span class="pre">Maildir</span></code></a> 实例具有 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 的所有方法及下列附加方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Maildir.list_folders">
+<span class="sig-name descname"><span class="pre">list_folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.list_folders" title="永久链接至目标">¶</a></dt>
+<dd><p>返回所有文件夹名称的列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Maildir.get_folder">
+<span class="sig-name descname"><span class="pre">get_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.get_folder" title="永久链接至目标">¶</a></dt>
+<dd><p>返回表示名称为 <em>folder</em> 的文件夹的 <a class="reference internal" href="#mailbox.Maildir" title="mailbox.Maildir"><code class="xref py py-class docutils literal notranslate"><span class="pre">Maildir</span></code></a> 实例。 如果文件夹不存在则会引发 <a class="reference internal" href="#mailbox.NoSuchMailboxError" title="mailbox.NoSuchMailboxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NoSuchMailboxError</span></code></a> 异常。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Maildir.add_folder">
+<span class="sig-name descname"><span class="pre">add_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.add_folder" title="永久链接至目标">¶</a></dt>
+<dd><p>创建名称为 <em>folder</em> 的文件夹并返回表示它的 <a class="reference internal" href="#mailbox.Maildir" title="mailbox.Maildir"><code class="xref py py-class docutils literal notranslate"><span class="pre">Maildir</span></code></a> 实例。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Maildir.remove_folder">
+<span class="sig-name descname"><span class="pre">remove_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.remove_folder" title="永久链接至目标">¶</a></dt>
+<dd><p>删除名称为 <em>folder</em> 的文件夹。 如果文件夹包含任何消息，则将引发 <a class="reference internal" href="#mailbox.NotEmptyError" title="mailbox.NotEmptyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotEmptyError</span></code></a> 异常且该文件夹将不会被删除。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Maildir.clean">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.clean" title="永久链接至目标">¶</a></dt>
+<dd><p>从邮箱中删除最近 36 小时内未被访问过的临时文件。 Maildir 规范要求邮件阅读程序应当时常进行此操作。</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#mailbox.Maildir" title="mailbox.Maildir"><code class="xref py py-class docutils literal notranslate"><span class="pre">Maildir</span></code></a> 所实现的某些 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 方法值得进行特别的说明:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Maildir.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.add" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Maildir.__setitem__">
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.__setitem__" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Maildir.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.update" title="永久链接至目标">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>这些方法会基于当前进程 ID 来生成唯一文件名。 当使用多线程时，可能发生未被检测到的名称冲突并导致邮箱损坏，除非是对线程进行协调以避免使用这些方法同时操作同一个邮箱。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Maildir.flush">
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.flush" title="永久链接至目标">¶</a></dt>
+<dd><p>对 Maildir 邮箱的所有更改都会立即被应用，所以此方法并不会做任何事情。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Maildir.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.lock" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Maildir.unlock">
+<span class="sig-name descname"><span class="pre">unlock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.unlock" title="永久链接至目标">¶</a></dt>
+<dd><p>Maildir 邮箱不支持（或要求）锁定操作，所以此方法并不会做任何事情。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Maildir.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.close" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#mailbox.Maildir" title="mailbox.Maildir"><code class="xref py py-class docutils literal notranslate"><span class="pre">Maildir</span></code></a> 实例不保留任何打开的文件并且下层的邮箱不支持锁定操作，所以此方法不会做任何事情。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Maildir.get_file">
+<span class="sig-name descname"><span class="pre">get_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Maildir.get_file" title="永久链接至目标">¶</a></dt>
+<dd><p>根据主机平台的不同，当返回的文件保持打开状态时可能无法修改或移除下层的消息。</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://www.courier-mta.org/maildir.html">maildir man page from Courier</a></dt><dd><p>该格式的规格说明。 描述了用于支持文件夹的通用扩展。</p>
+</dd>
+<dt><a class="reference external" href="https://cr.yp.to/proto/maildir.html">使用 maildir 格式</a></dt><dd><p>Maildir 发明者对它的说明。 包括已更新的名称创建方案和 &quot;info&quot; 语义的相关细节。</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="mbox">
+<span id="mailbox-mbox"></span><h3><a class="reference internal" href="#mailbox.mbox" title="mailbox.mbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">mbox</span></code></a><a class="headerlink" href="#mbox" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.mbox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">mbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mbox" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 的子类，用于 mbox 格式的邮箱。 形参 <em>factory</em> 是一个可调用对象，它接受一个文件类消息表示形式（其行为相当于以二进制模式打开）并返回一个自定义的表示形式。 如果 <em>factory</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会使用 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 作为默认的消息表示形式。 如果 <em>create</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则当邮箱不存在时会创建它。</p>
+<p>mbox 格式是在 Unix 系统上存储电子邮件的经典格式。 mbox 邮箱中的所有消息都存储在一个单独文件中，每条消息的开头由前五个字符为 &quot;From &quot; 的行来指明。</p>
+<p>还有一些 mbox 格式变种对原始格式中发现的缺点做了改进，<a class="reference internal" href="#mailbox.mbox" title="mailbox.mbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">mbox</span></code></a> 只实现原始格式，有时被称为 <em class="dfn">mboxo</em>。 这意味着当存储消息时 <em class="mailheader">Content-Length</em> 标头如果存在则会被忽略并且消息体中出现于行开头的任何 &quot;From &quot; 会被转换为 &quot;&gt;From &quot;，但是当读取消息时 &quot;&gt;From &quot; 则不会被转换为 &quot;From &quot;。</p>
+<p><a class="reference internal" href="#mailbox.mbox" title="mailbox.mbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">mbox</span></code></a> 所实现的某些 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 方法值得进行特别的说明:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.mbox.get_file">
+<span class="sig-name descname"><span class="pre">get_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mbox.get_file" title="永久链接至目标">¶</a></dt>
+<dd><p>在 <a class="reference internal" href="#mailbox.mbox" title="mailbox.mbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">mbox</span></code></a> 实例上调用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code> 或 <code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code> 之后再使用文件可能产生无法预料的结果或者引发异常。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.mbox.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mbox.lock" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.mbox.unlock">
+<span class="sig-name descname"><span class="pre">unlock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mbox.unlock" title="永久链接至目标">¶</a></dt>
+<dd><p>使用三种锁机制 --- dot 锁，以及可能情况下的 <code class="xref c c-func docutils literal notranslate"><span class="pre">flock()</span></code> 和 <code class="xref c c-func docutils literal notranslate"><span class="pre">lockf()</span></code> 系统调用。</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="http://www.tin.org/bin/man.cgi?section=5&amp;topic=mbox">tin 上的 mbox 指南页面</a></dt><dd><p>该格式的规格说明，包括有关锁的详情。</p>
+</dd>
+<dt><a class="reference external" href="https://www.jwz.org/doc/content-length.html">在 Unix 上配置 Netscape Mail: 为何 Content-Length 格式是不好的</a></dt><dd><p>使用原始 mbox 格式而非其变种的一些理由。</p>
+</dd>
+<dt><a class="reference external" href="https://www.loc.gov/preservation/digital/formats/fdd/fdd000383.shtml">&quot;mbox&quot; 是由多个彼此不兼容的邮箱格式构成的家族</a></dt><dd><p>有关 mbox 变种的历史。</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="mh">
+<span id="mailbox-mh"></span><h3><a class="reference internal" href="#mailbox.MH" title="mailbox.MH"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a><a class="headerlink" href="#mh" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.MH">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">MH</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 的子类，用于 MH 格式的邮箱。 形参 <em>factory</em> 是一个可调用对象，它接受一个文件类消息表示形式（其行为相当于以二进制模式打开）并返回一个自定义的表示形式。 如果 <em>factory</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会使用 <a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 作为默认的消息表示形式。 如果 <em>create</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则当邮箱不存在时会创建它。</p>
+<p>MH 是一种基于目录的邮箱格式，它是针对 MH Message Handling System 电子邮件用户代理而发明的。 在 MH 邮箱的每条消息都放在单独文件中。 MH 邮箱中除了邮件消息还可以包含其他 MH 邮箱 (称为 <em class="dfn">文件夹</em>)。 文件夹可以无限嵌套。 MH 邮箱还支持 <em class="dfn">序列</em>，这是一种命名列表，用来对消息进行逻辑分组而不必将其移入子文件夹。 序列是在每个文件夹中名为 <code class="file docutils literal notranslate"><span class="pre">.mh_sequences</span></code> 的文件内定义的。</p>
+<p><a class="reference internal" href="#mailbox.MH" title="mailbox.MH"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a> 类可以操作 MH 邮箱，但它并不试图模拟 <strong class="program">mh</strong> 的所有行为。 特别地，它并不会修改 <code class="file docutils literal notranslate"><span class="pre">context</span></code> 或 <code class="file docutils literal notranslate"><span class="pre">.mh_profile</span></code> 文件也不会受其影响，这两个文件是 <strong class="program">mh</strong> 用来存储状态和配置数据的。</p>
+<p><a class="reference internal" href="#mailbox.MH" title="mailbox.MH"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a> 实例具有 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 的所有方法及下列附加方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.list_folders">
+<span class="sig-name descname"><span class="pre">list_folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.list_folders" title="永久链接至目标">¶</a></dt>
+<dd><p>返回所有文件夹名称的列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.get_folder">
+<span class="sig-name descname"><span class="pre">get_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.get_folder" title="永久链接至目标">¶</a></dt>
+<dd><p>返回表示名称为 <em>folder</em> 的文件夹的 <a class="reference internal" href="#mailbox.MH" title="mailbox.MH"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a> 实例。 如果文件夹不存在则会引发 <a class="reference internal" href="#mailbox.NoSuchMailboxError" title="mailbox.NoSuchMailboxError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NoSuchMailboxError</span></code></a> 异常。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.add_folder">
+<span class="sig-name descname"><span class="pre">add_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.add_folder" title="永久链接至目标">¶</a></dt>
+<dd><p>创建名称为 <em>folder</em> 的文件夹并返回表示它的 <a class="reference internal" href="#mailbox.MH" title="mailbox.MH"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a> 实例。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.remove_folder">
+<span class="sig-name descname"><span class="pre">remove_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.remove_folder" title="永久链接至目标">¶</a></dt>
+<dd><p>删除名称为 <em>folder</em> 的文件夹。 如果文件夹包含任何消息，则将引发 <a class="reference internal" href="#mailbox.NotEmptyError" title="mailbox.NotEmptyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotEmptyError</span></code></a> 异常且该文件夹将不会被删除。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.get_sequences">
+<span class="sig-name descname"><span class="pre">get_sequences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.get_sequences" title="永久链接至目标">¶</a></dt>
+<dd><p>返回映射到键列表的序列名称字典。 如果不存在任何序列，则返回空字典。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.set_sequences">
+<span class="sig-name descname"><span class="pre">set_sequences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequences</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.set_sequences" title="永久链接至目标">¶</a></dt>
+<dd><p>根据由映射到键列表的名称组成的字典 <em>sequences</em> 来重新定义邮箱中的序列，该字典与 <a class="reference internal" href="#mailbox.MH.get_sequences" title="mailbox.MH.get_sequences"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_sequences()</span></code></a> 返回值的形式一样。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.pack">
+<span class="sig-name descname"><span class="pre">pack</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.pack" title="永久链接至目标">¶</a></dt>
+<dd><p>根据需要重命名邮箱中的消息以消除序号中的空缺。 序列列表中的条目会做相应的修改。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>已发送的键会因此操作而失效并且不应当被继续使用。</p>
+</div>
+</dd></dl>
+
+<p><a class="reference internal" href="#mailbox.MH" title="mailbox.MH"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a> 所实现的某些 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 方法值得进行特别的说明:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.remove" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.MH.__delitem__">
+<span class="sig-name descname"><span class="pre">__delitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.__delitem__" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.MH.discard">
+<span class="sig-name descname"><span class="pre">discard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.discard" title="永久链接至目标">¶</a></dt>
+<dd><p>这些方法会立即删除消息。 通过在名称前加缀一个冒号作为消息删除标记的 MH 惯例不会被使用。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.lock" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.MH.unlock">
+<span class="sig-name descname"><span class="pre">unlock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.unlock" title="永久链接至目标">¶</a></dt>
+<dd><p>使用三种锁机制 --- dot 锁，以及可能情况下下 <code class="xref c c-func docutils literal notranslate"><span class="pre">flock()</span></code> 和 <code class="xref c c-func docutils literal notranslate"><span class="pre">lockf()</span></code> 系统调用。 对于 MH 邮箱来说，锁定邮箱意味着锁定 <code class="file docutils literal notranslate"><span class="pre">.mh_sequences</span></code> 文件，并且仅在执行会影响单独消息文件的操作期间锁定单独消息文件。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.get_file">
+<span class="sig-name descname"><span class="pre">get_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.get_file" title="永久链接至目标">¶</a></dt>
+<dd><p>根据主机平台的不同，当返回的文件保持打开状态时可能无法移除下层的消息。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.flush">
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.flush" title="永久链接至目标">¶</a></dt>
+<dd><p>对 MH 邮箱的所有更改都会立即被应用，所以此方法并不会做任何事情。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MH.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MH.close" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#mailbox.MH" title="mailbox.MH"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a> 实例不保留任何打开的文件，所以此方法等价于 <a class="reference internal" href="#mailbox.MH.unlock" title="mailbox.MH.unlock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unlock()</span></code></a>。</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://www.nongnu.org/nmh/">nmh - Message Handling System</a></dt><dd><p><strong class="program">nmh</strong> 的主页，这是原始 <strong class="program">mh</strong> 的更新版本。</p>
+</dd>
+<dt><a class="reference external" href="https://rand-mh.sourceforge.io/book/">MH &amp; nmh: Email for Users &amp; Programmers</a></dt><dd><p>使用 GPL 许可证的介绍 <strong class="program">mh</strong> 与 <strong class="program">nmh</strong> 的图书，包含有关该邮箱格式的各种信息。</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="babyl">
+<span id="mailbox-babyl"></span><h3><a class="reference internal" href="#mailbox.Babyl" title="mailbox.Babyl"><code class="xref py py-class docutils literal notranslate"><span class="pre">Babyl</span></code></a><a class="headerlink" href="#babyl" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.Babyl">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">Babyl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Babyl" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 的子类，用于 Babyl 格式的邮箱。 形参 <em>factory</em> 是一个可调用对象，它接受一个文件类表示形式（其行为相当于以二进制模式打开）并返回一个自定义的表示形式。 如果 <em>factory</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会使用 <a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 作为默认的消息表示形式。 如果 <em>create</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则当邮箱不存在时会创建它。</p>
+<p>Babyl 是 Rmail 电子邮箱用户代理所使用单文件邮箱格式，包括在 Emacs 中。 每条消息的开头由一个包含 Control-Underscore (<code class="docutils literal notranslate"><span class="pre">'\037'</span></code>) 和 Control-L (<code class="docutils literal notranslate"><span class="pre">'\014'</span></code>) 这两个字符的行来指明。 消息的结束由下一条消息的开头来指明，或者当为最后一条消息时则由一个包含 Control-Underscore (<code class="docutils literal notranslate"><span class="pre">'\037'</span></code>) 字符的行来指明。</p>
+<p>Babyl 邮箱中的消息带有两组标头：原始标头和所谓的可见标头。 可见标头通常为原始标头经过重格式化和删减以更易读的子集。 Babyl 邮箱中的每条消息都附带了一个 <em class="dfn">标签</em> 列表，即记录消息相关额外信息的短字符串，邮箱中所有的用户定义标签列表会存储于 Babyl 的选项部分。</p>
+<p><a class="reference internal" href="#mailbox.Babyl" title="mailbox.Babyl"><code class="xref py py-class docutils literal notranslate"><span class="pre">Babyl</span></code></a> 实例具有 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 的所有方法及下列附加方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Babyl.get_labels">
+<span class="sig-name descname"><span class="pre">get_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Babyl.get_labels" title="永久链接至目标">¶</a></dt>
+<dd><p>返回邮箱中使用的所有用户定义标签名称的列表。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>邮箱中存在哪些标签会通过检查实际的消息而非查询 Babyl 选项部分的标签列表，但 Babyl 选项部分会在邮箱被修改时更新。</p>
+</div>
+</dd></dl>
+
+<p><a class="reference internal" href="#mailbox.Babyl" title="mailbox.Babyl"><code class="xref py py-class docutils literal notranslate"><span class="pre">Babyl</span></code></a> 所实现的某些 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 方法使得进行特别的说明:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Babyl.get_file">
+<span class="sig-name descname"><span class="pre">get_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Babyl.get_file" title="永久链接至目标">¶</a></dt>
+<dd><p>在 Babyl 邮箱中，消息的标头并不是与消息体存储在一起的。 要生成文件类表示形式，标头和消息体会被一起拷贝到一个 <a class="reference internal" href="io.html#io.BytesIO" title="io.BytesIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.BytesIO</span></code></a> 实例中，它具有与文件相似的 API。 因此，文件类对象实际上独立于下层邮箱，但与字符串表达形式相比并不会更节省内存。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.Babyl.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Babyl.lock" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.Babyl.unlock">
+<span class="sig-name descname"><span class="pre">unlock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Babyl.unlock" title="永久链接至目标">¶</a></dt>
+<dd><p>使用三种锁机制 --- dot 锁，以及可能情况下的 <code class="xref c c-func docutils literal notranslate"><span class="pre">flock()</span></code> 和 <code class="xref c c-func docutils literal notranslate"><span class="pre">lockf()</span></code> 系统调用。</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://quimby.gnus.org/notes/BABYL">Format of Version 5 Babyl Files</a></dt><dd><p>Babyl 格式的规格说明。</p>
+</dd>
+<dt><a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Rmail.html">Reading Mail with Rmail</a></dt><dd><p>Rmail 的帮助手册，包含了有关 Babyl 语义的一些信息。</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="mmdf">
+<span id="mailbox-mmdf"></span><h3><a class="reference internal" href="#mailbox.MMDF" title="mailbox.MMDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDF</span></code></a><a class="headerlink" href="#mmdf" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.MMDF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">MMDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDF" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 的子类，用于 MMDF 格式的邮箱。 形参 <em>factory</em> 是一个可调用对象，它接受一个文件类消息表示形式（其行为相当于以二进制模式打开）并返回一个自定义的表示形式。 如果 <em>factory</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会使用 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 作为默认的消息表示形式。 如果 <em>create</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则当邮箱不存在时会创建它。</p>
+<p>MMDF 是一种专用于电子邮件传输代理 Multichannel Memorandum Distribution Facility 的单文件邮箱格式。 每条消息使用与 mbox 消息相同的形式，但其前后各有包含四个 Control-A (<code class="docutils literal notranslate"><span class="pre">'\001'</span></code>) 字符的行。 与 mbox 格式一样，每条消息的开头由一个前五个字符为 &quot;From &quot; 的行来指明，但当存储消息时额外出现的 &quot;From &quot; 不会被转换为 &quot;&gt;From &quot;  因为附加的消息分隔符可防止将这些内容误认为是后续消息的开头。</p>
+<p><a class="reference internal" href="#mailbox.MMDF" title="mailbox.MMDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDF</span></code></a> 所实现的某些 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 方法值得进行特别的说明:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MMDF.get_file">
+<span class="sig-name descname"><span class="pre">get_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDF.get_file" title="永久链接至目标">¶</a></dt>
+<dd><p>在 <a class="reference internal" href="#mailbox.MMDF" title="mailbox.MMDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDF</span></code></a> 实例上调用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code> 或 <code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code> 之后再使用文件可能产生无法预料的结果或者引发异常。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MMDF.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDF.lock" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py" id="mailbox.MMDF.unlock">
+<span class="sig-name descname"><span class="pre">unlock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDF.unlock" title="永久链接至目标">¶</a></dt>
+<dd><p>使用三种锁机制 --- dot 锁，以及可能情况下的 <code class="xref c c-func docutils literal notranslate"><span class="pre">flock()</span></code> 和 <code class="xref c c-func docutils literal notranslate"><span class="pre">lockf()</span></code> 系统调用。</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="http://www.tin.org/bin/man.cgi?section=5&amp;topic=mmdf">tin 上的 mmdf 指南页面</a></dt><dd><p>MMDF 格式的规格说明，来自新闻阅读器 tin 的文档。</p>
+</dd>
+<dt><a class="reference external" href="https://en.wikipedia.org/wiki/MMDF">MMDF</a></dt><dd><p>一篇描述 Multichannel Memorandum Distribution Facility 的维基百科文章。</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+<section id="message-objects">
+<span id="mailbox-message-objects"></span><h2><a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 对象<a class="headerlink" href="#message-objects" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.Message">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.Message" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="email.message.html#module-email.message" title="email.message: The base class representing email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.message</span></code></a> 模块的 <a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 的子类。 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">mailbox.Message</span></code></a> 的子类添加了特定邮箱格式专属的状态和行为。</p>
+<p>如果省略了 <em>message</em>，则新实例会以默认的空状态被创建。 如果 <em>message</em> 是一个 <a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">email.message.Message</span></code></a> 实例，其内容会被拷贝；此外，如果 <em>message</em> 是一个 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 实例，则任何格式专属信息会尽可能地被拷贝。 如果 <em>message</em> 是一个字符串、字节串或文件，则它应当包含兼容 <span class="target" id="index-2"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2822.html"><strong>RFC 2822</strong></a> 的消息，该消息会被读取和解析。 文档应当以二进制模式打开，但文本模式的文件也会被接受以向下兼容。</p>
+<p>各个子类所提供的格式专属状态和行为各有不同，但总的来说只有那些不仅限于特定邮箱的特性才会被支持（虽然这些特性可能专属于特定邮箱格式）。 例如，例如，单文件邮箱格式的文件偏移量和基于目录的邮箱格式的文件名都不会被保留，因为它们都仅适用于对应的原始邮箱。 但消息是否已被用户读取或标记为重要等状态则会被保留，因为它们适用于消息本身。</p>
+<p>不要求用 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 实例来表示使用 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例所提取到的消息。 在某些情况下，生成 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 表示形式所需的时间和内存空间可能是不可接受的。 对于此类情况，<a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例还提供了字符串和文件类表示形式，并可在初始化 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 实例时指定自定义的消息工厂函数。</p>
+</dd></dl>
+
+<section id="maildirmessage">
+<span id="mailbox-maildirmessage"></span><h3><a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a><a class="headerlink" href="#maildirmessage" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">MaildirMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage" title="永久链接至目标">¶</a></dt>
+<dd><p>具有 Maildir 专属行为的消息。 形参 <em>message</em> 的含义与 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 构造器一致。</p>
+<p>通常，邮件用户代理应用程序会在用户第一次打开并关闭邮箱之后将 <code class="file docutils literal notranslate"><span class="pre">new</span></code> 子目录中的所有消息移至 <code class="file docutils literal notranslate"><span class="pre">cur</span></code> 子目录，将这些消息记录为旧消息，无论它们是否真的已被阅读。 <code class="file docutils literal notranslate"><span class="pre">cur</span></code> 下的每条消息都有一个 &quot;info&quot; 部分被添加到其文件名中以存储有关其状态的信息。 （某些邮件阅读器还会把 &quot;info&quot; 部分也添加到 <code class="file docutils literal notranslate"><span class="pre">new</span></code> 下的消息中。） &quot;info&quot; 部分可以采用两种形式之一：它可能包含 &quot;2,&quot; 后面跟一个经标准化的旗标列表（例如 &quot;2,FR&quot;）或者它可能包含 &quot;1,&quot; 后面跟所谓的实验性信息。 Maildir 消息的标准旗标如下:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 19%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>旗标</p></th>
+<th class="head"><p>含意</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>D</p></td>
+<td><p>草稿</p></td>
+<td><p>正在撰写中</p></td>
+</tr>
+<tr class="row-odd"><td><p>F</p></td>
+<td><p>已标记</p></td>
+<td><p>已被标记为重要</p></td>
+</tr>
+<tr class="row-even"><td><p>P</p></td>
+<td><p>已检视</p></td>
+<td><p>转发，重新发送或退回</p></td>
+</tr>
+<tr class="row-odd"><td><p>R</p></td>
+<td><p>已回复</p></td>
+<td><p>回复给</p></td>
+</tr>
+<tr class="row-even"><td><p>S</p></td>
+<td><p>已查看</p></td>
+<td><p>已阅读</p></td>
+</tr>
+<tr class="row-odd"><td><p>T</p></td>
+<td><p>已删除</p></td>
+<td><p>标记为可被删除</p></td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 实例提供以下方法：</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage.get_subdir">
+<span class="sig-name descname"><span class="pre">get_subdir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage.get_subdir" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 &quot;new&quot; (如果消息应当被存储在 <code class="file docutils literal notranslate"><span class="pre">new</span></code> 子目录下) 或者 &quot;cur&quot; (如果消息应当被存储在 <code class="file docutils literal notranslate"><span class="pre">cur</span></code> 子目录下)。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>消息通常会在其邮箱被访问后被从 <code class="file docutils literal notranslate"><span class="pre">new</span></code> 移至 <code class="file docutils literal notranslate"><span class="pre">cur</span></code>，无论该消息是否已被阅读。  如果 msg.get_flags()`` 中的 <code class="docutils literal notranslate"><span class="pre">&quot;S&quot;</span> <span class="pre">为</span> <span class="pre">``True</span></code> 则说明消息 <code class="docutils literal notranslate"><span class="pre">msg</span></code> 已被阅读。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage.set_subdir">
+<span class="sig-name descname"><span class="pre">set_subdir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subdir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage.set_subdir" title="永久链接至目标">¶</a></dt>
+<dd><p>设置消息应当被存储到的子目录。 形参 <em>subdir</em> 必须为 &quot;new&quot; 或 &quot;cur&quot;。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage.get_flags">
+<span class="sig-name descname"><span class="pre">get_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage.get_flags" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个指明当前所设旗标的字符串。 如果消息符合标准的 Maildir 格式，则结果为零或按字母顺序各自出现一次的 <code class="docutils literal notranslate"><span class="pre">'D'</span></code>, <code class="docutils literal notranslate"><span class="pre">'F'</span></code>, <code class="docutils literal notranslate"><span class="pre">'P'</span></code>, <code class="docutils literal notranslate"><span class="pre">'R'</span></code>, <code class="docutils literal notranslate"><span class="pre">'S'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'T'</span></code> 的拼接。 如果未设任何旗标或者如果 &quot;info&quot; 包含实验性语义则返回空字符串。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage.set_flags">
+<span class="sig-name descname"><span class="pre">set_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage.set_flags" title="永久链接至目标">¶</a></dt>
+<dd><p>设置由 <em>flags</em> 所指定的旗标并重置所有其它旗标。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage.add_flag">
+<span class="sig-name descname"><span class="pre">add_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage.add_flag" title="永久链接至目标">¶</a></dt>
+<dd><p>设置由 <em>flag</em> 所指明的旗标而不改变其他旗标。 要一次性添加一个以上的旗标，<em>flag</em> 可以为包含一个以上字符的字符串。 当前 &quot;info&quot; 会被覆盖，无论它是否只包含实验性信息而非旗标。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage.remove_flag">
+<span class="sig-name descname"><span class="pre">remove_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage.remove_flag" title="永久链接至目标">¶</a></dt>
+<dd><p>重置由 <em>flag</em> 所指明的旗标而不改变其他旗标。 要一次性移除一个以上的旗标，<em>flag</em> 可以为包含一个以上字符的字符串。 如果 &quot;info&quot; 包含实验性信息而非旗标，则当前的 &quot;info&quot; 不会被修改。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage.get_date">
+<span class="sig-name descname"><span class="pre">get_date</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage.get_date" title="永久链接至目标">¶</a></dt>
+<dd><p>以表示 Unix 纪元秒数的浮点数形式返回消息的发送日期。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage.set_date">
+<span class="sig-name descname"><span class="pre">set_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage.set_date" title="永久链接至目标">¶</a></dt>
+<dd><p>将消息的发送日期设为 <em>date</em>，一个表示 Unix 纪元秒数的浮点数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage.get_info">
+<span class="sig-name descname"><span class="pre">get_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage.get_info" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个包含消息的 &quot;info&quot; 的字符串。 这适用于访问和修改实验性的 &quot;info&quot; (即不是由旗标组成的列表)。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MaildirMessage.set_info">
+<span class="sig-name descname"><span class="pre">set_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MaildirMessage.set_info" title="永久链接至目标">¶</a></dt>
+<dd><p>将 &quot;info&quot; 设为 <em>info</em>，这应当是一个字符串。</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>当一个 <a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 或 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 实例被创建时，将会忽略 <em class="mailheader">Status</em> 和 <em class="mailheader">X-Status</em> 标头并进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 或 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&quot;cur&quot; 子目录</p></td>
+<td><p>O 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>F 旗标</p></td>
+<td><p>F 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>R 旗标</p></td>
+<td><p>A 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>S 旗标</p></td>
+<td><p>R 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>T 旗标</p></td>
+<td><p>D 旗标</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 实例被创建时，将进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 54%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&quot;cur&quot; 子目录</p></td>
+<td><p>&quot;unseen&quot; 序列</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;cur&quot; 子目录和 S 旗标</p></td>
+<td><p>非 &quot;unseen&quot; 序列</p></td>
+</tr>
+<tr class="row-even"><td><p>F 旗标</p></td>
+<td><p>&quot;flagged&quot; 序列</p></td>
+</tr>
+<tr class="row-odd"><td><p>R 旗标</p></td>
+<td><p>&quot;replied&quot; 序列</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 实例被创建时，将进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&quot;cur&quot; 子目录</p></td>
+<td><p>&quot;unseen&quot; 标签</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;cur&quot; 子目录和 S 旗标</p></td>
+<td><p>非 &quot;unseen&quot; 标签</p></td>
+</tr>
+<tr class="row-even"><td><p>P 旗标</p></td>
+<td><p>&quot;forwarded&quot; 或 &quot;resent&quot; 标签</p></td>
+</tr>
+<tr class="row-odd"><td><p>R 旗标</p></td>
+<td><p>&quot;answered&quot; 标签</p></td>
+</tr>
+<tr class="row-even"><td><p>T 旗标</p></td>
+<td><p>&quot;deleted&quot; 标签</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mboxmessage">
+<span id="mailbox-mboxmessage"></span><h3><a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a><a class="headerlink" href="#mboxmessage" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.mboxMessage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">mboxMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mboxMessage" title="永久链接至目标">¶</a></dt>
+<dd><p>具有 mbox 专属行为的消息。 形参 <em>message</em> 的含义与 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 构造器一致。</p>
+<p>mbox 邮箱中的消息会一起存储在单个文件中。  发件人的信封地址和发送时间通常存储在指明每条消息的起始的以 &quot;From &quot; 打头的行中，不过在 mbox 的各种实现之间此数据的确切格式具有相当大的差异。 指明消息状态的各种旗标，例如是否已读或标记为重要等等通常存储在 <em class="mailheader">Status</em> 和 <em class="mailheader">X-Status</em> 标头中。</p>
+<p>传统的 mbox 消息旗标如下:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 21%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>旗标</p></th>
+<th class="head"><p>含意</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R</p></td>
+<td><p>已阅读</p></td>
+<td><p>已阅读</p></td>
+</tr>
+<tr class="row-odd"><td><p>O</p></td>
+<td><p>旧消息</p></td>
+<td><p>之前已经过 MUA 检测</p></td>
+</tr>
+<tr class="row-even"><td><p>D</p></td>
+<td><p>已删除</p></td>
+<td><p>标记为可被删除</p></td>
+</tr>
+<tr class="row-odd"><td><p>F</p></td>
+<td><p>已标记</p></td>
+<td><p>已被标记为重要</p></td>
+</tr>
+<tr class="row-even"><td><p>A</p></td>
+<td><p>已回复</p></td>
+<td><p>回复给</p></td>
+</tr>
+</tbody>
+</table>
+<p>&quot;R&quot; 和 &quot;O&quot; 旗标存储在 <em class="mailheader">Status</em> 标头中，而 &quot;D&quot;, &quot;F&quot; 和 &quot;A&quot; 旗标存储在 <em class="mailheader">X-Status</em> 标头中。 旗标和标头通常会按上述顺序显示。</p>
+<p><a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 实例提供了下列方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.mboxMessage.get_from">
+<span class="sig-name descname"><span class="pre">get_from</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mboxMessage.get_from" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个表示在 mbox 邮箱中标记消息起始的 &quot;From &quot; 行的字符串。 开头的 &quot;From &quot; 和末尾的换行符会被去除。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.mboxMessage.set_from">
+<span class="sig-name descname"><span class="pre">set_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mboxMessage.set_from" title="永久链接至目标">¶</a></dt>
+<dd><p>将 &quot;From &quot; 行设为 <em>from_</em>，这应当被指定为不带开头的 &quot;From &quot; 或末尾的换行符。 为方便起见，可以指定 <em>time_</em> 并将经过适当的格式化再添加到 <em>from_</em>。 如果指定了 <em>time_</em>，它应当是一个 <a class="reference internal" href="time.html#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">time.struct_time</span></code></a> 实例，适合传入 <a class="reference internal" href="time.html#time.strftime" title="time.strftime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">time.strftime()</span></code></a> 的元组或者 <code class="docutils literal notranslate"><span class="pre">True</span></code> (以使用 <a class="reference internal" href="time.html#time.gmtime" title="time.gmtime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">time.gmtime()</span></code></a>)。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.mboxMessage.get_flags">
+<span class="sig-name descname"><span class="pre">get_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mboxMessage.get_flags" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个指明当前所设旗标的字符串。 如果消息符合规范格式，则结果为零或各自出现一次的 <code class="docutils literal notranslate"><span class="pre">'R'</span></code>, <code class="docutils literal notranslate"><span class="pre">'O'</span></code>, <code class="docutils literal notranslate"><span class="pre">'D'</span></code>, <code class="docutils literal notranslate"><span class="pre">'F'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'A'</span></code> 按上述顺序的拼接。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.mboxMessage.set_flags">
+<span class="sig-name descname"><span class="pre">set_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mboxMessage.set_flags" title="永久链接至目标">¶</a></dt>
+<dd><p>设置由 <em>flags</em> 所指明的旗标并重启所有其他旗标。 形参 <em>flags</em> 应当为零或各自出现多次的 <code class="docutils literal notranslate"><span class="pre">'R'</span></code>, <code class="docutils literal notranslate"><span class="pre">'O'</span></code>, <code class="docutils literal notranslate"><span class="pre">'D'</span></code>, <code class="docutils literal notranslate"><span class="pre">'F'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'A'</span></code> 按任意顺序的拼接。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.mboxMessage.add_flag">
+<span class="sig-name descname"><span class="pre">add_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mboxMessage.add_flag" title="永久链接至目标">¶</a></dt>
+<dd><p>设置由 <em>flag</em> 所指明的旗标而不改变其他旗标。 要一次性添加一个以上的旗标，<em>flag</em> 可以为包含一个以上字符的字符串。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.mboxMessage.remove_flag">
+<span class="sig-name descname"><span class="pre">remove_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.mboxMessage.remove_flag" title="永久链接至目标">¶</a></dt>
+<dd><p>重置由 <em>flag</em> 所指明的旗标而不改变其他旗标。 要一次性移除一个以上的旗标，<em>flag</em> 可以为包含一个以上字符的字符串。</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>当一个 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 实例被创建时，&quot;From &quot; 行会基于 <a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 实例的发送时间被生成，并进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 65%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R 旗标</p></td>
+<td><p>S 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>O 旗标</p></td>
+<td><p>&quot;cur&quot; 子目录</p></td>
+</tr>
+<tr class="row-even"><td><p>D 旗标</p></td>
+<td><p>T 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>F 旗标</p></td>
+<td><p>F 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>A 旗标</p></td>
+<td><p>R 旗标</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 实例被创建时，将进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 58%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R 旗标 和 O 旗标</p></td>
+<td><p>非 &quot;unseen&quot; 序列</p></td>
+</tr>
+<tr class="row-odd"><td><p>O 旗标</p></td>
+<td><p>&quot;unseen&quot; 序列</p></td>
+</tr>
+<tr class="row-even"><td><p>F 旗标</p></td>
+<td><p>&quot;flagged&quot; 序列</p></td>
+</tr>
+<tr class="row-odd"><td><p>A 旗标</p></td>
+<td><p>&quot;replied&quot; 序列</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 实例被创建时，将进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R 旗标 和 O 旗标</p></td>
+<td><p>非 &quot;unseen&quot; 标签</p></td>
+</tr>
+<tr class="row-odd"><td><p>O 旗标</p></td>
+<td><p>&quot;unseen&quot; 标签</p></td>
+</tr>
+<tr class="row-even"><td><p>D 旗标</p></td>
+<td><p>&quot;deleted&quot; 标签</p></td>
+</tr>
+<tr class="row-odd"><td><p>A 旗标</p></td>
+<td><p>&quot;answered&quot; 标签</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 实例被创建时，&quot;From &quot; 行会被拷贝并直接对应所有旗标。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R 旗标</p></td>
+<td><p>R 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>O 旗标</p></td>
+<td><p>O 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>D 旗标</p></td>
+<td><p>D 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>F 旗标</p></td>
+<td><p>F 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>A 旗标</p></td>
+<td><p>A 旗标</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mhmessage">
+<span id="mailbox-mhmessage"></span><h3><a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a><a class="headerlink" href="#mhmessage" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.MHMessage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">MHMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MHMessage" title="永久链接至目标">¶</a></dt>
+<dd><p>具有 MH 专属行为的消息。 形参 <em>message</em> 的含义与 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 构造器一致。</p>
+<p>MH 消息不支持传统意义上的标记或旗标，但它们支持序列，即对任意消息的逻辑分组。 某些邮件阅读程序 (但不包括标准 <strong class="program">mh</strong> 和 <strong class="program">nmh</strong>) 以与其他格式使用旗标类似的方式来使用序列，如下所示:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 81%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>序列</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>unseen</p></td>
+<td><p>未阅读，但之前已经过 MUA 检测</p></td>
+</tr>
+<tr class="row-odd"><td><p>已回复</p></td>
+<td><p>回复给</p></td>
+</tr>
+<tr class="row-even"><td><p>已标记</p></td>
+<td><p>已被标记为重要</p></td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 实例提供了下列方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MHMessage.get_sequences">
+<span class="sig-name descname"><span class="pre">get_sequences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MHMessage.get_sequences" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个包含此消息的序列的名称的列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MHMessage.set_sequences">
+<span class="sig-name descname"><span class="pre">set_sequences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequences</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MHMessage.set_sequences" title="永久链接至目标">¶</a></dt>
+<dd><p>设置包含此消息的序列的列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MHMessage.add_sequence">
+<span class="sig-name descname"><span class="pre">add_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MHMessage.add_sequence" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>sequence</em> 添加到包含此消息的序列的列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MHMessage.remove_sequence">
+<span class="sig-name descname"><span class="pre">remove_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MHMessage.remove_sequence" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>sequence</em> 从包含此消息的序列的列表中移除。</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>当一个 <a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 实例被创建时，将进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&quot;unseen&quot; 序列</p></td>
+<td><p>非 S 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;replied&quot; 序列</p></td>
+<td><p>R 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>&quot;flagged&quot; 序列</p></td>
+<td><p>F 旗标</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 或 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 实例被创建时，将会忽略 <em class="mailheader">Status</em> 和 <em class="mailheader">X-Status</em> 标头并进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 或 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&quot;unseen&quot; 序列</p></td>
+<td><p>非 R 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;replied&quot; 序列</p></td>
+<td><p>A 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>&quot;flagged&quot; 序列</p></td>
+<td><p>F 旗标</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 实例被创建时，将进入下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&quot;unseen&quot; 序列</p></td>
+<td><p>&quot;unseen&quot; 标签</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;replied&quot; 序列</p></td>
+<td><p>&quot;answered&quot; 标签</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="babylmessage">
+<span id="mailbox-babylmessage"></span><h3><a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a><a class="headerlink" href="#babylmessage" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.BabylMessage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">BabylMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.BabylMessage" title="永久链接至目标">¶</a></dt>
+<dd><p>具有 Babyl 专属行为的消息。 形参 <em>message</em> 的含义与 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 构造器一致。</p>
+<p>某些消息标签被称为 <em class="dfn">属性</em>，根据惯例被定义为具有特殊的含义。 这些属性如下所示:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 79%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>标签</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>unseen</p></td>
+<td><p>未阅读，但之前已经过 MUA 检测</p></td>
+</tr>
+<tr class="row-odd"><td><p>deleted</p></td>
+<td><p>标记为可被删除</p></td>
+</tr>
+<tr class="row-even"><td><p>filed</p></td>
+<td><p>复制到另一个文件或邮箱</p></td>
+</tr>
+<tr class="row-odd"><td><p>answered</p></td>
+<td><p>回复给</p></td>
+</tr>
+<tr class="row-even"><td><p>forwarded</p></td>
+<td><p>已转发</p></td>
+</tr>
+<tr class="row-odd"><td><p>edited</p></td>
+<td><p>已被用户修改</p></td>
+</tr>
+<tr class="row-even"><td><p>resent</p></td>
+<td><p>已重发</p></td>
+</tr>
+</tbody>
+</table>
+<p>默认情况下，Rmail 只显示可见标头。 不过 <a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 类会使用原始标头因为它们更完整。 如果需要可以显式地访问可见标头。</p>
+<p><a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 实例提供了下列方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.BabylMessage.get_labels">
+<span class="sig-name descname"><span class="pre">get_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.BabylMessage.get_labels" title="永久链接至目标">¶</a></dt>
+<dd><p>返回邮件上的标签列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.BabylMessage.set_labels">
+<span class="sig-name descname"><span class="pre">set_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.BabylMessage.set_labels" title="永久链接至目标">¶</a></dt>
+<dd><p>将消息上的标签列表设置为 <em>labels</em> 。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.BabylMessage.add_label">
+<span class="sig-name descname"><span class="pre">add_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.BabylMessage.add_label" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>label</em> 添加到消息上的标签列表中。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.BabylMessage.remove_label">
+<span class="sig-name descname"><span class="pre">remove_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.BabylMessage.remove_label" title="永久链接至目标">¶</a></dt>
+<dd><p>从消息上的标签列表中删除 <em>label</em> 。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.BabylMessage.get_visible">
+<span class="sig-name descname"><span class="pre">get_visible</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.BabylMessage.get_visible" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 实例，其标头为消息的可见标头而其消息体为空。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.BabylMessage.set_visible">
+<span class="sig-name descname"><span class="pre">set_visible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.BabylMessage.set_visible" title="永久链接至目标">¶</a></dt>
+<dd><p>将消息的可见标头设为与 <em>message</em> 中的标头一致。 形参 <em>visible</em> 应当是一个 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 实例，<a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">email.message.Message</span></code></a> 实例，字符串或文件类对象（且应当以文本模式打开）。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.BabylMessage.update_visible">
+<span class="sig-name descname"><span class="pre">update_visible</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.BabylMessage.update_visible" title="永久链接至目标">¶</a></dt>
+<dd><p>当一个 <a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 实例的原始标头被修改时，可见标头不会自动进行对应修改。 此方法将按以下方式更新可见标头：每个具有对应原始标头的可见标头会被设为原始标头的值，每个没有对应原始标头的可见标头会被移除，而任何存在于原始标头但不存在于可见标头中的 <em class="mailheader">Date</em>, <em class="mailheader">From</em>, <em class="mailheader">Reply-To</em>, <em class="mailheader">To</em>, <em class="mailheader">CC</em> 和 <em class="mailheader">Subject</em> 会被添加至可见标头。</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>当一个 <a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 实例被创建时，将进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&quot;unseen&quot; 标签</p></td>
+<td><p>非 S 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;deleted&quot; 标签</p></td>
+<td><p>T 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>&quot;answered&quot; 标签</p></td>
+<td><p>R 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;forwarded&quot; 标签</p></td>
+<td><p>P 旗标</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 或 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 实例被创建时，将会忽略 <em class="mailheader">Status</em> 和 <em class="mailheader">X-Status</em> 标头并进入下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 或 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&quot;unseen&quot; 标签</p></td>
+<td><p>非 R 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;deleted&quot; 标签</p></td>
+<td><p>D 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>&quot;answered&quot; 标签</p></td>
+<td><p>A 旗标</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 实例被创建时，将进入下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&quot;unseen&quot; 标签</p></td>
+<td><p>&quot;unseen&quot; 序列</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;answered&quot; 标签</p></td>
+<td><p>&quot;replied&quot; 序列</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mmdfmessage">
+<span id="mailbox-mmdfmessage"></span><h3><a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a><a class="headerlink" href="#mmdfmessage" title="永久链接至标题">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mailbox.MMDFMessage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">MMDFMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDFMessage" title="永久链接至目标">¶</a></dt>
+<dd><p>具有 MMDF 专属行为的消息。 形参 <em>message</em> 的含义与 <a class="reference internal" href="#mailbox.Message" title="mailbox.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 构造器一致。</p>
+<p>与 mbox 邮箱中的消息类似，MMDF 消息会与将发件人的地址和发送日期作为以 &quot;From &quot; 打头的初始行一起存储。 同样地，指明消息状态的旗标通常存储在 <em class="mailheader">Status</em> 和 <em class="mailheader">X-Status</em> 标头中。</p>
+<p>传统的 MMDF 消息旗标与 mbox 消息的类似，如下所示:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 21%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>旗标</p></th>
+<th class="head"><p>含意</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R</p></td>
+<td><p>已阅读</p></td>
+<td><p>已阅读</p></td>
+</tr>
+<tr class="row-odd"><td><p>O</p></td>
+<td><p>旧消息</p></td>
+<td><p>之前已经过 MUA 检测</p></td>
+</tr>
+<tr class="row-even"><td><p>D</p></td>
+<td><p>已删除</p></td>
+<td><p>标记为可被删除</p></td>
+</tr>
+<tr class="row-odd"><td><p>F</p></td>
+<td><p>已标记</p></td>
+<td><p>已被标记为重要</p></td>
+</tr>
+<tr class="row-even"><td><p>A</p></td>
+<td><p>已回复</p></td>
+<td><p>回复给</p></td>
+</tr>
+</tbody>
+</table>
+<p>&quot;R&quot; 和 &quot;O&quot; 旗标存储在 <em class="mailheader">Status</em> 标头中，而 &quot;D&quot;, &quot;F&quot; 和 &quot;A&quot; 旗标存储在 <em class="mailheader">X-Status</em> 标头中。 旗标和标头通常会按上述顺序显示。</p>
+<p><a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 实例提供了下列方法，与 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 所提供的类似:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MMDFMessage.get_from">
+<span class="sig-name descname"><span class="pre">get_from</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDFMessage.get_from" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个表示在 mbox 邮箱中标记消息起始的 &quot;From &quot; 行的字符串。 开头的 &quot;From &quot; 和末尾的换行符会被去除。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MMDFMessage.set_from">
+<span class="sig-name descname"><span class="pre">set_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDFMessage.set_from" title="永久链接至目标">¶</a></dt>
+<dd><p>将 &quot;From &quot; 行设为 <em>from_</em>，这应当被指定为不带开头的 &quot;From &quot; 或末尾的换行符。 为方便起见，可以指定 <em>time_</em> 并将经过适当的格式化再添加到 <em>from_</em>。 如果指定了 <em>time_</em>，它应当是一个 <a class="reference internal" href="time.html#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">time.struct_time</span></code></a> 实例，适合传入 <a class="reference internal" href="time.html#time.strftime" title="time.strftime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">time.strftime()</span></code></a> 的元组或者 <code class="docutils literal notranslate"><span class="pre">True</span></code> (以使用 <a class="reference internal" href="time.html#time.gmtime" title="time.gmtime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">time.gmtime()</span></code></a>)。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MMDFMessage.get_flags">
+<span class="sig-name descname"><span class="pre">get_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDFMessage.get_flags" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个指明当前所设旗标的字符串。 如果消息符合规范格式，则结果为零或各自出现一次的 <code class="docutils literal notranslate"><span class="pre">'R'</span></code>, <code class="docutils literal notranslate"><span class="pre">'O'</span></code>, <code class="docutils literal notranslate"><span class="pre">'D'</span></code>, <code class="docutils literal notranslate"><span class="pre">'F'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'A'</span></code> 按上述顺序的拼接。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MMDFMessage.set_flags">
+<span class="sig-name descname"><span class="pre">set_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDFMessage.set_flags" title="永久链接至目标">¶</a></dt>
+<dd><p>设置由 <em>flags</em> 所指明的旗标并重启所有其他旗标。 形参 <em>flags</em> 应当为零或各自出现多次的 <code class="docutils literal notranslate"><span class="pre">'R'</span></code>, <code class="docutils literal notranslate"><span class="pre">'O'</span></code>, <code class="docutils literal notranslate"><span class="pre">'D'</span></code>, <code class="docutils literal notranslate"><span class="pre">'F'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'A'</span></code> 按任意顺序的拼接。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MMDFMessage.add_flag">
+<span class="sig-name descname"><span class="pre">add_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDFMessage.add_flag" title="永久链接至目标">¶</a></dt>
+<dd><p>设置由 <em>flag</em> 所指明的旗标而不改变其他旗标。 要一次性添加一个以上的旗标，<em>flag</em> 可以为包含一个以上字符的字符串。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mailbox.MMDFMessage.remove_flag">
+<span class="sig-name descname"><span class="pre">remove_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mailbox.MMDFMessage.remove_flag" title="永久链接至目标">¶</a></dt>
+<dd><p>重置由 <em>flag</em> 所指明的旗标而不改变其他旗标。 要一次性移除一个以上的旗标，<em>flag</em> 可以为包含一个以上字符的字符串。</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>当一个 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 实例被创建时，&quot;From &quot; 行会基于 <a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 实例的发送日期被生成，并进入下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 65%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.MaildirMessage" title="mailbox.MaildirMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R 旗标</p></td>
+<td><p>S 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>O 旗标</p></td>
+<td><p>&quot;cur&quot; 子目录</p></td>
+</tr>
+<tr class="row-even"><td><p>D 旗标</p></td>
+<td><p>T 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>F 旗标</p></td>
+<td><p>F 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>A 旗标</p></td>
+<td><p>R 旗标</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 实例被创建时，将进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 58%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.MHMessage" title="mailbox.MHMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R 旗标 和 O 旗标</p></td>
+<td><p>非 &quot;unseen&quot; 序列</p></td>
+</tr>
+<tr class="row-odd"><td><p>O 旗标</p></td>
+<td><p>&quot;unseen&quot; 序列</p></td>
+</tr>
+<tr class="row-even"><td><p>F 旗标</p></td>
+<td><p>&quot;flagged&quot; 序列</p></td>
+</tr>
+<tr class="row-odd"><td><p>A 旗标</p></td>
+<td><p>&quot;replied&quot; 序列</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 实例被创建时，将进行下列转换:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.BabylMessage" title="mailbox.BabylMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R 旗标 和 O 旗标</p></td>
+<td><p>非 &quot;unseen&quot; 标签</p></td>
+</tr>
+<tr class="row-odd"><td><p>O 旗标</p></td>
+<td><p>&quot;unseen&quot; 标签</p></td>
+</tr>
+<tr class="row-even"><td><p>D 旗标</p></td>
+<td><p>&quot;deleted&quot; 标签</p></td>
+</tr>
+<tr class="row-odd"><td><p>A 旗标</p></td>
+<td><p>&quot;answered&quot; 标签</p></td>
+</tr>
+</tbody>
+</table>
+<p>当一个 <a class="reference internal" href="#mailbox.MMDFMessage" title="mailbox.MMDFMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a> 实例基于 <a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 实例被创建时，&quot;From &quot; 行会被拷贝并直接对应所有旗标:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>结果状态</p></th>
+<th class="head"><p><a class="reference internal" href="#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 状态</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R 旗标</p></td>
+<td><p>R 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>O 旗标</p></td>
+<td><p>O 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>D 旗标</p></td>
+<td><p>D 旗标</p></td>
+</tr>
+<tr class="row-odd"><td><p>F 旗标</p></td>
+<td><p>F 旗标</p></td>
+</tr>
+<tr class="row-even"><td><p>A 旗标</p></td>
+<td><p>A 旗标</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="exceptions">
+<h2>异常<a class="headerlink" href="#exceptions" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#module-mailbox" title="mailbox: Manipulate mailboxes in various formats"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code></a> 模块中定义了下列异常类:</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="mailbox.Error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">Error</span></span><a class="headerlink" href="#mailbox.Error" title="永久链接至目标">¶</a></dt>
+<dd><p>所有其他模块专属异常的基类。</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="mailbox.NoSuchMailboxError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">NoSuchMailboxError</span></span><a class="headerlink" href="#mailbox.NoSuchMailboxError" title="永久链接至目标">¶</a></dt>
+<dd><p>在期望获得一个邮箱但未找到时被引发，例如当使用不存在的路径来实例化一个 <a class="reference internal" href="#mailbox.Mailbox" title="mailbox.Mailbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code></a> 子类时 (且将 <em>create</em> 形参设为 <code class="docutils literal notranslate"><span class="pre">False</span></code>)，或是当打开一个不存在的路径时。</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="mailbox.NotEmptyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">NotEmptyError</span></span><a class="headerlink" href="#mailbox.NotEmptyError" title="永久链接至目标">¶</a></dt>
+<dd><p>在期望一个邮箱为空但不为空时被引发，例如当删除一个包含消息的文件夹时。</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="mailbox.ExternalClashError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">ExternalClashError</span></span><a class="headerlink" href="#mailbox.ExternalClashError" title="永久链接至目标">¶</a></dt>
+<dd><p>Raised when some mailbox-related condition beyond the control of the program
+causes it to be unable to proceed, such as when failing to acquire a lock that
+another program already holds a lock, or when a uniquely generated file name
+already exists.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="mailbox.FormatError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mailbox.</span></span><span class="sig-name descname"><span class="pre">FormatError</span></span><a class="headerlink" href="#mailbox.FormatError" title="永久链接至目标">¶</a></dt>
+<dd><p>在某个文件中的数据无法被解析时被引发，例如当一个 <a class="reference internal" href="#mailbox.MH" title="mailbox.MH"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a> 实例尝试读取已损坏的 <code class="file docutils literal notranslate"><span class="pre">.mh_sequences</span></code> 文件时。</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<span id="mailbox-examples"></span><h2>例子<a class="headerlink" href="#examples" title="永久链接至标题">¶</a></h2>
+<p>一个打印指定邮箱中所有消息的主题的简单示例:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mailbox</span>
+<span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">mailbox</span><span class="o">.</span><span class="n">mbox</span><span class="p">(</span><span class="s1">&#39;~/mbox&#39;</span><span class="p">):</span>
+    <span class="n">subject</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span>       <span class="c1"># Could possibly be None.</span>
+    <span class="k">if</span> <span class="n">subject</span> <span class="ow">and</span> <span class="s1">&#39;python&#39;</span> <span class="ow">in</span> <span class="n">subject</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>要将所有邮件从 Babyl 邮箱拷贝到 MH 邮箱，请转换所有可转换的格式专属信息:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mailbox</span>
+<span class="n">destination</span> <span class="o">=</span> <span class="n">mailbox</span><span class="o">.</span><span class="n">MH</span><span class="p">(</span><span class="s1">&#39;~/Mail&#39;</span><span class="p">)</span>
+<span class="n">destination</span><span class="o">.</span><span class="n">lock</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">mailbox</span><span class="o">.</span><span class="n">Babyl</span><span class="p">(</span><span class="s1">&#39;~/RMAIL&#39;</span><span class="p">):</span>
+    <span class="n">destination</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">mailbox</span><span class="o">.</span><span class="n">MHMessage</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
+<span class="n">destination</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="n">destination</span><span class="o">.</span><span class="n">unlock</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>这个示例将来自多个邮件列表的邮件分类放入不同的邮箱，小心避免由于其他程序的并发修改导致的邮件损坏，由于程序中断导致的邮件丢失，或是由于邮箱中消息格式错误导致的意外终止:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mailbox</span>
+<span class="kn">import</span> <span class="nn">email.errors</span>
+
+<span class="n">list_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;python-list&#39;</span><span class="p">,</span> <span class="s1">&#39;python-dev&#39;</span><span class="p">,</span> <span class="s1">&#39;python-bugs&#39;</span><span class="p">)</span>
+
+<span class="n">boxes</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">mailbox</span><span class="o">.</span><span class="n">mbox</span><span class="p">(</span><span class="s1">&#39;~/email/</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">list_names</span><span class="p">}</span>
+<span class="n">inbox</span> <span class="o">=</span> <span class="n">mailbox</span><span class="o">.</span><span class="n">Maildir</span><span class="p">(</span><span class="s1">&#39;~/Maildir&#39;</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">inbox</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">inbox</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="k">except</span> <span class="n">email</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">MessageParseError</span><span class="p">:</span>
+        <span class="k">continue</span>                <span class="c1"># The message is malformed. Just leave it.</span>
+
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">list_names</span><span class="p">:</span>
+        <span class="n">list_id</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;list-id&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">list_id</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">list_id</span><span class="p">:</span>
+            <span class="c1"># Get mailbox to use</span>
+            <span class="n">box</span> <span class="o">=</span> <span class="n">boxes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+            <span class="c1"># Write copy to disk before removing original.</span>
+            <span class="c1"># If there&#39;s a crash, you might duplicate a message, but</span>
+            <span class="c1"># that&#39;s better than losing a message completely.</span>
+            <span class="n">box</span><span class="o">.</span><span class="n">lock</span><span class="p">()</span>
+            <span class="n">box</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="n">box</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">box</span><span class="o">.</span><span class="n">unlock</span><span class="p">()</span>
+
+            <span class="c1"># Remove original message</span>
+            <span class="n">inbox</span><span class="o">.</span><span class="n">lock</span><span class="p">()</span>
+            <span class="n">inbox</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">inbox</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">inbox</span><span class="o">.</span><span class="n">unlock</span><span class="p">()</span>
+            <span class="k">break</span>               <span class="c1"># Found destination, so stop looking.</span>
+
+<span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">boxes</span><span class="o">.</span><span class="n">itervalues</span><span class="p">():</span>
+    <span class="n">box</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code> --- 操作多种格式的邮箱</a><ul>
+<li><a class="reference internal" href="#mailbox-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code> 对象</a><ul>
+<li><a class="reference internal" href="#maildir"><code class="xref py py-class docutils literal notranslate"><span class="pre">Maildir</span></code></a></li>
+<li><a class="reference internal" href="#mbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">mbox</span></code></a></li>
+<li><a class="reference internal" href="#mh"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a></li>
+<li><a class="reference internal" href="#babyl"><code class="xref py py-class docutils literal notranslate"><span class="pre">Babyl</span></code></a></li>
+<li><a class="reference internal" href="#mmdf"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDF</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#message-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code> 对象</a><ul>
+<li><a class="reference internal" href="#maildirmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a></li>
+<li><a class="reference internal" href="#mboxmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a></li>
+<li><a class="reference internal" href="#mhmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a></li>
+<li><a class="reference internal" href="#babylmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a></li>
+<li><a class="reference internal" href="#mmdfmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exceptions">异常</a></li>
+<li><a class="reference internal" href="#examples">例子</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="json.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">json</span></code> --- JSON 编码和解码器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="mimetypes.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mimetypes</span></code> --- 映射文件名到 MIME 类型</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/mailbox.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="mimetypes.html" title="mimetypes --- 映射文件名到 MIME 类型"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="json.html" title="json --- JSON 编码和解码器"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" >互联网数据处理</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code> --- 操作多种格式的邮箱</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

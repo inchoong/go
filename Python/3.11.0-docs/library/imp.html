@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>imp —— 由代码内部访问 import 。 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="mailcap --- Mailcap 文件处理" href="mailcap.html" />
+    <link rel="prev" title="imghdr --- 推测图像类型" href="imghdr.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/imp.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">imp</span></code> —— 由代码内部访问 <span class="xref std std-ref">import</span> 。</a><ul>
+<li><a class="reference internal" href="#examples">例子</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="imghdr.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">imghdr</span></code> --- 推测图像类型</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="mailcap.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailcap</span></code> --- Mailcap 文件处理</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/imp.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="mailcap.html" title="mailcap --- Mailcap 文件处理"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="imghdr.html" title="imghdr --- 推测图像类型"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" accesskey="U">被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">imp</span></code> —— 由代码内部访问 <span class="xref std std-ref">import</span> 。</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-imp">
+<span id="imp-access-the-import-internals"></span><h1><a class="reference internal" href="#module-imp" title="imp: Access the implementation of the import statement. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">imp</span></code></a> —— 由代码内部访问 <a class="reference internal" href="../reference/import.html#importsystem"><span class="std std-ref">import</span></a> 。<a class="headerlink" href="#module-imp" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/imp.py">Lib/imp.py</a></p>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.4 开始标记为过时，将在版本 3.12 中移除。: </span><a class="reference internal" href="#module-imp" title="imp: Access the implementation of the import statement. (已移除)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">imp</span></code></a> 模块已被废弃，请改用 <a class="reference internal" href="importlib.html#module-importlib" title="importlib: The implementation of the import machinery."><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code></a>。</p>
+</div>
+<hr class="docutils" id="index-0" />
+<p>本模块提供了一个接口，用于实现 <a class="reference internal" href="../reference/simple_stmts.html#import"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">import</span></code></a> 语句的机制。这里定义了以下常量和函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.get_magic">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">get_magic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#imp.get_magic" title="永久链接至目标">¶</a></dt>
+<dd><p id="index-1">返回用于识别字节编译代码文件 (<code class="file docutils literal notranslate"><span class="pre">.pyc</span></code> files) 的魔术字符串值。 （该值对于各个 Python 版本可能不同。）</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>改用 <a class="reference internal" href="importlib.html#importlib.util.MAGIC_NUMBER" title="importlib.util.MAGIC_NUMBER"><code class="xref py py-attr docutils literal notranslate"><span class="pre">importlib.util.MAGIC_NUMBER</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.get_suffixes">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">get_suffixes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#imp.get_suffixes" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 3 元素元组的列表，每个元组描述了一个特定的模块类型。 每个三元组的形式为 <code class="docutils literal notranslate"><span class="pre">(suffix,</span> <span class="pre">mode,</span> <span class="pre">type)</span></code>，其中 <em>suffix</em> 是要附加到模块名称上以组成要搜索的文件名的字符串，<em>mode</em> 是要传给内置 <a class="reference internal" href="functions.html#open" title="open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> 函数以打开该文件的模式字符串 (可以为针对文本文件的 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> 或针对二进制文件的 <code class="docutils literal notranslate"><span class="pre">'rb'</span></code>)，而 <em>type</em> 是文件类型，它的值为 <a class="reference internal" href="#imp.PY_SOURCE" title="imp.PY_SOURCE"><code class="xref py py-const docutils literal notranslate"><span class="pre">PY_SOURCE</span></code></a>, <a class="reference internal" href="#imp.PY_COMPILED" title="imp.PY_COMPILED"><code class="xref py py-const docutils literal notranslate"><span class="pre">PY_COMPILED</span></code></a> 之一 <a class="reference internal" href="#imp.C_EXTENSION" title="imp.C_EXTENSION"><code class="xref py py-const docutils literal notranslate"><span class="pre">C_EXTENSION</span></code></a>，具体说明如下。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.3 版后已移除: </span>改用在 <a class="reference internal" href="importlib.html#module-importlib.machinery" title="importlib.machinery: Importers and path hooks"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.machinery</span></code></a> 上定义的常量。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.find_module">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">find_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#imp.find_module" title="永久链接至目标">¶</a></dt>
+<dd><p>尝试找到模块 <em>name</em>。 如果 <em>path</em> 被省略或为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会搜索 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> 给出的目录名列表，但在此前会先搜索几个特殊位置：该函数将尝试找到具有给定名称的内置模块 (<a class="reference internal" href="#imp.C_BUILTIN" title="imp.C_BUILTIN"><code class="xref py py-const docutils literal notranslate"><span class="pre">C_BUILTIN</span></code></a>)，然后是冻结模块 (<a class="reference internal" href="#imp.PY_FROZEN" title="imp.PY_FROZEN"><code class="xref py py-const docutils literal notranslate"><span class="pre">PY_FROZEN</span></code></a>)，并且在某些系统上还会查找其他几个位置（在 Windows 上，它将查看注册表，其中可能指向某一特定文件）。</p>
+<p>在其他情况下，<em>path</em> 必须是一个目录名列表；将在每个目录中搜索具有上述 <a class="reference internal" href="#imp.get_suffixes" title="imp.get_suffixes"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_suffixes()</span></code></a> 所返回的任何后缀的文件。 列表中的无效名称将被静默地忽略（但是所有列表条目都必须为字符串）。</p>
+<p>如果搜索成功，返回值将是一个 3 元素元组 <code class="docutils literal notranslate"><span class="pre">(file,</span> <span class="pre">pathname,</span> <span class="pre">description)</span></code>:</p>
+<p><em>file</em> 是一个放在最前面的已打开的 <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">file object</span></a>，<em>pathname</em> 是打到的文件的路径名，而 <em>description</em> 是一个描述所找到的模块种类的 3 元素元组，如 <a class="reference internal" href="#imp.get_suffixes" title="imp.get_suffixes"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_suffixes()</span></code></a> 所返回的列表中包含的内容。</p>
+<p>如果模块为内置或冻结模块则 <em>file</em> 和 <em>pathname</em> 都将为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 并且 <em>description</em> 元组将包含空字符串来表示其后缀和模式；模块类型按上述圆括号中所给出的内容来指明。 如果搜索未成功，则会引发 <a class="reference internal" href="exceptions.html#ImportError" title="ImportError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ImportError</span></code></a>。 其他异常被用于指示参数或环境问题。</p>
+<p>如果模块是一个包，则 <em>file</em> 将为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，<em>pathname</em> 将为包路径而 <em>description</em> 元组的最后一项将为 <a class="reference internal" href="#imp.PKG_DIRECTORY" title="imp.PKG_DIRECTORY"><code class="xref py py-const docutils literal notranslate"><span class="pre">PKG_DIRECTORY</span></code></a>。</p>
+<p>此函数不会处理多层级的模块名称（包含点号的名称）。 为了找到 <em>P.M</em>，也就是 <em>P</em> 包的的子模块 <em>M</em>，请使用 <a class="reference internal" href="#imp.find_module" title="imp.find_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_module()</span></code></a> 和 <a class="reference internal" href="#imp.load_module" title="imp.load_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_module()</span></code></a> 来找到并载入 <em>P</em> 包，然后使用 <a class="reference internal" href="#imp.find_module" title="imp.find_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_module()</span></code></a> 并将 <em>path</em> 参数设为 <code class="docutils literal notranslate"><span class="pre">P.__path__</span></code>。 当 <em>P</em> 本身也具有带点号的名称时，请递归地应用此步骤。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.3 版后已移除: </span>请改用 <a class="reference internal" href="importlib.html#importlib.util.find_spec" title="importlib.util.find_spec"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.util.find_spec()</span></code></a> 除非需要兼容 Python 3.3，对于后一种情况请使用 <a class="reference internal" href="importlib.html#importlib.find_loader" title="importlib.find_loader"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.find_loader()</span></code></a>。 要查看对于前一种情况的示例用法，请参阅 <a class="reference internal" href="importlib.html#module-importlib" title="importlib: The implementation of the import machinery."><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code></a> 文档的 <a class="reference internal" href="importlib.html#importlib-examples"><span class="std std-ref">例子</span></a> 小节。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.load_module">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">load_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#imp.load_module" title="永久链接至目标">¶</a></dt>
+<dd><p>加载之前由 <a class="reference internal" href="#imp.find_module" title="imp.find_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_module()</span></code></a> 所找到的模块（或由其他方式执行搜索所产生的兼容的结果）。 此函数所做的不只是导入模块：如果模块已经被导入，它将重新加载此模块！ <em>name</em> 参数指明完整的模块名称（包括包名，如果它是一个包的子模块的话）。 <em>file</em> 参数是一个打开的文件，而 <em>pathname</em> 是相应的文件名；当模块是一个包或者不是从文档加载时，它们可以分别为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 和 <code class="docutils literal notranslate"><span class="pre">''</span></code>。 <em>description</em> 参数是一个元组，如 <a class="reference internal" href="#imp.get_suffixes" title="imp.get_suffixes"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_suffixes()</span></code></a> 将返回的内容一样，描述了必须加载什么样的模块。</p>
+<p>如果加载成功，则返回值为相应的模块对象；否则，将引发一个异常 (通常为 <a class="reference internal" href="exceptions.html#ImportError" title="ImportError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ImportError</span></code></a>)。</p>
+<p><strong>重要:</strong> 调用方需负责关闭 <em>file</em> 参数，如果它不为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 的话，即使是在有异常被引发时。 这最好是使用 <a class="reference internal" href="../reference/compound_stmts.html#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a> ... <a class="reference internal" href="../reference/compound_stmts.html#finally"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">finally</span></code></a> 语句来实现。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.3 版后已移除: </span>如果之前是与 <a class="reference internal" href="#imp.find_module" title="imp.find_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">imp.find_module()</span></code></a> 一起使用则可考虑使用 <a class="reference internal" href="importlib.html#importlib.import_module" title="importlib.import_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.import_module()</span></code></a>，在其他情况下请使用你选择的 <a class="reference internal" href="#imp.find_module" title="imp.find_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">imp.find_module()</span></code></a> 替代品所返回的加载器。 如果你直接附带文件路径参数调用 <a class="reference internal" href="#imp.load_module" title="imp.load_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">imp.load_module()</span></code></a> 和相关函数则请使用 <a class="reference internal" href="importlib.html#importlib.util.spec_from_file_location" title="importlib.util.spec_from_file_location"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.util.spec_from_file_location()</span></code></a> 和 <a class="reference internal" href="importlib.html#importlib.util.module_from_spec" title="importlib.util.module_from_spec"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.util.module_from_spec()</span></code></a> 的组合。 参见 <a class="reference internal" href="importlib.html#module-importlib" title="importlib: The implementation of the import machinery."><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code></a> 文档的 <a class="reference internal" href="importlib.html#importlib-examples"><span class="std std-ref">例子</span></a> 小节来了解各种方式的细节。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.new_module">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">new_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#imp.new_module" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个新的名为 <em>name</em> 的空模块对象。 此对象 <em>不会</em> 被插入到 <code class="docutils literal notranslate"><span class="pre">sys.modules</span></code> 中。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>请改用 <a class="reference internal" href="importlib.html#importlib.util.module_from_spec" title="importlib.util.module_from_spec"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.util.module_from_spec()</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.reload">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">reload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#imp.reload" title="永久链接至目标">¶</a></dt>
+<dd><p>重新加载之前导入的 <em>module</em>。 该参数必须是一个模块对象，因此它之前必须已经被成功导入了。 这在当你已使用外部编辑器编辑过模块源代码文件并想在不退出 Python 解释器的情况下尝试新版本时会很有用处。 返回值为模块对象（与 <em>module</em> 参数所指向的相同）。</p>
+<p>当 <code class="docutils literal notranslate"><span class="pre">reload(module)</span></code> 被执行时:</p>
+<ul class="simple">
+<li><p>Python 模块的代码会被重新编译并且模块层级的代码将重新执行，定义一个新的绑定到模块字典中的名称的对象集合。 扩展模块的 <code class="docutils literal notranslate"><span class="pre">init</span></code> 函数不会被重复调用。</p></li>
+<li><p>与Python中的所有的其它对象一样，旧的对象只有在它们的引用计数为0之后才会被回收。</p></li>
+<li><p>模块命名空间中的名称重新指向任何新的或更改后的对象。</p></li>
+<li><p>其他旧对象的引用（例如那个模块的外部名称）不会被重新绑定到引用的新对象的，并且如果有需要，必须在出现的每个命名空间中进行更新。</p></li>
+</ul>
+<p>有一些其他注意事项：</p>
+<p>当一个模块被重新加载的时候，它的字典（包含了那个模块的全区变量）会被保留。名称的重新定义会覆盖旧的定义，所以通常来说这不是问题。如果一个新模块没有定义在旧版本模块中定义的名称，则将保留旧版本中的定义。这一特性可用于作为那个模块的优点，如果它维护一个全局表或者对象的缓存 —— 使用 <a class="reference internal" href="../reference/compound_stmts.html#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a> 语句，就可以测试表的存在并且跳过它的初始化，如果有需要的话:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">cache</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+</div>
+<p>重新加载内置或动态加载的模块是合法操作但通常不是很有用处，除非是 <a class="reference internal" href="sys.html#module-sys" title="sys: Access system-specific parameters and functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code></a>, <a class="reference internal" href="__main__.html#module-__main__" title="__main__: The environment where top-level code is run. Covers command-line interfaces, import-time behavior, and ``__name__ == '__main__'``."><code class="xref py py-mod docutils literal notranslate"><span class="pre">__main__</span></code></a> 和 <a class="reference internal" href="builtins.html#module-builtins" title="builtins: The module that provides the built-in namespace."><code class="xref py py-mod docutils literal notranslate"><span class="pre">builtins</span></code></a>。 但是在许多情况下，扩展模块并不是被设计为可被多次初始化的，并可能在重新加载时以任意方式失败。</p>
+<p>如果一个模块使用 <a class="reference internal" href="../reference/simple_stmts.html#from"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">from</span></code></a> ... <a class="reference internal" href="../reference/simple_stmts.html#import"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">import</span></code></a> ... 导入来自另一个模块的对象，则为另一个模块调用 <a class="reference internal" href="#imp.reload" title="imp.reload"><code class="xref py py-func docutils literal notranslate"><span class="pre">reload()</span></code></a> 并不会重新定义从其中导入的对象 --- 绕过此问题的一种方式是重新执行 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">from</span></code> 语句，另一种方式是使用 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">import</span></code> 和限定名称 (<em>module</em>.*name*) 来代替。</p>
+<p>如果一个模块创建一个类的实例，重新加载定义那个类的模块不影响那些实例的方法定义———它们继续使用旧类中的定义。对于子类来说同样是正确的。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>依赖于 <code class="docutils literal notranslate"><span class="pre">__name__</span></code> 和 <code class="docutils literal notranslate"><span class="pre">__loader__</span></code> 而不仅是 <code class="docutils literal notranslate"><span class="pre">__name__</span></code> 同时定义在被重新加载的模块上。</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>使用 <a class="reference internal" href="importlib.html#importlib.reload" title="importlib.reload"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.reload()</span></code></a> 来代替。</p>
+</div>
+</dd></dl>
+
+<p>下列函数可以方便地处理 <span class="target" id="index-14"></span><a class="pep reference external" href="https://peps.python.org/pep-3147/"><strong>PEP 3147</strong></a> 字节编译的文件路径。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.cache_from_source">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">cache_from_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#imp.cache_from_source" title="永久链接至目标">¶</a></dt>
+<dd><p>返回与源 <span class="target" id="index-15"></span><a class="pep reference external" href="https://peps.python.org/pep-3147/"><strong>PEP 3147</strong></a> 定义的 <em>path</em> 相关联的已编译字节码文件的路径。 举例来说，如果 <em>path</em> 为 <code class="docutils literal notranslate"><span class="pre">/foo/bar/baz.py</span></code> 则 Python 3.2 中的返回值将是 <code class="docutils literal notranslate"><span class="pre">/foo/bar/__pycache__/baz.cpython-32.pyc</span></code>。 字符串 <code class="docutils literal notranslate"><span class="pre">cpython-32</span></code> 来自于当前的魔术标签 (参见 <a class="reference internal" href="#imp.get_tag" title="imp.get_tag"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_tag()</span></code></a>; 如果 <code class="xref py py-attr docutils literal notranslate"><span class="pre">sys.implementation.cache_tag</span></code> 未定义则将引发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>)。 通过为 <em>debug_override</em> 传入 <code class="docutils literal notranslate"><span class="pre">True</span></code> 或 <code class="docutils literal notranslate"><span class="pre">False</span></code> 你可以覆盖系统设置的 <code class="docutils literal notranslate"><span class="pre">__debug__</span></code> 值，以生成优化的字节码。</p>
+<p><em>path</em> 不必存在。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>如果 <code class="xref py py-attr docutils literal notranslate"><span class="pre">sys.implementation.cache_tag</span></code> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则会引发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>。</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>使用 <a class="reference internal" href="importlib.html#importlib.util.cache_from_source" title="importlib.util.cache_from_source"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.util.cache_from_source()</span></code></a> 来代替。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span><em>debug_override</em> 形参不会再创建 <code class="docutils literal notranslate"><span class="pre">.pyo</span></code> 文件。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.source_from_cache">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">source_from_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#imp.source_from_cache" title="永久链接至目标">¶</a></dt>
+<dd><p>根据给定的 <span class="target" id="index-16"></span><a class="pep reference external" href="https://peps.python.org/pep-3147/"><strong>PEP 3147</strong></a> 文件名的 <em>path</em>，返回相关联的源代码文件路径。 举例来说，如果 <em>path</em> 为 <code class="docutils literal notranslate"><span class="pre">/foo/bar/__pycache__/baz.cpython-32.pyc</span></code> 则返回的路径将是 <code class="docutils literal notranslate"><span class="pre">/foo/bar/baz.py</span></code>。 <em>path</em> 不必已存在，但是如果它未遵循 <span class="target" id="index-17"></span><a class="pep reference external" href="https://peps.python.org/pep-3147/"><strong>PEP 3147</strong></a> 格式，则会引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。 如果未定义 <code class="xref py py-attr docutils literal notranslate"><span class="pre">sys.implementation.cache_tag</span></code>，则会引发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>当未定义 <code class="xref py py-attr docutils literal notranslate"><span class="pre">sys.implementation.cache_tag</span></code> 时将引发 <a class="reference internal" href="exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>。</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>使用 <a class="reference internal" href="importlib.html#importlib.util.source_from_cache" title="importlib.util.source_from_cache"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.util.source_from_cache()</span></code></a> 来代替。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.get_tag">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">get_tag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#imp.get_tag" title="永久链接至目标">¶</a></dt>
+<dd><p>返回与此 Python 版本魔数相匹配的 <span class="target" id="index-18"></span><a class="pep reference external" href="https://peps.python.org/pep-3147/"><strong>PEP 3147</strong></a> 魔术标签字符串，如 <a class="reference internal" href="#imp.get_magic" title="imp.get_magic"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_magic()</span></code></a> 所返回的。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>从 Python 3.3 开始直接使用 <code class="xref py py-attr docutils literal notranslate"><span class="pre">sys.implementation.cache_tag</span></code>。</p>
+</div>
+</dd></dl>
+
+<p>以下函数可以帮助与导入系统的内部锁定机制进行交互。 导入的锁定语义是一个可能在不同发布版之间发生改变的实现细节。 但是，Python 会确保循环导入操作不会出现任何死锁。</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.lock_held">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">lock_held</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#imp.lock_held" title="永久链接至目标">¶</a></dt>
+<dd><p>如果当前持有全局导入锁则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。 在没有线程的系统平台上，将总是返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+<p>在有线程的平台上，执行导入的线程首先会持有一个全局导入锁，然后为导入其余部分设置模块专属锁。 这将阻止其他线程导入相同的模块直到原始导入完成，防止其他线程看到由原始线程构建的不完整的模块对象。 循环导入是个例外情况，它在构造上就必须在某一时刻暴露不完整的模块对象。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>锁定方案在大多数情况下都已改为按模块锁定。 对于某些关键任务会保留一个全局导入锁，比如初始化每个模块的锁。</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.acquire_lock">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">acquire_lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#imp.acquire_lock" title="永久链接至目标">¶</a></dt>
+<dd><p>为当前线程获取解释器的全局导入锁。 这个锁应当由导入钩子来使用以确保导入模块时的线程安全。</p>
+<p>一旦某个线程获取了导入锁，同一个线程可以再次获取它而不会阻塞；该线程每次获得它都必须再释放它一次。</p>
+<p>在没有线程的平台上，此函数将不做任何操作。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>锁定方案在大多数情况下都已改为按模块锁定。 对于某些关键任务会保留一个全局导入锁，比如初始化每个模块的锁。</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imp.release_lock">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">release_lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#imp.release_lock" title="永久链接至目标">¶</a></dt>
+<dd><p>释放解释器的全局导入锁。 在没有线程的平台上，此函数将不做任何操作。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>锁定方案在大多数情况下都已改为按模块锁定。 对于某些关键任务会保留一个全局导入锁，比如初始化每个模块的锁。</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<p>以下是在本模块中定义的具有整数值的常量，用来表示 <a class="reference internal" href="#imp.find_module" title="imp.find_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_module()</span></code></a> 的搜索结果。</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="imp.PY_SOURCE">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">PY_SOURCE</span></span><a class="headerlink" href="#imp.PY_SOURCE" title="永久链接至目标">¶</a></dt>
+<dd><p>模块作为一个源文件被发现。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.3 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="imp.PY_COMPILED">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">PY_COMPILED</span></span><a class="headerlink" href="#imp.PY_COMPILED" title="永久链接至目标">¶</a></dt>
+<dd><p>模块作为一个已编译代码对象文件被发现。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.3 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="imp.C_EXTENSION">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">C_EXTENSION</span></span><a class="headerlink" href="#imp.C_EXTENSION" title="永久链接至目标">¶</a></dt>
+<dd><p>模块作为动态可加载共享库被发现。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.3 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="imp.PKG_DIRECTORY">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">PKG_DIRECTORY</span></span><a class="headerlink" href="#imp.PKG_DIRECTORY" title="永久链接至目标">¶</a></dt>
+<dd><p>模块作为一个包目录被发现。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.3 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="imp.C_BUILTIN">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">C_BUILTIN</span></span><a class="headerlink" href="#imp.C_BUILTIN" title="永久链接至目标">¶</a></dt>
+<dd><p>模块作为一个内置模块被发现。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.3 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="imp.PY_FROZEN">
+<span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">PY_FROZEN</span></span><a class="headerlink" href="#imp.PY_FROZEN" title="永久链接至目标">¶</a></dt>
+<dd><p>模块作为一个冻结模块被发现。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.3 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="imp.NullImporter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imp.</span></span><span class="sig-name descname"><span class="pre">NullImporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#imp.NullImporter" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#imp.NullImporter" title="imp.NullImporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullImporter</span></code></a> 类型是一个在无法找到任何模块时处理非目录路径字符串 <span class="target" id="index-19"></span><a class="pep reference external" href="https://peps.python.org/pep-0302/"><strong>PEP 302</strong></a> 导入钩子。 调用此类型时传入一个现有目录或空字符串将引发 <a class="reference internal" href="exceptions.html#ImportError" title="ImportError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ImportError</span></code></a>。 在其他情况下，将返回一个 <a class="reference internal" href="#imp.NullImporter" title="imp.NullImporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullImporter</span></code></a> 实例。</p>
+<p>这些实例只有一个方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="imp.NullImporter.find_module">
+<span class="sig-name descname"><span class="pre">find_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullname</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#imp.NullImporter.find_module" title="永久链接至目标">¶</a></dt>
+<dd><p>此方法总是返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>，表示所请求的模块无法找到。</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>将把 <code class="docutils literal notranslate"><span class="pre">None</span></code> 插入到 <code class="docutils literal notranslate"><span class="pre">sys.path_importer_cache</span></code> 而不是 <a class="reference internal" href="#imp.NullImporter" title="imp.NullImporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullImporter</span></code></a> 的实例。</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>改为将 <code class="docutils literal notranslate"><span class="pre">None</span></code> 插入到 <code class="docutils literal notranslate"><span class="pre">sys.path_importer_cache</span></code>。</p>
+</div>
+</dd></dl>
+
+<section id="examples">
+<span id="examples-imp"></span><h2>例子<a class="headerlink" href="#examples" title="永久链接至标题">¶</a></h2>
+<p>以下函数模拟了 Python 1.4 及之前版本的标准导入语句（没有多层级的模块名称）。 （这个 <em>实现</em> 不可用于那些版本，因为 <a class="reference internal" href="#imp.find_module" title="imp.find_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_module()</span></code></a> 已经被扩展而 <a class="reference internal" href="#imp.load_module" title="imp.load_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_module()</span></code></a> 在 1.4 中已被添加。）</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">imp</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">__import__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">locals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fromlist</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Fast path: see if the module has already been imported.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># If any of the following calls raises an exception,</span>
+    <span class="c1"># there&#39;s a problem we can&#39;t handle -- let the caller handle it.</span>
+
+    <span class="n">fp</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">find_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="c1"># Since we may exit via an exception, close fp explicitly.</span>
+        <span class="k">if</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">imp</span></code> —— 由代码内部访问 <span class="xref std std-ref">import</span> 。</a><ul>
+<li><a class="reference internal" href="#examples">例子</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="imghdr.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">imghdr</span></code> --- 推测图像类型</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="mailcap.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailcap</span></code> --- Mailcap 文件处理</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/imp.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="mailcap.html" title="mailcap --- Mailcap 文件处理"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="imghdr.html" title="imghdr --- 推测图像类型"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" >被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">imp</span></code> —— 由代码内部访问 <span class="xref std std-ref">import</span> 。</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

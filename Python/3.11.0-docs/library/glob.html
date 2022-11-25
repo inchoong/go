@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>glob --- Unix 风格路径名模式扩展 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="fnmatch --- Unix 文件名模式匹配" href="fnmatch.html" />
+    <link rel="prev" title="tempfile --- 生成临时文件和目录" href="tempfile.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/glob.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="tempfile.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tempfile</span></code> --- 生成临时文件和目录</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="fnmatch.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fnmatch</span></code> --- Unix 文件名模式匹配</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/glob.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="fnmatch.html" title="fnmatch --- Unix 文件名模式匹配"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="tempfile.html" title="tempfile --- 生成临时文件和目录"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="filesys.html" accesskey="U">文件和目录访问</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code> --- Unix 风格路径名模式扩展</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-glob">
+<span id="glob-unix-style-pathname-pattern-expansion"></span><h1><a class="reference internal" href="#module-glob" title="glob: Unix shell style pathname pattern expansion."><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code></a> --- Unix 风格路径名模式扩展<a class="headerlink" href="#module-glob" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/glob.py">Lib/glob.py</a></p>
+<hr class="docutils" id="index-0" />
+<p id="index-1"><a class="reference internal" href="#module-glob" title="glob: Unix shell style pathname pattern expansion."><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code></a> 模块会按照 Unix shell 所使用的规则找出所有匹配特定模式的路径名称，但返回结果的顺序是不确定的。 波浪号扩展不会生效，但 <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> 以及用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 表示的字符范围将被正确地匹配。 这是通过配合使用 <a class="reference internal" href="os.html#os.scandir" title="os.scandir"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.scandir()</span></code></a> 和 <a class="reference internal" href="fnmatch.html#fnmatch.fnmatch" title="fnmatch.fnmatch"><code class="xref py py-func docutils literal notranslate"><span class="pre">fnmatch.fnmatch()</span></code></a> 函数来实现的，而不是通过实际发起调用子 shell。</p>
+<p>请注意以点号 (<code class="docutils literal notranslate"><span class="pre">.</span></code>) 打头的文件只能用同样以点号打头的模式来匹配，这不同于 <a class="reference internal" href="fnmatch.html#fnmatch.fnmatch" title="fnmatch.fnmatch"><code class="xref py py-func docutils literal notranslate"><span class="pre">fnmatch.fnmatch()</span></code></a> 或 <a class="reference internal" href="pathlib.html#pathlib.Path.glob" title="pathlib.Path.glob"><code class="xref py py-func docutils literal notranslate"><span class="pre">pathlib.Path.glob()</span></code></a>。 （对于波浪号和 shell 变量扩展，请使用 <a class="reference internal" href="os.path.html#os.path.expanduser" title="os.path.expanduser"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.expanduser()</span></code></a> 和 <a class="reference internal" href="os.path.html#os.path.expandvars" title="os.path.expandvars"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.expandvars()</span></code></a>。）</p>
+<p>对于字面值匹配，请将原字符用方括号括起来。 例如，<code class="docutils literal notranslate"><span class="pre">'[?]'</span></code> 将匹配字符 <code class="docutils literal notranslate"><span class="pre">'?'</span></code>。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<p><a class="reference internal" href="pathlib.html#module-pathlib" title="pathlib: Object-oriented filesystem paths"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pathlib</span></code></a> 模块提供高级路径对象。</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="glob.glob">
+<span class="sig-prename descclassname"><span class="pre">glob.</span></span><span class="sig-name descname"><span class="pre">glob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir_fd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glob.glob" title="永久链接至目标">¶</a></dt>
+<dd><p>Return a possibly empty list of path names that match <em>pathname</em>, which must be
+a string containing a path specification. <em>pathname</em> can be either absolute
+(like <code class="file docutils literal notranslate"><span class="pre">/usr/src/Python-1.5/Makefile</span></code>) or relative (like
+<code class="file docutils literal notranslate"><span class="pre">../../Tools/*/*.gif</span></code>), and can contain shell-style wildcards. Broken
+symlinks are included in the results (as in the shell). Whether or not the
+results are sorted depends on the file system.  If a file that satisfies
+conditions is removed or added during the call of this function, whether
+a path name for that file be included is unspecified.</p>
+<p>如果 <em>root_dir</em> 不为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，则它应当是指明要搜索的根目录的 <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">path-like object</span></a>。 它用在 <a class="reference internal" href="#module-glob" title="glob: Unix shell style pathname pattern expansion."><code class="xref py py-func docutils literal notranslate"><span class="pre">glob()</span></code></a> 上与在调用它之前改变当前目录有相同的效果。 如果 <em>pathname</em> 为相对路径，结果将包含相对于 <em>root_dir</em> 的路径。</p>
+<p>本函数带有 <em>dir_fd</em> 参数，支持 <a class="reference internal" href="os.html#dir-fd"><span class="std std-ref">基于目录描述符的相对路径</span></a>。</p>
+<p id="index-2">如果 <em>recursive</em> 为真值，则模式 &quot;<code class="docutils literal notranslate"><span class="pre">**</span></code>&quot; 将匹配目录中的任何文件以及零个或多个目录、子目录和符号链接。 如果模式加了一个 <a class="reference internal" href="os.html#os.sep" title="os.sep"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.sep</span></code></a> 或 <a class="reference internal" href="os.html#os.altsep" title="os.altsep"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.altsep</span></code></a> 则将不匹配文件。</p>
+<p>If <em>include_hidden</em> is true, &quot;<code class="docutils literal notranslate"><span class="pre">**</span></code>&quot; pattern will match hidden directories.</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">glob.glob</span></code> 附带参数 <code class="docutils literal notranslate"><span class="pre">pathname</span></code>, <code class="docutils literal notranslate"><span class="pre">recursive</span></code>。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">glob.glob/2</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">pathname</span></code>, <code class="docutils literal notranslate"><span class="pre">recursive</span></code>, <code class="docutils literal notranslate"><span class="pre">root_dir</span></code>, <code class="docutils literal notranslate"><span class="pre">dir_fd</span></code>。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>在一个较大的目录树中使用 &quot;<code class="docutils literal notranslate"><span class="pre">**</span></code>&quot; 模式可能会消耗非常多的时间。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>支持使用 &quot;<code class="docutils literal notranslate"><span class="pre">**</span></code>&quot; 的递归 glob。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>添加了 <em>root_dir</em> 和 <em>dir_fd</em> 形参。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>Added the <em>include_hidden</em> parameter.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="glob.iglob">
+<span class="sig-prename descclassname"><span class="pre">glob.</span></span><span class="sig-name descname"><span class="pre">iglob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir_fd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glob.iglob" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="../glossary.html#term-iterator"><span class="xref std std-term">iterator</span></a>，它会产生与 <a class="reference internal" href="#module-glob" title="glob: Unix shell style pathname pattern expansion."><code class="xref py py-func docutils literal notranslate"><span class="pre">glob()</span></code></a> 相同的结果，但不会实际地同时保存它们。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">glob.glob</span></code> 附带参数 <code class="docutils literal notranslate"><span class="pre">pathname</span></code>, <code class="docutils literal notranslate"><span class="pre">recursive</span></code>。</p>
+<p class="audit-hook">引发一个 <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">审计事件</span></a> <code class="docutils literal notranslate"><span class="pre">glob.glob/2</span></code>，附带参数 <code class="docutils literal notranslate"><span class="pre">pathname</span></code>, <code class="docutils literal notranslate"><span class="pre">recursive</span></code>, <code class="docutils literal notranslate"><span class="pre">root_dir</span></code>, <code class="docutils literal notranslate"><span class="pre">dir_fd</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>支持使用 &quot;<code class="docutils literal notranslate"><span class="pre">**</span></code>&quot; 的递归 glob。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>添加了 <em>root_dir</em> 和 <em>dir_fd</em> 形参。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.11 版更改: </span>Added the <em>include_hidden</em> parameter.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="glob.escape">
+<span class="sig-prename descclassname"><span class="pre">glob.</span></span><span class="sig-name descname"><span class="pre">escape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glob.escape" title="永久链接至目标">¶</a></dt>
+<dd><p>转义所有特殊字符 (<code class="docutils literal notranslate"><span class="pre">'?'</span></code>, <code class="docutils literal notranslate"><span class="pre">'*'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'['</span></code>)。 这适用于当你想要匹配可能带有特殊字符的任意字符串字面值的情况。 在 drive/UNC 共享点中的特殊字符不会被转义，例如在 Windows 上 <code class="docutils literal notranslate"><span class="pre">escape('//?/c:/Quo</span> <span class="pre">vadis?.txt')</span></code> 将返回 <code class="docutils literal notranslate"><span class="pre">'//?/c:/Quo</span> <span class="pre">vadis[?].txt'</span></code>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>例如，考虑一个包含以下内容的目录：文件 <code class="file docutils literal notranslate"><span class="pre">1.gif</span></code>, <code class="file docutils literal notranslate"><span class="pre">2.txt</span></code>, <code class="file docutils literal notranslate"><span class="pre">card.gif</span></code> 以及一个子目录 <code class="file docutils literal notranslate"><span class="pre">sub</span></code> 其中只包含一个文件 <code class="file docutils literal notranslate"><span class="pre">3.txt</span></code>.  <a class="reference internal" href="#module-glob" title="glob: Unix shell style pathname pattern expansion."><code class="xref py py-func docutils literal notranslate"><span class="pre">glob()</span></code></a> 将产生如下结果。 请注意路径的任何开头部分都将被保留。:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">glob</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;./[0-9].*&#39;</span><span class="p">)</span>
+<span class="go">[&#39;./1.gif&#39;, &#39;./2.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.gif&#39;</span><span class="p">)</span>
+<span class="go">[&#39;1.gif&#39;, &#39;card.gif&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;?.gif&#39;</span><span class="p">)</span>
+<span class="go">[&#39;1.gif&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;**/*.txt&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">[&#39;2.txt&#39;, &#39;sub/3.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;./**/&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">[&#39;./&#39;, &#39;./sub/&#39;]</span>
+</pre></div>
+</div>
+<p>如果目录包含以 <code class="docutils literal notranslate"><span class="pre">.</span></code> 打头的文件，它们默认将不会被匹配。 例如，考虑一个包含 <code class="file docutils literal notranslate"><span class="pre">card.gif</span></code> 和 <code class="file docutils literal notranslate"><span class="pre">.card.gif</span></code> 的目录:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">glob</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.gif&#39;</span><span class="p">)</span>
+<span class="go">[&#39;card.gif&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;.c*&#39;</span><span class="p">)</span>
+<span class="go">[&#39;.card.gif&#39;]</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>模块 <a class="reference internal" href="fnmatch.html#module-fnmatch" title="fnmatch: Unix shell style filename pattern matching."><code class="xref py py-mod docutils literal notranslate"><span class="pre">fnmatch</span></code></a></dt><dd><p>Shell 风格文件名（而非路径）扩展</p>
+</dd>
+</dl>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="tempfile.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tempfile</span></code> --- 生成临时文件和目录</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="fnmatch.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fnmatch</span></code> --- Unix 文件名模式匹配</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/glob.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="fnmatch.html" title="fnmatch --- Unix 文件名模式匹配"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="tempfile.html" title="tempfile --- 生成临时文件和目录"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="filesys.html" >文件和目录访问</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code> --- Unix 风格路径名模式扩展</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

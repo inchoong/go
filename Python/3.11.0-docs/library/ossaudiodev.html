@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ossaudiodev --- 访问兼容OSS的音频设备 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="pipes --- 终端管道接口" href="pipes.html" />
+    <link rel="prev" title="optparse --- 命令行选项的解析器" href="optparse.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/ossaudiodev.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ossaudiodev</span></code>  --- 访问兼容OSS的音频设备</a><ul>
+<li><a class="reference internal" href="#audio-device-objects">音频设备对象</a></li>
+<li><a class="reference internal" href="#mixer-device-objects">混音器设备对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="optparse.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">optparse</span></code> --- 命令行选项的解析器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="pipes.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pipes</span></code> --- 终端管道接口</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/ossaudiodev.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="pipes.html" title="pipes --- 终端管道接口"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="optparse.html" title="optparse --- 命令行选项的解析器"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" accesskey="U">被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">ossaudiodev</span></code>  --- 访问兼容OSS的音频设备</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-ossaudiodev">
+<span id="ossaudiodev-access-to-oss-compatible-audio-devices"></span><h1><a class="reference internal" href="#module-ossaudiodev" title="ossaudiodev: Access to OSS-compatible audio devices. (已移除) (Linux, FreeBSD)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ossaudiodev</span></code></a>  --- 访问兼容OSS的音频设备<a class="headerlink" href="#module-ossaudiodev" title="永久链接至标题">¶</a></h1>
+<div class="deprecated-removed">
+<p><span class="versionmodified">从版本 3.11 开始标记为过时，将在版本 3.13 中移除。: </span><a class="reference internal" href="#module-ossaudiodev" title="ossaudiodev: Access to OSS-compatible audio devices. (已移除) (Linux, FreeBSD)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ossaudiodev</span></code></a> 模块已被弃用（请参阅 <span class="target" id="index-6"></span><a class="pep reference external" href="https://peps.python.org/pep-0594/#ossaudiodev"><strong>PEP 594</strong></a> 了解详情）。</p>
+</div>
+<hr class="docutils" />
+<p>该模块允许您访问 OSS（开放式音响系统）音频接口。 OSS 可用于广泛的开源和商业 Unices，并且是 Linux 和最新版本的 FreeBSD 的标准音频接口。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版更改: </span>此模块中过去会引发 <a class="reference internal" href="exceptions.html#IOError" title="IOError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IOError</span></code></a> 的操作现在将引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="http://www.opensound.com/pguide/oss.pdf">开放之声系统程序员指南</a></dt><dd><p>OSS C API 的官方文档</p>
+</dd>
+</dl>
+<p>该模块定义了大量由OSS设备驱动提供的常量； 请参阅``&lt;sys/soundcard.h&gt;`` Linux 或 FreeBSD 上的列表。</p>
+</div>
+<p><a class="reference internal" href="#module-ossaudiodev" title="ossaudiodev: Access to OSS-compatible audio devices. (已移除) (Linux, FreeBSD)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ossaudiodev</span></code></a> 定义了下列变量和函数:</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="ossaudiodev.OSSAudioError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ossaudiodev.</span></span><span class="sig-name descname"><span class="pre">OSSAudioError</span></span><a class="headerlink" href="#ossaudiodev.OSSAudioError" title="永久链接至目标">¶</a></dt>
+<dd><p>此异常会针对特定错误被引发。 其参数为一个描述错误信息的字符串。</p>
+<p>（如果 <a class="reference internal" href="#module-ossaudiodev" title="ossaudiodev: Access to OSS-compatible audio devices. (已移除) (Linux, FreeBSD)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ossaudiodev</span></code></a> 从系统调用例如 <code class="xref c c-func docutils literal notranslate"><span class="pre">open()</span></code>, <code class="xref c c-func docutils literal notranslate"><span class="pre">write()</span></code> 或 <code class="xref c c-func docutils literal notranslate"><span class="pre">ioctl()</span></code> 接收到错误，它将引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。 由 <a class="reference internal" href="#module-ossaudiodev" title="ossaudiodev: Access to OSS-compatible audio devices. (已移除) (Linux, FreeBSD)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ossaudiodev</span></code></a> 直接检测到的错误将引发 <a class="reference internal" href="#ossaudiodev.OSSAudioError" title="ossaudiodev.OSSAudioError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSSAudioError</span></code></a>。）</p>
+<p>（为了向下兼容，此异常类也可通过 <code class="docutils literal notranslate"><span class="pre">ossaudiodev.error</span></code> 访问。）</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ossaudiodev.open">
+<span class="sig-prename descclassname"><span class="pre">ossaudiodev.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.open" title="永久链接至目标">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">ossaudiodev.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>打开一个音频设备并返回 OSS 音频设备对象。 此对象支持许多文件类方法，例如 <code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code> (不过传统的 Unix 读/写语义与 OSS 音频设备的存在一些细微的差异)。 它还支持一些音频专属的方法；完整的方法列表见下文。</p>
+<p><em>device</em> 是要使用的音频设备文件名。 如果未指定，则此模块会先在环境变量 <span class="target" id="index-7"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">AUDIODEV</span></code> 中查找要使用的设备。 如果未找到，它将回退为 <code class="file docutils literal notranslate"><span class="pre">/dev/dsp</span></code>。</p>
+<p><em>mode</em> 可以为 <code class="docutils literal notranslate"><span class="pre">'r'</span></code> 表示只读（录音）访问，<code class="docutils literal notranslate"><span class="pre">'w'</span></code> 表示只写（回放）访问以及 <code class="docutils literal notranslate"><span class="pre">'rw'</span></code> 表示同时读写。 由于许多声卡在同一时间只允许单个进程打开录音机或播放器，因此好的做法是只根据活动的需要打开设备。 并且，有些声卡是半双工的：它们可以被打开用于读取或写入，但不能同时读写。</p>
+<p>请注意这里特殊的调用语法: <em>first</em> 参数是可选的，而第二个参数则是必需的。 这是出于历史原因要与 <a class="reference internal" href="#module-ossaudiodev" title="ossaudiodev: Access to OSS-compatible audio devices. (已移除) (Linux, FreeBSD)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ossaudiodev</span></code></a> 所替代的 <code class="xref py py-mod docutils literal notranslate"><span class="pre">linuxaudiodev</span></code> 模块保持兼容。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ossaudiodev.openmixer">
+<span class="sig-prename descclassname"><span class="pre">ossaudiodev.</span></span><span class="sig-name descname"><span class="pre">openmixer</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.openmixer" title="永久链接至目标">¶</a></dt>
+<dd><p>打开一个混音设备并返回 OSS 混音设备对象。 <em>device</em> 是要使用的混音设备文件名。 如果未指定，则此模块会先在环境变量 <span class="target" id="index-8"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">MIXERDEV</span></code> 中查找要使用的设备。 如果未找到，它将回退为 <code class="file docutils literal notranslate"><span class="pre">/dev/mixer</span></code>。</p>
+</dd></dl>
+
+<section id="audio-device-objects">
+<span id="ossaudio-device-objects"></span><h2>音频设备对象<a class="headerlink" href="#audio-device-objects" title="永久链接至标题">¶</a></h2>
+<p>在你写入或读取音频设备之前，你必须按照正确的顺序调用三个方法:</p>
+<ol class="arabic simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">setfmt()</span></code> 设置输出格式</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">channels()</span></code> 设置声道数量</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">speed()</span></code> 设置采样率</p></li>
+</ol>
+<p>或者，你也可以使用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">setparameters()</span></code> 方法一次性地设置全部三个音频参数。 这更为便捷，但可能不会在所有场景下都一样灵活。</p>
+<p><a class="reference internal" href="#ossaudiodev.open" title="ossaudiodev.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> 所返回的音频设备对象定义了下列方法和（只读）属性:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.close">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.close" title="永久链接至目标">¶</a></dt>
+<dd><p>显式地关闭音频设备。 当你完成写入或读取音频设备后，你应当显式地关闭它。 已关闭的设备不可被再次使用。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.fileno">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">fileno</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.fileno" title="永久链接至目标">¶</a></dt>
+<dd><p>返回与设备相关联的文件描述符。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.read">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.read" title="永久链接至目标">¶</a></dt>
+<dd><p>从音频输入设备读取 <em>size</em> 个字节并返回为 Python 字节串。 与大多数 Unix 设备驱动不同，处于阻塞模式（默认）的 OSS 音频设备将阻塞 <a class="reference internal" href="#ossaudiodev.oss_audio_device.read" title="ossaudiodev.oss_audio_device.read"><code class="xref py py-func docutils literal notranslate"><span class="pre">read()</span></code></a> 直到所请求大小的数据全部可用。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.write">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.write" title="永久链接至目标">¶</a></dt>
+<dd><p>将一个 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>data</em> 写入音频设备并返回写入的字节数。 如果音频设备处于阻塞模式（默认），则总是会写入完整数据（这还是不同于通常的 Unix 设备语义）。 如果设备处于非阻塞模式，则可能会有部分数据未被写入 --- 参见 <a class="reference internal" href="#ossaudiodev.oss_audio_device.writeall" title="ossaudiodev.oss_audio_device.writeall"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeall()</span></code></a>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>现在接受可写的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">字节类对象</span></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.writeall">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">writeall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.writeall" title="永久链接至目标">¶</a></dt>
+<dd><p>将一个 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> <em>data</em> 写入音频设备：等待直到音频设备能够接收数据，将根据其所能接收的数据量尽可能多地写入，并重复操作直至 <em>data</em> 被完全写入。 如果设备处于阻塞模式（默认），则其效果与 <a class="reference internal" href="#ossaudiodev.oss_audio_device.write" title="ossaudiodev.oss_audio_device.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a> 相同；<a class="reference internal" href="#ossaudiodev.oss_audio_device.writeall" title="ossaudiodev.oss_audio_device.writeall"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeall()</span></code></a> 仅适用于非阻塞模式。 它没有返回值，因为写入的数据量总是等于所提供的数据量。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>现在接受可写的 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">字节类对象</span></a>。</p>
+</div>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>音频设备对象还支持上下文管理协议，就是说它们可以在 <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> 语句中使用。</p>
+</div>
+<p>下列方法各自映射一个 <code class="xref c c-func docutils literal notranslate"><span class="pre">ioctl()</span></code> 系统调用。 对应关系很明显：例如，<code class="xref py py-meth docutils literal notranslate"><span class="pre">setfmt()</span></code> 对应 <code class="docutils literal notranslate"><span class="pre">SNDCTL_DSP_SETFMT</span></code> ioctl，而 <code class="xref py py-meth docutils literal notranslate"><span class="pre">sync()</span></code> 对应 <code class="docutils literal notranslate"><span class="pre">SNDCTL_DSP_SYNC</span></code> (这在查阅 OSS 文档时很有用)。 如果下层的 <code class="xref c c-func docutils literal notranslate"><span class="pre">ioctl()</span></code> 失败，它们将引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.nonblock">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">nonblock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.nonblock" title="永久链接至目标">¶</a></dt>
+<dd><p>将设备转为非阻塞模式。 一旦处于非阻塞模式，将无法将其转回阻塞模式。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.getfmts">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">getfmts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.getfmts" title="永久链接至目标">¶</a></dt>
+<dd><p>返回声卡所支持的音频输出格式的位掩码。 OSS 支持的一部分格式如下:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>格式</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_MU_LAW</span></code></p></td>
+<td><p>一种对数编码格式（被 Sun <code class="docutils literal notranslate"><span class="pre">.au</span></code> 文件和 <code class="file docutils literal notranslate"><span class="pre">/dev/audio</span></code> 所使用）</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_A_LAW</span></code></p></td>
+<td><p>一种对数编码格式</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_IMA_ADPCM</span></code></p></td>
+<td><p>一种 4:1 压缩格式，由 Interactive Multimedia Association 定义</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_U8</span></code></p></td>
+<td><p>无符号的 8 位音频</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_S16_LE</span></code></p></td>
+<td><p>有符号的 16 位音频，采用小端字节序（如 Intel 处理器所用的）</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_S16_BE</span></code></p></td>
+<td><p>有符号的 16 位音频，采用大端字节序（如 68k, PowerPC, Sparc 所用的）</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_S8</span></code></p></td>
+<td><p>有符号的 8 位音频</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_U16_LE</span></code></p></td>
+<td><p>无符号的 16 位小端字节序音频</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_U16_BE</span></code></p></td>
+<td><p>无符号的 16 位大端字节序音频</p></td>
+</tr>
+</tbody>
+</table>
+<p>请参阅 OSS 文档获取音频格式的完整列表，还要注意大多数设备都只支持这些列表的一个子集。 某些较旧的设备仅支持 <code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_U8</span></code>；目前最为常用的格式是 <code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_S16_LE</span></code>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.setfmt">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">setfmt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.setfmt" title="永久链接至目标">¶</a></dt>
+<dd><p>尝试将当前音频格式设为 <em>format</em> --- 请参阅 <a class="reference internal" href="#ossaudiodev.oss_audio_device.getfmts" title="ossaudiodev.oss_audio_device.getfmts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getfmts()</span></code></a> 获取格式列表。 返回为设备设置的音频格式，这可能并非所请求的格式。 也可被用来返回当前音频格式 --- 这可以通过传入特殊的 &quot;音频格式&quot; <code class="xref py py-const docutils literal notranslate"><span class="pre">AFMT_QUERY</span></code> 来实现。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.channels">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nchannels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.channels" title="永久链接至目标">¶</a></dt>
+<dd><p>将输出声道数设为 <em>nchannels</em>。 值为 1 表示单声道，2 表示立体声。 某些设备可能拥有 2 个以上的声道，并且某些高端设备还可能不支持单声道。 返回为设备设置的声道数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.speed">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samplerate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.speed" title="永久链接至目标">¶</a></dt>
+<dd><p>尝试将音频采样率设为每秒 <em>samplerate</em> 次采样。 返回实际设置的采样率。 大多数设备都不支持任意的采样率。 常见的采样率为:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>采样率</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8000</p></td>
+<td><p><code class="file docutils literal notranslate"><span class="pre">/dev/audio</span></code> 的默认采样率</p></td>
+</tr>
+<tr class="row-odd"><td><p>11025</p></td>
+<td><p>语音录音</p></td>
+</tr>
+<tr class="row-even"><td><p>22050</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>44100</p></td>
+<td><p>CD品质的音频（16位采样和2通道）</p></td>
+</tr>
+<tr class="row-even"><td><p>96000</p></td>
+<td><p>DVD品质的音频（24位采样）</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.sync">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">sync</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.sync" title="永久链接至目标">¶</a></dt>
+<dd><p>等待直到音频设备播放完其缓冲区中的所有字节。 （这会在设备被关闭时隐式地发生。） OSS 建议关闭再重新打开设备而不是使用 <a class="reference internal" href="#ossaudiodev.oss_audio_device.sync" title="ossaudiodev.oss_audio_device.sync"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sync()</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.reset">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.reset" title="永久链接至目标">¶</a></dt>
+<dd><p>立即停止播放或录制并使设备返回可接受命令的状态。 OSS 文档建议在调用 <a class="reference internal" href="#ossaudiodev.oss_audio_device.reset" title="ossaudiodev.oss_audio_device.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> 之后关闭并重新打开设备。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.post">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.post" title="永久链接至目标">¶</a></dt>
+<dd><p>告知设备在输出中可能有暂停，使得设备可以更智能地处理暂停。 你可以在播放一个定点音效之后、等待用户输入之前或执行磁盘 I/O 之前使用此方法。</p>
+</dd></dl>
+
+<p>下列便捷方法合并了多个 ioctl，或是合并了一个 ioctl 与某些简单的运算。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.setparameters">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">setparameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nchannels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplerate</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">strict=False</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.setparameters" title="永久链接至目标">¶</a></dt>
+<dd><p>在一次方法调用中设置关键的音频采样参数 --- 采样格式、声道数和采样率。 <em>format</em>,  <em>nchannels</em> 和 <em>samplerate</em> 应当与在 <a class="reference internal" href="#ossaudiodev.oss_audio_device.setfmt" title="ossaudiodev.oss_audio_device.setfmt"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setfmt()</span></code></a>, <a class="reference internal" href="#ossaudiodev.oss_audio_device.channels" title="ossaudiodev.oss_audio_device.channels"><code class="xref py py-meth docutils literal notranslate"><span class="pre">channels()</span></code></a> 和 <a class="reference internal" href="#ossaudiodev.oss_audio_device.speed" title="ossaudiodev.oss_audio_device.speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">speed()</span></code></a>  方法中所指定的一致。 如果 <em>strict</em> 为真值，则 <a class="reference internal" href="#ossaudiodev.oss_audio_device.setparameters" title="ossaudiodev.oss_audio_device.setparameters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setparameters()</span></code></a> 会检查每个参数是否确实被设置为所请求的值，如果不是则会引发 <a class="reference internal" href="#ossaudiodev.OSSAudioError" title="ossaudiodev.OSSAudioError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSSAudioError</span></code></a>。 返回一个元组 (<em>format</em>, <em>nchannels</em>, <em>samplerate</em>) 指明由设备驱动实际设置的参数值 (即与 <a class="reference internal" href="#ossaudiodev.oss_audio_device.setfmt" title="ossaudiodev.oss_audio_device.setfmt"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setfmt()</span></code></a>, <a class="reference internal" href="#ossaudiodev.oss_audio_device.channels" title="ossaudiodev.oss_audio_device.channels"><code class="xref py py-meth docutils literal notranslate"><span class="pre">channels()</span></code></a> 和 <a class="reference internal" href="#ossaudiodev.oss_audio_device.speed" title="ossaudiodev.oss_audio_device.speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">speed()</span></code></a> 的返回值相同)。</p>
+<p>例如，:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span> <span class="o">=</span> <span class="n">dsp</span><span class="o">.</span><span class="n">setparameters</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>等价于</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmt</span> <span class="o">=</span> <span class="n">dsp</span><span class="o">.</span><span class="n">setfmt</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+<span class="n">channels</span> <span class="o">=</span> <span class="n">dsp</span><span class="o">.</span><span class="n">channels</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span>
+<span class="n">rate</span> <span class="o">=</span> <span class="n">dsp</span><span class="o">.</span><span class="n">rate</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.bufsize">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">bufsize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.bufsize" title="永久链接至目标">¶</a></dt>
+<dd><p>返回硬件缓冲区的大小，以采样数表示。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.obufcount">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">obufcount</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.obufcount" title="永久链接至目标">¶</a></dt>
+<dd><p>返回硬件缓冲区中待播放的采样数。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.obuffree">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">obuffree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_audio_device.obuffree" title="永久链接至目标">¶</a></dt>
+<dd><p>返回可以被加入硬件缓冲区队列以非阻塞模式播放的采样数。</p>
+</dd></dl>
+
+<p>音频设备对象还支持几个只读属性:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.closed">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">closed</span></span><a class="headerlink" href="#ossaudiodev.oss_audio_device.closed" title="永久链接至目标">¶</a></dt>
+<dd><p>指明设备是否已被关闭的布尔值。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.name">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#ossaudiodev.oss_audio_device.name" title="永久链接至目标">¶</a></dt>
+<dd><p>包含设备文件名称的字符串。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ossaudiodev.oss_audio_device.mode">
+<span class="sig-prename descclassname"><span class="pre">oss_audio_device.</span></span><span class="sig-name descname"><span class="pre">mode</span></span><a class="headerlink" href="#ossaudiodev.oss_audio_device.mode" title="永久链接至目标">¶</a></dt>
+<dd><p>文件的 I/O 模式，可以为 <code class="docutils literal notranslate"><span class="pre">&quot;r&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;rw&quot;</span></code> 或 <code class="docutils literal notranslate"><span class="pre">&quot;w&quot;</span></code>。</p>
+</dd></dl>
+
+</section>
+<section id="mixer-device-objects">
+<span id="id1"></span><h2>混音器设备对象<a class="headerlink" href="#mixer-device-objects" title="永久链接至标题">¶</a></h2>
+<p>混音器对象提供了两个文件类方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_mixer_device.close">
+<span class="sig-prename descclassname"><span class="pre">oss_mixer_device.</span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_mixer_device.close" title="永久链接至目标">¶</a></dt>
+<dd><p>此方法会关闭打开的混音器设备文件。 在文件被关闭后任何继续使用混音器的尝试都将引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_mixer_device.fileno">
+<span class="sig-prename descclassname"><span class="pre">oss_mixer_device.</span></span><span class="sig-name descname"><span class="pre">fileno</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_mixer_device.fileno" title="永久链接至目标">¶</a></dt>
+<dd><p>返回打开的混音器设备文件的文件处理句柄号。</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>混音器设备还支持上下文管理协议。</p>
+</div>
+<p>其余方法都是混音专属的:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_mixer_device.controls">
+<span class="sig-prename descclassname"><span class="pre">oss_mixer_device.</span></span><span class="sig-name descname"><span class="pre">controls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_mixer_device.controls" title="永久链接至目标">¶</a></dt>
+<dd><p>此方法返回一个表示可用的混音控件的位掩码 (&quot;控件&quot; 是专用的可混合 &quot;声道&quot;，例如 <code class="xref py py-const docutils literal notranslate"><span class="pre">SOUND_MIXER_PCM</span></code> 或 <code class="xref py py-const docutils literal notranslate"><span class="pre">SOUND_MIXER_SYNTH</span></code>)。 该掩码会指定所有可用混音控件的一个子集 --- 它们是在模块层级上定义的 <code class="xref py py-const docutils literal notranslate"><span class="pre">SOUND_MIXER_*</span></code> 常量。 举例来说，要确定当前混音器对象是否支持 PCM 混音器，就使用以下 Python 代码:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">mixer</span><span class="o">=</span><span class="n">ossaudiodev</span><span class="o">.</span><span class="n">openmixer</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">mixer</span><span class="o">.</span><span class="n">controls</span><span class="p">()</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">ossaudiodev</span><span class="o">.</span><span class="n">SOUND_MIXER_PCM</span><span class="p">):</span>
+    <span class="c1"># PCM is supported</span>
+    <span class="o">...</span> <span class="n">code</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>对于大多数目的来说，<code class="xref py py-const docutils literal notranslate"><span class="pre">SOUND_MIXER_VOLUME</span></code> (主音量) 和 <code class="xref py py-const docutils literal notranslate"><span class="pre">SOUND_MIXER_PCM</span></code> 控件应该足够了 --- 但使用混音器的代码应当在选择混音器控件时保持灵活。 例如在 Gravis Ultrasound 上，<code class="xref py py-const docutils literal notranslate"><span class="pre">SOUND_MIXER_VOLUME</span></code> 是不存在的。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_mixer_device.stereocontrols">
+<span class="sig-prename descclassname"><span class="pre">oss_mixer_device.</span></span><span class="sig-name descname"><span class="pre">stereocontrols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_mixer_device.stereocontrols" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个表示立体声混音控件的位掩码。 如果设置了比特位，则对应的控件就是立体声的；如果未设置，则控件为单声道或者不被混音器所支持（请配合 <a class="reference internal" href="#ossaudiodev.oss_mixer_device.controls" title="ossaudiodev.oss_mixer_device.controls"><code class="xref py py-meth docutils literal notranslate"><span class="pre">controls()</span></code></a> 使用以确定是哪种情况）。</p>
+<p>请查看 <a class="reference internal" href="#ossaudiodev.oss_mixer_device.controls" title="ossaudiodev.oss_mixer_device.controls"><code class="xref py py-meth docutils literal notranslate"><span class="pre">controls()</span></code></a> 函数的代码示例了解如何从位掩码获取数据。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_mixer_device.reccontrols">
+<span class="sig-prename descclassname"><span class="pre">oss_mixer_device.</span></span><span class="sig-name descname"><span class="pre">reccontrols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_mixer_device.reccontrols" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个指明可被用于录音的混音器控件的位掩码。 请查看 <a class="reference internal" href="#ossaudiodev.oss_mixer_device.controls" title="ossaudiodev.oss_mixer_device.controls"><code class="xref py py-meth docutils literal notranslate"><span class="pre">controls()</span></code></a> 的代码示例了解如何读取位掩码。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_mixer_device.get">
+<span class="sig-prename descclassname"><span class="pre">oss_mixer_device.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_mixer_device.get" title="永久链接至目标">¶</a></dt>
+<dd><p>返回给定混音控件的音量。 返回的音量是一个 2 元组 <code class="docutils literal notranslate"><span class="pre">(left_volume,right_volume)</span></code>。 音量被表示为从 0 (静音) 到 100 (最大音量) 的数字。 如果控件是单声道的，仍然会返回一个 2 元组，但两个音量必定相同。</p>
+<p>如果指定了无效的控件则会引发 <a class="reference internal" href="#ossaudiodev.OSSAudioError" title="ossaudiodev.OSSAudioError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSSAudioError</span></code></a>，或者如果指定了不受支持的控件则会引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_mixer_device.set">
+<span class="sig-prename descclassname"><span class="pre">oss_mixer_device.</span></span><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_mixer_device.set" title="永久链接至目标">¶</a></dt>
+<dd><p>将给定混音控件的音量设为 <code class="docutils literal notranslate"><span class="pre">(left,right)</span></code>。 <code class="docutils literal notranslate"><span class="pre">left</span></code> 和 <code class="docutils literal notranslate"><span class="pre">right</span></code> 必须为整数并在 0 (静音) 至 100 (最大音量) 之间。 当执行成功的，新的音量将以 2 元组形式返回。 请注意这可能不完全等于所指定的音量，因为某些声卡的混音器有精度限制。</p>
+<p>如果指定了无效的混音控件，或者指定的音量超出限制则会引发 <a class="reference internal" href="#ossaudiodev.OSSAudioError" title="ossaudiodev.OSSAudioError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSSAudioError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_mixer_device.get_recsrc">
+<span class="sig-prename descclassname"><span class="pre">oss_mixer_device.</span></span><span class="sig-name descname"><span class="pre">get_recsrc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_mixer_device.get_recsrc" title="永久链接至目标">¶</a></dt>
+<dd><p>此方法返回一个表示当前被用作录音源的的控件的位掩码。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ossaudiodev.oss_mixer_device.set_recsrc">
+<span class="sig-prename descclassname"><span class="pre">oss_mixer_device.</span></span><span class="sig-name descname"><span class="pre">set_recsrc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bitmask</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ossaudiodev.oss_mixer_device.set_recsrc" title="永久链接至目标">¶</a></dt>
+<dd><p>调用此函数来指定一个录音源。 如果成功则返回一个指明新录音源的位掩码；如果指定了无效的源则会引发 <a class="reference internal" href="exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>。 如果要将当前录音源设为麦克风输入:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">mixer</span><span class="o">.</span><span class="n">setrecsrc</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">ossaudiodev</span><span class="o">.</span><span class="n">SOUND_MIXER_MIC</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ossaudiodev</span></code>  --- 访问兼容OSS的音频设备</a><ul>
+<li><a class="reference internal" href="#audio-device-objects">音频设备对象</a></li>
+<li><a class="reference internal" href="#mixer-device-objects">混音器设备对象</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="optparse.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">optparse</span></code> --- 命令行选项的解析器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="pipes.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pipes</span></code> --- 终端管道接口</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/ossaudiodev.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="pipes.html" title="pipes --- 终端管道接口"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="optparse.html" title="optparse --- 命令行选项的解析器"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" >被取代的模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">ossaudiodev</span></code>  --- 访问兼容OSS的音频设备</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

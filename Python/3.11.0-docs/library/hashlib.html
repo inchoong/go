@@ -1,0 +1,923 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>hashlib --- 安全哈希与消息摘要 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="hmac --- 基于密钥的消息验证" href="hmac.html" />
+    <link rel="prev" title="加密服务" href="crypto.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/hashlib.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hashlib</span></code> --- 安全哈希与消息摘要</a><ul>
+<li><a class="reference internal" href="#hash-algorithms">哈希算法</a></li>
+<li><a class="reference internal" href="#shake-variable-length-digests">SHAKE 可变长度摘要</a></li>
+<li><a class="reference internal" href="#file-hashing">File hashing</a></li>
+<li><a class="reference internal" href="#key-derivation">密钥派生</a></li>
+<li><a class="reference internal" href="#blake2">BLAKE2</a><ul>
+<li><a class="reference internal" href="#creating-hash-objects">创建哈希对象</a></li>
+<li><a class="reference internal" href="#constants">常量</a></li>
+<li><a class="reference internal" href="#examples">例子</a><ul>
+<li><a class="reference internal" href="#simple-hashing">简单哈希</a></li>
+<li><a class="reference internal" href="#using-different-digest-sizes">使用不同的摘要大小</a></li>
+<li><a class="reference internal" href="#keyed-hashing">密钥哈希</a></li>
+<li><a class="reference internal" href="#randomized-hashing">随机哈希</a></li>
+<li><a class="reference internal" href="#personalization">个性化</a></li>
+<li><a class="reference internal" href="#tree-mode">树形模式</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#credits">开发人员</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="crypto.html"
+                          title="上一章">加密服务</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="hmac.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hmac</span></code> --- 基于密钥的消息验证</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/hashlib.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="hmac.html" title="hmac --- 基于密钥的消息验证"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="crypto.html" title="加密服务"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="crypto.html" accesskey="U">加密服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">hashlib</span></code> --- 安全哈希与消息摘要</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-hashlib">
+<span id="hashlib-secure-hashes-and-message-digests"></span><h1><a class="reference internal" href="#module-hashlib" title="hashlib: Secure hash and message digest algorithms."><code class="xref py py-mod docutils literal notranslate"><span class="pre">hashlib</span></code></a> --- 安全哈希与消息摘要<a class="headerlink" href="#module-hashlib" title="永久链接至标题">¶</a></h1>
+<p><strong>源码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/hashlib.py">Lib/hashlib.py</a></p>
+<span class="target" id="index-0"></span><hr class="docutils" />
+<p>这个模块针对许多不同的安全哈希和消息摘要算法实现了一个通用接口。 包括 FIPS 安全哈希算法 SHA1, SHA224, SHA256, SHA384 和 SHA512 (定义于 FIPS 180-2) 以及 RSA 的 MD5 算法 (定义于互联网 <span class="target" id="index-9"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1321.html"><strong>RFC 1321</strong></a>)。 术语 &quot;安全哈希&quot; 和 &quot;消息摘要&quot; 是同义的。 较旧的算法被称为消息摘要。 现代的术语是安全哈希。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>如果你想找到 adler32 或 crc32 哈希函数，它们在 <a class="reference internal" href="zlib.html#module-zlib" title="zlib: Low-level interface to compression and decompression routines compatible with gzip."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code></a> 模块中。</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>有些算法已知存在哈希碰撞弱点，请参考最后的“另请参阅”段。</p>
+</div>
+<section id="hash-algorithms">
+<span id="id1"></span><h2>哈希算法<a class="headerlink" href="#hash-algorithms" title="永久链接至标题">¶</a></h2>
+<p>每种类型的 <em class="dfn">hash</em> 都有一个构造器方法。 它们都返回一个具有相同的简单接口的 hash 对象。 例如，使用 use <code class="xref py py-func docutils literal notranslate"><span class="pre">sha256()</span></code> 创建一个 SHA-256 hash 对象。 你可以使用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code> 方法向这个对象输入 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">字节类对象</span></a> (通常是 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>)。 在任何时候你都可以使用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">digest()</span></code> 或 <code class="xref py py-meth docutils literal notranslate"><span class="pre">hexdigest()</span></code> 方法获得到目前为止输入这个对象的拼接数据的 <em class="dfn">digest</em>。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>为了更好的多线程性能，在对象创建或者更新时，若数据大于2047字节则 Python 的 <a class="reference internal" href="../glossary.html#term-GIL"><span class="xref std std-term">GIL</span></a> 会被释放。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>向 <code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code> 输入字符串对象是不被支持的，因为哈希基于字节而非字符。</p>
+</div>
+<p id="index-2">此模块中总是可用的哈希算法构造器有 <code class="xref py py-func docutils literal notranslate"><span class="pre">sha1()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">sha224()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">sha256()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">sha384()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">sha512()</span></code>, <a class="reference internal" href="#hashlib.blake2b" title="hashlib.blake2b"><code class="xref py py-func docutils literal notranslate"><span class="pre">blake2b()</span></code></a> 和 <a class="reference internal" href="#hashlib.blake2s" title="hashlib.blake2s"><code class="xref py py-func docutils literal notranslate"><span class="pre">blake2s()</span></code></a>。 <code class="xref py py-func docutils literal notranslate"><span class="pre">md5()</span></code> 通常也是可用的，但如果你在使用少见的 &quot;FIPS 兼容&quot; 的 Python 编译版本则可能会找不到它。 此外还可能有一些附加的算法，具体取决于你的平台上的 Python 所使用的 OpenSSL 库。 在大部分平台上可用的还有 <code class="xref py py-func docutils literal notranslate"><span class="pre">sha3_224()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">sha3_256()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">sha3_384()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">sha3_512()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">shake_128()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">shake_256()</span></code> 等等。·</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能: </span>SHA3 (Keccak) 和 SHAKE 构造器 <code class="xref py py-func docutils literal notranslate"><span class="pre">sha3_224()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">sha3_256()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">sha3_384()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">sha3_512()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">shake_128()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">shake_256()</span></code>.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能: </span>添加了 <a class="reference internal" href="#hashlib.blake2b" title="hashlib.blake2b"><code class="xref py py-func docutils literal notranslate"><span class="pre">blake2b()</span></code></a> 和 <a class="reference internal" href="#hashlib.blake2s" title="hashlib.blake2s"><code class="xref py py-func docutils literal notranslate"><span class="pre">blake2s()</span></code></a> 。</p>
+</div>
+<div class="versionchanged" id="hashlib-usedforsecurity">
+<p><span class="versionmodified changed">在 3.9 版更改: </span>所有 hashlib 的构造器都接受仅限关键字参数 <em>usedforsecurity</em> 且其默认值为 <code class="docutils literal notranslate"><span class="pre">True</span></code>。 设为假值即允许在受限的环境中使用不安全且阻塞的哈希算法。 <code class="docutils literal notranslate"><span class="pre">False</span></code> 表示此哈希算法不可用于安全场景，例如用作非加密的单向压缩函数。</p>
+<p>现在 hashlib 会使用 OpenSSL 1.1.1 或更新版本的 SHA3 和 SHAKE。</p>
+</div>
+<p>For example, to obtain the digest of the byte string <code class="docutils literal notranslate"><span class="pre">b&quot;Nobody</span> <span class="pre">inspects</span> <span class="pre">the</span>
+<span class="pre">spammish</span> <span class="pre">repetition&quot;</span></code>:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Nobody inspects&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot; the spammish repetition&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+<span class="go">b&#39;\x03\x1e\xdd}Ae\x15\x93\xc5\xfe\\\x00o\xa5u+7\xfd\xdf\xf7\xbcN\x84:\xa6\xaf\x0c\x95\x0fK\x94\x06&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;031edd7d41651593c5fe5c006fa5752b37fddff7bc4e843aa6af0c950f4b9406&#39;</span>
+</pre></div>
+</div>
+<p>更简要的写法：</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Nobody inspects the spammish repetition&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;031edd7d41651593c5fe5c006fa5752b37fddff7bc4e843aa6af0c950f4b9406&#39;</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="hashlib.new">
+<span class="sig-prename descclassname"><span class="pre">hashlib.</span></span><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <span class="optional">]</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usedforsecurity=True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.new" title="永久链接至目标">¶</a></dt>
+<dd><p>一个接受所希望的算法对应的字符串 <em>name</em> 作为第一个形参的通用构造器。 它还允许访问上面列出的哈希算法以及你的 OpenSSL 库可能提供的任何其他算法。 同名的构造器要比 <a class="reference internal" href="#hashlib.new" title="hashlib.new"><code class="xref py py-func docutils literal notranslate"><span class="pre">new()</span></code></a> 更快所以应当优先使用。</p>
+</dd></dl>
+
+<p>使用 <a class="reference internal" href="#hashlib.new" title="hashlib.new"><code class="xref py py-func docutils literal notranslate"><span class="pre">new()</span></code></a> 并附带由 OpenSSL 所提供了算法:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;sha256&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Nobody inspects the spammish repetition&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;031edd7d41651593c5fe5c006fa5752b37fddff7bc4e843aa6af0c950f4b9406&#39;</span>
+</pre></div>
+</div>
+<p>Hashlib 提供下列常量属性：</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.algorithms_guaranteed">
+<span class="sig-prename descclassname"><span class="pre">hashlib.</span></span><span class="sig-name descname"><span class="pre">algorithms_guaranteed</span></span><a class="headerlink" href="#hashlib.algorithms_guaranteed" title="永久链接至目标">¶</a></dt>
+<dd><p>一个集合，其中包含此模块在所有平台上都保证支持的哈希算法的名称。 请注意 'md5' 也在此清单中，虽然某些上游厂商提供了一个怪异的排除了此算法的 &quot;FIPS 兼容&quot; Python 编译版本。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.algorithms_available">
+<span class="sig-prename descclassname"><span class="pre">hashlib.</span></span><span class="sig-name descname"><span class="pre">algorithms_available</span></span><a class="headerlink" href="#hashlib.algorithms_available" title="永久链接至目标">¶</a></dt>
+<dd><p>一个集合，其中包含在所运行的 Python 解释器上可用的哈希算法的名称。 将这些名称传给 <a class="reference internal" href="#hashlib.new" title="hashlib.new"><code class="xref py py-func docutils literal notranslate"><span class="pre">new()</span></code></a> 时将可被识别。 <a class="reference internal" href="#hashlib.algorithms_guaranteed" title="hashlib.algorithms_guaranteed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">algorithms_guaranteed</span></code></a> 将总是它的一个子集。 同样的算法在此集合中可能以不同的名称出现多次（这是 OpenSSL 的原因）。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.2 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>下列值会以构造器所返回的哈希对象的常量属性的形式被提供:</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.hash.digest_size">
+<span class="sig-prename descclassname"><span class="pre">hash.</span></span><span class="sig-name descname"><span class="pre">digest_size</span></span><a class="headerlink" href="#hashlib.hash.digest_size" title="永久链接至目标">¶</a></dt>
+<dd><p>以字节表示的结果哈希对象的大小。</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.hash.block_size">
+<span class="sig-prename descclassname"><span class="pre">hash.</span></span><span class="sig-name descname"><span class="pre">block_size</span></span><a class="headerlink" href="#hashlib.hash.block_size" title="永久链接至目标">¶</a></dt>
+<dd><p>以字节表示的哈希算法的内部块大小。</p>
+</dd></dl>
+
+<p>hash 对象具有以下属性：</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hashlib.hash.name">
+<span class="sig-prename descclassname"><span class="pre">hash.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#hashlib.hash.name" title="永久链接至目标">¶</a></dt>
+<dd><p>此哈希对象的规范名称，总是为小写形式并且总是可以作为 <a class="reference internal" href="#hashlib.new" title="hashlib.new"><code class="xref py py-func docutils literal notranslate"><span class="pre">new()</span></code></a> 的形参用来创建另一个此类型的哈希对象。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>该属性名称自被引入起即存在于 CPython 中，但在 Python 3.4 之前并未正式指明，因此可能不存在于某些平台上。</p>
+</div>
+</dd></dl>
+
+<p>哈希对象具有下列方法:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="hashlib.hash.update">
+<span class="sig-prename descclassname"><span class="pre">hash.</span></span><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.hash.update" title="永久链接至目标">¶</a></dt>
+<dd><p>用 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a> 来更新哈希对象。 重复调用相当于单次调用并传入所有参数的拼接结果: <code class="docutils literal notranslate"><span class="pre">m.update(a);</span> <span class="pre">m.update(b)</span></code> 等价于 <code class="docutils literal notranslate"><span class="pre">m.update(a+b)</span></code>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.1 版更改: </span>当使用 OpenSSL 提供的哈希算法在大于 2047 字节的数据上执行哈希更新时 Python GIL 会被释放以允许其他线程运行。</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hashlib.hash.digest">
+<span class="sig-prename descclassname"><span class="pre">hash.</span></span><span class="sig-name descname"><span class="pre">digest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.hash.digest" title="永久链接至目标">¶</a></dt>
+<dd><p>返回当前已传给 <a class="reference internal" href="#hashlib.hash.update" title="hashlib.hash.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a> 方法的数据摘要。 这是一个大小为 <a class="reference internal" href="#hashlib.hash.digest_size" title="hashlib.hash.digest_size"><code class="xref py py-attr docutils literal notranslate"><span class="pre">digest_size</span></code></a> 的字节串对象，字节串中可包含 0 至 255 的完整取值范围。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hashlib.hash.hexdigest">
+<span class="sig-prename descclassname"><span class="pre">hash.</span></span><span class="sig-name descname"><span class="pre">hexdigest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.hash.hexdigest" title="永久链接至目标">¶</a></dt>
+<dd><p>类似于 <a class="reference internal" href="#hashlib.hash.digest" title="hashlib.hash.digest"><code class="xref py py-meth docutils literal notranslate"><span class="pre">digest()</span></code></a> 但摘要会以两倍长度字符串对象的形式返回，其中仅包含十六进制数码。 这可以被用于在电子邮件或其他非二进制环境中安全地交换数据值。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hashlib.hash.copy">
+<span class="sig-prename descclassname"><span class="pre">hash.</span></span><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.hash.copy" title="永久链接至目标">¶</a></dt>
+<dd><p>返回哈希对象的副本（“克隆”）。 这可被用来高效地计算共享相同初始子串的数据的摘要。</p>
+</dd></dl>
+
+</section>
+<section id="shake-variable-length-digests">
+<h2>SHAKE 可变长度摘要<a class="headerlink" href="#shake-variable-length-digests" title="永久链接至标题">¶</a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">shake_128()</span></code> 和 <code class="xref py py-func docutils literal notranslate"><span class="pre">shake_256()</span></code> 算法提供安全的 length_in_bits//2 至 128 或 256 位可变长度摘要。 为此，它们的摘要需指定一个长度。 SHAKE 算法不限制最大长度。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="hashlib.shake.digest">
+<span class="sig-prename descclassname"><span class="pre">shake.</span></span><span class="sig-name descname"><span class="pre">digest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.shake.digest" title="永久链接至目标">¶</a></dt>
+<dd><p>返回当前已传给 <code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code> 方法的数据摘要。 这是一个大小为 <em>length</em> 的字节串对象，字节串中可包含 0 to 255 的完整取值范围。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hashlib.shake.hexdigest">
+<span class="sig-prename descclassname"><span class="pre">shake.</span></span><span class="sig-name descname"><span class="pre">hexdigest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.shake.hexdigest" title="永久链接至目标">¶</a></dt>
+<dd><p>类似于 <a class="reference internal" href="#hashlib.shake.digest" title="hashlib.shake.digest"><code class="xref py py-meth docutils literal notranslate"><span class="pre">digest()</span></code></a> 但摘要会以两倍长度字符串对象的形式返回，其中仅包含十六进制数码。 这可以被用于在电子邮件或其他非二进制环境中安全地交换数据值。</p>
+</dd></dl>
+
+</section>
+<section id="file-hashing">
+<h2>File hashing<a class="headerlink" href="#file-hashing" title="永久链接至标题">¶</a></h2>
+<p>The hashlib module provides a helper function for efficient hashing of
+a file or file-like object.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="hashlib.file_digest">
+<span class="sig-prename descclassname"><span class="pre">hashlib.</span></span><span class="sig-name descname"><span class="pre">file_digest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digest</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.file_digest" title="永久链接至目标">¶</a></dt>
+<dd><p>Return a digest object that has been updated with contents of file object.</p>
+<p><em>fileobj</em> must be a file-like object opened for reading in binary mode.
+It accepts file objects from  builtin <a class="reference internal" href="functions.html#open" title="open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a>, <a class="reference internal" href="io.html#io.BytesIO" title="io.BytesIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesIO</span></code></a>
+instances, SocketIO objects from <a class="reference internal" href="socket.html#socket.socket.makefile" title="socket.socket.makefile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">socket.socket.makefile()</span></code></a>, and
+similar. The function may bypass Python's I/O and use the file descriptor
+from <a class="reference internal" href="io.html#io.IOBase.fileno" title="io.IOBase.fileno"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code></a> directly. <em>fileobj</em> must be assumed to be
+in an unknown state after this function returns or raises. It is up to
+the caller to close <em>fileobj</em>.</p>
+<p><em>digest</em> must either be a hash algorithm name as a <em>str</em>, a hash
+constructor, or a callable that returns a hash object.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span><span class="o">,</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">hmac</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">hashlib</span><span class="o">.</span><span class="vm">__file__</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">file_digest</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s2">&quot;sha256&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">digest</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>  
+<span class="go">&#39;...&#39;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">buf</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;somedata&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mac1</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">HMAC</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="n">digestmod</span><span class="o">=</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha512</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">file_digest</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">mac1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">digest</span> <span class="ow">is</span> <span class="n">mac1</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mac2</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">HMAC</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;somedata&quot;</span><span class="p">,</span> <span class="n">digestmod</span><span class="o">=</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha512</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mac1</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span> <span class="o">==</span> <span class="n">mac2</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.11 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="key-derivation">
+<h2>密钥派生<a class="headerlink" href="#key-derivation" title="永久链接至标题">¶</a></h2>
+<p>密钥派生和密钥延展算法被设计用于安全密码哈希。 <code class="docutils literal notranslate"><span class="pre">sha1(password)</span></code> 这样的简单算法无法防御暴力攻击。 好的密码哈希函数必须可以微调、放慢步调，并且包含 <a class="reference external" href="https://en.wikipedia.org/wiki/Salt_%28cryptography%29">加盐</a>。</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="hashlib.pbkdf2_hmac">
+<span class="sig-prename descclassname"><span class="pre">hashlib.</span></span><span class="sig-name descname"><span class="pre">pbkdf2_hmac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hash_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">salt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dklen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.pbkdf2_hmac" title="永久链接至目标">¶</a></dt>
+<dd><p>此函数提供 PKCS#5 基于密码的密钥派生函数 2。 它使用 HMAC 作为伪随机函数。</p>
+<p>字符串 <em>hash_name</em> 是要求用于 HMAC 的哈希摘要算法的名称，例如 'sha1' 或 'sha256'。 <em>password</em> 和 <em>salt</em> 会以字节串缓冲区的形式被解析。 应用和库应当将 <em>password</em> 限制在合理长度 (例如 1024)。 <em>salt</em> 应当为适当来源例如 <a class="reference internal" href="os.html#os.urandom" title="os.urandom"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a> 的大约 16 个或更多的字节串数据。</p>
+<p><em>iterations</em> 的数值应当基于哈希算法和机器算力来选择。 在 2022 年，建议选择进行数万次的 SHA-256 迭代。 对于为何以及如何选择最适合你的应用程序的迭代次数的理由，请参阅 <a class="reference external" href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-132.pdf">NIST-SP-800-132</a> 的 <em>Appendix A.2.2</em>。 其中 <a class="reference external" href="https://security.stackexchange.com/questions/3959/recommended-of-iterations-when-using-pbkdf2-sha256/">stackexchange pbkdf2 迭代问题</a> 的解答提供的详细的说明。</p>
+<p><em>dklen</em> 为派生密钥的长度。 如果 <em>dklen</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 则会使用哈希算法 <em>hash_name</em> 的摘要大小，例如 SHA-512 为 64。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">pbkdf2_hmac</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">our_app_iters</span> <span class="o">=</span> <span class="mi">500_000</span>  <span class="c1"># Application specific, read above.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dk</span> <span class="o">=</span> <span class="n">pbkdf2_hmac</span><span class="p">(</span><span class="s1">&#39;sha256&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;bad salt&#39;</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">our_app_iters</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dk</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+<span class="go">&#39;15530bba69924174860db778f2c6f8104d3aaf9d26241840c8c4a641c8d000a9&#39;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>随同 OpenSSL 提供了一个快速的 <em>pbkdf2_hmac</em> 实现。 Python 实现是使用 <a class="reference internal" href="hmac.html#module-hmac" title="hmac: Keyed-Hashing for Message Authentication (HMAC) implementation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hmac</span></code></a> 的内联版本。 它的速度大约要慢上三倍并且不会释放 GIL。</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.10 版后已移除: </span>较慢的 <em>pbkdf2_hmac</em> Python 实现已被弃用。 未来该函数将仅在 Python 附带 OpenSSL 编译时可用。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="hashlib.scrypt">
+<span class="sig-prename descclassname"><span class="pre">hashlib.</span></span><span class="sig-name descname"><span class="pre">scrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">salt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxmem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dklen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.scrypt" title="永久链接至目标">¶</a></dt>
+<dd><p>此函数提供基于密码加密的密钥派生函数，其定义参见 <span class="target" id="index-10"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc7914.html"><strong>RFC 7914</strong></a>。</p>
+<p><em>password</em> 和 <em>salt</em> 必须为 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">字节类对象</span></a>。 应用和库应当将 <em>password</em> 限制在合理长度 (例如 1024)。 <em>salt</em> 应当为适当来源例如 <a class="reference internal" href="os.html#os.urandom" title="os.urandom"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a> 的大约 16 个或更多的字节串数据。</p>
+<p><em>n</em> 为 CPU/内存开销因子，<em>r</em> 为块大小，<em>p</em> 为并行化因子，<em>maxmem</em> 为内存限制 (OpenSSL 1.1.0 默认为 32 MiB)。 <em>dklen</em> 为派生密钥的长度。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="blake2">
+<h2>BLAKE2<a class="headerlink" href="#blake2" title="永久链接至标题">¶</a></h2>
+<p id="index-4"><a class="reference external" href="https://blake2.net">BLAKE2</a> 是在 <span class="target" id="index-11"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc7693.html"><strong>RFC 7693</strong></a> 中定义的加密哈希函数，它有两种形式:</p>
+<ul class="simple">
+<li><p><strong>BLAKE2b</strong>，针对 64 位平台进行优化，并会生成长度介于 1 和 64 字节之间任意大小的摘要。</p></li>
+<li><p><strong>BLAKE2s</strong>，针对 8 至 32 位平台进行优化，并会生成长度介于 1 和 32 字节之间任意大小的摘要。</p></li>
+</ul>
+<p>BLAKE2 支持 <strong>keyed mode</strong> (<a class="reference external" href="https://en.wikipedia.org/wiki/Hash-based_message_authentication_code">HMAC</a> 的更快速更简单的替代), <strong>salted hashing</strong>, <strong>personalization</strong> 和 <strong>tree hashing</strong>.</p>
+<p>此模块的哈希对象遵循标准库 <a class="reference internal" href="#module-hashlib" title="hashlib: Secure hash and message digest algorithms."><code class="xref py py-mod docutils literal notranslate"><span class="pre">hashlib</span></code></a> 对象的 API。</p>
+<section id="creating-hash-objects">
+<h3>创建哈希对象<a class="headerlink" href="#creating-hash-objects" title="永久链接至标题">¶</a></h3>
+<p>新哈希对象可通过调用构造器函数来创建:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="hashlib.blake2b">
+<span class="sig-prename descclassname"><span class="pre">hashlib.</span></span><span class="sig-name descname"><span class="pre">blake2b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digest_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">salt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">person</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fanout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaf_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usedforsecurity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.blake2b" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="hashlib.blake2s">
+<span class="sig-prename descclassname"><span class="pre">hashlib.</span></span><span class="sig-name descname"><span class="pre">blake2s</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digest_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">salt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">person</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fanout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaf_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usedforsecurity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hashlib.blake2s" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<p>这些函数返回用于计算 BLAKE2b 或 BLAKE2s 的相应的哈希对象。 它们接受下列可选通用形参:</p>
+<ul class="simple">
+<li><p><em>data</em>: 要哈希的初始数据块，它必须为 <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>。 它只能作为位置参数传入。</p></li>
+<li><p><em>digest_size</em>: 以字节数表示的输出摘要大小。</p></li>
+<li><p><em>key</em>: 用于密钥哈希的密钥（对于 BLAKE2b 最长 64 字节，对于 BLAKE2s 最长 32 字节）。</p></li>
+<li><p><em>salt</em>: 用于随机哈希的盐值（对于 BLAKE2b 最长 16 字节，对于 BLAKE2s 最长 8 字节）。</p></li>
+<li><p><em>person</em>: 个性化字符串（对于 BLAKE2b 最长 16 字节，对于 BLAKE2s 最长 8 字节）。</p></li>
+</ul>
+<p>下表显示了常规参数的限制（以字节为单位）：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 24%" />
+<col style="width: 17%" />
+<col style="width: 20%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Hash</p></th>
+<th class="head"><p>目标长度</p></th>
+<th class="head"><p>长度（键）</p></th>
+<th class="head"><p>长度（盐）</p></th>
+<th class="head"><p>长度（个人）</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>BLAKE2b</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+</tr>
+<tr class="row-odd"><td><p>BLAKE2s</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>BLAKE2 规格描述为盐值和个性化形参定义了固定的长度，但是为了方便起见，此实现接受指定在长度以内的任意大小的字节串。 如果形参长度小于指定值，它将以零值进行填充，因此举例来说，<code class="docutils literal notranslate"><span class="pre">b'salt'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">b'salt\x00'</span></code> 为相同的值 (<em>key</em> 的情况则并非如此。)</p>
+</div>
+<p>如下面的模块 <a class="reference internal" href="#constants">constants</a> 所描述，这些是可用的大小取值。</p>
+<p>构造器函数还接受下列树形哈希形参:</p>
+<ul class="simple">
+<li><p><em>fanout</em>: 扇出值 (0 至 255，如无限制即为 0，连续模式下为 1)。</p></li>
+<li><p><em>depth</em>: 树的最大深度 (1 至 255，如无限制则为 255，连续模式下为 1)。</p></li>
+<li><p><em>leaf_size</em>: 叶子的最大字节长度 (0 至 <code class="docutils literal notranslate"><span class="pre">2**32-1</span></code>，如无限制或在连续模式下则为 0)。</p></li>
+<li><p><em>node_offset</em>: 节点的偏移量 (对于 BLAKE2b 为 0 至 <code class="docutils literal notranslate"><span class="pre">2**64-1</span></code>，对于 BLAKE2s 为 0 至 <code class="docutils literal notranslate"><span class="pre">2**48-1</span></code>，对于最多边的第一个叶子或在连续模式下则为 0)。</p></li>
+<li><p><em>node_depth</em>: 节点深度 (0 至 255，对于叶子或在连续模式下则为 0)。</p></li>
+<li><p><em>inner_size</em>: 内部摘要大小 (对于 BLAKE2b 为 0 至 64，对于 BLAKE2s 为 0 至 32，连续模式下则为 0)。</p></li>
+<li><p><em>last_node</em>: boolean indicating whether the processed node is the last
+one (<code class="docutils literal notranslate"><span class="pre">False</span></code> for sequential mode).</p></li>
+</ul>
+<figure class="align-default">
+<img alt="Explanation of tree mode parameters." src="../_images/hashlib-blake2-tree.png" />
+</figure>
+<p>请参阅 <a class="reference external" href="https://blake2.net/blake2_20130129.pdf">BLAKE2 规格描述</a> 第 2.10 节获取有关树形哈希的完整说明。</p>
+</section>
+<section id="constants">
+<h3>常量<a class="headerlink" href="#constants" title="永久链接至标题">¶</a></h3>
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.blake2b.SALT_SIZE">
+<span class="sig-prename descclassname"><span class="pre">blake2b.</span></span><span class="sig-name descname"><span class="pre">SALT_SIZE</span></span><a class="headerlink" href="#hashlib.blake2b.SALT_SIZE" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.blake2s.SALT_SIZE">
+<span class="sig-prename descclassname"><span class="pre">blake2s.</span></span><span class="sig-name descname"><span class="pre">SALT_SIZE</span></span><a class="headerlink" href="#hashlib.blake2s.SALT_SIZE" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<p>盐值长度（构造器所接受的最大长度）。</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.blake2b.PERSON_SIZE">
+<span class="sig-prename descclassname"><span class="pre">blake2b.</span></span><span class="sig-name descname"><span class="pre">PERSON_SIZE</span></span><a class="headerlink" href="#hashlib.blake2b.PERSON_SIZE" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.blake2s.PERSON_SIZE">
+<span class="sig-prename descclassname"><span class="pre">blake2s.</span></span><span class="sig-name descname"><span class="pre">PERSON_SIZE</span></span><a class="headerlink" href="#hashlib.blake2s.PERSON_SIZE" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<p>个性化字符串长度（构造器所接受的最大长度）。</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.blake2b.MAX_KEY_SIZE">
+<span class="sig-prename descclassname"><span class="pre">blake2b.</span></span><span class="sig-name descname"><span class="pre">MAX_KEY_SIZE</span></span><a class="headerlink" href="#hashlib.blake2b.MAX_KEY_SIZE" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.blake2s.MAX_KEY_SIZE">
+<span class="sig-prename descclassname"><span class="pre">blake2s.</span></span><span class="sig-name descname"><span class="pre">MAX_KEY_SIZE</span></span><a class="headerlink" href="#hashlib.blake2s.MAX_KEY_SIZE" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<p>最大密钥长度。</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.blake2b.MAX_DIGEST_SIZE">
+<span class="sig-prename descclassname"><span class="pre">blake2b.</span></span><span class="sig-name descname"><span class="pre">MAX_DIGEST_SIZE</span></span><a class="headerlink" href="#hashlib.blake2b.MAX_DIGEST_SIZE" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="hashlib.blake2s.MAX_DIGEST_SIZE">
+<span class="sig-prename descclassname"><span class="pre">blake2s.</span></span><span class="sig-name descname"><span class="pre">MAX_DIGEST_SIZE</span></span><a class="headerlink" href="#hashlib.blake2s.MAX_DIGEST_SIZE" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<p>哈希函数可输出的最大摘要长度。</p>
+</section>
+<section id="examples">
+<h3>例子<a class="headerlink" href="#examples" title="永久链接至标题">¶</a></h3>
+<section id="simple-hashing">
+<h4>简单哈希<a class="headerlink" href="#simple-hashing" title="永久链接至标题">¶</a></h4>
+<p>要计算某个数据的哈希值，你应该首先通过调用适当的构造器函数 (<a class="reference internal" href="#hashlib.blake2b" title="hashlib.blake2b"><code class="xref py py-func docutils literal notranslate"><span class="pre">blake2b()</span></code></a> 或 <a class="reference internal" href="#hashlib.blake2s" title="hashlib.blake2s"><code class="xref py py-func docutils literal notranslate"><span class="pre">blake2s()</span></code></a>) 来构造一个哈希对象，然后通过在该对象上调用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code> 来更新目标数据，最后通过调用 <code class="xref py py-meth docutils literal notranslate"><span class="pre">digest()</span></code> (或针对十六进制编码字符串的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">hexdigest()</span></code>) 来获取该对象的摘要。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;6ff843ba685842aa82031d3f53c48b66326df7639a63d128974c5c14f31a0f33343a8c65551134ed1ae0f2b0dd2bb495dc81039e3eeb0aa1bb0388bbeac29183&#39;</span>
+</pre></div>
+</div>
+<p>作为快捷方式，你可以直接以位置参数的形式向构造器传入第一个数据块来直接更新:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blake2b</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;6ff843ba685842aa82031d3f53c48b66326df7639a63d128974c5c14f31a0f33343a8c65551134ed1ae0f2b0dd2bb495dc81039e3eeb0aa1bb0388bbeac29183&#39;</span>
+</pre></div>
+</div>
+<p>你可以多次调用 <a class="reference internal" href="#hashlib.hash.update" title="hashlib.hash.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">hash.update()</span></code></a> 至你所想要的任意次数以迭代地更新哈希值:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="sa">b</span><span class="s1">&#39;Hello&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;world&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;6ff843ba685842aa82031d3f53c48b66326df7639a63d128974c5c14f31a0f33343a8c65551134ed1ae0f2b0dd2bb495dc81039e3eeb0aa1bb0388bbeac29183&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="using-different-digest-sizes">
+<h4>使用不同的摘要大小<a class="headerlink" href="#using-different-digest-sizes" title="永久链接至标题">¶</a></h4>
+<p>BLAKE2 具有可配置的摘要大小，对于 BLAKE2b 最多 64 字节，对于 BLAKE2s 最多 32 字节。 例如，要使用 BLAKE2b 来替代 SHA-1 而不改变输出大小，我们可以让 BLAKE2b 产生 20 个字节的摘要:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">digest_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Replacing SHA1 with the more secure function&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;d24f26cf8de66472d58d4e1b1774b4c9158b1f4c&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">digest_size</span>
+<span class="go">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<p>不同摘要大小的哈希对象具有完全不同的输出（较短哈希值 <em>并非</em> 较长哈希值的前缀）；即使输出长度相同，BLAKE2b 和 BLAKE2s 也会产生不同的输出:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span><span class="p">,</span> <span class="n">blake2s</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blake2b</span><span class="p">(</span><span class="n">digest_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;6fa1d8fcfd719046d762&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blake2b</span><span class="p">(</span><span class="n">digest_size</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;eb6ec15daf9546254f0809&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blake2s</span><span class="p">(</span><span class="n">digest_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;1bf21a98c78a1c376ae9&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blake2s</span><span class="p">(</span><span class="n">digest_size</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;567004bf96e4a25773ebf4&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="keyed-hashing">
+<h4>密钥哈希<a class="headerlink" href="#keyed-hashing" title="永久链接至标题">¶</a></h4>
+<p>带密钥的哈希运算可被用于身份验证，作为 <a class="reference external" href="https://en.wikipedia.org/wiki/HMAC">基于哈希的消息验证代码</a> (HMAC) 的一种更快速更简单的替代。 BLAKE2 可被安全地用于前缀 MAC 模式，这是由于它从 BLAKE 继承而来的不可区分特性。</p>
+<p>这个例子演示了如何使用密钥 <code class="docutils literal notranslate"><span class="pre">b'pseudorandom</span> <span class="pre">key'</span></code> 来为 <code class="docutils literal notranslate"><span class="pre">b'message</span> <span class="pre">data'</span></code> 获取一个（十六进制编码的）128 位验证代码:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;pseudorandom key&#39;</span><span class="p">,</span> <span class="n">digest_size</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;message data&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;3d363ff7401e02026f4a4687d4863ced&#39;</span>
+</pre></div>
+</div>
+<p>作为实际的例子，一个 Web 应用可为发送给用户的 cookies 进行对称签名，并在之后对其进行验证以确保它们没有被篡改:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hmac</span> <span class="kn">import</span> <span class="n">compare_digest</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;pseudorandomly generated server secret key&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">AUTH_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="n">cookie</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">h</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">digest_size</span><span class="o">=</span><span class="n">AUTH_SIZE</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">SECRET_KEY</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">h</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="n">cookie</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">good_sig</span> <span class="o">=</span> <span class="n">sign</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">compare_digest</span><span class="p">(</span><span class="n">good_sig</span><span class="p">,</span> <span class="n">sig</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cookie</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;user-alice&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span> <span class="o">=</span> <span class="n">sign</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">,</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cookie</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">sig</span><span class="p">))</span>
+<span class="go">user-alice,b&#39;43b3c982cf697e0c5ab22172d1ca7421&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">verify</span><span class="p">(</span><span class="n">cookie</span><span class="p">,</span> <span class="n">sig</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">verify</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;user-bob&#39;</span><span class="p">,</span> <span class="n">sig</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">verify</span><span class="p">(</span><span class="n">cookie</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;0102030405060708090a0b0c0d0e0f00&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>即使存在原生的密钥哈希模式，BLAKE2 也同样可在 <a class="reference internal" href="hmac.html#module-hmac" title="hmac: Keyed-Hashing for Message Authentication (HMAC) implementation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hmac</span></code></a> 模块的 HMAC 构造过程中使用:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">hmac</span><span class="o">,</span> <span class="nn">hashlib</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;secret key&#39;</span><span class="p">,</span> <span class="n">digestmod</span><span class="o">=</span><span class="n">hashlib</span><span class="o">.</span><span class="n">blake2s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;message&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;e3c8102868d28b5ff85fc35dda07329970d1a01e273c37481326fe0c861c8142&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="randomized-hashing">
+<h4>随机哈希<a class="headerlink" href="#randomized-hashing" title="永久链接至标题">¶</a></h4>
+<p>用户可通过设置 <em>salt</em> 形参来为哈希函数引入随机化。 随机哈希适用于防止对数字签名中使用的哈希函数进行碰撞攻击。</p>
+<blockquote>
+<div><p>随机哈希被设计用来处理当一方（消息准备者）要生成由另一方（消息签名者）进行签名的全部或部分消息的情况。 如果消息准备者能够找到加密哈希函数的碰撞现象（即两条消息产生相同的哈希值），则他们就可以准备将产生相同哈希值和数字签名但却具有不同结果的有意义的消息版本（例如向某个账户转入 $1,000,000 而不是 $10）。 加密哈希函数的设计都是以防碰撞性能为其主要目标之一的，但是当前针对加密哈希函数的集中攻击可能导致特定加密哈希函数所提供的防碰撞性能低于预期。 随机哈希为签名者提供了额外的保护，可以降低准备者在数字签名生成过程中使得两条或更多条消息最终产生相同哈希值的可能性 --- 即使为特定哈希函数找到碰撞现象是可行的。 但是，当消息的所有部分均由签名者准备时，使用随机哈希可能降低数字签名所提供的安全性。</p>
+<p>(<a class="reference external" href="https://csrc.nist.gov/publications/detail/sp/800-106/final">NIST SP-800-106 &quot;数字签名的随机哈希&quot;</a>)</p>
+</div></blockquote>
+<p>在 BLAKE2 中，盐值会在初始化期间作为对哈希函数的一次性输入而不是对每个压缩函数的输入来处理。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>使用 BLAKE2 或任何其他通用加密哈希函数例如 SHA-256 进行 <em>加盐哈希</em> (或纯哈希) 并不适用于哈希密码。 请参阅 <a class="reference external" href="https://blake2.net/#qa">BLAKE2 FAQ</a> 了解更多信息。</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;some message&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Calculate the first hash with a random salt.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">salt1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">blake2b</span><span class="o">.</span><span class="n">SALT_SIZE</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h1</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">salt</span><span class="o">=</span><span class="n">salt1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h1</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Calculate the second hash with a different random salt.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">salt2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">blake2b</span><span class="o">.</span><span class="n">SALT_SIZE</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h2</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">salt</span><span class="o">=</span><span class="n">salt2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h2</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The digests are different.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h1</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span> <span class="o">!=</span> <span class="n">h2</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</section>
+<section id="personalization">
+<h4>个性化<a class="headerlink" href="#personalization" title="永久链接至标题">¶</a></h4>
+<p>出于不同的目的强制让哈希函数为相同的输入生成不同的摘要有时也是有用的。 正如 Skein 哈希函数的作者所言:</p>
+<blockquote>
+<div><p>我们建议所有应用设计者慎重考虑这种做法；我们已看到有许多协议在协议的某一部分中计算出来的哈希值在另一个完全不同的部分中也可以被使用，因为两次哈希计算是针对类似或相关的数据进行的，这样攻击者可以强制应用为相同的输入生成哈希值。 个性化协议中所使用的每个哈希函数将有效地阻止这种类型的攻击。</p>
+<p>(<a class="reference external" href="https://www.schneier.com/wp-content/uploads/2016/02/skein.pdf">The Skein Hash Function Family</a>,
+p. 21)</p>
+</div></blockquote>
+<p>BLAKE2 可通过向 <em>person</em> 参数传入字节串来进行个性化:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FILES_HASH_PERSON</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;MyApp Files Hash&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BLOCK_HASH_PERSON</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;MyApp Block Hash&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">digest_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">person</span><span class="o">=</span><span class="n">FILES_HASH_PERSON</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;the same content&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;20d9cd024d4fb086aae819a1432dd2466de12947831b75c5a30cf2676095d3b4&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">digest_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">person</span><span class="o">=</span><span class="n">BLOCK_HASH_PERSON</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;the same content&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;cf68fb5761b9c44e7878bfb2c4c9aea52264a80b75005e65619778de59f383a3&#39;</span>
+</pre></div>
+</div>
+<p>个性化配合密钥模式也可被用来从单个密钥派生出多个不同密钥。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2s</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">base64</span> <span class="kn">import</span> <span class="n">b64decode</span><span class="p">,</span> <span class="n">b64encode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">orig_key</span> <span class="o">=</span> <span class="n">b64decode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Rm5EPJai72qcK3RGBpW3vPNfZy5OZothY+kHY6h21KM=&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enc_key</span> <span class="o">=</span> <span class="n">blake2s</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">orig_key</span><span class="p">,</span> <span class="n">person</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;kEncrypt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mac_key</span> <span class="o">=</span> <span class="n">blake2s</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">orig_key</span><span class="p">,</span> <span class="n">person</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;kMAC&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">b64encode</span><span class="p">(</span><span class="n">enc_key</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+<span class="go">rbPb15S/Z9t+agffno5wuhB77VbRi6F9Iv2qIxU7WHw=</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">b64encode</span><span class="p">(</span><span class="n">mac_key</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+<span class="go">G9GtHFE1YluXY1zWPlYk1e/nWfu0WSEb0KRcjhDeP/o=</span>
+</pre></div>
+</div>
+</section>
+<section id="tree-mode">
+<h4>树形模式<a class="headerlink" href="#tree-mode" title="永久链接至标题">¶</a></h4>
+<p>以下是对包含两个叶子节点的最小树进行哈希的例子:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span>  <span class="mi">10</span>
+ <span class="o">/</span>  \
+<span class="mi">00</span>  <span class="mi">01</span>
+</pre></div>
+</div>
+<p>这个例子使用 64 字节内部摘要，返回 32 字节最终摘要:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FANOUT</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DEPTH</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">LEAF_SIZE</span> <span class="o">=</span> <span class="mi">4096</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">INNER_SIZE</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buf</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="mi">6000</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Left leaf</span>
+<span class="gp">... </span><span class="n">h00</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">LEAF_SIZE</span><span class="p">],</span> <span class="n">fanout</span><span class="o">=</span><span class="n">FANOUT</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">DEPTH</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">leaf_size</span><span class="o">=</span><span class="n">LEAF_SIZE</span><span class="p">,</span> <span class="n">inner_size</span><span class="o">=</span><span class="n">INNER_SIZE</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">node_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">node_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">last_node</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Right leaf</span>
+<span class="gp">... </span><span class="n">h01</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="n">LEAF_SIZE</span><span class="p">:],</span> <span class="n">fanout</span><span class="o">=</span><span class="n">FANOUT</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">DEPTH</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">leaf_size</span><span class="o">=</span><span class="n">LEAF_SIZE</span><span class="p">,</span> <span class="n">inner_size</span><span class="o">=</span><span class="n">INNER_SIZE</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">node_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">node_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">last_node</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Root node</span>
+<span class="gp">... </span><span class="n">h10</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">digest_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">fanout</span><span class="o">=</span><span class="n">FANOUT</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">DEPTH</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">leaf_size</span><span class="o">=</span><span class="n">LEAF_SIZE</span><span class="p">,</span> <span class="n">inner_size</span><span class="o">=</span><span class="n">INNER_SIZE</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">node_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">node_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">last_node</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h10</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">h00</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h10</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">h01</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h10</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="go">&#39;3ad2a9b37c6070e374c7a8c508fe20ca86b6ed54e286e93a0318e95e881db5aa&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="credits">
+<h3>开发人员<a class="headerlink" href="#credits" title="永久链接至标题">¶</a></h3>
+<p><a class="reference external" href="https://blake2.net">BLAKE2</a> 是由 <em>Jean-Philippe Aumasson</em>, <em>Samuel Neves</em>, <em>Zooko Wilcox-O'Hearn</em> 和 <em>Christian Winnerlein</em> 基于 <em>Jean-Philippe Aumasson</em>, <em>Luca Henzen</em>, <em>Willi Meier</em> 和 <em>Raphael C.-W. Phan</em> 所创造的 <a class="reference external" href="https://en.wikipedia.org/wiki/NIST_hash_function_competition">SHA-3</a> 入围方案 <a class="reference external" href="https://131002.net/blake/">BLAKE</a> 进行设计的。</p>
+<p>它使用的核心算法来自由 <em>Daniel J. Bernstein</em> 所设计的 <a class="reference external" href="https://cr.yp.to/chacha.html">ChaCha</a> 加密。</p>
+<p>stdlib 实现是基于 <a class="reference external" href="https://pythonhosted.org/pyblake2/">pyblake2</a> 模块的。 它由 <em>Dmitry Chestnykh</em> 在 <em>Samuel Neves</em> 所编写的 C 实现的基础上编写。 此文档拷贝自 <a class="reference external" href="https://pythonhosted.org/pyblake2/">pyblake2</a> 并由 <em>Dmitry Chestnykh</em> 撰写。</p>
+<p>C 代码由 <em>Christian Heimes</em> 针对 Python 进行了部分的重写。</p>
+<p>以下公共领域贡献同时适用于 C 哈希函数实现、扩展代码和本文档:</p>
+<blockquote>
+<div><p>在法律许可的范围内，作者已将此软件的全部版权以及关联和邻接权利贡献到全球公共领域。 此软件的发布不附带任何担保。</p>
+<p>你应该已收到此软件附带的 CC0 公共领域专属证书的副本。 如果没有，请参阅 <a class="reference external" href="https://creativecommons.org/publicdomain/zero/1.0/">https://creativecommons.org/publicdomain/zero/1.0/</a>。</p>
+</div></blockquote>
+<p>根据创意分享公共领域贡献 1.0 通用规范，下列人士为此项目的开发提供了帮助或对公共领域的修改作出了贡献:</p>
+<ul class="simple">
+<li><p><em>Alexandr Sokolovskiy</em></p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>模块 <a class="reference internal" href="hmac.html#module-hmac" title="hmac: Keyed-Hashing for Message Authentication (HMAC) implementation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hmac</span></code></a></dt><dd><p>使用哈希运算来生成消息验证代码的模块。</p>
+</dd>
+<dt>模块 <a class="reference internal" href="base64.html#module-base64" title="base64: RFC 4648: Base16, Base32, Base64 Data Encodings; Base85 and Ascii85"><code class="xref py py-mod docutils literal notranslate"><span class="pre">base64</span></code></a></dt><dd><p>针对非二进制环境对二进制哈希值进行编辑的另一种方式。</p>
+</dd>
+<dt><a class="reference external" href="https://blake2.net">https://blake2.net</a></dt><dd><p>BLAKE2 官方网站</p>
+</dd>
+<dt><a class="reference external" href="https://csrc.nist.gov/csrc/media/publications/fips/180/2/archive/2002-08-01/documents/fips180-2.pdf">https://csrc.nist.gov/csrc/media/publications/fips/180/2/archive/2002-08-01/documents/fips180-2.pdf</a></dt><dd><p>有关安全哈希算法的 FIPS 180-2 出版物。</p>
+</dd>
+<dt><a class="reference external" href="https://en.wikipedia.org/wiki/Cryptographic_hash_function#Cryptographic_hash_algorithms">https://en.wikipedia.org/wiki/Cryptographic_hash_function#Cryptographic_hash_algorithms</a></dt><dd><p>包含关于哪些算法存在已知问题以及对其使用所造成的影响的信息的 Wikipedia 文章。</p>
+</dd>
+<dt><a class="reference external" href="https://www.ietf.org/rfc/rfc8018.txt">https://www.ietf.org/rfc/rfc8018.txt</a></dt><dd><p>PKCS #5: 基于密码的加密规范描述 2.1 版</p>
+</dd>
+<dt><a class="reference external" href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-132.pdf">https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-132.pdf</a></dt><dd><p>NIST 对基于密码的密钥派生的建议。</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hashlib</span></code> --- 安全哈希与消息摘要</a><ul>
+<li><a class="reference internal" href="#hash-algorithms">哈希算法</a></li>
+<li><a class="reference internal" href="#shake-variable-length-digests">SHAKE 可变长度摘要</a></li>
+<li><a class="reference internal" href="#file-hashing">File hashing</a></li>
+<li><a class="reference internal" href="#key-derivation">密钥派生</a></li>
+<li><a class="reference internal" href="#blake2">BLAKE2</a><ul>
+<li><a class="reference internal" href="#creating-hash-objects">创建哈希对象</a></li>
+<li><a class="reference internal" href="#constants">常量</a></li>
+<li><a class="reference internal" href="#examples">例子</a><ul>
+<li><a class="reference internal" href="#simple-hashing">简单哈希</a></li>
+<li><a class="reference internal" href="#using-different-digest-sizes">使用不同的摘要大小</a></li>
+<li><a class="reference internal" href="#keyed-hashing">密钥哈希</a></li>
+<li><a class="reference internal" href="#randomized-hashing">随机哈希</a></li>
+<li><a class="reference internal" href="#personalization">个性化</a></li>
+<li><a class="reference internal" href="#tree-mode">树形模式</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#credits">开发人员</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="crypto.html"
+                          title="上一章">加密服务</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="hmac.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hmac</span></code> --- 基于密钥的消息验证</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/hashlib.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="hmac.html" title="hmac --- 基于密钥的消息验证"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="crypto.html" title="加密服务"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="crypto.html" >加密服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">hashlib</span></code> --- 安全哈希与消息摘要</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>faulthandler —— 转储 Python 的跟踪信息 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="pdb --- Python 的调试器" href="pdb.html" />
+    <link rel="prev" title="bdb --- 调试器框架" href="bdb.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/faulthandler.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> —— 转储 Python 的跟踪信息</a><ul>
+<li><a class="reference internal" href="#dumping-the-traceback">转储跟踪信息</a></li>
+<li><a class="reference internal" href="#fault-handler-state">故障处理程序的状态</a></li>
+<li><a class="reference internal" href="#dumping-the-tracebacks-after-a-timeout">一定时间后转储跟踪数据。</a></li>
+<li><a class="reference internal" href="#dumping-the-traceback-on-a-user-signal">转储用户信号的跟踪信息。</a></li>
+<li><a class="reference internal" href="#issue-with-file-descriptors">文件描述符相关话题</a></li>
+<li><a class="reference internal" href="#example">示例</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="bdb.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">bdb</span></code> --- 调试器框架</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="pdb.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pdb</span></code> --- Python 的调试器</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/faulthandler.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="pdb.html" title="pdb --- Python 的调试器"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="bdb.html" title="bdb --- 调试器框架"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="debug.html" accesskey="U">调试和分析</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> —— 转储 Python 的跟踪信息</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-faulthandler">
+<span id="faulthandler-dump-the-python-traceback"></span><h1><a class="reference internal" href="#module-faulthandler" title="faulthandler: Dump the Python traceback."><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code></a> —— 转储 Python 的跟踪信息<a class="headerlink" href="#module-faulthandler" title="永久链接至标题">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+<hr class="docutils" />
+<p>当故障、超时或收到用户信号时，利用本模块内的函数可转储 Python 跟踪信息。调用 <a class="reference internal" href="#faulthandler.enable" title="faulthandler.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">faulthandler.enable()</span></code></a> 可安装 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGSEGV</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGFPE</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGABRT</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGBUS</span></code>  和 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGILL</span></code> 信号的故障处理程序。通过设置 <span class="target" id="index-2"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONFAULTHANDLER"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONFAULTHANDLER</span></code></a> 环境变量或 <a class="reference internal" href="../using/cmdline.html#cmdoption-X"><code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span></code></a>  <code class="docutils literal notranslate"><span class="pre">faulthandler</span></code> 命令行参数，还可以在启动时开启这些设置。</p>
+<p>故障处理程序与操作系统的故障处理程序兼容，比如 Apport 或 Windows 故障处理程序等。如果 <code class="xref c c-func docutils literal notranslate"><span class="pre">sigaltstack()</span></code> 函数可用，本模块将为信号处理程序使用备用堆栈。这样即便堆栈溢出也能转储跟踪信息。</p>
+<p>故障处理程序将在灾难性场合调用，因此只能使用信号安全的函数（比如不能在堆上分配内存）。由于这一限制，与正常的 Python 跟踪相比，转储量是最小的。</p>
+<ul class="simple">
+<li><p>只支持 ASCII 码。编码时会用到  <code class="docutils literal notranslate"><span class="pre">backslashreplace</span></code> 错误处理程序。</p></li>
+<li><p>每个字符串限制在 500 个字符以内。</p></li>
+<li><p>只会显式文件名、函数名和行号。（不显示源代码）</p></li>
+<li><p>上限是 100 页内存帧和 100 个线程。</p></li>
+<li><p>反序排列：最近的调用最先显示。</p></li>
+</ul>
+<p>默认情况下，Python 的跟踪信息会写入 <a class="reference internal" href="sys.html#sys.stderr" title="sys.stderr"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a>。为了能看到跟踪信息，应用程序必须运行于终端中。日志文件也可以传给 <a class="reference internal" href="#faulthandler.enable" title="faulthandler.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">faulthandler.enable()</span></code></a>。</p>
+<p>本模块是用 C 语言实现的，所以才能在崩溃或 Python 死锁时转储跟踪信息。</p>
+<p>在 Python 启动时， <a class="reference internal" href="devmode.html#devmode"><span class="std std-ref">Python 开发模式</span></a> 会调用 <a class="reference internal" href="#faulthandler.enable" title="faulthandler.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">faulthandler.enable()</span></code></a>。</p>
+<section id="dumping-the-traceback">
+<h2>转储跟踪信息<a class="headerlink" href="#dumping-the-traceback" title="永久链接至标题">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.dump_traceback">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">dump_traceback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">sys.stderr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.dump_traceback" title="永久链接至目标">¶</a></dt>
+<dd><p>将所有线程的跟踪数据转储到 <em>file</em> 中。如果 <em>all_threads</em> 为 <code class="docutils literal notranslate"><span class="pre">False</span></code>，则只转储当前线程。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>增加了向本函数传入文件描述符的支持。</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="fault-handler-state">
+<h2>故障处理程序的状态<a class="headerlink" href="#fault-handler-state" title="永久链接至标题">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.enable">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">enable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">sys.stderr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.enable" title="永久链接至目标">¶</a></dt>
+<dd><p>启用故障处理程序：为 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGSEGV</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGFPE</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGABRT</span></code> 、 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGBUS</span></code> 和 <code class="xref py py-const docutils literal notranslate"><span class="pre">SIGILL</span></code> 信号安装处理程序，以转储 Python 跟踪信息。如果 <em>all_threads</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则会为每个运行中的线程生成跟踪信息。否则只转储当前线程。</p>
+<p><em>file</em> 必须保持打开状态，直至停用故障处理程序为止：参见 <a class="reference internal" href="#faulthandler-fd"><span class="std std-ref">文件描述符相关话题</span></a>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>增加了向本函数传入文件描述符的支持。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span>在 Windows 系统中，同时会安装一个 Windows 异常处理程序。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>现在如果 <em>all_threads</em> 为 True，则转储信息会包含垃圾收集器是否正在运行。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.disable">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">disable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.disable" title="永久链接至目标">¶</a></dt>
+<dd><p>停用故障处理程序：卸载由 <a class="reference internal" href="#faulthandler.enable" title="faulthandler.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">enable()</span></code></a> 安装的信号处理程序。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.is_enabled">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">is_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.is_enabled" title="永久链接至目标">¶</a></dt>
+<dd><p>检查故障处理程序是否被启用。</p>
+</dd></dl>
+
+</section>
+<section id="dumping-the-tracebacks-after-a-timeout">
+<h2>一定时间后转储跟踪数据。<a class="headerlink" href="#dumping-the-tracebacks-after-a-timeout" title="永久链接至标题">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.dump_traceback_later">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">dump_traceback_later</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">sys.stderr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.dump_traceback_later" title="永久链接至目标">¶</a></dt>
+<dd><p>在 <em>timeout</em> 秒超时后，转储所有线程的跟踪信息，如果 <em>repeat</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则每隔 <em>timeout</em> 秒转储一次。如果 <em>exit</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则在转储跟踪信息后调用 <code class="xref c c-func docutils literal notranslate"><span class="pre">_exit()</span></code>，参数 status=1。请注意， <code class="xref c c-func docutils literal notranslate"><span class="pre">_exit()</span></code> 会立即关闭进程，这意味着不做任何清理工作，如刷新文件缓冲区等。如果调用两次函数，则新的调用将取代之前的参数，超时时间也会重置。计时器的精度为亚秒级。</p>
+<p><em>file</em> 必须保持打开状态，直至跟踪信息转储完毕，或调用了 <a class="reference internal" href="#faulthandler.cancel_dump_traceback_later" title="faulthandler.cancel_dump_traceback_later"><code class="xref py py-func docutils literal notranslate"><span class="pre">cancel_dump_traceback_later()</span></code></a>  ：参见 <a class="reference internal" href="#faulthandler-fd"><span class="std std-ref">文件描述符相关话题</span></a>。</p>
+<p>本函数用一个看门狗线程实现。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.7 版更改: </span>该函数现在总是可用。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>增加了向本函数传入文件描述符的支持。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.cancel_dump_traceback_later">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">cancel_dump_traceback_later</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.cancel_dump_traceback_later" title="永久链接至目标">¶</a></dt>
+<dd><p>取消 <a class="reference internal" href="#faulthandler.dump_traceback_later" title="faulthandler.dump_traceback_later"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump_traceback_later()</span></code></a> 的最后一次调用。</p>
+</dd></dl>
+
+</section>
+<section id="dumping-the-traceback-on-a-user-signal">
+<h2>转储用户信号的跟踪信息。<a class="headerlink" href="#dumping-the-traceback-on-a-user-signal" title="永久链接至标题">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.register">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">sys.stderr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.register" title="永久链接至目标">¶</a></dt>
+<dd><p>注册一个用户信号：为 <em>signum</em> 信号安装一个处理程序，将所有线程或当前线程（<em>all_threads</em> 为 <code class="docutils literal notranslate"><span class="pre">False</span></code> 时）的跟踪信息转储到 <em>file</em> 中。如果 chain 为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，则调用上一层处理程序。</p>
+<p><em>file</em> 必须保持打开状态，直至该信号被 <a class="reference internal" href="#faulthandler.unregister" title="faulthandler.unregister"><code class="xref py py-func docutils literal notranslate"><span class="pre">unregister()</span></code></a> 注销：参见 <a class="reference internal" href="#faulthandler-fd"><span class="std std-ref">文件描述符相关话题</span></a>。</p>
+<p>Windows 中不可用。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>增加了向本函数传入文件描述符的支持。</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="faulthandler.unregister">
+<span class="sig-prename descclassname"><span class="pre">faulthandler.</span></span><span class="sig-name descname"><span class="pre">unregister</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signum</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#faulthandler.unregister" title="永久链接至目标">¶</a></dt>
+<dd><p>注销一个用户信号：卸载由 <a class="reference internal" href="#faulthandler.register" title="faulthandler.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code></a> 安装的 <em>signum</em> 信号处理程序。如果信号已注册，返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+<p>Windows 中不可用。</p>
+</dd></dl>
+
+</section>
+<section id="issue-with-file-descriptors">
+<span id="faulthandler-fd"></span><h2>文件描述符相关话题<a class="headerlink" href="#issue-with-file-descriptors" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#faulthandler.enable" title="faulthandler.enable"><code class="xref py py-func docutils literal notranslate"><span class="pre">enable()</span></code></a> 、 <a class="reference internal" href="#faulthandler.dump_traceback_later" title="faulthandler.dump_traceback_later"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump_traceback_later()</span></code></a> 和 <a class="reference internal" href="#faulthandler.register" title="faulthandler.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code></a> 保留其 <em>file</em> 参数给出的文件描述符。 如果文件关闭，文件描述符将被一个新文件重新使用；或者用 <a class="reference internal" href="os.html#os.dup2" title="os.dup2"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.dup2()</span></code></a> 替换了文件描述符，则跟踪信息将被写入另一个文件。 每次文件被替换时，都会再次调用这些函数。</p>
+</section>
+<section id="example">
+<h2>示例<a class="headerlink" href="#example" title="永久链接至标题">¶</a></h2>
+<p>在 Linux 中启用和停用内存段故障的默认处理程序：</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3 -c <span class="s2">&quot;import ctypes; ctypes.string_at(0)&quot;</span>
+<span class="go">Segmentation fault</span>
+
+<span class="gp">$ </span>python3 -q -X faulthandler
+<span class="go">&gt;&gt;&gt; import ctypes</span>
+<span class="go">&gt;&gt;&gt; ctypes.string_at(0)</span>
+<span class="go">Fatal Python error: Segmentation fault</span>
+
+<span class="go">Current thread 0x00007fb899f39700 (most recent call first):</span>
+<span class="go">  File &quot;/home/python/cpython/Lib/ctypes/__init__.py&quot;, line 486 in string_at</span>
+<span class="go">  File &quot;&lt;stdin&gt;&quot;, line 1 in &lt;module&gt;</span>
+<span class="go">Segmentation fault</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> —— 转储 Python 的跟踪信息</a><ul>
+<li><a class="reference internal" href="#dumping-the-traceback">转储跟踪信息</a></li>
+<li><a class="reference internal" href="#fault-handler-state">故障处理程序的状态</a></li>
+<li><a class="reference internal" href="#dumping-the-tracebacks-after-a-timeout">一定时间后转储跟踪数据。</a></li>
+<li><a class="reference internal" href="#dumping-the-traceback-on-a-user-signal">转储用户信号的跟踪信息。</a></li>
+<li><a class="reference internal" href="#issue-with-file-descriptors">文件描述符相关话题</a></li>
+<li><a class="reference internal" href="#example">示例</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="bdb.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">bdb</span></code> --- 调试器框架</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="pdb.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pdb</span></code> --- Python 的调试器</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/faulthandler.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="pdb.html" title="pdb --- Python 的调试器"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="bdb.html" title="bdb --- 调试器框架"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="debug.html" >调试和分析</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> —— 转储 Python 的跟踪信息</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

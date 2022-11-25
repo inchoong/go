@@ -1,0 +1,1362 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ipaddress --- IPv4/IPv6 操作库 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="多媒体服务" href="mm.html" />
+    <link rel="prev" title="xmlrpc.server --- 基本 XML-RPC 服务器" href="xmlrpc.server.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/ipaddress.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code> --- IPv4/IPv6 操作库</a><ul>
+<li><a class="reference internal" href="#convenience-factory-functions">方便的工厂函数</a></li>
+<li><a class="reference internal" href="#ip-addresses">IP 地址</a><ul>
+<li><a class="reference internal" href="#address-objects">地址对象</a></li>
+<li><a class="reference internal" href="#conversion-to-strings-and-integers">转换字符串和整数</a></li>
+<li><a class="reference internal" href="#operators">运算符</a><ul>
+<li><a class="reference internal" href="#comparison-operators">比较运算符</a></li>
+<li><a class="reference internal" href="#arithmetic-operators">算术运算符</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ip-network-definitions">IP网络的定义</a><ul>
+<li><a class="reference internal" href="#prefix-net-mask-and-host-mask">前缀、网络掩码和主机掩码</a></li>
+<li><a class="reference internal" href="#network-objects">网络对象</a></li>
+<li><a class="reference internal" href="#id1">运算符</a><ul>
+<li><a class="reference internal" href="#logical-operators">逻辑运算符</a></li>
+<li><a class="reference internal" href="#iteration">迭代</a></li>
+<li><a class="reference internal" href="#networks-as-containers-of-addresses">作为地址容器的网络</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#interface-objects">接口对象</a><ul>
+<li><a class="reference internal" href="#id2">运算符</a><ul>
+<li><a class="reference internal" href="#id3">逻辑运算符</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-module-level-functions">其他模块级别函数</a></li>
+<li><a class="reference internal" href="#custom-exceptions">自定义异常</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="xmlrpc.server.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xmlrpc.server</span></code> --- 基本 XML-RPC 服务器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="mm.html"
+                          title="下一章">多媒体服务</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/ipaddress.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="mm.html" title="多媒体服务"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="xmlrpc.server.html" title="xmlrpc.server --- 基本 XML-RPC 服务器"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="internet.html" accesskey="U">互联网协议和支持</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code> --- IPv4/IPv6 操作库</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-ipaddress">
+<span id="ipaddress-ipv4-ipv6-manipulation-library"></span><h1><a class="reference internal" href="#module-ipaddress" title="ipaddress: IPv4/IPv6 manipulation library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code></a> --- IPv4/IPv6 操作库<a class="headerlink" href="#module-ipaddress" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/ipaddress.py">Lib/ipaddress.py</a></p>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-ipaddress" title="ipaddress: IPv4/IPv6 manipulation library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code></a> 提供了创建、处理和操作 IPv4 和 IPv6 地址和网络的功能。</p>
+<p>该模块中的函数和类可以直接处理与IP地址相关的各种任务，包括检查两个主机是否在同一个子网中，遍历某个子网中的所有主机，检查一个字符串是否是一个有效的IP地址或网络定义等等。</p>
+<p>这是完整的模块 API 参考—若要查看概述，请见 <a class="reference internal" href="../howto/ipaddress.html#ipaddress-howto"><span class="std std-ref">ipaddress模块介绍</span></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.3 新版功能.</span></p>
+</div>
+<section id="convenience-factory-functions">
+<h2>方便的工厂函数<a class="headerlink" href="#convenience-factory-functions" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#module-ipaddress" title="ipaddress: IPv4/IPv6 manipulation library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code></a> 模块提供来工厂函数来方便地创建 IP 地址，网络和接口：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ipaddress.ip_address">
+<span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">ip_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.ip_address" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 或 <a class="reference internal" href="#ipaddress.IPv6Address" title="ipaddress.IPv6Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Address</span></code></a> 对象，取决于作为参数传递的 IP 地址。可以提供IPv4或IPv6地址，小于 <code class="docutils literal notranslate"><span class="pre">2**32</span></code> 的整数默认被认为是 IPv4。如果 <em>address</em> 不是有效的 IPv4 或 IPv6 地址，则会抛出 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s1">&#39;192.168.0.1&#39;</span><span class="p">)</span>
+<span class="go">IPv4Address(&#39;192.168.0.1&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s1">&#39;2001:db8::&#39;</span><span class="p">)</span>
+<span class="go">IPv6Address(&#39;2001:db8::&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ipaddress.ip_network">
+<span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">ip_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.ip_network" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#ipaddress.IPv4Network" title="ipaddress.IPv4Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Network</span></code></a> 或 <a class="reference internal" href="#ipaddress.IPv6Network" title="ipaddress.IPv6Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Network</span></code></a> 对象，具体取决于作为参数传入的 IP 地址。 <em>address</em> 是表示 IP 网址的字符串或整数。 可以提供 IPv4 或 IPv6 网址；小于 <code class="docutils literal notranslate"><span class="pre">2**32</span></code> 的整数默认被视为 IPv4。 <em>strict</em> 会被传给 <a class="reference internal" href="#ipaddress.IPv4Network" title="ipaddress.IPv4Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Network</span></code></a> 或 <a class="reference internal" href="#ipaddress.IPv6Network" title="ipaddress.IPv6Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Network</span></code></a> 构造器。 如果 <em>address</em> 不表示有效的 IPv4 或 IPv6 网址，或者网络设置了 host 比特位，则会引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.168.0.0/28&#39;</span><span class="p">)</span>
+<span class="go">IPv4Network(&#39;192.168.0.0/28&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ipaddress.ip_interface">
+<span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">ip_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.ip_interface" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#ipaddress.IPv4Interface" title="ipaddress.IPv4Interface"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Interface</span></code></a> 或 <a class="reference internal" href="#ipaddress.IPv6Interface" title="ipaddress.IPv6Interface"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Interface</span></code></a> 对象，取决于作为参数传递的 IP 地址。 <em>address</em> 是代表 IP 地址的字符串或整数。 可以提供 IPv4 或 IPv6 地址，小于 <code class="docutils literal notranslate"><span class="pre">2**32</span></code> 的整数默认认为是 IPv4。 如果 <em>address</em> 不是有效的IPv4 或 IPv6 地址，则会抛出一个 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+</dd></dl>
+
+<p>这些方便的函数的一个缺点是需要同时处理IPv4和IPv6格式，这意味着提供的错误信息并不精准，因为函数不知道是打算采用IPv4还是IPv6格式。更详细的错误报告可以通过直接调用相应版本的类构造函数来获得。</p>
+</section>
+<section id="ip-addresses">
+<h2>IP 地址<a class="headerlink" href="#ip-addresses" title="永久链接至标题">¶</a></h2>
+<section id="address-objects">
+<h3>地址对象<a class="headerlink" href="#address-objects" title="永久链接至标题">¶</a></h3>
+<p><a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 和 <a class="reference internal" href="#ipaddress.IPv6Address" title="ipaddress.IPv6Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Address</span></code></a> 对象有很多共同的属性。一些只对IPv6 地址有意义的属性也在 <a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 对象实现，以便更容易编写正确处理两种 IP 版本的代码。地址对象是可哈希的 <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hashable</span></a>，所以它们可以作为字典中的键来使用。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">IPv4Address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Address" title="永久链接至目标">¶</a></dt>
+<dd><p>构造一个 IPv4 地址。 如果 <em>address</em> 不是一个有效的 IPv4 地址，会抛出 <a class="reference internal" href="#ipaddress.AddressValueError" title="ipaddress.AddressValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AddressValueError</span></code></a> 。</p>
+<p>以下是有效的 IPv4 地址：</p>
+<ol class="arabic simple">
+<li><p>以十进制小数点表示的字符串，由四个十进制整数组成，范围为0--255，用点隔开(例如 <code class="docutils literal notranslate"><span class="pre">192.168.0.1</span></code> )。每个整数代表地址中的八位（一个字节）。不允许使用前导零，以免与八进制表示产生歧义。</p></li>
+<li><p>一个32位可容纳的整数。</p></li>
+<li><p>一个长度为 4 的封装在 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象中的整数(高位优先)。</p></li>
+</ol>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;192.168.0.1&#39;</span><span class="p">)</span>
+<span class="go">IPv4Address(&#39;192.168.0.1&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="mi">3232235521</span><span class="p">)</span>
+<span class="go">IPv4Address(&#39;192.168.0.1&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xC0\xA8\x00\x01</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">IPv4Address(&#39;192.168.0.1&#39;)</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版更改: </span>前导零可被接受，即使是在可能与八进制表示混淆的情况下也会被接受。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>前导零不再被接受，并且会被视作错误。IPv4地址字符串现在严格按照glibc的 <a class="reference internal" href="socket.html#socket.inet_pton" title="socket.inet_pton"><code class="xref py py-func docutils literal notranslate"><span class="pre">inet_pton()</span></code></a> 函数进行解析。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.9.5 版更改: </span>上述变更也在自3.9.5版本起的Python 3.9当中被包含。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8.12 版更改: </span>从3.8.12版本开始，Python 3.8中也包含了上述变化。</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.version">
+<span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#ipaddress.IPv4Address.version" title="永久链接至目标">¶</a></dt>
+<dd><p>合适的版本号：IPv4为 <code class="docutils literal notranslate"><span class="pre">4</span></code> ，IPv6为 <code class="docutils literal notranslate"><span class="pre">6</span></code> 。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.max_prefixlen">
+<span class="sig-name descname"><span class="pre">max_prefixlen</span></span><a class="headerlink" href="#ipaddress.IPv4Address.max_prefixlen" title="永久链接至目标">¶</a></dt>
+<dd><p>在该版本的地址表示中，比特数的总数：IPv4为 <code class="docutils literal notranslate"><span class="pre">32</span></code> ；IPv6为 <code class="docutils literal notranslate"><span class="pre">128</span></code> 。</p>
+<p>前缀定义了地址中的前导位数量，通过比较来确定一个地址是否是网络的一部分。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.compressed">
+<span class="sig-name descname"><span class="pre">compressed</span></span><a class="headerlink" href="#ipaddress.IPv4Address.compressed" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.exploded">
+<span class="sig-name descname"><span class="pre">exploded</span></span><a class="headerlink" href="#ipaddress.IPv4Address.exploded" title="永久链接至目标">¶</a></dt>
+<dd><p>以点符号分割十进制表示的字符串。表示中不包括前导零。</p>
+<p>由于IPv4没有为八位数设为零的地址定义速记符号，这两个属性始终与IPv4地址的``str(addr)``相同。暴露这些属性使得编写能够处理IPv4和IPv6地址的显示代码变得更加容易。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.packed">
+<span class="sig-name descname"><span class="pre">packed</span></span><a class="headerlink" href="#ipaddress.IPv4Address.packed" title="永久链接至目标">¶</a></dt>
+<dd><p>这个地址的二进制表示——一个适当长度的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象（最高的八位在最前）。  对于 IPv4 来说是 4 字节，对于 IPv6 来说是 16 字节。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.reverse_pointer">
+<span class="sig-name descname"><span class="pre">reverse_pointer</span></span><a class="headerlink" href="#ipaddress.IPv4Address.reverse_pointer" title="永久链接至目标">¶</a></dt>
+<dd><p>IP地址的反向DNS PTR记录的名称，例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reverse_pointer</span>
+<span class="go">&#39;1.0.0.127.in-addr.arpa&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s2">&quot;2001:db8::1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reverse_pointer</span>
+<span class="go">&#39;1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa&#39;</span>
+</pre></div>
+</div>
+<p>这是可用于执行PTR查询的名称，而不是已解析的主机名本身。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.is_multicast">
+<span class="sig-name descname"><span class="pre">is_multicast</span></span><a class="headerlink" href="#ipaddress.IPv4Address.is_multicast" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该地址被保留用作多播用途，返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 。关于多播地址，请参见 <span class="target" id="index-24"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3171.html"><strong>RFC 3171</strong></a> （IPv4）和 <span class="target" id="index-25"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2373.html"><strong>RFC 2373</strong></a> （IPv6）。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.is_private">
+<span class="sig-name descname"><span class="pre">is_private</span></span><a class="headerlink" href="#ipaddress.IPv4Address.is_private" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该地址被分配至私有网络，返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 。关于公共网络，请参见 <a class="reference external" href="https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml">iana-ipv4-special-registry</a> （针对IPv4）和 <a class="reference external" href="https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry.xhtml">iana-ipv6-special-registry</a> （针对IPv6）。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.is_global">
+<span class="sig-name descname"><span class="pre">is_global</span></span><a class="headerlink" href="#ipaddress.IPv4Address.is_global" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该地址被分配至公共网络，返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 。关于公共网络，请参见 <a class="reference external" href="https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml">iana-ipv4-special-registry</a> （针对IPv4）和 <a class="reference external" href="https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry.xhtml">iana-ipv6-special-registry</a> （针对IPv6）。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.is_unspecified">
+<span class="sig-name descname"><span class="pre">is_unspecified</span></span><a class="headerlink" href="#ipaddress.IPv4Address.is_unspecified" title="永久链接至目标">¶</a></dt>
+<dd><p>当地址未指定时为``True`` 。  参见 <span class="target" id="index-26"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5735.html"><strong>RFC 5735</strong></a> (IPv4) 或 <span class="target" id="index-27"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2373.html"><strong>RFC 2373</strong></a> (IPv6).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.is_reserved">
+<span class="sig-name descname"><span class="pre">is_reserved</span></span><a class="headerlink" href="#ipaddress.IPv4Address.is_reserved" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该地址属于互联网工程任务组（IETF）所规定的其他保留地址，返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.is_loopback">
+<span class="sig-name descname"><span class="pre">is_loopback</span></span><a class="headerlink" href="#ipaddress.IPv4Address.is_loopback" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该地址为一个回环地址，返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 。关于回环地址，请见 <span class="target" id="index-28"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3330.html"><strong>RFC 3330</strong></a> （IPv4）和 <span class="target" id="index-29"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2373.html"><strong>RFC 2373</strong></a> （IPv6）。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.is_link_local">
+<span class="sig-name descname"><span class="pre">is_link_local</span></span><a class="headerlink" href="#ipaddress.IPv4Address.is_link_local" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该地址被保留用于本地链接则为 <code class="docutils literal notranslate"><span class="pre">True</span></code>。 参见 <span class="target" id="index-30"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3927.html"><strong>RFC 3927</strong></a>。</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv4Address.__format__">
+<span class="sig-prename descclassname"><span class="pre">IPv4Address.</span></span><span class="sig-name descname"><span class="pre">__format__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Address.__format__" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个IP地址的字符串表示，由一个明确的格式字符串控制。<em>fmt</em> 可以是以下之一: <code class="docutils literal notranslate"><span class="pre">'s'</span></code>，默认选项，相当于 <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code></a>，<code class="docutils literal notranslate"><span class="pre">'b'</span></code> 用于零填充的二进制字符串，<code class="docutils literal notranslate"><span class="pre">'X'</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">'x'</span></code> 用于大写或小写的十六进制表示，或者 <code class="docutils literal notranslate"><span class="pre">'n'</span></code> 相当于 <code class="docutils literal notranslate"><span class="pre">'b'</span></code> 用于 IPv4 地址和 <code class="docutils literal notranslate"><span class="pre">'x'</span></code> 用于 IPv6 地址。 对于二进制和十六进制表示法，可以使用形式指定器 <code class="docutils literal notranslate"><span class="pre">'#'</span></code> 和分组选项 <code class="docutils literal notranslate"><span class="pre">'_'</span></code>。 <code class="docutils literal notranslate"><span class="pre">__format__</span></code> 被 <code class="docutils literal notranslate"><span class="pre">format</span></code>、 <code class="docutils literal notranslate"><span class="pre">str.format</span></code> 和 f 字符串使用。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">format</span><span class="p">(</span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;192.168.0.1&#39;</span><span class="p">))</span>
+<span class="go">&#39;192.168.0.1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:#b}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;192.168.0.1&#39;</span><span class="p">))</span>
+<span class="go">&#39;0b11000000101010000000000000000001&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv6Address</span><span class="p">(</span><span class="s2">&quot;2001:db8::1000&quot;</span><span class="p">)</span><span class="si">:</span><span class="s1">s</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="go">&#39;2001:db8::1000&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">format</span><span class="p">(</span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv6Address</span><span class="p">(</span><span class="s1">&#39;2001:db8::1000&#39;</span><span class="p">),</span> <span class="s1">&#39;_X&#39;</span><span class="p">)</span>
+<span class="go">&#39;2001_0DB8_0000_0000_0000_0000_0000_1000&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;{:#_n}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv6Address</span><span class="p">(</span><span class="s1">&#39;2001:db8::1000&#39;</span><span class="p">))</span>
+<span class="go">&#39;0x2001_0db8_0000_0000_0000_0000_0000_1000&#39;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.9 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">IPv6Address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Address" title="永久链接至目标">¶</a></dt>
+<dd><p>构造一个 IPv6 地址。 如果 <em>address</em> 不是一个有效的 IPv6 地址，会抛出 <a class="reference internal" href="#ipaddress.AddressValueError" title="ipaddress.AddressValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AddressValueError</span></code></a> 。</p>
+<p>以下是有效的 IPv6 地址：</p>
+<ol class="arabic">
+<li><p>一个由八组四个16进制数字组成的字符串, 每组展示为16位. 以冒号分隔. 这可以描述为 <em>分解</em> (普通书写).  此字符可以被 <em>压缩</em> (速记书写) .  详见:RFC:<cite>4291</cite> .  例如, <code class="docutils literal notranslate"><span class="pre">&quot;0000:0000:0000:0000:0000:0abc:0007:0def&quot;</span></code> 可以被精简为 <code class="docutils literal notranslate"><span class="pre">&quot;::abc:7:def&quot;</span></code>.</p>
+<p>可选择的是，该字符串也可以有一个作用域ID，用后缀``%scope_id``表示。如果存在，作用域ID必须是非空的，并且不能包含``%``。详见:RFC:<cite>4007</cite>。例如，<code class="docutils literal notranslate"><span class="pre">fe80::1234%1``可以识别节点第一条链路上的地址``fe80::1234</span></code></p>
+</li>
+<li><p>适合 128 位的整数.</p></li>
+<li><p>一个打包在长度为 16 字节的大端序 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象中的整数。</p></li>
+</ol>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv6Address</span><span class="p">(</span><span class="s1">&#39;2001:db8::1000&#39;</span><span class="p">)</span>
+<span class="go">IPv6Address(&#39;2001:db8::1000&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv6Address</span><span class="p">(</span><span class="s1">&#39;ff02::5678%1&#39;</span><span class="p">)</span>
+<span class="go">IPv6Address(&#39;ff02::5678%1&#39;)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.compressed">
+<span class="sig-name descname"><span class="pre">compressed</span></span><a class="headerlink" href="#ipaddress.IPv6Address.compressed" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<p>地址表示的简短形式，省略了组中的前导零，完全由零组成的最长的组序列被折叠成一个空组。</p>
+<p>这也是``str(addr)``对IPv6地址返回的值。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.exploded">
+<span class="sig-name descname"><span class="pre">exploded</span></span><a class="headerlink" href="#ipaddress.IPv6Address.exploded" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<p>地址的长形式表示，包括所有前导零和完全由零组成的组。</p>
+<p>关于以下属性和方法，请参见 <a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 类的相应文档。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.packed">
+<span class="sig-name descname"><span class="pre">packed</span></span><a class="headerlink" href="#ipaddress.IPv6Address.packed" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.reverse_pointer">
+<span class="sig-name descname"><span class="pre">reverse_pointer</span></span><a class="headerlink" href="#ipaddress.IPv6Address.reverse_pointer" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.version">
+<span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#ipaddress.IPv6Address.version" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.max_prefixlen">
+<span class="sig-name descname"><span class="pre">max_prefixlen</span></span><a class="headerlink" href="#ipaddress.IPv6Address.max_prefixlen" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.is_multicast">
+<span class="sig-name descname"><span class="pre">is_multicast</span></span><a class="headerlink" href="#ipaddress.IPv6Address.is_multicast" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.is_private">
+<span class="sig-name descname"><span class="pre">is_private</span></span><a class="headerlink" href="#ipaddress.IPv6Address.is_private" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.is_global">
+<span class="sig-name descname"><span class="pre">is_global</span></span><a class="headerlink" href="#ipaddress.IPv6Address.is_global" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.is_unspecified">
+<span class="sig-name descname"><span class="pre">is_unspecified</span></span><a class="headerlink" href="#ipaddress.IPv6Address.is_unspecified" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.is_reserved">
+<span class="sig-name descname"><span class="pre">is_reserved</span></span><a class="headerlink" href="#ipaddress.IPv6Address.is_reserved" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.is_loopback">
+<span class="sig-name descname"><span class="pre">is_loopback</span></span><a class="headerlink" href="#ipaddress.IPv6Address.is_loopback" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.is_link_local">
+<span class="sig-name descname"><span class="pre">is_link_local</span></span><a class="headerlink" href="#ipaddress.IPv6Address.is_link_local" title="永久链接至目标">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能: </span>is_global</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.is_site_local">
+<span class="sig-name descname"><span class="pre">is_site_local</span></span><a class="headerlink" href="#ipaddress.IPv6Address.is_site_local" title="永久链接至目标">¶</a></dt>
+<dd><p>如果地址被保留用于本地站点则为 <code class="docutils literal notranslate"><span class="pre">True</span></code>。 请注意本地站点地址空间已被 <span class="target" id="index-31"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3879.html"><strong>RFC 3879</strong></a> 弃用。 请使用 <a class="reference internal" href="#ipaddress.IPv4Address.is_private" title="ipaddress.IPv4Address.is_private"><code class="xref py py-attr docutils literal notranslate"><span class="pre">is_private</span></code></a> 来检测此地址是否位于 <span class="target" id="index-32"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc4193.html"><strong>RFC 4193</strong></a> 所定义的本地唯一地址空间中。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.ipv4_mapped">
+<span class="sig-name descname"><span class="pre">ipv4_mapped</span></span><a class="headerlink" href="#ipaddress.IPv6Address.ipv4_mapped" title="永久链接至目标">¶</a></dt>
+<dd><p>地址为映射的IPv4地址 (起始为 <code class="docutils literal notranslate"><span class="pre">::FFFF/96</span></code>), 此属性记录为嵌入IPv4地址. 其他的任何地址, 此属性为 <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.scope_id">
+<span class="sig-name descname"><span class="pre">scope_id</span></span><a class="headerlink" href="#ipaddress.IPv6Address.scope_id" title="永久链接至目标">¶</a></dt>
+<dd><p>对于:RFC:<cite>4007`定义的作用域地址，此属性以字符串的形式确定地址所属的作用域的特定区域。当没有指定作用域时，该属性将是``None`</cite>。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.sixtofour">
+<span class="sig-name descname"><span class="pre">sixtofour</span></span><a class="headerlink" href="#ipaddress.IPv6Address.sixtofour" title="永久链接至目标">¶</a></dt>
+<dd><p>对于看起来是6to4的地址（以``2002::/16``开头），如 <span class="target" id="index-33"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc3056.html"><strong>RFC 3056</strong></a> 所定义的，此属性将返回嵌入的IPv4地址。 对于任何其他地址，该属性将是``None``。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.teredo">
+<span class="sig-name descname"><span class="pre">teredo</span></span><a class="headerlink" href="#ipaddress.IPv6Address.teredo" title="永久链接至目标">¶</a></dt>
+<dd><p>对于看起来是:RFC:<cite>4380`定义的Teredo地址（以``2001::/32``开头）的地址，此属性将返回嵌入式IP地址对``(server, client)`</cite>。 对于任何其他地址，该属性将是``None``。</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv6Address.__format__">
+<span class="sig-prename descclassname"><span class="pre">IPv6Address.</span></span><span class="sig-name descname"><span class="pre">__format__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Address.__format__" title="永久链接至目标">¶</a></dt>
+<dd><p>请参考 <a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 中对应的方法文档。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.9 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="conversion-to-strings-and-integers">
+<h3>转换字符串和整数<a class="headerlink" href="#conversion-to-strings-and-integers" title="永久链接至标题">¶</a></h3>
+<p>与网络模块互操作像套接字模块, 地址必须转换为字符串或整数. 这是使用 <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code></a> 和 <a class="reference internal" href="functions.html#int" title="int"><code class="xref py py-func docutils literal notranslate"><span class="pre">int()</span></code></a> 内置函数:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;192.168.0.1&#39;</span><span class="p">))</span>
+<span class="go">&#39;192.168.0.1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;192.168.0.1&#39;</span><span class="p">))</span>
+<span class="go">3232235521</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv6Address</span><span class="p">(</span><span class="s1">&#39;::1&#39;</span><span class="p">))</span>
+<span class="go">&#39;::1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv6Address</span><span class="p">(</span><span class="s1">&#39;::1&#39;</span><span class="p">))</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>请注意，IPv6范围内的地址被转换为没有范围区域ID的整数。</p>
+</section>
+<section id="operators">
+<h3>运算符<a class="headerlink" href="#operators" title="永久链接至标题">¶</a></h3>
+<p>地址对象支持一些运算符。 除非另有说明，运算符只能在兼容对象之间应用（即IPv4与IPv4，IPv6与IPv6）。</p>
+<section id="comparison-operators">
+<h4>比较运算符<a class="headerlink" href="#comparison-operators" title="永久链接至标题">¶</a></h4>
+<p>地址对象可以用通常的一组比较运算符进行比较。具有不同范围区域ID的相同IPv6地址是不平等的。一些例子:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;127.0.0.2&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;127.0.0.2&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;127.0.0.2&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IPv6Address</span><span class="p">(</span><span class="s1">&#39;fe80::1234&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">IPv6Address</span><span class="p">(</span><span class="s1">&#39;fe80::1234%1&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IPv6Address</span><span class="p">(</span><span class="s1">&#39;fe80::1234%1&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">IPv6Address</span><span class="p">(</span><span class="s1">&#39;fe80::1234%2&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</section>
+<section id="arithmetic-operators">
+<h4>算术运算符<a class="headerlink" href="#arithmetic-operators" title="永久链接至标题">¶</a></h4>
+<p>整数可以被添加到地址对象或从地址对象中减去。 一些例子:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;127.0.0.2&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="go">IPv4Address(&#39;127.0.0.5&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;127.0.0.2&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span>
+<span class="go">IPv4Address(&#39;126.255.255.255&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;255.255.255.255&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ipaddress.AddressValueError</span>: <span class="n">4294967296 (&gt;= 2**32) is not permitted as an IPv4 address</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="ip-network-definitions">
+<h2>IP网络的定义<a class="headerlink" href="#ip-network-definitions" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#ipaddress.IPv4Network" title="ipaddress.IPv4Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Network</span></code></a> 和 <a class="reference internal" href="#ipaddress.IPv6Network" title="ipaddress.IPv6Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Network</span></code></a> 对象提供了一个定义和检查IP网络定义的机制。一个网络定义由一个 <em>掩码</em> 和一个 <em>网络地址</em> 组成，因此定义了一个IP地址的范围，当用掩码屏蔽（二进制AND）时，等于网络地址。 例如，一个带有掩码``255.255.255.0``和网络地址``192.168.1.0``的网络定义由包括``192.168.1.0``到``192.168.1.255``的IP地址组成。</p>
+<section id="prefix-net-mask-and-host-mask">
+<h3>前缀、网络掩码和主机掩码<a class="headerlink" href="#prefix-net-mask-and-host-mask" title="永久链接至标题">¶</a></h3>
+<p>有几种相等的方法来指定IP网络掩码。 <em>前缀</em> <code class="docutils literal notranslate"><span class="pre">/&lt;nbits&gt;``是一个符号，表示在网络掩码中设置了多少个高阶位。</span> <span class="pre">一个</span> <span class="pre">*网络掩码*</span> <span class="pre">是一个设置了一定数量高阶位的IP地址。</span> <span class="pre">因此，前缀</span></code>/24``等同于IPv4中的网络掩码``255.255.255.0``或IPv6中的网络掩码``ffff:ff00::<code class="docutils literal notranslate"><span class="pre">。</span> <span class="pre">此外，*主机掩码*</span> <span class="pre">是</span> <span class="pre">*网络掩码*</span> <span class="pre">的逻辑取反，有时被用来表示网络掩码（例如在Cisco访问控制列表中）。</span> <span class="pre">在IPv4中，相当于主机掩码``0.0.0.255``的是</span></code>/24`` 。</p>
+</section>
+<section id="network-objects">
+<h3>网络对象<a class="headerlink" href="#network-objects" title="永久链接至标题">¶</a></h3>
+<p>所有由地址对象实现的属性也由网络对象实现。 此外，网络对象还实现了额外的属性。所有这些在 <a class="reference internal" href="#ipaddress.IPv4Network" title="ipaddress.IPv4Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Network</span></code></a> 和 <a class="reference internal" href="#ipaddress.IPv6Network" title="ipaddress.IPv6Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Network</span></code></a> 之间是共同的，所以为了避免重复，它们只在 <a class="reference internal" href="#ipaddress.IPv4Network" title="ipaddress.IPv4Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Network</span></code></a> 中记录。网络对象是 <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hashable</span></a>，所以它们可以作为字典中的键使用。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">IPv4Network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Network" title="永久链接至目标">¶</a></dt>
+<dd><p>构建一个 IPv4 网络定义。 <em>address</em> 可以是以下之一：</p>
+<ol class="arabic">
+<li><p>一个由 IP 地址和可选掩码组成的字符串，用斜线  (<code class="docutils literal notranslate"><span class="pre">/</span></code>) 分开。 IP 地址是网络地址，掩码可以是一个单一的数字，这意味着它是一个 <em>前缀</em>，或者是一个 IPv4 地址的字符串表示。 如果是后者，如果掩码以非零字段开始，则被解释为 <em>网络掩码</em>，如果以零字段开始，则被解释为 <em>主机掩码</em>，唯一的例外是全零的掩码被视为 <em>网络掩码</em>。 如果没有提供掩码，它就被认为是 <code class="docutils literal notranslate"><span class="pre">/32</span></code>。</p>
+<p>例如，以下的*地址*描述是等同的：<code class="docutils literal notranslate"><span class="pre">192.168.1.0/24</span></code>，<code class="docutils literal notranslate"><span class="pre">192.168.1.0/255.255.255.0``和``192.168.1.0/0.0.0.255</span></code></p>
+</li>
+<li><p>一个可转化为32位的整数。 这相当于一个单地址的网络，网络地址是*address*，掩码是``/32``。</p></li>
+<li><p>一个整数被打包成一个长度为 4 的大端序 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象。 其解释类似于一个整数 <em>address</em>。</p></li>
+<li><p>一个地址描述和一个网络掩码的双元组，其中地址描述是一个字符串，一个 32 位的整数，一个 4 字节的打包整数，或一个现有的 IPv4Address 对象；而网络掩码是一个代表前缀长度的整数 (例如 <code class="docutils literal notranslate"><span class="pre">24</span></code>) 或一个代表前缀掩码的字符串 (例如 <code class="docutils literal notranslate"><span class="pre">255.255.255.0</span></code>)。</p></li>
+</ol>
+<p>如果 <em>address</em> 不是一个有效的 IPv4 地址则会引发 <a class="reference internal" href="#ipaddress.AddressValueError" title="ipaddress.AddressValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AddressValueError</span></code></a>。 如果掩码不是有效的 IPv4 地址则会引发 <a class="reference internal" href="#ipaddress.NetmaskValueError" title="ipaddress.NetmaskValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NetmaskValueError</span></code></a>。</p>
+<p>如果 <em>strict</em> 是 <code class="docutils literal notranslate"><span class="pre">True</span></code>，并且在提供的地址中设置了主机位，那么 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> 将被触发。 否则，主机位将被屏蔽掉，以确定适当的网络地址。</p>
+<p>除非另有说明，如果参数的 IP 版本与 <code class="docutils literal notranslate"><span class="pre">self</span></code> 不兼容，所有接受其他网络/地址对象的网络方法都将引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>为*address*构造函数参数添加了双元组形式。</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.version">
+<span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#ipaddress.IPv4Network.version" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.max_prefixlen">
+<span class="sig-name descname"><span class="pre">max_prefixlen</span></span><a class="headerlink" href="#ipaddress.IPv4Network.max_prefixlen" title="永久链接至目标">¶</a></dt>
+<dd><p>请参考 <a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 中的相应属性文档。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.is_multicast">
+<span class="sig-name descname"><span class="pre">is_multicast</span></span><a class="headerlink" href="#ipaddress.IPv4Network.is_multicast" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.is_private">
+<span class="sig-name descname"><span class="pre">is_private</span></span><a class="headerlink" href="#ipaddress.IPv4Network.is_private" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.is_unspecified">
+<span class="sig-name descname"><span class="pre">is_unspecified</span></span><a class="headerlink" href="#ipaddress.IPv4Network.is_unspecified" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.is_reserved">
+<span class="sig-name descname"><span class="pre">is_reserved</span></span><a class="headerlink" href="#ipaddress.IPv4Network.is_reserved" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.is_loopback">
+<span class="sig-name descname"><span class="pre">is_loopback</span></span><a class="headerlink" href="#ipaddress.IPv4Network.is_loopback" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.is_link_local">
+<span class="sig-name descname"><span class="pre">is_link_local</span></span><a class="headerlink" href="#ipaddress.IPv4Network.is_link_local" title="永久链接至目标">¶</a></dt>
+<dd><p>如果这些属性对网络地址和广播地址都是True，那么它们对整个网络来说就是True。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.network_address">
+<span class="sig-name descname"><span class="pre">network_address</span></span><a class="headerlink" href="#ipaddress.IPv4Network.network_address" title="永久链接至目标">¶</a></dt>
+<dd><p>网络的网络地址。网络地址和前缀长度一起唯一地定义了一个网络。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.broadcast_address">
+<span class="sig-name descname"><span class="pre">broadcast_address</span></span><a class="headerlink" href="#ipaddress.IPv4Network.broadcast_address" title="永久链接至目标">¶</a></dt>
+<dd><p>网络的广播地址。发送到广播地址的数据包应该被网络上的每台主机所接收。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.hostmask">
+<span class="sig-name descname"><span class="pre">hostmask</span></span><a class="headerlink" href="#ipaddress.IPv4Network.hostmask" title="永久链接至目标">¶</a></dt>
+<dd><p>主机掩码，作为一个 <a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 对象。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.netmask">
+<span class="sig-name descname"><span class="pre">netmask</span></span><a class="headerlink" href="#ipaddress.IPv4Network.netmask" title="永久链接至目标">¶</a></dt>
+<dd><p>网络掩码，作为一个 <a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 对象。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.with_prefixlen">
+<span class="sig-name descname"><span class="pre">with_prefixlen</span></span><a class="headerlink" href="#ipaddress.IPv4Network.with_prefixlen" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.compressed">
+<span class="sig-name descname"><span class="pre">compressed</span></span><a class="headerlink" href="#ipaddress.IPv4Network.compressed" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.exploded">
+<span class="sig-name descname"><span class="pre">exploded</span></span><a class="headerlink" href="#ipaddress.IPv4Network.exploded" title="永久链接至目标">¶</a></dt>
+<dd><p>网络的字符串表示，其中掩码为前缀符号。</p>
+<p><code class="docutils literal notranslate"><span class="pre">with_prefixlen</span></code> 和 <code class="docutils literal notranslate"><span class="pre">compressed</span></code> 总是与 <code class="docutils literal notranslate"><span class="pre">str(network)</span></code> 相同，<code class="docutils literal notranslate"><span class="pre">exploded</span></code> 使用分解形式的网络地址。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.with_netmask">
+<span class="sig-name descname"><span class="pre">with_netmask</span></span><a class="headerlink" href="#ipaddress.IPv4Network.with_netmask" title="永久链接至目标">¶</a></dt>
+<dd><p>网络的字符串表示，掩码用网络掩码符号表示。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.with_hostmask">
+<span class="sig-name descname"><span class="pre">with_hostmask</span></span><a class="headerlink" href="#ipaddress.IPv4Network.with_hostmask" title="永久链接至目标">¶</a></dt>
+<dd><p>网络的字符串表示，其中的掩码为主机掩码符号。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.num_addresses">
+<span class="sig-name descname"><span class="pre">num_addresses</span></span><a class="headerlink" href="#ipaddress.IPv4Network.num_addresses" title="永久链接至目标">¶</a></dt>
+<dd><p>网络中的地址总数。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.prefixlen">
+<span class="sig-name descname"><span class="pre">prefixlen</span></span><a class="headerlink" href="#ipaddress.IPv4Network.prefixlen" title="永久链接至目标">¶</a></dt>
+<dd><p>网络前缀的长度，以比特为单位。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.hosts">
+<span class="sig-name descname"><span class="pre">hosts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Network.hosts" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个网络中可用主机的迭代器。 可用的主机是属于该网络的所有IP地址，除了网络地址本身和网络广播地址。 对于掩码长度为31的网络，网络地址和网络广播地址也包括在结果中。掩码为32的网络将返回一个包含单一主机地址的列表。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/29&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hosts</span><span class="p">())</span>  
+<span class="go">[IPv4Address(&#39;192.0.2.1&#39;), IPv4Address(&#39;192.0.2.2&#39;),</span>
+<span class="go"> IPv4Address(&#39;192.0.2.3&#39;), IPv4Address(&#39;192.0.2.4&#39;),</span>
+<span class="go"> IPv4Address(&#39;192.0.2.5&#39;), IPv4Address(&#39;192.0.2.6&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/31&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hosts</span><span class="p">())</span>
+<span class="go">[IPv4Address(&#39;192.0.2.0&#39;), IPv4Address(&#39;192.0.2.1&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.1/32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hosts</span><span class="p">())</span>
+<span class="go">[IPv4Address(&#39;192.0.2.1&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.overlaps">
+<span class="sig-name descname"><span class="pre">overlaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Network.overlaps" title="永久链接至目标">¶</a></dt>
+<dd><p>如果这个网络部分或全部包含在*other*中，或者*other*全部包含在这个网络中，则为``True``。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.address_exclude">
+<span class="sig-name descname"><span class="pre">address_exclude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Network.address_exclude" title="永久链接至目标">¶</a></dt>
+<dd><p>计算从这个网络中移除给定的 <em>network</em> 后产生的网络定义。 返回一个网络对象的迭代器。 如果 <em>network</em> 不完全包含在这个网络中则会引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n1</span> <span class="o">=</span> <span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/28&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n2</span> <span class="o">=</span> <span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.1/32&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">n1</span><span class="o">.</span><span class="n">address_exclude</span><span class="p">(</span><span class="n">n2</span><span class="p">))</span>  
+<span class="go">[IPv4Network(&#39;192.0.2.8/29&#39;), IPv4Network(&#39;192.0.2.4/30&#39;),</span>
+<span class="go"> IPv4Network(&#39;192.0.2.2/31&#39;), IPv4Network(&#39;192.0.2.0/32&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.subnets">
+<span class="sig-name descname"><span class="pre">subnets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefixlen_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Network.subnets" title="永久链接至目标">¶</a></dt>
+<dd><p>根据参数值，加入的子网构成当前的网络定义。 <em>prefixlen_diff</em> 是我们的前缀长度应该增加的数量。 <em>new_prefix</em> 是所需的子网的新前缀；它必须大于我们的前缀。 必须设置 <em>prefixlen_diff</em> 和 <em>new_prefix</em> 中的一个，且只有一个。 返回一个网络对象的迭代器。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/24&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">subnets</span><span class="p">())</span>
+<span class="go">[IPv4Network(&#39;192.0.2.0/25&#39;), IPv4Network(&#39;192.0.2.128/25&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/24&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">subnets</span><span class="p">(</span><span class="n">prefixlen_diff</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>  
+<span class="go">[IPv4Network(&#39;192.0.2.0/26&#39;), IPv4Network(&#39;192.0.2.64/26&#39;),</span>
+<span class="go"> IPv4Network(&#39;192.0.2.128/26&#39;), IPv4Network(&#39;192.0.2.192/26&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/24&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">subnets</span><span class="p">(</span><span class="n">new_prefix</span><span class="o">=</span><span class="mi">26</span><span class="p">))</span>  
+<span class="go">[IPv4Network(&#39;192.0.2.0/26&#39;), IPv4Network(&#39;192.0.2.64/26&#39;),</span>
+<span class="go"> IPv4Network(&#39;192.0.2.128/26&#39;), IPv4Network(&#39;192.0.2.192/26&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/24&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">subnets</span><span class="p">(</span><span class="n">new_prefix</span><span class="o">=</span><span class="mi">23</span><span class="p">))</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;new prefix must be longer&#39;</span><span class="p">)</span>
+<span class="gr">ValueError</span>: <span class="n">new prefix must be longer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/24&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">subnets</span><span class="p">(</span><span class="n">new_prefix</span><span class="o">=</span><span class="mi">25</span><span class="p">))</span>
+<span class="go">[IPv4Network(&#39;192.0.2.0/25&#39;), IPv4Network(&#39;192.0.2.128/25&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.supernet">
+<span class="sig-name descname"><span class="pre">supernet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefixlen_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Network.supernet" title="永久链接至目标">¶</a></dt>
+<dd><p>包含这个网络定义的超级网，取决于参数值。 <em>prefixlen_diff</em> 是我们的前缀长度应该减少的数量。 <em>new_prefix</em> 是超级网的新前缀；它必须比我们的前缀小。 必须设置 <em>prefixlen_diff</em> 和 <em>new_prefix</em> 中的一个，而且只有一个。 返回一个单一的网络对象。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/24&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">supernet</span><span class="p">()</span>
+<span class="go">IPv4Network(&#39;192.0.2.0/23&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/24&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">supernet</span><span class="p">(</span><span class="n">prefixlen_diff</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">IPv4Network(&#39;192.0.0.0/22&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/24&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">supernet</span><span class="p">(</span><span class="n">new_prefix</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="go">IPv4Network(&#39;192.0.0.0/20&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.subnet_of">
+<span class="sig-name descname"><span class="pre">subnet_of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Network.subnet_of" title="永久链接至目标">¶</a></dt>
+<dd><p>如果这个网络是*other*的子网，则返回``True``。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.168.1.0/24&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.168.1.128/30&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">subnet_of</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.supernet_of">
+<span class="sig-name descname"><span class="pre">supernet_of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Network.supernet_of" title="永久链接至目标">¶</a></dt>
+<dd><p>如果这个网络是*other*的超网，则返回``True``。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.168.1.0/24&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.168.1.128/30&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">supernet_of</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">3.7 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv4Network.compare_networks">
+<span class="sig-name descname"><span class="pre">compare_networks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Network.compare_networks" title="永久链接至目标">¶</a></dt>
+<dd><p>将这个网络与*ohter*网络进行比较。 在这个比较中，只考虑网络地址；不考虑主机位。 返回是``-1`` 、 <code class="docutils literal notranslate"><span class="pre">0``或``1</span></code>。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.1/32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">compare_networks</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.2/32&#39;</span><span class="p">))</span>
+<span class="go">-1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.1/32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">compare_networks</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/32&#39;</span><span class="p">))</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.1/32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">compare_networks</span><span class="p">(</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">&#39;192.0.2.1/32&#39;</span><span class="p">))</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.7 版后已移除: </span>它使用与&quot;&lt;&quot;、&quot;==&quot;和&quot;&gt;&quot;相同的排序和比较算法。</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">IPv6Network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Network" title="永久链接至目标">¶</a></dt>
+<dd><p>构建一个 IPv6 网络定义。 <em>address</em> 可以是以下之一：</p>
+<ol class="arabic">
+<li><p>一个由IP地址和可选前缀长度组成的字符串，用斜线（<code class="docutils literal notranslate"><span class="pre">/</span></code>）分开。 IP地址是网络地址，前缀长度必须是一个数字，即*prefix*。 如果没有提供前缀长度，就认为是``/128``。</p>
+<p>请注意，目前不支持扩展的网络掩码。 这意味着 <code class="docutils literal notranslate"><span class="pre">2001:db00::0/24</span></code> 是一个有效的参数，而 <code class="docutils literal notranslate"><span class="pre">2001:db00::0/ffff:ff00::</span></code> 不是。</p>
+</li>
+<li><p>一个适合128位的整数。 这相当于一个单地址网络，网络地址是*address*，掩码是``/128``。</p></li>
+<li><p>一个整数被打包成一个长度为 16 的大端序 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象。 其解释类似于一个整数的 <em>address</em>。</p></li>
+<li><p>一个地址描述和一个网络掩码的双元组，其中地址描述是一个字符串，一个 128 位的整数，一个 16 字节的打包整数，或者一个现有的 IPv6Address 对象；而网络掩码是一个代表前缀长度的整数。</p></li>
+</ol>
+<p>如果 <em>address</em> 不是一个有效的 IPv6 地址则会引发 <a class="reference internal" href="#ipaddress.AddressValueError" title="ipaddress.AddressValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AddressValueError</span></code></a>。 如果掩码对 IPv6 地址无效则会引发 <a class="reference internal" href="#ipaddress.NetmaskValueError" title="ipaddress.NetmaskValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NetmaskValueError</span></code></a>。</p>
+<p>如果 <em>strict</em> 是 <code class="docutils literal notranslate"><span class="pre">True</span></code>，并且在提供的地址中设置了主机位，那么 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> 将被触发。 否则，主机位将被屏蔽掉，以确定适当的网络地址。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span>为*address*构造函数参数添加了双元组形式。</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.version">
+<span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#ipaddress.IPv6Network.version" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.max_prefixlen">
+<span class="sig-name descname"><span class="pre">max_prefixlen</span></span><a class="headerlink" href="#ipaddress.IPv6Network.max_prefixlen" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.is_multicast">
+<span class="sig-name descname"><span class="pre">is_multicast</span></span><a class="headerlink" href="#ipaddress.IPv6Network.is_multicast" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.is_private">
+<span class="sig-name descname"><span class="pre">is_private</span></span><a class="headerlink" href="#ipaddress.IPv6Network.is_private" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.is_unspecified">
+<span class="sig-name descname"><span class="pre">is_unspecified</span></span><a class="headerlink" href="#ipaddress.IPv6Network.is_unspecified" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.is_reserved">
+<span class="sig-name descname"><span class="pre">is_reserved</span></span><a class="headerlink" href="#ipaddress.IPv6Network.is_reserved" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.is_loopback">
+<span class="sig-name descname"><span class="pre">is_loopback</span></span><a class="headerlink" href="#ipaddress.IPv6Network.is_loopback" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.is_link_local">
+<span class="sig-name descname"><span class="pre">is_link_local</span></span><a class="headerlink" href="#ipaddress.IPv6Network.is_link_local" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.network_address">
+<span class="sig-name descname"><span class="pre">network_address</span></span><a class="headerlink" href="#ipaddress.IPv6Network.network_address" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.broadcast_address">
+<span class="sig-name descname"><span class="pre">broadcast_address</span></span><a class="headerlink" href="#ipaddress.IPv6Network.broadcast_address" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.hostmask">
+<span class="sig-name descname"><span class="pre">hostmask</span></span><a class="headerlink" href="#ipaddress.IPv6Network.hostmask" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.netmask">
+<span class="sig-name descname"><span class="pre">netmask</span></span><a class="headerlink" href="#ipaddress.IPv6Network.netmask" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.with_prefixlen">
+<span class="sig-name descname"><span class="pre">with_prefixlen</span></span><a class="headerlink" href="#ipaddress.IPv6Network.with_prefixlen" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.compressed">
+<span class="sig-name descname"><span class="pre">compressed</span></span><a class="headerlink" href="#ipaddress.IPv6Network.compressed" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.exploded">
+<span class="sig-name descname"><span class="pre">exploded</span></span><a class="headerlink" href="#ipaddress.IPv6Network.exploded" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.with_netmask">
+<span class="sig-name descname"><span class="pre">with_netmask</span></span><a class="headerlink" href="#ipaddress.IPv6Network.with_netmask" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.with_hostmask">
+<span class="sig-name descname"><span class="pre">with_hostmask</span></span><a class="headerlink" href="#ipaddress.IPv6Network.with_hostmask" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.num_addresses">
+<span class="sig-name descname"><span class="pre">num_addresses</span></span><a class="headerlink" href="#ipaddress.IPv6Network.num_addresses" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.prefixlen">
+<span class="sig-name descname"><span class="pre">prefixlen</span></span><a class="headerlink" href="#ipaddress.IPv6Network.prefixlen" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.hosts">
+<span class="sig-name descname"><span class="pre">hosts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Network.hosts" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个网络中可用主机的迭代器。 可用的主机是属于该网络的所有IP地址，除了Subnet-Router任播的地址。 对于掩码长度为127的网络，子网-路由器任播地址也包括在结果中。掩码为128的网络将返回一个包含单一主机地址的列表。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.overlaps">
+<span class="sig-name descname"><span class="pre">overlaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Network.overlaps" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.address_exclude">
+<span class="sig-name descname"><span class="pre">address_exclude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Network.address_exclude" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.subnets">
+<span class="sig-name descname"><span class="pre">subnets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefixlen_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Network.subnets" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.supernet">
+<span class="sig-name descname"><span class="pre">supernet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefixlen_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Network.supernet" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.subnet_of">
+<span class="sig-name descname"><span class="pre">subnet_of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Network.subnet_of" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.supernet_of">
+<span class="sig-name descname"><span class="pre">supernet_of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Network.supernet_of" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.compare_networks">
+<span class="sig-name descname"><span class="pre">compare_networks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Network.compare_networks" title="永久链接至目标">¶</a></dt>
+<dd><p>请参考 <a class="reference internal" href="#ipaddress.IPv4Network" title="ipaddress.IPv4Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Network</span></code></a> 中的相应属性文档。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Network.is_site_local">
+<span class="sig-name descname"><span class="pre">is_site_local</span></span><a class="headerlink" href="#ipaddress.IPv6Network.is_site_local" title="永久链接至目标">¶</a></dt>
+<dd><p>如果这些属性对网络地址和广播地址都是True，那么对整个网络来说就是True。</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id1">
+<h3>运算符<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
+<p>网络对象支持一些运算符。 除非另有说明，运算符只能在兼容的对象之间应用（例如，IPv4与IPv4，IPv6与IPv6）。</p>
+<section id="logical-operators">
+<h4>逻辑运算符<a class="headerlink" href="#logical-operators" title="永久链接至标题">¶</a></h4>
+<p>网络对象可以用常规的逻辑运算符集进行比较。网络对象首先按网络地址排序，然后按网络掩码排序。</p>
+</section>
+<section id="iteration">
+<h4>迭代<a class="headerlink" href="#iteration" title="永久链接至标题">¶</a></h4>
+<p>网络对象可以被迭代，以列出属于该网络的所有地址。 对于迭代，<em>所有</em> 主机都会被返回，包括不可用的主机（对于可用的主机，使用 <a class="reference internal" href="#ipaddress.IPv4Network.hosts" title="ipaddress.IPv4Network.hosts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">hosts()</span></code></a> 方法）。 一个例子:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="n">IPv4Network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/28&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">addr</span>
+<span class="gp">...</span>
+<span class="go">IPv4Address(&#39;192.0.2.0&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.1&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.2&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.3&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.4&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.5&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.6&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.7&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.8&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.9&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.10&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.11&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.12&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.13&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.14&#39;)</span>
+<span class="go">IPv4Address(&#39;192.0.2.15&#39;)</span>
+</pre></div>
+</div>
+</section>
+<section id="networks-as-containers-of-addresses">
+<h4>作为地址容器的网络<a class="headerlink" href="#networks-as-containers-of-addresses" title="永久链接至标题">¶</a></h4>
+<p>网络对象可以作为地址的容器。 一些例子:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">IPv4Network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/28&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">IPv4Address(&#39;192.0.2.0&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IPv4Network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/28&#39;</span><span class="p">)[</span><span class="mi">15</span><span class="p">]</span>
+<span class="go">IPv4Address(&#39;192.0.2.15&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;192.0.2.6&#39;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">IPv4Network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/28&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;192.0.3.6&#39;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">IPv4Network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/28&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="interface-objects">
+<h2>接口对象<a class="headerlink" href="#interface-objects" title="永久链接至标题">¶</a></h2>
+<p>接口对象是 <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hashable</span></a> 的，所以它们可以作为字典中的键使用。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipaddress.IPv4Interface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">IPv4Interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv4Interface" title="永久链接至目标">¶</a></dt>
+<dd><p>构建一个 IPv4 接口。 <em>address</em> 的含义与 <a class="reference internal" href="#ipaddress.IPv4Network" title="ipaddress.IPv4Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Network</span></code></a> 构造器中的一样，不同之处在于任意主机地址总是会被接受。</p>
+<p><a class="reference internal" href="#ipaddress.IPv4Interface" title="ipaddress.IPv4Interface"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Interface</span></code></a> 是 <a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 的一个子类，所以它继承了该类的所有属性。 此外，还有以下属性可用：</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Interface.ip">
+<span class="sig-name descname"><span class="pre">ip</span></span><a class="headerlink" href="#ipaddress.IPv4Interface.ip" title="永久链接至目标">¶</a></dt>
+<dd><p>地址（<a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a>）没有网络信息。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">IPv4Interface</span><span class="p">(</span><span class="s1">&#39;192.0.2.5/24&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">ip</span>
+<span class="go">IPv4Address(&#39;192.0.2.5&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Interface.network">
+<span class="sig-name descname"><span class="pre">network</span></span><a class="headerlink" href="#ipaddress.IPv4Interface.network" title="永久链接至目标">¶</a></dt>
+<dd><p>该接口所属的网络（<a class="reference internal" href="#ipaddress.IPv4Network" title="ipaddress.IPv4Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Network</span></code></a>）。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">IPv4Interface</span><span class="p">(</span><span class="s1">&#39;192.0.2.5/24&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">network</span>
+<span class="go">IPv4Network(&#39;192.0.2.0/24&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Interface.with_prefixlen">
+<span class="sig-name descname"><span class="pre">with_prefixlen</span></span><a class="headerlink" href="#ipaddress.IPv4Interface.with_prefixlen" title="永久链接至目标">¶</a></dt>
+<dd><p>用前缀符号表示的接口与掩码的字符串。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">IPv4Interface</span><span class="p">(</span><span class="s1">&#39;192.0.2.5/24&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">with_prefixlen</span>
+<span class="go">&#39;192.0.2.5/24&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Interface.with_netmask">
+<span class="sig-name descname"><span class="pre">with_netmask</span></span><a class="headerlink" href="#ipaddress.IPv4Interface.with_netmask" title="永久链接至目标">¶</a></dt>
+<dd><p>带有网络的接口的网络掩码字符串表示。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">IPv4Interface</span><span class="p">(</span><span class="s1">&#39;192.0.2.5/24&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">with_netmask</span>
+<span class="go">&#39;192.0.2.5/255.255.255.0&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv4Interface.with_hostmask">
+<span class="sig-name descname"><span class="pre">with_hostmask</span></span><a class="headerlink" href="#ipaddress.IPv4Interface.with_hostmask" title="永久链接至目标">¶</a></dt>
+<dd><p>带有网络的接口的主机掩码字符串表示。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">IPv4Interface</span><span class="p">(</span><span class="s1">&#39;192.0.2.5/24&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">with_hostmask</span>
+<span class="go">&#39;192.0.2.5/0.0.0.255&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipaddress.IPv6Interface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">IPv6Interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.IPv6Interface" title="永久链接至目标">¶</a></dt>
+<dd><p>构建一个 IPv6 接口。 <em>address</em> 的含义与 <a class="reference internal" href="#ipaddress.IPv6Network" title="ipaddress.IPv6Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Network</span></code></a> 构造器中的一样，不同之处在于任意主机地址总是会被接受。</p>
+<p><a class="reference internal" href="#ipaddress.IPv6Interface" title="ipaddress.IPv6Interface"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Interface</span></code></a> 是 <a class="reference internal" href="#ipaddress.IPv6Address" title="ipaddress.IPv6Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Address</span></code></a> 的一个子类，所以它继承了该类的所有属性。 此外，还有以下属性可用：</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Interface.ip">
+<span class="sig-name descname"><span class="pre">ip</span></span><a class="headerlink" href="#ipaddress.IPv6Interface.ip" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Interface.network">
+<span class="sig-name descname"><span class="pre">network</span></span><a class="headerlink" href="#ipaddress.IPv6Interface.network" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Interface.with_prefixlen">
+<span class="sig-name descname"><span class="pre">with_prefixlen</span></span><a class="headerlink" href="#ipaddress.IPv6Interface.with_prefixlen" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Interface.with_netmask">
+<span class="sig-name descname"><span class="pre">with_netmask</span></span><a class="headerlink" href="#ipaddress.IPv6Interface.with_netmask" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipaddress.IPv6Interface.with_hostmask">
+<span class="sig-name descname"><span class="pre">with_hostmask</span></span><a class="headerlink" href="#ipaddress.IPv6Interface.with_hostmask" title="永久链接至目标">¶</a></dt>
+<dd><p>请参考 <a class="reference internal" href="#ipaddress.IPv4Interface" title="ipaddress.IPv4Interface"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Interface</span></code></a> 中的相应属性文档。</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="id2">
+<h3>运算符<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>接口对象支持一些运算符。 除非另有说明，运算符只能在兼容的对象之间应用（即IPv4与IPv4，IPv6与IPv6）。</p>
+<section id="id3">
+<h4>逻辑运算符<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h4>
+<p>接口对象可以用通常的逻辑运算符集进行比较。</p>
+<p>对于相等比较（<code class="docutils literal notranslate"><span class="pre">==``和</span></code>!=``），IP地址和网络都必须是相同的对象才会相等。 一个接口不会与任何地址或网络对象相等。</p>
+<p>对于排序 (<code class="docutils literal notranslate"><span class="pre">&lt;</span></code>、<code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 等)，规则是不同的。 具有相同 IP 版本的接口和地址对象可以被比较，而地址对象总是在接口对象之前排序。 两个接口对象首先通过它们的网络进行比较，如果它们是相同的，则通过它们的 IP 地址进行比较。</p>
+</section>
+</section>
+</section>
+<section id="other-module-level-functions">
+<h2>其他模块级别函数<a class="headerlink" href="#other-module-level-functions" title="永久链接至标题">¶</a></h2>
+<p>该模块还提供以下模块级函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ipaddress.v4_int_to_packed">
+<span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">v4_int_to_packed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.v4_int_to_packed" title="永久链接至目标">¶</a></dt>
+<dd><p>以网络（大端序）顺序将一个地址表示为 4 个打包的字节。<em>address</em> 是一个 IPv4 IP 地址的整数表示。 如果整数是负数或太大而不满足 IPv4 IP 地址要求，会触发一个 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="mi">3221225985</span><span class="p">)</span>
+<span class="go">IPv4Address(&#39;192.0.2.1&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">v4_int_to_packed</span><span class="p">(</span><span class="mi">3221225985</span><span class="p">)</span>
+<span class="go">b&#39;\xc0\x00\x02\x01&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ipaddress.v6_int_to_packed">
+<span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">v6_int_to_packed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.v6_int_to_packed" title="永久链接至目标">¶</a></dt>
+<dd><p>以网络（大端序）顺序将一个地址表示为 4 个打包的字节。<em>address</em> 是一个IPv6 IP地址的整数表示。 如果整数是负数或太大而不满足 IPv6 IP 地址要求，会触发一个 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ipaddress.summarize_address_range">
+<span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">summarize_address_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.summarize_address_range" title="永久链接至目标">¶</a></dt>
+<dd><p>给出第一个和最后一个 IP 地址，返回总结的网络范围的迭代器。 <em>first</em> 是范围内的第一个 <a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 或 <a class="reference internal" href="#ipaddress.IPv6Address" title="ipaddress.IPv6Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Address</span></code></a>，<em>last</em> 是范围内的最后一个 <a class="reference internal" href="#ipaddress.IPv4Address" title="ipaddress.IPv4Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Address</span></code></a> 或 <a class="reference internal" href="#ipaddress.IPv6Address" title="ipaddress.IPv6Address"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Address</span></code></a>。 如果 <em>first</em> 或 <em>last</em> 不是IP地址或不是同一版本则会引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。 如果 <em>last</em> 不大于 <em>first</em>，或者 <em>first</em> 的地址版本不是 4 或 6 则会引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">ipaddr</span> <span class="k">for</span> <span class="n">ipaddr</span> <span class="ow">in</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">summarize_address_range</span><span class="p">(</span>
+<span class="gp">... </span>   <span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;192.0.2.0&#39;</span><span class="p">),</span>
+<span class="gp">... </span>   <span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;192.0.2.130&#39;</span><span class="p">))]</span>
+<span class="go">[IPv4Network(&#39;192.0.2.0/25&#39;), IPv4Network(&#39;192.0.2.128/31&#39;), IPv4Network(&#39;192.0.2.130/32&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ipaddress.collapse_addresses">
+<span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">collapse_addresses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">addresses</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.collapse_addresses" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个 <a class="reference internal" href="#ipaddress.IPv4Network" title="ipaddress.IPv4Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Network</span></code></a> 或 <a class="reference internal" href="#ipaddress.IPv6Network" title="ipaddress.IPv6Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Network</span></code></a> 对象的迭代器。 <em>addresses</em> 是一个 <a class="reference internal" href="#ipaddress.IPv4Network" title="ipaddress.IPv4Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv4Network</span></code></a> 或 <a class="reference internal" href="#ipaddress.IPv6Network" title="ipaddress.IPv6Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPv6Network</span></code></a> 对象的迭代器。 如果 <em>addresses</em> 包含混合版本的对象则会引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">ipaddr</span> <span class="k">for</span> <span class="n">ipaddr</span> <span class="ow">in</span>
+<span class="gp">... </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">collapse_addresses</span><span class="p">([</span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/25&#39;</span><span class="p">),</span>
+<span class="gp">... </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Network</span><span class="p">(</span><span class="s1">&#39;192.0.2.128/25&#39;</span><span class="p">)])]</span>
+<span class="go">[IPv4Network(&#39;192.0.2.0/24&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ipaddress.get_mixed_type_key">
+<span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">get_mixed_type_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.get_mixed_type_key" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个适合在网络和地址之间进行排序的键。 地址和网络对象在默认情况下是不可排序的；它们在本质上是不同的，所以表达式:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">IPv4Address</span><span class="p">(</span><span class="s1">&#39;192.0.2.0&#39;</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">IPv4Network</span><span class="p">(</span><span class="s1">&#39;192.0.2.0/24&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>是没有意义的。 然而，有些时候，你可能希望让 <a class="reference internal" href="#module-ipaddress" title="ipaddress: IPv4/IPv6 manipulation library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code></a> 对这些进行排序。 如果你需要这样做，你可以使用这个函数作为 <a class="reference internal" href="functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> 的 <em>key</em> 参数。</p>
+<p><em>obj</em> 是一个网络或地址对象。</p>
+</dd></dl>
+
+</section>
+<section id="custom-exceptions">
+<h2>自定义异常<a class="headerlink" href="#custom-exceptions" title="永久链接至标题">¶</a></h2>
+<p>为了支持来自类构造函数的更具体的错误报告，模块定义了以下异常：</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="ipaddress.AddressValueError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">AddressValueError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ValueError</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.AddressValueError" title="永久链接至目标">¶</a></dt>
+<dd><p>与地址有关的任何数值错误。</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="ipaddress.NetmaskValueError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipaddress.</span></span><span class="sig-name descname"><span class="pre">NetmaskValueError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ValueError</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipaddress.NetmaskValueError" title="永久链接至目标">¶</a></dt>
+<dd><p>与网络掩码有关的任何数值错误。</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code> --- IPv4/IPv6 操作库</a><ul>
+<li><a class="reference internal" href="#convenience-factory-functions">方便的工厂函数</a></li>
+<li><a class="reference internal" href="#ip-addresses">IP 地址</a><ul>
+<li><a class="reference internal" href="#address-objects">地址对象</a></li>
+<li><a class="reference internal" href="#conversion-to-strings-and-integers">转换字符串和整数</a></li>
+<li><a class="reference internal" href="#operators">运算符</a><ul>
+<li><a class="reference internal" href="#comparison-operators">比较运算符</a></li>
+<li><a class="reference internal" href="#arithmetic-operators">算术运算符</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ip-network-definitions">IP网络的定义</a><ul>
+<li><a class="reference internal" href="#prefix-net-mask-and-host-mask">前缀、网络掩码和主机掩码</a></li>
+<li><a class="reference internal" href="#network-objects">网络对象</a></li>
+<li><a class="reference internal" href="#id1">运算符</a><ul>
+<li><a class="reference internal" href="#logical-operators">逻辑运算符</a></li>
+<li><a class="reference internal" href="#iteration">迭代</a></li>
+<li><a class="reference internal" href="#networks-as-containers-of-addresses">作为地址容器的网络</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#interface-objects">接口对象</a><ul>
+<li><a class="reference internal" href="#id2">运算符</a><ul>
+<li><a class="reference internal" href="#id3">逻辑运算符</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-module-level-functions">其他模块级别函数</a></li>
+<li><a class="reference internal" href="#custom-exceptions">自定义异常</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="xmlrpc.server.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xmlrpc.server</span></code> --- 基本 XML-RPC 服务器</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="mm.html"
+                          title="下一章">多媒体服务</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/ipaddress.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="mm.html" title="多媒体服务"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="xmlrpc.server.html" title="xmlrpc.server --- 基本 XML-RPC 服务器"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="internet.html" >互联网协议和支持</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code> --- IPv4/IPv6 操作库</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>

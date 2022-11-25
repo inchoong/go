@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>filecmp --- 文件及目录的比较 &#8212; Python 3.11.0 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?2022.1" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.11.0 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="tempfile --- 生成临时文件和目录" href="tempfile.html" />
+    <link rel="prev" title="stat --- 解析 stat() 结果" href="stat.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/filecmp.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="shortcut icon" type="image/png" href="../_static/py.svg" />
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script> 
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <label for="menuToggler" class="toggler__label">
+        <span></span>
+    </label>
+    <nav class="nav-content" role="navigation">
+         <a href="https://www.python.org/" class="nav-logo">
+             <img src="../_static/py.svg" alt="Logo"/>
+         </a>
+        <div class="version_switcher_placeholder"></div>
+        <form role="search" class="search" action="../search.html" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                <path fill-rule="nonzero"
+                        d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#444"></path>
+            </svg>
+            <input type="text" name="q" aria-label="快速搜索"/>
+            <input type="submit" value="转向"/>
+        </form>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> --- 文件及目录的比较</a><ul>
+<li><a class="reference internal" href="#the-dircmp-class"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code> 类</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="stat.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stat</span></code> --- 解析 <code class="xref py py-func docutils literal notranslate"><span class="pre">stat()</span></code> 结果</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="tempfile.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tempfile</span></code> --- 生成临时文件和目录</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/filecmp.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="tempfile.html" title="tempfile --- 生成临时文件和目录"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="stat.html" title="stat --- 解析 stat() 结果"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="filesys.html" accesskey="U">文件和目录访问</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> --- 文件及目录的比较</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-filecmp">
+<span id="filecmp-file-and-directory-comparisons"></span><h1><a class="reference internal" href="#module-filecmp" title="filecmp: Compare files efficiently."><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code></a> --- 文件及目录的比较<a class="headerlink" href="#module-filecmp" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.11/Lib/filecmp.py">Lib/filecmp.py</a></p>
+<hr class="docutils" />
+<p><a class="reference internal" href="#module-filecmp" title="filecmp: Compare files efficiently."><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code></a> 模块定义了用于比较文件及目录的函数，并且可以选取多种关于时间和准确性的折衷方案。对于文件的比较，另见 <a class="reference internal" href="difflib.html#module-difflib" title="difflib: Helpers for computing differences between objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">difflib</span></code></a> 模块。</p>
+<p><a class="reference internal" href="#module-filecmp" title="filecmp: Compare files efficiently."><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code></a>  模块定义了如下函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="filecmp.cmp">
+<span class="sig-prename descclassname"><span class="pre">filecmp.</span></span><span class="sig-name descname"><span class="pre">cmp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shallow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.cmp" title="永久链接至目标">¶</a></dt>
+<dd><p>比较名为 <em>f1</em> 和 <em>f2</em> 的文件，如果它们似乎相等则返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> 。</p>
+<p>如果 <em>shallow</em> 为真值且两个文件的 <a class="reference internal" href="os.html#os.stat" title="os.stat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.stat()</span></code></a> 签名信息（文件类型、大小和修改时间）一致，则文件会被视为相同。</p>
+<p>在其他情况下，如果文件大小或内容不同则它们会被视为不同。</p>
+<p>需要注意，没有外部程序被该函数调用，这赋予了该函数可移植性与效率。</p>
+<p>该函数会缓存过去的比较及其结果，且在文件的 <a class="reference internal" href="os.html#os.stat" title="os.stat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.stat()</span></code></a> 信息变化后缓存条目失效。所有的缓存可以通过使用  <a class="reference internal" href="#filecmp.clear_cache" title="filecmp.clear_cache"><code class="xref py py-func docutils literal notranslate"><span class="pre">clear_cache()</span></code></a> 来清除。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="filecmp.cmpfiles">
+<span class="sig-prename descclassname"><span class="pre">filecmp.</span></span><span class="sig-name descname"><span class="pre">cmpfiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">common</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shallow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.cmpfiles" title="永久链接至目标">¶</a></dt>
+<dd><p>比较在两个目录 <em>dir1</em> 和 <em>dir2</em> 中，由 <em>common</em> 所确定名称的文件。</p>
+<p>返回三组文件名列表： <em>match</em>, <em>mismatch</em>, <em>errors</em> 。 <em>match</em> 含有相匹配的文件， <em>mismatch</em> 含有那些不匹配的，然后 <em>errors</em> 列出那些未被比较文件的名称。如果文件不存在于两目录中的任一个，或者用户缺少读取它们的权限，又或者因为其他的一些原因而无法比较，那么这些文件将会被列在 <em>errors</em> 中。</p>
+<p>参数 <em>shallow</em> 具有同 <a class="reference internal" href="#filecmp.cmp" title="filecmp.cmp"><code class="xref py py-func docutils literal notranslate"><span class="pre">filecmp.cmp()</span></code></a> 一致的含义与默认值。</p>
+<p>例如， <code class="docutils literal notranslate"><span class="pre">cmpfiles('a',</span> <span class="pre">'b',</span> <span class="pre">['c',</span> <span class="pre">'d/e'])</span></code> 将会比较 <code class="docutils literal notranslate"><span class="pre">a/c</span></code> 与 <code class="docutils literal notranslate"><span class="pre">b/c</span></code> 以及 <code class="docutils literal notranslate"><span class="pre">a/d/e</span></code> 与 <code class="docutils literal notranslate"><span class="pre">b/d/e</span></code> 。 <code class="docutils literal notranslate"><span class="pre">'c'</span></code> 和 <code class="docutils literal notranslate"><span class="pre">'d/e'</span></code> 将会各自出现在返回的三个列表里的某一个列表中。</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="filecmp.clear_cache">
+<span class="sig-prename descclassname"><span class="pre">filecmp.</span></span><span class="sig-name descname"><span class="pre">clear_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.clear_cache" title="永久链接至目标">¶</a></dt>
+<dd><p>清除 filecmp 缓存。如果一个文件过快地修改，以至于超过底层文件系统记录修改时间的精度，那么该函数可能有助于比较该类文件。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<section id="the-dircmp-class">
+<span id="dircmp-objects"></span><h2><a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> 类<a class="headerlink" href="#the-dircmp-class" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="filecmp.dircmp">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">filecmp.</span></span><span class="sig-name descname"><span class="pre">dircmp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.dircmp" title="永久链接至目标">¶</a></dt>
+<dd><p>创建一个用于比较目录 <em>a</em> 和 <em>b</em> 的新的目录比较对象。 <em>ignore</em> 是需要忽略的文件名列表，且默认为  <a class="reference internal" href="#filecmp.DEFAULT_IGNORES" title="filecmp.DEFAULT_IGNORES"><code class="xref py py-attr docutils literal notranslate"><span class="pre">filecmp.DEFAULT_IGNORES</span></code></a> 。 <em>hide</em> 是需要隐藏的文件名列表，且默认为 <code class="docutils literal notranslate"><span class="pre">[os.curdir,</span> <span class="pre">os.pardir]</span></code> 。</p>
+<p><a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> 类如 <a class="reference internal" href="#filecmp.cmp" title="filecmp.cmp"><code class="xref py py-func docutils literal notranslate"><span class="pre">filecmp.cmp()</span></code></a> 中所描述的那样对文件进行 <em>shallow</em> 比较。</p>
+<p><a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> 类提供以下方法：</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="filecmp.dircmp.report">
+<span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.dircmp.report" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>a</em> 与 <em>b</em> 之间的比较结果打印（到  <a class="reference internal" href="sys.html#sys.stdout" title="sys.stdout"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout</span></code></a> ）。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="filecmp.dircmp.report_partial_closure">
+<span class="sig-name descname"><span class="pre">report_partial_closure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.dircmp.report_partial_closure" title="永久链接至目标">¶</a></dt>
+<dd><p>打印 <em>a</em> 与 <em>b</em>  及共同直接子目录的比较结果。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="filecmp.dircmp.report_full_closure">
+<span class="sig-name descname"><span class="pre">report_full_closure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.dircmp.report_full_closure" title="永久链接至目标">¶</a></dt>
+<dd><p>打印 <em>a</em> 与 <em>b</em> 及共同子目录比较结果（递归地）。</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> 类提供了一些有趣的属性，用以得到关于参与比较的目录树的各种信息。</p>
+<p>需要注意，通过 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattr__()</span></code>  钩子，所有的属性将会惰性求值，因此如果只使用那些计算简便的属性，将不会有速度损失。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.left">
+<span class="sig-name descname"><span class="pre">left</span></span><a class="headerlink" href="#filecmp.dircmp.left" title="永久链接至目标">¶</a></dt>
+<dd><p>目录 <em>a</em> 。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.right">
+<span class="sig-name descname"><span class="pre">right</span></span><a class="headerlink" href="#filecmp.dircmp.right" title="永久链接至目标">¶</a></dt>
+<dd><p>目录 <em>b</em> 。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.left_list">
+<span class="sig-name descname"><span class="pre">left_list</span></span><a class="headerlink" href="#filecmp.dircmp.left_list" title="永久链接至目标">¶</a></dt>
+<dd><p>经 <em>hide</em> 和 <em>ignore</em> 过滤，目录 <em>a</em> 中的文件与子目录。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.right_list">
+<span class="sig-name descname"><span class="pre">right_list</span></span><a class="headerlink" href="#filecmp.dircmp.right_list" title="永久链接至目标">¶</a></dt>
+<dd><p>经 <em>hide</em> 和 <em>ignore</em> 过滤，目录 <em>b</em> 中的文件与子目录。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.common">
+<span class="sig-name descname"><span class="pre">common</span></span><a class="headerlink" href="#filecmp.dircmp.common" title="永久链接至目标">¶</a></dt>
+<dd><p>同时存在于目录 <em>a</em> 和 <em>b</em> 中的文件和子目录。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.left_only">
+<span class="sig-name descname"><span class="pre">left_only</span></span><a class="headerlink" href="#filecmp.dircmp.left_only" title="永久链接至目标">¶</a></dt>
+<dd><p>仅在目录 <em>a</em> 中的文件和子目录。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.right_only">
+<span class="sig-name descname"><span class="pre">right_only</span></span><a class="headerlink" href="#filecmp.dircmp.right_only" title="永久链接至目标">¶</a></dt>
+<dd><p>仅在目录 <em>b</em> 中的文件和子目录。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.common_dirs">
+<span class="sig-name descname"><span class="pre">common_dirs</span></span><a class="headerlink" href="#filecmp.dircmp.common_dirs" title="永久链接至目标">¶</a></dt>
+<dd><p>同时存在于目录 <em>a</em> 和 <em>b</em> 中的子目录。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.common_files">
+<span class="sig-name descname"><span class="pre">common_files</span></span><a class="headerlink" href="#filecmp.dircmp.common_files" title="永久链接至目标">¶</a></dt>
+<dd><p>同时存在于目录 <em>a</em> 和 <em>b</em> 中的文件。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.common_funny">
+<span class="sig-name descname"><span class="pre">common_funny</span></span><a class="headerlink" href="#filecmp.dircmp.common_funny" title="永久链接至目标">¶</a></dt>
+<dd><p>在目录 <em>a</em> 和 <em>b</em> 中类型不同的名字，或者那些 <a class="reference internal" href="os.html#os.stat" title="os.stat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.stat()</span></code></a> 报告错误的名字。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.same_files">
+<span class="sig-name descname"><span class="pre">same_files</span></span><a class="headerlink" href="#filecmp.dircmp.same_files" title="永久链接至目标">¶</a></dt>
+<dd><p>在目录 <em>a</em> 和 <em>b</em> 中，使用类的文件比较操作符判定相等的文件。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.diff_files">
+<span class="sig-name descname"><span class="pre">diff_files</span></span><a class="headerlink" href="#filecmp.dircmp.diff_files" title="永久链接至目标">¶</a></dt>
+<dd><p>在目录 <em>a</em> 和 <em>b</em> 中，根据类的文件比较操作符判定内容不等的文件。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.funny_files">
+<span class="sig-name descname"><span class="pre">funny_files</span></span><a class="headerlink" href="#filecmp.dircmp.funny_files" title="永久链接至目标">¶</a></dt>
+<dd><p>在目录 <em>a</em> 和 <em>b</em> 中无法比较的文件。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.subdirs">
+<span class="sig-name descname"><span class="pre">subdirs</span></span><a class="headerlink" href="#filecmp.dircmp.subdirs" title="永久链接至目标">¶</a></dt>
+<dd><p>一个将 <a class="reference internal" href="#filecmp.dircmp.common_dirs" title="filecmp.dircmp.common_dirs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">common_dirs</span></code></a> 中的名称映射到 <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> 实例（或者 MyDirCmp 实例，如果该实例类型为 <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> 的子类 MyDirCmp 的话）的字典。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版更改: </span>在之前版本中字典条目总是为 <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> 实例。 现在条目将与 <em>self</em> 的类型相同，如果 <em>self</em> 为 <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> 的子类的话。</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.DEFAULT_IGNORES">
+<span class="sig-prename descclassname"><span class="pre">filecmp.</span></span><span class="sig-name descname"><span class="pre">DEFAULT_IGNORES</span></span><a class="headerlink" href="#filecmp.DEFAULT_IGNORES" title="永久链接至目标">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+<p>默认被 <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> 忽略的目录列表。</p>
+</dd></dl>
+
+<p>下面是一个简单的例子，使用 <code class="docutils literal notranslate"><span class="pre">subdirs</span></code> 属性递归搜索两个目录以显示公共差异文件：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">filecmp</span> <span class="kn">import</span> <span class="n">dircmp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">print_diff_files</span><span class="p">(</span><span class="n">dcmp</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">dcmp</span><span class="o">.</span><span class="n">diff_files</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;diff_file </span><span class="si">%s</span><span class="s2"> found in </span><span class="si">%s</span><span class="s2"> and </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dcmp</span><span class="o">.</span><span class="n">left</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">dcmp</span><span class="o">.</span><span class="n">right</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">sub_dcmp</span> <span class="ow">in</span> <span class="n">dcmp</span><span class="o">.</span><span class="n">subdirs</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+<span class="gp">... </span>        <span class="n">print_diff_files</span><span class="p">(</span><span class="n">sub_dcmp</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dcmp</span> <span class="o">=</span> <span class="n">dircmp</span><span class="p">(</span><span class="s1">&#39;dir1&#39;</span><span class="p">,</span> <span class="s1">&#39;dir2&#39;</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_diff_files</span><span class="p">(</span><span class="n">dcmp</span><span class="p">)</span> 
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> --- 文件及目录的比较</a><ul>
+<li><a class="reference internal" href="#the-dircmp-class"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code> 类</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一个主题</h4>
+    <p class="topless"><a href="stat.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stat</span></code> --- 解析 <code class="xref py py-func docutils literal notranslate"><span class="pre">stat()</span></code> 结果</a></p>
+  </div>
+  <div>
+    <h4>下一个主题</h4>
+    <p class="topless"><a href="tempfile.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tempfile</span></code> --- 生成临时文件和目录</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页面</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/filecmp.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="tempfile.html" title="tempfile --- 生成临时文件和目录"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="stat.html" title="stat --- 解析 stat() 结果"
+             >上一页</a> |</li>
+
+          <li><img src="../_static/py.svg" alt="python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.11.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="filesys.html" >文件和目录访问</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> --- 文件及目录的比较</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+                     |
+                </li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2022, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    See <a href="/license.html">History and License</a> for more information.<br />
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 11月 24, 2022.
+    <a href="/bugs.html">Found a bug</a>?
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0创建。
+    </div>
+
+  </body>
+</html>
