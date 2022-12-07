@@ -1,4 +1,4 @@
-# HBuilder X - Release Notes
+# <a href="https://dcloud.io/hbuilderx.html" title="HBuilderX-高效极客技巧">HBuilder X</a> - 高效极客技巧 - Release Notes | <a href="https://dcloud.io/" title="DCloud - HBuilder、HBuilderX、uni-app、uniapp、5+、5plus、mui、wap2app、流应用、HTML5、小程序开发、跨平台App、多端框架">DCloud</a>
 ======================================
 ## 3.6.5.20221121
 * 修复 内置浏览器 Windows 某些电脑上，拖动内置浏览器，HBuilderX出现闪退的Bug
