@@ -1,7 +1,7 @@
 # <a href="https://dcloud.io/hbuilderx.html" title="HBuilderX-高效极客技巧">HBuilder X</a> - 高效极客技巧 - Release Notes | <a href="https://dcloud.io/" title="DCloud - HBuilder、HBuilderX、uni-app、uniapp、5+、5plus、mui、wap2app、流应用、HTML5、小程序开发、跨平台App、多端框架">DCloud</a>（数字天堂）
 ======================================
 
-<a href="https://coding.imooc.com/class/521.html" title="实战课程:uni-app从入门到进阶 系统完成项目实战_慕课网">(￥348元)实战课程:uni-app从入门到进阶 系统完成项目实战_慕课网</a>(￥348元)
+<a href="https://coding.imooc.com/class/521.html" title="(￥348元)实战课程:uni-app从入门到进阶 系统完成项目实战_慕课网">实战课程:uni-app从入门到进阶 系统完成项目实战_慕课网</a>(￥348元)
 <blockquote>uni-app从入门到进阶 系统完成项目实战
 <blockquote>专门为小程序0基础学员而设，让你拥有能上线的作品</blockquote></blockquote>
 
