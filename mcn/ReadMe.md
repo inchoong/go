@@ -63,6 +63,49 @@
 包括但不限于公司规模、团队人数、公司业务版块、<br>
 积累的潜在主播资源、过往与直播带货相关的业务介绍与优秀案例、<br>
 预期在视频号的人员配置数量等。</blockquote>
+
+<B>【服务商资质申请】</B>
+<blockquote>请选择对应的服务商资质，认证培训指导/账号孵化/代运营服务 后，将默认拥有招商合作资质</blockquote>
+选择资质类型:
+<blockquote>需上传对应证明材料，后续也可在「设置-账号信息-资质类型」中增开资质。</blockquote>
+
++ [ ] 招商合作
++ [ ] 培训指导
++ [ ] 账号孵化
++ [ ] 代运营服务
+
+<B>【管理员信息】</B>
+<blockquote>
+1.<a href="https://cms.wxqcloud.qq.com/cms-image-storage/67d06f942516869c7f1d5e20547f8139/%E8%A7%86%E9%A2%91%E5%8F%B7%E6%9C%8D%E5%8A%A1%E5%95%86%E5%85%A5%E9%A9%BB%E5%85%AC%E5%87%BD.docx">下载《视频号服务商入驻公函》模版</a>，打印->签字->盖章，并准备好电子照片或扫描件。
+2. 联系人信息需与公函中的联系人一致。
 </blockquote>
 
+申请函: 
+<blockquote>
+请认真核对公函，上传已签字盖章的电子照片或扫描件。
+</blockquote>
 
++ [ ] 请上传申请函
+
+联系人姓名:
+<blockquote>
+填写联系人名称
+</blockquote>
+
+联系人邮箱:
+<blockquote>
+填写联系人邮箱
+</blockquote>
+
+手机号:
+<blockquote>
+填写手机号<br>
+审核过程中会联系此号码，请保持畅通。
+</blockquote>
+
+短信验证码:
+<blockquote>
+填写短信验证码<br>
+获取短信验证码
+</blockquote>
+  </blockquote>
