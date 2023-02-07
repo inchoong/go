@@ -13,3 +13,11 @@
          https://raw.githubusercontent.com/lylehust/Chinese-IPTV/master/TV-EDU-HAUST.m3u
          https://raw.githubusercontent.com/lylehust/Chinese-IPTV/master/TV-EDU-HAUST.m3u
 ```
+- IPTV-Checker-2.5 汉化版！ 直播源检测的必备工具 - 零度解说
+> https://www.freedidi.com/8309.html
+
+- IPTV直播源汇总！高清、稳定、速度快的免费直播源，自己动手永不过时！ - 零度解说
+> https://www.freedidi.com/8328.html
+
+- Windows、MacOS、安卓TV、手机 、AppleTV上播放直播视频的正确姿势！ - 零度解说
+> https://www.freedidi.com/8314.html
