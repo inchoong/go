@@ -9,7 +9,8 @@
     </tr> 
  </table> 
 
-
+@财经冷眼（[20230314第1008期](https://www.youtube.com/watch?v=tRIwadS2g6c)）https://youtu.be/tRIwadS2g6c
+>>财经冷眼：如果未来20年注定只能留在墙内，你应该这样做！（20230314第1008期）
 
 @财经冷眼（[20210512第527期](https://www.youtube.com/watch?v=gV2dOMGJq10)）https://youtu.be/gV2dOMGJq10
 >>财经冷眼：人民在唱歌！成都49中事件竭力掩盖的真相！警察开始大量抓人，事情越闹越大，会失控吗？（20210512第527期）
