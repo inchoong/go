@@ -1,6 +1,11 @@
 - IPTV直播源汇总，收集于Github，内含IPV6直播源地址_OZABC
 > https://www.ozabc.com/free/534647.html
+> 
+<a href="http://iptv.ustb.edu.cn/">北京科技大学IPTV网络直播</a>
 
+- <a href="https://github.com/lylehust">lylehust</a>：<a href="https://github.com/lylehust/MyIPTV/">MyIPTV</a> | <a href="https://github.com/lylehust/Tvlist-awesome-m3u-m3u8">l相关资源汇总 📺 💯 IPTV、M3U</a>
+> <a href="https://github.com/lylehust/MyIPTV/blob/master/%E5%A4%AE%E5%B9%BFCDN%E7%89%88.txt">央广CDN版.txt</a>
+> 
 ```
 直播源汇总：（不断更新中...）
 1. Tvlist-awesome:  https://github.com/imDazui/Tvlist-awesome-m3u-m3u8
