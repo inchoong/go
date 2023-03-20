@@ -4,7 +4,8 @@
 
 <a href="http://iptv.ustb.edu.cn/">北京科技大学IPTV网络直播</a>
 
-<a href="http://tonkiang.us/?s=%E5%8D%AB%E8%A7%86">电视直播源搜索｜最新卫视多线路直播源分享</a>
+<a href="http://tonkiang.us/?s=%E5%8D%AB%E8%A7%86">电视直播源搜索｜最新卫视多线路直播源分享</a></br>
+<a href="http://tonkiang.us/?s=CnN">电视直播源搜索引擎｜国内外电视频道直播源搜索，m3u8、flv、rtsp、rtmp、txt直播源链接地址每日更新</a>
 
 - <a href="https://github.com/lylehust">lylehust</a>：<a href="https://github.com/lylehust/MyIPTV/">MyIPTV</a> | <a href="https://github.com/lylehust/Tvlist-awesome-m3u-m3u8">l相关资源汇总 📺 💯 IPTV、M3U</a>
 > <a href="https://github.com/lylehust/MyIPTV/blob/master/%E5%A4%AE%E5%B9%BFCDN%E7%89%88.txt">央广CDN版.txt</a>
