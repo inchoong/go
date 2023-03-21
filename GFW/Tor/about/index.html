@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Tor Browser Manual</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src chrome: 'unsafe-inline'; object-src 'none'" />
+    <link rel="stylesheet" href="chrome://browser/content/manual/static/css/bootstrap.css?h=1d4e2129">
+    <link rel="stylesheet" href="chrome://browser/content/manual/static/fonts/fontawesome/css/all.min.css?h=9d272f6a" rel="stylesheet">
+    <style>
+.topic {
+  display: none;
+}
+
+.topic.visible {
+  display: block;
+}
+
+#topic-topics ul {
+  list-style-type: none;
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      
+      <div class="topic" id="topic-topics">
+        <h3 class="text-primary">主题</h3>
+        <ul>
+        
+          <li>
+            <h4><a href="#about">关于 Tor 浏览器</a></h4>
+            <p>了解 Tor 浏览器如何保护您的隐私和匿名性</p>
+          </li>
+        
+          <li>
+            <h4><a href="#downloading">下载</a></h4>
+            <p>如何下载 Tor 浏览器</p>
+          </li>
+        
+          <li>
+            <h4><a href="#installation">安装</a></h4>
+            <p>正在安装 Tor 浏览器</p>
+          </li>
+        
+          <li>
+            <h4><a href="#running-tor-browser">第一次运行 Tor 浏览器</a></h4>
+            <p>了解如何初次使用 Tor 浏览器</p>
+          </li>
+        
+          <li>
+            <h4><a href="#circumvention">规避审查</a></h4>
+            <p>Tor 网络被拦截该怎么做</p>
+          </li>
+        
+          <li>
+            <h4><a href="#bridges">网桥</a></h4>
+            <p>大多数可插拔传输，如 obfs4，依赖于使用“网桥”中继。</p>
+          </li>
+        
+          <li>
+            <h4><a href="#managing-identities">管理身份</a></h4>
+            <p>了解如何控制 Tor 浏览器中的个人身份信息</p>
+          </li>
+        
+          <li>
+            <h4><a href="#onion-services">洋葱服务</a></h4>
+            <p>只能使用洋葱路由访问的服务</p>
+          </li>
+        
+          <li>
+            <h4><a href="#secure-connections">安全连接</a></h4>
+            <p>了解如何使用 Tor 浏览器与 HTTPS 保护您的数据</p>
+          </li>
+        
+          <li>
+            <h4><a href="#security-settings">安全设置</a></h4>
+            <p>为安全和易用而配置 Tor 浏览器</p>
+          </li>
+        
+          <li>
+            <h4><a href="#updating">更新</a></h4>
+            <p>如何更新 Tor 浏览器</p>
+          </li>
+        
+          <li>
+            <h4><a href="#troubleshooting">疑难解答</a></h4>
+            <p>Tor 浏览器出错时该怎么做</p>
+          </li>
+        
+          <li>
+            <h4><a href="#plugins">插件、附加包和JavaScript</a></h4>
+            <p>Tor 浏览器如何处理附加组件、插件和 JavaScript</p>
+          </li>
+        
+          <li>
+            <h4><a href="#uninstalling">卸载</a></h4>
+            <p>如何在您的系统上删除 Tor 浏览器</p>
+          </li>
+        
+          <li>
+            <h4><a href="#mobile-tor">移动 TOR</a></h4>
+            <p>了解移动设备上的 Tor</p>
+          </li>
+        
+          <li>
+            <h4><a href="#known-issues">已知问题</a></h4>
+            <p>已知问题</p>
+          </li>
+        
+          <li>
+            <h4><a href="#make-tor-portable">使 Tor 浏览器更便携</a></h4>
+            <p>如何在一个可移除的媒介上安装 Tor 浏览器</p>
+          </li>
+        
+          <li>
+            <h4><a href="#support">SUPPORT</a></h4>
+            <p>How to get help, report a bug or give feedback</p>
+          </li>
+        
+        </ul>
+      </div>
+      
+      <div class="topic" id="topic-about" data-title="关于 Tor 浏览器">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#about">关于 Tor 浏览器</a>
+        </nav>
+        <h2>关于 Tor 浏览器</h2>
+        <p>Tor 浏览器使用 Tor 网络保护您的隐私和匿名性。使用 Tor 网络有两个主要好处：</p>
+<ul>
+<li><p>您的互联网服务提供商和任何本地的监视者都将无法查看您的连接、跟踪您的网络活动，包括您所访问网站的名称和地址。</p>
+</li>
+<li><p>您使用的网站和服务的运营商以及任何监视它们的人都将看到连接来自 Tor 网络而不是您的互联网IP地址，并且不知道您是谁，除非您明确标识自己。</p>
+</li>
+</ul>
+<p>此外，Tor 浏览器的设计包括防止网站根据您的浏览器配置而收集“指纹”或识别您。</p>
+<p>默认情况下，Tor 浏览器不保留任何浏览历史。Cookies 只在单一会话标签内有效（直到 Tor 浏览器退出或请求了一个<a href="#managing-identities_new-identity">新的身份</a>为止）。</p>
+<h3>Tor 如何工作</h3>
+<p>Tor 是一个由虚拟通道组成的网络，使您可以提高自己在互联网上的隐私和安全性。Tor 会将您的流量通过 Tor 网络内的三个随机的服务器（也称<em>节点</em>）发送。链路中的最后一个中继（即“出口节点”）将流量发送到公共互联网。</p>
+<p><img src="chrome://browser/content/manual/static/images/how-tor-works.png" alt="Tor 工作原理"></p>
+<p>上图展示了用户如何通过 Tor 网络来浏览不同的网站。在中间的绿色计算机表示 Tor 网络中的中继服务器；三把钥匙表示用户与每个中继之间的加密层。</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-downloading" data-title="下载">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#downloading">下载</a>
+        </nav>
+        <h2>下载</h2>
+        <p>要获取 Tor 浏览器，最安全且简便的方式就是从 Tor Project 官网 <a href="https://www.torproject.org/zh-CN/download/">https://www.torproject.org/zh-CN/download/</a> 下载。
+您与网站的连接将使用<a href="#secure-connections">HTTPS</a>进行保护，这使得有人更难篡改链接。</p>
+<p>然而，某些情况下您可能无法成功访问 Tor Project 的官方网站：例如您所在的网络会屏蔽该网站。
+If this happens, you can use one of the alternative download methods listed below:</p>
+<h3>镜像</h3>
+<p>如果你无法从 Tor 项目的官网下载 Tor 浏览器，你可以尝试在官方镜像网站上下载：<a href="https://tor.eff.org">EFF</a> 以及 <a href="https://tor.calyxinstitute.org">Calyx Institute</a>。</p>
+<h3>GetTor</h3>
+<p><a href="https://gettor.torproject.org/">GetTor</a> 是一项可自动回复带有最新版 Tor 浏览器链接的消息的服务，托管在各种位置，例如 Dropbox、Google Drive 和 GitHub。</p>
+<h3>通过电子邮件使用 GetTor</h3>
+<p>发送一封电子邮件至 <a href="mailto:gettor@torproject.org">gettor@torproject.org</a>。按照您欲使用 Tor 浏览器的电脑系统，在消息中填写“windows”、“osx”或“linux”来指定平台版本（不含引号）。
+For example, to get links for downloading Tor Browser for Windows, send an email to <a href="mailto:gettor@torproject.org">gettor@torproject.org</a> with the word "windows" in it.</p>
+<p>GetTor 将会自动回复一封电子邮件给您，信中会带有 Tor 浏览器的下载链接、加密签名（用于确认所下载之文件其来源可信）、数字签名所用之密钥特征指纹码、所下载文件之校验和。另外，您亦可以依照您所使用的电脑系统架构，选择要下载 32 位或是 64 位的版本。</p>
+<h3>通过 Telegram 使用 GetTor</h3>
+<p>向Telegram发送消息<a href="https://t.me/gettor_bot">@GetTor_Bot</a>。</p>
+<ul>
+<li><p>点击“开始”或在聊天中输入<code>/start</code>。</p>
+</li>
+<li><p>选择你的语言。</p>
+</li>
+<li><p>下载Tor浏览器有两个选项。</p>
+<ul>
+<li>Tap on 'Send me the Tor Browser' and choose your operating system. GetTor will respond with a downloadable Tor Browser file and the signature which can be used to verify the download.</li>
+<li>点击“为Tor浏览器发送其他镜像”，从官方的其中一个途径镜像下载。</li>
+</ul>
+</li>
+</ul>
+<p><img src="chrome://browser/content/manual/static/images/gettor-bot-telegram.png" alt="GetTor Bot"></p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-installation" data-title="安装">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#installation">安装</a>
+        </nav>
+        <h2>安装</h2>
+        <h2>对 Windows</h2>
+<ol>
+<li><p>跳转至 Tor 浏览器的<a href="https://www.torproject.org/download">下载页</a>。</p>
+</li>
+<li><p>下载 Windows 的 <code>.exe</code> 文件</p>
+</li>
+<li><p>（推荐）验证<a href="https://support.torproject.org/en/tbb/how-to-verify-signature/">文件的签名</a>。</p>
+</li>
+<li><p>当下载完成后，双击 <code>.exe</code> 文件。完成安装向导。</p>
+</li>
+</ol>
+<h2>对于 macOS</h2>
+<ol>
+<li><p>跳转至 Tor 浏览器的<a href="https://www.torproject.org/download">下载页</a>。</p>
+</li>
+<li><p>下载 macOS 的 <code>.dmg</code> 文件。</p>
+</li>
+<li><p>（推荐）验证<a href="https://support.torproject.org/en/tbb/how-to-verify-signature/">文件的签名</a>。</p>
+</li>
+<li><p>当下载完成后，双击 <code>.dmg</code> 文件。完成安装向导。</p>
+</li>
+</ol>
+<h2>对于 GNU/Linux</h2>
+<ol>
+<li><p>跳转至 Tor 浏览器的<a href="https://www.torproject.org/download">下载页</a>。</p>
+</li>
+<li><p>下载 GNU/Linux 的 <code>.tar.xz</code> 文件。</p>
+</li>
+<li><p>（推荐）验证<a href="https://support.torproject.org/en/tbb/how-to-verify-signature/">文件的签名</a>。</p>
+</li>
+<li><p>现在依据图形界面或命令行方式进行安装：</p>
+</li>
+</ol>
+<h4>图形界面安装</h4>
+<ul>
+<li><p>当下载完成的时候，通过解压缩软件解压压缩包</p>
+</li>
+<li><p>你需要告诉你的 GNU/Linux 你想要执行shell脚本。
+导航至新解压出的 Tor 浏览器的目录。
+右击 <code>start-tor-browser.desktop</code>，打开属性或优先级并更改许可以允许程序解压该文件。
+ 双击图标来第一次运行 Tor 浏览器。</p>
+</li>
+</ul>
+<p><img src="chrome://browser/content/manual/static/images/linux-make-desktop-file-executable.png" alt="在 Linux 中设置 .desktop 文件可执行"></p>
+<p><strong>注意：</strong>在 Ubuntu 和一些其他的发行版上，如果您尝试启动 <code>start-tor-browser.desktop</code> 文件，可能会打开一个文本文件。
+依照以下步骤调整和启动 Tor 浏览器：</p>
+<ul>
+<li>启动 "文件"（GNOME Files/Nautilus）。</li>
+<li>点击设置</li>
+<li>转到 “行为” 页面</li>
+<li>选择 “运行” 或者 “可执行文本文件” 下的 “问问该怎么做”</li>
+<li>如果选择了后者，请在启动 <code>start-tor- browser.desktop</code> 文件之后点击 “运行”。</li>
+</ul>
+<p><img src="chrome://browser/content/manual/static/images/linux-change-behavior-executable-files.png" alt="将可执行文件行为更改为在 Linux 上总是运行"></p>
+<h4>命令行方式</h4>
+<ul>
+<li><p>下载完成之后，使用命令提出存档 <code>tar -xf [TB archive]</code>。</p>
+</li>
+<li><p>从 Tor 浏览器目录下，可启动 Tor 浏览器，运行：</p>
+<p>‪<code>./start-tor-browser.desktop</code></p>
+<p><strong>注意：</strong> 如果该命令无法运行，可能需使该文件可执行。在该目录下运行：<code>chmod +x start-tor-browser.desktop</code></p>
+</li>
+</ul>
+<p>在命令行中，<code>start-tor-browser.desktop</code> 可使用一些附加的标志：</p>
+<table>
+<thead><tr>
+<th><strong>标志</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>‪<code>--register-app</code></td>
+<td>将 Tor 浏览器注册为桌面程序。</td>
+</tr>
+<tr>
+<td>‪<code>--verbose</code></td>
+<td>在终端中显示 Tor 和 Firefox 输出。</td>
+</tr>
+<tr>
+<td>‪<code>--log [file]</code></td>
+<td>在文件中记录 Tor 和 Firefox 输出 （默认：tor-browser.log）。</td>
+</tr>
+<tr>
+<td>‪<code>--detach</code></td>
+<td>从终端分离并在后台运行 Tor 浏览器。</td>
+</tr>
+<tr>
+<td>‪<code>--unregister-app</code></td>
+<td>将 Tor 浏览器取消注册为桌面应用。</td>
+</tr>
+</tbody>
+</table>
+<p>请参阅此处了解如何<a href="#updating">更新 Tor 浏览器</a>。</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-running-tor-browser" data-title="第一次运行 Tor 浏览器">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#running-tor-browser">第一次运行 Tor 浏览器</a>
+        </nav>
+        <h2>第一次运行 Tor 浏览器</h2>
+        <p>启动 Tor 浏览器时，显示“连接 Tor 网络”窗口。
+这向您提供直接连接至 Tor 网络，或为您的连接配置 Tor 浏览器的选项。
+这个窗口中有复选框，可以让您选择是否在每次启动时自动连接 Tor 网络。</p>
+<h3>连接</h3>
+<p><img src="chrome://browser/content/manual/static/images/connect.png" alt="点击“连接”以连接至 Tor"></p>
+<p>在大多数情况下，选择“连接”将允许您无需其他配置直接连接至 Tor 网络。</p>
+<p>点击之后将显示状态栏，展示 Tor 的连接进度。
+如果你的连接相对较快，但状态栏似乎卡在了某处，请尝试“连接助手”或查看<a href="#troubleshooting">疑难解答</a>页面，以解决该问题。
+或者，如果您知道您的连接受到审查或使用了代理，您需要点击“Tor 网络设置”。</p>
+<p><img src="chrome://browser/content/manual/static/images/configure.png" alt="点击“Tor 网络设置”以调整网络设置"></p>
+<h3>连接助手</h3>
+<p>如果 Tor 在你的所在地被封锁，尝试网桥可能有帮助。通过你的位置，连接助手可为你选择一个网桥。</p>
+<p><img src="chrome://browser/content/manual/static/images/connection-assist-auto.png" alt="“连接助理”自动化"></p>
+<p>如果连接助手无法确定你的位置，或者你需要手动配置连接，可从下拉菜单中选择你的位置，然后点击“尝试网桥”。</p>
+<p><img src="chrome://browser/content/manual/static/images/connection-assist-select.png" alt="“连接助理”配置"></p>
+<h3>配置</h3>
+<p>Tor 浏览器会引导你进行一系列的配置。</p>
+<p>连接助手显示有关互联网连接状态以及 Tor 网络连接的信息。</p>
+<p><img src="chrome://browser/content/manual/static/images/connection-test-success.png" alt="“连接测试”成功"></p>
+<p><img src="chrome://browser/content/manual/static/images/connection-test-failure.png" alt="“连接测试”失败"></p>
+<p>第一个复选框是“快速开始”。如选中，每次启动 Tor 浏览器时将使用之前的网络设置进行连接。</p>
+<p><img src="chrome://browser/content/manual/static/images/quickstart.png" alt="快速启动"></p>
+<p>如果你确信自己的连接受到了审查，或者尝试连接 Tor 网络但失败，并且其他方法无法正常运行，可将 Tor 浏览器配置为使用可插拔传输。
+“网桥”将显示<a href="#circumvention">规避</a>部分，用于配置可插拔传输，或使用<a href="#bridges">网桥</a>连接。</p>
+<p><img src="chrome://browser/content/manual/static/images/pluggable-transport.png" alt="配置 Tor 网桥"></p>
+<h3>其他选项</h3>
+<p>如果连接使用代理，可通过以下方式配置：点击“设置”并选择“配置 Tor 浏览器联网方式”。
+大多数情况下，无需如此。通常你知道是否需要选择该复选框，因为系统上其他浏览器也需使用相同设置。
+如果可能，请询问您的网络管理员以寻求帮助。
+如果你不使用代理连接，点击“连接”。</p>
+<p><img src="chrome://browser/content/manual/static/images/proxy.png" alt="Tor 浏览器代理设置"></p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-circumvention" data-title="规避审查">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#circumvention">规避审查</a>
+        </nav>
+        <h2>规避审查</h2>
+        <p>您的互联网服务提供商或政府有时可能会阻止直接访问 Tor 网络。
+Tor 浏览器包括一些规避工具，用于解决这些问题。 这些工具称为“可插拔传输”。</p>
+<h3>可插拔传输类型</h3>
+<p>目前您有三种可插拔传输器可用，但我们正在开发更多。</p>
+<table class="table table-striped">
+<tbody>
+<tr class="odd">
+<td>
+    obfs4
+</td>
+<td>
+    obfs4 使 Tor 的流量看起来是随机的，并且还防止检查程序通过互联网扫描找到网桥。 与之前的 obfs3 网桥相比，obfs3 网桥被阻塞的可能性较小。
+</td>
+</tr>
+<tr class="odd">
+<td>
+meek
+</td>
+<td>
+    meek 方式使您看起来像在浏览主要网站，而不是使用 Tor。 meek-azure 使您看起来像在使用 Microsoft 网站。
+</td>
+</tr>
+<tr class="even">
+<td>
+    Snowflake
+</td>
+<td>
+    Snowflake 是对 Flashproxy 的改进。 它通过 WebRTC 发送您的流量，WebRTC 是一种具有内置网络地址转换（NAT）穿透的对等（P2P）协议。
+</td>
+</tr>
+</tbody>
+</table><h3>使用可插拔传输</h3>
+<p>如需使用可插拔传输，请在首次启动 Tor 浏览器时点击“配置连接”。
+在“网桥”部分，找到选项“选择 Tor 浏览器内置网桥”，然后点击“选择内置网桥”。
+从菜单中选择你想要使用的可插拔传输网桥。</p>
+<p>选择可插拔传输网桥之后，上滚并点击“连接”，保存设置。</p>
+<p>或者，如果 Tor 浏览器正在运行，请在<a href="https://support.torproject.org/glossary/hamburger-menu/">汉堡菜单 (≡)</a> 下选择“设置”，然后在侧边栏点击“连接”。
+在“网桥”部分，找到选项“选择 Tor 浏览器内置网桥”，然后点击“选择内置网桥”。
+从菜单中选择你想要使用的可插拔传输网桥。
+当你关闭标签页时你的设定会自动保存。</p>
+<p><img src="chrome://browser/content/manual/static/images/built-in-bridge.png" alt="配置内置网桥"></p>
+<h3>我该使用哪种传输方式？</h3>
+<p>Tor 浏览器菜单列出的每种传输使用不同的方式运行，其有效性取决于你个人所处的环境。</p>
+<p>如果您是第一次设法回避一个被屏蔽的连接，您应该尝试不同的传输：如 obfs4，snowflake或meek-azure。</p>
+<p>如果你尝试了所有这些选项均不能连接，你需要请求网桥或者手动输入网桥地址。</p>
+<p>中国大陆用户可能必须使用私人或未公开的 obfs4 网桥。
+请联系 Telegram 机器人 <a href="https://t.me/GetBridgesBot">@GetBridgesBot</a> 并输入 <code>/bridges</code>。
+或者发送邮件到 <a href="mailto:frontdesk@torproject.org">frontdesk@torproject.org</a> 来获取，邮件主题需要包含“private bridge”。</p>
+<p>请阅读<a href="#bridges">网桥</a> 部分来了解什么是网桥以及如何获取。</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-bridges" data-title="网桥">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#bridges">网桥</a>
+        </nav>
+        <h2>网桥</h2>
+        <p>大多数<a href="#circumvention">可插拔传输</a>，比如 obfs4，依赖于“网桥”中继。
+如同普通的 Tor 中继，网桥由志愿者经营；然而，与普通中继不同，它们并未公开列出，因此对手无法轻易识别它们。</p>
+<p>结合使用网桥和可插拔传输器有助于掩盖您正在使用 Tor 的事实，但与使用普通 Tor 中继相比，可能会减慢连接速度。</p>
+<p>其他可插拔传输层（例如 meek）使用不同的抗审查技术，不依赖于网桥。您不需要为了使用这些传输而获取网桥地址。</p>
+<h3>获取网桥地址</h3>
+<p>因为网桥地址非公开，您需要自行请求。您有两个选项：</p>
+<ul>
+<li>访问 <a href="https://bridges.torproject.org/">bridges.torproject.org</a> 并按照流程操作，或者</li>
+<li>使用 Gmail 或 Riseup 的邮箱服务发送电子邮件至 <a href="mailto:bridges@torproject.org">bridges@torproject.org</a>，或者</li>
+<li>使用 Moat 从 Tor 浏览器中获取网桥。</li>
+<li>向<a href="https://t.me/GetBridgesBot">@GetBridgesBot</a>发送消息在Telegram上。点击“开始”或在聊天中输入<code>/Start</code>或<code>/bridges</code>。复制桥地址：<ul>
+<li>Tor浏览器桌面版：单击双层菜单中的“设置”（≡），然后单击侧栏中的“连接”。在“网桥”部分，从“输入您已经知道的网桥地址”选项中单击“手动添加网桥”，然后在单独的一行中输入每个网桥地址。</li>
+<li>Tor浏览器安卓版本：点击'设置'(⚙️) 然后单击'Config Bridge'。打开'使用网桥'并选择'提供我知道的网桥'。输入网桥地址。</li>
+</ul>
+</li>
+</ul>
+<h3>使用 MOAT</h3>
+<p>首次使用 Tor 浏览器时，点击“配置连接”打开 Tor 设置窗口。
+在“网桥”部分，找到“从 torproject.org 请求网桥”，点击“请求网桥…”，从 BridgeDB 获取网桥。
+完成 Captcha 验证并点击“提交”，然后点击“连接”保存设置。</p>
+<p>或者，如果 Tor 浏览器正在运行，请在<a href="https://support.torproject.org/glossary/hamburger-menu/">汉堡菜单 (≡)</a> 下选择“设置”，然后在侧边栏点击“连接”。
+在“网桥”部分，找到“从 torproject.org 请求网桥”，点击“请求网桥…”，从 BridgeDB 获取网桥。完成 Captcha 验证并点击“提交”。一旦关闭标签页，将自动保存你的设置。</p>
+<p><img src="chrome://browser/content/manual/static/images/request-a-bridge.png" alt="从 torproject.org 请求网桥"></p>
+<h3>输入网桥地址</h3>
+<p>首次使用 Tor 浏览器时，点击“配置连接”打开 Tor 设置窗口。
+在“网桥”部分，找到选项“输入已知网桥”，点击“手动添加网桥”，然后分行输入网桥地址。
+点击“连接”来保存你的设置。</p>
+<p>或者，如果 Tor 浏览器正在运行，请在<a href="https://support.torproject.org/glossary/hamburger-menu/">汉堡菜单 (≡)</a> 下选择“设置”，然后在侧边栏点击“连接”。
+在“网桥”部分，找到选项“输入已知网桥”，点击“手动添加网桥”，然后分行输入网桥地址。
+当你关闭标签页时你的设定会自动保存。</p>
+<p><img src="chrome://browser/content/manual/static/images/provide-bridge.png" alt="手动输入网桥地址"></p>
+<p>如果连接失败，可能是获取的网桥未正常运行。请使用上述方式获取更多网桥并重试。</p>
+<p><h3 id="bridge-moji">网桥-moji&lt;h3</p>
+<p>每个网桥地址由一串表情符号表示，我们将其称为网桥表情符，可用于验证预期的网桥已成功添加。</p>
+<p>网桥表情符是<strong>用户可读网桥标识符</strong>，<strong>不</strong>代表 Tor 网络连接质量或网桥状态。
+表情符号<strong>不可用作输入</strong>。用户必须输入完整的网桥地址，方可连接网桥。</p>
+<p><img src="chrome://browser/content/manual/static/images/bridgemoji.png" alt="网桥表情符"></p>
+<p>可通过二维码或复制完整的地址来分享网桥。</p>
+<p><img src="chrome://browser/content/manual/static/images/bridge-qr.png" alt="网桥二维码"></p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-managing-identities" data-title="管理身份">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#managing-identities">管理身份</a>
+        </nav>
+        <h2>管理身份</h2>
+        <p>当您连上某个网站时，不只是该网站的管理员可获取有关于您的相关信息，现今许多网站都会使用像是脸书的“赞”功能按钮、访客追踪分析、广告推播服务等各种第三方网络服务，此类的功能可以将您在不同网站上的活动纪录串连组合起来。</p>
+<p>使用洋葱路由网络可以防止网络监听者找出您的真实网络地址以及实际地理位置，但是他们仍然能够将您在网络上活动的各种纪录连接组合在一起，并还原出您的网络活动全貌。有鉴于此，Tor 浏览器有加入一些特殊设计，可以帮助您管控可能被用于身份识别的相关信息。</p>
+<h3>地址栏</h3>
+<p>Tor 浏览器会以您在地址栏中的网站名称为中心，来维护您与网站间的交互关系，因此，即使您连上了两个不同的网站，但两个站台上都有使用相同的第三方网络追踪者，Tor 浏览器仍会强制让您与这两个网站间的连接，透过两条不同的洋葱路由回路来交换数据，如此可以让第三方网络追踪者非常难以察觉这两条通往不同网站的连接，其实都是源自于您的浏览器。</p>
+<p>从另一方面而言，所有通往同一网站的连接都将会透过同一条洋葱路由回路来达成，因此即使您在浏览器中打开多个不同的页签来阅览同一网站中的不同网页，其网站的功能也不会受到影响。</p>
+<p><img src="chrome://browser/content/manual/static/images/circuit_full.png" alt="在网站信息菜单下显示线路图"></p>
+<p>您可以在地址栏的站点信息菜单中看到 Tor 浏览器为当前选项卡使用的线路图。</p>
+<p>线路中的守卫或入口节点为第一个节点，由 Tor 随机自动选择，不过它与线路中其他节点不同。为了防止分析攻击，守卫节点仅在 2-3 月后发生更改，而其他节点对于每个新的域名发生更改。有关守卫节点的更多信息，请参考<a href="https://support.torproject.org/#entry-guards">常见问题</a>和<a href="https://support.torproject.org/tbb/">支持门户</a>。</p>
+<h3>使用 Tor 登录</h3>
+<p>尽管 Tor 浏览器在设计上是使用户在网络上全面匿名，但也有一些情况需要使用 Tor 并配合用户名、密码或其他识别信息来登录网站。</p>
+<p>如果您使用常规浏览器登录网站，在此过程中会暴露您的 IP 地址和地理位置。发送电子邮件也是如此。使用 Tor 浏览器登录您的社交网络或电子邮件账户时，您可以精细的选择提供给网站的信息。如果您尝试访问的网站在您的网络上被审查，使用 Tor 浏览器登录也很有用。</p>
+<p>当您通过 Tor 登录一个网站时，有几点应该牢记：</p>
+<ul>
+<li>See the <a href="#secure-connections">Secure Connections</a> page for important information on how to secure your connection when logging in.</li>
+<li>Tor 浏览器经常会让您的网络连接看起来像是来自于世界上完全不同的一个地区。某些网站，像是银行或电子邮件服务商的网站，会认为这是您的帐号被他人盗用或入侵的迹象而使您无法登录帐户。解决此情况的唯一方式是按照网站推荐的流程来恢复帐户，或直接联系运营方并解释情况。</li>
+</ul>
+<h3>更改身份和链路</h3>
+<p><img src="chrome://browser/content/manual/static/images/new_identity.png" alt="主菜单下“新建身份”和“新建 Tor 线路”选项"></p>
+<p>Tor 浏览器具有“新身份”和“此站点的新 Tor 线路”选项。 也位于主菜单中。</p>
+<h3>新的身份</h3>
+<p>若您想要避免后续在网络上活动的相关记录，与您之前网络活动之记录被链接组合在一起，此选项即可帮助您达成此目的。运行此功能将会关闭所有已经打开的浏览器窗口及标签页，清除所有的浏览器 Cookie 与历史记录等个人信息，并且为后续所有的网络连接创建新的洋葱路由回路。Tor 浏览器将会警告您说所有正在进行中的活动与下载将会被终止，因此在点击“新身份”选项前，请先做好相关的准备。</p>
+<p>要使用此选项，只需在Tor 浏览器的工具栏中单击“新身份”。</p>
+<h3>用于此网站的新 Tor 链路</h3>
+<p>如果当前所用的<a href="#about_how-tor-works">出口节点</a>无法连接你请求的网站，或者无法正确加载，该选项非常有用。使用该选项将通过新的 Tor 线路重新加载当前活跃的标签页或窗口。重新加载之后，来自同一网站的其他标签页或窗口也将使用新的线路。该选项不会清除任何隐私信息或者取消链接你的活动，也不会影响当前其他网站的连接。</p>
+<p>你也可以从地址栏的网站信息菜单中选择“新的 Tor 线路”来进入此选项。</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-onion-services" data-title="洋葱服务">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#onion-services">洋葱服务</a>
+        </nav>
+        <h2>洋葱服务</h2>
+        <p>洋葱服务 (旧名为“隐身服务”) 是一种只能透过洋葱路由网络访问的网络服务 (例如网站)。</p>
+<p>洋葱服务提供了许多架设在非私密网络空间之普通网站所没有的优势：</p>
+<ul>
+<li>洋葱服务的真实网络地址与地理位置信息被隐藏，因此很难过滤审查通往该站点之的网络连接，也很难找出该网站管理员的真实身份。</li>
+<li>All traffic between Tor users and onion services is end-to-end encrypted, so you do not need to worry about <a href="#secure-connections">connecting over HTTPS</a>.</li>
+<li>洋葱服务的网址是为自动生成，因此网站的架设者或管理员无需另行购买网络域名。其网址皆是以 .onion 结尾的，此等设计可以让洋葱路由系统确保所有网络连接都通往正确的站点，并且其连接数据未被窜改。</li>
+</ul>
+<h3>如何访问洋葱服务</h3>
+<p>和其他网站一样，需要知道洋葱服务的地址以便连接。洋葱地址是包含 56 个字母和数字的字符串，后面是“.onion”。</p>
+<p>访问使用洋葱服务的网站时，Tor 浏览器将在 URL 地址栏显示洋葱图标，表示连接状态：安全并正在使用洋葱服务。
+对于当前正在访问的洋葱站点，可通过查看“线路显示”了解更多信息。</p>
+<p>了解洋葱站点的另一种方式是，网站管理员可部署称为洋葱位置（Onion-Location）的功能。
+洋葱位置为非标准 HTTP 头部，通过该功能，网站可播发其洋葱地址。
+如果访问的网站提供洋葱站点，Tor 浏览器将在 URL 地址栏显示紫色建议药丸的提示，说明有“.onion 可用”。
+当你点击“.onion 可用”时，网站会重新加载并重定向至该网站的洋葱服务。</p>
+<p><img src="chrome://browser/content/manual/static/images/onion-location.png" alt="洋葱位置"></p>
+<p>如需优先访问网站的洋葱站点，可启动启动洋葱地址重定向。
+点击汉堡菜单（≡），访问“首选项”（或 Windows 的“选项”），点击“隐私与安全”，在“洋葱服务”部分，查找条目“优先访问已知 .onion 站点。”，并选中“始终”选项。
+或者，如果 Tor 浏览器已在运行，可将该字符串<code>about:preferences#privacy</code> 复制并粘贴至新标签页，然后更改设置。</p>
+<h2 id="onion-service-authentication">ONION SERVICE AUTHENTICATION</h2><p>已验证洋葱服务表示，类似洋葱站点的服务，要求客户端在访问服务之前提供验证令牌。
+对于 Tor 用户，可直接在 Tor 浏览器中进行验证。
+为了访问该服务，你需要来自服务运营方的访问凭据。
+访问已验证洋葱服务时，Tor 浏览器将在 URL 地址栏显示灰色小锁图标，以及工具提示。
+在输入字段中输入有效的私钥。</p>
+<p><img src="chrome://browser/content/manual/static/images/client-auth.png" alt="客户端授权"></p>
+<h3>洋葱服务错误</h3>
+<p>无法连接洋葱站点时，Tor 浏览器将提供特定错误消息，表明网站为何无法访问。 
+错误可在不同层出现：客户端错误、网络错误或服务错误。
+某些错误可按照下方“疑难解答”部分的方式解决。
+下表列出了全部可能的错误以及解决问题的方式。</p>
+<table>
+<thead><tr>
+<th><strong>代码</strong></th>
+<th><strong>错误标题</strong></th>
+<th><strong>简短说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xF0</td>
+<td>洋葱站点未找到</td>
+<td>极可能是因为洋葱站点脱机。请联系该洋葱站点管理员。</td>
+</tr>
+<tr>
+<td>0xF1</td>
+<td>洋葱站点无法访问</td>
+<td>因内部错误，洋葱站点无法访问。</td>
+</tr>
+<tr>
+<td>0xF2</td>
+<td>洋葱站点已断开连接。</td>
+<td>极可能是因为洋葱站点脱机。请联系该洋葱站点管理员。</td>
+</tr>
+<tr>
+<td>0xF3</td>
+<td>无法连接洋葱站点</td>
+<td>洋葱站点正忙或 Tor 网络过载。请稍后重试。</td>
+</tr>
+<tr>
+<td>0xF4</td>
+<td>洋葱站点要求验证</td>
+<td>访问洋葱站点要求密钥但未提供。</td>
+</tr>
+<tr>
+<td>0xF5</td>
+<td>洋葱站点验证失败</td>
+<td>提供的密钥不正确或已撤销。请联系该洋葱站点管理员。</td>
+</tr>
+<tr>
+<td>0xF6</td>
+<td>无效的洋葱站点地址</td>
+<td>提供的洋葱站点无效。请检查输入是否正确。</td>
+</tr>
+<tr>
+<td>0xF7</td>
+<td>洋葱站点线路创建超时</td>
+<td>无法连接洋葱站点，可能是因为网络连接不佳。</td>
+</tr>
+</tbody>
+</table>
+<h3>疑难解答</h3>
+<p>如果无法连接请求的洋葱服务，请确保输入的洋葱地址正确：即使小错误也将导致 Tor 浏览器无法访问该站点。</p>
+<p>如果验证地址后仍无法连接，请稍后重试。可能连接暂时存在问题，或者运营方可能未通知已令站点脱机。</p>
+<p>如果尝试访问的洋葱服务是 16 个字符的字符串（V2 格式），该类型地址<a href="https://support.torproject.org/onionservices/v2-deprecation/">已弃用</a>。</p>
+<p>另外可测试是否可访问其他洋葱服务：连接 <a href="https://duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/">DuckDuckGo 的洋葱服务</a>。</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-secure-connections" data-title="安全连接">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#secure-connections">安全连接</a>
+        </nav>
+        <h2>安全连接</h2>
+        <p>如果登录帐号及密码等个人数据是以未经加密的形态在网络上发送，那任何网络监听者都可以轻易地拦截和窃取此信息。因此，每当您尝试登录某个网站时，应当要先确认该网站是否有提供 HTTPS 加密连接，以确保您的个人数据安全。确认的方式非常简单，只需注意观察其网址的部分，若是以“ https:// ”开头，则表示连接处于加密状态，但若开头为“ http:// ”，则该连接上所传输的数据都未被加密。</p>
+<h3>Tor 浏览器 HTTPS-Only 模式</h3>
+<p>HTTPS-Only 模式强制全部网站连接使用 HTTPS 的安全加密连接。
+大多数网站已支持 HTTPS；某些网站同时支持 HTTP 和 HTTPS。
+启用该模式，将确保全部网站连接升级为使用 HTTPS，因此连接是安全的。</p>
+<p><img src="chrome://browser/content/manual/static/images/https-only-mode.png" alt="Tor 浏览器 HTTPS-Only 模式"></p>
+<p>某些网站仅支持 HTTP，并且连接不可升级。如果网站的 HTTPS 版本不可用，将显示“安全连接不可用”页面：</p>
+<p><img src="chrome://browser/content/manual/static/images/http-website-error.png" alt="HTTP 网站安全连接不可用"></p>
+<p>如果点击“继续访问 HTTP 站点”，你将接受风险并访问该网站的 HTTP 版本。对该网站，将暂时关闭 HTTPS-Only 模式。</p>
+<p>如果想要避免任何未加密连接，请点击“返回”按钮。</p>
+
+        
+          <p>下方的可视化图例呈现了有使用和没有使用 Tor 浏览器和 HTTPS 加密连接时，网络监听者可以拦截窃取到的数据种类：</p>
+
+<ul>
+    <li>点击“Tor”按钮可以查看使用 Tor 时有哪种数据可以让网络监听者直接拦截获取。此按钮的颜色变绿表示 Tor 已启动。</li>
+    <li>点击“HTTPS”按钮可以查看使用 HTTPS 时有哪种数据可以让网络监听者直接拦截获取。此按钮的颜色变绿表示 HTTPS 已启动。</li>
+    <li>两个按钮的颜色皆为绿色时，你可以看到在两种功能同时启动的状态下，网络监听者能够窃取到的数据有哪些。</li>
+    <li>两个按钮的颜色皆为灰色时，你可以看到在两种功能没有启动的状态下，网络监听者能够窃取到的数据有哪些。</li>
+</ul>
+
+<br />
+<label>HTTPS</label>
+<input class="toggle" type="checkbox" id="https-switch"/>
+
+<br />
+<label>Tor</label>
+<input class="toggle" type="checkbox" id="tor-switch"/>
+
+<br />
+<div id="http-content" class="switch-off">
+  <img src="chrome://browser/content/manual/static/images/tor-https-0.png?h=cb1b2db2" />
+</div>
+<div id="https-content" class="switch-off">
+  <img src="chrome://browser/content/manual/static/images/tor-https-1.png?h=0023bec1" />
+</div>
+<div id="tor-content" class="switch-off">
+  <img src="chrome://browser/content/manual/static/images/tor-https-2.png?h=1bcc66ca" />
+</div>
+<div id="https-tor-content" class="switch-on">
+  <img src="chrome://browser/content/manual/static/images/tor-https-3.png?h=53d08535" />
+</div>
+
+<h5>潜在可见数据</h5>
+
+<dl>
+
+<dt>
+Site.com
+</dt>
+  <dd>
+    访问过的网站。
+  </dd>
+
+<dt>
+USER / PW（用户名和密码）
+</dt>
+  <dd>
+    用于身份验证的用户名和密码。
+  </dd>
+
+<dt>
+DATA（数据）
+</dt>
+  <dd>
+    传输的数据。
+  </dd>
+
+<dt>
+LOCATION（位置）
+</dt>
+  <dd>
+      访问网站的计算机的网络位置（公网 IP 地址）。
+  </dd>
+
+<dt>
+Tor
+</dt>
+  <dd>
+      是否使用了 Tor。
+  </dd>
+
+</dl>
+        
+      </div>
+      
+      <div class="topic" id="topic-security-settings" data-title="安全设置">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#security-settings">安全设置</a>
+        </nav>
+        <h2>安全设置</h2>
+        <p>在默认情况下，Tor 浏览器浏览器将加密你的浏览数据来保护你的安全性.
+你可以禁用某些互联网功能来进一步提高安全性和匿名性.
+您可以在通过在盾牌菜单里提高 Tor 浏览器的安全等级来做到这一点。
+提升Tor 浏览器的安全级别会阻止一些网页的正常功能，所以您需要权衡您的安全与可用性需求。</p>
+<h3>访问安全设置</h3>
+<p>点击 Tor 浏览器地址栏旁的盾形图标，可进行“安全设置”。
+如需查看并调整“安全设置”，请点击盾牌菜单中的“更改...”按钮。</p>
+<p><img src="chrome://browser/content/manual/static/images/security-settings-anim.gif" alt="点击在盾牌菜单下“更换”"></p>
+<h3>安全级别</h3>
+<p>提升Tor 浏览器中的安全级别会禁用或部分禁用浏览器功能来防止可能的攻击。
+你可以通过调整您的安全级别在任何时间重新开启这些设置。</p>
+<p><img src="chrome://browser/content/manual/static/images/security-settings-safest.png" alt="“安全级别”当前设置为“最安全”"></p>
+<h6>标准</h6>
+<ul>
+<li>在这个级别，所有 Tor 浏览器和网站特性都被启用。</li>
+</ul>
+<h6>较为安全</h6>
+<ul>
+<li><p>这个级别会禁用比较危险的网站特性。这可能导致一些网站的功能缺失。</p>
+</li>
+<li><p>JavaScript 在所有非 <a href="#secure-connections">HTTPS</a> 网站上会禁用。部分字体和数学符号不会加载，音视频（HTML5 媒体）需要点击才会播放。</p>
+</li>
+</ul>
+<h6>最安全</h6>
+<ul>
+<li><p>这个级别只允许那些静态页面和基础服务才需要的功能启用。
+这些改变影响图像，媒体与脚本。</p>
+</li>
+<li><p>Javascript 在所有网站上被默认关闭；一些字体，图标，数学符号和图片被禁用；音频和视频（HTML5 媒体）都是点击即可播放的。</p>
+</li>
+</ul>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-updating" data-title="更新">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#updating">更新</a>
+        </nav>
+        <h2>更新</h2>
+        <p>Tor 浏览器必须要随时保持在最新版本状态，若您使用较旧版本的话，可能存在某些能够用来破坏您的隐私性或匿名性的安全性漏洞。</p>
+<p>一旦发布新版本，Tor 浏览器将提示用户更新软件：主菜单 (≡) 将显示含有向上箭头的绿色小环，并且在打开 Tor 浏览器时可能显示文字更新提示。可自动或手动进行更新。</p>
+<h3>自动更新 Tor 浏览器</h3>
+<p><img src="chrome://browser/content/manual/static/images/update1.png" alt="在主菜单下选择“重启以更新 Tor 浏览器”"></p>
+<p>当提示更新 Tor 浏览器是，请点击主菜单 (≡)，选择“重启以更新 Tor 浏览器”。</p>
+<p><img src="chrome://browser/content/manual/static/images/update4.png" alt="更新进度栏"></p>
+<p>等待更新下载并安装，然后 Tor 浏览器将自行重启。 您现在将运行最新版本。</p>
+<h3>手动更新 Tor 浏览器</h3>
+<p>在您被提示应更新 Tor 浏览器时，结束浏览并关闭程序。</p>
+<p>Remove Tor Browser from your system by deleting the folder that contains it (see the <a href="#uninstalling">Uninstalling</a> section for more information).</p>
+<p>请到 <a href="https://www.torproject.org/zh-CN/download/">https://www.torproject.org/zh-CN/download/</a> 下载最新版的 Tor 浏览器，并用和之前一样的方式将它安装进系统中。</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-troubleshooting" data-title="疑难解答">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#troubleshooting">疑难解答</a>
+        </nav>
+        <h2>疑难解答</h2>
+        <p>理论上来说，当 Tor 浏览器启动后您应该可以直接开始浏览网页，若是首次启动的话只需要再点击“连接”按钮即可开始上网。</p>
+<p><img src="chrome://browser/content/manual/static/images/connect.png" alt="点击“连接”来连接 Tor"></p>
+<p>点击“测试”，连接助理将显示互联网连接状态。</p>
+<p><img src="chrome://browser/content/manual/static/images/connection-assist-test.png" alt="连接助理测试"></p>
+<p>请检查互联网是否显示为“离线”。如果至 Tor 网络的连接未建立并显示“离线”，以下步骤会有帮助。</p>
+<p><img src="chrome://browser/content/manual/static/images/connection-assist-offline.png" alt="连接助理离线错误"></p>
+<h3>快速修复</h3>
+<p>如果 Tor 浏览器没有连接，那么可能比较简单。
+尝试以下方式之一：</p>
+<ul>
+<li>您的计算机系统的时钟必须正确设置，否则洋葱路由无法连接。</li>
+<li>确保系统上未运行其他 Tor 浏览器或“Tor”实例。
+如果不确定 Tor 浏览器是否正在运行，请重启计算机。</li>
+<li>确保任何已安装的杀毒软件未阻止 Tor 运行。
+如果不知道如何操作，可能需要参阅杀毒软件文档。</li>
+<li>临时禁用您的防火墙。</li>
+<li>如果 Tor 浏览器之前可运行，但现在不能，可能是系统处于休眠状态。
+系统重启可解决问题。</li>
+<li>删除 Tor 浏览器并重新安装。
+更新时，不要只是覆盖之前 Tor 浏览器文件。确保提前将其完全删除。</li>
+</ul>
+<h3>查看 TOR 日志</h3>
+<p>在大多数情况下，查看 Tor 日志有助于问题诊断。
+如果您的连接出现问题，一则错误信息会弹出，您可以选择“将 Tor 日志复制到剪切板上”选项。
+然后粘贴 Tor 日志到文本文件或者其他文档格式中。</p>
+<p>如果未看到该选项，并且 Tor 浏览器已打开，可访问汉堡菜单（≡），点击“设置”并在侧边栏点击“连接”。
+在此页面的底部，“查看 Tor 日志”字样旁边，点击“查看日志”按钮。</p>
+<p>另外，在 GNU/Linux 上可直接在终端中查看日志：打开 Tor 浏览器目录，通过以下命令启动 Tor 浏览器：</p>
+<p><code>./start-tor-browser.desktop --verbose</code></p>
+<p>或将日志保存至文件（默认：tor-browser.log）：</p>
+<p><code>./start-tor-browser.desktop --log [file]</code></p>
+<p>更多相关信息可查看<a href="https://support.torproject.org/connecting/connecting-2/">支持门户</a>。</p>
+<h3>您的连接是否受审查？</h3>
+<p>如果仍无法连接，可能互联网提供商对 Tor 网络的连接进行审查。
+Read the <a href="#circumvention">Circumvention</a> section for possible solutions.</p>
+<h3>已知问题</h3>
+<p>Tor 浏览器的开发一直在进行中，某些故障已知但尚未解决。
+Please check the <a href="#known-issues">Known Issues</a> page to see if the problem you are experiencing is already listed there.</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-plugins" data-title="插件、附加包和JavaScript">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#plugins">插件、附加包和JavaScript</a>
+        </nav>
+        <h2>插件、附加包和JavaScript</h2>
+        <h3>Flash Player</h3>
+<p>某些如 Vimeo 等视频网站使用 Flash Player 插件来播放内容。而非常遗憾地，此插件程序是独立运行的软件，且完全不遵循 Tor 浏览器之代理服务器设置。因此若启用此插件程序，您的真实网络地址将会直接公开给网站的管理员以及任何正在网络上监听的恶意人士，故在 Tor 浏览器中 Flash Player 为默认关闭，在此也不建议您去启用它。</p>
+<p>某些视频网站（例如 YouTube）有提供不需使用 Flash Player 插件的视频播放器，此类型的在线视频播放方式可与 Tor 浏览器兼容。</p>
+<h3>JavaScript</h3>
+<p>JavaScript 是一种内嵌于网页中的编程语言，它可以提供网站的各种交互式组件，像是视频、音乐、动画、时间状态等。而遗憾的是，JavaScript 也可能被利用来发动破解浏览器安全防护机制的攻击，其结果有可能会让用户的真实身份曝光。</p>
+<p>Tor 浏览器包含了一个叫 NoScript 的插件。你可以进入 <a href="https://support.torproject.org/glossary/hamburger-menu/">菜单栏（≡）</a>中的“设置”-“定制工具栏”，然后把 NoScript 的“S”图标拖动到右上角。你可以通过 NoScript 来控制 JavaScript 和其他脚本文件的运行，也可以直接全部屏蔽。</p>
+<p>在网络浏览中需要高度安全性的用户应将 Tor 浏览器的<a href="#security-settings">安全级别</a>设置为“更安全”（对非 HTTPS 网站禁用 JavaScript）或“最安全”（ 对于所有网站禁用 JavaScript）。 但是，禁用 JavaScript 会阻止许多网站正确显示，因此 Tor 浏览器的默认设置是允许所有网站以“标准”模式运行脚本。</p>
+<h3>浏览器附加包</h3>
+<p>Tor 浏览器基于 Firefox，任何兼容 Firefox 的附加组件和主题都可以在 Tor 浏览器中安装。</p>
+<p>但是，仅 Tor 浏览器默认自带的附加组件经过了适用 Tor 浏览器的测试。安装任何其他的浏览器附加组件可能破坏 Tor 浏览器的功能或导致更严重的问题，包括影响您的隐私与安全性。强烈建议您不要安装额外的附加组件，Tor 项目不为这些配置提供支持。</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-uninstalling" data-title="卸载">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#uninstalling">卸载</a>
+        </nav>
+        <h2>卸载</h2>
+        <p>在您的系统上删除 Tor 浏览器非常简单：</p>
+<p>在 Windows 中：</p>
+<ul>
+<li>找到您的Tor 浏览器文件夹或应用。 默认位置位于桌面。</li>
+<li>删除 Tor 浏览器文件夹或者应用程序。</li>
+<li>清空回收站。</li>
+</ul>
+<p>在 macOS 中：</p>
+<ul>
+<li>找到您的Tor 浏览器应用。默认位置在应用文件夹。</li>
+<li>将 Tor 浏览器应用移除到回收站。</li>
+<li>前往您的 <code>~/Library/Application Support/</code>文件夹。</li>
+<li>注意 Library 文件夹在新版的 macOS 中是被隐藏的。在访达中访问这个文件夹，需要选择”前往“菜单中的”前往文件夹...“。</li>
+</ul>
+<p><img src="chrome://browser/content/manual/static/images/macos-go-to-folder-menu.png" alt="前往文件夹菜单选项"></p>
+<ul>
+<li>然后在窗口中输入 <code>~/Library/Application Support/</code> 并点击“前往”。</li>
+</ul>
+<p><img src="chrome://browser/content/manual/static/images/macos-go-to-folder-window.png" alt="前往文件夹窗口"></p>
+<ul>
+<li>找到 TorBrowser-Data 文件夹并把它移到回收站。</li>
+<li>清空回收站。</li>
+</ul>
+<p>注意如果您没有将Tor 浏览器安装在默认位置（应用文件夹），那么TorBrowser-Data 文件夹就不会位于<code>~/Library/Application Support/</code>文件夹，但是会在您安装Tor 浏览器文件夹下的相同位置。</p>
+<p>在Linux中：</p>
+<ul>
+<li>找到您的Tor 浏览器文件夹。在Linux上，没有默认位置，但是如果您正在运行英文版的Tor 浏览器，这个文件夹将会被命名为”tor-browser_en-US“。</li>
+<li>删除 Tor 浏览器文件夹。</li>
+<li>清空回收站。</li>
+</ul>
+<p>注意您的操作系统的标准“卸载”功能是没用的。</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-mobile-tor" data-title="移动 TOR">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#mobile-tor">移动 TOR</a>
+        </nav>
+        <h2>移动 TOR</h2>
+        <h3>Tor 浏览器安卓版</h3>
+<p>Tor 浏览器安卓版是唯一受 Tor Project 官方支持与开发的移动浏览器。
+这就像桌面版 Tor 浏览器，却是面向你的安卓移动设备。
+安卓版 Tor 浏览器的主要功能包括：减少网络追踪，阻挡网络监视，清除浏览器指纹，并规避网络审查。</p>
+<h3>下载和安装</h3>
+<p>这里有安卓版 Tor 浏览器和安卓版 Tor 浏览器（alpha）。
+非专业技术人员的用户应该下载安卓版 Tor 浏览器，因为它更稳定且更不易发生错误。
+在 Play Store、F-Droid 以及 Tor Project 网站提供安卓版 Tor 浏览器。
+在这三个平台以外下载 Tor 浏览器是十分危险的。</p>
+<h4>谷歌应用</h4>
+<p>您可以从<a href="https://play.google.com/store/apps/details?id=org.torproject.torbrowser">谷歌商店</a> 里安装安卓版Tor 浏览器。</p>
+<h4>F-Droid</h4>
+<p>The Guardian Project 在他们的信息库里提供安卓版 Tor 浏览器。
+如果您更喜欢从 F-Droid 中安装软件，请参照以下步骤：</p>
+<ol>
+<li><p>从 <a href="https://f-droid.org/">F-Droid 网站</a> 在安卓设备上安装 F-Droid 应用</p>
+</li>
+<li><p>安装完成后，打开软件。</p>
+</li>
+</ol>
+<p>3.在右下角打开“设置”。</p>
+<ol>
+<li><p>在“我的软件”中，打开资源库。</p>
+</li>
+<li><p>将“卫士计划官方发布” 切换为已授权状态。</p>
+</li>
+<li><p>现在 F-Droid 会下载来自卫士计划资源库的软件名单（注意：这可能会需要几分钟时间）。</p>
+</li>
+<li><p>轻按左上角的返回键。</p>
+</li>
+<li><p>打开左下角的“最新” 按钮。</p>
+</li>
+<li><p>通过轻按右下的放大镜来打开搜索界面。</p>
+</li>
+<li><p>搜索“Tor Browser for Android”。</p>
+</li>
+<li><p>打开并安装由“The Tor Project”提供的软件。</p>
+</li>
+</ol>
+<h4>Tor Project 网站</h4>
+<p>您还可以从 <a href="https://www.torproject.org/download/#android">Tor Project 官网</a> 上下载并安装安卓版 Tor 浏览器。</p>
+<h3>首次运行安卓版 Tor 浏览器</h3>
+<p>首次运行 Tor 浏览器时，可看到直接连接至 Tor 网络的选项，或者通过设置图标对 Tor 浏览器的连接进行配置。</p>
+<h4>连接</h4>
+<p><img src="chrome://browser/content/manual/static/images/android-connect.png" alt="连接安卓版 Tor 浏览器"></p>
+<p>在大多数情况下，选择“连接”将允许您无需其他配置直接连接至 Tor 网络。
+点击之后，在屏幕底部将显示变化的日志，指示 Tor 的连接进度。
+如果您的网络连接较快，但该进度条却在某一时刻卡住了，请参阅<a href="#troubleshooting">疑难解答</a> 页面来寻求解决方法。</p>
+<h4>配置</h4>
+<p><img src="chrome://browser/content/manual/static/images/android-configure.png" alt="配置安卓版 Tor 浏览器"></p>
+<p>如果你知道你的连接受到审查，你应该点击选项图标。
+Tor 浏览器会引导你进行一系列的配置。
+第一个屏幕窗口将显示 Tor 网络状态，并提供配置网桥的选项（“配置网桥”）。
+如果已知连接受到审查，或者已尝试但仍无法连接 Tor 网络，并且其他方法也没用，请点击“配置网桥”。
+您之后会被转到<a href="#circumvention">规避</a> 界面以配置可插拔传输。</p>
+<h3>规避</h3>
+<p>网桥是不在 Tor 公共目录里列出的中继节点。
+如果你处于某个压迫政权中，或是担心被发现自己正在和 Tor 中继的 IP 地址连接，你可能需要使用网桥。</p>
+<p>如需使用可插拔传输，首次其他 Tor 浏览器时请点击设置图标。
+第一个屏幕窗口将显示 Tor 网络状态。点击“配置网桥”即可对网桥进行配置。</p>
+<p><img src="chrome://browser/content/manual/static/images/android-censored.png" alt="安卓版 Tor 浏览器上受审查互联网"></p>
+<p>下一个界面提供是否使用内置或者自订网桥的选项。
+对于“使用网桥”选项，可选择三种网桥：obfs4、meek-azure 以及 snowflake。</p>
+<p><img src="chrome://browser/content/manual/static/images/android-select-a-bridge.png" alt="在安卓版 Tor 浏览器中选择网桥"></p>
+<p><img src="chrome://browser/content/manual/static/images/android-selected-a-bridge.png" alt="在安卓版 Tor 浏览器中选择网桥"></p>
+<p>如果选择“输入已知网桥”选项，那么必须输入<a href="#bridges">网桥地址</a>。</p>
+<p><img src="chrome://browser/content/manual/static/images/android-provide-a-bridge.png" alt="在安卓版 Tor 浏览器中提供网桥"></p>
+<p><img src="chrome://browser/content/manual/static/images/android-provided-a-bridge.png" alt="在安卓版 Tor 浏览器中提供网桥地址"></p>
+<h3>管理身份</h3>
+<h4>新身份</h4>
+<p><img src="chrome://browser/content/manual/static/images/android-new-identity.png" alt="安卓版 Tor 浏览器中新建身份"></p>
+<p>Tor 浏览器运行时，顺着“新建身份”按钮扩展通知面板，即可看到。
+点击该按钮将提供新的身份。
+不同于桌面版 Tor 浏览器，安卓版 Tor 浏览器的“新身份”按钮不能防止你后续的浏览器行为与之前的操作相关联。
+点击这个仅会改变你的Tor链路。</p>
+<h3>安全设定</h3>
+<p><img src="chrome://browser/content/manual/static/images/android-security-settings.gif" alt="Android 版 Tor 浏览器的安全设置和安全滑块"></p>
+<p><a href="#security-settings">安全设置</a> 会使某些可以被用来攻击您的安全和匿名身份的网站功能失效。
+安卓版 Tor 浏览器提供与桌面版一样的三个安全等级。
+你可以通过如下步骤修改安全等级：</p>
+<ul>
+<li>轻按URL条里3个垂直圆点组成的按钮。</li>
+<li>往下滑动并轻按“安全设置”。</li>
+<li>现在可选择一个选项，即：标准、较安全或最安全。</li>
+</ul>
+<h3>升级</h3>
+<p>Tor 浏览器必须要随时保持在最新版本状态，若您使用较旧版本的话，可能存在某些能够用来破坏您的隐私性或匿名性的安全性漏洞。
+你可以自动或手动升级 Tor 浏览器。</p>
+<h4>自动更新安卓版 Tor 浏览器</h4>
+<p>该方法假设你的移动设备上已安装 Google Play 或 F-Droid。</p>
+<h5>谷歌商店</h5>
+<p><img src="chrome://browser/content/manual/static/images/android-update-google-play.png" alt="从 Google Play 更新 Android 版 Tor 浏览器"></p>
+<p>点击搜索框旁的汉堡菜单，打开“我的应用和游戏” &gt; “更新”。
+如果在需更新应用列表中，显示 Tor 浏览器，请选择它并点击“更新”按钮。</p>
+<h5>F-Droid</h5>
+<p><img src="chrome://browser/content/manual/static/images/android-update-f-droid.png" alt="从 F-Droid 更新 Android 版 Tor 浏览器"></p>
+<p>轻按“设置”，然后转到“管理已安装应用”。
+在下一屏幕，选择 Tor 浏览器，最后点击“更新”按钮。</p>
+<h4>手动更新安卓版 Tor 浏览器</h4>
+<p>访问 <a href="https://www.torproject.org/download/#android">Tor Project 官网</a> 并下载最新版 Tor 浏览器，然后像之前一样<a href="#mobile-tor_downloading-and-installation">安装</a>。
+大多数情况下，Tor 浏览器的最新版本在安装时会覆盖旧版本，从而升级浏览器。
+如果没能成功升级浏览器，您也许需要在重新安装前先卸载 Tor 浏览器。
+在 Tor 浏览器关闭的情况下，用您设备中的系统设置将它卸载。
+取决于移动设备品牌，打开“设置” &gt; “应用”，选择“Tor 浏览器”并点击“卸载”按钮。之后，下载最新版 Tor 浏览器并安装。</p>
+<h3>卸载</h3>
+<p>可直接从 F-Droid、Google Play 或移动设备应用设置中卸载 Android 版 Tor 浏览器。</p>
+<h4>谷歌应用</h4>
+<p><img src="chrome://browser/content/manual/static/images/android-uninstall-google-play.png" alt="从 Google Play 卸载 Android 版 Tor 浏览器"></p>
+<p>点击搜索框旁的汉堡菜单，打开“我的应用和游戏” &gt; “已安装”。
+在已安装应用列表里选中 Tor 浏览器，然后点击“卸载” 按钮。</p>
+<h4>F-Droid</h4>
+<p><img src="chrome://browser/content/manual/static/images/android-uninstall-f-droid.png" alt="从 F-Droid 卸载 Android 版 Tor 浏览器"></p>
+<p>轻按“设置”，然后转到“管理已安装应用”。
+在下一屏幕，选择“Tor 浏览器”并点击“卸载”按钮。</p>
+<h4>移动设备应用设置</h4>
+<p><img src="chrome://browser/content/manual/static/images/android-uninstall-device-settings.png" alt="从设备应用设置卸载 Android 版 Tor 浏览器"></p>
+<p>取决于移动设备品牌，打开“设置” &gt; “应用”，选择“Tor 浏览器”并点击“卸载”按钮。</p>
+<h3>疑难解答</h3>
+<h4>查看 Tor 日志</h4>
+<p><img src="chrome://browser/content/manual/static/images/android-view-logs.gif" alt="查看 Android 版 Tor 浏览器的 Tor 日志"></p>
+<p>如需查看 Tor 日志：</p>
+<ol>
+<li>启动 Android 版 Tor 浏览器并点击“连接”。</li>
+<li>在启动过程中，从右到左滑动查看日志。（注意：在 Android 版 Tor 浏览器中，Tor 日志截屏功能默认禁用。<a href="https://bugs.torproject.org/tpo/applications/fenix/40191">Bug #40191</a>）</li>
+</ol>
+<p>对于某些最常见的问题，如需疑难解答，请参考<a href="https://support.torproject.org/connecting/connecting-2/">支持门户条目</a>。</p>
+<h3>已知问题</h3>
+<p>目前，有些功能在安卓版 Tor 浏览器上不可用，但在桌面版 Tor 浏览器上可用。</p>
+<ul>
+<li>无法查看 Tor 线路。 <a href="https://gitlab.torproject.org/tpo/applications/torbutton/-/issues/25764">#25764</a></li>
+<li>Android 版 Tor 浏览器移至 SD 卡之后无法连接。 <a href="https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/31814">#31814</a></li>
+<li>使用 Android 版 Tor 浏览器时无法截屏。 <a href="https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/27987">#27987</a></li>
+<li>无法使用 Android 版 Tor 浏览器上传文件。 <a href="https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/40283">#40283</a></li>
+<li>无法打开洋葱地址，需要客户端验证 <a href="https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/31672">#31672</a></li>
+</ul>
+<h3>更多关于移动设备上的 Tor</h3>
+<h4>Orfox</h4>
+<p>Orfox 在2015年由 The Guardian Project 第一次发布，旨在让安卓用户也能用 Tor 浏览互联网。
+在之后三年里，Orfox 不断改进，成为广受欢迎的互联网浏览方式，提供比标准浏览器更多的隐私。对于帮助用户突破审查访问被封网站及重要的资源，Orfox 是至关重要的。
+2019 年，在官方 Android 版 Tor 浏览器发布之后，<a href="https://blog.torproject.org/orfox-paved-way-tor-browser-android">Orfox 停止开发</a>。</p>
+<h4>Orbot</h4>
+<p>Orbot 是一个允许其他应用使用 Tor 网络的免费代理的应用。
+Orbot 使用 Tor 加密互联网流量。
+可将其用于设备上的其他应用，以规避审查与防止监视。
+Orbot 可以从<a href="https://play.google.com/store/apps/details?id=org.torproject.android">谷歌商店</a> 里下载并安装。
+查看<a href="https://support.torproject.org/tormobile/tormobile-6/">我们的帮助页面</a> 来得知您是需要同时安装安卓版 Tor 浏览器和 Orbot 还是只需要安装二者之一。</p>
+<h3>iOS 版 Tor 浏览器</h3>
+<p>还没有 iOS 版的 Tor 浏览器。
+在 iOS 上我们推荐 Onion Browser，它是开放源代码软件，使用 Tor 线路，而且由和 Tor Project 关系密切的人开发。
+但是，苹果要求所有在 iOS 运行的浏览器使用 Webkit ，这会使 Onion Browser 不能提供和 Tor 浏览器相同的隐私保护。</p>
+<p><a href="https://blog.torproject.org/tor-heart-onion-browser-and-more-ios-tor">了解更多有关 Onion Browser 的消息</a>。
+在 <a href="https://itunes.apple.com/us/app/onion-browser/id519296448">App Store</a> 中下载 Onion Browser。</p>
+<h3>Windows Phone 上的 Tor 浏览器</h3>
+<p>在较久的 Windows Phone 上，目前没有受支持的方式来运行 Tor，不过对于较新的微软品牌或推广的手机，可使用 <a href="#mobile-tor_tor-browser-for-android">Android 版 Tor 浏览器</a>相同的步骤。</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-known-issues" data-title="已知问题">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#known-issues">已知问题</a>
+        </nav>
+        <h2>已知问题</h2>
+        <ul>
+<li><p>Tor 需要您的系统时钟（及您的时区）设为正确的时间。</p>
+</li>
+<li><p>杀毒软件或恶意软件保护组织用户访问 Tor 浏览器。
+有些还会弹出<a href="https://support.torproject.org/tbb/antivirus-false-positive/">关于恶意软件或漏洞的误报</a>。
+可通过我们的<a href="https://support.torproject.org/tbb/tbb-10/">支持门户</a>了解更多相关信息。
+以下杀毒和防火墙软件已知可干扰 Tor，并可能需要临时禁用：</p>
+<ul>
+<li>Webroot SecureAnywhere</li>
+<li>卡巴斯基 Internet Security 2012</li>
+<li>Sophos Antivirus for Mac</li>
+<li>Microsoft Security Essentials (MSE)</li>
+<li>Avast 反病毒</li>
+</ul>
+</li>
+<li><p>VPN 也会干扰 Tor，也需禁用。
+不推荐同时使用 VPN 和 Tor，除非你是高级用户并知道如何配置两者而不损害隐私。
+有关 Tor + VPN 的更多详细信息，请访问我们的<a href="https://gitlab.torproject.org/legacy/trac/-/wikis/doc/TorPlusVPN">维基</a>。</p>
+</li>
+<li><p>需要 Adobe Flash 的视频无法观看。
+因安全原因关闭 Flash。</p>
+</li>
+<li><p>Tor 在已使用代理时无法使用一个网桥。</p>
+</li>
+<li><p>Tor 浏览器软件包的日期为 UTC 时间 2000 年 1 月 1 日 00:00:00。
+这用于确保每个软件版本完全可复现。</p>
+</li>
+<li><p>有关将 Tor 浏览器设置为<a href="https://support.torproject.org/zh-CN/tbb/tbb-32/">默认浏览器</a>的问题。</p>
+</li>
+<li><p>如果 Tor 浏览器之前可运行，但现在不能（尤其是重装或升级之后），可能是系统处于休眠状态。
+如果是那样，系统重启将解决问题。</p>
+</li>
+<li><p>如果<a href="https://gitlab.torproject.org/tpo/core/tor/-/issues/10416">文件夹路径包含非 ascii 字符</a>，Tor 将在 Windows 上无法启动。</p>
+</li>
+<li><p>BitTorrent <a href="https://blog.torproject.org/bittorrent-over-tor-isnt-good-idea">在 Tor 网络上并非匿名</a>。</p>
+</li>
+</ul>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-make-tor-portable" data-title="使 Tor 浏览器更便携">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#make-tor-portable">使 Tor 浏览器更便携</a>
+        </nav>
+        <h2>使 Tor 浏览器更便携</h2>
+        <p>如果愿意，可以通过将 Tor 浏览器从其存档直接提取到可移动媒体（例如 USB 记忆棒或 SD 卡）上，从而使其具有便携性。
+建议使用可写媒体，以便可以根据需要更新 Tor 浏览器。</p>
+<p>Windows：</p>
+<ol>
+<li><p>插入您的可插拔存储器并格式化它。任何的文件系统都满足需求。</p>
+</li>
+<li><p>访问 Tor 浏览器<a href="https://torproject.org/download">下载页面</a>。</p>
+</li>
+<li><p>下载 Windows 的 <code>.exe</code> 文件并将其直接保存进您的储存器中。</p>
+</li>
+</ol>
+<p>4.（推荐）验证<a href="https://support.torproject.org/tbb/how-to-verify-signature/">文件签名</a>。</p>
+<ol>
+<li><p>当下载完成后，点击 <code>.exe</code> 文件并开始安装进程。</p>
+</li>
+<li><p>当安装程序询问 Tor 浏览器的安装位置时，选择您的可插拔存储器。</p>
+</li>
+</ol>
+<p>对于 macOS：</p>
+<ol>
+<li><p>插入可移动媒体并格式化。<em>必须</em>使用 Mac OS 扩展（日志式）格式。</p>
+</li>
+<li><p>访问 Tor 浏览器<a href="https://torproject.org/download">下载页面</a>。</p>
+</li>
+</ol>
+<p>3.下载 macOS 的 <code>.dmg</code> 文件并将其直接保存到您的媒体中。</p>
+<p>4.（推荐）验证<a href="https://support.torproject.org/tbb/how-to-verify-signature/">文件签名</a>。</p>
+<p>5.下载完成后，单击<code>.dmg</code>文件并开始安装过程。</p>
+<ol>
+<li>当安装程序询问 Tor 浏览器的安装位置时，选择您的可插拔存储器。</li>
+</ol>
+<p>对于 GNU/Linux：</p>
+<ol>
+<li><p>插入您的可插拔存储器并格式化它。任何的文件系统都满足需求。</p>
+</li>
+<li><p>访问 Tor 浏览器<a href="https://torproject.org/download">下载页面</a>。</p>
+</li>
+<li><p>下载 Linux 的<code>.tar.xz</code>文件并将其直接保存到您的媒体中。</p>
+</li>
+</ol>
+<p>4.（推荐）验证<a href="https://support.torproject.org/tbb/how-to-verify-signature/">文件签名</a>。</p>
+<p>5.下载完成后，也将存档解压缩到媒体上。</p>
+
+        
+      </div>
+      
+      <div class="topic" id="topic-support" data-title="SUPPORT">
+        <nav>
+          <a href="#topics">主题</a>
+          &raquo;
+          <a href="#support">SUPPORT</a>
+        </nav>
+        <h2>SUPPORT</h2>
+        <h2>Support, feedback and bug report template</h2>
+<p>When sending us a support request, feedback or reporting a bug, please include as much information possible:</p>
+<ol>
+<li>Operating System you are using</li>
+<li>Tor Browser version</li>
+<li>Tor Browser Security Level</li>
+<li>Step by step of how you got to the issue, so we can reproduce it (e.g. I opened the browser, typed a url, clicked on a option in settings, then my browser crashed)</li>
+<li>A screenshot of the problem</li>
+<li>Console logs on Tor Browser Desktop (can be opened by Ctrl+Shift+J on Windows/Linux and Cmd+Shift+J on macOS)</li>
+<li>Tor logs (Settings &gt; Connection &gt; Advanced &gt; View the Tor logs)</li>
+<li>Region you’re connecting to Tor from.</li>
+<li>Region selected from Connection Assist (if it's a Connection Assist related issue)</li>
+<li>Is Tor censored in your region?</li>
+<li>If Tor did connect, how much time did it take to bootstrap? Any effects on browsing speed?</li>
+</ol>
+<h1>How to reach us</h1>
+<p>有多种方式可以联系我们，请选择对您来说最方便的一种。</p>
+<h2>Telegram</h2>
+<p>We have several official Telegram bots and channels:</p>
+<ol>
+<li><a href="https://t.me/GetTor_Bot">@GetTor_Bot</a> to download Tor Browser.</li>
+<li><a href="https://t.me/GetBridgesBot">@GetBridgesBot</a> to get obfs4 bridges.</li>
+<li><a href="https://t.me/TorProject">@TorProject</a> to get the latest news.</li>
+<li><a href="https://t.me/TorProjectSupportBot">@TorProjectSupportBot</a> for help.<ul>
+<li>At the moment, the Telegram support channel is available in two languages: English and Russian.</li>
+<li>If you need help with circumventing censorship, please select from the menu options which region you are connecting from as it will be easier for us to follow up.</li>
+</ul>
+</li>
+</ol>
+<h2>Tor Forum</h2>
+<p>We recommend asking for help on the <a href="https://forum.torproject.net/">Tor Forum</a>.
+You will need to create a account to submit a new topic.
+Please review our <a href="https://forum.torproject.net/t/welcome-to-the-tor-project-forum/">discussion guidelines</a> and check the existing topics before asking.
+At the moment, for the fastest response, please write in English.
+If you found a bug, please use <a href="https://gitlab.onionize.space/">GitLab</a>.</p>
+<h2>WhatsApp</h2>
+<p>You can reach our support team with a text message to our WhatsApp number: <a href="https://wa.me/447421000612">+447421000612</a>.
+This service is only available for text messages; videos or calls are not supported.</p>
+<h2>Signal</h2>
+<p>You can get help by sending a text message to our Signal number: <a href="https://signal.me/#p/+17787431312">+17787431312</a>.
+<a href="https://signal.org/download/">Signal</a> is a free and privacy-focused messaging app.
+Currently, our support channel is available in English and Russian and focuses on helping Tor users in censored regions.
+The service is only available for text messages; videos, or calls are not supported.
+After sending a message, our support agents will guide you and help troubleshoot your issue.</p>
+<h2>Email</h2>
+<p>Send us an email to <a href="mailto:frontdesk@torproject.org">frontdesk@torproject.org</a></p>
+<p>In the subject line of your email, please tell us what you're reporting.
+The more specific your subject line is (e.g. "Connection failure", "feedback on website", "feedback on Tor Browser, "I need a bridge"), the easier it will be for us to understand and follow up.
+Sometimes when we receive emails without subject lines, they're marked as spam and we don't see them.</p>
+<p>For the fastest response, please write in English, Russian, Spanish, Hindi, Bangla and/or Portuguese if you can.
+If none of these languages works for you, please write in any language you feel comfortable with, but keep in mind it will take us a bit longer to answer as we will need help with translation to understand it.</p>
+<h2>IRC and Matrix</h2>
+<p>You can find us in the <code>#tor</code> channel on OFTC or <a href="https://matrix.to/#/#tor:matrix.org">Tor User Support channel</a> on Matrix. We may not respond right away, but we do check the backlog and will get back to you when we can.</p>
+<p>Learn how to connect to <a href="https://support.torproject.org/get-in-touch/irc-help/">IRC / Matrix</a>.</p>
+<h2>GitLab</h2>
+<p>First, check if the bug is already known.
+You can search and read all the issues at <a href="https://gitlab.torproject.org/groups/tpo/-/issues">https://gitlab.torproject.org/</a>.
+To create a new issue, please <a href="https://gitlab.torproject.org/users/sign_in?redirect_to_referer=yes#register-pane">request a new account</a> to access Tor Project's GitLab instance and <a href="https://gitlab.torproject.org/tpo">find the right repository</a> to report your issue.
+We track all Tor Browser related issues at <a href="https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues">Tor Browser issue tracker</a>.
+Issues related to our websites should be filed under the <a href="https://gitlab.torproject.org/groups/tpo/web/-/issues">Web issue tracker</a>.</p>
+
+        
+      </div>
+      
+    </div>
+    <script>
+const defaultTitle = document.title;
+function changePage() {
+  let id = location.hash.substr(1);
+  const tokens = id.split('_');
+  id = tokens[0];
+  let topic = document.getElementById(`topic-${id}`);
+  if (topic === null) {	
+    topic = document.getElementById('topic-topics');
+  }
+  document.querySelector('.topic.visible')?.classList.remove('visible');
+  topic.classList.add('visible');
+  const title = topic.getAttribute('data-title');
+  document.title = (title ? `${title} | ` : '') + defaultTitle;
+  topic.scrollIntoView();
+  if (tokens[1]) {
+    const maybeAnchor = document.getElementById(tokens[1]);
+    if (maybeAnchor) {
+      maybeAnchor.scrollIntoView();
+    }
+  }
+}
+changePage();
+addEventListener('hashchange', changePage);
+for (const link of document.querySelectorAll('a')) {
+  const href = link.getAttribute('href');
+  if (href && (href.startsWith('https://') || href.startsWith('http://'))) {
+    link.setAttribute('target', '_blank');
+  }
+}
+    </script>
+  </body>
+</html>
