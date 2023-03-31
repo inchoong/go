@@ -6,6 +6,8 @@
 
 <li><a href="https://support.hp.com/cn-zh/document/c01814303">HP 多合一噴墨打印機 - 只安裝一個墨盒可以工作嗎？ | HP®客户支持</a></li>
 
+<li><a href="https://www.hp-smart.cn/cn/zh">HP Smart 助力高效工作，让一切井井有条</a></li>
+
 <li><a href="https://support.hp.com/cn-zh/document/ish_2830592-2562290-16">使用 HP 打印机打印信封 | HP®客户支持</a></li>
 
 <li><a href="https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net481?cid=getdotnetframework">微软官网：下载 .NET Framework 4.8.1 | 免费官方下载</a></li>
