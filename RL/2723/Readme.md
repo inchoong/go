@@ -1,3 +1,6 @@
+
+【外贸小余运营v2023.3.31】
+
 <li><a href="https://123.hp.com/">欢迎来到 HP® 官方网站进行打印机设置。首先需要下载软件，才能开始使用您的新打印机。您可以将打印机连接到网络，实现跨设备打印。( 123.hp.com )</a></li>
 
 <li><a href="https://support.hp.com/cn-zh/printer-setup/hp-deskjet-2700-all-in-one-printer-series/29378157/model/31598183">HP DeskJet 2723 All-in-One Printer 的设置 | HP® 支持</a></li>
