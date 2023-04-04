@@ -12,6 +12,8 @@
 <a href="https://bgp.he.net/dns/t66y.com">t66y.com - bgp.he.net</a>
   </li>
 </blockquote>
+<li><a href="http://blog.yoqi.me/lyq/16489.html">Github被墙最新hosts-每日更新 | 天问博客</a>:</li>
+<blockquote><a href="https://code.git.yoqi.me/">hosts - lyq/github-host - Gogs1s</a></blockquote>
 <hr>
 #########################################
 
