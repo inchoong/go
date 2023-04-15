@@ -1,7 +1,7 @@
 <hr style="height:1px;width:35%;border:none;border-top:1px dashed #0066CC;" />
 		<details>
 			<summary><a href="https://github.com/inchoong/go/issues/12">VOA和RFA | 推荐的免费VPN-----nthlink · Issue #12 ·
-					inchoong/go</a><br>
+					inchoong/go</a>
 				<br>			
 			（<a href="https://github.com/yinghuocho/firefly-proxy/issues">Issues · yinghuocho/firefly-proxy</a>）<br>
 			<br>
