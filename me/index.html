@@ -1,0 +1,268 @@
+<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<title>1984's Personal Website</title>
+	<link href="https://www.oracle.com/favicon.ico" rel="shortcut icon" type="image/x-icon"> <!-- IE地址栏前换成自己的图标 -->
+	<link href="https://www.oracle.com/favicon.ico" rel="Bookmark"> <!-- 可以在收藏夹中显示出你的图标 -->
+	<meta name="keywords" content="css3, html5, js, background video, fullscreen video">
+	<meta name="description" content="Super easy to implement HTML5 fullscreen background video library in JavaScript.">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+
+		#container {
+			overflow: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+
+		#background_video {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			object-fit: cover;
+			height: 100%;
+			width: 100%;
+		}
+
+		#video_cover {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: url('https://cdn.jsdelivr.net/gh/inchoong/zh-CN/images/video_cover.jpeg') no-repeat;
+			background-size: cover;
+			background-position: center;
+		}
+
+		#video_controls {
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, 0);
+		}
+
+		#play img {
+			width: 100px;
+		}
+
+		#pause img {
+			width: 90px;
+		}
+
+		#pause {
+			display: none;
+		}
+
+		@media (min-width: 768px) {
+			#video_controls {
+				display: none;
+			}
+		}
+
+		/* Demo page specific styles */
+		body {
+			text-align: center;
+			font-family: 'proxima-nova', Helvetica;
+		}
+
+		#container {
+			height: 100%;
+		}
+
+		#overlay {
+			position: absolute;
+			top: 0;
+			right: 0;
+			left: 0;
+			bottom: 0;
+			background: rgba(0, 0, 0, 0.5);
+		}
+
+		#main_content {
+			z-index: 2;
+			position: relative;
+			display: inline-block;
+			/* Vertical center */
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		#main_content h1 {
+			text-transform: uppercase;
+			font-weight: 600;
+			font-family: 'proxima-nova-condensed', Helvetica;
+			color: #fff;
+			font-size: 35px;
+		}
+
+		#main_content .sub_head {
+			color: rgba(255, 255, 255, 0.5);
+			font-size: 18px;
+		}
+
+		#main_content .info {
+			color: rgba(255, 255, 255, 0.5);
+			font-size: 12px;
+			margin-top: 10px;
+		}
+
+		#links {
+			margin-top: 50px;
+		}
+
+		#links a {
+			border: 2px solid rgba(255, 255, 255, 0.20);
+			border-radius: 61px;
+			font-size: 12px;
+			color: #FFFFFF;
+			letter-spacing: 1px;
+			text-decoration: none;
+			text-transform: uppercase;
+			padding: 10px 25px;
+			display: inline-block;
+			margin-right: 15px;
+		}
+
+		#footer {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+		}
+
+		#footer a {
+			color: rgba(255, 255, 255, 0.5);
+			text-decoration: none;
+			margin: 10px;
+			font-size: 12px;
+		}
+
+		#footer a:first-child {
+			float: left;
+		}
+
+		#footer a:last-child {
+			float: right;
+		}
+	</style>
+	<style>
+		/* 文本垂直对齐图像 https://www.w3cschool.cn/tryrun/showhtml/trycss_vertical-align */
+		img.top {
+			vertical-align: text-top;
+		}
+
+		img.bottom {
+			vertical-align: text-bottom;
+		}
+	</style>
+	<script src="https://use.typekit.net/nlq1kdt.js"></script>
+	<script>
+		try {
+			Typekit.load({
+				async: true
+			});
+		} catch (e) {}
+	</script>
+</head>
+<body>
+	<div id="container">
+		<video id="background_video" loop muted></video>
+		<div id="video_cover"></div>
+		<div id="overlay"></div>
+		<div id="video_controls">
+			<span id="play">
+				<img src="https://cdn.jsdelivr.net/gh/inchoong/zh-CN/images/play.png">
+			</span>
+			<span id="pause">
+				<img src="https://cdn.jsdelivr.net/gh/inchoong/zh-CN/images/pause.png">
+			</span>
+		</div>
+		<section id="main_content">
+			<div id="head">
+				<h1>
+					<a href="https://weread.qq.com/web/reader/4be320905b94534becfd24b"
+						style="color:#FFFFFF;text-decoration:none;" title="《1984》乔治·奥威尔 - 微信读书">1 9 8 4 's</a>
+				</h1>
+				<p class="sub_head">
+					<!-- 网页文字打字机效果插入一段文字（逐字出现循环回退删除） -->
+					<a href="https://weread.qq.com/web/search/books?author=%E4%B9%94%E6%B2%BB%C2%B7%E5%A5%A5%E5%A8%81%E5%B0%94"
+						style="color:#FFFFFF;text-decoration:none;" title="【乔治·奥威尔】全部作品在线阅读 - 微信读书">
+						<span id="Typed" style="color: #808080;"></span>
+						<script src="https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js"></script>
+						<script language=javascript>
+							var typed = new Typed("#Typed", {
+								strings: [
+									"Take action to think, to change, to create.",
+									"用行动去思考，去改变、去创造。",
+									"现状不可描述，未来无法预测，一切皆有可能。",
+									"愿你被这个世界温柔以待 ❤ 即使生命总以刻薄荒芜相欺"
+								],
+								startDelay: 200,
+								backDelay: 2000,
+								typeSpeed: 100,
+								loop: true,
+								backSpeed: 20
+							})
+						</script>
+					</a> <!--  https://www.ahaoyw.com/article/727.html -->
+				</p>
+			</div>
+			<div id="links">
+				<a href="https://tv.cctv.com/live/" title="直播大全_CCTV节目官网_央视网">央视·直播</a>
+				<a href="https://rebang.today/" title="今日热榜 - 全站热榜">聚合·热榜</a>
+				<a href="https://musicforprogramming.net/fortynine/" title="musicForProgramming();">编程·音乐</a>
+				<br>
+				<a href="https://cloud.oracle.com/?tenant=taoste" title="Oracle Cloud 免费·甲骨文云服务器">Oracle Cloud</a>
+				<a href="https://app.slack.com/client/T053CV3ABBM/D052YGY2XUP"
+					title="媲美ChatGPT，Anthropic公司推出聊天机器人Claude">Claude GPT</a>
+				<a href="https://w.xjh23.top/#/dashboard" title="【相见欢，科·学·上·网】一键订阅：复制订阅地址，导入到Clash">相见欢</a>
+				<a href="https://choong.net/ok/">about</a>
+			</div>
+		</section>
+	</div>
+	<script src="https://cdn.jsdelivr.net/gh/inchoong/zh-CN/js/bideo.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/inchoong/zh-CN/js/main.js"></script>
+	<script>
+		if (window.location.host.indexOf('github.io') !== -1 && window.location.protocol !== "https:") {
+			window.location.protocol = "https";
+		}
+	</script>
+	<div id="footer">
+		<div id="footer-inner">
+			<div id="footer-content">
+				<br>
+				<p id=copyright align="center">
+				<p class="info" style="color: #808080;">( Hold on! The video might take a while to load. )</p>
+				<strong style="color: #FFFFFF;">
+					Copyright &copy;
+					<script>
+						// <![CDATA[
+						document.write(new Date().getFullYear());
+						// ]]>
+					</script>
+				</strong>
+				<br>
+				<a href="https://www.oracle.com/cn/cloud/" title="云基础设施 | Oracle 中国 144.24.20.160" target="_blank">
+					<img class="bottom" style="vertical-align: text-bottom;" src="https://www.oracle.com/favicon.ico"
+						width="16" height="16">
+					Oracle</a>
+			</div>
+			</p>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
