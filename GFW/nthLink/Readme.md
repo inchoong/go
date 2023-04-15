@@ -2,8 +2,7 @@
 		<details>
 			<summary><a href="https://github.com/inchoong/go/issues/12">VOA和RFA | 推荐的免费VPN-----nthlink · Issue #12 ·
 					inchoong/go</a><br>
-				<br>
-			
+				<br>			
 			（<a href="https://github.com/yinghuocho/firefly-proxy/issues">Issues · yinghuocho/firefly-proxy</a>）<br>
 			<br>
 			<hr style="height:1px;width:15%;border:none;border-top:1px dashed #0066CC;" />
@@ -81,5 +80,6 @@
 			<li><a href="https://s3.amazonaws.com/www.psiphon3.net/zh/download.html">Psiphon | 下载 Android 应用和 Windows
 					客户端</a></li><br>
 			<hr style="height:1px;width:35%;border:none;border-top:1px dashed #0066CC;" />
-			<br></summary>
+			<br>
+	</summary>
 		</details>
