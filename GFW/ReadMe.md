@@ -4,6 +4,8 @@
 <a href="https://zh.wikipedia.org/wiki/Shadowsocks">Shadowsocks - 维基百科，自由的百科全书</a>
 </li>
 </blockquote>
+<li><a href="https://www.rfa.org/mandarin/duomeiti/tebiejiemu/fb-04042017102734.html">专访萧强：从“六四”到中国数字时代 — RFA普通话主页</a>  | 
+<a href="https://cdnapisec.kaltura.com/p/1251832/sp/125183200/playManifest/entryId/1_5pfpvl7q/flavorIds/1_wzma94iu,1_nds9mjcb/format/applehttp/protocol/https/a.m3u8?referrer=aHR0cHM6Ly93d3cucmZhLm9yZw==&playSessionId=67fe144d-6c49-91bb-dfc3-45254582134a&clientTag=html5:v2.92&uiConfId=33031161">index</a>.<a href="https://go.choong.net/GFW/index.m3u8">m3u8</a></li>
 <hr>
 <li><a href="https://gitee.com/taoste/hosts/blob/Plan.ABZ/cmd.md#">CMD</a> : <a href="https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts">next</a>-<a href="https://ineo6.github.io/hosts/">Hosts</a> · 
 <a href="http://blog.yoqi.me/lyq/16489.html">每日更新</a> | <a href="https://gitee.com/taoste/wiki/raw/master/MicrosoftEdgeSetup.exe">Microsoft Edge</a></li>
