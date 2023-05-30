@@ -5,7 +5,9 @@
 <div>
 <span style="font-size: 16.38px;">about:manual#bridges_bridge-moji</span>
 </div><br>
-  <li><a href="https://github.com/microsoft/winget-pkgs/issues/16845#issuecomment-857619051" target="_blank">winget install 命令 | 安装Tor浏览器：</a></li>
+  <li><a href="https://github.com/microsoft/winget-pkgs/issues/16845#issuecomment-857619051" target="_blank">winget install 命令</a> | 安装
+    <a href="https://github.com/TheTorProject/gettorbrowser" title="Tor 匿名网络 (Start Tor Browser 浏览器)--Github网址：" target="_blank"><b>Tor浏览器</b></a> ：
+  </li>
 <pre>
 winget install TorProject.TorBrowser
 </pre>
