@@ -4,7 +4,11 @@
 </h3>
 <div>
 <span style="font-size: 16.38px;">about:manual#bridges_bridge-moji</span>
-</div>
+</div><br>
+  <li><a href="https://github.com/microsoft/winget-pkgs/issues/16845#issuecomment-857619051" target="_blank">winget install 命令 | 安装Tor浏览器：</a></li>
+<pre>
+winget install TorProject.TorBrowser
+</pre>
 <div>
 <span style="font-size: 16.38px;">
 <br>
