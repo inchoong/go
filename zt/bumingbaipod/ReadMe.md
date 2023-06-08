@@ -1,4 +1,4 @@
-# **Podcast**
+# **《[不明白播客](https://bumingbai.net/)》Podcast**
 此 [@GitHub](https://github.com/bumingbaipod/podcast/tree/main) 作为《[不明白播客](https://bumingbai.net/)》官网的备份站，用于分享文字版播客，请查看往期[节目列表](0000-往期节目列表.md)。
 
 # **收听指南**
