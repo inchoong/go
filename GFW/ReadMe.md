@@ -4,7 +4,7 @@
 <a href="https://zh.wikipedia.org/wiki/Shadowsocks">Shadowsocks - 维基百科，自由的百科全书</a>
 </li>
 </blockquote>
-
+<hr style="height:1px;width:35%;border:none;border-top:1px dashed #0066CC;" />
 <li><a href="https://haoel.github.io/">科学上网 | 左耳朵</a>@<a href="https://github.com/haoel/">haoel</a>.<a href="https://github.com/haoel/haoel.github.io">.github.io</a></li>
 <blockquote><a href="https://coolshell.cn/haoel">关于陈皓(网名：左耳朵耗子) | 酷 壳 - CoolShell</a>
 </blockquote>
