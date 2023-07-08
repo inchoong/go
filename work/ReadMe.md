@@ -28,7 +28,9 @@
 
 企业微信 - 私有部署 | 捷径社区
 >  https://sharecuts.cn/app/1466928593
+
 企业微信 | 私有化
 >  https://work.weixin.qq.com/server
+
 政务微信解决方案
 >  https://work.weixin.qq.com/server/zwwx
