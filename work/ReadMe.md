@@ -1,3 +1,6 @@
+企业微信 site:edu.cn - Google 搜索
+>  https://www.google.com/search?q=%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1+site:edu.cn
+
 企业微信-管理后台
 >  https://work.weixin.qq.com/
 
