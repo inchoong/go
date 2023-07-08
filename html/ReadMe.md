@@ -1,3 +1,4 @@
+示例代码：
 <pre><code>
 <script>
 function redirect() {
