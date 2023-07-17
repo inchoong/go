@@ -22,3 +22,5 @@
 要了解更多关于 Jego 的信息，请访问无忧行唯一官网:<br>
   <a href="https://www.JegoCloud.com" title="科学上网 | 插件：无忧行 - New Bing和ChatGPT免费上">https://www.JegoCloud.com</a>
   </blockquote>  </blockquote>
+<hr>
+  <blockquote><a href="https://zh.jego.pro/shou-ji-ding-yue/gang-qu-apple-id-zhu-ce-liu-cheng"><strong>港区Apple ID注册流程</strong> - 无忧行 - 使用指南</a></blockquote>
