@@ -1,4 +1,4 @@
-<li><strong>Jego 安装指南</strong></li>
+<li><strong>Jego 安装指南</strong> | <a href="https://zh.jego.pro/shi-yong-jiao-cheng/fang-zhi-shi-lian">防止失联</a> - <a href="https://zh.jego.pro/">无忧行概述</a> - 使用指南</li>
 <br>
 <blockquote>无忧行是一款兼容 Chrome、Edge 和 360 浏览器的扩展程序。以下是详细的安装步骤。</blockquote>
 <br>
