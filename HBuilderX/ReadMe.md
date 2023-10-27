@@ -7,6 +7,7 @@
 
 # HBuilder X - Release Notes
 ======================================
+
 ## 3.94.2023102613
 ### HBuilder
 * 【重要】新增 uni-app-x ，不再使用js和webview，编译为纯原生App，目前仅支持Android [详情](https://uniapp.dcloud.net.cn/uni-app-x/)
