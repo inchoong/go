@@ -6,7 +6,6 @@
 <blockquote>专门为小程序0基础学员而设，让你拥有能上线的作品</blockquote></blockquote>
 
 # HBuilder X - Release Notes
-======================================
 
 ## 3.94.2023102613
 ### HBuilder
