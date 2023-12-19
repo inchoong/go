@@ -1,105 +1,120 @@
 @echo off
-title Ê¹ÓÃ winget ¹¤¾ß°²×°ºÍ¹ÜÀíÓ¦ÓÃ³ÌĞò£¬Ò»¼ü°²×°½Å±¾
+title ä½¿ç”¨ winget å·¥å…·å®‰è£…å’Œç®¡ç†åº”ç”¨ç¨‹åºï¼Œä¸€é”®å®‰è£…è„šæœ¬
 
-echo ¸üĞÂËùÓĞÔ´ && Éı¼¶ËùÓĞÓ¦ÓÃ
+echo æ›´æ–°æ‰€æœ‰æº && å‡çº§æ‰€æœ‰åº”ç”¨
 winget source update
 winget upgrade --all
 
 echo  *******************************************
-echo  * ÕâÒ»²¿·Ö»ªÎª±Ê¼Ç±¾µçÄÔÉÏ×Ô´ø£¬ÎŞĞë°²×° *
+echo  * è¿™ä¸€éƒ¨åˆ†åä¸ºç¬”è®°æœ¬ç”µè„‘ä¸Šè‡ªå¸¦ï¼Œæ— é¡»å®‰è£… *
 echo  *******************************************
-echo °²×° »ªÎª Free Touch ´¥¿Ø°å
+echo å®‰è£… åä¸º Free Touch è§¦æ§æ¿
 echo winget install HuaweiPC.HUAWEIFreeTouch_amfdc1pkdnmaa
 
-echo °²×° »ªÎª Huawei Histen ÒôĞ§
+echo å®‰è£… åä¸º Huawei Histen éŸ³æ•ˆ
 echo winget install HuaweiPC.Huawei-Histen_amfdc1pkdnmaa
 
-echo °²×° »ªÎªÏÔÊ¾Æ÷µ÷½Ú
+echo å®‰è£… åä¸ºæ˜¾ç¤ºå™¨è°ƒèŠ‚
 echo winget install HwOsd
 
-echo °²×°  MSN ÌìÆø  
+echo å®‰è£…  MSN å¤©æ°”  
 echo winget install Microsoft.BingWeather_8wekyb3d8bbwe  
 
-echo °²×°  MSN ×ÊÑ¶  
+echo å®‰è£…  MSN èµ„è®¯  
 echo winget install Microsoft.BingNews_8wekyb3d8bbwe
 
-echo °²×°  Ó¦ÓÃ°²×°³ÌĞò
+echo å®‰è£…  åº”ç”¨å®‰è£…ç¨‹åº
 echo winget install Microsoft.AppInstaller
 echo  *******************************************
-echo  * ÕâÒ»²¿·Ö»ªÎª±Ê¼Ç±¾µçÄÔÉÏ×Ô´ø£¬ÎŞĞë°²×° *
+echo  * è¿™ä¸€éƒ¨åˆ†åä¸ºç¬”è®°æœ¬ç”µè„‘ä¸Šè‡ªå¸¦ï¼Œæ— é¡»å®‰è£… *
 echo  *******************************************
 
-echo °²×° QQ ºÍ Î¢ĞÅ
-winget install QQ || winget install wechat
-
-echo °²×°Î¢Èíoffice°ì¹«Èí¼ş
+echo å®‰è£…å¾®è½¯officeåŠå…¬è½¯ä»¶
 winget install --id=Microsoft.Office -e
 
-echo °²×°¿ªÔ´½âÑ¹¹¤¾ß
+echo å®‰è£…å¼€æºè§£å‹å·¥å…·
 winget install 7-Zip
 
-echo °²×°¿ªÔ´Ğ¶ÔØ¹¤¾ß
+echo å®‰è£…å¼€æºå¸è½½å·¥å…·
 winget install BCUninstaller
 
-echo °²×°¿ªÔ´Ô¶³Ì×ÀÃæÈí¼ş
+echo å®‰è£…å¼€æºè¿œç¨‹æ¡Œé¢è½¯ä»¶
 winget install RustDesk
 
-echo °²×°¿ªÔ´Ö±²¥Èí¼ş
+echo å®‰è£…å¼€æºç›´æ’­è½¯ä»¶
 winget install OBSProject.OBSStudio
 
-echo °²×° IDM ÏÂÔØ¹¤¾ß
+echo å®‰è£… IDM ä¸‹è½½å·¥å…·
 winget install Tonec.InternetDownloadManager
 
-echo °²×°ÎÄ¼şËÑË÷¹¤¾ß
+echo å®‰è£…æ–‡ä»¶æœç´¢å·¥å…·
 winget install voidtools.Everything
 
-echo °²×°Î¢Èí¹Ù·½¿ªÔ´Ğ§ÂÊ¹¤¾ß
+echo å®‰è£…FastStone Capture ä½“ç§¯å°ä½†åŠŸèƒ½é½å…¨çš„å±å¹•æˆªå›¾å’Œå±å¹•å½•åƒè½¯ä»¶
+winget install FastStone.Capture
+
+echo å®‰è£…å¾®è½¯å®˜æ–¹å¼€æºæ•ˆç‡å·¥å…·
 winget install Microsoft.PowerToys
 
-echo °²×°Î¢Èí¿ª·¢¹¤¾ßVSCode
+echo å®‰è£…å¾®è½¯å¼€å‘å·¥å…·VSCode
 winget install Microsoft.VisualStudioCode
 
-echo °²×°Cloudflare WARP
+echo å®‰è£…Cloudflare WARPæ˜¯Cloudflareæ¨å‡ºçš„ä¸€é¡¹è™šæ‹Ÿç§äººç½‘ç»œï¼ˆVPNï¼‰æœåŠ¡
 winget install Cloudflare.Warp
+echo t.me/warpplus è®¸å¯å¯†é’¥(WARP+ç±»å‹)ï¼šM2o650wi-N693X4JY-46GSc92E
 
-echo °²×°Chromeä¯ÀÀÆ÷
+echo å®‰è£…Chromeæµè§ˆå™¨
 winget install Google.Chrome
 
-echo °²×° Discord ÓÎÏ·ÁÄÌìÓ¦ÓÃÓëÉçÇøÍ¨Ñ¶¹¤¾ß
+echo å®‰è£… Discord æ¸¸æˆèŠå¤©åº”ç”¨ä¸ç¤¾åŒºé€šè®¯å·¥å…·
 winget install Discord.Discord
 
-echo °²×°¿ªÔ´±à¼­Æ÷Notepad++
+echo å®‰è£…å¼€æºç¼–è¾‘å™¨Notepad++
 winget install Notepad++.Notepad++
 
-echo °²×°ÍòÄÜÓ°Òô²¥·ÅÆ÷ Spotify
+echo å®‰è£…ä¸‡èƒ½å½±éŸ³æ’­æ”¾å™¨ Spotify
 winget install Daum.PotPlayer
 
-echo °²×°¿ªÔ´²¥·ÅÆ÷ VLC media player
+echo å®‰è£…å¼€æºæ’­æ”¾å™¨ VLC media player
 winget install VideoLAN.VLC
 
-echo °²×°BTSync
+echo å®‰è£…BTSync
 winget install "BitTorrent Sync" --version 1.4.111
 
-echo °²×°¶¶Òô¼ôÓ³Èí¼ş
-winget install --id=ByteDance.JianyingPro -e
-
-echo °²×°ÆóÒµÎ¢ĞÅ
-winget install Tencent.wechat-work
-
-echo °²×°Î¢ĞÅ¿ª·¢Õß¹¤¾ß
-winget install Tencent.WeixinDevTools
-
-echo °²×°½ğÉ½ WPS Office
-winget search Kingsoft.WPSOffice
-
-echo °²×°¿ªÔ´SSHÁ¬½Ó¹¤¾ßPuTTY
+echo å®‰è£…å¼€æºSSHè¿æ¥å·¥å…·PuTTY
 winget install PuTTY.PuTTY
 
-echo °²×°¿ªÔ´SFTPÎÄ¼ş´«Êä¹¤¾ß
+echo å®‰è£…å¼€æºSFTPæ–‡ä»¶ä¼ è¾“å·¥å…·
 winget install WinSCP.WinSCP
 
-echo µ¼³ö°²×°µÄ³ÌĞòÁĞ±íºÍÄ¿Â¼Â·¾¶
+echo å®‰è£…å†…ç½‘ç©¿é€ç¥å™¨ZeroTierZeroTier One åŠ å¯†çš„è™šæ‹Ÿä¸»å¹²ç½‘
+winget install ZeroTier.ZeroTierOne
+
+echo  *******************************************
+echo  * è¿™ä¸€éƒ¨åˆ†æ˜¯å›½äº§è½¯ä»¶ï¼Œè¯·è°¨æ…å®‰è£…å’Œä½¿ç”¨ *
+echo  *******************************************
+
+echo å®‰è£… QQ å’Œ å¾®ä¿¡
+winget install QQ || winget install wechat
+
+echo å®‰è£…æŠ–éŸ³å‰ªæ˜ è½¯ä»¶
+winget install --id=ByteDance.JianyingPro -e
+
+echo å®‰è£…ä¼ä¸šå¾®ä¿¡
+winget install Tencent.wechat-work
+
+echo å®‰è£…å¾®ä¿¡å¼€å‘è€…å·¥å…·
+winget install Tencent.WeixinDevTools
+
+echo å®‰è£…é‡‘å±± WPS Office
+winget search Kingsoft.WPSOffice
+
+echo  *******************************************
+echo  * è¿™ä¸€éƒ¨åˆ†æ˜¯å›½äº§è½¯ä»¶ï¼Œè¯·è°¨æ…å®‰è£…å’Œä½¿ç”¨ *
+echo  *******************************************
+
+echo å¯¼å‡ºå®‰è£…çš„ç¨‹åºåˆ—è¡¨å’Œç›®å½•è·¯å¾„
 winget list > installed_programs.txt
 
-echo °²×°Íê³É£¡
+echo å®‰è£…å®Œæˆï¼
 pause
