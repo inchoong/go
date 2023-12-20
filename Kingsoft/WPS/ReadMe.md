@@ -1,4 +1,4 @@
-		<details>
+<details>
 			<summary> <a href="https://go.choong.net/Kingsoft/WPS/">WPS国际版设置中文的方法（无脑汉化2019.08.25）</a> - 
 				<a href="https://zhuanlan.zhihu.com/p/79652094">知乎</a>
 				<br>
