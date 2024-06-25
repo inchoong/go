@@ -4,7 +4,7 @@
 
 https://www.youtube.com/feeds/videos.xml?channel_id=UCIzyCSfrZfVfYr0o6n1m5rA
 
-简介
+【简介】
 
 这是西雅图老胡的自媒体研究频道，内容专注于在Youtube/油管上创业赚钱的各项专业知识。案例分析，知识分享。
 
