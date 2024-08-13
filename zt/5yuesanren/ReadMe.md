@@ -1,5 +1,7 @@
 <a href="https://www.youtube.com/">YouTube</a>@<a href="https://www.youtube.com/@wuyuesanren">五岳散人</a>(<a href="https://www.youtube.com/feeds/videos.xml?channel_id=UCX8KQ5xQlm0MnZkmHO7CBDw">频道</a>于2021年5月21日注册)
 
+<a href="https://go.choong.net/zt/5yuesanren/">ReadMe</a>
+
 <b>简介:</b>
 
 北京人、满族，目前生活在日本的京都，这个我最喜欢的城市。
