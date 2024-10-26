@@ -86,9 +86,9 @@
 		<summary>
 4.<b>云服务器</b>：<a href="https://go.choong.net/key/" title="神Key - 最有种的 Sync 资源 | 神 Key">神Key - 最有种的 Sync 资源 | BTSync</a> <br>
      (BTSync 默认使用的端口，添加或修改 UDP 端口： 19840 和 TCP 端口： 8888（如果需要）的端口访问规则)
-</summary><br>
-<h4><a href="https://go.choong.net/key/wbbbaa94131cd504d.html">BTSync搜索DHT网络作用</a>@<a href="https://www.doubao.com/thread/wbbbaa94131cd504d">豆包</a></h4><br>
- <li><b>在阿里云服务器中使用 BTSync，通常需要开启以下端口及相关操作方法：</b></li>
+</summary>
+<h3><a href="https://go.choong.net/key/wbbbaa94131cd504d.html">BTSync搜索DHT网络作用</a>@<a href="https://www.doubao.com/thread/wbbbaa94131cd504d">豆包</a></h3>
+ <li><b>在阿里云服务器中使用 BTSync，通常需要开启以下端口及相关操作方法：</b></li><br>
 <li>1. <b>BTSync 默认使用的端口</b>：</li>
     - <b>UDP 端口 19840</b>：BTSync 用于节点发现和通信的主要 UDP 端口。在阿里云服务器的安全组规则中，
 	需要允许入方向和出方向的 UDP 19840 端口的访问，以便 BTSync 能够与其他节点进行通信和发现。
@@ -103,7 +103,7 @@
     - <b>创建或修改安全组规则</b>：<br>
         - 如果是创建新的安全组规则，点击“创建安全组规则”按钮，
 		然后选择协议类型（<b>UDP 或 TCP</b>，根据需要开启的端口而定）、
-		端口范围（输入 <b>198408</b> 或 <b>8888</b> 等具体端口号），并设置源 IP 地址范围。
+		端口范围（输入 <b>19840</b> 或 <b>8888</b> 等具体端口号），并设置源 IP 地址范围。
 		对于测试或初期使用，您可以将源 IP 地址范围设置为“0.0.0.0/0”，
 		表示允许任何 IP 地址访问该端口，但在实际生产环境中，建议根据具体需求进行更严格的 IP 地址限制，以提高安全性。<br>
         - 如果是修改已有的安全组规则，找到对应的安全组，点击“配置规则”或“编辑规则”等按钮，
