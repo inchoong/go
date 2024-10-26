@@ -1,89 +1,89 @@
-æ–‡ä»¶å¤¹ PATH åˆ—è¡¨
-â”‚  404.html
-â”‚  android-chrome-192x192.png
-â”‚  android-chrome-512x512.png
-â”‚  apple-touch-icon.png
-â”‚  bbs.html
-â”‚  browserconfig.xml
-â”‚  contact.html
-â”‚  faq.html
-â”‚  favicon-16x16.png
-â”‚  favicon-32x32.png
-â”‚  favicon.ico
-â”‚  index.html
-â”‚  index.xml
-â”‚  keys.html
-â”‚  list.txt
-â”‚  mstile-150x150.png
-â”‚  robots.txt
-â”‚  site.webmanifest
-â”‚  sitemap.xml
-â”‚  sync_main_ui.png
-â”‚  tags.html
-â”‚  tutorials.html
-â”‚  
-â”œâ”€bbs
-â”‚      backup.png
-â”‚      firewall.png
-â”‚      github_1.png
-â”‚      installer.png
-â”‚      patchwork_1.png
-â”‚      patchwork_10.png
-â”‚      patchwork_11.png
-â”‚      patchwork_12.png
-â”‚      patchwork_2.png
-â”‚      patchwork_3.png
-â”‚      patchwork_4.png
-â”‚      patchwork_5.png
-â”‚      patchwork_6.png
-â”‚      patchwork_7.png
-â”‚      patchwork_8.png
-â”‚      patchwork_9.png
-â”‚      patchwork_icon.png
-â”‚      
-â”œâ”€css
-â”‚      custom.css
-â”‚      style.css
-â”‚      
-â”œâ”€download
-â”‚      Patchwork-Setup-3.18.0.exe
-â”‚      Resilio-Sync_x64.exe
-â”‚      
-â”œâ”€faq
-â”‚      sync_1.png
-â”‚      sync_2.png
-â”‚      sync_3.png
-â”‚      
-â”œâ”€image
-â”‚      site_logo.jpg
-â”‚      
-â”œâ”€js
-â”‚      copycode.js
-â”‚      navicon-shift.js
-â”‚      
-â”œâ”€tags
-â”‚      index.xml
-â”‚      
-â””â”€tutorials
-    â”‚  index.xml
-    â”‚  quick_start.html
-    â”‚  share.html
-    â”‚  
-    â”œâ”€quick_start
-    â”‚      explorer_1.png
-    â”‚      installer.png
-    â”‚      resilio.com_1.png
-    â”‚      resilio.com_2.png
-    â”‚      shenkey.png
-    â”‚      sync_1.png
-    â”‚      sync_2.png
-    â”‚      sync_3.png
-    â”‚      sync_4.png
-    â”‚      sync_5.png
-    â”‚      sync_icon.png
-    â”‚      welcome.png
-    â”‚      
-    â””â”€share
+ÎÄ¼þ¼Ð PATH ÁÐ±í
+©¦  404.html
+©¦  android-chrome-192x192.png
+©¦  android-chrome-512x512.png
+©¦  apple-touch-icon.png
+©¦  bbs.html
+©¦  browserconfig.xml
+©¦  contact.html
+©¦  faq.html
+©¦  favicon-16x16.png
+©¦  favicon-32x32.png
+©¦  favicon.ico
+©¦  index.html
+©¦  index.xml
+©¦  keys.html
+©¦  list.txt
+©¦  mstile-150x150.png
+©¦  robots.txt
+©¦  site.webmanifest
+©¦  sitemap.xml
+©¦  sync_main_ui.png
+©¦  tags.html
+©¦  tutorials.html
+©¦  
+©À©¤bbs
+©¦      backup.png
+©¦      firewall.png
+©¦      github_1.png
+©¦      installer.png
+©¦      patchwork_1.png
+©¦      patchwork_10.png
+©¦      patchwork_11.png
+©¦      patchwork_12.png
+©¦      patchwork_2.png
+©¦      patchwork_3.png
+©¦      patchwork_4.png
+©¦      patchwork_5.png
+©¦      patchwork_6.png
+©¦      patchwork_7.png
+©¦      patchwork_8.png
+©¦      patchwork_9.png
+©¦      patchwork_icon.png
+©¦      
+©À©¤css
+©¦      custom.css
+©¦      style.css
+©¦      
+©À©¤download
+©¦      Patchwork-Setup-3.18.0.exe
+©¦      Resilio-Sync_x64.exe
+©¦      
+©À©¤faq
+©¦      sync_1.png
+©¦      sync_2.png
+©¦      sync_3.png
+©¦      
+©À©¤image
+©¦      site_logo.jpg
+©¦      
+©À©¤js
+©¦      copycode.js
+©¦      navicon-shift.js
+©¦      
+©À©¤tags
+©¦      index.xml
+©¦      
+©¸©¤tutorials
+    ©¦  index.xml
+    ©¦  quick_start.html
+    ©¦  share.html
+    ©¦  
+    ©À©¤quick_start
+    ©¦      explorer_1.png
+    ©¦      installer.png
+    ©¦      resilio.com_1.png
+    ©¦      resilio.com_2.png
+    ©¦      shenkey.png
+    ©¦      sync_1.png
+    ©¦      sync_2.png
+    ©¦      sync_3.png
+    ©¦      sync_4.png
+    ©¦      sync_5.png
+    ©¦      sync_icon.png
+    ©¦      welcome.png
+    ©¦      
+    ©¸©¤share
             sync_1.png
             sync_2.png
             sync_3.png
