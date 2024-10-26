@@ -87,6 +87,7 @@
 4.<b>云服务器</b>：<a href="https://go.choong.net/key/" title="神Key - 最有种的 Sync 资源 | 神 Key">神Key - 最有种的 Sync 资源 | BTSync</a> <br>
      (BTSync 默认使用的端口，添加或修改 UDP 端口： 19840 和 TCP 端口： 8888（如果需要）的端口访问规则)
 </summary><br>
+<h4><a href="https://go.choong.net/key/wbbbaa94131cd504d.html">BTSync搜索DHT网络作用</a>@<a href="https://www.doubao.com/thread/wbbbaa94131cd504d">豆包</a></h4><br>
  <li><b>在阿里云服务器中使用 BTSync，通常需要开启以下端口及相关操作方法：</b></li>
 <li>1. <b>BTSync 默认使用的端口</b>：</li>
     - <b>UDP 端口 19840</b>：BTSync 用于节点发现和通信的主要 UDP 端口。在阿里云服务器的安全组规则中，
