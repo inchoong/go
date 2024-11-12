@@ -1,3 +1,6 @@
+
+<li><a href="https://go.choong.net/OpenAI/s/chatgpt-in-development/">2023-06-09</a> : <a href="https://luolei.org/chatgpt-in-development">如何用 ChatGPT 助力开发: 已经有 15 万人看过的经验分享 | 罗磊的独立博客</a></li>
+<hr>
 <li><a href="https://www.freedidi.com/8875.html">开源的 ChatGPT API 跨平台桌面客户端，Prompt 的调试与管理工具，实现 ChatGPT Plus 的免费平替 - 零度解说</a>
 </li><br>
 <blockquote>
