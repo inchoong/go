@@ -14,7 +14,7 @@
 
 （必须翻墙才能访问） 
 
-除了官网，还可以利用它在 GitHub 上的官方帐号，【免翻墙】下载安装包。具体请访问如下页面：
+除了官网，还可以利用它在 GitHub 上的官方帐号，【[免翻墙](https://github.com/getlantern)】下载安装包。具体请访问如下页面：
 
 https://github.com/getlantern/lantern-binaries
 
