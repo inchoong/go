@@ -2,7 +2,7 @@
 [🦊 Mozilla Firefox 系列](https://github.com/taoste/Hello-World/tree/master/Tools/Mozilla%20Firefox)**
 
 
-[Note] 🛡️ [科学上网 系列 · Issue #1](https://github.com/taoste/taoste.github.io/issues/1) 
+[Note](https://github.com/taoste/Hello-World/tree/master/GFW/Lantern) 🛡️ [科学上网 系列 · Issue #1](https://github.com/taoste/taoste.github.io/issues/1) 
 
 -------------------------------------------------------------------
 
