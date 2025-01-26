@@ -6,7 +6,9 @@ https://www.youtube.com/watch?v=mPquwpxyUQU<br>
 <br>
 <a href="https://www.youtube.com/watch?v=Ozb9mZg7MVM">30分钟Docker入门教程</a> - <a href="">哔哩哔哩</a><br>
 https://www.youtube.com/watch?v=Ozb9mZg7MVM<br>
-<br><br><br>
+<br>
+<a href="https://www.youtube.com/watch?v=BmOa0iDtJvE">Docker怎么玩？10分钟快速了解~NAS玩法不用愁 | 花墨世界</a> - <a href="">哔哩哔哩</a><br>
+<br><br>
 搜索：<code>winget show docker</code><br>
 找到多个与输入条件匹配的程序包。请修改输入。<br>
 名称···········ID···················源<br>
