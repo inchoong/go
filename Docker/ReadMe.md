@@ -4,7 +4,7 @@
 <br>
 <a href="https://www.youtube.com/watch?v=mPquwpxyUQU">Docker 10分钟快速入门</a> - <a href="">哔哩哔哩视频</a><br>
 <br>
-<a href="https://www.youtube.com/watch?v=Ozb9mZg7MVM">30分钟Docker入门教程</a> - <a href="">哔哩哔哩视频</a><br>
+<a href="https://www.youtube.com/watch?v=Ozb9mZg7MVM">30分钟Docker入门教程</a> - <a href="https://www.bilibili.com/video/BV14s4y1i7Vf/">哔哩哔哩视频</a><br>
 <br>
 <a href="https://www.youtube.com/watch?v=BmOa0iDtJvE">Docker怎么玩？10分钟快速了解~NAS玩法不用愁 | 花墨世界</a> - <a href="">哔哩哔哩</a><br>
 <br><br>
