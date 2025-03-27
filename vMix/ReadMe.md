@@ -1,15 +1,16 @@
 <li><a href="https://www.vmix.com/">Live Video Streaming Software | vMix</a> 官网</li>
-
+<br>
 <li><a href="https://www.52pojie.cn/thread-1429784-1-1.html">vMix Pro 23.0版（含使用教程） - 吾爱破解 - 52pojie.cn</a></li>
-
+<br>
 <li><a href="https://ndi.video/">NDI - 消除视频连接的限制。</a></li>
-
+<br>
 <li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU3Nzk1NTM3Mg==&action=getalbum&album_id=1979062544581345283&scene=126#wechat_redirect">微信公众号@导播之家 #vmix 专题</a></li>
-
+<br>
 <li><a href="https://mp.weixin.qq.com/s?__biz=MzU3Nzk1NTM3Mg==&mid=2247484859&idx=1&sn=ef7e1369a3636e87e7a200bfbd8f52f0&chksm=fd7df6f8ca0a7feece43b56767c65076bbbcfd25bbd5718a8c56c6c145fecfd33638a5857880&scene=178&cur_album_id=1979062544581345283#rd">vMix NDI桌面捕捉工具</a></li>
 vMix NDI桌面捕捉工具:<a href="https://go.choong.net/vMix/tools/">本地下载</a> | <a href="https://edu.ckyz.net/PC/vMix/tools/">备份下载</a>
-
+<br>
 <li><a href="https://mp.weixin.qq.com/s?__biz=MzU3Nzk1NTM3Mg==&mid=2247484669&idx=1&sn=5c92be9bf56b5e30dd3cdf54f2a01787&chksm=fd7df7beca0a7ea8c982063c691cf5c58dcc3405d97dafd9ca152caacecf3b1e400a56a86b57&scene=178&cur_album_id=1979062544581345283#rd">vMix字幕编辑软件-GT Title Designer</a></li>
+<br>
 <li><a href="https://mp.weixin.qq.com/s?__biz=MzU3Nzk1NTM3Mg==&mid=2247484822&idx=1&sn=b37ee01fca357594d378c1915b6d0735&chksm=fd7df6d5ca0a7fc320f2024c16a3a0baf2eb8de1b7bc3e54f27af305a8cd69ac3f3d18db7a00&scene=178&cur_album_id=1979062544581345283#rd">vMix日期与时间格式大全</a></li>
 <qute>
 快速全面认识vMix日期时间指令信息，日期、星期、上下午、时间、毫秒等等全部掌握！<br>
