@@ -1,10 +1,10 @@
-MP4ÊÓÆµ×ªMP3ÒôÆµ
+MP4è§†é¢‘è½¬MP3éŸ³é¢‘
 -------------------------
-¾í Data µÄÎÄ¼þ¼Ð PATH ÁÐ±í
-©¦  
-©¦  mp3.bat
-©¦  
-©¸©¤nplayer
+æ–‡ä»¶å¤¹ PATH åˆ—è¡¨ï¼š
+â”‚  
+â”‚  mp3.bat
+â”‚  
+â””â”€nplayer
         aliplayerVS.dll
         AlixPlayer.dll
         api-ms-win-core-console-l1-1-0.dll
