@@ -6,6 +6,6 @@ view-source:<a href="https://v.qq.com/x/cover/6qf9pqtf8b4jqx1.html">https://v.qq
 【备份2】<a href="https://go.choong.net/wxb/">吴晓波系列讲座《历代经济变革得失》</a><br>
 <a href="https://go.choong.net/wxb/">https://v.choong.net/wxb/</a><br>
 【备份3】<a href="https://edu.ckyz.net/go/wxb/">吴晓波系列讲座《历代经济变革得失》</a><br>
-<a href="https://go.choong.net/wxb/">https://edu.ckyz.net/go/wxb/</a><br>
+<a href="https://edu.ckyz.net/go/wxb/">https://edu.ckyz.net/go/wxb/</a><br>
 
 
