@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>邀请加入企业微信</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans SC', 'Source Han Sans SC', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      background-color: #fff;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    .header-title {
+      font-weight: bold;
+    }
+
+    .card {
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .invite-text {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .org-info {
+      color: #666;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .description {
+      margin: 20px 0;
+      font-size: 15px;
+      color: #555;
+    }
+
+    .qrcode-container {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      background-color: #fafafa;
+      display: inline-block;
+    }
+
+    .qrcode-img {
+      width: 180px;
+      height: 180px;
+      border-radius: 5px;
+    }
+
+    .expire-text {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .countdown {
+      font-size: 14px;
+      color: #409EFF;
+      margin-top: 5px;
+    }
+
+    .expired {
+      color: #f44336;
+      font-weight: bold;
+    }
+
+    .join-button {
+      width: 100%;
+      padding: 14px;
+      background-color: #409EFF;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .members {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .member-avatars {
+      margin-top: 10px;
+    }
+
+    .member-avatars img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      margin: 0 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-title">瑞联集团</div>
+      <div style="font-size: 12px; color: #888;">由企业微信提供</div>
+    </div>
+
+    <!-- Invitation Card -->
+    <div class="card">
+      <img src="https://randomuser.me/api/portraits/men/32.jpg" class="avatar" alt="头像">
+      <div class="invite-text">张炜邀请你加入</div>
+      <div class="org-info">已认证 | 创建人：张炜</div>
+    </div>
+
+    <!-- Description -->
+    <div class="description">
+      使用企业微信与同事沟通更方便，还能高效协作。
+    </div>
+
+    <!-- QR Code -->
+    <div class="qrcode-container">
+      <img src="https://a2.vzan.com/upload/image/h5/jpeg/1682985613/2025-2-21/1746579c027282fac0456c9058ccd167864195.jpeg" alt="二维码" class="qrcode-img">
+      <div class="expire-text">二维码有效期至 2025年5月10日 12:00</div>
+      <div class="countdown" id="countdown"></div>
+    </div>
+
+    <!-- Join Button -->
+    <button class="join-button">加入企业</button>
+
+    <!-- Member Info -->
+    <div class="members">
+      张炜、程梅等141位同事已加入
+      <div class="member-avatars">
+        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="member1">
+        <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="member2">
+        <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="member3">
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const countdownElement = document.getElementById("countdown");
+    const deadline = new Date("2025-05-10T12:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = deadline - now;
+
+      if (distance <= 0) {
+        countdownElement.innerHTML = '<span class="expired">二维码已过期</span>';
+        clearInterval(interval);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownElement.textContent = `剩余时间：${days}天 ${hours}小时 ${minutes}分钟 ${seconds}秒`;
+    }
+
+    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown(); // 初次执行
+  </script>
+</body>
+</html>
