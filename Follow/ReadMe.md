@@ -1,4 +1,7 @@
-https://go.choong.net/Follow/
+https://go.choong.net/Follow/<br>
+<hr>
+<a href="https://folo.is/">Folo</a> <a href="https://folo.is/">https://folo.is/</a><br>
+<a href="https://follow.is/">Follow</a> <a href="https://follow.is/">https://follow.is/</a><br>
 
 <details>
 				<summary>winget show RSSNext.Folo</summary>
