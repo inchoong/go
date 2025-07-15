@@ -1,4 +1,5 @@
-<li>Windows安装ffmpeg最简单的方式windows安装ffmpeg最简单的方式，打开cmd执行（需要科学上网） w - <a herf="https://juejin.cn/post/7485285611730780179">@掘金</a></li>
+<li>Windows安装ffmpeg最简单的方式windows安装ffmpeg最简单的方式，打开cmd执行（需要科学上网）  - <a href="https://juejin.cn/post/7485285611730780179" title="windows安装ffmpeg最简单的方式windows安装ffmpeg最简单的方式，打开cmd执行（需要科学上网） w - 掘金">@掘金</a>
+</li>
 <details>
 				<summary>打开cmd执行（需要科学上网）:
 <queto>winget install --id Gyan.FFmpeg --source winget</queto>
