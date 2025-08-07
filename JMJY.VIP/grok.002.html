@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态日期显示</title>
+    <style>
+        /* 居中容器样式：使用Flexbox实现水平和垂直居中 */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        /* 固定框样式：增加高度以适应多行内容 */
+        .date-box {
+            width: 600px;
+            height: 300px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            color: #333;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* 固定显示区域：显示年龄信息 */
+        .age-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* 动态内容区域：显示轮播内容（时长） */
+        .date-content {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            line-height: 1.6;
+        }
+
+        /* 显示时的动画效果 */
+        .date-content.active {
+            opacity: 1;
+        }
+
+        /* 响应式设计：手机屏幕适配 */
+        @media (max-width: 600px) {
+            .date-box {
+                width: 90%;
+                height: 250px;
+                font-size: 16px;
+            }
+            .age-content {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主容器：用于居中显示 -->
+    <div class="container">
+        <!-- 日期显示框 -->
+        <div class="date-box">
+            <!-- 固定显示区域：显示父亲、母亲、儿子、女儿的年龄 -->
+            <div class="age-content" id="ageContent"></div>
+            <!-- 动态轮播区域：显示时长信息 -->
+            <div class="date-content" id="dateContent">加载中...</div>
+        </div>
+    </div>
+
+    <script>
+        // 定义日期数据
+        const dateItems = [
+            {
+                label: "父亲",
+                date: new Date("1984-04-11T12:00:00+08:00"),
+                type: "age"
+            },
+            {
+                label: "母亲",
+                date: new Date("1983-01-14T12:00:00+08:00"),
+                type: "age"
+            },
+            {
+                label: "儿子",
+                date: new Date("2019-06-13T12:02:00+08:00"),
+                type: "age"
+            },
+            {
+                label: "女儿",
+                date: new Date("2019-06-13T12:03:00+08:00"),
+                type: "age"
+            },
+            {
+                label: "来到浙江嘉兴南湖大桥",
+                date: new Date("2014-12-25T08:00:00+08:00"),
+                type: "duration"
+            }
+        ];
+
+        // 计算时间差并格式化
+        function formatTimeDiff(startDate, type) {
+            const now = new Date();
+            const diffMs = now - startDate; // 时间差（毫秒）
+
+            // 计算年、月、日、时、分、秒
+            const seconds = Math.floor(diffMs / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const months = Math.floor(days / 30.42); // 平均每月30.42天
+            const years = Math.floor(months / 12);
+
+            // 根据类型返回格式化字符串
+            if (type === "age") {
+                return `${years}岁零${months % 12}月${days % 30}日${hours % 24}时${minutes % 60}分${seconds % 60}秒`;
+            } else {
+                return `${years}年零${months % 12}月${days % 30}日${hours % 24}时${minutes % 60}分${seconds % 60}秒`;
+            }
+        }
+
+        // 初始化日期显示
+        function initDateDisplay() {
+            const ageContentElement = document.getElementById("ageContent");
+            const dateContentElement = document.getElementById("dateContent");
+            let currentIndex = 0;
+
+            // 分离年龄和时长数据
+            const ageItems = dateItems.filter(item => item.type === "age");
+            const durationItems = dateItems.filter(item => item.type === "duration");
+
+            // 更新固定显示区域（年龄信息）
+            function updateAgeDisplay() {
+                ageContentElement.innerHTML = ageItems
+                    .map(item => `${item.label}：${formatTimeDiff(item.date, item.type)}`)
+                    .join("<br>"); // 每项年龄信息换行显示
+            }
+
+            // 更新动态轮播区域（时长信息）
+            function updateDateDisplay() {
+                const item = durationItems[currentIndex];
+                dateContentElement.textContent = `${item.label}：${formatTimeDiff(item.date, item.type)}`;
+                dateContentElement.classList.remove("active");
+                setTimeout(() => dateContentElement.classList.add("active"), 10); // 触发淡入动画
+            }
+
+            // 自动切换轮播内容
+            function switchContent() {
+                currentIndex = (currentIndex + 1) % durationItems.length; // 循环切换
+                updateDateDisplay();
+            }
+
+            // 实时更新所有显示时间
+            function updateTime() {
+                updateAgeDisplay(); // 更新年龄信息
+                if (dateContentElement.classList.contains("active")) {
+                    updateDateDisplay(); // 更新当前时长信息
+                }
+            }
+
+            // 初始化显示
+            updateAgeDisplay();
+            updateDateDisplay();
+
+            // 每5秒切换轮播内容
+            setInterval(switchContent, 5000);
+
+            // 每秒更新时间
+            setInterval(updateTime, 1000);
+        }
+
+        // 全局函数，供外部调用
+        window.startDateDisplay = initDateDisplay;
+
+        // 页面加载时自动初始化
+        document.addEventListener("DOMContentLoaded", initDateDisplay);
+    </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态日期显示</title>
+    <style>
+        /* 居中容器样式：使用Flexbox实现水平和垂直居中 */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        /* 固定框样式：适应置顶时间和轮播内容 */
+        .date-box {
+            width: 600px;
+            height: 250px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            color: #333;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* 当前时间显示区域：北京时间 */
+        .time-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* 动态内容区域：轮播时长和年龄信息 */
+        .date-content {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            line-height: 1.6;
+        }
+
+        /* 显示时的动画效果 */
+        .date-content.active {
+            opacity: 1;
+        }
+
+        /* 每项信息的样式：支持换行和title提示 */
+        .time-content span,
+        .date-content span {
+            display: block;
+        }
+
+        /* 响应式设计：手机屏幕适配 */
+        @media (max-width: 600px) {
+            .date-box {
+                width: 90%;
+                height: 200px;
+                font-size: 16px;
+            }
+            .time-content {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主容器：用于居中显示 -->
+    <div class="container">
+        <!-- 日期显示框 -->
+        <div class="date-box"  style="color:#5500ff">	
+		    <!-- 当前时间显示区域：北京时间 -->
+			<div class="time-content" id="timeContent"></div>
+            <!-- 动态轮播区域：时长和年龄信息 -->
+            <div class="date-content" id="dateContent">加载中...</div>
+        </div>
+    </div>
+
+    <script>
+        // 定义日期数据，包含彩虹色
+        const dateItems = [
+            {
+                label: "爸爸生日",
+                date: new Date("1984-04-11T12:00:00+08:00"),
+                type: "age",
+                color: "#FF0000" // 红色
+            },
+            {
+                label: "妈妈生日",
+                date: new Date("1983-01-14T12:00:00+08:00"),
+                type: "age",
+                color: "#FFA500" // 橙色
+            },
+            {
+                label: "儿子生日",
+                date: new Date("2019-06-13T12:02:00+08:00"),
+                type: "age",
+                color: "#550000" // 黄色
+            },
+            {
+                label: "女儿生日",
+                date: new Date("2019-06-13T12:03:00+08:00"),
+                type: "age",
+                color: "#ff55ff" // 粉色
+            },
+            {
+                label: "来嘉兴至今",
+                date: new Date("2014-12-25T08:00:00+08:00"),
+                type: "duration",
+                color: "#0000FF" // 蓝色
+            }
+        ];
+
+        // 格式化当前北京时间
+        function formatCurrentTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, "0");
+            const day = String(now.getDate()).padStart(2, "0");
+            const hours = String(now.getHours()).padStart(2, "0");
+            const minutes = String(now.getMinutes()).padStart(2, "0");
+			const seconds = String(now.getSeconds()).padStart(2, "0");
+            const daysOfWeek = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+            const dayOfWeek = daysOfWeek[now.getDay()];
+            return `${year}年${month}月${day}日 ${dayOfWeek} ${hours}:${minutes}:${seconds}`;
+        }
+
+        // 格式化日期为字符串，用于title属性
+        function formatDateForTitle(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            const hours = String(date.getHours()).padStart(2, "0");
+            const minutes = String(date.getMinutes()).padStart(2, "0");
+            return `${year}年${month}月${day}日 ${hours}:${minutes}`;
+        }
+
+        // 计算时间差并格式化
+        function formatTimeDiff(startDate, type) {
+            const now = new Date();
+            const diffMs = now - startDate; // 时间差（毫秒）
+
+            // 计算年、月、日、时、分、秒
+            const seconds = Math.floor(diffMs / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const months = Math.floor(days / 30.42); // 平均每月30.42天
+            const years = Math.floor(months / 12);
+
+            // 根据类型返回格式化字符串
+            if (type === "age") {
+                return `${years}岁零${months % 12}月${days % 30}日${hours % 24}时${minutes % 60}分${seconds % 60}秒`;
+            } else {
+                return `${years}年零${months % 12}月${days % 30}日${hours % 24}时${minutes % 60}分${seconds % 60}秒`;
+            }
+        }
+
+        // 初始化日期显示
+        function initDateDisplay() {
+            const timeContentElement = document.getElementById("timeContent");
+            const dateContentElement = document.getElementById("dateContent");
+            let currentIndex = 0;
+
+            // 更新当前时间显示
+            function updateTimeDisplay() {
+                timeContentElement.innerHTML = `<span title="当前北京时间"> ${formatCurrentTime()}</span>`;
+            }
+
+            // 更新动态轮播区域（时长和年龄信息）
+            function updateDateDisplay() {
+                const item = dateItems[currentIndex];
+                dateContentElement.innerHTML = `<span title="${item.type === 'age' ? '出生日期' : '开始日期'}：${formatDateForTitle(item.date)}" style="color: ${item.color}">${item.label}：${formatTimeDiff(item.date, item.type)}</span>`;
+                dateContentElement.classList.remove("active");
+                setTimeout(() => dateContentElement.classList.add("active"), 10); // 触发淡入动画
+            }
+
+            // 自动切换轮播内容
+            function switchContent() {
+                currentIndex = (currentIndex + 1) % dateItems.length; // 循环切换
+                updateDateDisplay();
+            }
+
+            // 实时更新所有显示时间
+            function updateTime() {
+                updateTimeDisplay(); // 更新北京时间
+                if (dateContentElement.classList.contains("active")) {
+                    updateDateDisplay(); // 更新当前轮播信息
+                }
+            }
+
+            // 初始化显示
+            updateTimeDisplay();
+            updateDateDisplay();
+
+            // 每5秒切换轮播内容
+            setInterval(switchContent, 5000);
+
+            // 每秒更新时间
+            setInterval(updateTime, 1000);
+        }
+
+        // 全局函数，供外部调用
+        window.startDateDisplay = initDateDisplay;
+
+        // 页面加载时自动初始化
+        document.addEventListener("DOMContentLoaded", initDateDisplay);
+    </script>
+</body>
+</html>

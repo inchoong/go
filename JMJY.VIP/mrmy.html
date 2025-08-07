@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>名人名言展示</title>
+    <!-- 设置页面样式，确保无背景、无边框、居中显示 -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: transparent;
+            font-family: Arial, sans-serif;
+        }
+        .quote-container {
+            text-align: center;
+            max-width: 80%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .quote-container.active {
+            opacity: 1;
+        }
+        .quote {
+            font-size: 24px;
+            margin: 0;
+            /* 彩虹色动画 */
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow 8s linear infinite;
+        }
+        .author {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        @keyframes rainbow {
+            0% { background-position: 0%; }
+            100% { background-position: 200%; }
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <!-- 名言展示容器 -->
+    <div class="quote-container" id="quoteContainer">
+        <p class="quote"></p>
+        <p class="author"></p>
+    </div>
+
+    <script>
+        // 名言数据数组，包含引用、作者和来源链接
+        const quotes = [
+            {
+                text: "什么叫“抑郁症”？是对过去的抑郁。<br>什么叫“焦虑症”？是对未来的焦虑。<br>什么叫“强迫症”？是对现在的强迫。<br>去掉时间之后，就找到心安之处。",
+                author: "——李善友《本体论：每个人都需要的哲学思维训练》",
+                source: "https://book.douban.com/subject/30409481/"
+            },
+            {
+                text: "贫者因书而富，富者因书而贵。",
+                author: "——佚名",
+                source: ""
+            },
+            {
+                text: "现状不可描述，未来无法预测，一切皆有可能。",
+                author: "——易中天",
+                source: ""
+            },
+            {
+                text: "与所有的人以诚相待，同多数人和睦相处，和少数人常来常往，只跟一个人亲密无间。",
+                author: "——富兰克林",
+                source: ""
+            },
+            {
+                text: "真正的安全感，来自你对自己的信心，是你每个阶段性目标的实现，而真正的归属感，在于你的内心深处对自己命运的把控，因为你最大的对手永远都是自己。",
+                author: "——佚名",
+                source: ""
+            }
+        ];
+
+        let currentQuoteIndex = 0;
+        const quoteContainer = document.getElementById('quoteContainer');
+        const quoteElement = quoteContainer.querySelector('.quote');
+        const authorElement = quoteContainer.querySelector('.author');
+
+        // 显示名言的函数
+        function showQuote() {
+            const quote = quotes[currentQuoteIndex];
+            quoteContainer.classList.remove('active');
+            
+            // 等待渐隐动画完成后再更新内容
+            setTimeout(() => {
+                if (quote.source) {
+                    quoteElement.innerHTML = `<a href="${quote.source}" target="_blank">${quote.text}</a>`;
+                    authorElement.innerHTML = `<a href="${quote.source}" target="_blank">${quote.author}</a>`;
+                } else {
+                    quoteElement.innerHTML = quote.text;
+                    authorElement.innerHTML = quote.author;
+                }
+                quoteContainer.classList.add('active');
+            }, 1000); // 与CSS中的transition时间匹配
+
+            currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+        }
+
+        // 初始显示第一条名言
+        showQuote();
+
+        // 每5秒切换一次名言
+        setInterval(showQuote, 5000);
+    </script>
+</body>
+</html>
