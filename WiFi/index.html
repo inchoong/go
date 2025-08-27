@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公共WiFi认证与支持系统</title>
+	<link rel="icon" href="favicon.png" > 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7F2E49',
+                        secondary: '#D70512',
+                        wifiPrimary: '#3498db',
+                        wifiSecondary: '#2c3e50'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+	
+	
+ <link rel="stylesheet" href="https://go.choong.net/QPlayer/css/player.css"><!-- 网页悬浮音乐播放器 -->
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .popup-appear {
+                animation: fadeIn 0.3s ease-out forwards;
+            }
+            .content-appear {
+                animation: scaleIn 0.3s ease-out forwards;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            @keyframes scaleIn {
+                from { transform: scale(0.95); opacity: 0; }
+                to { transform: scale(1); opacity: 1; }
+            }
+            
+            /* WiFi 工具样式 */
+            .wifi-header {
+                background: linear-gradient(90deg, theme('colors.wifiPrimary'), theme('colors.wifiSecondary'));
+            }
+            .ip-section {
+                background-color: #f8f9fa;
+                border-left: 4px solid theme('colors.wifiPrimary');
+            }
+            .btn-primary {
+                background-color: theme('colors.wifiPrimary');
+                color: white;
+            }
+            .btn-primary:hover {
+                background-color: #2980b9;
+            }
+            .btn-success {
+                background-color: #2ecc71;
+                color: white;
+            }
+            .btn-success:hover {
+                background-color: #27ae60;
+            }
+            .preset-btn:hover {
+                background-color: #dfe4ea;
+                transform: translateY(-2px);
+            }
+            .preset-btn.active {
+                background-color: theme('colors.wifiPrimary');
+                color: white;
+                border-color: theme('colors.wifiPrimary');
+            }
+            .preset-buttons {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+		
+		.footer {
+		    position: fixed;
+		    bottom: 0;
+		    left: 0;
+		    right: 0;
+		    height: 30px;
+		    line-height: 30px;
+		    background: #7F2E49;
+		    text-align: center;
+		    color: white;
+		    font-size: 14px;
+		    font-weight: 600;
+		  }
+		  .footer a {
+		      color: #f2f2f2;
+		      text-decoration: none;
+		    }
+		
+		    .footer a:hover {
+		      text-decoration: underline;
+		    }
+		
+		    #footer-text {
+		      opacity: 1;
+		      transition: opacity 1s ease-in-out;
+		      display: inline-block;
+		    }
+		
+		    .fade-out {
+		      opacity: 0;
+		    }
+		
+		    .footer-icon {
+		      margin-right: 6px;
+		    }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col items-center p-4 py-10">
+    <!-- 主标题 -->
+    <div class="w-full max-w-4xl mx-auto text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">公共WiFi认证访问工具</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+            自动获取本机IP并访问iMC Portal认证页面，适用于高铁站、酒店、图书馆等公共场所
+        </p>
+    </div>
+    
+    <!-- WiFi 认证工具主容器 -->
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- 头部 -->
+        <div class="wifi-header text-white py-5 px-6 text-center">
+            <h2 class="text-2xl font-bold"><a target="_blank" href="https://mp.youku.com/v2/mp/upload_home" title="[转码·上传·加锁] 优酷号·创作平台">优酷</a>·土豆❤<a href="Sindex.html" title="Sindex.html"><b>路由宝</b></a></h2>
+            <p class="opacity-90 mt-1"><a href="http://192.168.11.1" title="http://192.168.11.1"><b>路由宝</b></a>管理系统<a href="http://192.168.0.1" title="http://192.168.0.1"><b>地址</b></a> <a href="http://192.168.1.1" title="http://192.168.1.1">http://192.168.1.1</a></p>
+        </div>
+        
+        <!-- 主内容区 -->
+        <div class="p-6">
+            <!-- IP地址部分 -->
+            <div class="ip-section rounded-xl p-5 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">本机IP地址</h3>
+                <div class="flex flex-col md:flex-row gap-3">
+                    <input type="text" class="flex-grow px-4 py-3 bg-white border border-gray-300 rounded-lg" 
+                           id="ipAddress" value="正在获取..." readonly>
+                    <button class="btn-primary px-6 py-3 rounded-lg font-medium transition" id="getIpBtn">
+                        获取IP
+                    </button>
+                </div>
+                <p class="text-gray-600 mt-3 text-sm">
+                    此IP地址将用于WiFi认证，如果无法自动获取，请手动输入
+                </p>
+            </div>
+            
+            <!-- 预设场所部分 -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">预设场所</h3>
+                <div class="preset-buttons gap-3">
+					<div class="preset-btn cursor-pointer p-4 bg-gray-100 border border-gray-200 rounded-lg text-center transition"
+					     data-url="http://170.1.1.200:8080/portal?userip=" title="家庭WiFi">
+					    家庭
+					</div>
+                    <div class="preset-btn cursor-pointer p-4 bg-gray-100 border border-gray-200 rounded-lg text-center transition" 
+                         data-url="http://170.1.1.200:8080/portal?userip=" title="酒店WiFi">
+                        酒店
+                    </div>
+                    <div class="preset-btn cursor-pointer p-4 bg-gray-100 border border-gray-200 rounded-lg text-center transition" 
+                         data-url="http://170.1.1.200:8080/portal?userip=" title="机场WiFi">
+                        机场
+                    </div>
+					<div class="preset-btn cursor-pointer p-4 bg-gray-100 border border-gray-200 rounded-lg text-center transition"
+					     data-url="http://170.1.1.200:8080/portal?userip=" title="邮轮WiFi">
+					    邮轮
+					</div>
+                    <div class="preset-btn cursor-pointer p-4 bg-gray-100 border border-gray-200 rounded-lg text-center transition" 
+                         data-url="http://170.1.1.200:8080/portal?userip=" title="商场WiFi">
+                        商场
+                    </div>
+					<div class="preset-btn cursor-pointer p-4 bg-gray-100 border border-gray-200 rounded-lg text-center transition"
+					     data-url="http://170.1.1.200:8080/portal?userip=" title="学校WiFi">
+					    学校
+					</div>
+					<div class="preset-btn cursor-pointer p-4 bg-gray-100 border border-gray-200 rounded-lg text-center transition"
+					     data-url="http://170.1.1.200:8080/portal?userip=" title="银行WiFi">
+					    银行
+					</div>
+					<div class="preset-btn cursor-pointer p-4 bg-gray-100 border border-gray-200 rounded-lg text-center transition"
+					     data-url="http://170.1.1.200:8080/portal?userip=" title="图书馆WiFi">
+					    图书馆
+					</div>
+					<div class="preset-btn cursor-pointer p-4 bg-gray-100 border border-gray-200 rounded-lg text-center transition" 
+					     data-url="http://170.1.1.200:8080/portal?userip=" title="高铁站WiFi">
+					    高铁站
+					</div>
+                    <div class="preset-btn cursor-pointer p-4 bg-gray-100 border border-gray-200 rounded-lg text-center transition" 
+                         data-url="http://170.1.1.200:8080/portal?userip=" title="咖啡馆WiFi">
+                        咖啡馆
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 自定义访问部分 -->
+            <div class="mb-2">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">自定义访问</h3>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2 font-medium">认证页面URL</label>
+                    <input type="text" id="customUrl" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+                           placeholder="例如: http://170.1.1.200:8080/portal?userip=">
+                </div>
+                <button class="btn-success w-full py-3 rounded-lg font-medium mt-2 transition" id="accessBtn">
+                    访问认证页面
+                </button>
+            </div>
+        </div>
+        
+        <!-- 底部信息 -->
+        <div class="bg-gray-50 px-6 py-4 text-center text-gray-600 text-sm border-t">
+            <p>公共WiFi访问工具 | 适用于高铁站、酒店、图书馆等公共场所 <br>
+				Copyright &copy; <script>
+								document.write(new Date().getFullYear());
+							</script>  
+							<a href="https://rlxmt.cn/" title="技术支持 : 瑞联新媒体·氢乐哥 || choong.net" style="color:#000;text-decoration:none;" target="_blank">瑞联新媒体中心</a> 
+				 , All Rights Reserved. </p>
+        </div>
+    </div>
+    
+    <!-- 使用说明部分 -->
+    <div class="w-full max-w-4xl mt-10 bg-white rounded-xl shadow-md p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">使用说明</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                <div class="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center mb-3">
+                    <i class="fa fa-wifi"></i>
+                </div>
+                <h4 class="font-semibold text-lg mb-2">获取本机IP</h4>
+                <p class="text-gray-700">点击"获取IP"按钮，系统将自动检测您的本机IP地址</p>
+            </div>
+            <div class="bg-green-50 p-4 rounded-lg border border-green-100">
+                <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center mb-3">
+                    <i class="fa fa-map-marker"></i>
+                </div>
+                <h4 class="font-semibold text-lg mb-2">选择场所</h4>
+                <p class="text-gray-700">根据您所在的公共场所类型选择对应的WiFi选项</p>
+            </div>
+            <div class="bg-purple-50 p-4 rounded-lg border border-purple-100">
+                <div class="w-10 h-10 bg-purple-500 text-white rounded-full flex items-center justify-center mb-3">
+                    <i class="fa fa-share-alt"></i>
+                </div>
+                <h4 class="font-semibold text-lg mb-2">访问认证</h4>
+                <p class="text-gray-700">点击"访问认证页面"按钮，在新窗口中打开认证页面</p>
+            </div>
+        </div>
+    </div>
+	
+	<div class="footer" id="footer-area">
+    <span id="footer-text" class="fade">
+		<a href="https://beian.miit.gov.cn/" style="text-align:center" title="【工业和信息化部】ICP/IP地址/域名信息备案管理系统" target="_blank">浙ICP备2020043532号-2</a></span>
+  </div>
+
+		<!-- 网页悬浮音乐播放器 https://y.choong.net/QPlayer/QPlayer.7z -->
+		<div id="QPlayer">
+			<div id="pContent">
+				<div id="player">
+					<span class="cover"></span>
+					<div class="ctrl">
+						<div class="musicTag marquee">
+							<strong>Title</strong>
+							<span> - </span>
+							<span class="artist">Artist</span>
+						</div>
+						<div class="progress">
+							<div class="timer left">0:00</div>
+							<div class="contr">
+								<div class="rewind icon"></div>
+								<div class="playback icon"></div>
+								<div class="fastforward icon"></div>
+							</div>
+							<div class="right">
+								<div class="liebiao icon"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ssBtn">
+					<div class="adf"></div>
+				</div>
+			</div>
+			<ol id="playlist"></ol>
+		</div>
+
+
+		<script src="https://go.choong.net/QPlayer/js/jquery.min.js"></script>
+		<script src="https://go.choong.net/QPlayer/js/jquery.marquee.min.js"></script>
+		<script>
+			var playlist = [
+			{
+					title: "时间都去哪儿了",
+					artist: "钢琴版",
+					mp3: "https://go.choong.net/QPlayer/Music/10%20-%20时间都去哪儿了（钢琴版）.mp3",
+					cover: "http://p4.music.126.net/7VJn16zrictuj5kdfW1qHA==/3264450024433083.jpg?param=106x106",
+				},
+			];
+			var isRotate = true;
+			var autoplay = false;
+		</script>
+		<script src="https://go.choong.net/QPlayer/js/player.js"></script>
+		<script>
+			function bgChange() {
+				var lis = $('.lib');
+				for (var i = 0; i < lis.length; i += 2)
+					lis[i].style.background = 'rgba(246, 246, 246, 0.5)';
+			}
+			window.onload = bgChange;
+		</script> <!-- 网页悬浮音乐播放器 -->
+		
+		<!-- 时间显示脚本 -->
+		  <script>
+		    function getDate() {
+		      const d = new Date();
+		      const year = d.getFullYear();
+		      const month = String(d.getMonth() + 1).padStart(2, '0');
+		      const date = String(d.getDate()).padStart(2, '0');
+		      const hour = String(d.getHours()).padStart(2, '0');
+		      const minute = String(d.getMinutes()).padStart(2, '0');
+		      const second = String(d.getSeconds()).padStart(2, '0');
+		      const weekday = ["周日","周一","周二","周三","周四","周五","周六"][d.getDay()];
+		      document.getElementById("Main").innerHTML =
+		        `${year}年${month}月${date}日 ${weekday} 北京时间 ${hour}:${minute}:${second}`;
+		      requestAnimationFrame(getDate);
+		    }
+		    requestAnimationFrame(getDate);
+		  </script>
+		
+		  <!-- Footer 切换逻辑 -->
+		  <script>
+		    const footerItems = [
+		      {
+		        html: `瑞联新媒体中心 © 1998 - ${new Date().getFullYear()} All Rights Reserved.`
+		      },
+			  {
+		        html: `<a target="_blank" href="https://edu.ckyz.net/live/" style="color:#fff;text-decoration:none;"
+						title="瑞联新媒体·技术支持 :  乐哥在线 choong.net">本站已稳定运行</a>：<a target="_blank" href="https://choong.net"
+						style="color:#fff;text-decoration:none;" title="瑞联官网·技术支持 : 乐哥在线 choong.net"><span id="htmer_time"
+							style="color:#33CC33;">载入中...</span> </a>`
+		      },
+		      {
+		        html: `<span class="footer-icon">📣</span><a href="https://example.com/notice" target="_blank">关于系统维护的通知</a>
+			  <a href="https://rlxmt.cn/" title="技术支持 : 瑞联新媒体·氢乐哥 || choong.net" style="color:#FFFFFF;text-decoration:none;" target="_blank">
+			  <img style="vertical-align:text-bottom;width: 20px; height: 20px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAACXBIWXMAAC4jAAAuIwF4pT92AAAH6klEQVR42u2cS4gcVRSG0z1ZSKKoCBMlKGp8LBxUEMQREV8rFV0qCBJFxYUNuhJ8MCMRifgYJlERsxHR6EJEEcSlogsNKKOgQVE3URdBoiBGpx81ntOcv/nnzK3umqrqqupOLX6qp6r63nO++u+jarrulsXFxS210quGUAOsAdYAa4C1JhPgwsKC39dIqGFlTB9ATZISVQBN0VZSk89LokAZMwy3KLBFuGuQ6BAYALtdNCs6R7RLdL5JP58rOlN0yijgBnNwYcYJdFwua4aA2bHZ9198aF60++cPHn9G9LboE9HhPz7d+6vomOi4qCNqm/Tzf6K/RL/LuT+KPhe9K3pOynpAdJ1oZwgsO9TFUj5AB23GA5OkLjZYr4kOGaC1MelvqWNF9LrU+aDo0kBMM+zg0gAyOBfgSRL4jZLE85qMJLUaSLRH7oLDurYfikw92kJd59C27dtQj8TwnegliekWie3kQD+aCWQWeA0ORgK8SgJdEv0SSAQJM5hoZf/uNejwHfObEn+Xy7Q6OqZ1cUhsR0SvSKzXOpCNtBCzOnCbBHOv9kcBh60DJudEDOqrS3bkKgc2BLTnYH4psd8PVxbpwIY57jYJ4gcKKnKBKrAoLbA8QBvQ/sVzFzYikD9JLrfDiUUA7HfKUvEBC+Bfa6IRQ8vqKHWSlJ2rQ50zuxa71nOABpixA2wawCXrpDvWPKM8m6aWpQAVZOhY2nLfu+f6gSs1dsthiQeVohy4z65eRxN6Y9dsLuC0HLgPAkQ9BrBZ67ByOpbDviIduAEggvpobmcuYniQ7mdXZqkPF7tUgNLx5g5Qy9AmFgLIrtT6stbDADWXwgBKRRsAIqg83MfNNCQFnLUufN8D1NxKcWBWgNzv+f4vCbzN1h0HsDAH2j3uWAAmgadbKA3IEEDObeKa8LC+jwcN1GFTkQ3QkzbvUpvwuBwIMIDjAcZBC4GuvAPzBsiJhdwIgKphroUDcSwurqkE6JtnXBNmMUAPb1hzrgxACz4TQA8DbhsGUL9nj7H6Wy4HzXxYPAxQy59YgCFwcU3Yu5PPZ6i4a5lIgEkUch2DGAWQm2fofAY0Ko6JdCA3NW2Cvq+KAxjXB6KcELypcyADCiUdAoh+LjQP5OMheFPnQAo8OHqGBhSewoTmgJ8t35XYeRPtwGF3HAqB+zeV7lMluTdO4riJcOAmAl8nNOekYtel1cQC9H1g0eAqARAPE9IC5BEUDnT/ctxwG6d17DlvNhd4IYClPExggJtNTs9Xcb8nZQ623Afq33nC07Iq14QBJA9xE9etgsyz/BMKIPq+GmANMB7g0zfMTVwT1phPGIAYRGqAtQPHD9ASC9623XzqtukF2MohqRYB5EEEj73yAtiqEkCZ6HYQVB7yk2sozzpQj8Y+dQBV6jSv1rQDHJXkOCAkvRihfVUAuDwKIDsT/WQSZ+i5KA9b7Iu7EHqc6+DvJQC4XCTApgHcz4NIKDELbjAt4QcFer5+5h8U4bj+jcR1i/P0uB+lMbhgP/5G/agroQObRTrwKfupbFuCjzhI/Tzsty4Aq0nz43uGg/kfl4MnM/oZ56IcfizGj8nwPXalAY/w82Qp44UyHHinBdrhq44A2TVe7Ew4kkGwe9mBPM3hc1o2cuOCAD7+VnkHyr7+xVcTSBmPFOnABl7hksrbdgWjUMfNDwP4+Z4miOQAD7ds7DKA8U08BLDl5pF+v49PY5bzulbfTZzbuAFCM5L8t9aMu9yMsUW/5xNkgJooQwFM9F2ADCj4DIBw2Kh/EfD0SD7rWwU9jV10VHI5Le0rX2nfUkIz3oN+kJuxd2BIDBAu9OBDAEMO5O4DDg9dPNc/a/PtyfffhPsKAWjuQzO+SIJY1UC0KeuVdR31uuYEx3AigAIQ7CYPkAcdD5AHEvSb+OwubGTOQ/O9Jm3zzfSyIbnwHfsHeMdARUgI/RqC96Nw6Pd9OMbTFsBo0ZMadjjqUtDcVAMQI+tnOwbvQxgi7XvEWV427K9fYIPJqgSvr071rOlFoduy0IQXf/O8j4+FJsRx+7kefEbZGpNdoJ7Eqv3fcW1BWdyX1YHswsf0ikpg/XkVBpQKCfAijdHcdx/68yxvsefxmn/T/k/8sUFsW/NTiFHF4LUN3ssMr9Q31ml7ugS44iAO+sQypHUHnHeQL3wpb6wHIDZsu0MC/QIQdXS2O4LC3UgDRo+c9xb67jzg5broBEHcrnMrg7hmVz4qyo3muv5UReumXzcs+9f7S110YhhEG1juluB/M4iRTR0iu7+N4h6cpoTWLxPgtC4daa3uY7osAb9tn+c6MrkvtMOjs2zP0kdFksQ/dD/csWbVT1gdkwYmQ7ML1DNwqKdnTfYCP2BUat2YuHWs+MmGJDInelWS+pMShCsHMEc50+Z7w6CpdH53UHR1KJa8VzAa67JPNsPn4M+WxB4VrbikcXfQVTD6pATu5H5N98dA0z7ua9ETUseFPNmnvnli184KgeyvMyPaK/pGoTkgep/atmaI+9Y29WtrBvqQ6EnRFYH6ClmIrNCV2yyxGX9LKAAuEz2s96aiox4m/17QnLYgutyDsR9/NsbR11Vi/UC3KJh26lsD55whcG4V6QpDRwza96JnRVcGoG3l27Gi1xMsffFFhukfqRvMeQ+6bGiVWcEyBmbDmmJloVUO4Kg+0+2rVLyVAzhpqiHUAGuANcAaYK3U+h9BrjcD/ovR1QAAAABJRU5ErkJggg==">技术支持</a> : <a href="https://choong.net" style="color:#FFFFFF;text-decoration:none;" target="_blank" 
+							title="网站技术支持 : 瑞联氢乐哥 || choong.net">瑞联新媒体中心</a>`
+		      }
+		       ];	
+		
+		    let currentIndex = 0;
+		    let isPaused = false;
+		    const footerTextEl = document.getElementById("footer-text");
+		    const footerArea = document.getElementById("footer-area");
+		
+		    // 切换逻辑
+		    function switchFooter() {
+		      if (isPaused) return;
+		      footerTextEl.classList.add("fade-out");
+		
+		      setTimeout(() => {
+		        currentIndex = (currentIndex + 1) % footerItems.length;
+		        footerTextEl.innerHTML = footerItems[currentIndex].html;
+		        footerTextEl.classList.remove("fade-out");
+		      }, 1000); // 与 CSS transition 时间一致
+		    }
+		
+		    // 自动轮播
+		    const interval = setInterval(switchFooter, 5000);
+		
+		    // 悬停控制暂停
+		    footerArea.addEventListener("mouseenter", () => isPaused = true);
+		    footerArea.addEventListener("mouseleave", () => isPaused = false);
+		  </script>
+		  <script> // 本站已稳定运行的时间统计
+						function secondToDate(second) {
+							if (!second) {
+								return 0;
+							}
+							var time = new Array(0, 0, 0, 0, 0);
+							if (second >= 365 * 24 * 3600) {
+								time[0] = parseInt(second / (365 * 24 * 3600));
+								second %= 365 * 24 * 3600;
+							}
+							if (second >= 24 * 3600) {
+								time[1] = parseInt(second / (24 * 3600));
+								second %= 24 * 3600;
+							}
+							if (second >= 3600) {
+								time[2] = parseInt(second / 3600);
+								second %= 3600;
+							}
+							if (second >= 60) {
+								time[3] = parseInt(second / 60);
+								second %= 60;
+							}
+							if (second > 0) {
+								time[4] = second;
+							}
+							return time;
+						}
+					</script>
+					<script type="text/javascript" language="javascript">// 本站已稳定运行的时间显示
+						function setTime() {
+							var create_time = Math.round(new Date(Date.UTC(2014, 12, 12, 0, 0, 0)).getTime() / 1000);
+							var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+							currentTime = secondToDate((timestamp - create_time));
+							currentTimeHtml = currentTime[0] + '年' + currentTime[1] + '天' + currentTime[2] + '时' + currentTime[3] + '分' +
+								currentTime[4] + '秒';
+							document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+						}
+						setInterval(setTime, 1000);
+					</script>	
+    
+    <!-- 点击触发弹窗的图标按钮 -->
+    <div class="fixed bottom-8 right-8 bg-primary text-white p-4 rounded-full shadow-lg cursor-pointer 
+                hover:bg-primary/90 transition-all duration-300 transform hover:scale-110 z-40" 
+         id="triggerIcon">
+        <i class="fa fa-share-alt text-xl"></i>
+    </div>
+
+    <!-- 弹窗容器 -->
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden popup-appear" id="popup">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden content-appear">
+            <!-- 弹窗头部 -->
+            <div class="bg-primary text-white p-4 text-center">
+                <h4 class="text-xl font-bold">企业支持系统</h4>
+            </div>
+            
+            <!-- 弹窗内容 -->
+            <div class="p-6">
+                <p class="border-0 w-4/5 h-4 mx-auto text-center mb-4">
+                    <b>全国服务热线 Call Center (+86) :</b>
+                </p>
+                
+                <!-- 带电话图标的联系信息 -->
+                <div class="flex items-center justify-center my-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                    <i class="fa fa-phone text-secondary text-2xl mr-3"></i>
+                    <a href="tel:0573-83388899" class="text-xl font-bold text-gray-800 hover:text-primary transition-colors duration-300">
+                        0573 - 8338 8899
+                    </a>
+                </div>
+                
+                <p class="text-gray-600 text-center mb-2">
+                    <i class="fa fa-clock-o text-primary mr-1"></i>
+                    工作日 | <b>周一至周六</b> <br>
+                    ( <b>上午</b> 8:00-11:30 , <b>下午</b> 12:30-17:00 )
+                </p>
+                
+                <hr class="my-5 border-t border-dashed border-gray-300" />
+                
+                <div class="text-center">
+                    <p class="text-gray-700 font-medium mb-3">
+                        <b>网站技术支持 👇👇</b>
+                        <a href="https://rlxmt.cn/about/" class="text-blue-600 hover:text-blue-800" 
+                           title="网站技术支持,请联系@瑞联新媒体">瑞联新媒体</a>
+                    </p>
+                    
+                    <!-- 二维码图片 -->
+                    <div class="bg-white p-3 border border-gray-200 rounded-lg inline-block shadow-md">
+                        <a href="https://rlxmt.cn/about/" title="网站技术支持,请联系@瑞联新媒体">
+                            <img src="https://rlxmt.cn/about/wx4001583331.png" alt="@瑞联新媒体二维码" class="w-40 h-40">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 关闭按钮 -->
+            <div class="px-6 pb-6">
+                <button class="close-popup w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors duration-300" id="closePopup">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取本机IP地址功能
+        function getLocalIP() {
+            const ipAddressInput = document.getElementById('ipAddress');
+            ipAddressInput.value = '正在获取...';
+            
+            // 使用WebRTC获取本地IP地址
+            const RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+            
+            if (!RTCPeerConnection) {
+                ipAddressInput.value = '您的浏览器不支持WebRTC';
+                return;
+            }
+            
+            const pc = new RTCPeerConnection({iceServers: []});
+            pc.createDataChannel('');
+            pc.createOffer()
+                .then(offer => pc.setLocalDescription(offer))
+                .catch(err => {
+                    ipAddressInput.value = '获取IP失败: ' + err.message;
+                });
+            
+            pc.onicecandidate = function(event) {
+                if (event && event.candidate) {
+                    const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+                    const ipMatch = ipRegex.exec(event.candidate.candidate);
+                    
+                    if (ipMatch) {
+                        currentIp = ipMatch[1];
+                        ipAddressInput.value = currentIp;
+                        
+                        // 如果已选择预设，更新自定义URL
+                        if (selectedPresetUrl) {
+                            customUrlInput.value = selectedPresetUrl + currentIp;
+                        }
+                        
+                        pc.onicecandidate = () => {};
+                        pc.close();
+                    }
+                } else {
+                    // 没有更多candidate，尝试其他方法
+                    if (!currentIp) {
+                        // 备用方案：使用第三方服务获取公网IP
+                        fetch('https://api.ipify.org?format=json')
+                            .then(response => response.json())
+                            .then(data => {
+                                ipAddressInput.value = data.ip + ' (公网IP)';
+                                currentIp = data.ip;
+                                
+                                // 如果已选择预设，更新自定义URL
+                                if (selectedPresetUrl) {
+                                    customUrlInput.value = selectedPresetUrl + currentIp;
+                                }
+                            })
+                            .catch(err => {
+                                ipAddressInput.value = '无法获取IP地址';
+                            });
+                    }
+                }
+            };
+        }
+        
+        // WiFi认证工具功能
+        function initWifiAuth() {
+            const ipAddressInput = document.getElementById('ipAddress');
+            const getIpBtn = document.getElementById('getIpBtn');
+            const customUrlInput = document.getElementById('customUrl');
+            const accessBtn = document.getElementById('accessBtn');
+            const presetButtons = document.querySelectorAll('.preset-btn');
+            
+            let currentIp = '';
+            let selectedPresetUrl = '';
+            
+            // 页面加载时尝试获取IP
+            getLocalIP();
+            
+            // 获取IP按钮事件
+            getIpBtn.addEventListener('click', getLocalIP);
+            
+            // 预设按钮事件
+            presetButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    presetButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedPresetUrl = this.getAttribute('data-url');
+                    customUrlInput.value = selectedPresetUrl + currentIp;
+                });
+            });
+            
+            // 访问按钮事件
+            accessBtn.addEventListener('click', function() {
+                let url = customUrlInput.value.trim();
+                
+                if (!url) {
+                    alert('请输入认证页面URL');
+                    return;
+                }
+                
+                // 如果URL包含{ip}占位符，替换为实际IP
+                if (url.includes('{ip}')) {
+                    if (!currentIp) {
+                        alert('请先获取本机IP地址');
+                        return;
+                    }
+                    url = url.replace('{ip}', currentIp);
+                }
+                
+                // 在新窗口中打开URL
+                window.open(url, '_blank');
+            });
+        }
+        
+        // 企业支持弹窗功能
+        function initSupportPopup() {
+            const triggerIcon = document.getElementById('triggerIcon');
+            const popup = document.getElementById('popup');
+            const closePopup = document.getElementById('closePopup');
+            
+            // 点击图标显示弹窗
+            triggerIcon.addEventListener('click', function() {
+                popup.style.display = 'flex';
+                // 为了重新触发动画
+                popup.offsetWidth;
+                popup.classList.add('popup-appear');
+            });
+            
+            // 关闭弹窗的函数
+            function closePopupFunc() {
+                popup.style.display = 'none';
+                popup.classList.remove('popup-appear');
+            }
+            
+            // 点击关闭按钮隐藏弹窗
+            closePopup.addEventListener('click', closePopupFunc);
+            
+            // 点击遮罩区域关闭弹窗
+            popup.addEventListener('click', function(e) {
+                if (e.target === popup) {
+                    closePopupFunc();
+                }
+            });
+            
+            // 按ESC键关闭弹窗
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && popup.style.display === 'flex') {
+                    closePopupFunc();
+                }
+            });
+        }
+        
+        // 页面加载完成后初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            initWifiAuth();
+            initSupportPopup();
+        });
+    </script>
+</body>
+</html>
