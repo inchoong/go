@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hacker Rain</title>
+    <meta charset="UTF-8">
+</head>
+<body style="margin:0;overflow:hidden;background:#000;">
+	<p>1024</p>
+<canvas></canvas>
+<script>
+    let fontsize = 16;
+    let canvas = document.querySelector('canvas');
+    let context = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    let matrix = 'ABCDEFG HIJKLMN OPQRST UVW XYZ 0123456789'.split('');
+    let column = new Array(width / fontsize).fill(height);
+
+    function rain() {
+        context.fillStyle = 'rgba(0,0,0,.1)';
+        context.fillRect(0, 0, width, height);
+        context.fillStyle = '#0F0';
+        for (let n = 0; n < column.length; n++) {
+            let txt = matrix[Math.floor(Math.random() * matrix.length)];
+            context.fillText(txt, n * fontsize, column[n] * fontsize);
+            column[n] = (column[n] * fontsize > height && Math.random() > 0.95) ? 0 : column[n] + 1;
+        }
+    }
+
+    setInterval(rain, 100);
+    window.addEventListener('resize', () => location.reload());
+</script>
+</body>
+</html>
