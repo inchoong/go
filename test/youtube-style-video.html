@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仿YouTube风格视频播放器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            padding: 2rem;
+        }
+
+        /* 视频容器样式 */
+        .youtube-video-container {
+            position: relative;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        /* 视频元素基础样式 */
+        .youtube-video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 视频预览图样式 */
+        .video-thumbnail {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* 播放按钮 */
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.9;
+            transition: all 0.2s ease;
+            z-index: 2;
+        }
+
+        .play-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 20px 0 20px 35px;
+            border-color: transparent transparent transparent #ff0000;
+            margin-left: 5px;
+        }
+
+        .youtube-video-container:hover .play-button {
+            transform: translate(-50%, -50%) scale(1.05);
+            opacity: 1;
+        }
+
+        /* 时间显示 - 加载状态显示北京时间 */
+        .video-time {
+            position: absolute;
+            bottom: 28px;
+            right: 26.5px;
+            background-color: #aaa;
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        /* 左上角标题 */
+        .video-title {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            max-width: 60%;
+            z-index: 2;
+            transition: color 0.2s ease;
+        }
+
+        .video-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .video-title a:hover {
+            color: #f0f0f0;
+            text-decoration: underline;
+        }
+
+        /* 视频角标Logo */
+        .video-logo {
+            position: absolute;
+            bottom: 670px;
+            left: 1100px;
+            display: flex;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .video-logo img {
+            height: 24px;
+            width: auto;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+            transition: transform 0.2s ease;
+        }
+
+        .video-logo a:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 右上角分享按钮 */
+        .share-button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: background-color 0.2s ease;
+        }
+
+        .share-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .share-button a {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 加载状态覆盖层 */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .youtube-video-container.loading .loading-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* 加载动画 */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .play-button {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .play-button::after {
+                border-width: 16px 0 16px 28px;
+            }
+            
+            .video-title {
+                font-size: 14px;
+                max-width: 50%;
+            }
+            
+            .video-time {
+                font-size: 12px;
+            }
+            
+            .share-button {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .play-button {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .play-button::after {
+                border-width: 12px 0 12px 21px;
+            }
+            
+            .video-title {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="youtube-video-container" id="videoContainer">
+        
+        
+        <!-- 视频元素 -->
+        <video class="youtube-video" id="videoPlayer" poster="https://www.reliancejk.com/upfile/2023-01-18.jpg" controls>
+			<!-- 视频预览图 -->
+			 <img src="https://www.reliancejk.com/upfile/2023-01-18.jpg" alt="视频预览图" class="video-thumbnail" id="videoThumbnail"> 
+            <source src="https://v3-web-prime.douyinvod.com/video/tos/cn/tos-cn-ve-15/o0POhIA1G5Uja0WBOIQEliT82qoUDa2PrXKAi/?a=6383&ch=224&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=1594&bt=1594&cs=0&ds=4&ft=4IXgKqDMffPdqK~-I13NvAq-antLjrKcHGRCRkamQlzRejVhWL6&mime_type=video_mp4&qs=0&rc=aTVmaTVmMzozO2QzaGhnOkBpam5yZ3M5cjlzNTMzNGkzM0AxYzQwYi8xNTIxXjIuLTAwYSNpM2pyMmQ0YmZhLS1kLWFzcw%3D%3D&btag=80000e00038000&cquery=100K_100o_101x_100B_100H&dy_q=1758007933&expire=1758020229&feature_id=0ea98fd3bdc3c6c14a3d0804cc272721&l=20250916153213F445F2F8047277E84B90&ply_type=4&policy=4&signature=0f65208d1c357b9c4421d0155f27bc2f&tk=webid&__vid=7540606917836574006&webid=a0ab33eaf22428957f475f626977b173f94957c7849b046cc7f9250ce13f2ce8b4d14f9b9894fb9c748fd6f45c271e9a7c3eb826c10a890f447298a0e7e0a796499e5e885c8c58d538da76648887b25fc16193998224d7fe3873abfb1a8f43c8ea00a28aecf099b69ae23b15c08ceb95a9ceffdb0b0ee8b048b049be0ee73bfe9e415192e10585644e660d40597fbf30840c389918f87b2211ae57ce6935b4a6-d662c6d1a010c114fff58c97ff0123cc&fid=43b326ebfea26feb5c401ccdcb964c59" type="video/mp4">
+            您的浏览器不支持HTML5视频播放			
+        </video>
+        
+        <!-- 播放按钮 -->
+        <div class="play-button" id="playButton"></div>
+        
+        
+        
+        <!-- 左上角标题 -->
+        <div class="video-title">
+            <a href="https://example.com/video-title" target="_blank">仿YouTube风格视频播放器演示</a>
+        </div>
+        
+        <!-- 右下角Logo -->
+        <div class="video-logo">
+            <a href="https://www.cctv.com/" target="_blank">
+                <img src="https://www.reliancejk.com/templates/specialty/images/logo-144-26.png" alt="央视网_世界就在眼前">
+            </a>
+        </div>
+        
+        <!-- 右上角分享按钮 -->
+        <div class="share-button">
+			<!-- 北京时间显示 -->
+        <div class="video-time" id="beijingTime">加载中...</div> 
+            <a href="https://example.com/share" target="_blank" title="分享视频">
+                <i class="fas fa-share-alt"></i>
+            </a>
+        </div>
+        
+        <!-- 加载状态覆盖层 -->
+        <div class="loading-overlay">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const videoContainer = document.getElementById('videoContainer');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const videoThumbnail = document.getElementById('videoThumbnail');
+        const playButton = document.getElementById('playButton');
+        const beijingTimeElement = document.getElementById('beijingTime');
+        
+        // 更新北京时间（UTC+8）
+        function updateBeijingTime() {
+            const now = new Date();
+            // 转换为北京时间（UTC+8）
+            const beijingTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+            
+            // 格式化时间
+            const hours = String(beijingTime.getUTCHours()).padStart(2, '0');
+            const minutes = String(beijingTime.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(beijingTime.getUTCSeconds()).padStart(2, '0');
+            
+            beijingTimeElement.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        
+        // 初始更新时间并设置定时器
+        updateBeijingTime();
+        setInterval(updateBeijingTime, 1000);
+        
+        // 视频播放控制
+        function togglePlay() {
+            if (videoPlayer.paused || videoPlayer.ended) {
+                // 显示加载状态
+                videoContainer.classList.add('loading');
+                
+                // 隐藏缩略图，显示视频
+                videoThumbnail.style.display = 'none';
+                videoPlayer.style.display = 'block';
+                
+                // 播放视频
+                videoPlayer.play().then(() => {
+                    // 播放成功后隐藏加载状态和播放按钮
+                    videoContainer.classList.remove('loading');
+                    playButton.style.display = 'none';
+                }).catch(error => {
+                    // 播放失败处理
+                    console.error('播放失败:', error);
+                    videoContainer.classList.remove('loading');
+                });
+            } else {
+                videoPlayer.pause();
+                playButton.style.display = 'flex';
+            }
+        }
+        
+        // 点击容器任意位置播放/暂停视频
+        videoContainer.addEventListener('click', (e) => {
+            // 排除点击链接和控件的情况
+            if (!e.target.closest('a') && !e.target.closest('button') && 
+                !e.target.closest('input') && !e.target.closest('select')) {
+                togglePlay();
+            }
+        });
+        
+        // 视频暂停时显示播放按钮
+        videoPlayer.addEventListener('pause', () => {
+            playButton.style.display = 'flex';
+        });
+        
+        // 视频播放时隐藏播放按钮
+        videoPlayer.addEventListener('play', () => {
+            playButton.style.display = 'none';
+            videoContainer.classList.remove('loading');
+        });
+        
+        // 视频开始加载时显示加载状态
+        videoPlayer.addEventListener('loadstart', () => {
+            videoContainer.classList.add('loading');
+        });
+        
+        // 视频可以播放时隐藏加载状态
+        videoPlayer.addEventListener('canplay', () => {
+            videoContainer.classList.remove('loading');
+        });
+    </script>
+</body>
+</html>
+    

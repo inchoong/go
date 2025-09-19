@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可折叠档案卡</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            padding: 2rem;
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 档案卡容器 */
+        .profile-card {
+            width: 100%;
+            max-width: 400px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* 固定标题框 */
+        .card-header {
+            background-color: #2c3e50;
+            color: #ffffff;
+            padding: 1.2rem 1.5rem;
+            position: relative;
+            cursor: pointer;
+            /* 确保标题框始终在最上方 */
+            z-index: 10;
+            /* 防止折叠时被内容覆盖 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* 折叠图标 */
+        .toggle-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon::before,
+        .toggle-icon::after {
+            content: '';
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-icon::before {
+            width: 100%;
+            height: 3px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .toggle-icon::after {
+            width: 3px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 展开状态的图标变化 */
+        .profile-card.expanded .toggle-icon::after {
+            opacity: 0;
+        }
+
+        /* 内容区域 */
+        .card-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+        }
+
+        /* 展开状态的内容区域 */
+        .profile-card.expanded .card-content {
+            padding: 1.5rem;
+            max-height: 600px; /* 足够容纳内容的高度 */
+        }
+
+        /* 档案信息样式 */
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #f0f4f8;
+            margin: 0 auto 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            margin-bottom: 0.8rem;
+        }
+
+        .info-label {
+            flex: 0 0 100px;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .info-value {
+            flex: 1;
+            color: #27374d;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #e2e8f0;
+            margin: 1rem 0;
+        }
+
+        .info-section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #1e293b;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .card-header {
+                padding: 1rem;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+            }
+            
+            .profile-card.expanded .card-content {
+                padding: 1rem;
+            }
+            
+            .info-item {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                margin-bottom: 0.3rem;
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-card" id="profileCard">
+        <!-- 固定的标题框 -->
+        <div class="card-header" id="cardHeader">
+            <div class="card-title">
+                <span>个人档案</span>
+                <span class="toggle-icon"></span>
+            </div>
+        </div>
+        
+        <!-- 可折叠的内容区域 -->
+        <div class="card-content">
+            <div class="profile-info">
+                <img src="https://picsum.photos/200/200" alt="个人头像" class="profile-pic">
+                
+                <div class="info-item">
+                    <span class="info-label">姓名</span>
+                    <span class="info-value">张三</span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">年龄</span>
+                    <span class="info-value">30岁</span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">性别</span>
+                    <span class="info-value">男</span>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="info-section-title">联系信息</div>
+                
+                <div class="info-item">
+                    <span class="info-label">电话</span>
+                    <span class="info-value">138****5678</span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">邮箱</span>
+                    <span class="info-value">example@mail.com</span>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="info-section-title">个人简介</div>
+                <p>资深产品设计师，拥有8年用户体验设计经验，擅长从用户需求出发打造简洁易用的产品。曾主导多个大型项目的设计工作，注重细节与用户体验。</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 实现折叠/展开功能
+        const profileCard = document.getElementById('profileCard');
+        const cardHeader = document.getElementById('cardHeader');
+        
+        cardHeader.addEventListener('click', () => {
+            profileCard.classList.toggle('expanded');
+        });
+    </script>
+</body>
+</html>

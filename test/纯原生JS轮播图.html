@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>纯原生JS轮播图</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+
+    .carousel-container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* 示例图片 */
+    .slide1 { background-image: url('https://www.evoote.com/wp-content/uploads/2023/06/20230610090246-64843c360cdaf.jpg?text=世界旅游风光+1'); }
+    .slide2 { background-image: url('https://www.evoote.com/wp-content/uploads/2023/06/20230610090246-64843c36c9ffc.jpg?text=学术活动+2'); }
+    .slide3 { background-image: url('https://www.evoote.com/wp-content/uploads/2023/06/20230610090247-64843c37c1a12.jpg?text=学生活动+3'); }
+    .slide4 { background-image: url('https://www.evoote.com/wp-content/uploads/2023/06/20230610090245-64843c35e062a.jpg?text=实验室+4'); }
+
+    /* 左右箭头 */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 50%;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .carousel-arrow:hover {
+      opacity: 1;
+    }
+
+    .arrow-left {
+      left: 15px;
+    }
+
+    .arrow-right {
+      right: 15px;
+    }
+
+    /* 指示器 */
+    .carousel-indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .indicator.active {
+      background: white;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .carousel-slide {
+        height: 250px;
+      }
+      .carousel-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+      .arrow-left { left: 10px; }
+      .arrow-right { right: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="carousel-container">
+    <!-- 轮播图轨道 -->
+    <div class="carousel-track">
+      <div class="carousel-slide slide1">测试1</div>
+      <div class="carousel-slide slide2"></div>
+      <div class="carousel-slide slide3"></div>
+      <div class="carousel-slide slide4"></div>
+    </div>
+
+    <!-- 左右箭头 -->
+    <button class="carousel-arrow arrow-left" id="prev">&lt;</button>
+    <button class="carousel-arrow arrow-right" id="next">&gt;</button>
+
+    <!-- 指示器 -->
+    <div class="carousel-indicators" id="indicators">
+      <!-- JS 动态生成 -->
+    </div>
+  </div>
+
+  <script>
+    // 获取元素
+    const track = document.querySelector('.carousel-track');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const indicatorsContainer = document.getElementById('indicators');
+
+    let currentIndex = 0;
+    const slideCount = slides.length;
+    const autoPlayInterval = 4000; // 4秒切换一次
+    let autoPlay;
+
+    // 创建指示器
+    function createIndicators() {
+      indicatorsContainer.innerHTML = '';
+      slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('indicator');
+        if (index === currentIndex) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        indicatorsContainer.appendChild(dot);
+      });
+    }
+
+    // 更新指示器
+    function updateIndicators() {
+      const dots = document.querySelectorAll('.indicator');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    // 移动到指定幻灯片
+    function goToSlide(index) {
+      if (index < 0) index = slideCount - 1;
+      if (index >= slideCount) index = 0;
+      currentIndex = index;
+      const offset = -currentIndex * 100;
+      track.style.transform = `translateX(${offset}%)`;
+      updateIndicators();
+      resetAutoPlay();
+    }
+
+    // 下一张
+    function nextSlide() {
+      goToSlide(currentIndex + 1);
+    }
+
+    // 上一张
+    function prevSlide() {
+      goToSlide(currentIndex - 1);
+    }
+
+    // 自动播放
+    function startAutoPlay() {
+      autoPlay = setInterval(nextSlide, autoPlayInterval);
+    }
+
+    function resetAutoPlay() {
+      clearInterval(autoPlay);
+      startAutoPlay();
+    }
+
+    // 初始化
+    function initCarousel() {
+      createIndicators();
+      startAutoPlay();
+
+      // 绑定事件
+      nextBtn.addEventListener('click', nextSlide);
+      prevBtn.addEventListener('click', prevSlide);
+
+      // 鼠标悬停暂停自动播放
+      track.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlay));
+      track.parentElement.addEventListener('mouseleave', startAutoPlay);
+    }
+
+    // 启动轮播图
+    initCarousel();
+  </script>
+
+</body>
+</html>

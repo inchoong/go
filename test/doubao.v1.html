@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信公众号界面仿写</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+        }
+        /* 顶部留白（模拟公众号文章上方区域） */
+        .top-space {
+            height: 40px;
+            background-color: #fff;
+        }
+        /* 文章主体区域 */
+        .article-container {
+            width: 100%;
+            height: calc(100vh - 200px); /* 模拟文章高度，可根据需求调整 */
+            background: linear-gradient(#fdf5e6, #ffffff); /* 渐变背景 */
+        }
+        /* 底部功能栏 */
+        .footer-bar {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-top: 1px solid #eee;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: url('https://via.placeholder.com/40') no-repeat center;
+            background-size: cover;
+            margin-right: 12px;
+        }
+        .author-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .action-buttons {
+            margin-left: auto;
+            display: flex;
+            gap: 24px;
+        }
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+        }
+        .action-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            background: url('https://via.placeholder.com/24') no-repeat center;
+            background-size: contain;
+        }
+        .icon-like {
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.53L12 21.35Z" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center;
+        }
+        .icon-share {
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12H12M12 12L15 20M12 12L15 4M20 12H12" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center;
+        }
+        .icon-recommend {
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center;
+        }
+        .icon-comment {
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="18" x2="18" y1="8" y2="13" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="14" x2="18" y1="13" y2="9" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center;
+        }
+        /* 收藏来源 */
+        .source-text {
+            padding: 16px;
+            color: #999;
+            font-size: 14px;
+        }
+        /* 微信支付水印（模拟） */
+        .watermark {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ddd;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        .watermark-icon {
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 7H13V11H17V13H13V17H11V13H7V11H11V7Z" fill="%23ddd"/></svg>') no-repeat center;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-space"></div>
+    <div class="article-container">
+        <div class="watermark">
+            <div class="watermark-icon"></div>
+            微信支付摇一摇有优惠
+        </div>
+    </div>
+    <div class="footer-bar">
+        <div class="avatar"></div>
+        <div class="author-name">乐哥创事记</div>
+        <div class="action-buttons">
+            <div class="action-item">
+                <div class="action-icon icon-like"></div>
+                赞
+            </div>
+            <div class="action-item">
+                <div class="action-icon icon-share"></div>
+                分享
+            </div>
+            <div class="action-item">
+                <div class="action-icon icon-recommend"></div>
+                推荐
+            </div>
+            <div class="action-item">
+                <div class="action-icon icon-comment"></div>
+                写留言
+            </div>
+        </div>
+    </div>
+    <div class="source-text">来自微信收藏</div>
+</body>
+</html>

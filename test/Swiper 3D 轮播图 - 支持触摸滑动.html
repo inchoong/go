@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Swiper 3D 轮播图 - 支持触摸滑动</title>
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      background: #000;
+      color: white;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    /* Swiper 样式 */
+    .swiper {
+      width: 100%;
+      height: 500px;
+      perspective: 1000px;
+    }
+
+    .swiper-slide {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-size: cover;
+      background-position: center;
+      color: white;
+      position: relative;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .swiper-slide::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+      z-index: 1;
+    }
+
+    .swiper-slide-content {
+      z-index: 2;
+      max-width: 80%;
+    }
+
+    .slide-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      margin-bottom: 10px;
+    }
+
+    .slide-desc {
+      font-size: 1rem;
+      opacity: 0.9;
+      text-shadow: 0 1px 5px rgba(0,0,0,0.8);
+    }
+
+    /* 分页器样式 */
+    .swiper-pagination-bullet {
+      width: 12px;
+      height: 12px;
+      background: rgba(255,255,255,0.5);
+    }
+
+    .swiper-pagination-bullet-active {
+      background: #ffcc00;
+    }
+
+    /* 导航按钮 */
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: #fff;
+      background: rgba(0,0,0,0.5);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      opacity: 0.8;
+    }
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      opacity: 1;
+      background: rgba(0,0,0,0.8);
+    }
+
+    /* 响应式优化 */
+    @media (max-width: 768px) {
+      .swiper {
+        height: 300px;
+      }
+      .slide-title {
+        font-size: 1.4rem;
+      }
+      .slide-desc {
+        font-size: 0.9rem;
+      }
+      .swiper-button-next,
+      .swiper-button-prev {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="title">校园风采 3D 轮播</h1>
+
+    <!-- Swiper 容器 -->
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <!-- 轮播项将由 JavaScript 动态插入 -->
+      </div>
+
+      <!-- 分页器 -->
+      <div class="swiper-pagination"></div>
+
+      <!-- 导航按钮 -->
+      <div class="swiper-button-next">&rsaquo;</div>
+      <div class="swiper-button-prev">&lsaquo;</div>
+
+      <!-- 滚动条（可选） -->
+      <!-- <div class="swiper-scrollbar"></div> -->
+    </div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <script>
+    // 模拟从服务器动态获取的数据（实际项目中可替换为 fetch API）
+    const slideData = [
+      {
+        image: 'https://www.evoote.com/wp-content/uploads/2023/06/20230610090246-64843c360cdaf.jpg?text=世界旅游风光+1',
+        title: '百年学府 · 江西理工大学',
+        desc: '传承红色基因，培育时代新人'
+      },
+      {
+        image: 'https://www.evoote.com/wp-content/uploads/2023/06/20230610090246-64843c36c9ffc.jpg?text=学术活动+2',
+        title: '科技创新 · 学术引领',
+        desc: '国家级科研平台助力高质量发展'
+      },
+      {
+        image: 'https://www.evoote.com/wp-content/uploads/2023/06/20230610090247-64843c37c1a12.jpg?text=学生活动+3',
+        title: '青春飞扬 · 多彩校园',
+        desc: '学生社团活动丰富多彩'
+      },
+      {
+        image: 'https://www.evoote.com/wp-content/uploads/2023/06/20230610090245-64843c35e062a.jpg?text=实验室+4',
+        title: '实践育人 · 技能成才',
+        desc: '现代化实验室支持创新研究'
+      },
+      {
+        image: 'https://youimg1.c-ctrip.com/target/100r10000000pycel4E0E.jpg?text=国际交流',
+        title: '开放办学 · 融通世界',
+        desc: '与多国高校建立合作交流关系'
+      }
+    ];
+
+    // 动态生成轮播项
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.querySelector('.swiper-wrapper');
+
+      slideData.forEach(item => {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        slide.style.backgroundImage = `url(${item.image})`;
+
+        slide.innerHTML = `
+          <div class="swiper-slide-content">
+            <div class="slide-title">${item.title}</div>
+            <div class="slide-desc">${item.desc}</div>
+          </div>
+        `;
+
+        wrapper.appendChild(slide);
+      });
+
+      // 初始化 Swiper
+      const swiper = new Swiper('.swiper', {
+        // 3D 立方体效果
+        effect: 'cube',
+        cubeEffect: {
+          shadow: true,
+          slideShadows: true,
+          shadowOffset: 20,
+          shadowScale: 0.94,
+        },
+
+        // 自动播放
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false,
+        },
+
+        // 循环播放
+        loop: true,
+
+        // 分页器
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+
+        // 导航按钮
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+
+        // 滚动条（可选）
+        // scrollbar: {
+        //   el: '.swiper-scrollbar',
+        // },
+
+        // 手势支持（关键！）
+        grabCursor: true,           // 显示抓手光标
+        centeredSlides: true,       // 居中当前幻灯片
+        slidesPerView: 1,           // 移动端单张
+        spaceBetween: 30,
+
+        // 响应式断点
+        breakpoints: {
+          768: {
+            slidesPerView: 1.2,
+            spaceBetween: 20,
+          },
+          1024: {
+            slidesPerView: 1.5,
+            spaceBetween: 30,
+          }
+        },
+
+        // 触摸滑动灵敏度
+        touchRatio: 1,
+        speed: 800,
+      });
+
+      // 鼠标悬停暂停自动播放
+      swiper.el.addEventListener('mouseenter', () => {
+        swiper.autoplay.stop();
+      });
+
+      swiper.el.addEventListener('mouseleave', () => {
+        swiper.autoplay.start();
+      });
+    });
+  </script>
+
+</body>
+</html>
