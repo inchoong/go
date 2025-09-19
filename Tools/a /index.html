@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>前端小工具 - 查看页面元素属性</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<a href="javascript:(function SpyOn() {
+        const SPYON_ID = 'SPYON';
+        const SPYON_MARGIN = 15;
+        let SPYON_OBJ = document.getElementById(SPYON_ID);
+
+        function init() {
+            document.body.addEventListener('mousemove', show);
+            document.body.addEventListener('mouseleave', hide);
+        }
+
+        function show(e) {
+            if (!SPYON_OBJ) create();
+            SPYON_OBJ.innerHTML = showAttributes(e.target);
+            const top = e.clientY + getScrollPos().top + SPYON_MARGIN;
+            const left = e.clientX + getScrollPos().left + SPYON_MARGIN;
+            let isOverflow = left + SPYON_OBJ.offsetWidth > window.innerWidth;
+            SPYON_OBJ.style.left = (isOverflow ? left - SPYON_OBJ.offsetWidth : left) + 'px';
+            SPYON_OBJ.style.top = top + 'px';
+            SPYON_OBJ.style.display = 'block';
+        }
+
+        function hide() {
+            SPYON_OBJ.style.display = 'none';
+        }
+
+        function getScrollPos() {
+            const ieEdge = !document.all;
+            let obj = ieEdge ? document.documentElement : document.body;
+            return {top: obj.scrollTop, left: obj.scrollLeft};
+        }
+
+        function showAttributes(el) {
+            const tagname = `[ ${el.nodeName.toLowerCase()} ]<br/>`;
+            const attrArr = Array.from(el.attributes);
+            const attributes = attrArr.reduce((attrs, attr) => {
+                attrs += (attr.nodeName + ' = ' + attr.nodeValue + '<br/>');
+                return attrs;
+            }, '');
+            return tagname + attributes;
+        }
+
+        function create() {
+            const div = document.createElement('div');
+            div.id = SPYON_ID;
+            div.setAttribute('style', `
+                position: absolute;
+                padding: 10px;
+                border-radius: 5px;
+                line-height: 18px;
+                max-width: 45%;
+                display: none;
+                opacity: 0.9;
+                z-index: 9999999;
+                color: #FFF !important;
+                background: #F44336 !important;
+                font-family: Consolas, sans-serif !important;
+                font-size: 12px !important;
+                `
+            );
+            document.body.appendChild(div);
+            SPYON_OBJ = document.getElementById(SPYON_ID);
+        }
+
+        init();
+    })();">启动工具</a>
+</body>
+</html>
