@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>龙姐微语 ▶人到中年，请置顶松弛感</title>
+    <style>
+        /* 重置默认样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            font-size: 17px;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+		
+		/* 优化版面样式 */
+				.executives-content {
+				  line-height: 1.8;
+				  font-size: 18px;
+				  color: #222;
+				  padding: 20px;
+				  max-width: 1200px;
+				  margin: 80px auto 60px auto;
+				}
+				
+				.executives-content h1 {
+				  text-align: center;
+				  margin-bottom: 40px;
+				  font-size: 26px;
+				  font-weight: bold;
+				}
+				
+				.executives-content h2 {
+				  font-size: 22px;
+				  margin: 30px 0 15px;
+				  color: #333;
+				  border-left: 5px solid #7F2E49;
+				  padding-left: 10px;
+				}
+				
+				.executives-content h3 {
+				  font-size: 20px;
+				  margin: 20px 0 10px;
+				  color: #555;
+				}
+				
+				.executives-content ul {
+				  margin-left: 1.5em;
+				  margin-bottom: 15px;
+				}
+				
+				.executives-content li {
+				  margin-bottom: 6px;
+				}
+				
+				.executives-content p,
+				.executives-content hr {
+				  margin-bottom: 20px;
+				}
+				
+				strong.important {
+				  color: red;
+				  font-weight: bold;
+				}
+				
+				strong.tip {
+				  color: #007acc;
+				}
+
+        /* 页面容器 */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+        }
+
+        /* 顶部内容区域 */
+        .content {
+            padding: 20px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* 文章标题 */
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #000;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        /* 作者信息 */
+        .author-info {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        /* 轮播图容器 */
+        .carousel {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 400%; /* 4 张图片 */
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide {
+            width: 25%;
+            flex-shrink: 0;
+            height: 200px;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #666;
+        }
+
+        /* 轮播图指示器 */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .carousel-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .carousel-indicator.active {
+            background-color: #07c160;
+        }
+
+        /* 标签页容器 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #07c160;
+            font-weight: bold;
+            border-bottom-color: #07c160;
+        }
+
+        /* 标签页内容 */
+        .tab-content {
+            display: none;
+            padding: 15px 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 正文内容 */
+        .article {
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* 底部固定操作栏 */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 用户信息 */
+        .profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 10px;
+        }
+
+        .name {
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* 操作按钮组 */
+        .actions {
+            display: flex;
+        }
+
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .action-item.active {
+            color: #07c160;
+        }
+
+        /* 操作图标（使用 CSS 绘制）*/
+        .action-icon {
+            width: 24px;
+            height: 24px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-bottom: 5px;
+        }
+
+        /* 赞图标 */
+        .like-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M1 21h4V9h3v11h5v-6h4v6h6V9h-3V3H8v6H4V3H1v18Z' fill='%23666'/%3E%3C/svg%3E");
+        }
+
+        .like-icon.active {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M1 21h4V9h3v11h5v-6h4v6h6V9h-3V3H8v6H4V3H1v18Z' fill='%2307c160'/%3E%3C/svg%3E");
+        }
+
+        /* 分享图标 */
+        .share-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 5v14m-7-7h14' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+        }
+
+        /* 推荐图标 */
+        .recommend-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 4.248c-3.148-5.402-12-3.805-12 2.944 0 4.016 5.571 8.743 12 14.828 6.43-6.085 12-10.812 12-14.828 0-6.752-8.852-8.348-12-2.944z' fill='%23666'/%3E%3C/svg%3E");
+        }
+
+        .recommend-icon.active {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 4.248c-3.148-5.402-12-3.805-12 2.944 0 4.016 5.571 8.743 12 14.828 6.43-6.085 12-10.812 12-14.828 0-6.752-8.852-8.348-12-2.944z' fill='%2307c160'/%3E%3C/svg%3E");
+        }
+
+        /* 留言图标 */
+        .comment-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 2h-2v2h2V2zM4 4h16v12H4V4zm16 16H4v-2h16v2zm-2-4H6v-2h12v2z' fill='%23666'/%3E%3C/svg%3E");
+        }
+
+        /* 来源提示 */
+        .source {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            color: #999;
+            border-top: 1px solid #ddd;
+        }
+
+        /* 微信支付提示（根据截图位置调整） */
+        .wechat-pay {
+            position: absolute;
+            bottom: 40px;
+            right: 20px;
+            color: #999;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .pay-icon {
+            width: 20px;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <!-- 文章标题 -->
+            <h1 class="title"><a href="https://www.youtube.com/watch?v=zUO6sttdGDY" title="方脸说：中国进入衰退时代，普通人如何自救？参考日本失去三十年经验！卖房！学习技能！警惕假复苏！资产丨就业丨心态 - YouTube"  target="_blank">
+		  中国进入衰退时代，普通人如何自救？</a></h1>
+            
+            <!-- 作者信息 -->
+            <div class="author-info">
+                <span>龙姐微语</span>
+                <span>, 2025年09月22日 09:27 , 浙江</span>
+            </div>
+
+            <!-- 轮播图 -->
+            <div class="carousel">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide">幻灯片 1</div>
+                    <div class="carousel-slide">幻灯片 2</div>
+                    <div class="carousel-slide">幻灯片 3</div>
+                    <div class="carousel-slide">幻灯片 4</div>
+                </div>
+                <div class="carousel-indicators" id="indicators">
+                    <div class="carousel-indicator active" data-index="0"></div>
+                    <div class="carousel-indicator" data-index="1"></div>
+                    <div class="carousel-indicator" data-index="2"></div>
+                    <div class="carousel-indicator" data-index="3"></div>
+                </div>
+            </div>
+
+            <!-- 标签页 -->
+            <div class="tabs">
+                <div class="tab active" data-tab="content1">内容一</div>
+                <div class="tab" data-tab="content2">内容二</div>
+                <div class="tab" data-tab="content3">内容三</div>				
+            </div>
+
+            <!-- 标签页内容 -->
+            <div id="content1" class="tab-content active">
+               <p>对中国未来经济走势和个人应对策略的深度分析与建议，<strong class="important">核心观点</strong>偏向<strong class="tip">谨慎的现实主义</strong>。
+                            	  以下是内容的归纳总结：</p>
+            </div>
+            <div id="content2" class="tab-content">
+                <p>这里是标签页“内容二”的详细内容...</p>
+                <p>点击标签可以切换不同的内容区域。</p>
+            </div>
+            <div id="content3" class="tab-content">
+                <p>这里是标签页“内容三”的详细内容...</p>
+                <p>实现了内容的分组和动态切换。</p>
+            </div>
+
+            <!-- 正文内容 -->
+            <div class="article">
+              
+                  <blockquote style="color: #808080;">参考日本失去三十年经验！卖房！学习技能！警惕假复苏！资产丨就业丨心态</blockquote>
+             	  <hr>
+                 
+                   <h2>一、中国经济趋势判断</h2>
+                   <h3>1. 并非崩溃，而是 <strong class="important">长期衰退</strong></h3>
+                   <ul>
+                     <li><strong>崩溃</strong>：如朝鲜、伊朗那样的GDP大幅下滑，需依赖国际制裁才能形成。</li>
+                     <li><strong>衰退</strong>：仍有增长，但远低于他国，形成“逆水行舟，不进则退”的局面。</li>
+                   </ul>
+                   <h3>2. 与日本更相似（通缩型衰退）</h3>
+                   <ul>
+                     <li>与日本类似：通缩、人口老龄化、投资欲望下滑。</li>
+                     <li>与拉美不同：拉美是高通胀型衰退。</li>
+                   </ul>
+                 
+                   <hr>
+                   <h2>二、资产配置建议</h2>
+                   <h3>1. <strong>不急于买房，有房尽早卖</strong></h3>
+                   <ul>
+                     <li>房地产泡沫尚未完全破裂，<strong class="important">房价远未见底</strong>。</li>
+                     <li>投资属性消失、<strong class="important">资源属性（学区/户口）</strong>也因人口减少和政策放宽而被削弱。</li>
+                     <li><strong class="important">租售比极低</strong>：投资回报不及理财产品。</li>
+                     <li>房子供大于求，城市化与生育率触顶，<strong class="important">未来房子越来越难租</strong>。</li>
+                   </ul>
+                   <h3>2. <strong>转换资产结构</strong></h3>
+                   <ul>
+                     <li>出售房地产，换为<strong>非人民币资产</strong>（美元、黄金、美股、比特币等）。</li>
+                     <li>因通缩环境下资产普遍贬值，人民币也已对多数货币显著贬值。</li>
+                   </ul>
+                 
+                   <hr>
+                   <h2>三、就业市场趋势与建议</h2>
+                   <h3>1. <strong>青年失业率居高不下</strong></h3>
+                   <ul>
+                     <li>企业增长乏力，不招新人，导致青年难就业。</li>
+                     <li>总体就业平稳是假象，真正的问题在于“新增岗位消失”。</li>
+                   </ul>
+                   <h3>2. <strong>公务员等“稳定工作”是虚假安全</strong></h3>
+                   <ul>
+                     <li>如同日本“终身雇佣制”，稳定只是暂时。</li>
+                     <li>财政困难时，政府可能削减编制。</li>
+                     <li>公务员工作消耗个人技能，离职后缺乏生存能力。</li>
+                   </ul>
+                   <h3>3. <strong>真正的稳定是</strong><strong class="tip">可迁移技能</strong></h3>
+                   <ul>
+                     <li>推荐<strong class="tip">积累“能帮公司赚钱”</strong>的<strong class="important">实用技能</strong>。</li>
+                     <li><strong>参考日本</strong>：<u>成年人再教育</u>（教培）迅速发展，<strong class="important">技能重要性凸显</strong>。</li>
+                   </ul>
+                 
+                   <hr>
+                   <h2>四、保持 <strong class="tip">定力</strong>，防止 <strong class="important">假反弹</strong></h2>
+                   <h3>1. <strong>警惕市场短期回暖</strong></h3>
+                   <ul>
+                     <li>日本楼市/股市曾<strong class="important">多次反弹，均是假复苏，长期仍下跌</strong>。</li>
+                     <li><strong class="important">中国未来</strong>也将出现此类“幻象”，<strong class="important">要保持冷静</strong>。</li>
+                   </ul>
+                   <h3>2. <strong>舆论环境迷惑性强</strong></h3>
+                   <ul>
+                     <li>中国内外<strong class="important">言论环境控制严格</strong>，容易<strong class="important">被宣传误导</strong>。</li>
+                     <li><strong class="tip">真正的<u>认知清醒和定力</u>，是<u>穿越长期衰退</u>的关键。</strong></li>
+                   </ul>
+                 
+                   <hr>
+                   <h2>五、关键结论</h2>
+                   <ul>
+                     <li><strong>不急于买房、不贷款、不迷信稳定岗位、不盲目投资中国资产</strong>。</li>
+                     <li>要<strong class="important">学习技能、灵活转型、构建全球视野和多元资产结构</strong>。</li>
+                     <li>“<strong class="tip">买房刚需论</strong>”是未来最大陷阱，早破除/早解脱。</li>
+                   </ul>
+                   <hr>
+            </div>
+
+            <!-- 微信支付提示 -->
+            <div class="wechat-pay">
+                <div class="pay-icon"></div>
+                <span>微信支付摇一摇有优惠</span>
+            </div>
+        </div>
+
+        <!-- 固定底部操作栏 -->
+        <div class="footer">
+            <div class="profile">
+                <div class="avatar"></div>
+                <span class="name">龙姐微语</span>
+            </div>
+			<div>
+				<audio id="audio" controls>
+				<source src="https://go.choong.net/QPlayer/Music/任夏%20-%20我真怕自己哪天倒下.mp3" type="audio/mpeg">
+				您的浏览器不支持音频元素。
+				</audio>				
+			</div>
+            <div class="actions">
+                <div class="action-item" onclick="this.classList.toggle('active')">
+                    <div class="action-icon like-icon"></div>
+                    <span>赞</span>
+                </div>
+<!--                <div class="action-item">
+                    <div class="action-icon share-icon"></div>
+                    <span>分享</span>
+                </div> -->
+                <div class="action-item" onclick="this.classList.toggle('active')">
+                    <div class="action-icon recommend-icon"></div>
+                    <span>推荐</span>
+                </div>
+<!--                <div class="action-item">
+                    <div class="action-icon comment-icon"></div>
+                    <span>写留言</span>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- 来源提示 -->
+        <div class="source">
+            <span>来自微信收藏</span>
+        </div>
+
+        <script>
+            // 轮播图功能
+            const track = document.getElementById('carouselTrack');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            let currentIndex = 0;
+
+            // 点击指示器切换
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', () => {
+                    currentIndex = parseInt(indicator.dataset.index);
+                    updateCarousel();
+                });
+            });
+
+            // 自动轮播
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % 4;
+                updateCarousel();
+            }, 3000);
+
+            function updateCarousel() {
+                track.style.transform = `translateX(-${currentIndex * 25}%)`;
+                indicators.forEach((ind, index) => {
+                    ind.classList.toggle('active', index === currentIndex);
+                });
+            }
+
+            // 标签页功能
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetId = tab.dataset.tab;
+                    
+                    // 移除所有激活状态
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // 添加激活状态到当前
+                    tab.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        </script>
+    </body>
+</html>
