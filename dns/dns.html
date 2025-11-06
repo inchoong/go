@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>乐哥 · DNS服务提供商对比</title>
+		<link rel="icon" type="image/svg+xml" sizes="32x32" href="https://go.choong.net/dns/ChatGPT-favicon-o20kmmos.svg" />
+		<!-- <link rel="icon" type="image/svg+xml" sizes="32x32" href="https://cdn.oaistatic.com/assets/favicon-o20kmmos.svg" />-->
+		<style>
+		
+				/* CSS3 页面淡入效果*/
+		@keyframes fade-in {
+		    0% {opacity: 0;}
+		    30% {opacity: 0;}
+		    100% {opacity: 1;}
+		}
+
+		body {
+		    margin:0 auto;/*页面内容居中*/
+		    animation: fade-in;
+ 		    animation-duration: 1s;
+		}/* CSS3 页面淡入效果*/
+		
+		body {
+						background: url("th.jpg") no-repeat center center;
+						/*加载背景图：蓝天白云绿草地 https://go.choong.net/welcome/50.jpg*/
+						/* 背景图不平铺 https://go.choong.net/City/images/ZJ-ReYi.jpg */
+						/*原图链接 https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4ncJa.jpg */
+						background-size: cover;
+						/* 让背景图基于容器大小伸缩 */
+						background-attachment: fixed;
+						/* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+						//此条属性必须设置否则可能无效/
+						background-color: #CCCCCC;
+						/* 设置背景颜色，背景图加载过程中会显示背景色 */
+					}
+					
+			.table-box {
+				margin: 100px auto;
+				width: 1024px;
+			}
+
+			/* 滚动条宽度 */
+			::-webkit-scrollbar {
+				width: 8px;
+				background-color: transparent;
+			}
+
+			/* 滚动条颜色 */
+			::-webkit-scrollbar-thumb {
+				background-color: #27314d;
+			}
+
+			table {
+				width: 100%;
+				border-spacing: 0px;
+				border-collapse: collapse;
+			}
+
+			table caption {
+				font-weight: bold;
+				font-size: 24px;
+				line-height: 50px;
+			}
+
+			table th,
+			table td {
+				height: 50px;
+				text-align: center;
+				border: 1px solid gray;
+			}
+
+			table thead {
+				color: blue;
+				background-color: #808080;
+			}
+
+			table tbody {
+				display: block;
+				width: calc(100% + 0px);
+				/*这里的8px是滚动条的宽度*/
+				height: 300px;
+				overflow-y: auto;
+				-webkit-overflow-scrolling: touch;
+			}
+
+			table tfoot {
+				background-color: #00557f;
+			}
+
+			table thead tr,
+			table tbody tr,
+			table tfoot tr {
+				box-sizing: border-box;
+				table-layout: fixed;
+				display: table;
+				width: 100%;
+			}
+
+			table tbody tr:nth-of-type(odd) {
+				background: #EEE;
+			}
+
+			table tbody tr:nth-of-type(even) {
+				background: #FFF;
+			}
+
+			table tbody tr td {
+				border-bottom: none;
+			}
+			
+/* 			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			th,
+			td {
+				padding: 10px;
+				border: 1px solid #ddd;
+				text-align: left;
+			}
+
+			th {
+				background-color: #f2f2f2;
+			} */
+			
+			a:link,
+			a:visited {
+				text-decoration: none;
+				/*超链接无下划线*/
+			}
+
+			a:hover {
+				text-decoration: underline;
+				/*鼠标放上去有下划线*/
+			}
+
+			.footer {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				height: 30px;
+				line-height: 30px;
+				background: #004988;
+				text-align: center;
+				color: white;
+				font-size: 14px;
+				font-weight: 600;
+			}
+		</style>
+				<!-- /* 使用javascript中Date对象创建获取时间,使用一个div标签来显示获取当前时间的值 */ -->
+		<script type="text/javascript">
+			window.onload = function() {
+				window.requestAnimationFrame(getDate)
+			}
+
+			function getDate() {
+				window.setTimeout(function() {
+					window.requestAnimationFrame(getDate)
+				}, 1000 / 2)
+				var d = new Date();
+				var year = d.getFullYear() //获取年	
+				var month = d.getMonth() + 1; //获取月，<br>从 Date 对象返回月份 (0 ~ 11)，<br>故在此处+1	
+				var day = d.getDay() //获取日	
+				var days = d.getDate() //获取日期	
+				var hour = d.getHours() //获取小时	
+				var minute = d.getMinutes() //获取分钟	
+				var second = d.getSeconds() //获取秒	
+				if (month < 10) month = "0" + month
+				if (days < 10) days = "0" + days
+				if (hour < 10) hour = "0" + hour
+				if (minute < 10) minute = "0" + minute
+				if (second < 10) second = "0" + second
+				var week = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六")
+				var Tools = document.getElementById("Main")
+				var da = year + "年" + month + "月" + days + "日," + week[day] + " 北京时间 " + hour + ":" + minute + ":" + second
+				Tools.innerHTML = da
+			}
+		</script> <!-- /* 使用javascript中Date对象创建获取时间,使用一个div标签来显示获取当前时间的值 */ -->
+	</head>
+	<body>
+		<div style="text-align: center;">
+			<h2>
+				<img src="https://cloudcache.tencent-cloud.cn/open_proj/proj_qcloud_v2/tc-console/dnspod/gateway/css/img/dnspod.ico"
+					style="height: 23px; width: 23px;"><a href="https://www.dnspod.cn/"
+					title="DNSPod-免费智能DNS解析服务商-电信_网通_教育网,智能DNS-烟台帝思普网络科技有限公司" style="text-decoration: none;"
+					target="_blank">DNS服务提供商性能特点对比</a>
+				<!--
+					<script>//自动跳转 DNSPod-免费智能DNS解析服务商 https://www.dnspod.cn/
+					function redirect() {
+					    window.location = "https://www.dnspod.cn/";
+					}
+					</script>
+					-->
+			</h2>
+
+				<details>
+								<summary>
+									<span style="color: #808080;align-self: auto;font-weight: bold;">( <a
+					href="https://chatgpt.com/share/6725735b-f9a4-800b-9346-c31904a7eb18" style="text-decoration: none;"
+					target="_blank">ChatGPT</a> VS. <a href="https://www.doubao.com/thread/w5376cf3b35862700"
+					style="text-decoration: none;" target="_blank">豆包</a> 的对话，<a
+					href="https://chatgpt.com/share/6725735b-f9a4-800b-9346-c31904a7eb18" style="text-decoration: none;"
+					target="_blank">内容由 AI 生成，不能完全保障真实</a>。
+				)</span> 
+								</summary>
+								<a href="view-source:https://go.choong.net/1024/">1024</a> |
+												Win徽标键 + R，<br>打开-->运行：cmd (以管理员身份运行) <code>ipconfig /flushdns #清除系统DNS缓存</code> <br>
+								
+				notepad %SystemRoot%\System32\drivers\etc\hosts<br>
+				<br>
+				释放ip:<br>
+				<code>ipconfig /release</code> <br>
+				<br>
+				重新获取ip:<br>
+				<code>ipconfig /renew</code> <br>
+				<br>
+				清除系统DNS缓存:<br>
+				<code>ipconfig /flushdns</code>  <br>
+				<br>
+				</details>
+
+<section class="table-box">
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th>
+			<a href="https://github.com/taoste/Hello-World/blob/master/Tools/hosts/dns-server-list.md" title="Hello-World/Tools/hosts/dns-server-list.md at master · taoste/Hello-World: 欢迎关注和订阅国内流量最高的开放源代码...">服务提供商</a></th>
+			<th title="相关知识：DNS在现有整个互联网基础架构中也扮演着流量【调度员】、<br>【指引员】的角色。 尽管已经有超过40+年历史,DNS仍然是互联网基石中最脆弱的一环。 如顶级域故障、<br>DNS劫持、<br>大规模DNS攻击等等仍然时不时给整个互联网带来震动。">
+			DNS 服务器 IP 地址</th>
+			<th>地区/行业</th>
+			<th>功能特点</th>
+			<th>DoH（DNS over HTTPS）</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+			<!-- 全球知名 DNS 服务 -->
+			<tr>
+				<td>Cloudflare</td>
+				<td style="text-align: left;" title="★ CloudFlare DNS (1.1.1.1)
+CloudFlare DNS 是号称全球最快的 DNS 服务 (当然天朝不算在全球范围内>_<)，<br> CloudFlare 是全球最大的 CDN / DDOS 防护服务提供商之一 (在国内与百度云加速合作)，<br>其遍布全球的基础设施资源极其丰富，<br>资金和技术实力相当雄厚。在国外实测速度相当强劲，<br>目前我已将海外的 VPS 全部换到此 DNS，<br>解析速度非常快，<br>相当值得推荐！">
+IPv4：1.1.1.1 &nbsp;,&nbsp; 1.0.0.1<br>
+IPv6：<br>
+2606:4700:4700::1111 <br>
+2606:4700:4700::1001</td>
+				<td>全球</td>
+				<td>高性能、<br>隐私保护</td>
+				<td><a href="https://chrome.cloudflare-dns.com/dns-query" target="_blank">1.1.1.1</a>				
+				</td>
+			</tr>
+			<tr>
+				<td>Google Public DNS</td>
+				<td style="text-align: left;" title="★ Google Public DNS (8.8.8.8)
+来自 Google 提供的免费全球公共 DNS 服务，<br>主要为了改进网络浏览速度、<br>改善网络用户的浏览体验。这个基本上不用多做什么介绍了，<br>可能它也是目前全球范围内使用量最大的公共 DNS 了，<br>老牌、<br>稳定、<br>技术强劲。">
+IPv4 :
+8.8.8.8 &nbsp;,&nbsp;
+8.8.4.4<br>
+IPv6:<br>
+2001:4860:4860::8888  <br>
+2001:4860:4860::8844</td>
+				<td>全球</td>
+				<td>稳定性、<br>全球覆盖</td>
+				<td><a href="https://dns.google/dns-query?dns" target="_blank">Google DNS</a></td>
+			</tr>
+			<tr>
+				<td><a href="https://www.opendns.com/" title="Cloud Delivered Enterprise Security by OpenDNS" target="_blank">OpenDNS</a></td>
+				<td style="text-align: left;" title="Cisco OpenDNS
+OpenDNS 是一个老牌的免费公共 DNS 提供商，<br>后来被 Cisco (思科) 全资收购。">
+IPv4 :<br>
+208.67.222.222  <br> 208.67.220.220<br>
+IPv6 :<br>
+2620:0:ccc::2<br>
+2620:0:ccd::2</td>
+				<td>全球</td>
+				<td>家庭安全过滤、<br>企业级保护</td>
+				<td><a href="https://doh.opendns.com/dns-query?dns" target="_blank">OpenDNS</a></td>
+			</tr>
+			<tr>
+				<td><a href="https://quad9.net/" title="Quad9 | A public and free DNS service for a better security and privacy">IBM Quad9</a></td>
+				<td style="text-align: left;" title="9.9.9.9 – 安全可靠，<br>IBM 带来公共 DNS 的新选择">IPv4 地址<br>
+首选：9.9.9.9<br>
+备用：149.112.112.112<br>
+IPv6 地址<br>
+首选：2620:fe::fe<br>
+备用：2620:fe::9</td>
+				<td>全球</td>
+				<td>隐私保护，<br>恶意软件拦截</td>
+				<td><a href="https://dns.quad9.net/dns-query" target="_blank">Quad9</a></td>
+			</tr>
+			
+			<!-- 亚洲其他地区 DNS 服务 -->
+			<tr>
+				<td><a href="https://alidns.com/" title="★阿里云DNS" target="_blank">
+				<font color="#FC1205"><strong>阿里云DNS</strong></font></a></td>
+				<td style="text-align: left;" title="★ AliDNS 阿里公共 DNS 解析服务
+阿里公共 DNS 是 阿里云 推出的免费 DNS 递归解析系统，<br>宣称全球数百台服务器组成的集群，<br>拥有充足的带宽资源，<br>目标是成为国内互联网基础设施的组成部分，<br>支持 BGP Anycast 以及 ECS 技术。">IPv4地址：223.5.5.5 &nbsp;,&nbsp; 223.6.6.6<br>
+IPv6地址：2400:3200::1 &nbsp;,&nbsp; 2400:3200:baba::1</td>
+				<td><font color="#FC1205"><strong>中国大陆</strong></font></td>
+				<td>稳定、<br>高性能</td>
+				<td><a href="https://dns.alidns.com/dns-query" title="DoH/DoT地址: dns.alidns.com" target="_blank">阿里云DNS</a></td>
+			</tr>
+			<tr>
+				<td><a href="https://dudns.baidu.com/" title="百度iDNS - 帮助中心 - 公共DNS" target="_blank">
+				<font color="#FC1205"><strong>百度DNS</strong></font></a></td>
+				<td style="text-align: left;" title="百度推出公共DNS服务，<br>IP地址为180.76.76.76，<br>号称拥有遍布全国的递归出口节点，<br>可以做到更稳定，<br>纯净无劫持等。
+当然，<br>百度推出公共DNS的另一大目的应该是降低DNS劫持对自己的危害，<br>毕竟作为中国最大的流量公司，<br>百度深受其害。">IPv4 地址：180.76.76.76 <br> IPv6地址：2400:da00::6666</td>
+				<td><font color="#FC1205"><strong>中国大陆</strong></font></td>
+				<td>高性能、<br>隐私保护</td>
+				<td><a href="https://doh.bdydns.com/dns-query" target="_blank">百度DNS</a></td>
+			</tr>
+			
+			<tr>
+				<td>
+				<a href="https://www.dnspod.cn/products/publicdns" title="Public DNS+——DNSPod推出的域名递归解析服务" target="_blank">
+				<font color="#FC1205"><strong>腾讯云DNS</strong></font></a></td>
+				<td style="text-align: left;" title="DNSPod 为腾讯云旗下品牌，<br>专注于域名及 DNS 服务。
+DNSPod 以 DNS 作为核心服务，<br>为个人及企业用户提供了一站式解决方案。包括域名注册、<br>DNS 权威解析、<br>D 监控、<br>HTTPDNS、<br>Public DNS 、<br>Private DNS 等专业服务，<br>以及域名交易、<br>SSL 证书、<br>网站备案、<br>企业邮箱、<br>网站建设等全方位服务。用户可在此快速完成品牌数字化建设，<br>并实现云资源的统一管理及高效调度。
+DNSPod 持续提供了 17+ 年不间断服务，<br>已服务 800 万+用户，<br>累计 2000 万+域名，<br>拥有 48 个全球集群节点，<br>始终坚持为用户提供安全、<br>稳定且快速的服务。国民级 DNS 服务平台，<br>更值得信赖。">
+IPv4 地址：119.29.29.29 <br> IPv6地址：2402:4e00::</td>
+				<td><font color="#FC1205"><strong>中国大陆</strong></font></td>
+				<td>支持国密 SM2 DoH</td>
+				<td><a href="https://sm2.doh.pub/dns-query" target="_blank">腾讯云 DoH (国密)</a></td>
+			</tr>
+			
+			<tr>
+				<td>
+				<a href="https://www.114dns.com/" title="114DNS--抗攻击DNS，<br>超高可靠，<br>提供智能DNS解析。公众DNS服务地址为114.114.114.114" target="_blank">
+				<strong>114 DNS</strong></a></td>
+							<td style="text-align: left;" title="关于114DNS
+114DNS 源自南京信风 2010 年为中国电信及中国联通两个大省约 2000 万宽带用户提供备份服务的超大型 DNS 系统，<br>在2009 年 5 月 19 日全国大范围 DNS 故障、<br>2010 年百度域名被劫持、<br>国内域名注册商及部分权威 DNS 服务单位反复被攻击、<br>相关机构监测到国内超过 50% 的域名服务不安全等背景之下，<br>由南京信风牵头、<br>历时一年多联合多个电信运营商采用 BGP Global AnyCast 技术多点部署的专业 DNS 平台，<br>同时提供公众 DNS 解析服务及权威 DNS 解析服务，<br>114DNS 将为中国的互联网及电子商务提供可靠的基础安全保障。
+
+114DNS 为国内首家云安全DNS，<br>114DNS 平台由多个基础电信运营商与南京信风共建共享，<br>但由南京信风提供技术支持以确保服务的优质高效。">IPv4地址： 114.114.114.114 &nbsp;,&nbsp; 114.114.115.115</td>
+				<td>中国大陆</td>
+				<td>纯净 无劫持 防钓鱼 防病毒</td>
+				<td><a href="https://sm2.doh.pub/dns-query" target="_blank">腾讯云 DoH (国密)</a></td>
+			</tr>
+			
+			<tr>
+				<td>🛡️ <a href="https://sdns.360.net/" title="360安全DNS">360公共DNS</a></td>
+				<td style="text-align: left;" title="">电信/移动IPv4：101.226.4.6 / 218.30.118.6<br>
+							联通IPv4：123.125.81.6 / 140.207.198.6</td>
+				<td>中国大陆</td>
+				<td>亮点：<br>多线路优化，<br>安全防护较强。</td>
+				<td>
+				<a href="https://doh.360.cn" target="_blank">DoH</a> / 
+				<a href="http://dot.360.cn" target="_blank">DoT</a>
+				</td>
+			
+			<tr>
+				<td>🧩 CNNIC DNS</td>
+				<td style="text-align: left;" title="">IPv4：1.2.4.8 / 210.2.4.8<br>
+				IPv6：2001:dc7:1000::1</td>
+				<td>中国大陆</td>
+				<td>亮点：<br><a href="https://www.cnnic.cn/" title="首页----中国互联网络信息中心">中国互联网络信息中心</a><br>官方节点，权威可靠。</td>
+				<td><a href="" target="_blank"></a></td>
+
+			<tr>
+				<td>🌈 Quad 101 (TWNIC)</td>
+				<td style="text-align: left;" title="">IPv4：101.101.101.101 / 101.102.103.104<br>
+				IPv6：2001:de4::101 / 2001:de4::102</td>
+				<td>港/澳/台</td>
+				<td>亮点：<br>适合台港澳及东南亚用户，<br>响应速度优。</td>
+				<td><a href="https://dns.twnic.tw/dns-query" target="_blank">DoH</a></td>
+<!--
+-->							
+			<tr>
+				<td>Naver DNS</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;</td>
+				<td>韩国</td>
+				<td>本地化内容过滤</td>
+				<td><a href="https://doh.naver.com/dns-query" target="_blank">Naver DNS</a></td>
+			</tr>
+			<tr>
+				<td>JPNIC DNS</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;
+				<td>日本</td>
+				<td>本地化、<br>教育网络</td>
+				<td><a href="https://doh.jpnic.jp/dns-query" target="_blank">JPNIC DNS</a></td>
+			</tr>
+
+
+			<!-- 北美地区 DNS服务 -->
+			<tr>
+				<td>Comcast DNS</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;</td>
+				<td>美国</td>
+				<td>ISP提供的DNS服务</td>
+				<td><a href="https://doh.xfinity.com/dns-query" target="_blank">Comcast</a></td>
+			</tr>
+			<tr>
+				<td>Verizon DNS</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;</td>
+				<td>美国</td>
+				<td>大企业网络</td>
+				<td><a href="https://doh.verizon.com/dns-query" target="_blank">Verizon</a></td>
+			</tr>
+
+			<!-- 欧洲 DNS 服务 -->
+			<tr>
+				<td>Deutsche Telekom DNS</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;
+				<td>德国</td>
+				<td>高效、<br>安全</td>
+				<td><a href="https://doh.telekom.de/dns-query" target="_blank">Deutsche Telekom</a></td>
+			</tr>
+			<tr>
+				<td>Orange DNS</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;</td>
+				<td>法国</td>
+				<td>稳定、<br>本地化</td>
+				<td><a href="https://doh.orange.fr/dns-query" target="_blank">Orange</a></td>
+			</tr>
+
+			<!-- 大专院校 DNS 服务 -->
+			<tr>
+				<td>麻省理工学院 (MIT) DNS</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;</td>
+				<td>大专院校</td>
+				<td>教育网络稳定</td>
+				<td><a href="https://doh.mit.edu/dns-query" target="_blank">麻省理工学院</a></td>
+			</tr>
+			<tr>
+				<td><a href="https://tuna.moe/help/dns/" title="教育网免费公共 IPv4/IPv6/DoT/DoH DNS 服务器 :TUNA DNS666 域名查询服务 | 清华大学 TUNA 协会" target="_blank">清华大学 TUNA DNS</a></td>
+				<td style="text-align: left;" title="DNS666 提供 IPv4 与 IPv6 双栈服务——但无论您选择只使用 IPv4 的地址还是选择只使用 IPv6 的地址，<br>都可以同时正常进行 IPv4 (A) 记录和 IPv6 (AAAA) 两种记录的查询，<br>您可以在包括学生宿舍有线或无线网络、<br>教学楼 Tsinghua / Tsinghua-Secure Wi-Fi 等原生双栈网络下，<br>或是 DIVI 等过渡网络下，<br>正常进行具有 IPv4 和 IPv6 结果的域名查询。清华师生在使用校园网时，<br>可以使用这一服务进行域名查询，<br>而无需进行校园网出校认证。但由于连接校园网需要准入，<br>我们建议同时配置学校信息化技术中心提供的 DNS (166.111.8.28 / 166.111.8.29 / 2402:f000:1:801::8:28 / 2402:f000:1:801::8:29) 服务作为备用。">IPv4 地址:101.6.6.6<br> 
+备用DNS: 166.111.8.28 &nbsp;,&nbsp; 166.111.8.29<br> 
+IPv6 地址: 2402:f000:1:801::8:28 &nbsp;,&nbsp; 2402:f000:1:801::8:29</td>
+				<td>大专院校</td>
+				<td>适合中国用户</td>
+				<td><a href="https://doh.tuna.tsinghua.edu.cn/dns-query" target="_blank">清华大学</a></td>
+			</tr>
+			<tr>
+				<td>东京大学 DNS</td>
+				<td style="text-align: left;" title="">IPv4 地址：202.12.32.50 &nbsp;,&nbsp; 202.12.32.51</td>
+				<td>大专院校</td>
+				<td>稳定性高、<br>教育用途</td>
+				<td><a href="https://doh.utokyo.ac.jp/dns-query" target="_blank">东京大学</a></td>
+			</tr>
+
+			<!-- 行业专用 DNS 服务 -->
+			<tr>
+				<td>金融行业 DNS (IBM)</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;</td>
+				<td>行业专用</td>
+				<td>企业级安全和隐私保护</td>
+				<td><a href="https://doh.ibm.com/dns-query" target="_blank">IBM DNS</a></td>
+			</tr>
+			<tr>
+				<td>医疗行业 DNS (Cloudflare)</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;</td>
+				<td>行业专用</td>
+				<td>符合HIPAA的安全标准</td>
+				<td><a href="https://doh.med.cloudflare.com/dns-query" target="_blank">Cloudflare 医疗</a></td>
+			</tr>
+
+			<!-- 开源 DNS 服务 -->
+			<tr>
+				<td>Unbound DNS</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;</td>
+				<td>开源社区</td>
+				<td>高度可定制，<br>隐私保护</td>
+				<td><a href="https://doh.unbound.net/dns-query" target="_blank">Unbound DNS</a></td>
+			</tr>
+			<tr>
+				<td>PowerDNS</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;</td>
+				<td>开源社区</td>
+				<td>企业和个人用户的灵活配置</td>
+				<td><a href="https://doh.powerdns.org/dns-query" target="_blank">PowerDNS</a></td>
+			</tr>
+			<tr>
+				<td>Bind DNS (ISC)</td>
+				<td style="text-align: left;" title="">&nbsp; &nbsp;</td>
+				<td>开源社区</td>
+				<td>高稳定性，<br>适用于各类网络</td>
+				<td><a href="https://doh.isc.org/dns-query" target="_blank">Bind DNS</a></td>
+			</tr>
+			</tbody>
+			<tfoot>
+			   <tr>
+					<td>
+						<a href="https://time.is/zh/" title="Time.is">
+							<strong><span id="Main" style="color:#ffffff"></span></strong>
+						</a>
+						<!-- /* 使用javascript中Date对象创建获取时间,使用一个div标签来显示获取当前时间的值 */ -->
+					
+						&nbsp;&nbsp;&nbsp;&nbsp;>>
+						<!-- 网页文字打字机效果插入一段文字（逐字出现循环回退删除） -->
+						<span id="Typed" style="color: #808080;text-align:center"></span>
+						<script src="https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js"></script>
+						<script language="javascript">
+							var typed = new Typed("#Typed", {
+								strings: ["现状不可描述，未来无法预测，一切皆有可能。 ——— 易中天", "用行动去思考，去改变、去创造。",
+									"Take action to think, to change, to create.",
+									"庄敬自强，处变不惊。",
+									"等到逆风散尽，便会顺风顺水。",
+									"林彪说过的那一个字：『熬』，很精辟!",
+									"黎明之曙光或许漫漫，但很多人已绝望到熬不住了。这是思想和智慧的痛苦。 ",
+									"眼下艰难，志气在我；戒急用忍，苦撑待变。",
+									"来日方长，细水长流，目前稍许退让是为了将来鹰击长空",
+									"民心思变（People wanted change）",
+									"一个成年人不能进行利弊分析对比，只会产生极端想法和情绪发泄式的发言，那不是社会的问题，而是应该吃药了，补补脑子！"					
+								],
+								startDelay: 200,
+								backDelay: 2000,
+								typeSpeed: 100,
+								loop: true,
+								backSpeed: 20
+							})
+						</script> <!--  https://www.ahaoyw.com/article/727.html -->
+						</td>
+					</tr>
+				</tfoot>
+				</table>
+			</section>
+		
+		
+		
+		<div class="footer">
+			<strong>
+				<a href="https://www.nthlink.com/" style="color:#FFFFFF;text-decoration:none;" title="nthLink"
+					target="_blank" alt="nthLink">
+					nthLink</a>.<a href="https://www.persagg.com/zh/" style="color:#FFFFFF;text-decoration:none;" title="我爱我的祖国" target="_blank">com</a> <a href="https://go.choong.net/GFW/nthLink/" title="nthLink" style="color:#FFFFFF;text-decoration:none;" target="_blank">©</a>
+				<a href="https://go.choong.net/dns/2025.html" style="color:#FFFFFF;text-decoration:none;" title="🚀 最新版 | 国内外最全免费加密DNS（DoH/DoT）清单，<br>提速、<br>隐私、<br>防劫持，<br>一站搞定！收藏这一篇就够了。 - 知乎" target="_blank">
+					<script>
+						// <![CDATA[
+						document.write(new Date().getFullYear());
+						// ]]>
+					</script>
+				</a>
+		</div>
+		
+	</body>
+</html>
