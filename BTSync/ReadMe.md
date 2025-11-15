@@ -1,4 +1,4 @@
-# BTSync blog
+# BTSync blog （ <a href="https://www.resilio.com/" title="Resilio – The high-performance data movement platform" target="_blank">Resilio</a> <a href="https://www.resilio.com/sync/" title="Sync All Your Data Across All Your Devices" target="_blank">Sync</a> · <a href="https://www.resilio.com/sync/download/" title="Download Sync" target="_blank">下载</a> ）
 
 <details>
     <summary>
