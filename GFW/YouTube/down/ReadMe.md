@@ -17,3 +17,11 @@ Google云：https://drive.google.com/drive/folder...
 
 
 <li><a href="https://www.youtube.com/watch?v=RFUrgmLWWZw">(14) 小盒精灵，实现在电视上快速输入科学上网软件订阅地址，采用本地本地局域网+二维码的方式实现手机端复制和黏贴达到快速输入，也可用于其他软件的地址导入和输入。非常好用！ - YouTube</a></li>
+
+<li><a href="https://www.youtube.com/watch?v=kBLveYiWjaY">(15) BrowseHere-专为TV开发的软件，荣获国际大奖，内置IPTV播放器，网页视频播放器，可在线播放YouTube，Netflix，直接解析播放PC端影视网址，语音搜索，下载，广告拦截，TCL出品 - YouTube</a></li>
+
+本软件是TCL旗下出品的TV软件，软件非常强大，获得两项国际奖项，功能上，它能实现在线播放YouTube，Netflix，可以把PC上的影视网址直接在这款软件上播放，并且软件内置了IPTV播放器，软件本身还有下载功能，广告拦截功能，语音搜索功能，分享码功能。每一项功能都是非常实用，可以说超越tvbox的设计完全没有问题。同时它兼容了市面上大部分TV设备和TV电视棒，电视盒子，可以在paly商店下载安装并使用，软件完全免费。
+
+官网：https://browsehere.net/zh/
+
+BrowseHere-专为TV开发的软件，荣获国际大奖，内置IPTV播放器，网页视频播放器，可在线播放YouTube，Netflix，直接解析播放PC端影视网址，语音搜索，下载，广告拦截，TCL出品
