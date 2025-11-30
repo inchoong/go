@@ -1,3 +1,6 @@
+
+<a href="https://github.com/SpaceTimee/Sheas-Cealer/releases/tag/1.1.4">Release 1.1.4 · SpaceTimee/Sheas-Cealer: 欢迎关注和订阅国内流量最高的开放源代码...</a>
+
 <li><a href="https://www.youtube.com/watch?v=EpaOVgzd1kE">国产智能电视安装YouTube，无需google框架，非第三方应用，来自YouTube官方应用，新版APP，支持安卓4.0和安卓7.0+，直接在电视上安装并使用，更加流畅更加好用！ - YouTube</a></li>
 
 因为最近电视安装YouTube的视频时间都比较久了，也导致了教程方法和APP都是比较老的，所以我更新一期视频，同时也更新了最新的YouTubeAPP，本视频主要是针对哪些没有Google框架的电视，电视盒子，投影仪，安卓车机系统，它不需要Google框架就能安装使用，同时也能登录账号，观看记录，长视频，短视频都能观看，和遥控器也是完美融合。新版的软件支持安卓7.0+以上的系统，视频高清不卡顿，观看体验感非常！
