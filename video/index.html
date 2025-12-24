@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>超炫酷自适应 HTML5 播放器 [音视频·模板]</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- favicon & 媒体文件：2025.mp4 / 2020.wav / favicon.png -->
+  <link rel="shortcut icon" href="favicon.png" type="image/png" />
+<style>
+/* —— 全局 —— */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at top,#1f2937 0,#020617 55%,#000 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:#e5e7eb;overflow:hidden;
+}
+
+/* —— 播放器外壳 —— */
+.player-shell{
+  position:relative;
+  max-width:100vw;max-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;
+}
+
+/* —— 播放器主体 —— */
+.player-wrapper{
+  position:relative;
+  width:100%;height:100%;
+  overflow:hidden;border-radius:18px;
+  background:radial-gradient(circle at top left,#0f172a,#020617 65%);
+  box-shadow:0 24px 60px rgba(0,0,0,.85),0 0 0 1px rgba(148,163,184,.4);
+  display:flex;align-items:center;justify-content:center;
+}
+
+video{
+  width:100%;height:100%;object-fit:contain;background:#000;
+}
+
+/* —— 左上角 LOGO（悬停显示） —— */
+.player-logo{
+  position:absolute;top:12px;left:12px;
+  width:120px;opacity:0;
+  transition:opacity .35s ease;
+  pointer-events:none;
+}
+.player-wrapper:hover .player-logo{
+  opacity:1;
+}
+
+/* —— 右上角系统时间 —— */
+.player-clock{
+  position:absolute;top:12px;right:12px;
+  text-align:right;
+  display:flex;flex-direction:column;
+  padding:6px 10px;
+  border-radius:12px;
+  background:rgba(15,23,42,.55);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(148,163,184,.4);
+  box-shadow:0 0 12px rgba(0,0,0,.4);
+  opacity:.9;
+}
+
+.clock-time{
+  font-size:20px;
+  font-weight:600;
+  letter-spacing:1px;
+  color:#f8fafc;
+}
+.clock-date{
+  margin-top:2px;
+  font-size:12px;
+  color:#cbd5e1;
+}
+
+/* —— 顶部渐变 —— */
+.player-overlay-gradient{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(15,23,42,0) 0%,rgba(15,23,42,.9) 75%);
+  pointer-events:none;opacity:0;
+  transition:opacity .3s ease;
+}
+.player-wrapper:hover .player-overlay-gradient{opacity:1;}
+
+/* —— 控制条 —— */
+.controls{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:12px 16px 16px;
+  display:flex;flex-direction:column;gap:8px;
+  background:linear-gradient(to top,rgba(15,23,42,.95) 0,rgba(15,23,42,.75) 40%,transparent 100%);
+  backdrop-filter:blur(16px);
+}
+
+/* 顶部标题 */
+.controls-header{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;color:#9ca3af;padding:0 2px;
+}
+.controls-title{display:flex;align-items:center;gap:8px;}
+.controls-dot{
+  width:8px;height:8px;border-radius:999px;
+  background:radial-gradient(circle,#22c55e,#15803d);
+  box-shadow:0 0 8px rgba(22,163,74,.9);
+}
+.controls-fps{
+  padding:2px 8px;border-radius:999px;
+  background:rgba(15,23,42,.85);
+  border:1px solid rgba(148,163,184,.5);
+  font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+}
+
+/* —— 进度条 —— */
+.progress-container{
+  position:relative;width:100%;height:8px;
+  border-radius:999px;background:#020617;overflow:hidden;cursor:pointer;
+}
+.progress-buffer{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,#1e293b,#334155);
+  transform-origin:left center;transform:scaleX(0);opacity:.55;
+}
+.progress-bar{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,#22c55e,#0ea5e9,#6366f1);
+  box-shadow:0 0 10px rgba(56,189,248,.9),0 0 20px rgba(94,234,212,.8);
+  transform-origin:left center;transform:scaleX(0);
+}
+.progress-handle{
+  position:absolute;top:50%;width:14px;height:14px;border-radius:50%;
+  background:radial-gradient(circle,#e5e7eb,#9ca3af);
+  box-shadow:0 0 0 2px rgba(15,23,42,.95),0 0 10px rgba(94,234,212,.9);
+  transform:translate(-50%,-50%);opacity:0;pointer-events:none;
+  transition:opacity .15s ease;
+}
+.player-wrapper:hover .progress-handle{opacity:1;}
+
+/* —— 底部按钮 —— */
+.controls-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-top:2px;
+}
+.controls-left,.controls-right{
+  display:flex;align-items:center;gap:8px;flex-wrap:nowrap;
+}
+
+button{
+  border:none;outline:none;background:none;color:inherit;
+  cursor:pointer;padding:6px 8px;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:6px;font-size:13px;
+  transition:background .2s ease,transform .1s ease,box-shadow .2s ease;
+}
+
+.btn-primary{
+  background:radial-gradient(circle,#22c55e,#16a34a);
+  color:#0b1120;font-weight:600;padding-inline:12px;
+  box-shadow:0 10px 20px rgba(22,163,74,.6),0 0 0 1px rgba(34,197,94,.8);
+}
+.btn-primary:hover{
+  transform:translateY(-1px);
+  box-shadow:0 14px 30px rgba(22,163,74,.75),0 0 0 1px rgba(34,197,94,1);
+}
+
+.btn-icon-rounded{
+  width:32px;height:32px;padding:0;border-radius:999px;
+  background:rgba(15,23,42,.8);
+  border:1px solid rgba(148,163,184,.7);
+}
+.btn-icon-rounded:hover{
+  background:rgba(15,23,42,1);
+  box-shadow:0 0 18px rgba(94,234,212,.7);
+  color:#a5b4fc;
+}
+
+.time-display{
+  font-variant-numeric:tabular-nums;
+  font-size:12px;color:#d1d5db;
+  padding:2px 8px;border-radius:999px;
+  background:rgba(15,23,42,.85);
+  border:1px solid rgba(148,163,184,.6);
+}
+
+.volume-range{
+  -webkit-appearance:none;width:80px;height:4px;border-radius:999px;
+  background:linear-gradient(90deg,#22c55e,#0ea5e9);cursor:pointer;
+}
+.volume-range::-webkit-slider-thumb{
+  -webkit-appearance:none;width:14px;height:14px;border-radius:50%;
+  background:#e5e7eb;border:2px solid #0f172a;
+  box-shadow:0 0 8px rgba(96,165,250,.9);
+}
+
+@media(max-width:640px){
+  .player-shell{padding:8px;}
+  .controls{padding:8px 10px 10px;}
+  .clock-time{font-size:16px;}
+  .clock-date{font-size:10px;}
+}
+
+a {
+text-decoration: none; /* 去掉下划线 */
+color: blue; /* 设置文字颜色 */
+}
+a:hover {
+text-decoration: underline; /* 鼠标悬停时显示下划线 */
+}
+
+.player-logo-link {
+  position:absolute;
+  top:12px;
+  left:12px;
+  display:block;
+  opacity:0;
+  transition:opacity .35s ease;
+}
+
+.player-wrapper:hover .player-logo-link {
+  opacity:1;
+}
+
+.player-logo {
+  width:120px;
+  pointer-events:auto;
+  cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+<div class="player-shell">
+  <div class="player-wrapper" id="playerWrapper">
+
+    <!-- 左上角 LOGO :logo.png -->
+   <a href="https://go.choong.net/video/index.html" target="_blank" class="player-logo-link"> 
+      <img src="douyin-logo.svg" class="player-logo" alt="logo" /> 
+   </a>
+   
+    <!-- 右上角系统时间 -->
+    <div class="player-clock">
+      <div class="clock-time" id="clockTime">00:00:00</div>
+      <div class="clock-date" id="clockDate">0000.00.00 周X</div>
+    </div>
+
+    <!-- 视频 <source src="2025-123.mp4" type="video/mp4" /> -->
+    <video id="video" preload="metadata">
+	  <source src="https://go.choong.net/zt/%E5%9B%BD%E6%AD%8C%EF%BC%88%E8%A7%86%E9%A2%91+%E5%AD%97%E5%B9%95%EF%BC%89.mp4" type="video/mp4" />
+      您的浏览器不支持 HTML5 视频。
+    </video>
+
+    <div class="player-overlay-gradient"></div>
+
+    <!-- 控制条（保持不变） -->
+    <div class="controls">
+      <div class="controls-header">
+        <div class="controls-title">
+          <span class="controls-dot"></span>
+          <span id="videoTitle">
+			
+<a href="https://go.choong.net/zt/%E5%9B%BD%E6%AD%8C%EF%BC%88%E8%A7%86%E9%A2%91+%E5%AD%97%E5%B9%95%EF%BC%89.mp4" style="color:#808080;" title="本地下载" target="_blank">国歌（视频+字幕）.mp4</a></span>
+        </div>
+        <div class="controls-fps">
+		   <a href="https://www.gov.cn/guoqing/guoge/" style="color:#FFFFFF;" title="国歌曲谱、音频、视频下载_下载_中国政府网" target="_blank">国歌 - 义勇军进行曲</a>
+         </div>
+      </div>
+
+      <div class="progress-container" id="progressContainer">
+        <div class="progress-buffer" id="bufferBar"></div>
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-handle" id="progressHandle"></div>
+      </div>
+
+      <div class="controls-bottom">
+        <div class="controls-left">
+          <button id="playPauseBtn" class="btn-primary">
+            <span id="playPauseIcon">▶</span>
+            <span id="playPauseText">播放</span>
+          </button>
+
+          <span class="time-display">
+            <span id="currentTime">00:00</span>
+            <span class="time-divider">/</span>
+            <span id="duration">00:00</span>
+          </span>
+
+          <button id="muteBtn" class="btn-icon-rounded">
+            <span id="volumeIcon">🔊</span>
+          </button>
+          <input id="volumeRange" class="volume-range" type="range" min="0" max="1" step="0.01" value="0.8" />
+        </div>
+
+        <div class="controls-right">
+          <button id="playbackRateBtn" class="btn-icon-rounded">1.0×</button>
+          <button id="fullscreenBtn" class="btn-icon-rounded">⛶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* —— 视频自适应逻辑（保持不变） —— */
+const video=document.getElementById("video");
+const playerWrapper=document.getElementById("playerWrapper");
+let videoAspectRatio=16/9;
+
+function resizePlayer(){
+  const vw=window.innerWidth, vh=window.innerHeight;
+  const maxW=vw-32, maxH=vh-32;
+  let w=maxW, h=w/videoAspectRatio;
+  if(h>maxH){h=maxH;w=h*videoAspectRatio;}
+  playerWrapper.style.width=w+"px";
+  playerWrapper.style.height=h+"px";
+}
+
+video.addEventListener("loadedmetadata",()=>{
+  videoAspectRatio=video.videoWidth/video.videoHeight;
+  resizePlayer();
+});
+window.addEventListener("resize",resizePlayer);
+
+/* —— 播放控制（保持不变） —— */
+const playPauseBtn=document.getElementById("playPauseBtn");
+const playPauseIcon=document.getElementById("playPauseIcon");
+const playPauseText=document.getElementById("playPauseText");
+const currentTimeEl=document.getElementById("currentTime");
+const durationEl=document.getElementById("duration");
+const progressContainer=document.getElementById("progressContainer");
+const progressBar=document.getElementById("progressBar");
+const bufferBar=document.getElementById("bufferBar");
+const progressHandle=document.getElementById("progressHandle");
+const volumeRange=document.getElementById("volumeRange");
+const muteBtn=document.getElementById("muteBtn");
+const volumeIcon=document.getElementById("volumeIcon");
+const playbackRateBtn=document.getElementById("playbackRateBtn");
+const fullscreenBtn=document.getElementById("fullscreenBtn");
+
+let isSeeking=false,lastVolume=volumeRange.value;
+
+function fmt(t){
+  if(isNaN(t))return"00:00";
+  const m=Math.floor(t/60), s=Math.floor(t%60);
+  return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+}
+
+video.addEventListener("loadedmetadata",()=>durationEl.textContent=fmt(video.duration));
+
+function togglePlay(){video.paused?video.play():video.pause();}
+playPauseBtn.addEventListener("click",togglePlay);
+video.addEventListener("click",togglePlay);
+
+video.addEventListener("play",()=>{playPauseIcon.textContent="⏸";playPauseText.textContent="暂停";});
+video.addEventListener("pause",()=>{playPauseIcon.textContent="▶";playPauseText.textContent="播放";});
+
+video.addEventListener("timeupdate",()=>{
+  if(isSeeking)return;
+  currentTimeEl.textContent=fmt(video.currentTime);
+  const p=video.currentTime/video.duration||0;
+  progressBar.style.transform=`scaleX(${p})`;
+  progressHandle.style.left=`${p*100}%`;
+});
+
+video.addEventListener("progress",()=>{
+  if(!video.buffered.length)return;
+  const end=video.buffered.end(video.buffered.length-1);
+  bufferBar.style.transform=`scaleX(${end/video.duration})`;
+});
+
+progressContainer.addEventListener("mousedown",e=>{
+  isSeeking=true;seek(e);
+  const move=ev=>seek(ev);
+  const up=()=>{isSeeking=false;window.removeEventListener("mousemove",move);window.removeEventListener("mouseup",up);}
+  window.addEventListener("mousemove",move);
+  window.addEventListener("mouseup",up);
+});
+function seek(e){
+  const r=progressContainer.getBoundingClientRect();
+  const x=e.clientX-r.left;
+  const p=Math.min(Math.max(x/r.width,0),1);
+  video.currentTime=p*video.duration;
+  progressBar.style.transform=`scaleX(${p})`;
+  progressHandle.style.left=`${p*100}%`;
+}
+
+volumeRange.addEventListener("input",()=>{
+  video.volume=volumeRange.value;
+  lastVolume=volumeRange.value;
+  updateVolumeIcon();
+});
+function updateVolumeIcon(){
+  if(video.muted||video.volume===0)volumeIcon.textContent="🔇";
+  else if(video.volume<.4)volumeIcon.textContent="🔈";
+  else if(video.volume<.8)volumeIcon.textContent="🔉";
+  else volumeIcon.textContent="🔊";
+}
+muteBtn.addEventListener("click",()=>{
+  if(video.muted||video.volume===0){
+    video.muted=false;video.volume=lastVolume||0.8;volumeRange.value=video.volume;
+  }else{
+    video.muted=true;volumeRange.value=0;
+  }
+  updateVolumeIcon();
+});
+
+const speeds=[1.0,1.25,1.5,2.0,0.5];
+let si=0;
+playbackRateBtn.addEventListener("click",()=>{
+  si=(si+1)%speeds.length;
+  video.playbackRate=speeds[si];
+  playbackRateBtn.textContent=speeds[si].toFixed(2)+"×";
+});
+
+fullscreenBtn.addEventListener("click",()=>{
+  if(!document.fullscreenElement)playerWrapper.requestFullscreen?.();
+  else document.exitFullscreen?.();
+});
+
+/* —— 新增：右上角系统时间 —— */
+function updateClock(){
+  const now=new Date();
+  const hh=String(now.getHours()).padStart(2,"0");
+  const mm=String(now.getMinutes()).padStart(2,"0");
+  const ss=String(now.getSeconds()).padStart(2,"0");
+
+  const y=now.getFullYear();
+  const m=String(now.getMonth()+1).padStart(2,"0");
+  const d=String(now.getDate()).padStart(2,"0");
+  const wk=["日","一","二","三","四","五","六"][now.getDay()];
+
+  document.getElementById("clockTime").textContent=`${hh}:${mm}:${ss}`;
+  document.getElementById("clockDate").textContent=`${y}/${m}/${d} 周${wk}`;
+}
+setInterval(updateClock,1000);
+updateClock();
+</script>
+</body>
+</html>
