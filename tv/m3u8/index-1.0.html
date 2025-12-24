@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>增强版 m3u8 播放器</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin: 0; background: #000; color: #fff; font-family: sans-serif; }
+    #player-container { position: relative; width: 80%; margin: 2rem auto; }
+    video { width: 100%; height: auto; background: #000; }
+    .overlay {
+      position: absolute; z-index: 10;
+      font-weight: bold; pointer-events: none;
+    }
+    #logo { top: 10px; left: 10px; }
+    #logo img { width: 80px; opacity: 0.8; }
+
+    #time {
+      top: 10px; right: 10px;
+      font-size: 14px; padding: 4px 8px;
+      border-radius: 4px; transition: color 0.3s ease;
+    }
+
+    #controls, #history { width: 80%; margin: 1rem auto; text-align: center; }
+    #controls input, #controls select, #controls button { margin: 5px; padding: 5px; }
+
+    ul#history-list { list-style: none; padding: 0; }
+    ul#history-list li {
+      cursor: pointer; margin: 4px; padding: 4px;
+      background: #222; border-radius: 4px;
+    }
+    ul#history-list li:hover { background: #444; }
+
+    @media screen and (max-width: 768px) {
+      #player-container, #controls, #history { width: 100%; }
+      #controls input, #controls button, #controls select { width: 90%; display: block; margin: 6px auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="player-container">
+  <video id="video" controls crossorigin="anonymous"></video>
+  <canvas id="colorCanvas" width="160" height="90" style="display:none;"></canvas>
+  <div class="overlay" id="logo"><img src="douyin-logo.svg" alt="logo"></div>
+  <div class="overlay" id="time">北京时间</div>
+</div>
+
+<div id="controls">
+  <input type="text" id="url-input" placeholder="请输入 m3u8 地址" size="40">
+  <button onclick="loadStream()">加载播放</button>
+  <button onclick="togglePlay()">播放/暂停</button>
+
+  <input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
+  <select onchange="setSpeed(this.value)">
+    <option value="0.5">0.5x</option>
+    <option value="1" selected>1x</option>
+    <option value="1.5">1.5x</option>
+    <option value="2">2x</option>
+  </select>
+  <button onclick="enterPiP()">画中画</button>
+
+  <select id="playlist" onchange="selectStream(this.value)">
+    <option value="">-- 选择视频源 --</option>
+    <option value="https://example.com/douyin.m3u8">抖音视频</option>
+    <option value="https://example.com/bilibili.m3u8">B站视频</option>
+  </select>
+
+  <div id="timeDisplay">时间信息</div>
+</div>
+
+<div id="history">
+  <h3>播放历史记录</h3>
+  <ul id="history-list"></ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+  const video = document.getElementById('video');
+  const timeLabel = document.getElementById('time');
+  const logoImg = document.querySelector('#logo img');
+  const canvas = document.getElementById('colorCanvas');
+  const ctx = canvas.getContext('2d');
+  let hls;
+  let urlHistory = [];
+
+  function loadStream() {
+    const url = document.getElementById('url-input').value.trim();
+    if (!url) return;
+    if (hls) hls.destroy();
+    hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    video.play();
+    updateHistory(url);
+    updateLogo(url);
+  }
+
+  function togglePlay() { video.paused ? video.play() : video.pause(); }
+  function setVolume(val) { video.volume = parseFloat(val); }
+  function setSpeed(val) { video.playbackRate = parseFloat(val); }
+  function enterPiP() { if (document.pictureInPictureEnabled) video.requestPictureInPicture(); }
+  function selectStream(url) {
+    document.getElementById('url-input').value = url;
+    loadStream();
+  }
+
+  function updateLogo(url) {
+    if (url.includes('douyin')) {
+      logoImg.src = 'douyin-logo.svg';
+    } else if (url.includes('bilibili')) {
+      logoImg.src = 'bilibili-logo.svg';
+    } else {
+      logoImg.src = 'default-logo.svg';
+    }
+  }
+
+  function updateHistory(url) {
+    if (!urlHistory.includes(url)) {
+      urlHistory.push(url);
+      localStorage.setItem('playHistory', JSON.stringify(urlHistory));
+      renderHistory();
+    }
+  }
+
+  function renderHistory() {
+    const list = document.getElementById('history-list');
+    list.innerHTML = '';
+    urlHistory.forEach(url => {
+      const li = document.createElement('li');
+      li.textContent = url;
+      li.onclick = () => {
+        document.getElementById('url-input').value = url;
+        loadStream();
+      };
+      list.appendChild(li);
+    });
+  }
+
+  window.onload = () => {
+    const saved = localStorage.getItem('playHistory');
+    if (saved) {
+      urlHistory = JSON.parse(saved);
+      renderHistory();
+    }
+  };
+
+  function formatTime(t) {
+    const min = Math.floor(t / 60);
+    const sec = Math.floor(t % 60);
+    return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+  }
+
+  function updateTimeDisplay() {
+    if (!isNaN(video.duration)) {
+      const current = video.currentTime;
+      const total = video.duration;
+      const remain = total - current;
+      document.getElementById('timeDisplay').textContent =
+        `当前: ${formatTime(current)} / 总时长: ${formatTime(total)} / 剩余: ${formatTime(remain)}`;
+    }
+  }
+
+  function updateBeijingTime() {
+    const now = new Date();
+    const bjOffset = 8 * 60; // UTC+8
+    const localOffset = now.getTimezoneOffset();
+    const bjTime = new Date(now.getTime() + (bjOffset + localOffset) * 60000);
+    timeLabel.textContent = '北京时间 ' + bjTime.toLocaleTimeString('zh-CN');
+  }
+
+  function updateTextColorBasedOnVideo() {
+    if (video.readyState >= 2) {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let sum = 0;
+      for (let i = 0; i < imgData.data.length; i += 4) {
+        const brightness = 0.299 * imgData.data[i] + 0.587 * imgData.data[i+1] + 0.114 * imgData.data[i+2];
+        sum += brightness;
+      }
+      const avg = sum / (canvas.width * canvas.height);
+      timeLabel.style.color = avg < 128 ? 'white' : 'gray';
+    }
+  }
+
+  setInterval(updateTimeDisplay, 1000);
+  setInterval(updateBeijingTime, 1000);
+  setInterval(updateTextColorBasedOnVideo, 2000);
+</script>
+
+</body>
+</html>

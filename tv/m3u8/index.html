@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>增强版 m3u8 播放器</title>
+   <link rel="shortcut icon" type="image/x-icon" href="vite.svg" media="screen" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin: 0; background: #000; color: #fff; font-family: sans-serif; }
+    #player-container { position: relative; width: 80%; margin: 2rem auto; }
+    video { width: 100%; height: auto; background: #000; }
+    .overlay {
+      position: absolute; z-index: 10;
+      font-weight: bold; pointer-events: none;
+    }
+    #logo { top: 10px; left: 10px; }
+    #logo img { width: 80px; opacity: 0.8; }
+
+    #time {
+      top: 10px; right: 10px;
+      font-size: 14px; padding: 4px 8px;
+      border-radius: 4px; transition: color 0.3s ease;
+    }
+
+    #controls, #history { width: 80%; margin: 1rem auto; text-align: center; }
+    #controls input, #controls select, #controls button { margin: 5px; padding: 5px; }
+
+    ul#history-list { list-style: none; padding: 0; }
+    ul#history-list li {
+      cursor: pointer; margin: 4px; padding: 4px;
+      background: #222; border-radius: 4px;
+    }
+    ul#history-list li:hover { background: #444; }
+
+    @media screen and (max-width: 768px) {
+      #player-container, #controls, #history { width: 100%; }
+      #controls input, #controls button, #controls select { width: 90%; display: block; margin: 6px auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="player-container">
+  <video id="video" controls crossorigin="anonymous"></video>
+  <canvas id="colorCanvas" width="160" height="90" style="display:none;"></canvas>
+  <div class="overlay" id="logo"><img src="douyin-logo.svg" alt="" title="Logo"></div>
+  <div class="overlay" id="time">北京时间</div>
+</div>
+
+<div id="controls">
+	
+	<select id="playlist" onchange="selectStream(this.value)">
+	  <option value="">-- 选择视频源 --</option>
+      <option value="https://lvo-live.youku.com/vod2live/03000700005CACE3B173FEA330EC2DBB6D42B3-B932-464D-8DCC-E820CFF5DA5D-1-110-LIVE-1639-0106-1715-59622_mp4hd2v3.m3u8?title=8184638&ver=1.0.0&uid=0&log_type=log_type&aliyun_uuid=3Y%2BDINCD4n8CAXPmhBdhOvTH&cdnQuality=720p&quality=4&multi_raw_stream=03000700005CACE3B173FEA330EC2DBB6D42B3-B932-464D-8DCC-E820CFF5DA5D-1-110-LIVE-1639-0106-1715-59622&ccode=live05010101&expire=21600&psid=77B069F828D4CC700184CD62812403FA&ups_client_netip=60.163.37.74&ups_ts=1752304590&ups_userid=0&utid=3Y%2BDINCD4n8CAXPmhBdhOvTH&vid=8184638_8112445&fn=03000700005CACE3B173FEA330EC2DBB6D42B3-B932-464D-8DCC-E820CFF5DA5D-1-110-LIVE-1639-0106-1715-59622_mp4hd2v3&duration=30&ykLiveSign=0yZfR1ceqYolgN8zsbm0MtgF7P3M03OszqUgNboSkmrB6jIASA8lz3W1RUYVwd1l&vkey=B573b338e86289bff7d146302f166592c&cug=10&t=e7dcc650c335fa6&rid=20000000DB1EAEFEDC6FDEB28B296257F05023E900000000">典籍中国・央视精品 vku.youku.com</option>
+      <option value="https://lf-douyin-pc-web.douyinstatic.com/obj/douyin-pc-web/uuu_265.mp4">抖音直播 live.douyin.com</option>
+	  <option value="https://cn-hnld-ct-01-47.bilivideo.com/live-bvc/268115/live_222103174_4331333_bluray/index.m3u8?expires=1752307112&len=0&oi=1017324874&pt=web&qn=10000&trid=1007238b59cf0bf328f037893479d2687207&bmt=1&sigparams=cdn,expires,len,oi,pt,qn,trid,bmt&cdn=cn-gotcha01&sign=ed4b6cb0dd150f0bcb72e456ebcb30da&site=7d90bd583a21c17eb4f2a65700ff74c8&free_type=0&mid=38389129&sche=ban&bvchls=1&sid=cn-hnld-ct-01-47&chash=1&sg=lr&trace=25&isp=ct&rg=East&pv=Zhejiang&hot_cdn=909709&strategy_version=latest&expected_qn=0,0,0&pp=rtmp&deploy_env=prod&strategy_id=11&suffix=bluray&info_source=cache&hdr_type=0&source=puv3_master&origin_bitrate=634341&long_ab_id=45&flvsk=34cd870526f386c6b8baa8858061bfa5&sl=3&sk=ab4d6216ed762aced81a9ee666ed2773&p2p_type=1&long_ab_flag_value=test&codec=0&score=1&ld=xs&strategy_type=1&long_ab_flag=live_default_longitudinal&vd=nc&zoneid_l=151355393&sid_l=stream_name_cold&src=puv3&order=1">B站直播 live.bilibili.com</option>
+	  <option value="https://ldocctvwbcdbd.a.bdydns.com/ldocctvwbcd/cdrmldcctv6_1/index.m3u8?BR=hd" title=""CCTV-6电影频道高清直播_CCTV节目官网_央视网">CCTV-6电影频道 tv.cctv.com/live/</option>
+     <option value="https://v2.tlkqc.com/wjv2/202506/07/UX2SWphqaV74/video/1000k_720/hls/index.m3u8">腾讯视频《长安的荔枝》（全35集）</option>
+	  <option value="https://v1.tlkqc.com/wjv1/202308/19/3veg4U4BYY2/video/index.m3u8">2004《天下无贼》</option>
+	</select>
+  <input type="text" id="url-input" placeholder="请输入 m3u8 地址" size="40">
+  <button onclick="loadStream()">加载播放</button>
+  <button onclick="togglePlay()">播放/暂停</button>
+
+  <input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
+  <select onchange="setSpeed(this.value)">
+    <option value="0.5">0.5x</option>
+    <option value="1" selected>1x</option>
+    <option value="1.5">1.5x</option>
+    <option value="2">2x</option>
+  </select>
+  <button onclick="enterPiP()">画中画</button>
+
+  <div id="timeDisplay">时间信息</div>
+</div>
+
+<div id="history">
+  <h3><a href="https://timerd.me/static/tv.html?zwx=https://v.qq.com/x/cover/mzc00200iyue5he/k410187y6uq.html" style="color: #fff;" title="默认线路：《长安的荔枝》（全35集）
+内地 · 2025 · 轻喜剧
+雷佳音 岳云鹏 安沺 吕凉 公磊 冯嘉怡 芦芳生 赵魏 蔡鹭 阎必果 周美君 郭涛 韩童生 窦骁 张天爱
+">视频解析</a> | 播放历史记录</h3>
+  <!-- <ul id="history-list"></ul> -->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+  const video = document.getElementById('video');
+  const timeLabel = document.getElementById('time');
+  const logoImg = document.querySelector('#logo img');
+  const canvas = document.getElementById('colorCanvas');
+  const ctx = canvas.getContext('2d');
+  let hls;
+  let urlHistory = [];
+
+  function loadStream() {
+    const url = document.getElementById('url-input').value.trim();
+    if (!url) return;
+    if (hls) hls.destroy();
+    hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    video.play();
+    updateHistory(url);
+    updateLogo(url);
+  }
+
+  function togglePlay() { video.paused ? video.play() : video.pause(); }
+  function setVolume(val) { video.volume = parseFloat(val); }
+  function setSpeed(val) { video.playbackRate = parseFloat(val); }
+  function enterPiP() { if (document.pictureInPictureEnabled) video.requestPictureInPicture(); }
+  function selectStream(url) {
+    document.getElementById('url-input').value = url;
+    loadStream();
+  }
+
+  function updateLogo(url) {
+    if (url.includes('douyin')) {
+      logoImg.src = 'douyin-logo.svg';
+    } 
+	else if (url.includes('bilibili')) {
+      logoImg.src = 'bilibili-logo.svg';
+    }  
+	else if (url.includes('youku.svg')) {
+      logoImg.src = 'youku.svg';
+    } 
+	else if (url.includes('cctv')) {
+      logoImg.src = 'images/CCTV-1.png';
+    } 
+	else {
+      logoImg.src = 'default-logo.svg';
+    }
+  }
+
+  function updateHistory(url) {
+    if (!urlHistory.includes(url)) {
+      urlHistory.push(url);
+      localStorage.setItem('playHistory', JSON.stringify(urlHistory));
+      renderHistory();
+    }
+  }
+
+  function renderHistory() {
+    const list = document.getElementById('history-list');
+    list.innerHTML = '';
+    urlHistory.forEach(url => {
+      const li = document.createElement('li');
+      li.textContent = url;
+      li.onclick = () => {
+        document.getElementById('url-input').value = url;
+        loadStream();
+      };
+      list.appendChild(li);
+    });
+  }
+
+  window.onload = () => {
+    const saved = localStorage.getItem('playHistory');
+    if (saved) {
+      urlHistory = JSON.parse(saved);
+      renderHistory();
+    }
+  };
+
+  function formatTime(t) {
+    const min = Math.floor(t / 60);
+    const sec = Math.floor(t % 60);
+    return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+  }
+
+  function updateTimeDisplay() {
+    if (!isNaN(video.duration)) {
+      const current = video.currentTime;
+      const total = video.duration;
+      const remain = total - current;
+      document.getElementById('timeDisplay').textContent =
+        `当前: ${formatTime(current)} / 总时长: ${formatTime(total)} / 剩余: ${formatTime(remain)}`;
+    }
+  }
+
+  function updateBeijingTime() {
+    const now = new Date();
+    const bjOffset = 8 * 60; // UTC+8
+    const localOffset = now.getTimezoneOffset();
+    const bjTime = new Date(now.getTime() + (bjOffset + localOffset) * 60000);
+    timeLabel.textContent = '北京时间 ' + bjTime.toLocaleTimeString('zh-CN');
+  }
+
+  function updateTextColorBasedOnVideo() {
+    if (video.readyState >= 2) {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let sum = 0;
+      for (let i = 0; i < imgData.data.length; i += 4) {
+        const brightness = 0.299 * imgData.data[i] + 0.587 * imgData.data[i+1] + 0.114 * imgData.data[i+2];
+        sum += brightness;
+      }
+      const avg = sum / (canvas.width * canvas.height);
+      timeLabel.style.color = avg < 128 ? 'white' : 'gray';
+    }
+  }
+
+  setInterval(updateTimeDisplay, 1000);
+  setInterval(updateBeijingTime, 1000);
+  setInterval(updateTextColorBasedOnVideo, 2000);
+</script>
+
+</body>
+</html>

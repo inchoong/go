@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>自定义 m3u8 播放器</title>
+  <style>
+    body { margin: 0; background: #000; color: #fff; font-family: Arial, sans-serif; }
+    #player-container { position: relative; width: 80%; margin: 2rem auto; }
+    video { width: 100%; height: auto; background: #000; }
+    .overlay {
+      position: absolute; z-index: 10; padding: 10px;
+      color: white; font-weight: bold; font-size: 14px;
+    }
+    #logo { top: 10px; left: 10px; }
+    #time { top: 10px; right: 10px; }
+    #controls { margin-top: 1rem; text-align: center; }
+    #controls button, #controls input, #controls select {
+      margin: 5px;
+    }
+    #history { margin: 2rem auto; width: 80%; }
+  </style>
+</head>
+<body>
+
+<div id="player-container">
+  <video id="video" controls></video>
+  <div class="overlay" id="logo">LOGO 🔒</div>
+  <div class="overlay" id="time">北京时间</div>
+</div>
+
+<div id="controls">
+  <input type="text" id="url-input" placeholder="请输入 m3u8 地址" size="50">
+  <button onclick="loadStream()">加载</button>
+  <button onclick="togglePlay()">播放/暂停</button>
+  <input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
+  <select onchange="setSpeed(this.value)">
+    <option value="0.5">0.5x</option>
+    <option value="1" selected>1x</option>
+    <option value="1.5">1.5x</option>
+    <option value="2">2x</option>
+  </select>
+  <button onclick="enterPiP()">画中画</button>
+  <div id="timeDisplay">时间信息</div>
+</div>
+
+<div id="history">
+  <h3>历史记录</h3>
+  <ul id="history-list"></ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+  const video = document.getElementById('video');
+  let hls;
+  let urlHistory = [];
+
+  function loadStream() {
+    const url = document.getElementById('url-input').value;
+    if (hls) hls.destroy();
+    hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    video.play();
+    updateHistory(url);
+  }
+
+  function togglePlay() {
+    video.paused ? video.play() : video.pause();
+  }
+
+  function setVolume(val) {
+    video.volume = val;
+  }
+
+  function setSpeed(val) {
+    video.playbackRate = val;
+  }
+
+  function enterPiP() {
+    if (document.pictureInPictureEnabled && !video.disablePictureInPicture) {
+      video.requestPictureInPicture();
+    }
+  }
+
+  function updateHistory(url) {
+    if (!urlHistory.includes(url)) {
+      urlHistory.push(url);
+      const li = document.createElement('li');
+      li.textContent = url;
+      document.getElementById('history-list').appendChild(li);
+    }
+  }
+
+  function updateTimeDisplay() {
+    const current = video.currentTime;
+    const total = video.duration;
+    const remain = total - current;
+    document.getElementById('timeDisplay').textContent = 
+      `当前: ${formatTime(current)} / 总时长: ${formatTime(total)} / 剩余: ${formatTime(remain)}`;
+  }
+
+  function formatTime(time) {
+    const min = Math.floor(time / 60);
+    const sec = Math.floor(time % 60);
+    return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+  }
+
+  setInterval(updateTimeDisplay, 1000);
+
+  function updateBeijingTime() {
+    const now = new Date();
+    const bjTime = new Date(now.getTime() + (8 - now.getTimezoneOffset() / 60) * 3600000);
+    document.getElementById('time').textContent = '北京时间 ' + bjTime.toLocaleTimeString('zh-CN');
+  }
+
+  setInterval(updateBeijingTime, 1000);
+</script>
+
+</body>
+</html>
