@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>全能 Markdown 编辑器 - 导入/导出/草稿/预览</title>
+
+  <!-- 引入 marked.js -->
+  <script src="https://unpkg.com/marked@13.0.2/marked.min.js"></script>
+  <!-- 引入 highlight.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+  <!-- 引入 html2canvas -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <!-- 引入 jsPDF -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background-color: #f5f7fa;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .controls button {
+      padding: 8px 14px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      background-color: #0070f3;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .controls button:hover {
+      background-color: #005fcc;
+    }
+
+    .danger {
+      background-color: #dc3545 !important;
+    }
+    .danger:hover {
+      background-color: #c82333 !important;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      height: calc(100vh - 160px);
+    }
+
+    textarea, .preview {
+      width: 50%;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-y: auto;
+      background: #fff;
+    }
+
+    textarea {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      resize: none;
+    }
+
+    .preview {
+      position: relative;
+    }
+
+    .preview-content {
+      padding: 16px;
+    }
+
+    /* 预览样式 */
+    .preview h1, .preview h2, .preview h3, .preview h4, .preview h5, .preview h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    .preview p, .preview ul, .preview ol, .preview blockquote, .preview pre {
+      margin-bottom: 16px;
+    }
+
+    .preview pre {
+      background: #1e1e1e !important;
+      border-radius: 6px;
+      padding: 16px !important;
+      overflow-x: auto;
+    }
+
+    .preview code {
+      font-family: "SFMono-Regular", Consolas, monospace;
+    }
+
+    .preview table {
+      border-collapse: collapse;
+      margin: 16px 0;
+      width: 100%;
+    }
+
+    .preview th, .preview td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .preview blockquote {
+      padding: 0 1em;
+      color: #6a737d;
+      border-left: 0.25em solid #dfe2e5;
+    }
+
+    /* 模态框 */
+    #htmlModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      width: 90%;
+      max-width: 800px;
+      max-height: 80vh;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    #htmlOutput {
+      flex: 1;
+      width: 100%;
+      padding: 10px;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+      overflow-y: auto;
+    }
+
+    .modal-footer {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .modal-footer button {
+      padding: 6px 12px;
+      font-size: 13px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .copy-btn {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .copy-btn:hover {
+      background-color: #218838;
+    }
+
+    /* 拖拽区域提示 */
+    .drag-over {
+      background-color: #e6f7ff !important;
+      border: 2px dashed #0070f3 !important;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+      textarea, .preview {
+        width: 100%;
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📝 全能 Markdown 编辑器</h1>
+    <p><strong><a href="markdown-help.html">Markdown 说明</a></strong>：支持导入、导出、草稿、预览、PDF、HTML 转换</p>
+  </div>
+
+  <div class="controls">
+    <button id="importBtn">📂 导入 Markdown</button>
+    <button id="exportHtmlBtn">📥 导出 HTML</button>
+    <button id="exportPdfBtn">📄 导出 PDF</button>
+    <button id="convertHtmlBtn">🔄 转换为纯 HTML</button>
+    <button id="clearDraftBtn" class="danger">🗑️ 清除草稿</button>
+    <!-- 隐藏的文件选择器 -->
+    <input type="file" id="fileInput" accept=".md,.txt" style="display:none" />
+  </div>
+
+  <div class="container">
+    <textarea id="markdownInput" placeholder="在此输入 Markdown 内容..."># 欢迎使用全能 Markdown 编辑器！
+
+## ✨ 功能一览
+- 📂 导入 Markdown 文件
+- 💾 自动保存草稿（刷新不丢失）
+- 🗑️ 手动清除草稿
+- 🔄 转换为纯 HTML（可复制）
+- 📥 导出为 HTML 文件
+- 📄 导出为 PDF 文件
+- 📱 响应式设计
+
+## 示例代码
+\`\`\`python
+def hello(name):
+    print(f"Hello, {name}!")
+hello("Markdown")
+\`\`\`
+
+## 表格
+| 功能 | 状态 |
+|------|------|
+| 导入 | ✔️ |
+| 草稿 | ✔️ |
+| 导出 HTML | ✔️ |
+| 导出 PDF | ✔️ |
+| 转换 HTML | ✔️ |
+
+> 小贴士：可直接拖拽 `.md` 或 `.txt` 文件到左侧区域导入！
+</textarea>
+
+    <div class="preview" id="previewArea">
+      <div class="preview-content" id="previewContent"></div>
+    </div>
+  </div>
+
+  <!-- HTML 转换模态框 -->
+  <div id="htmlModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>转换结果：纯 HTML</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <textarea id="htmlOutput" readonly></textarea>
+      <div class="modal-footer">
+        <button class="copy-btn" id="copyHtmlBtn">📋 复制 HTML</button>
+        <button id="closeModalBtn">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ======================
+    // 全局变量
+    // ======================
+    const input = document.getElementById('markdownInput');
+    const previewContent = document.getElementById('previewContent');
+    const fileInput = document.getElementById('fileInput');
+    const importBtn = document.getElementById('importBtn');
+    const exportHtmlBtn = document.getElementById('exportHtmlBtn');
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    const convertHtmlBtn = document.getElementById('convertHtmlBtn');
+    const clearDraftBtn = document.getElementById('clearDraftBtn');
+    const htmlModal = document.getElementById('htmlModal');
+    const htmlOutput = document.getElementById('htmlOutput');
+    const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const closeBtn = document.querySelector('.close-btn');
+
+    const DRAFT_KEY = 'markdown_editor_draft';
+    let autoSaveTimer = null;
+
+    // ======================
+    // 工具函数
+    // ======================
+
+    /**
+     * 获取干净的 HTML（无高亮类）
+     */
+    function getCleanHTML() {
+      marked.setOptions({ gfm: true, breaks: true, highlight: null });
+      return marked.parse(input.value);
+    }
+
+    /**
+     * 渲染带高亮的预览
+     */
+    function renderPreview() {
+      marked.setOptions({
+        gfm: true,
+        breaks: true,
+        highlight: function(code, lang) {
+          if (lang && hljs.getLanguage(lang)) {
+            return hljs.highlight(code, { language: lang }).value;
+          }
+          return hljs.highlightAuto(code).value;
+        }
+      });
+      const html = marked.parse(input.value);
+      previewContent.innerHTML = html;
+      hljs.highlightAll();
+    }
+
+    /**
+     * 保存草稿到 localStorage
+     */
+    function saveDraft() {
+      localStorage.setItem(DRAFT_KEY, input.value);
+    }
+
+    /**
+     * 加载草稿
+     */
+    function loadDraft() {
+      const draft = localStorage.getItem(DRAFT_KEY);
+      if (draft !== null) {
+        input.value = draft;
+        renderPreview();
+      }
+    }
+
+    /**
+     * 清除草稿
+     */
+    function clearDraft() {
+      if (confirm('确定要清除草稿吗？此操作不可恢复。')) {
+        localStorage.removeItem(DRAFT_KEY);
+        input.value = '';
+        renderPreview();
+      }
+    }
+
+    // ======================
+    // 导入功能
+    // ======================
+
+    /**
+     * 处理文件读取
+     */
+    function handleFile(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        input.value = e.target.result;
+        renderPreview();
+        saveDraft(); // 导入后立即保存
+      };
+      reader.readAsText(file, 'UTF-8');
+    }
+
+    /**
+     * 拖拽事件处理
+     */
+    function setupDragAndDrop() {
+      const textarea = input;
+      textarea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        textarea.classList.add('drag-over');
+      });
+
+      textarea.addEventListener('dragleave', () => {
+        textarea.classList.remove('drag-over');
+      });
+
+      textarea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        textarea.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          const file = files[0];
+          if (file.name.endsWith('.md') || file.name.endsWith('.txt')) {
+            handleFile(file);
+          } else {
+            alert('仅支持 .md 或 .txt 文件！');
+          }
+        }
+      });
+    }
+
+    // ======================
+    // 导出功能
+    // ======================
+
+    function exportAsHTML() {
+      const title = 'Markdown_导出_' + new Date().toISOString().slice(0, 10);
+      const cleanHtml = getCleanHTML();
+      const htmlContent = `
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>${title}</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; padding: 20px; background: #fff; line-height: 1.6; }
+    pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
+    code { font-family: "SFMono-Regular", Consolas, monospace; background: #f0f0f0; padding: 2px 4px; border-radius: 3px; }
+    table { border-collapse: collapse; margin: 16px 0; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px 12px; }
+    blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; margin: 0 0 16px; }
+    h1, h2, h3 { margin-top: 24px; margin-bottom: 16px; }
+    p, ul, ol { margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  ${cleanHtml}
+</body>
+</html>
+      `.trim();
+
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${title}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    async function exportAsPDF() {
+      const originalText = exportPdfBtn.textContent;
+      exportPdfBtn.textContent = '正在生成 PDF...';
+      exportPdfBtn.disabled = true;
+
+      try {
+        const canvas = await html2canvas(previewContent, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff'
+        });
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 210;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= 297;
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= 297;
+        }
+
+        pdf.save('Markdown_导出_' + new Date().toISOString().slice(0, 10) + '.pdf');
+      } catch (error) {
+        alert('PDF 导出失败：' + error.message);
+        console.error(error);
+      } finally {
+        exportPdfBtn.textContent = originalText;
+        exportPdfBtn.disabled = false;
+      }
+    }
+
+    // ======================
+    // 转换为纯 HTML 模态框
+    // ======================
+
+    function showHtmlModal() {
+      htmlOutput.value = getCleanHTML();
+      htmlModal.style.display = 'flex';
+    }
+
+    function copyHtmlToClipboard() {
+      htmlOutput.select();
+      document.execCommand('copy');
+      const original = copyHtmlBtn.textContent;
+      copyHtmlBtn.textContent = '✅ 已复制！';
+      setTimeout(() => copyHtmlBtn.textContent = original, 1500);
+    }
+
+    function hideHtmlModal() {
+      htmlModal.style.display = 'none';
+    }
+
+    // ======================
+    // 初始化
+    // ======================
+
+    // 加载草稿
+    loadDraft();
+
+    // 自动保存（每 2 秒）
+    input.addEventListener('input', () => {
+      renderPreview();
+      if (autoSaveTimer) clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(saveDraft, 2000);
+    });
+
+    // 绑定按钮事件
+    importBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        handleFile(e.target.files[0]);
+        e.target.value = ''; // 允许重复选择同一文件
+      }
+    });
+
+    exportHtmlBtn.addEventListener('click', exportAsHTML);
+    exportPdfBtn.addEventListener('click', exportAsPDF);
+    convertHtmlBtn.addEventListener('click', showHtmlModal);
+    clearDraftBtn.addEventListener('click', clearDraft);
+    copyHtmlBtn.addEventListener('click', copyHtmlToClipboard);
+    closeModalBtn.addEventListener('click', hideHtmlModal);
+    closeBtn.addEventListener('click', hideHtmlModal);
+
+    window.addEventListener('click', (e) => {
+      if (e.target === htmlModal) hideHtmlModal();
+    });
+
+    // 设置拖拽导入
+    setupDragAndDrop();
+
+    // 初始渲染
+    renderPreview();
+  </script>
+</body>
+</html>
