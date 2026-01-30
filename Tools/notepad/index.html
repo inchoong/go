@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📝 记事本/合同/文档 Markdown 编辑器</title>
+
+  <!-- 引入 marked.js -->
+  <script src="https://unpkg.com/marked@13.0.2/marked.min.js"></script>
+  <!-- 引入 highlight.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+  <!-- 引入 html2canvas -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <!-- 引入 jsPDF -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      background-color: #f9fafb;
+      padding: 20px;
+      color: #333;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      font-size: 16px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .controls button {
+      padding: 8px 14px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      background-color: #3b82f6;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .controls button:hover {
+      background-color: #2563eb;
+    }
+
+    .danger {
+      background-color: #ef4444 !important;
+    }
+    .danger:hover {
+      background-color: #dc2626 !important;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      height: calc(100vh - 180px);
+    }
+
+    textarea, .preview {
+      width: 50%;
+      padding: 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-y: auto;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    textarea {
+      font-family: "Consolas", "Courier New", monospace;
+      resize: none;
+    }
+
+    .preview {
+      position: relative;
+    }
+
+    .preview-content {
+      padding: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* 预览区样式：模拟正式文档 */
+    .preview-content {
+      font-family: "Times New Roman", "SimSun", serif;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #111;
+    }
+
+    .preview h1, .preview h2, .preview h3 {
+      margin-top: 28px;
+      margin-bottom: 16px;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .preview h1 {
+      font-size: 24px;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .preview p, .preview ul, .preview ol, .preview blockquote {
+      margin-bottom: 16px;
+    }
+
+    .preview pre {
+      background: #f4f4f4;
+      border-left: 4px solid #ccc;
+      padding: 12px;
+      overflow-x: auto;
+      font-family: "Consolas", monospace;
+      font-size: 14px;
+    }
+
+    .preview code {
+      font-family: "Consolas", monospace;
+      background: #f0f0f0;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    .preview table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+
+    .preview th, .preview td {
+      border: 1px solid #999;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .preview th {
+      background-color: #f0f0f0;
+    }
+
+    .preview blockquote {
+      margin-left: 0;
+      padding: 0 1em;
+      color: #555;
+      border-left: 3px solid #ccc;
+      font-style: italic;
+    }
+
+    .preview hr {
+      border: 0;
+      border-top: 1px solid #999;
+      margin: 24px 0;
+    }
+
+    /* 模态框 */
+    #htmlModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      width: 90%;
+      max-width: 800px;
+      max-height: 80vh;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    #htmlOutput {
+      flex: 1;
+      width: 100%;
+      padding: 10px;
+      font-family: "Consolas", monospace;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+      overflow-y: auto;
+    }
+
+    .modal-footer {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .modal-footer button {
+      padding: 6px 12px;
+      font-size: 13px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .copy-btn {
+      background-color: #10b981;
+      color: white;
+    }
+
+    .copy-btn:hover {
+      background-color: #059669;
+    }
+
+    /* 拖拽提示 */
+    .drag-over {
+      background-color: #dbeafe !important;
+      border: 2px dashed #3b82f6 !important;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+      textarea, .preview {
+        width: 100%;
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📝 合同 / 文档 Markdown 编辑器</h1>
+    <p class="subtitle"><strong><a href="./markdown/index.html">Markdown 说明</a></strong>：适用于协议、条款、技术文档、法律合同等正式文本</p>
+  </div>
+
+  <div class="controls">
+    <button id="importBtn">📂 导入 Markdown</button>
+    <button id="exportHtmlBtn">📥 导出 HTML</button>
+    <button id="exportPdfBtn">📄 导出 PDF</button>
+    <button id="convertHtmlBtn">🔄 转换为纯 HTML</button>
+    <button id="clearDraftBtn" class="danger">🗑️ 清除草稿</button>
+    <input type="file" id="fileInput" accept=".md,.txt" style="display:none" />
+  </div>
+
+  <div class="container">
+    <textarea id="markdownInput" placeholder="在此输入合同或文档内容..."># 服务协议
+
+## 第一条 服务内容
+甲方委托乙方提供以下服务：
+- 网站开发与维护
+- 技术咨询与支持
+- 数据安全审计
+
+## 第二条 费用与支付
+| 项目 | 金额（元） | 支付时间 |
+|------|------------|----------|
+| 首期款 | 10,000 | 合同签订后3日内 |
+| 尾款   | 5,000  | 项目验收后 |
+
+> **注意**：逾期未支付，每日按未付金额的 **0.05%** 收取违约金。
+
+## 第三条 保密条款
+双方应对在合作过程中获知的对方商业秘密予以保密，保密期限为 **3年**。
+
+\`\`\`text
+示例：保密信息包括但不限于源代码、客户名单、财务数据。
+\`\`\`
+
+---
+
+**甲方（盖章）：** ______________  
+**乙方（盖章）：** ______________  
+**签署日期：** ____年__月__日
+</textarea>
+
+    <div class="preview" id="previewArea">
+      <div class="preview-content" id="previewContent"></div>
+    </div>
+  </div>
+
+  <!-- HTML 转换模态框 -->
+  <div id="htmlModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>转换结果：纯 HTML</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <textarea id="htmlOutput" readonly></textarea>
+      <div class="modal-footer">
+        <button class="copy-btn" id="copyHtmlBtn">📋 复制 HTML</button>
+        <button id="closeModalBtn">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ======================
+    // 全局配置
+    // ======================
+    const DRAFT_KEY = 'contract_markdown_draft';
+    const input = document.getElementById('markdownInput');
+    const previewContent = document.getElementById('previewContent');
+    const fileInput = document.getElementById('fileInput');
+    let autoSaveTimer = null;
+
+    // DOM 引用
+    const importBtn = document.getElementById('importBtn');
+    const exportHtmlBtn = document.getElementById('exportHtmlBtn');
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    const convertHtmlBtn = document.getElementById('convertHtmlBtn');
+    const clearDraftBtn = document.getElementById('clearDraftBtn');
+    const htmlModal = document.getElementById('htmlModal');
+    const htmlOutput = document.getElementById('htmlOutput');
+    const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const closeBtn = document.querySelector('.close-btn');
+
+    // ======================
+    // 工具函数
+    // ======================
+
+    function getCleanHTML() {
+      marked.setOptions({ gfm: true, breaks: true, highlight: null });
+      return marked.parse(input.value);
+    }
+
+    function renderPreview() {
+      marked.setOptions({
+        gfm: true,
+        breaks: true,
+        highlight: function(code, lang) {
+          if (lang && hljs.getLanguage(lang)) {
+            return hljs.highlight(code, { language: lang }).value;
+          }
+          return hljs.highlightAuto(code).value;
+        }
+      });
+      const html = marked.parse(input.value);
+      previewContent.innerHTML = html;
+      hljs.highlightAll();
+    }
+
+    function saveDraft() {
+      localStorage.setItem(DRAFT_KEY, input.value);
+    }
+
+    function loadDraft() {
+      const draft = localStorage.getItem(DRAFT_KEY);
+      if (draft !== null) {
+        input.value = draft;
+        renderPreview();
+      }
+    }
+
+    function clearDraft() {
+      if (confirm('确定清除草稿？此操作不可恢复。')) {
+        localStorage.removeItem(DRAFT_KEY);
+        input.value = '';
+        renderPreview();
+      }
+    }
+
+    // ======================
+    // 导入功能
+    // ======================
+
+    function handleFile(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        input.value = e.target.result;
+        renderPreview();
+        saveDraft();
+      };
+      reader.readAsText(file, 'UTF-8');
+    }
+
+    function setupDragAndDrop() {
+      const textarea = input;
+      ['dragover', 'dragenter'].forEach(evt => {
+        textarea.addEventListener(evt, (e) => {
+          e.preventDefault();
+          textarea.classList.add('drag-over');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(evt => {
+        textarea.addEventListener(evt, () => {
+          textarea.classList.remove('drag-over');
+        });
+      });
+
+      textarea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          const file = files[0];
+          if (file.name.endsWith('.md') || file.name.endsWith('.txt')) {
+            handleFile(file);
+          } else {
+            alert('仅支持 .md 或 .txt 文件！');
+          }
+        }
+      });
+    }
+
+    // ======================
+    // 导出功能
+    // ======================
+
+    function exportAsHTML() {
+      const title = '合同文档_' + new Date().toISOString().slice(0, 10);
+      const cleanHtml = getCleanHTML();
+      const htmlContent = `
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>${title}</title>
+  <style>
+    body { font-family: "Times New Roman", "SimSun", serif; padding: 40px; line-height: 1.8; background: #fff; color: #000; max-width: 800px; margin: 0 auto; }
+    h1 { text-align: center; font-size: 24px; margin: 0 0 24px; }
+    h2, h3 { margin-top: 24px; margin-bottom: 16px; }
+    p, ul, ol, blockquote { margin-bottom: 16px; }
+    pre { background: #f4f4f4; border-left: 4px solid #ccc; padding: 12px; overflow-x: auto; font-family: Consolas, monospace; }
+    code { font-family: Consolas, monospace; background: #f0f0f0; padding: 2px 4px; border-radius: 3px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    th, td { border: 1px solid #999; padding: 8px 12px; }
+    th { background-color: #f0f0f0; }
+    blockquote { margin-left: 0; padding: 0 1em; color: #555; border-left: 3px solid #ccc; font-style: italic; }
+    hr { border: 0; border-top: 1px solid #999; margin: 24px 0; }
+  </style>
+</head>
+<body>
+  ${cleanHtml}
+</body>
+</html>
+      `.trim();
+
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${title}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    async function exportAsPDF() {
+      const originalText = exportPdfBtn.textContent;
+      exportPdfBtn.textContent = '正在生成 PDF...';
+      exportPdfBtn.disabled = true;
+
+      try {
+        // 创建临时容器用于 PDF 渲染（避免样式冲突）
+        const tempDiv = document.createElement('div');
+        tempDiv.style.width = '210mm';
+        tempDiv.style.padding = '20mm 15mm';
+        tempDiv.style.fontFamily = '"Times New Roman", "SimSun", serif';
+        tempDiv.style.fontSize = '12pt';
+        tempDiv.style.lineHeight = '1.8';
+        tempDiv.style.color = '#000';
+        tempDiv.innerHTML = getCleanHTML();
+        document.body.appendChild(tempDiv);
+
+        const canvas = await html2canvas(tempDiv, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff'
+        });
+
+        document.body.removeChild(tempDiv);
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 210;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= 297;
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= 297;
+        }
+
+        pdf.save('合同文档_' + new Date().toISOString().slice(0, 10) + '.pdf');
+      } catch (error) {
+        alert('PDF 导出失败：' + error.message);
+        console.error(error);
+      } finally {
+        exportPdfBtn.textContent = originalText;
+        exportPdfBtn.disabled = false;
+      }
+    }
+
+    // ======================
+    // 转换为 HTML 模态框
+    // ======================
+
+    function showHtmlModal() {
+      htmlOutput.value = getCleanHTML();
+      htmlModal.style.display = 'flex';
+    }
+
+    function copyHtmlToClipboard() {
+      htmlOutput.select();
+      document.execCommand('copy');
+      const original = copyHtmlBtn.textContent;
+      copyHtmlBtn.textContent = '✅ 已复制！';
+      setTimeout(() => copyHtmlBtn.textContent = original, 1500);
+    }
+
+    function hideHtmlModal() {
+      htmlModal.style.display = 'none';
+    }
+
+    // ======================
+    // 初始化
+    // ======================
+
+    loadDraft();
+
+    input.addEventListener('input', () => {
+      renderPreview();
+      if (autoSaveTimer) clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(saveDraft, 2000);
+    });
+
+    importBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        handleFile(e.target.files[0]);
+        e.target.value = '';
+      }
+    });
+
+    exportHtmlBtn.addEventListener('click', exportAsHTML);
+    exportPdfBtn.addEventListener('click', exportAsPDF);
+    convertHtmlBtn.addEventListener('click', showHtmlModal);
+    clearDraftBtn.addEventListener('click', clearDraft);
+    copyHtmlBtn.addEventListener('click', copyHtmlToClipboard);
+    closeModalBtn.addEventListener('click', hideHtmlModal);
+    closeBtn.addEventListener('click', hideHtmlModal);
+
+    window.addEventListener('click', (e) => {
+      if (e.target === htmlModal) hideHtmlModal();
+    });
+
+    setupDragAndDrop();
+    renderPreview();
+  </script>
+</body>
+</html><script>window.Dcloud_Html_preview_filename = "d%3A%5Cbaoda%5Cshare%5Ccode.2025%5Cchoong.net%5Cdoc-tools.html"</script><script>document.write('<script src="//' + (location.host || 'localhost').split(':')[0] + ':35929/livereload.js?snipver=1"></' + 'script>')</script>
+	<script>
+	class reloadPlugin {
+		reload(path, options){
+			return decodeURIComponent(Dcloud_Html_preview_filename) !== path;
+		}
+	}
+	if (LiveReload){
+		LiveReload.addPlugin(reloadPlugin)
+	}
+
+	</script>
+	
