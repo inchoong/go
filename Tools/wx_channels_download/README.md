@@ -2,6 +2,38 @@
 
 体积小、使用简单、支持 macOS 和 Windows 系统。
 
+<main class="main" data-v-e6f2a212>
+			<div style="position:relative;" >
+				<div>
+					<h1 id="下载" tabindex="-1">下载 <a href="#下载" aria-label="Permalink to &quot;下载&quot;">​</a></h1>
+					<br><!---->
+					<p>下载对应平台的构建包：
+					<a href="https://github.com/ltaoo/wx_channels_download/releases" target="_blank" rel="noreferrer">https://github.com/ltaoo/wx_channels_download/releases</a>
+					</p>
+					<h2 id="如何选择构建包" tabindex="-1">
+						如何选择构建包 <a class="header-anchor" href="#如何选择构建包" aria-label="Permalink to &quot;如何选择构建包&quot;">​</a>
+						</h2>
+						<p>根据上述环境信息，选择对应的构建包</p>
+						<ol>
+							<li>
+								<p>macOS arm64 选择 <a href="wx_video_download_v260331_darwin_arm64.zip">darwin_arm64</a> 后缀</p>
+								</li>
+								<li>
+								<p>macOS x86_64 选择 <a href="#">darwin_x86_64</a> 后缀</p>
+								</li>
+								<li>
+									<p>Windows x86_64 选择 <a href="wx_video_download_v260331_darwin_arm64.zip">windows_x86_64</a> 后缀</p>
+									</li>
+						</ol>
+						<h2 id="运行下载器" tabindex="-1">运行下载器 
+						<a class="header-anchor" href="#运行下载器" aria-label="Permalink to &quot;运行下载器&quot;">​</a>
+						</h2>
+						<p>在 <code>Windows</code> 平台，解压后双击直接运行 <code>wx_video_download.exe</code> 即可，首次使用会自动安装证书并设置系统代理。</p>
+						<p><code>macOS</code> 平台请参考 <a href="./macos.html">macOS 运行</a></p>
+					</div>
+				</div>
+</main>
+
 ## 使用说明
 
 下载[构建包](https://github.com/ltaoo/wx_channels_download/releases)，**以管理员身份运行**，首次打开会自动安装证书，然后启动服务。
