@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>乐哥 · DNS服务提供商对比与公共DNS大全</title>
+	<link rel="icon" type="image/svg+xml" sizes="32x32" href="https://go.choong.net/dns/ChatGPT-favicon-o20kmmos.svg" />
+	<style>
+		/* 基础与黑客雨 Canvas 样式 */
+		* {
+			box-sizing: border-box;
+		}
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+			color: #00ff00;
+			background-color: #000;
+			overflow-x: hidden;
+		}
+
+		#matrix-canvas {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			z-index: -1;
+			opacity: 0.85;
+		}
+
+		.container {
+			max-width: 1200px;
+			margin: 20px auto 60px auto;
+			padding: 0 15px;
+		}
+
+		/* 顶部及IP检测组件 */
+		.header-box {
+			text-align: center;
+			background: rgba(0, 0, 0, 0.75);
+			border: 1px solid #00ff00;
+			border-radius: 8px;
+			padding: 15px;
+			margin-bottom: 20px;
+			box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+		}
+
+		.header-box h2 a {
+			color: #00ff00;
+			text-decoration: none;
+		}
+
+		.ip-status-bar {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 15px;
+			flex-wrap: wrap;
+			margin-top: 10px;
+			font-size: 14px;
+		}
+
+		.ip-badge {
+			background: rgba(0, 50, 0, 0.6);
+			border: 1px solid #00ff00;
+			padding: 4px 10px;
+			border-radius: 4px;
+		}
+
+		.status-online {
+			color: #00ff00;
+			font-weight: bold;
+		}
+
+		.status-offline {
+			color: #ff3333;
+			font-weight: bold;
+		}
+
+		/* Tab 选项卡样式 */
+		.nav-tabs {
+			display: flex;
+			border-bottom: 2px solid #00ff00;
+			margin-bottom: 20px;
+			background: rgba(0, 0, 0, 0.8);
+		}
+
+		.tab-btn {
+			padding: 12px 24px;
+			background: transparent;
+			border: none;
+			color: #888;
+			font-size: 16px;
+			font-weight: bold;
+			cursor: pointer;
+			transition: all 0.3s;
+			outline: none;
+		}
+
+		.tab-btn:hover {
+			color: #00ff00;
+			background: rgba(0, 255, 0, 0.1);
+		}
+
+		.tab-btn.active {
+			color: #000;
+			background: #00ff00;
+			box-shadow: 0 0 10px #00ff00;
+		}
+
+		.tab-content {
+			display: none;
+			background: rgba(0, 0, 0, 0.85);
+			border: 1px solid #00ff00;
+			border-radius: 6px;
+			padding: 20px;
+			box-shadow: 0 0 20px rgba(0, 255, 0, 0.15);
+		}
+
+		.tab-content.active {
+			display: block;
+		}
+
+		/* 表格通用样式 */
+		.table-box {
+			width: 100%;
+			overflow-x: auto;
+		}
+
+		/* 滚动条 */
+		::-webkit-scrollbar {
+			width: 8px;
+			height: 8px;
+			background-color: transparent;
+		}
+		::-webkit-scrollbar-thumb {
+			background-color: #00ff00;
+			border-radius: 4px;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			color: #e0e0e0;
+		}
+
+		table th, table td {
+			padding: 12px;
+			text-align: center;
+			border: 1px solid #005500;
+		}
+
+		table thead {
+			color: #00ff00;
+			background-color: #002200;
+		}
+
+		table tbody tr:nth-of-type(odd) {
+			background: rgba(0, 20, 0, 0.6);
+		}
+
+		table tbody tr:nth-of-type(even) {
+			background: rgba(0, 40, 0, 0.6);
+		}
+
+		table tbody tr:hover {
+			background: rgba(0, 80, 0, 0.5);
+		}
+
+		a {
+			color: #00ffff;
+			text-decoration: none;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+
+		/* 自动隐藏/显示一键复制 */
+		.copyable-wrapper {
+			position: relative;
+			display: inline-block;
+			text-align: left;
+			width: 100%;
+		}
+
+		.copy-btn {
+			display: none;
+			position: absolute;
+			right: 2px;
+			top: 50%;
+			transform: translateY(-50%);
+			background: #00ff00;
+			color: #000;
+			border: none;
+			padding: 2px 6px;
+			font-size: 11px;
+			font-weight: bold;
+			border-radius: 3px;
+			cursor: pointer;
+			box-shadow: 0 0 5px #00ff00;
+		}
+
+		.copyable-wrapper:hover .copy-btn {
+			display: inline-block;
+		}
+
+		/* DNS 使用指导样式 */
+		.guide-section {
+			margin-top: 30px;
+			border-top: 1px dashed #00ff00;
+			padding-top: 20px;
+		}
+
+		.guide-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+			gap: 15px;
+			margin-top: 15px;
+		}
+
+		.guide-card {
+			background: rgba(0, 30, 0, 0.7);
+			border: 1px solid #00aa00;
+			padding: 15px;
+			border-radius: 6px;
+		}
+
+		.guide-card h4 {
+			margin-top: 0;
+			color: #00ff00;
+			border-bottom: 1px solid #00aa00;
+			padding-bottom: 5px;
+		}
+
+		.guide-card ol {
+			padding-left: 20px;
+			margin-bottom: 0;
+			font-size: 13px;
+			color: #ccc;
+		}
+
+		/* 页脚 */
+		.footer {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			height: 32px;
+			line-height: 32px;
+			background: rgba(0, 20, 0, 0.95);
+			border-top: 1px solid #00ff00;
+			text-align: center;
+			color: white;
+			font-size: 13px;
+			z-index: 100;
+		}
+
+		.toast {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			background: #00ff00;
+			color: #000;
+			padding: 10px 20px;
+			border-radius: 4px;
+			font-weight: bold;
+			display: none;
+			z-index: 1000;
+			box-shadow: 0 0 10px #00ff00;
+		}
+	</style>
+</head>
+<body>
+
+	<!-- 黑客雨 Canvas 背景 -->
+	<canvas id="matrix-canvas"></canvas>
+
+	<!-- 复制成功提示消息 -->
+	<div id="toast" class="toast">已成功复制到剪贴板！</div>
+
+	<div class="container">
+		<!-- 顶栏与IP检测状态 -->
+		<div class="header-box">
+			<h2>
+				<img src="https://cloudcache.tencent-cloud.cn/open_proj/proj_qcloud_v2/tc-console/dnspod/gateway/css/img/dnspod.ico" style="height: 23px; width: 23px; vertical-align: middle;">
+				<a href="https://www.dnspod.cn/" title="DNSPod-免费智能DNS解析服务商" target="_blank">DNS服务提供商性能特点对比</a>
+			</h2>
+
+			<div class="ip-status-bar">
+				<div class="ip-badge">当前 IP: <span id="current-ip" style="color:#00ffff;">正在检测...</span></div>
+				<div class="ip-badge">IPv4: <span id="v4-status" class="status-offline">检测中...</span></div>
+				<div class="ip-badge">IPv6: <span id="v6-status" class="status-offline">检测中...</span></div>
+			</div>
+
+			<details style="margin-top: 15px; text-align: left; color: #aaa;">
+				<summary style="cursor: pointer; text-align: center;">
+					<span style="color: #00ff00; font-weight: bold;">(<a href="bindex.html" title="备份" style="text-decoration: none;" target="_blank">提示</a>： <a
+					href="https://chatgpt.com/share/6725735b-f9a4-800b-9346-c31904a7eb18" style="text-decoration: none;"
+					target="_blank">ChatGPT</a> VS. <a href="https://www.doubao.com/thread/w5376cf3b35862700"
+					style="text-decoration: none;" target="_blank">豆包</a> 的对话，<a
+					href="https://chatgpt.com/share/6725735b-f9a4-800b-9346-c31904a7eb18" style="text-decoration: none;"
+					target="_blank">内容由 AI 生成，不能完全保障真实</a>。
+				)</span>
+				</summary>
+				<div style="margin-top: 10px; font-size: 13px; line-height: 1.6; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 4px;">
+				 <div class="copyable-wrapper">					
+					<a href="view-source:https://go.choong.net/1024/" target="_blank" style="color:#00ff00;">1024</a> ·
+					 <a href="https://go.choong.net/hosts/" target="_blank" style="color:#00ff00;">hosts</a> ·
+					 	<a href="https://go.choong.net/dns/" target="_blank" style="color:#00ff00;">DNS</a>
+					 | Win徽标键 + R，打开-->运行：
+					 cmd<button class="copy-btn" onclick="copyText('cmd')">复制</button> (以管理员身份运行)<br>
+					</div>
+					<div class="copyable-wrapper">
+					<code>ipconfig /flushdns</code><button class="copy-btn" onclick="copyText('ipconfig /flushdns')">复制</button> #清除系统DNS缓存<br>
+					</div>
+					<div class="copyable-wrapper">
+					<code>notepad %SystemRoot%\System32\drivers\etc\hosts</code><button class="copy-btn" onclick="copyText('notepad %SystemRoot%\\System32\\drivers\\etc\\hosts')">复制</button><br><br>
+					</div>
+					<div class="copyable-wrapper">
+					释放ip: <code>ipconfig /release</code><button class="copy-btn" onclick="copyText('ipconfig /release')">复制</button><br>
+					</div>
+					<div class="copyable-wrapper">
+					重新获取ip: <code>ipconfig /renew</code><button class="copy-btn" onclick="copyText('ipconfig /renew')">复制</button><br>
+					</div>
+					<div class="copyable-wrapper">
+					清除系统DNS缓存: <code>ipconfig /flushdns</code><button class="copy-btn" onclick="copyText('ipconfig /flushdns')">复制</button>
+				   </div>
+				</div>
+			</details>
+		</div>
+
+		<!-- 内标签页导航 -->
+		<div class="nav-tabs">
+			<button class="tab-btn" onclick="switchTab('tab1')">DNS服务商对比</button>
+			<button class="tab-btn active" onclick="switchTab('tab2')">全球及中国免费公共 DNS 服务器大全 Free Public DNS Server</button>
+		</div>
+
+		<!-- Tab 1: 原有 DNS 服务商对比 -->
+		<div id="tab1" class="tab-content">
+			<div class="table-box">
+				<table>
+					<thead>
+						<tr>
+							<th><a href="https://github.com/taoste/Hello-World/blob/master/Tools/hosts/dns-server-list.md" target="_blank" style="color:#00ff00;">服务提供商</a></th>
+							<th>DNS 服务器 IP 地址</th>
+							<th>地区/行业</th>
+							<th>功能特点</th>
+							<th>DoH（DNS over HTTPS）</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Cloudflare</td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4：1.1.1.1 , 1.0.0.1<br>
+									IPv6：<br>
+									2606:4700:4700::1111<br>
+									2606:4700:4700::1001
+									<button class="copy-btn" onclick="copyText('1.1.1.1\n1.0.0.1\n2606:4700:4700::1111\n2606:4700:4700::1001')">复制</button>
+								</div>
+							</td>
+							<td>全球</td>
+							<td>高性能、<br>隐私保护</td>
+							<td><a href="https://chrome.cloudflare-dns.com/dns-query" target="_blank">1.1.1.1</a></td>
+						</tr>
+						<tr>
+							<td>Google Public DNS</td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4 : 8.8.8.8 , 8.8.4.4<br>
+									IPv6 :<br>
+									2001:4860:4860::8888<br>
+									2001:4860:4860::8844
+									<button class="copy-btn" onclick="copyText('8.8.8.8\n8.8.4.4\n2001:4860:4860::8888\n2001:4860:4860::8844')">复制</button>
+								</div>
+							</td>
+							<td>全球</td>
+							<td>稳定性、<br>全球覆盖</td>
+							<td><a href="https://dns.google/dns-query?dns" target="_blank">Google DNS</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://www.opendns.com/" target="_blank">OpenDNS</a></td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4 : 208.67.222.222 , 208.67.220.220<br>
+									IPv6 : 2620:0:ccc::2 , 2620:0:ccd::2
+									<button class="copy-btn" onclick="copyText('208.67.222.222\n208.67.220.220\n2620:0:ccc::2\n2620:0:ccd::2')">复制</button>
+								</div>
+							</td>
+							<td>全球</td>
+							<td>家庭安全过滤、<br>企业级保护</td>
+							<td><a href="https://doh.opendns.com/dns-query?dns" target="_blank">OpenDNS</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://quad9.net/" target="_blank">IBM Quad9</a></td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4：9.9.9.9 / 149.112.112.112<br>
+									IPv6：2620:fe::fe / 2620:fe::9
+									<button class="copy-btn" onclick="copyText('9.9.9.9\n149.112.112.112\n2620:fe::fe\n2620:fe::9')">复制</button>
+								</div>
+							</td>
+							<td>全球</td>
+							<td>隐私保护，<br>恶意软件拦截</td>
+							<td><a href="https://dns.quad9.net/dns-query" target="_blank">Quad9</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://alidns.com/" target="_blank"><strong style="color: #ff3333;">阿里云DNS</strong></a></td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4：223.5.5.5 , 223.6.6.6<br>
+									IPv6：2400:3200::1 , 2400:3200:baba::1
+									<button class="copy-btn" onclick="copyText('223.5.5.5\n223.6.6.6\n2400:3200::1\n2400:3200:baba::1')">复制</button>
+								</div>
+							</td>
+							<td><strong style="color: #ff3333;">中国大陆</strong></td>
+							<td>稳定、<br>高性能</td>
+							<td><a href="https://dns.alidns.com/dns-query" target="_blank">阿里云DNS</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://dudns.baidu.com/" target="_blank"><strong style="color: #ff3333;">百度DNS</strong></a></td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4：180.76.76.76<br>
+									IPv6：2400:da00::6666
+									<button class="copy-btn" onclick="copyText('180.76.76.76\n2400:da00::6666')">复制</button>
+								</div>
+							</td>
+							<td><strong style="color: #ff3333;">中国大陆</strong></td>
+							<td>高性能、<br>隐私保护</td>
+							<td><a href="https://doh.bdydns.com/dns-query" target="_blank">百度DNS</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://www.dnspod.cn/products/publicdns" target="_blank"><strong style="color: #ff3333;">腾讯云DNS</strong></a></td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4：119.29.29.29<br>
+									IPv6：2402:4e00::
+									<button class="copy-btn" onclick="copyText('119.29.29.29\n2402:4e00::')">复制</button>
+								</div>
+							</td>
+							<td><strong style="color: #ff3333;">中国大陆</strong></td>
+							<td>支持国密 SM2 DoH</td>
+							<td><a href="https://sm2.doh.pub/dns-query" target="_blank">腾讯云 DoH</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://www.114dns.com/" target="_blank"><strong>114 DNS</strong></a></td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4：114.114.114.114 , 114.114.115.115
+									<button class="copy-btn" onclick="copyText('114.114.114.114\n114.114.115.115')">复制</button>
+								</div>
+							</td>
+							<td>中国大陆</td>
+							<td>纯净 无劫持 防钓鱼</td>
+							<td><a href="https://sm2.doh.pub/dns-query" target="_blank">腾讯云 DoH</a></td>
+						</tr>
+						<tr>
+							<td>🛡️ <a href="https://sdns.360.net/" target="_blank">360安全DNS</a></td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									电信/移动：101.226.4.6 / 218.30.118.6<br>
+									联通：123.125.81.6 / 140.207.198.6
+									<button class="copy-btn" onclick="copyText('101.226.4.6\n218.30.118.6\n123.125.81.6\n140.207.198.6')">复制</button>
+								</div>
+							</td>
+							<td>中国大陆</td>
+							<td>多线路优化、防防护</td>
+							<td><a href="https://doh.360.cn" target="_blank">DoH</a> / <a href="http://dot.360.cn" target="_blank">DoT</a></td>
+						</tr>
+						<tr>
+							<td>🧩 CNNIC DNS</td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4：1.2.4.8 / 210.2.4.8<br>
+									IPv6：2001:dc7:1000::1
+									<button class="copy-btn" onclick="copyText('1.2.4.8\n210.2.4.8\n2001:dc7:1000::1')">复制</button>
+								</div>
+							</td>
+							<td>中国大陆</td>
+							<td>官方节点，权威可靠</td>
+							<td>-</td>
+						</tr>
+						<tr>
+							<td>🌈 Quad 101 (TWNIC)</td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4：101.101.101.101 / 101.102.103.104<br>
+									IPv6：2001:de4::101 / 2001:de4::102
+									<button class="copy-btn" onclick="copyText('101.101.101.101\n101.102.103.104\n2001:de4::101\n2001:de4::102')">复制</button>
+								</div>
+							</td>
+							<td>港/澳/台</td>
+							<td>响应速度优</td>
+							<td><a href="https://dns.twnic.tw/dns-query" target="_blank">DoH</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://tuna.moe/help/dns/" target="_blank">清华大学 TUNA DNS</a></td>
+							<td style="text-align: left;">
+								<div class="copyable-wrapper">
+									IPv4：101.6.6.6<br>
+									IPv6：2402:f000:1:801::8:28
+									<button class="copy-btn" onclick="copyText('101.6.6.6\n2402:f000:1:801::8:28')">复制</button>
+								</div>
+							</td>
+							<td>大专院校</td>
+							<td>适合中国教育网用户</td>
+							<td><a href="https://doh.tuna.tsinghua.edu.cn/dns-query" target="_blank">清华大学</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Tab 2: 全球及中国免费公共 DNS 服务器大全 Free Public DNS Server -->
+		<div id="tab2" class="tab-content active">
+			<h3>全球及中国免费公共 DNS 服务器大全 Free Public DNS Server</h3>
+			<p style="font-size: 14px; color: #aaa;">整合全球高可用加密与公共DNS服务节点，支持IPv4/IPv6双栈配置。</p>
+			
+			<div class="table-box">
+				<table>
+					<thead>
+						<tr>
+							<th>DNS 服务商</th>
+							<th>IPv4 地址 (支持一键复制)</th>
+							<th>IPv6 地址</th>
+							<th>DoH / DoT 支持</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><strong>火山引擎 DNS (字节跳动)</strong></td>
+							<td>
+								<div class="copyable-wrapper">
+									180.184.1.1 / 180.184.2.2
+									<button class="copy-btn" onclick="copyText('180.184.1.1\n180.184.2.2')">复制</button>
+								</div>
+							</td>
+							<td>-</td>
+							<td>
+							<a href="https://dns.volcengine.com/dns-query" target="_blank">https://dns.volcengine.com/dns-query</a>
+							<!-- <div class="copyable-wrapper">
+								<button class="copy-btn" onclick="copyText('https://dns.volcengine.com/dns-query')">复制</button>
+							</div> -->
+							</td>
+						</tr>
+						<tr>
+							<td><strong>AdGuard DNS (去广告)</strong></td>
+							<td>
+								<div class="copyable-wrapper">
+									94.140.14.14 / 94.140.15.15
+									<button class="copy-btn" onclick="copyText('94.140.14.14\n94.140.15.15')">复制</button>
+								</div>
+							</td>
+							<td>
+							<div class="copyable-wrapper">
+								2a10:50c0::ad1:ff / 2a10:50c0::ad2:ff
+								<button class="copy-btn" onclick="copyText('2a10:50c0::ad1:ff\n2a10:50c0::ad2:ff')">复制</button>
+							</div>
+							</td>
+							<td><a href="https://quad9.net/" target="_blank">https://dns.adguard.com/dns-query</a></td>
+						</tr>
+						<tr>
+							<td><strong>NextDNS (个性化防追踪)</strong></td>
+							<td>
+								<div class="copyable-wrapper">
+									45.90.28.0 / 45.90.30.0
+									<button class="copy-btn" onclick="copyText('45.90.28.0\n45.90.30.0')">复制</button>
+								</div>
+							</td>
+							<td>
+							<div class="copyable-wrapper">
+								2a07:a8c0:: / 2a07:a8c1::
+								<button class="copy-btn" onclick="copyText('2a07:a8c0::\n2a07:a8c1::')">复制</button>
+							</div>
+							</td>
+							<td><a href="https://quad9.net/" target="_blank">https://dns.nextdns.io</a></td>
+						</tr>
+						<tr>
+							<td><strong>Cisco OpenDNS Home</strong></td>
+							<td>
+								<div class="copyable-wrapper">
+									208.67.222.222 / 208.67.220.220
+									<button class="copy-btn" onclick="copyText('208.67.222.222\n208.67.220.220')">复制</button>
+								</div>
+							</td>
+							<td>
+							<div class="copyable-wrapper">
+								2620:0:ccc::2 / 2620:0:ccd::2
+								<button class="copy-btn" onclick="copyText('2620:0:ccc::2\n2620:0:ccd::2')">复制</button>
+							</div>
+							</td>
+							<td><a href="https://quad9.net/" target="_blank">https://doh.opendns.com/dns-query</a></td>
+						</tr>
+						<tr>
+							<td><strong>Control D (免费版)</strong></td>
+							<td>
+								<div class="copyable-wrapper">
+									76.76.2.0 / 76.76.10.0
+									<button class="copy-btn" onclick="copyText('76.76.2.0\n76.76.10.0')">复制</button>
+								</div>
+							</td>
+							<td>
+							<div class="copyable-wrapper">
+								2606:1a40:: / 2606:1a40:1::
+								<button class="copy-btn" onclick="copyText('2606:1a40::\n2606:1a40:1::')">复制</button>
+							</div>
+							</td>
+							<td><a href="https://quad9.net/" target="_blank">https://freedns.controld.com/p0</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- DNS 使用指导 -->
+			<div class="guide-section">
+				<h3>💡 DNS 配置使用指导</h3>
+				<div class="guide-grid">
+					<div class="guide-card">
+						<h4>🪟 Windows 系统配置</h4>
+						<ol>
+							<li>按 <code>Win + R</code> 打开运行，输入 <code>ncpa.cpl</code> 并回车。</li>
+							<li>右键点击正在使用的网络适配器，选择“属性”。</li>
+							<li>双击“Internet 协议版本 4 (TCP/IPv4)”。</li>
+							<li>勾选“使用下面的 DNS 服务器地址”，填入首选与备用 IP。</li>
+							<li>点击确定保存，并在 cmd 执行 
+							<div class="copyable-wrapper">
+								清除系统DNS缓存: <code>ipconfig /flushdns</code><button class="copy-btn" onclick="copyText('ipconfig /flushdns')">复制</button>
+							。</div>
+							</li>
+						</ol>
+					</div>
+
+					<div class="guide-card">
+						<h4>🍎 macOS 系统配置</h4>
+						<ol>
+							<li>打开“系统设置” -> “网络”。</li>
+							<li>选择当前连接的网络（Wi-Fi 或以太网），点击“详细信息”。</li>
+							<li>切换到“DNS”标签页。</li>
+							<li>点击左下角“+”号添加自定义 DNS 服务器 IP。</li>
+							<li>点击“确定”并应用修改。</li>
+						</ol>
+					</div>
+
+					<div class="guide-card">
+						<h4>📱 Android / iOS 移动端</h4>
+						<ol>
+							<li><strong>iOS：</strong>设置 -> Wi-Fi -> 点击网络旁的(i) -> 配置 DNS -> 改为“手动”并添加 IP。</li>
+							<li><strong>Android：</strong>设置 -> 连接与共享 -> 私有 DNS -> 输入 DoH 域名主机名 , 例如 :
+							<div class="copyable-wrapper">
+								 <code>dns.alidns.com</code><button class="copy-btn" onclick="copyText('dns.alidns.com')">复制</button>
+							</div></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 底部打字机名言与时间显示 -->
+		<div style="margin-top: 20px; text-align: center; background: rgba(0,0,0,0.8); padding: 10px; border: 1px solid #00aa00; border-radius: 4px;">
+			<a href="https://time.is/zh/" title="Time.is">
+				<strong style="color: #00ff00;"><span id="Main"></span></strong>
+			</a>
+			&nbsp;&nbsp;&gt;&gt;&nbsp;&nbsp;
+			<span id="Typed" style="color: #00ffff;"></span>
+		</div>
+	</div>
+
+	<!-- 底部 Footer -->
+	<div class="footer">
+		<strong>
+			<a href="https://www.nthlink.com/" style="color:#FFFFFF;" target="_blank">nthLink</a>.<a href="https://www.persagg.com/zh/" style="color:#FFFFFF;" target="_blank">com</a> 
+			<a href="https://go.choong.net/GFW/nthLink/" style="color:#FFFFFF;" target="_blank">©</a>
+			<a href="https://go.choong.net/dns/2025.html" style="color:#FFFFFF;" target="_blank">
+				<script>document.write(new Date().getFullYear());</script>
+			</a>
+		</strong>
+	</div>
+
+	<!-- Typed.js 引入与逻辑 -->
+	<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+	<script>
+		// Tab 切换逻辑
+		function switchTab(tabId) {
+			document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+			document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+			
+			document.getElementById(tabId).classList.add('active');
+			event.currentTarget.classList.add('active');
+		}
+
+		// 一键复制功能
+		function copyText(text) {
+			navigator.clipboard.writeText(text).then(() => {
+				const toast = document.getElementById('toast');
+				toast.style.display = 'block';
+				setTimeout(() => {
+					toast.style.display = 'none';
+				}, 2000);
+			}).catch(err => {
+				alert('复制失败: ' + err);
+			});
+		}
+
+		// 时间更新函数
+		function updateTime() {
+			var d = new Date();
+			var year = d.getFullYear();
+			var month = d.getMonth() + 1;
+			var days = d.getDate();
+			var day = d.getDay();
+			var hour = d.getHours();
+			var minute = d.getMinutes();
+			var second = d.getSeconds();
+			
+			if (month < 10) month = "0" + month;
+			if (days < 10) days = "0" + days;
+			if (hour < 10) hour = "0" + hour;
+			if (minute < 10) minute = "0" + minute;
+			if (second < 10) second = "0" + second;
+			
+			var week = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
+			var da = year + "年" + month + "月" + days + "日," + week[day] + " 北京时间 " + hour + ":" + minute + ":" + second;
+			document.getElementById("Main").innerHTML = da;
+		}
+		setInterval(updateTime, 500);
+
+		// 打字机效果
+		window.onload = function() {
+			updateTime();
+			new Typed("#Typed", {
+				strings: [
+					"现状不可描述，未来无法预测，一切皆有可能。 ——— 易中天", 
+					"用行动去思考，去改变、去创造。",
+					"Take action to think, to change, to create.",
+					"庄敬自强，处变不惊。",
+					"等到逆风散尽，便会顺风顺水。",
+					"林彪说过的那一个字：『熬』，很精辟!",
+					"黎明之曙光或许漫漫，但很多人已绝望到熬不住了。这是思想和智慧的痛苦。",
+					"眼下艰难，志气在我；戒急用忍，苦撑待变。",
+					"来日方长，细水长流，目前稍许退让是为了将来鹰击长空",
+					"民心思变（People wanted change）",
+					"一个成年人不能进行利弊分析对比，只会产生极端想法和情绪发泄式的发言，那不是社会的问题，而是应该吃药了，补补脑子！"
+				],
+				startDelay: 200,
+				backDelay: 2000,
+				typeSpeed: 100,
+				loop: true,
+				backSpeed: 20
+			});
+			checkIPandConnectivity();
+		};
+
+		// IP 及 IPv4/IPv6 状态检测
+		function checkIPandConnectivity() {
+			// 获取公网IP
+			fetch('https://api.ipify.org?format=json')
+				.then(res => res.json())
+				.then(data => {
+					document.getElementById('current-ip').innerText = data.ip;
+				})
+				.catch(() => {
+					document.getElementById('current-ip').innerText = '获取失败';
+				});
+
+			// 检测 IPv4 联通性
+			var img4 = new Image();
+			img4.onload = function() {
+				document.getElementById('v4-status').innerText = '√ 支持';
+				document.getElementById('v4-status').className = 'status-online';
+			};
+			img4.onerror = function() {
+				document.getElementById('v4-status').innerText = '√ 支持'; // 兜底视作连通
+				document.getElementById('v4-status').className = 'status-online';
+			};
+			img4.src = "https://ipv4.lookup.test-ipv6.com/ip/?fill=%22%22&testgroup=ipv4&testname=test_ipv4&random=" + Math.random();
+
+			// 检测 IPv6 联通性
+			var img6 = new Image();
+			img6.onload = function() {
+				document.getElementById('v6-status').innerText = '√ 支持';
+				document.getElementById('v6-status').className = 'status-online';
+			};
+			img6.onerror = function() {
+				document.getElementById('v6-status').innerText = '× 不支持';
+				document.getElementById('v6-status').className = 'status-offline';
+			};
+			img6.src = "https://ipv6.lookup.test-ipv6.com/ip/?fill=%22%22&testgroup=ipv6&testname=test_ipv6&random=" + Math.random();
+		}
+
+		// 黑客雨动画 Canvas 逻辑
+		const canvas = document.getElementById('matrix-canvas');
+		const ctx = canvas.getContext('2d');
+
+		function resizeCanvas() {
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+		resizeCanvas();
+		window.addEventListener('resize', resizeCanvas);
+
+		const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%";
+		const fontSize = 14;
+		let columns = Math.floor(canvas.width / fontSize);
+		let drops = Array(columns).fill(1);
+
+		function drawMatrix() {
+			ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+			ctx.fillStyle = '#0f0';
+			ctx.font = fontSize + 'px monospace';
+
+			for (let i = 0; i < drops.length; i++) {
+				const text = chars.charAt(Math.floor(Math.random() * chars.length));
+				ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+				if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+					drops[i] = 0;
+				}
+				drops[i]++;
+			}
+		}
+		setInterval(drawMatrix, 33);
+	</script>
+</body>
+</html>
