@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一键复制 & 实时编辑 Hosts 工具 - 乐哥创事记</title>
+    <style>
+        :root {
+            --bg-color: #050811;
+            --card-bg: rgba(10, 20, 28, 0.75);
+            --border-color: rgba(0, 255, 102, 0.25);
+            --primary-neon: #00ff66; /* 黑客帝国经典绿 */
+            --secondary-neon: #00f0ff; /* 青蓝辅助色 */
+            --live-red: #ff0055;
+            --text-main: #f0f4f8;
+            --text-sub: #8aa3ad;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 黑客帝国 Canvas 全屏背景 */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.55;
+        }
+
+        /* 左右布局大容器 */
+        .container {
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 650px;
+            z-index: 1;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+
+        /* 通用卡片科技感玻璃拟态样式 */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-neon), transparent);
+        }
+
+        /* ================= 左侧：主播卡片 ================= */
+        .streamer-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            max-width: 420px;
+        }
+
+        @media (max-width: 900px) {
+            .streamer-card {
+                max-width: 100%;
+            }
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            flex-shrink: 0;
+            width: 96px;
+            height: 96px;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid var(--border-color);
+        }
+
+        .live-badge {
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            background: var(--live-red);
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.6);
+            letter-spacing: 1px;
+        }
+
+        .breath-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: breath 1.2s infinite ease-in-out;
+        }
+
+        @keyframes breath {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .profile-info h3 {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 6px;
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
+
+        .profile-info p {
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            font-size: 11px;
+            background: rgba(0, 255, 102, 0.1);
+            color: var(--primary-neon);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 255, 102, 0.2);
+        }
+
+        .status-bar {
+            margin-top: 24px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+		
+		/* 新增：实时时钟样式 */
+		.real-time-clock {
+		    text-align: center;
+		    margin-bottom: 16px;
+		    padding-bottom: 12px;
+		    border-bottom: 1px dashed rgba(0, 255, 102, 0.2);
+		}
+		
+		.clock-date {
+		    font-size: 12px;
+		    color: var(--secondary-neon);
+		    margin-bottom: 4px;
+		    letter-spacing: 1px;
+		}
+		
+		.clock-time {
+		    font-family: 'Courier New', Courier, monospace;
+		    font-size: 28px;
+		    font-weight: bold;
+		    color: var(--primary-neon); /* 使用青蓝辅助色，与倒计时区分 */
+		    text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+		}
+
+        .status-header {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .countdown-display {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--secondary-neon);
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
+        }
+
+        .is-offday {
+            color: var(--live-red) !important;
+            text-shadow: 0 0 10px rgba(255, 0, 85, 0.4) !important;
+        }
+
+        /* ================= 右侧：Hosts 工具 ================= */
+        .hosts-card {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hosts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .hosts-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-neon);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
+
+        /* 新增：Hosts 内部分类 Tab 标签页 */
+        .hosts-tab-group {
+            display: flex;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 102, 0.15);
+            margin-bottom: 12px;
+        }
+
+        .hosts-tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-sub);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: center;
+        }
+
+        .hosts-tab-btn.active {
+            background: rgba(0, 255, 102, 0.2);
+            color: var(--primary-neon);
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
+
+        .hosts-tab-btn:hover:not(.active) {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* 全系统平台选择卡片 */
+        .platform-selector {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            scrollbar-width: thin;
+        }
+
+        .platform-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-sub);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .platform-btn.active, .platform-btn:hover {
+            background: rgba(0, 255, 102, 0.15);
+            border-color: var(--primary-neon);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+        }
+
+        /* 智能交互引导说明 */
+        .guide-box {
+            background: rgba(0, 255, 102, 0.03);
+            border-left: 3px solid var(--primary-neon);
+            padding: 10px 14px;
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .guide-box code {
+            color: var(--primary-neon);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        /* IP 查询工具模块 */
+        .ip-query-bar {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(0, 255, 102, 0.15);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ip-query-title {
+            font-size: 12px;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dns-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            max-height: 60px;
+            overflow-y: auto;
+        }
+
+        .bgp-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--secondary-neon);
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .bgp-link-btn:hover {
+            background: var(--secondary-neon);
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+        }
+
+        .hosts-editor {
+            flex: 1;
+            width: 100%;
+            background: rgba(3, 8, 12, 0.85);
+            border: 1px solid rgba(0, 255, 102, 0.2);
+            border-radius: 8px;
+            padding: 14px;
+            font-family: 'Consolas', 'Fira Code', Monaco, monospace;
+            font-size: 12px;
+            color: #00ff66;
+            line-height: 1.5;
+            resize: vertical;
+            min-height: 200px;
+            margin-bottom: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .hosts-editor:focus {
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 12px rgba(0, 255, 102, 0.25);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .copy-btn {
+            flex: 2;
+            background: linear-gradient(135deg, #00ff66 0%, #0088ff 100%);
+            border: none;
+            color: #000;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .reset-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-sub);
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255, 0, 85, 0.2);
+            border-color: var(--live-red);
+            color: #fff;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 255, 102, 0.6);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+		
+		/* 页脚 */
+		.footer {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			height: 32px;
+			line-height: 32px;
+			background: rgba(0, 20, 0, 0.95);
+			border-top: 1px solid #00ff00;
+			text-align: center;
+			color: white;
+			font-size: 13px;
+			z-index: 100;
+		}
+		
+		.toast {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			background: #00ff00;
+			color: #000;
+			padding: 10px 20px;
+			border-radius: 4px;
+			font-weight: bold;
+			display: none;
+			z-index: 1000;
+			box-shadow: 0 0 10px #00ff00;
+		}
+		
+		
+    </style>
+</head>
+<body>
+
+    <!-- 黑客帝国代码雨 Canvas 背景 -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="container">
+        <!-- 左侧：主播推荐卡片 -->
+        <div class="glass-card streamer-card">
+            <div>
+                <div style="font-size: 12px; color: var(--primary-neon); letter-spacing: 1px; margin-bottom: 12px;">/// RECOMMENDED STREAMER</div>
+                
+                <div class="profile-container">
+                    <div class="avatar-wrapper">
+                        <div class="live-badge">
+                            <span class="breath-dot"></span>
+                            LIVE
+                        </div>
+						<a href="https://choong.net.cn/" title="虫虫物语 - 乐哥在线 （ Le Ge's Personal Website ）" target="_blank">
+						 <!--  占位图 https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80 -->
+                         <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCADIAMgDASIAAhEBAxEB/8QAHAAAAQQDAQAAAAAAAAAAAAAAAAECAwQFBgcI/8QAPxAAAQMCBAQEBAUCBAQHAAAAAQACAwQRBRIhMQZBUWEHEyJxFDKBkSNCobHB0eEzNFLwCGLC8RUkJUOSorL/xAAZAQADAQEBAAAAAAAAAAAAAAABAgMABAX/xAAiEQACAwACAgIDAQAAAAAAAAAAAQIRIRIxA0EiURNCYSP/2gAMAwEAAhEDEQA/APU6EIWMCEhQg2YVCE1zgNyPug2YUkAapMw130VWWbN8uoOm3NQwvkkLtG30sNUvMNWX9SNErjlGoKGg2HJRzHSzTyWb9gKdZUAtcy+W/UX5LGOdk00LSLdOimqpC7OGFtz+llUBduSbrnnKzs8UaQlul7X0SFvTdKhI+iw3KLabpMvcJ6O3NImFOhuUjU2Tm3cdAUOtbW+qtU+Ux62A91RKwSk+yqbNOu/7IdfK0XHNSVDRnFhumOsXXHLRB4ItEG+qcDd1hdNTxo3uUiWjuyQSln+Gdt0j5Xutc+1lHe2iUkNbc7nb+qdSFpEjHlpJdqWjVChecsYH5jqUI82gcbNqQhC7t9HAIRe3RKhIeyCW6YZK8MtfnoFSllJeQLggW6/9yrk+XJdwBtr1VaGIPka8ac1KXYUQxBhEjjck3Jsf2Cs0tnWIaRbqphENNOd/qngBoJAWUa1hbsCbNusbUSHzS1jvVv7dlPPUBpLefJYioLjMSb3J5lJOXofxRvsKloZJYXvpdRJdTvvz7oUm7Z1xxDT0SJzh0TJXtjjc829IQfQbGTTMgZmlcGt6lYibiOijdYF5HUN5Jk0TsQqbyn0jlyARUYTTeUSS02BI1UHKX6hUkuy7Q4pSVnpglGe18h0NvY7rIRvLdiubYpAGMMsDiySM3a9ptYjTQrbeFcTdimDwzyW80XZJ7jn+yPj8rboq4Jq0Z5ri59ydE0d+aRnynXVOGpsFYikkKzX1HYbe6QOJ15lFxyvYaIYAXW2A39krMhQB8x5fukIzuHc6pziHHTZIz0sc7nsFkAbIQXHYAIXMPFriWpkLeEeHJP8A1ivb/wCZmbr8HTndxI/MRoB9dNLiWTin8nQ2/qd7P7oR1KF6Ss80EITXG2yLdGEeNDe6bCABcBA1Gl08kMbpsFN09MJI4MaSbfVUX1EpcbNAaHAb2T6qZl8uYa6qPMcrWi9hfWySUrYyX2VKglt7gHW4Opt2UHzN9V79lccLixGipuYWPcDcXP6KUl9HTBjMrr2Nr7pL2JBsluAPSEnQpCghO5PNUcUJFK8jtf7q85YziCCpqMKqGUNQKefLdshbmtYjkfqlkOka1VcQYTh9T5VdiMNNKdmvdb6dL9lBi3FGC4fBG6qqpX+f/gsiYXOkv0A3Wm4rw/XVMLDJi0scGUGrhqABdw1JGm19eQWQxfguGmwXCqmokqS6GB0b2sJJizOu1w6Zb2t0ULM40LiuNUD6by5phQvLc3lzvDSB3137LMeF2J0z6OWjE4NTLI6VkdjcsAGuvLVYGk4Nw3BoxX1dO2tfb0yVDw7cWva9769ysz4Z0cbuJJ6toI/CcNdhrawHLumglZVOos6U4FgaLHZKXZRY/N+ynnItc2uNAqwPXquiWEIu9YAknSye61rD/uUh/Dva2Y/sm21BKRj9jtdLWSybZRy390NHrF9hqhhuS87DX6poqtFZx7xC4K4Tp8eqcVxDiuswSorbOrIIqpoNQNLBrSMw25X0uAELqkmH0bq74x1JTmrtbzjG3PYcrnWyE3Kxfxs2bh7GaLiDBKPFcLmbPRVcYljeNdDyPcbW6rIrGcO4Lh/DuD02F4NSspaCnbljiZc5bm5Nzqbk7rJ6dV2WcAhIA3CZqb2ukk5Af9k9tg0XSXZhBZjTffcqtLM0sLS4EnTTumV0xb8rraKhLlBOUlxI/wBlJJlIQ5CVBd5lmt2A5dlNFIXt0PuqtyRbdDXObsUjdHQ4Wi453MqpI67jc6JHPc75lG49DollKwxjQiTXVKmuSDpCFI4ZmkHnoUhduEwyAHU7boWOkaVX085klie6WZjHf5aEDM8DudPpotHnwrE63FzUtosWnia7M2jrMSaC033sOXY3C27iriagpcfDqFzZKyjhdLUhrrtDQ5jcpI2d6t/9jWqzxmwGGU/DYVKal40c8NFz772upfjYZTSMtjdBS02HxCtifFic3y0wlMgYTpYcieS27w/FKzCW0zHR/GwXFTHs9jidA4b9Oy4McWxPjLHhMM0TGv8AMLm/lAPJdK4qxeowThKl4twfyZq3zWRVxDg5tQwZmWdbS4J97+y0MYJP40dRkeCf2Q05W5nfQLmfC/i3w9jAjZVyS0FTpmZI0ubfs4cvst6psWoa7WlrKaboI5Gn9lV/01J9GRzDqL+6M1+YUBcOycz1OAB3SjccLN/w9LkuP2Q82aGDlv7pWkAlw+VosFGHa366p26VEo9iG/NCcTcISFNNsJsCVCH5n6X6pwkzOylK4iMan2XczyxxtuQFDNMGtNtuyjnq2sFgRc7KpUTZm7jPzAuPulcvodRbY6WQfLI5v1VN2UfLax7lNeS51yDdIptv0dEYUKbflvZIjldIVN/0oNPPXRIjmkKBgTHO+6Vx5lcl8aOIsTwt1LS0FQ6CGaMukMZs4i/XcD7JWxkqVm5cT8Y4PgDHCrqg+obr8PEQ559xsPqQuNcX+JmMYk57MMccPpbE2jP4jtxq4fxZanUsfkkklJcXC4JPVQ1NO50cT27OblP2uikJLy1iM/4aVDXs4mhe2SSuqKB8cX4bn/8AM4m22oAueZWFx7A8akqOF2VmHth+KIjZlpRES0EaucNXaa/qtg8EaoUfHjqeQeiqpZoH37sJ/wCldJqZ21Vdwm+tib5kGGzyBoGUB2gB+zrpn0QT2zIeHmBYPQwTtDA6env5xksYyToARzt+62yvwHDcSwWrwp1G2KjmBDmxxeULnW7eV78+qx+AUxfhTGYQ2KF2s7PN/EzOObRx59exWP4TxriOqkxOnxVlP5lKQ0ZRkNz2Olv96qOosv8AT5HnnF8GGCYrUUUTcj2zmLPb1WB/TRWHgwzOkLssbWk37rM+I9VTt48lZIQB5TA5w1AeRrf6LC8TNHl0lLGf8xIM1uYuDoqp4C6MxhPGmPYVE34eulkhDc4jn/EFr20vsPsu7cC40OIOH6XES1rZHgtkY3Zrxppf7+y8y4hNUTSTsoYWhoIZ5khsxjW9+Z7dF1HwCrqqGTEsOmnEsWRs7Ra1nkhug6WOq1FYTbVHaXyWs0WsENddQs2F+af8ozBI2ViqRKhRPksxzja7Rf7IWM42bfGwhzyTvqq1e70gG+/3Vp7yDoqFZMHN9ObMPouyWI8uKtlKU6mxtfXVNe5xIzHbRI45jqSfdIoyeHWooN90pAQNtSlGo0SpsYQ6hNdspC13RNLd7kBGmZMhKa49U92Vu5cfZROe0AkR3PcpQpiOOYEDZecvFSWSbjivtTySxxhrSBuLNtseS9Ez1gghkmdZrI2lx22A/ovL+IYniGK4/W4hNC+0jnO8y50vsABytbVDDSbSooeZ8ThjbXzN0102TqY+bQSsIu+MBw16arHxTBk80YDw3Nf8Tc31/lXMJkEdRcAvzaEWvdF9HNVs7F4QcCUsUMPEdbaSaW5gjdo1nLMep3tystt4wpaSqe2odNEyqZA6lE+ewjDyDYjpdoHZX+AZo4+EMJjztaWUzQb8gB/UFa14iYrR1GHVbW4jQ1MkTRaFuj23Nrgj9dhZTcn0ikUmzYeBqOoo8KZFVPY+Zsds7DcOaSbG+x5rhmNcaYlhPGHElTS1cHw08h/AqCbOyvsCw7bE6c+Wq7jwTWwM4XYA8mSKlLyHHU2ubjtqvKPEsb6mKUkjM5wDRvmc42/lVStUSTcZYT1lceI66etJLpHuGcgaNPf7fZSvopmMpJQ+S7GtmhF76glrm/fb3Wl4fWOwvFXxucbRvLHW52uNunbpot2ixSOsq6YwF3lsILRyc47npa50HRZxaHVS7GUdLUHDDJSwCpfGLXnNmtceZGpJ3GwFuputh8LsbqcE4qhfWVcsjKx4hmjjYCDe4bcnoSNOiWF0NPJKI6hsL3yFrrC9g4bkHcZv0KxBbU01Y+WRpe+I3HltDTcHci+o/VCysMZ6qZoSFO1r3AgMcqWD4k7EsKpK6ma3yZ4w9uUbEjY99791bMjyBmcbpcLtv0LUQubSTlxaLMJ3HRCgq/8AJz3/ANDufYoWtCOza53XBAsel1j25s+ts/vsh0hv6SWje26j+Y3I9+6vdnLCNDnNaN3G4SEt0Aab+6LdgkI00QtFVGh9+gH2TfVzdp7WQ2+yErYaEI5m9xqmu9k8qNx5dULCRuULzYX7qZyglIAN+qRjwRqPiZXig4PrCJAx01oQffU//W64NRYnAIpGReZM9xAcI25rAn9R+i3vxoxN9bjtDg0cjo4IWiSYt6u/TQD7latBW4VhhBw+MWBtnPM9hy56rIHke0UKfhaZ+IedVyNjje4lsQsC6w+6v1PwmD1HmPYDI8aMGzGj+dFiqziV82MR1bGjLSjMwdbb/osXUVs2NVEtbUONPSOcQXcgByB2JsRpcI0yNJHQKDjGOaGnwCsqhR4ZVvyGrzW8tpOZzCO421G9luuOYHgmJ4iMVwWoppYGQxUzIGxlrGhl3W7gjRebMXx2CGL4DDWGQZ2uc95uPbuNea9NcF4cym8POHaeJoYZomPe+x+YjckdiAlfjd2mJKSNgkpDQ8J4lUSRwhzaJ4Z5Y+W7NhztqAvL2KPDcSw2E7GYSO9m/wB7L1jxhGIeCcVDSMopi0W56WuvK9dR/FYtWTxkBtK1sY7uOpVGqJxfJmB8SsO+Hr4quJgb5jfUB16rD4Bi76KVl7PYNdeq3bjlprMCppy3UaO1vY91zAtdBJbWx29lSLtBdo32PEnSPkkNj5hJ32WXpcYFWGtqmteMwsTpbW391olBO9rCAdCLexKytIS3IAdt/qbqclReFnojwSxt1ZhlfRtc+1LIHNzXJGcm4+7b/W66gydx+YB3uFx/wBo5GYdi9a5p8ueVjY3dcuYm33C64G2bz11U7OlRzR9Y6J1JOMpaTG7Y35IUdS3NSTADXK4fohOmTlFWZjMRY2CCW8rhNOugSjontk60AL6hw7ckoDrW0smuGwR8o03Rq9M8HtFzY3SOFjoi5tckFKbcwhxDbGHZJYnYJ1m8nKeNgDdLLKNglKii7ncG6rzNuHWV6pZrfTRVX22KSSKeOR5o8Y2SU3HGISOzBkrIy3vZnJc0dUyFrWEkAFzh7k/2XqzxE4DZxhht4MsOJQA+VI7Zw/0kjlfUHkVxim8FeK6mr8qqgp6OEE5ppJ2ltuwbcn7IxTNNW8OY1OIeVA9tyXHS4WAmqJpz5THOynkDuvQHE/hFhPDfA+JV9TUyV+KRtYGPtkjju8DQDUmx3K5pw/gcdI4VU7fXu0EbBPySIeTxsxvDnDk7qumlrYnMpi7W5sTfp9bL2nw7GyPg/CGBoyfDxDXoG/vovL75HSlrW5iQbgAcgvUeCNdT8NYVG8NeYo2Ms4aaC37peVsjLoTjrKODcUAAAFOTb2sV5awCQ1FLXvfo6eUv+l7r1dxVSmt4ZxOAW/FpZGj6sK8l0DhSuEbgWNDAdR1G60wQYuIy58LqaV2reXuFpMlG2e22v6LZsSqG3fl1BWEpnjd3MlGHRRa9OrcN+GOHcV8E0Ffh8xoMVjDoprgvjkc13MbtNiNRosrgHgrLFPG/GsSi8oG74qdpJcOmY7e9lm/AWuZLgFdR39cMwk+jhb/pK6tKz1gi3qAU2d6SSKmFUNPh1HFS0ULIaaFtmxt2A/k9equpGM0NlMBa10oXKhAwuYWddPuhTM9Ivb1bfRCNEW7LIt2TjawsRdM56pbgCyrrYlgeyQ90D3Cd6dy4J1gtiBOJ9OpCjcWg/MLJDIzqEjGTVD7BK17miw2UJnY38w+6Y6piv8w1QujYyw55tvokDc59TG26qFtXCGklwJ5BRSVkbjck9eaN2B/wyzWtA9PIKriDA+BxO+6hjxSFrAHF1x2UNTiUUlmgPync2RbwnBtSNM8SRGeDK8S2y3jvfnZ7dF54knaXXd6eX69F3jxlxCOPg3yomkNlna03A1sCf3AXnW93abKaRbyS5IzOFzeZiVMyF7mvkkbGCzo42/lepaGEswOmjia55D7kdySV5e4OETeJMNdUECFk7XvNr6A/2XqOhxKjkwanlpqhjmEAgtcOfXpzWXZyTujITFz6d0ZaNW5dCDuF4uxCR0NTNG8aRPLSPY2XtR8kUrY2tlZncMzW5tTa2o5kLxx4i0xoOK8YpRcFtVJp7n+iegRMLNN50Tyxos0aKtDHGY2hzzckuNgnOIjw9wv63aKOBjhBnOzf5TUOdV8DcUZScVGgLjlrITGL83N9QH6EL0aG3jYey8X4BiMuF4xSVsRIkp5WyN+hvZevI6mSpp4Zo5C6ORgkaRpcOAP7KTw6I+TDLAAbEe91I1otc2t/Kwwkk1s510hfJbVzre6RMLk2ZoHmSNShYTM46Fxt7lCPIHMyxkcdibppkffUlKABqLppsX2N1ZNHPbJQbjVCaG2IIJ0TkxrIjrfqhw0uLJzhZtxe6Ekkays/5jZNsFO4aEabKE3BN0hrY2wCbpzUiYVjb2MLRuErWZrJyc0czdYNs5V4/wBR5WHYTTNNg5z3H6ZR/K4xDZ+W21xyXT/+ICoEmOYdTtP+FTZj2LnH+AFzCC4LQDtc7LDXg3HcQnwrDXVNDJ5dQ17Q1wGyr8IcS4/i2I0eDjECymqqpjXm1spe619NzqSmcSRuOC2FnOdM0W2uAHHRVOAXRNxSJzs0cjZWFszfmjcDcX6/1VM42JyaZ1HiHiafAqusoYqyV01DKYo5PMLiC3Z9wDr1bp0XPOIcVmxqsdiVW9slTUayvDSAXjS/XkFtHiDT02JYs+pNaKaSQF8j2049bjzOUWvzvutKq4IaekaynqH1Ia853OZl1PQdN0sPsLbfZA0mdmUDUlX5G5aRrBbT91Uw54Y+1hc/orUzhYg/snbAVr5TyJXqnwtxEYpwHhUxdeSNhp3+7Db9rLyq9pBJPsu5f8OuKiXD8Twxx1ieKhgvydof2alkrMdgyjkkLT0upUhHRSaCpNGJlxbDGVT4HYjRNnYbPiM7A5p7i9wULjPiXwHUUfFWIYrh3DTcep8UZm8u5vT1A3OljkO/LW40Qn4r0NzZ6HaQ5oLSCDsQUAEvuOxXFfC9k2H8e1OFcIV1VV8J0sRFZ8S/zIo57aNid/qJtcDTfsu1x/MU0KaUkI1ToehCW/pTmEUTdza+ylUdiHEHohLow126hd8xUzt1C75ipGETXJya5BumUUbQ0mw0SNdvdK7ZMQVWGr7PPvjTUfEcdVEY/wDajjjH/wAQf3K0uKNzXXuLrY/E+XzuPcVcNhKGe5aAP3CwEQJsLHeydEmqMRxgT8JRxsdlfmL9O1tf3UHDMQqqj4iM+XMJGh7RoRf83ty/VM4kqPPxMsAJZE0M668/1KkwGllZL8TTuLZWPFuV+x97p/QPZtuImspnkkiaI8nfwtcrJ45M7BTmJ7xoRtfutjfiuRvl1jCCHZdQfTbl/ZUq+ninHmRhvu1TWMJrlJZjruHqBue6ncXSE2OnJJUt8uoIBGYgJWsc92t7p5L2YjqWENF9foty8FcV/wDC+O6Jsjg2KqvTu75hp+uVay+N1iCEuD0WJSYpDJhdHUzzMcHN8mMusR7eyKeGPZHJB2UVHK+ejglljdHI+NrnMcLFpIGlut1MpvUYikFwhK/YoSBUmhmBYLh+A4XDh2EUzKWkiHpYwHXuSdSeZOpKyLNCUun1Se26spAHoSAjmlJAFynuzAmO+dODgdk3ndLJmGO3ULvmKmk/N7KD3UzAUwpXbpptzW7GTfoRx5Ib7Jp7pzN/ZDB1qPPvjfgjcAxanr6Tzqp+IPlkfGbDIQWnTTUepcsn4hnpwWGhdFLazTIdu+y754+SGN2BuIOT8Uf/AIXJsQoxWQeuJkkYGYE8vryKdOiTRpFPLmc977lxN3d781n8KxCkpI42yPPzAua4d/6Ip8IEMwkjYZG/6cw0UWJ/HVD5A2jpzE3mWgW73JTd4Kl9my4ZUYZiksznSvvezWlosP5/hXJsPGUBpD2nmNCFzPA691Lizg/KWvNjY6X91vVJjjGuEcufLt8p07XSTjQUzG43hkroyWfM3W+xC1AVtdTylgmN26ajb7rrtO6mrGj1tt3/ALrn3ENBC3EJJKcDIXW9raI+OV4wNfRFw38Xi2O0FLJUyEVE7IyAbaFwC9uQxRwRNjgjbHGNA1osLBePfDiGMcaYEJGtDfjI+35gvYqMgpAkO26VNcR1U2wjXnkhMe4X1KEo6iZDMOe6A7TXdCE4gvJIRfmUIRTowoFhYJHG3uhCF2YhkPK5vzUZQhZ9GGEi+qaTcoQksslSIs56BOid6rFCFjHPPHijM/DWH1LRfyarKewc0i/6BcUZUFuGn1WtYH2QhOSfRDVu8ktmp5iRb1NDrXWCx6WKaAygvc52mQdbdTsEIVIoUrcHU9JHX18uJuawR0E74Wn80hZlaPf1foszhM1bJa5jMZ2G5QhGZkbCzN5RuRe2ptZajiUv4kjBrc/ZCEnjCWeCnOdxdg+Qm3xkPP8A5wvZqEIyAIXWUTn66oQpPseJzSTxXw2DG8Qp8QoaunwylqTSNxNrDJC57fmBsLg3Om+muiEIVlBMVzaP/9k=" alt="Avatar" class="avatar-img">
+                        </a>
+					</div>
+                    
+                    <div class="profile-info">
+                        <h3><a href="https://choong.net.cn/about/" title="联系 | 乐哥 · 专注私团订制新媒体全场景赋能方案" target="_blank" style="color:#00ff00;text-decoration: none;">@创客乐哥</a> | 互联网博主</h3>
+                        <p>专注私团订制新媒体全场景赋能方案</p>
+                        <div class="tags">
+                            <span class="tag">网络技术</span>
+                            <span class="tag">生活极客</span>
+							<span class="tag">硬核科普</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部状态栏 & 动态倒计时 -->
+            <div class="status-bar">
+                <!-- 新增：日期与北京时间显示区域 -->
+                <div class="real-time-clock">
+                   
+            
+                <!-- 原有的直播状态区域 (保持不动) -->
+					<div class="status-header">
+						<span class="clock-date" id="clock-date" style="font-size: 12px; opacity: 0.6;text-align: left;">实时加载中...</span>
+					    <span id="status-label" style="text-align: right;">直播状态加载中...</span>
+					</div>
+					<span class="clock-time" id="clock-time" style="text-align: left;">00:00:00</span>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="countdown-display" id="countdown-timer" style="text-align: right;">00:00:00</span>
+				</div>
+            </div>
+       </div>
+	   
+        <!-- 右侧：Hosts 工具 -->
+        <div class="glass-card hosts-card">
+            <div class="hosts-header">
+                <div class="hosts-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    全系统 Hosts 一键配置 (<a href="https://github.com/taoste/Hello-World/tree/master/Tools/hosts" target="_blank" style="color:#00ff00;text-decoration: none;">备忘录</a>:<a href="view-source:https://go.choong.net/1024/" target="_blank" style="color:#00ff00;text-decoration: none;">1024</a>/<a href="https://go.choong.net/hosts/" target="_blank" style="color:#00ff00;text-decoration: none;">hosts</a>/<a href="https://go.choong.net/dns/" target="_blank" style="color:#00ff00;text-decoration: none;">DNS</a> )
+                </div>
+            </div>
+
+            <!-- 内标签页（Tab切换） -->
+            <div class="hosts-tab-group">
+                <button class="hosts-tab-btn active" onclick="switchHostsTab('basic', event)">基本 Hosts</button>
+                <button class="hosts-tab-btn" onclick="switchHostsTab('featured', event)">常用精选 Hosts</button>
+                <button class="hosts-tab-btn" onclick="switchHostsTab('full', event)">Hosts 大合集</button>
+            </div>
+
+            <!-- 平台选择 -->
+            <div class="platform-selector">
+                <button class="platform-btn active" onclick="switchPlatform('win', event)">Windows</button>
+                <button class="platform-btn" onclick="switchPlatform('mac', event)">macOS / Linux</button>
+                <button class="platform-btn" onclick="switchPlatform('ios', event)">iOS / iPadOS</button>
+                <button class="platform-btn" onclick="switchPlatform('android', event)">Android / HarmonyOS</button>
+                <button class="platform-btn" onclick="switchPlatform('tv', event)">Smart TV</button>
+            </div>
+
+            <!-- 智能引导提示 -->
+            <div class="guide-box" id="guide-text">
+                加载中...
+            </div>
+
+            <!-- BGP HE.NET IP 查询链接面板 -->
+            <div class="ip-query-bar">
+                <div class="ip-query-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    实时 IP 映射查询 (bgp.he.net)：
+                </div>
+                <div class="dns-links" id="dns-links-container"></div>
+            </div>
+
+            <!-- 可编辑文本框 -->
+            <textarea class="hosts-editor" id="hosts-code" placeholder="在此编辑或粘贴您的 Hosts 内容..." oninput="generateBgpLinks()"></textarea>
+
+            <div class="btn-group">
+                <button class="reset-btn" onclick="resetDefaultHosts()">恢复当前分类预设</button>
+                <button class="copy-btn" onclick="copyHosts()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    复制当前 Hosts 内容
+                </button>
+            </div>
+        </div>
+    </div>
+
+	<!-- 底部 Footer -->
+	<div class="footer">
+		<strong>
+			<a href="https://www.nthlink.com/" style="color:#FFFFFF;" target="_blank">nthLink</a>.<a href="https://www.persagg.com/zh/" style="color:#FFFFFF;" target="_blank">com</a> 
+			<a href="https://go.choong.net/GFW/nthLink/" style="color:#FFFFFF;" target="_blank">©</a>
+			<a href="https://go.choong.net/dns/2025.html" style="color:#FFFFFF;" target="_blank">
+				<script>document.write(new Date().getFullYear());</script>
+			</a>
+		</strong>
+	</div>
+	
+    <script>
+        // ================= 0. 黑客帝国代码雨 Canvas 动画引擎 =================
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const matrixChars = "ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ1234567890ABCDEFGHJKLMNPQRSTUVWXYZ";
+        const fontSize = 14;
+        let columns = Math.floor(canvas.width / fontSize);
+        let drops = [];
+
+        function initDrops() {
+            columns = Math.floor(canvas.width / fontSize);
+            drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.random() * -100;
+            }
+        }
+        initDrops();
+        window.addEventListener('resize', initDrops);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(5, 8, 17, 0.08)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
+                if (Math.random() > 0.85) {
+                    ctx.fillStyle = "#ffffff";
+                } else if (Math.random() > 0.5) {
+                    ctx.fillStyle = "#00ff66";
+                } else {
+                    ctx.fillStyle = "#00b347";
+                }
+
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 33);
+
+        // ================= 1. 三种 Hosts 预设文本定义 =================
+        const hostsPresets = {
+            // 基本 Hosts：保留原有的 2 个基本解析
+            basic: `# GitHub 官网
+140.82.114.4 github.com
+
+# HE.NET
+216.218.236.2 he.net
+2001:470:0:503::2 he.net
+
+# BGP:HE.NET
+72.52.94.234 bgp.he.net
+
+############################
+# 乐哥·官网 https://Choong.net
+############################
+185.199.108.153 choong.net
+185.199.108.153 choong.net.cn`,
+
+            // 常用精选 Hosts
+            featured: `# 不明白播客
+52.68.154.240 bumingbai.net
+
+# v2ex 官网
+172.66.137.6 v2ex.com
+172.66.133.207 v2ex.com
+2606:4700:10::ac42:85cf v2ex.com
+2606:4700:10::ac42:8906 v2ex.com
+
+# 草榴社區 官网
+205.185.121.64 t66y.com
+2606:4700:20::681A:AA0 t66y.com
+2606:4700:20::AC43:4AF1 t66y.com
+2606:4700:20::681A:BA0 t66y.com
+
+# GitHub 核心加速
+185.199.111.154 github.githubassets.com
+140.82.114.21 central.github.com
+185.199.110.133 desktop.githubusercontent.com
+192.30.255.113 github.com
+185.199.111.133 raw.githubusercontent.com
+
+# Microsoft & Edge Extensions
+13.107.21.239 msedgeextensions.sf.tlu.dl.delivery.mp.microsoft.com
+
+# YouTube视频CDN下载
+2404:6800:400A:23::6 rr1.sn-3pm7kne7.googlevideo.com
+173.194.4.135 rr2.sn-3pm7dn7z.googlevideo.com
+2404:6800:400A:B::7 rr2.sn-3pm7dn7z.googlevideo.com
+
+# 免费播客托管 Buzzsprout
+104.19.159.48 buzzsprout.com
+104.18.5.130 audio.buzzsprout.com
+
+# Discord 游戏社交
+162.159.128.233 discordapp.com
+162.159.135.232 dl.discordapp.net
+162.159.138.232 cdn.discordapp.com
+
+# Notepad++ 官网
+104.21.23.210 notepad-plus-plus.org`,
+
+            // Hosts 大合集（以您上传的完整 TXT 内容为框架）
+            full: `# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# Localhost resolution
+# 127.0.0.1       localhost
+# ::1             localhost
+
+#########################################
+# YouTube视频CDN下载 https://bgp.he.net/dns/rr1---sn-3pm7kne7.googlevideo.com
+2404:6800:400A:23::6 rr1.sn-3pm7kne7.googlevideo.com
+
+# YouTube视频CDN下载 https://bgp.he.net/dns/rr2---sn-3pm7dn7z.googlevideo.com
+173.194.4.135 rr2.sn-3pm7dn7z.googlevideo.com
+2404:6800:400A:B::7 rr2.sn-3pm7dn7z.googlevideo.com
+#######################################################
+
+13.107.21.239 msedgeextensions.sf.tlu.dl.delivery.mp.microsoft.com
+77.234.90.140 rr1---sn-qpbpu8-c0qs.googlevideo.com
+#######################################################
+
+72.52.94.234 bgp.he.net
+
+#######################################################
+# GitHub Host Start
+185.199.111.154              github.githubassets.com
+140.82.114.21                central.github.com
+185.199.110.133              desktop.githubusercontent.com
+185.199.109.153              assets-cdn.github.com
+185.199.108.133              camo.githubusercontent.com
+185.199.110.133              github.map.fastly.net
+151.101.1.194                github.global.ssl.fastly.net
+192.30.255.113               gist.github.com
+185.199.110.153              github.io
+192.30.255.113               github.com
+192.30.255.116               api.github.com
+185.199.111.133              raw.githubusercontent.com
+185.199.109.133              user-images.githubusercontent.com
+185.199.110.133              favicons.githubusercontent.com
+185.199.108.133              avatars5.githubusercontent.com
+185.199.108.133              avatars4.githubusercontent.com
+185.199.111.133              avatars3.githubusercontent.com
+185.199.111.133              avatars2.githubusercontent.com
+185.199.111.133              avatars1.githubusercontent.com
+185.199.109.133              avatars0.githubusercontent.com
+185.199.111.133              avatars.githubusercontent.com
+192.30.255.121               codeload.github.com
+52.217.77.252                github-cloud.s3.amazonaws.com
+52.217.139.249               github-com.s3.amazonaws.com
+52.217.105.196               github-production-release-asset-2e65be.s3.amazonaws.com
+52.217.168.9                 github-production-user-asset-6210df.s3.amazonaws.com
+52.217.169.57                github-production-repository-file-5c1aeb.s3.amazonaws.com
+185.199.110.153              githubstatus.com
+140.82.112.18                github.community
+185.199.111.133              media.githubusercontent.com
+185.199.110.133              objects.githubusercontent.com
+185.199.110.133              raw.github.com
+20.221.80.166                copilot-proxy.githubusercontent.com
+# GitHub Host End
+#######################################################
+
+# 免费播客托管 | Free Podcast Hosting - Buzzsprout.com
+104.19.159.48 buzzsprout.com
+104.19.160.48 buzzsprout.com
+2606:4700::6813:9F30 buzzsprout.com
+2606:4700::6813:A030 buzzsprout.com
+
+# 不明白播客
+52.68.154.240 bumingbai.net
+104.18.5.130 audio.buzzsprout.com
+104.18.4.130 audio.buzzsprout.com
+2606:4700::6812:482 audio.buzzsprout.com
+2606:4700::6812:582 audio.buzzsprout.com
+
+# discord.com 在线游戏社交
+162.159.128.233 discordapp.com
+162.159.135.232 dl.discordapp.net
+162.159.136.232 gateway.discord.gg
+162.159.137.232 status.discordapp.com
+162.159.138.232 cdn.discordapp.com
+
+# steemit.com
+172.67.134.94 steemit.com
+104.21.25.160 steemit.com
+2606:4700:3032::AC43:865E steemit.com
+2606:4700:3030::6815:19A0 steemit.com
+
+# feedly.com
+104.20.60.241 feedly.com
+104.20.59.241 feedly.co
+
+# inoreader.com
+92.247.181.40 inoreader.com
+
+# Notepad++ 官网
+104.21.23.210 notepad-plus-plus.org
+172.67.213.166 notepad-plus-plus.org
+2606:4700:3030::AC43:D5A6 notepad-plus-plus.org
+2606:4700:3031::6815:17D2 notepad-plus-plus.org
+
+# 海外版抖音 tiktok.com
+13.35.125.57 tiktok.com
+
+# 韩国邮箱 daum.net
+211.249.220.24 daum.net
+121.53.105.193 daum.net
+121.53.105.67 mail.daum.net
+211.249.220.136 mail.daum.net
+121.53.105.67 attach.mail.daum.net
+
+# tinyurl.com
+104.20.138.65 tinyurl.com
+104.20.139.65 tinyurl.com
+172.67.1.225 tinyurl.com
+
+# 蓝灯官网 lantern.io / getlantern.org
+76.76.21.21 getlantern.org
+104.21.50.100 lantern.io
+172.67.204.182 lantern.io
+
+# OneDrive
+13.107.42.13 onedrive.live.com
+40.90.133.97 skyapi.onedrive.live.com
+
+# Google Code
+142.251.46.196 googlecode.com
+
+# 草榴社區 t66y.com
+162.240.72.31 t66y.com
+
+# Periscope pscp.tv
+13.56.6.21 pscp.tv
+54.183.154.220 pscp.tv
+
+# DuckDuckGo
+52.250.42.157 duckduckgo.com
+
+# UP云搜
+23.224.99.3 upyunso.com
+
+# V2EX
+104.20.9.218 v2ex.com
+172.67.3.188 v2ex.com
+104.20.10.218 v2ex.com
+
+# CSDN
+39.106.226.142 csdn.net
+
+# 昵图网 & 千图网
+122.226.73.53 nipic.com
+47.105.124.157 58pic.com
+114.215.127.78 58pic.com
+
+# Mozilla & Wikipedia
+44.236.48.31 mozilla.org
+208.80.153.224 wikipedia.org
+208.80.153.224 zh.wikipedia.org
+
+# IP 查询网站
+3.234.104.255 ipaddress.com
+216.218.236.2 he.net
+72.52.94.234 bgp.he.net
+66.220.12.174 dns.he.net
+
+# 程序员小辉 & APKPure & 个人站点
+45.33.40.58 xiaohui.com
+172.67.8.127 apkpure.com
+104.22.4.119 apkpure.com
+104.21.1.183 zuola.com
+172.67.152.81 zuola.com
+68.66.224.53 caijinglengyan.com
+
+# 屏蔽 CorelDRAW 激活服务器：
+127.0.0.1 apps.corel.com
+127.0.0.1 mc.corel.com
+127.0.0.1 origin-mc.corel.com
+127.0.0.1 iws.corel.com
+
+# 屏蔽 Adobe 激活服务器：
+127.0.0.1 activate.adobe.com
+127.0.0.1 practivate.adobe.com
+127.0.0.1 ereg.adobe.com
+127.0.0.1 activate.wip3.adobe.com
+127.0.0.1 wip3.adobe.com
+127.0.0.1 3dns-3.adobe.com
+127.0.0.1 3dns-2.adobe.com
+127.0.0.1 adobe-dns.adobe.com
+127.0.0.1 adobe-dns-2.adobe.com
+127.0.0.1 adobe-dns-3.adobe.com
+127.0.0.1 ereg.wip3.adobe.com
+127.0.0.1 activate-sea.adobe.com
+127.0.0.1 wwis-dubc1-vip60.adobe.com
+127.0.0.1 activate-sjc0.adobe.com
+
+# 屏蔽 vMix 激活服务器：
+127.0.0.1 2637.vmix.com
+127.0.0.1 vmixcloud.com
+127.0.0.1 vmix.com
+127.0.0.1 vmix.com.au
+127.0.0.1 www.vmix.com
+192.168.140.66 windows10.microdone.cn`
+        };
+
+        let currentTabKey = 'basic'; // 当前激活的 Tab
+
+        // 默认显示基本 Hosts
+        document.getElementById('hosts-code').value = hostsPresets[currentTabKey];
+
+        // 切换 Hosts 标签页
+        function switchHostsTab(tabKey, event) {
+            currentTabKey = tabKey;
+            document.querySelectorAll('.hosts-tab-btn').forEach(btn => btn.classList.remove('active'));
+            if(event) event.target.classList.add('active');
+
+            // 填充文本框内容并刷新 IP 查询按钮
+            document.getElementById('hosts-code').value = hostsPresets[tabKey];
+            generateBgpLinks();
+        }
+
+        // ================= 2. 左侧倒计时与实时时钟逻辑 =================
+        function updateClockAndCountdown() {
+            const now = new Date();
+            
+            // --- 1. 更新实时北京时间 ---
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            // 强制使用 zh-CN  locale 以确保显示中文的日期和星期
+            let dateStr = now.toLocaleDateString('zh-CN', dateOptions);
+			// 将 "星期日" 替换为 "（周日）"，其他星期同理
+			dateStr = dateStr.replace(/星期(.?)/, '（周$1）');
+            const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false }); // 24小时制
+        
+            document.getElementById('clock-date').innerText = dateStr;
+            document.getElementById('clock-time').innerText = timeStr;
+        
+            // --- 2. 保持原有的倒计时逻辑 ---
+            const dayOfWeek = now.getDay();
+            const statusLabel = document.getElementById('status-label');
+            const timerDisplay = document.getElementById('countdown-timer');
+            const isWeekend = (dayOfWeek === 1 || dayOfWeek === 7);
+        
+            if (isWeekend) {
+                statusLabel.innerText = "直播状态：非直播日";
+                timerDisplay.innerText = "OFF-DUTY";
+                timerDisplay.classList.add('is-offday');
+                return;
+            }
+        
+            let targetTime = new Date(now);
+            targetTime.setHours(11, 59, 59, 0);
+            if (now > targetTime) {
+                targetTime.setDate(targetTime.getDate() + 1);
+                if (targetTime.getDay() === 6) {
+                    targetTime.setDate(targetTime.getDate() + 2);
+                }
+            }
+        
+            const diff = targetTime - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60)).toString().padStart(2, '0');
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        
+            statusLabel.innerText = "Live 慢直播（倒计时）";
+            timerDisplay.classList.remove('is-offday');
+            timerDisplay.innerText = `${hours}:${minutes}:${seconds}`;
+        }
+        
+        // 修改定时器调用
+        setInterval(updateClockAndCountdown, 1000);
+        updateClockAndCountdown();
+
+        // ================= 3. 右侧全平台交互引导逻辑 =================
+        const guides = {
+            win: '快捷键 <code>Win + R</code> 输入 <code>cmd</code>，以管理员运行并执行：<code>notepad %SystemRoot%\\System32\\drivers\\etc\\hosts</code>，修改后按快捷键 <code>ipconfig /flushdns</code> 刷新 DNS。',
+            mac: '打开终端 (Terminal)，运行命令：<code>sudo nano /etc/hosts</code>，编辑完成后按 Ctrl+O 保存，并运行 <code>sudo killall -HUP mDNSResponder</code> 刷新缓存。',
+            ios: 'iOS/iPadOS 系统限制不可直接修改，推荐使用 <code>Quantumult X</code>、<code>Loon</code> 或 <code>Shadowrocket</code> 软件的 Local DNS/Hosts 重定向功能。',
+            android: 'Android/HarmonyOS 须 Root 权限修改 <code>/system/etc/hosts</code>；非 Root 推荐使用 <code>AdGuard</code> 或 <code>V2rayNG</code> 的 DNS 映射功能。',
+            tv: '电视/大屏设备建议在路由器后台（如 OpenWrt/Padavan）的 <code>自定义 DNS / Hosts</code> 处添加，对全局域网大屏设备生效。'
+        };
+
+        function switchPlatform(platform, event) {
+            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+            if(event) event.target.classList.add('active');
+            document.getElementById('guide-text').innerHTML = guides[platform];
+        }
+
+        switchPlatform('win');
+
+        // ================= 4. 动态解析文本框中的域名并生成 bgp.he.net 链接 =================
+        function generateBgpLinks() {
+            const hostsText = document.getElementById('hosts-code').value;
+            const lines = hostsText.split('\n');
+            const domains = new Set();
+
+            lines.forEach(line => {
+                line = line.trim();
+                // 忽略注释与空行以及本地环回/广告屏蔽的 127.0.0.1 域名
+                if (line && !line.startsWith('#')) {
+                    const parts = line.split(/\s+/);
+                    if (parts.length >= 2) {
+                        const ip = parts[0];
+                        const domain = parts[1];
+                        if (domain && domain.includes('.') && ip !== '127.0.0.1' && ip !== '0.0.0.0') {
+                            domains.add(domain);
+                        }
+                    }
+                }
+            });
+
+            const container = document.getElementById('dns-links-container');
+            container.innerHTML = '';
+
+            if (domains.size === 0) {
+                container.innerHTML = '<span style="font-size: 11px; color: var(--text-sub);">当前面板未检测到可查询的外网域名</span>';
+                return;
+            }
+
+            domains.forEach(domain => {
+                const btn = document.createElement('a');
+                btn.className = 'bgp-link-btn';
+                btn.href = `https://bgp.he.net/dns/${domain}`;
+                btn.target = '_blank';
+                btn.innerHTML = `${domain} <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`;
+                container.appendChild(btn);
+            });
+        }
+
+        generateBgpLinks();
+
+        // 一键复制
+        function copyHosts() {
+            const hostsCode = document.getElementById('hosts-code').value;
+            navigator.clipboard.writeText(hostsCode).then(() => {
+                alert('当前分类的 Hosts 内容已成功复制到剪贴板！');
+            }).catch(err => {
+                alert('复制失败，请手动选择复制。');
+            });
+        }
+
+        // 恢复当前 Tab 预设
+        function resetDefaultHosts() {
+            if(confirm("确定要将当前面板的内容恢复为默认预设吗？")) {
+                document.getElementById('hosts-code').value = hostsPresets[currentTabKey];
+                generateBgpLinks();
+            }
+        }
+    </script>
+</body>
+</html>
