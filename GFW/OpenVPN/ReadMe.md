@@ -1,3 +1,5 @@
+# OpenVPN 更新记录
+
 # OpenVPN-v2.7.701(文件大小：5.59 MB)☞更新时间: 2026年9月8日(周二) 农历丙午马年·七月廿七
 - 已找到 OpenVPN [OpenVPNTechnologies.OpenVPN] 版本 2.7.701
 - 此应用程序由其所有者授权给你。
