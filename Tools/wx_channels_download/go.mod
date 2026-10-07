@@ -1,6 +1,6 @@
 module wx_channel
 
-go 1.20
+go 1.21
 
 exclude (
 	github.com/andybalholm/brotli v1.2.0
@@ -133,7 +133,7 @@ require (
 	github.com/tklauser/numcpus v0.8.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
-	github.com/ulikunitz/xz v0.5.9 // indirect
+	github.com/ulikunitz/xz v0.5.14 // indirect
 	github.com/xiaoqidun/setft v0.0.0-20220310121541-be86327699ad // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
