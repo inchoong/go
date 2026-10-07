@@ -1,6 +1,6 @@
 module github.com/GopeedLab/gopeed
 
-go 1.20
+go 1.25.0
 
 require (
 	github.com/JohannesKaufmann/html-to-markdown v1.4.1
@@ -12,8 +12,8 @@ require (
 	github.com/xiaoqidun/setft v0.0.0-20220310121541-be86327699ad
 	go.etcd.io/bbolt v1.3.8
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
-	golang.org/x/image v0.15.0
-	golang.org/x/sync v0.6.0
+	golang.org/x/image v0.41.0
+	golang.org/x/sync v0.20.0
 )
 
 require (
@@ -33,5 +33,5 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	golang.org/x/net v0.17.0
 	golang.org/x/sys v0.17.0 // indirect
-	golang.org/x/text v0.14.0
+	golang.org/x/text v0.37.0
 )
